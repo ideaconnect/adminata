@@ -172,7 +172,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     assembled in PHP; unit tests.
   - Accept: admin suite green; `ThemeRuntimeTest` covers missing/invalid/valid cookie and both helpers.
 
-- [ ] **P0-13 · PHP change (f): form-extensions native date formats** · M · depends: P0-04
+- [x] **P0-13 · PHP change (f): form-extensions native date formats** · M · depends: P0-04
   - Read: PLAN/01 P6 (f); PLAN/06 §4.
   - Do: `packages/form-extensions/src/Type/BasePickerType.php`: derive the wire `format` from
     `datepicker_options.display.components` (`yyyy-MM-dd`; `HH:mm` / `HH:mm:ss`;
@@ -805,6 +805,18 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 - 2026-09-05 — Note for whoever sees it next: PHPStan's **result cache** intermittently reports a
   bogus `FormErrorIterator` generics error (in `CRUDController` or its test) that disappears after
   `vendor/bin/phpstan clear-result-cache`. CI starts cold, so it only affects local runs.
+- 2026-09-05 — **P0-13 done.** `BasePickerType` derives the wire format from
+  `datepicker_options.display.components` — `yyyy-MM-dd`, `HH:mm`, `HH:mm:ss`,
+  `yyyy-MM-dd'T'HH:mm` or `…:ss` — and refuses an explicit pattern with a `LogicException` shaped
+  like the one Symfony's `DateType` throws under `html5`. An `IntlDateFormatter` constant is still
+  accepted and ignored, because that is what the picker types default to; a *string* format is the
+  thing an application has to delete, and that is exactly the twelve usages PLAN/10 asks
+  recomaty-panel to clean up. `JavaScriptFormatConverter`, its service, its test, the
+  `localization.format` view variable, `packages/form-extensions/assets/` and the package's
+  `Resources/public/` are deleted. Two upstream tests were re-baselined onto the HTML5 formats and
+  seven new ones cover the five derived formats and the two exceptions.
+  Watch out when running suites after a DI change: the imported test apps compile into
+  `/tmp/sonata-*` and a stale container produced 102 "class not found" errors until it was removed.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

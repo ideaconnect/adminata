@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\Form\Type;
 
-use Sonata\Form\Date\JavaScriptFormatConverter;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Exception\LogicException;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
@@ -121,7 +121,6 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
     ];
 
     public function __construct(
-        private JavaScriptFormatConverter $formatConverter,
         private string $locale,
     ) {
     }
@@ -170,26 +169,31 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
 
         $resolver->setNormalizer(
             'format',
-            function (Options $options, int|string $format): string {
-                if (\is_int($format)) {
-                    $timeFormat = \IntlDateFormatter::NONE;
+            static function (Options $options, int|string $format): string {
+                $components = $options['datepicker_options']['display']['components'] ?? [];
+                \assert(\is_array($components));
 
-                    if (true === ($options['datepicker_options']['display']['components']['clock'] ?? true)) {
-                        $timeFormat = true === ($options['datepicker_options']['display']['components']['seconds'] ?? false) ?
-                            DateTimeType::DEFAULT_TIME_FORMAT :
-                            \IntlDateFormatter::SHORT;
-                    }
+                $derived = self::html5Format(
+                    false !== ($components['calendar'] ?? true),
+                    false !== ($components['clock'] ?? true),
+                    true === ($components['seconds'] ?? false),
+                );
 
-                    return new \IntlDateFormatter(
-                        $this->locale,
-                        $format,
-                        $timeFormat,
-                        null,
-                        \IntlDateFormatter::GREGORIAN
-                    )->getPattern();
+                // An explicit pattern is refused the way Symfony's DateType refuses one when
+                // `html5` is enabled: the widget is a native input and the browser owns how the
+                // value is displayed. An int is one of the IntlDateFormatter constants, which is
+                // what the type itself defaults to, so it is derived silently.
+                if (\is_string($format) && $format !== $derived) {
+                    throw new LogicException(\sprintf(
+                        'Cannot use the "format" option of "%s": it renders a native HTML5 input,'
+                        .' whose format the browser decides. Remove the option — with the current'
+                        .' "datepicker_options.display.components" the value is exchanged as "%s".',
+                        static::class,
+                        $derived,
+                    ));
                 }
 
-                return $format;
+                return $derived;
             }
         );
 
@@ -225,10 +229,6 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
             unset($datePickerOptions['restrictions']);
         }
 
-        $datePickerOptions['localization'] ??= [];
-
-        $datePickerOptions['localization']['format'] = $this->formatConverter->convert($options['format'] ?? '');
-
         $view->vars['datepicker_options'] = $datePickerOptions;
         $view->vars['datepicker_use_button'] = $options['datepicker_use_button'] ?? false;
     }
@@ -263,6 +263,20 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
                 'locale' => str_replace('_', '-', $this->locale),
             ],
         ];
+    }
+
+    /**
+     * The ICU pattern a native date, time or datetime-local input exchanges its value in.
+     */
+    private static function html5Format(bool $calendar, bool $clock, bool $seconds): string
+    {
+        if (!$clock) {
+            return DateType::HTML5_FORMAT;
+        }
+
+        $time = $seconds ? 'HH:mm:ss' : 'HH:mm';
+
+        return $calendar ? "yyyy-MM-dd'T'".$time : $time;
     }
 
     /**

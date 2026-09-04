@@ -2,8 +2,6 @@
 # with the paths rewritten for the adminata layout.
 parameters:
     ignoreErrors:
-        - #https://github.com/phpstan/phpstan/issues/12951
-            message: '#of internal class Symfony\\Polyfill#'
         - # `InlineConstraint::__sleep()` returns [] for closure-based constraints, so
           # unserialize() leaves the promoted properties uninitialised even though they declare a
           # default. PHPStan models them as always set, so it reports the `?? null` guards as

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\Form\Tests\Type;
 
-use Sonata\Form\Date\JavaScriptFormatConverter;
 use Sonata\Form\Type\DateTimePickerType;
 use Sonata\Form\Type\DateTimeRangePickerType;
 use Symfony\Component\Form\FormExtensionInterface;
@@ -66,7 +65,7 @@ final class DateTimeRangePickerTypeTest extends TypeTestCase
      */
     protected function getExtensions(): array
     {
-        $type = new DateTimePickerType(new JavaScriptFormatConverter(), 'en');
+        $type = new DateTimePickerType('en');
 
         return [
             new PreloadedExtension([$type], []),
