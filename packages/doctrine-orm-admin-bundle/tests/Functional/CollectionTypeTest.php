@@ -25,7 +25,9 @@ final class CollectionTypeTest extends BasePantherTestCase
         $form = $crawler->selectButton('Update')->form();
         $form['mother[children][0][name]'] = '';
 
-        $crawler->filter('#mother_children_0__delete + ins')->each(static function (Crawler $checkbox): void {
+        // The `+ ins` element this used to click was injected by iCheck, which adminata does not
+        // ship: the delete checkbox is a plain input now.
+        $crawler->filter('#mother_children_0__delete')->each(static function (Crawler $checkbox): void {
             $checkbox->click();
         });
 

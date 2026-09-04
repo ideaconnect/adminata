@@ -141,7 +141,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `yamllint .github` clean; `php bin/check-replace-versions.php` exits 0; first CI run
     green after the M0 push (P0-MS).
 
-- [ ] **P0-10 · PHP change (a): admin configuration and theme node** · M · depends: P0-04
+- [x] **P0-10 · PHP change (a): admin configuration and theme node** · M · depends: P0-04
   - Read: PLAN/01 P6 (a); PLAN/02 §3.
   - Do: in `packages/admin-bundle/src/DependencyInjection/Configuration.php` remove
     `options.skin`, `options.use_select2`, `options.use_icheck`, `options.use_bootlint`; set
@@ -778,6 +778,16 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Panther serves on. `lint.yaml` installs `libxml2-utils` so the XML checks actually run, and its
   jQuery job greps adminata's sources today and calls `npm run check:jquery` from P1-02 onward.
   The first real CI run happens on the M0 push (P0-MS).
+- 2026-09-05 — **P0-10 done.** `options.{skin,use_select2,use_icheck,use_bootlint}` are gone, the
+  asset defaults are `app.css` + `fontawesome.css` and `app.js`, the AdminLTE skin append is out of
+  `SonataAdminExtension`, and `sonata_admin.theme.{mode,logo_dark,logo_icon}` exists — visible in
+  `config:dump-reference`, exposed as `sonata_config.getOption('theme')` and as three container
+  parameters so P0-12's runtime can inject the default without depending on `SonataConfiguration`.
+  The four skin tests became three theme tests. One Panther test needed a real fix rather than a
+  re-baseline: `CollectionTypeTest` clicked the `ins` element **iCheck** injects next to the delete
+  checkbox, which no longer exists, so it clicks the checkbox itself.
+  Templates still read the removed options; `getOption()` returns null for them and P2-01 rewrites
+  those templates.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

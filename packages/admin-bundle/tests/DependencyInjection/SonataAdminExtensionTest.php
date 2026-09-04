@@ -149,7 +149,7 @@ final class SonataAdminExtensionTest extends AbstractExtensionTestCase
         $this->container->setParameter('kernel.bundles', []);
         $removeStylesheets = [
             'bundles/sonataadmin/app.css',
-            'bundles/sonataadmin/admin-lte-skins/skin-black.min.css',
+            'bundles/sonataadmin/fontawesome.css',
         ];
         $this->load([
             'assets' => [
@@ -264,7 +264,7 @@ final class SonataAdminExtensionTest extends AbstractExtensionTestCase
         ];
         $removeStylesheets = [
             'bundles/sonataadmin/app.css',
-            'bundles/sonataadmin/admin-lte-skins/skin-black.min.css',
+            'bundles/sonataadmin/fontawesome.css',
         ];
         $removeJavascripts = [
             'bundles/sonataadmin/app.js',
@@ -369,67 +369,58 @@ final class SonataAdminExtensionTest extends AbstractExtensionTestCase
         static::assertSame('@SonataIntl/CRUD/history_revision_timestamp.html.twig', $templates['history_revision_timestamp']);
     }
 
-    public function testDefaultSkin(): void
+    public function testDefaultTheme(): void
     {
         $this->container->setParameter('kernel.bundles', []);
         $this->load();
 
         $options = $this->container->getDefinition('sonata.admin.configuration')->getArgument(2);
         static::assertIsArray($options);
+        static::assertSame(
+            ['mode' => 'system', 'logo_dark' => null, 'logo_icon' => null],
+            $options['theme']
+        );
 
-        $stylesheets = $options['stylesheets'];
-        static::assertSame($this->getDefaultStylesheets(), $stylesheets);
-
-        $skin = $options['skin'];
-        static::assertSame('skin-black', $skin);
+        static::assertContainerBuilderHasParameter('sonata.admin.configuration.theme.mode', 'system');
+        static::assertContainerBuilderHasParameter('sonata.admin.configuration.theme.logo_dark', null);
+        static::assertContainerBuilderHasParameter('sonata.admin.configuration.theme.logo_icon', null);
     }
 
-    public function testSetSkin(): void
+    public function testSetTheme(): void
     {
         $this->container->setParameter('kernel.bundles', []);
         $this->load([
-            'options' => [
-                'skin' => 'skin-blue',
+            'theme' => [
+                'mode' => 'dark',
+                'logo_dark' => 'bundles/app/logo-dark.svg',
+                'logo_icon' => 'bundles/app/icon.svg',
             ],
         ]);
 
         $options = $this->container->getDefinition('sonata.admin.configuration')->getArgument(2);
         static::assertIsArray($options);
-
-        $stylesheets = $options['stylesheets'];
-        static::assertSame($this->getDefaultStylesheets('skin-blue'), $stylesheets);
-
-        $skin = $options['skin'];
-        static::assertSame('skin-blue', $skin);
-    }
-
-    public function testSetDefaultSkin(): void
-    {
-        $this->container->setParameter('kernel.bundles', []);
-        $this->load([
-            'options' => [
-                'skin' => 'skin-black',
+        static::assertSame(
+            [
+                'mode' => 'dark',
+                'logo_dark' => 'bundles/app/logo-dark.svg',
+                'logo_icon' => 'bundles/app/icon.svg',
             ],
-        ]);
+            $options['theme']
+        );
 
-        $options = $this->container->getDefinition('sonata.admin.configuration')->getArgument(2);
-        static::assertIsArray($options);
-
-        $stylesheets = $options['stylesheets'];
-        static::assertSame($this->getDefaultStylesheets(), $stylesheets);
-
-        $skin = $options['skin'];
-        static::assertSame('skin-black', $skin);
+        static::assertContainerBuilderHasParameter('sonata.admin.configuration.theme.mode', 'dark');
+        static::assertContainerBuilderHasParameter('sonata.admin.configuration.theme.logo_dark', 'bundles/app/logo-dark.svg');
+        static::assertContainerBuilderHasParameter('sonata.admin.configuration.theme.logo_icon', 'bundles/app/icon.svg');
     }
 
-    public function testSetInvalidSkin(): void
+    public function testSetInvalidThemeMode(): void
     {
         $this->expectException(InvalidConfigurationException::class);
-        $this->expectExceptionMessage('The value "skin-invalid" is not allowed for path "sonata_admin.options.skin". Permissible values: "skin-black", "skin-black-light", "skin-blue", "skin-blue-light", "skin-green", "skin-green-light", "skin-purple", "skin-purple-light", "skin-red", "skin-red-light", "skin-yellow", "skin-yellow-light"');
+        $this->expectExceptionMessage('The value "sepia" is not allowed for path "sonata_admin.theme.mode". Permissible values: "light", "dark", "system"');
         $this->container->setParameter('kernel.bundles', []);
         $this->load([
-            'options' => [
-                'skin' => 'skin-invalid',
+            'theme' => [
+                'mode' => 'sepia',
             ],
         ]);
     }
@@ -455,28 +446,8 @@ final class SonataAdminExtensionTest extends AbstractExtensionTestCase
     /**
      * @return list<SonataAdminAsset>
      */
-    private function getDefaultStylesheets(?string $skin = 'skin-black'): array
+    private function getDefaultStylesheets(): array
     {
-        $this->load([
-            'options' => [
-                'skin' => $skin,
-            ],
-        ]);
-
-        $options = $this->container->getDefinition('sonata.admin.configuration')->getArgument(2);
-        static::assertIsArray($options);
-
-        $skin = $options['skin'];
-
-        $defaultStylesheets = $this->defaultConfiguration['assets']['stylesheets'];
-        $defaultStylesheets[] = [
-            'path' => \sprintf(
-                'bundles/sonataadmin/admin-lte-skins/%s.min.css',
-                $skin
-            ),
-            'package_name' => 'sonata_admin',
-        ];
-
-        return $defaultStylesheets;
+        return $this->defaultConfiguration['assets']['stylesheets'];
     }
 }

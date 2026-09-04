@@ -41,12 +41,9 @@ final class SonataConfigurationTest extends TestCase
             'role_admin' => 'ROLE_SONATA_ADMIN',
             'role_super_admin' => 'ROLE_SUPER_ADMIN',
             'search' => true,
-            'skin' => 'skin-black',
             'sort_admins' => true,
             'stylesheets' => [],
-            'use_bootlint' => false,
-            'use_icheck' => true,
-            'use_select2' => true,
+            'theme' => ['mode' => 'system', 'logo_dark' => null, 'logo_icon' => null],
             'use_stickyforms' => false,
         ]);
     }

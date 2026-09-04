@@ -90,19 +90,11 @@ final class SonataAdminExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $javascript = $this->buildJavascripts($config);
-
-        $config['assets']['stylesheets'][] = [
-            'path' => \sprintf(
-                'bundles/sonataadmin/admin-lte-skins/%s.min.css',
-                $config['options']['skin']
-            ),
-            'package_name' => 'sonata_admin',
-        ];
-
         $stylesheet = $this->buildStylesheets($config);
 
         $config['options']['javascripts'] = $javascript;
         $config['options']['stylesheets'] = $stylesheet;
+        $config['options']['theme'] = $config['theme'];
         $config['options']['role_admin'] = $config['security']['role_admin'];
         $config['options']['role_super_admin'] = $config['security']['role_super_admin'];
         $config['options']['search'] = $config['search'];
@@ -116,6 +108,9 @@ final class SonataAdminExtension extends Extension
             $container->removeDefinition('sonata.admin.lock.extension');
         }
 
+        $container->setParameter('sonata.admin.configuration.theme.mode', $config['theme']['mode']);
+        $container->setParameter('sonata.admin.configuration.theme.logo_dark', $config['theme']['logo_dark']);
+        $container->setParameter('sonata.admin.configuration.theme.logo_icon', $config['theme']['logo_icon']);
         $container->setParameter('sonata.admin.configuration.global_search.empty_boxes', $config['global_search']['empty_boxes']);
         $container->setParameter('sonata.admin.configuration.global_search.admin_route', $config['global_search']['admin_route']);
         $container->setParameter('sonata.admin.configuration.templates', $config['templates']);

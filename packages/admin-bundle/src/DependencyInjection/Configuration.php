@@ -48,11 +48,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *     logo_content: 'text'|'icon'|'all',
  *     mosaic_background: string,
  *     pager_links: int|null,
- *     skin: 'skin-black'|'skin-black-light'|'skin-blue'|'skin-blue-light'|'skin-green'|'skin-green-light'|'skin-purple'|'skin-purple-light'|'skin-red'|'skin-red-light'|'skin-yellow'|'skin-yellow-light',
  *     sort_admins: bool,
- *     use_bootlint: bool,
- *     use_icheck: bool,
- *     use_select2: bool,
  *     use_stickyforms: bool,
  * }
  * @phpstan-type SonataAdminAsset = array{
@@ -171,6 +167,11 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *         user_block: string,
  *     },
  *     title: string,
+ *     theme: array{
+ *         mode: 'light'|'dark'|'system',
+ *         logo_dark: string|null,
+ *         logo_icon: string|null,
+ *     },
  *     title_logo: string,
  * }
  */
@@ -252,6 +253,26 @@ final class Configuration implements ConfigurationInterface
                 ->scalarNode('title_logo')->defaultValue('bundles/sonataadmin/images/logo_title.png')->cannotBeEmpty()->end()
                 ->booleanNode('search')->defaultTrue()->info('Enable/disable the search form in the sidebar')->end()
 
+                ->arrayNode('theme')
+                    ->addDefaultsIfNotSet()
+                    ->info('Light and dark mode, and the logos each of them uses')
+                    ->children()
+                        ->enumNode('mode')
+                            ->info('Which mode a visitor without a "sonata_theme" cookie gets')
+                            ->defaultValue('system')
+                            ->values(['light', 'dark', 'system'])
+                        ->end()
+                        ->scalarNode('logo_dark')
+                            ->info('Logo shown in dark mode; the "title_logo" one is used when this is null')
+                            ->defaultNull()
+                        ->end()
+                        ->scalarNode('logo_icon')
+                            ->info('Square logo shown when the sidebar is collapsed')
+                            ->defaultNull()
+                        ->end()
+                    ->end()
+                ->end()
+
                 ->arrayNode('global_search')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -292,26 +313,6 @@ final class Configuration implements ConfigurationInterface
                         ->booleanNode('sort_admins')->defaultFalse()->info('Auto order groups and admins by label or id')->end()
                         ->booleanNode('confirm_exit')->defaultTrue()->end()
                         ->booleanNode('js_debug')->defaultFalse()->end()
-                        ->enumNode('skin')
-                            ->defaultValue('skin-black')
-                            ->values([
-                                'skin-black',
-                                'skin-black-light',
-                                'skin-blue',
-                                'skin-blue-light',
-                                'skin-green',
-                                'skin-green-light',
-                                'skin-purple',
-                                'skin-purple-light',
-                                'skin-red',
-                                'skin-red-light',
-                                'skin-yellow',
-                                'skin-yellow-light',
-                            ])
-                        ->end()
-                        ->booleanNode('use_select2')->defaultTrue()->end()
-                        ->booleanNode('use_icheck')->defaultTrue()->end()
-                        ->booleanNode('use_bootlint')->defaultFalse()->end()
                         ->booleanNode('use_stickyforms')->defaultTrue()->end()
                         ->integerNode('pager_links')->defaultNull()->end()
                         // NEXT_MAJOR: Remove this line and uncomment the following line instead.
@@ -630,7 +631,7 @@ final class Configuration implements ConfigurationInterface
                             ->end()
                             ->defaultValue(self::normalizeDefaultAssets([
                                 'bundles/sonataadmin/app.css',
-                                'bundles/sonataform/app.css',
+                                'bundles/sonataadmin/fontawesome.css',
                             ]))
                         ->end()
                         ->arrayNode('extra_stylesheets')
@@ -665,7 +666,6 @@ final class Configuration implements ConfigurationInterface
                             ->end()
                             ->defaultValue(self::normalizeDefaultAssets([
                                 'bundles/sonataadmin/app.js',
-                                'bundles/sonataform/app.js',
                             ]))
                             ->arrayPrototype()
                                 ->children()
