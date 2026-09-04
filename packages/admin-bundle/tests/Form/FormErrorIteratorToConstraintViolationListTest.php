@@ -47,13 +47,23 @@ final class FormErrorIteratorToConstraintViolationListTest extends TestCase
         $form = static::createStub(FormInterface::class);
         $form->method('getName')->willReturn('name');
 
-        yield [0, new FormErrorIterator($form, [])];
+        // The generic argument is spelled out: `FormErrorIterator`'s own template bound mentions
+        // `FormErrorIterator` unparameterised, and PHPStan resolves that inconsistently between
+        // parallel workers when it has to infer T from the constructor argument.
+        /** @var FormErrorIterator<FormError> $empty */
+        $empty = new FormErrorIterator($form, []);
 
-        yield [0, new FormErrorIterator($form, [
+        yield [0, $empty];
+
+        /** @var FormErrorIterator<FormError> $withoutViolation */
+        $withoutViolation = new FormErrorIterator($form, [
             new FormError('error'),
-        ])];
+        ]);
 
-        yield [1, new FormErrorIterator($form, [
+        yield [0, $withoutViolation];
+
+        /** @var FormErrorIterator<FormError> $withViolation */
+        $withViolation = new FormErrorIterator($form, [
             new FormError(
                 'error',
                 null,
@@ -61,6 +71,8 @@ final class FormErrorIteratorToConstraintViolationListTest extends TestCase
                 null,
                 new ConstraintViolation('error', null, [], $form, 'path', 'invalid value')
             ),
-        ])];
+        ]);
+
+        yield [1, $withViolation];
     }
 }

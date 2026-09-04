@@ -47,7 +47,9 @@ jobs:
                   dependency-versions: highest
 
             - name: PHPStan
-              run: vendor/bin/phpstan --no-progress --memory-limit=1G analyse --error-format=github
+              run: >-
+                  vendor/bin/phpstan --no-progress --memory-limit=1G analyse --error-format=github
+                  --configuration ${{ matrix.symfony-require == '' && 'phpstan.neon.dist' || 'phpstan-lts.neon.dist' }}
 
     rector:
         name: Rector (Symfony ${{ matrix.symfony-require || 'highest' }})

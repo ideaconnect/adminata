@@ -839,7 +839,14 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 - 2026-09-05 — **Milestone M0 complete.** Definition of done green: `make lint`, `make phpstan`,
   `make rector`, `make test` (2631 tests, 2 skips), `make test-contract` and
   `bin/check-replace-versions.php`. `CHANGELOG.md` records the milestone. `main` pushed to
-  `ideaconnect/adminata`; CI runs for the first time on this push.
+  `ideaconnect/adminata`. The first CI run found four things the local environment could not:
+  `tests/{Unit,Functional}` were empty, so git never created them and PHPUnit refused to start
+  (`.gitkeep` added); `make lint-composer` called `composer normalize`, which exists only when the
+  plugin is installed and not when CI installs the phar (the target now tries both); PHPStan on
+  Symfony 7.4 tripped over `@phpstan-ignore` comments that only match on 8.x, which
+  `phpstan-lts.neon.dist` tolerates on that line alone while the highest line keeps reporting
+  unmatched ignores; and the console `add()`/`addCommand()` bridge in five test files was dead
+  weight — every supported Symfony has `addCommand()` — so it is gone along with `CommandHelper`.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README
