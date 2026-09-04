@@ -95,12 +95,15 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `vendor/bin/phpunit` green for every suite on the local PHP 8.5; no skipped suite; no
     `KNOWN_FAILURES` file needed. Browser tests need geckodriver or `PANTHER_SELENIUM_HOST`.
 
-- [ ] **P0-05 · PHP-CS-Fixer 3.95** · M · depends: P0-04
+- [x] **P0-05 · PHP-CS-Fixer 3.95** · M · depends: P0-04
   - Read: PLAN/07 §6; `MDB/.php-cs-fixer.dist.php`.
-  - Do: `.php-cs-fixer.dist.php` (fork rule set, Sonata header kept, paths `packages/*/src`,
-    `packages/*/tests`, `tests`); run `fix`; **one commit per package** titled `P0-05: apply
-    PHP-CS-Fixer to <package>`.
-  - Accept: `vendor/bin/php-cs-fixer check` clean; `vendor/bin/phpunit` still green.
+  - Do: the fork's rule set in `.php-cs-fixer.rules.php`, shared by two configurations, because
+    php-cs-fixer applies one header per run and the two halves of the repository need different
+    ones (PLAN/07 §9): `.php-cs-fixer.dist.php` over `packages/` with the upstream Sonata header,
+    `.php-cs-fixer.adminata.php` over `tests/` and `bin/` with the combined header; run `fix`;
+    **one commit per package** titled `P0-05: apply PHP-CS-Fixer to <package>`.
+  - Accept: `vendor/bin/php-cs-fixer check` clean for both configurations; `vendor/bin/phpunit`
+    still green.
 
 - [ ] **P0-06 · Rector 2.6** · M · depends: P0-05
   - Read: PLAN/07 §6; `MDB/rector.php`.
@@ -732,6 +735,11 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   `Adminata\Tests\Support\TestDatabase` helper (URL resolution, per-suite database name, create or
   recreate, plain PDO handle), which `OrmDatabaseExtension` and `TestEntityManagerFactory` now use
   too. **2604 tests green, 2 skips** — both of them upstream's own "skip on Symfony 8" guards.
+- 2026-09-04 — **P0-05 done.** Two php-cs-fixer configurations sharing one rule set (see the task);
+  16 of 948 package files needed fixing, committed per package (admin-bundle 11, exporter 1,
+  form-extensions 3). `modern_serialization_methods` is disabled: it renames `__wakeup()` to
+  `__unserialize(array $data)` without moving the restore logic, which broke form-extensions'
+  `InlineConstraint` — caught by its own test.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

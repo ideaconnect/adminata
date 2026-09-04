@@ -432,7 +432,7 @@ class CRUDController extends AbstractController
             throw new \RuntimeException('The action is not defined');
         }
 
-        $camelizedAction = (new UnicodeString($action))->camel()->title(true)->toString();
+        $camelizedAction = new UnicodeString($action)->camel()->title(true)->toString();
 
         try {
             $batchActionExecutable = $this->getBatchActionExecutable($action);
@@ -1527,7 +1527,7 @@ class CRUDController extends AbstractController
         $controller = $batchActions[$action]['controller'] ?? \sprintf(
             '%s::%s',
             $this->admin->getBaseControllerName(),
-            \sprintf('batchAction%s', (new UnicodeString($action))->camel()->title(true)->toString())
+            \sprintf('batchAction%s', new UnicodeString($action)->camel()->title(true)->toString())
         );
 
         // This will throw an exception when called so we know if it's possible or not to call the controller.

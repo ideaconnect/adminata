@@ -55,7 +55,7 @@ final class OrmDatabaseExtension implements Extension
         // Not a per-test subscriber: dama/doctrine-test-bundle wraps every test in a
         // transaction, and loading fixtures inside one breaks its savepoint bookkeeping.
         // TestSuite\Loaded fires once, before the first test is prepared.
-        $facade->registerSubscriber(new class() implements LoadedSubscriber {
+        $facade->registerSubscriber(new class implements LoadedSubscriber {
             public function notify(Loaded $event): void
             {
                 foreach ($event->testSuite()->tests() as $test) {
@@ -112,7 +112,7 @@ final class OrmDatabaseExtension implements Extension
             (bool) ($_SERVER['APP_DEBUG'] ?? false)
         );
 
-        (new Filesystem())->remove([$kernel->getCacheDir()]);
+        new Filesystem()->remove([$kernel->getCacheDir()]);
 
         $application = new Application($kernel);
         $application->setCatchExceptions(false);

@@ -96,7 +96,7 @@ final class ModelToIdPropertyTransformer implements DataTransformerInterface
 
         unset($value['_labels']);
 
-        return (new ModelsToArrayTransformer($this->modelManager, $this->className))->reverseTransform($value);
+        return new ModelsToArrayTransformer($this->modelManager, $this->className)->reverseTransform($value);
     }
 
     /**

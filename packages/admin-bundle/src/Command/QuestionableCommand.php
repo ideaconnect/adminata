@@ -53,7 +53,7 @@ abstract class QuestionableCommand extends Command
     ): bool {
         $questionHelper = $this->getQuestionHelper();
         $question = new ConfirmationQuestion(
-            (new Question($questionText, $default))->getQuestion(),
+            new Question($questionText, $default)->getQuestion(),
             'no' !== $default
         );
 

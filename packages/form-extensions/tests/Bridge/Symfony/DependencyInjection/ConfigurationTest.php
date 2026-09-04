@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace Sonata\Form\Tests\Bridge\Symfony\DependencyInjection;
 
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
-use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-use Symfony\Component\Config\Definition\Processor;
 use PHPUnit\Framework\TestCase;
 use Sonata\Form\Bridge\Symfony\DependencyInjection\Configuration;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Symfony\Component\Config\Definition\Processor;
 
 final class ConfigurationTest extends TestCase
 {
@@ -43,7 +43,7 @@ final class ConfigurationTest extends TestCase
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage('The form_type option value must be one of');
 
-        (new Processor())->processConfiguration($this->getConfiguration(), $configs);
+        new Processor()->processConfiguration($this->getConfiguration(), $configs);
     }
 
     public function testProcessedConfigurationLooksAsExpected(): void

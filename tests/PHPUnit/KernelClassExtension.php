@@ -50,7 +50,7 @@ final class KernelClassExtension implements Extension
 
     public function bootstrap(Configuration $configuration, Facade $facade, ParameterCollection $parameters): void
     {
-        $facade->registerSubscriber(new class() implements PreparationStartedSubscriber {
+        $facade->registerSubscriber(new class implements PreparationStartedSubscriber {
             public function notify(PreparationStarted $event): void
             {
                 $test = $event->test();
