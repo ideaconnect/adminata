@@ -49,7 +49,7 @@ final class SonataAdminExtensionTest extends AbstractExtensionTestCase
         $this->container->setParameter('kernel.bundles', []);
 
         /** @phpstan-var SonataAdminConfiguration $config */
-        $config = (new Processor())->processConfiguration(new Configuration(), []);
+        $config = new Processor()->processConfiguration(new Configuration(), []);
         $this->defaultConfiguration = $config;
     }
 

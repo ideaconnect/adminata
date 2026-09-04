@@ -135,6 +135,6 @@ final class AdminExtractor implements ExtractorInterface, LabelTranslatorStrateg
             return false;
         }
 
-        return !(new \ReflectionClass($class))->isAbstract();
+        return !new \ReflectionClass($class)->isAbstract();
     }
 }

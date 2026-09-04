@@ -50,7 +50,7 @@ final class MetadataTest extends TestCase
     {
         static::assertSame(
             $expected,
-            (new Metadata('title', 'description', $image))->isImageAvailable()
+            new Metadata('title', 'description', $image)->isImageAvailable()
         );
     }
 

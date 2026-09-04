@@ -299,7 +299,7 @@ final class AdminMaker extends AbstractMaker
     private function configure(InputInterface $input): void
     {
         $this->modelClass = Validators::validateClass($input->getArgument('model'));
-        $this->modelClassBasename = (new \ReflectionClass($this->modelClass))->getShortName();
+        $this->modelClassBasename = new \ReflectionClass($this->modelClass)->getShortName();
         $this->adminClassBasename = Validators::validateAdminClassBasename(
             $input->getOption('admin') ?? \sprintf('%sAdmin', $this->modelClassBasename)
         );

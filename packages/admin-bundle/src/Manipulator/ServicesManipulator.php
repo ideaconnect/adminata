@@ -81,7 +81,7 @@ final class ServicesManipulator
             $managerType,
             \array_slice(explode('\\', $modelClass), -1)[0]
         );
-        @mkdir(\dirname($this->file), 0777, true);
+        @mkdir(\dirname($this->file), 0o777, true);
 
         if (false === @file_put_contents($this->file, $code)) {
             throw new \RuntimeException(\sprintf(

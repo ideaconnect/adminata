@@ -546,6 +546,6 @@ final class AddDependencyCallsCompilerPass implements CompilerPassInterface
 
     private function generateSetterMethodName(string $key): string
     {
-        return 'set'.(new UnicodeString($key))->camel()->title(true)->toString();
+        return 'set'.new UnicodeString($key)->camel()->title(true)->toString();
     }
 }

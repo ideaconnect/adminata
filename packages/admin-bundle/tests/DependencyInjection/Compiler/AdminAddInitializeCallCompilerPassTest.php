@@ -27,7 +27,7 @@ final class AdminAddInitializeCallCompilerPassTest extends TestCase
         $builder->register('foo', FooAdmin::class)
             ->addTag(TaggedAdminInterface::ADMIN_TAG);
 
-        (new AdminAddInitializeCallCompilerPass())->process($builder);
+        new AdminAddInitializeCallCompilerPass()->process($builder);
 
         static::assertSame([['initialize', []]], $builder->getDefinition('foo')->getMethodCalls());
     }
