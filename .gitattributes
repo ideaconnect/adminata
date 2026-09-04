@@ -1,0 +1,57 @@
+# Line endings
+* text=auto eol=lf
+*.woff2 binary
+*.png binary
+*.gif binary
+*.jpg binary
+*.ico binary
+
+# Everything below is excluded from the Composer dist archive.
+# `assets/` is deliberately NOT excluded: applications import `assets/css/adminata.css`
+# and add `@source` globs over `packages/` to compile Tailwind themselves.
+/.editorconfig export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.nvmrc export-ignore
+/.php-cs-fixer.dist.php export-ignore
+/.readthedocs.yaml export-ignore
+/.symfony.bundle.yaml export-ignore
+/.yamllint export-ignore
+/.github export-ignore
+/PLAN export-ignore
+/PROJECT_PLAN.md export-ignore
+/bin/build-css-safelist.mjs export-ignore
+/bin/check-css-contract.mjs export-ignore
+/bin/check-replace-versions.php export-ignore
+/bin/console export-ignore
+/bin/tailwind-fixture.mjs export-ignore
+/docker-compose.yml export-ignore
+/docs export-ignore
+/eslint.config.js export-ignore
+/infection.json5.dist export-ignore
+/package-lock.json export-ignore
+/package.json export-ignore
+/phpstan export-ignore
+/phpstan.neon.dist export-ignore
+/phpunit.xml.dist export-ignore
+/playwright.config.ts export-ignore
+/prettier.config.js export-ignore
+/rector.php export-ignore
+/stylelint.config.js export-ignore
+/tests export-ignore
+/upstream export-ignore
+/vite.config.js export-ignore
+/vitest.config.js export-ignore
+/Makefile export-ignore
+/packages/*/docs export-ignore
+/packages/*/tests export-ignore
+/packages/*/Makefile export-ignore
+/packages/*/CONTRIBUTING.md export-ignore
+/packages/*/README.md export-ignore
+/packages/*/UPGRADE-*.md export-ignore
+/packages/*/bin export-ignore
+/packages/*/phpstan-baseline.neon export-ignore
+/packages/*/phpstan-console-application.php export-ignore
+/packages/*/phpstan.neon.dist export-ignore
+/packages/*/phpunit.xml.dist export-ignore
+/packages/*/rector.php export-ignore
