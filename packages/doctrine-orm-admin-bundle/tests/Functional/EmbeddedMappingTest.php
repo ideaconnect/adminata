@@ -13,8 +13,15 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineORMAdminBundle\Tests\Functional;
 
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * These scenarios click through the inherited Bootstrap interface. adminata replaced the
+ * stylesheet and the JavaScript that made it interactive in P1-02, and rewrites the
+ * templates themselves in milestones M3 and M4; the group is dropped again there.
+ */
+#[Group('legacy-ui')]
 final class EmbeddedMappingTest extends BasePantherTestCase
 {
     public function testFilterByEmbedded(): void

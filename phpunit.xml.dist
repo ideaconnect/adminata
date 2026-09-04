@@ -53,6 +53,10 @@
     <groups>
         <exclude>
             <group>network</group>
+            <!-- Browser scenarios that click through the inherited Bootstrap interface. Its CSS
+                 and JavaScript are gone since P1-02; M3 and M4 rewrite the templates and drop
+                 the group again. -->
+            <group>legacy-ui</group>
         </exclude>
     </groups>
 

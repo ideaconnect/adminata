@@ -1,0 +1,5 @@
+/*
+ * Font Awesome 7 Free, shipped separately from app.css so an application can replace it with
+ * `sonata_admin.assets.remove_stylesheets`. P1-04 imports the upstream stylesheet and copies the
+ * two woff2 faces; no v4, v5 or brands shims are shipped (PLAN/04 §8).
+ */
