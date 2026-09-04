@@ -1,0 +1,46 @@
+{
+    "name": "adminata",
+    "version": "1.0.0",
+    "description": "Build for the adminata admin interface: Tailwind CSS v4 and Stimulus, no jQuery.",
+    "license": "MIT",
+    "private": true,
+    "type": "module",
+    "engines": {
+        "node": ">=24"
+    },
+    "scripts": {
+        "build": "node bin/clean-assets.mjs && vite build --mode js && vite build --mode css && node bin/write-manifests.mjs",
+        "check:jquery": "node bin/check-no-jquery.mjs",
+        "css:contract": "node bin/check-css-contract.mjs",
+        "fixture": "node bin/tailwind-fixture.mjs",
+        "lint:css": "stylelint \"assets/**/*.css\"",
+        "lint:js": "eslint .",
+        "lint:prettier": "prettier --check .",
+        "size": "size-limit",
+        "test": "vitest run"
+    },
+    "dependencies": {
+        "@hotwired/stimulus": "3.2.2",
+        "qs": "6.16.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "10.0.1",
+        "@fontsource-variable/outfit": "5.3.0",
+        "@fortawesome/fontawesome-free": "7.3.1",
+        "@size-limit/file": "13.0.3",
+        "@tailwindcss/vite": "4.3.3",
+        "eslint": "10.10.0",
+        "eslint-config-prettier": "10.1.8",
+        "globals": "17.12.0",
+        "jsdom": "30.0.1",
+        "prettier": "3.9.6",
+        "prettier-plugin-tailwindcss": "0.8.1",
+        "size-limit": "13.0.3",
+        "stylelint": "17.15.0",
+        "stylelint-config-standard": "40.0.0",
+        "stylelint-order": "8.1.1",
+        "tailwindcss": "4.3.3",
+        "vite": "8.2.2",
+        "vitest": "5.0.0"
+    }
+}

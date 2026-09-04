@@ -236,7 +236,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     assumption fails, adjust the affected design in PLAN/04 and record it in PLAN/11 §3.
   - Accept: `npm run fixture` exits 0 printing eleven `PASS` lines.
 
-- [ ] **P1-02 · `package.json`, Vite 8 build, Makefile asset targets** · M · depends: P0-MS
+- [x] **P1-02 · `package.json`, Vite 8 build, Makefile asset targets** · M · depends: P0-MS
   - Read: PLAN/05 §7; PLAN/07 §2, §4; PLAN/01 J11.
   - Do: private root `package.json` with exact versions from PLAN/07 §2; `.nvmrc` = `24`;
     `vite.config.js` (IIFE entry `assets/js/app.js`; CSS entries `assets/css/app.css`,
@@ -868,6 +868,25 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 - 2026-09-05 — **All four workflows green on `main`** (run 33930365756 and siblings): Test (five
   matrix rows against MySQL and MongoDB services), Quality assurance (PHPStan and Rector on both
   Symfony lines), Lint and Symfony lint. Milestone M0 is closed.
+
+### Milestone M1
+
+- 2026-09-05 — **P1-02 done.** `package.json` at the PLAN/07 §2 versions, `.nvmrc`, `vite.config.js`
+  and the build scripts; `npm run build` is reproducible (identical output across runs) and
+  publishes `app.js`, `app.css`, `fontawesome.css`, `entrypoints.json` and `manifest.json` into the
+  admin bundle. Three versions in PLAN/07 §2 do not exist and were corrected against the registry:
+  `@eslint/js` 10.0.1 (not 10.10.0 — that is eslint's own version), `globals` 17.12.0,
+  `stylelint-order` 8.1.1 (7.0.0 does not support Stylelint 17). `eslint-plugin-import` is dropped:
+  it supports ESLint 9 at most, and its successor pulls in the TypeScript tooling for rules
+  adminata does not need — `no-restricted-imports` is core ESLint and does the jQuery half.
+  This is the point where the inherited `app.css`/`app.js` are finally replaced (P0-14 deferred
+  it), which makes six ORM browser scenarios unable to interact with the page: they click through
+  the Bootstrap interface whose CSS and JavaScript are now gone. They carry `#[Group('legacy-ui')]`,
+  excluded like `network`, and M3 and M4 drop the group as they rewrite those templates.
+  `npm run css:contract` exists and already refuses Bootstrap selectors, but it is not in
+  `assets-check` yet: Tailwind emits `.container` and `.collapse{visibility}` for class names it
+  finds in the not-yet-ported templates, so the check can only pass once P1-05 has the component
+  layer and M2-M4 have the markup.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

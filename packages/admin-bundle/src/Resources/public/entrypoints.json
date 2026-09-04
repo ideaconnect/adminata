@@ -1,11 +1,16 @@
 {
   "entrypoints": {
     "app": {
-      "css": [
-        "./app.css"
-      ],
       "js": [
-        "./app.js"
+        "/bundles/sonataadmin/app.js"
+      ],
+      "css": [
+        "/bundles/sonataadmin/app.css"
+      ]
+    },
+    "fontawesome": {
+      "css": [
+        "/bundles/sonataadmin/fontawesome.css"
       ]
     }
   }
