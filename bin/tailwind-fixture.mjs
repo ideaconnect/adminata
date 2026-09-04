@@ -90,13 +90,16 @@ const checks = [
         'T10 a multi-property @utility sorts before a single-property core utility',
         () => position(String.raw`.adm-probe`) < position(String.raw`.px-2`),
     ],
-    ['T11 preflight keeps [hidden]{display:none!important}', () => /\[hidden\][^{]*\{[^}]*display:\s*none\s*!important/.test(css)],
+    [
+        'T11 preflight keeps [hidden]{display:none!important}',
+        () => /\[hidden\][^{]*\{[^}]*display:\s*none\s*!important/.test(css),
+    ],
 ];
 
 let failed = 0;
 
 for (const [name, assertion] of checks) {
-    let held = false;
+    let held;
 
     try {
         held = assertion();
@@ -114,8 +117,12 @@ for (const [name, assertion] of checks) {
 }
 
 if (failed > 0) {
-    console.error(`\n${failed} of ${checks.length} Tailwind assumptions no longer hold; PLAN/04 §4 needs revisiting.`);
+    console.error(
+        `\n${failed} of ${checks.length} Tailwind assumptions no longer hold; PLAN/04 §4 needs revisiting.`,
+    );
     process.exit(1);
 }
 
-console.log(`\nAll ${checks.length} Tailwind assumptions hold with tailwindcss ${JSON.parse(readFileSync(new URL('../node_modules/tailwindcss/package.json', import.meta.url), 'utf8')).version}.`);
+console.log(
+    `\nAll ${checks.length} Tailwind assumptions hold with tailwindcss ${JSON.parse(readFileSync(new URL('../node_modules/tailwindcss/package.json', import.meta.url), 'utf8')).version}.`,
+);

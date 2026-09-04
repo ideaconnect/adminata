@@ -10,11 +10,11 @@
  * and scan the whole repository — the fixture, the build scripts, the plan. The sources are named
  * explicitly instead, exactly as PLAN/04 §2 lists them.
  */
-@import "tailwindcss" source(none);
+@import 'tailwindcss' source(none);
 
 /* Every template and script of the seven packages, and adminata's own JavaScript. */
-@source "../../packages";
-@source not "../../packages/*/tests";
-@source not "../../packages/*/docs";
-@source "../js";
-@source not "../js/**/*.test.js";
+@source '../../packages';
+@source not '../../packages/*/tests';
+@source not '../../packages/*/docs';
+@source '../js';
+@source not '../js/**/*.test.js';

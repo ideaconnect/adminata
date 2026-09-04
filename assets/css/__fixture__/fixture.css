@@ -3,14 +3,14 @@
  * bin/tailwind-fixture.mjs compiles this with the pinned tailwindcss and asserts each rule.
  */
 
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* T6: matches the `.dark` element itself, which TailAdmin's `(&:is(.dark *))` does not. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* T5: every token is emitted, and utilities reference it through `var()`. */
 @theme static {
-    --color-probe-500: oklch(0.6 0.2 250);
+    --color-probe-500: oklch(60% 0.2 250deg);
 }
 
 /* T1, T3, T10: a multi-property primitive, which `@apply` accepts. */
@@ -37,4 +37,4 @@
 }
 
 /* T4: brace expansion with a range, for utilities no scanned source mentions. */
-@source inline("col-span-{1..3}");
+@source inline('col-span-{1..3}');

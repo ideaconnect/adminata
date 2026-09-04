@@ -1,0 +1,14 @@
+# The forked packages keep upstream's formatting so upstream diffs still apply; adminata's own
+# templates are Twig, which Prettier does not parse.
+/packages/
+/vendor/
+/node_modules/
+/var/
+/build/
+/PLAN/
+/docs/
+package-lock.json
+composer.lock
+*.md
+*.twig
+*.php
