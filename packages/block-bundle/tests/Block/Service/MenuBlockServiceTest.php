@@ -55,7 +55,6 @@ final class MenuBlockServiceTest extends BlockServiceTestCase
             ]);
 
         $formMapper = $this->createMock(FormMapper::class);
-        $block = $this->createMock(BlockInterface::class);
 
         $choiceOptions = [
             'required' => true,
@@ -106,7 +105,7 @@ final class MenuBlockServiceTest extends BlockServiceTestCase
             ]);
 
         $blockService = new MenuBlockService($this->twig, $this->menuProvider, $this->menuRegistry);
-        $blockService->configureEditForm($formMapper, $block);
+        $blockService->configureEditForm($formMapper, $this->createMock(BlockInterface::class));
     }
 
     public function testDefaultSettings(): void

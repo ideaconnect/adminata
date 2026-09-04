@@ -27,10 +27,9 @@ final class MonkeyThrowRendererTest extends TestCase
         $this->expectException(\Exception::class);
 
         $exception = new \Exception();
-        $block = $this->createMock(BlockInterface::class);
         $renderer = new MonkeyThrowRenderer();
 
-        $renderer->render($exception, $block);
+        $renderer->render($exception, $this->createMock(BlockInterface::class));
     }
 
     public function testRenderWithRuntimeException(): void
@@ -38,9 +37,8 @@ final class MonkeyThrowRendererTest extends TestCase
         $this->expectException(\RuntimeException::class);
 
         $exception = new \RuntimeException();
-        $block = $this->createMock(BlockInterface::class);
         $renderer = new MonkeyThrowRenderer();
 
-        $renderer->render($exception, $block);
+        $renderer->render($exception, $this->createMock(BlockInterface::class));
     }
 }

@@ -28,13 +28,10 @@ final class InlineDebugRendererTest extends TestCase
     {
         $template = 'test-template';
         $debug = false;
-        $exception = $this->createMock(\Exception::class);
-        $block = $this->createMock(BlockInterface::class);
-        $twig = $this->createMock(Environment::class);
 
-        $renderer = new InlineDebugRenderer($twig, $template, $debug);
+        $renderer = new InlineDebugRenderer($this->createMock(Environment::class), $template, $debug);
 
-        $response = $renderer->render($exception, $block);
+        $response = $renderer->render($this->createMock(\Exception::class), $this->createMock(BlockInterface::class));
 
         static::assertInstanceOf(Response::class, $response, 'Should return a Response');
         static::assertEmpty($response->getContent(), 'Should have no content');
@@ -44,8 +41,6 @@ final class InlineDebugRendererTest extends TestCase
     {
         $template = 'test-template';
         $debug = true;
-
-        $exception = $this->createMock(\Exception::class);
         $block = $this->createMock(BlockInterface::class);
 
         $twig = $this->createMock(Environment::class);
@@ -65,13 +60,7 @@ final class InlineDebugRendererTest extends TestCase
                             'forceStyle' => true,
                         ];
 
-                        foreach ($expected as $key => $value) {
-                            if (!\array_key_exists($key, $subject) || $subject[$key] !== $value) {
-                                return false;
-                            }
-                        }
-
-                        return true;
+                        return array_all($expected, static fn ($value, $key) => !(!\array_key_exists($key, $subject) || $subject[$key] !== $value));
                     })
                 )
             )
@@ -79,7 +68,7 @@ final class InlineDebugRendererTest extends TestCase
 
         $renderer = new InlineDebugRenderer($twig, $template, $debug);
 
-        $response = $renderer->render($exception, $block);
+        $response = $renderer->render($this->createMock(\Exception::class), $block);
 
         static::assertInstanceOf(Response::class, $response, 'Should return a Response');
         static::assertSame('html', $response->getContent(), 'Should contain the templating html result');

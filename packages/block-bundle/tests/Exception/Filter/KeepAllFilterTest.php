@@ -26,10 +26,9 @@ final class KeepAllFilterTest extends TestCase
     #[DataProvider('provideFilterCases')]
     public function testFilter(\Exception $exception): void
     {
-        $block = $this->createMock(BlockInterface::class);
         $filter = new KeepAllFilter();
 
-        $result = $filter->handle($exception, $block);
+        $result = $filter->handle($exception, $this->createMock(BlockInterface::class));
 
         static::assertTrue($result, 'Should handle any exception');
     }
