@@ -16,8 +16,7 @@ declare(strict_types=1);
 
 namespace Adminata\Tests\PHPUnit;
 
-use Doctrine\DBAL\DriverManager;
-use Doctrine\DBAL\Tools\DsnParser;
+use Adminata\Tests\Support\TestDatabase;
 use PHPUnit\Event\Code\TestMethod;
 use PHPUnit\Event\TestSuite\Loaded;
 use PHPUnit\Event\TestSuite\LoadedSubscriber;
@@ -81,55 +80,20 @@ final class OrmDatabaseExtension implements Extension
 
         self::$prepared = true;
 
-        // `TestEntityManagerFactory` connects straight through DBAL, so nothing else creates
-        // the database its schema goes into.
-        self::recreateDatabase(self::url('ADMINATA_TEST_DATABASE_URL', 'adminata_orm_unit_test'), true);
-        self::recreateDatabase(self::url('DATABASE_URL', 'adminata_orm_test'), true);
+        // `TestEntityManagerFactory` connects straight through DBAL, so nothing else creates the
+        // database its schema goes into; and Doctrine's `doctrine:database:create` command shares
+        // its connection with `doctrine:schema:create` inside one booted kernel, which then keeps
+        // the database it was opened without. Create both through connections of our own.
+        TestDatabase::connect(
+            TestDatabase::parameters('ADMINATA_TEST_DATABASE_URL', 'adminata_orm_unit_test'),
+            true
+        )->close();
+        TestDatabase::connect(
+            TestDatabase::parameters('DATABASE_URL', 'adminata_orm_test'),
+            true
+        )->close();
 
         self::loadApplicationFixtures();
-    }
-
-    private static function url(string $variable, string $database): string
-    {
-        $url = $_SERVER[$variable] ?? null;
-
-        if (\is_string($url) && '' !== $url) {
-            return $url;
-        }
-
-        return \sprintf(
-            'mysql://root:adminata@127.0.0.1:7010/%s?serverVersion=8.4.0&charset=utf8mb4',
-            $database
-        );
-    }
-
-    /**
-     * Doctrine's `doctrine:database:drop`/`create` commands and `doctrine:schema:create` share
-     * one connection inside a booted kernel, and that connection keeps the database it was
-     * opened without. Create the database through a connection of our own instead.
-     */
-    private static function recreateDatabase(string $url, bool $drop): void
-    {
-        $parameters = (new DsnParser(['mysql' => 'pdo_mysql', 'mariadb' => 'pdo_mysql']))->parse($url);
-        $database = $parameters['dbname'] ?? null;
-        unset($parameters['dbname']);
-
-        if (!\is_string($database) || '' === $database) {
-            return;
-        }
-
-        $connection = DriverManager::getConnection($parameters);
-        $quoted = $connection->quoteSingleIdentifier($database);
-
-        if ($drop) {
-            $connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s', $quoted));
-        }
-
-        $connection->executeStatement(\sprintf(
-            'CREATE DATABASE IF NOT EXISTS %s CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci',
-            $quoted
-        ));
-        $connection->close();
     }
 
     private static function loadApplicationFixtures(): void

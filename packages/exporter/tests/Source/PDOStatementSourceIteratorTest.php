@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\Exporter\Tests\Source;
 
+use Adminata\Tests\Support\TestDatabase;
 use PHPUnit\Framework\TestCase;
 use Sonata\Exporter\Source\PDOStatementSourceIterator;
 
@@ -20,23 +21,10 @@ final class PDOStatementSourceIteratorTest extends TestCase
 {
     private \PDO $dbh;
 
-    private string $pathToDb;
-
     protected function setUp(): void
     {
-        $path = tempnam(sys_get_temp_dir(), 'Sonata_exporter_');
-        static::assertNotFalse($path);
-        $this->pathToDb = $path;
-
-        if (!\in_array('sqlite', \PDO::getAvailableDrivers(), true)) {
-            static::markTestSkipped('the sqlite extension is not available');
-        }
-
-        if (is_file($this->pathToDb)) {
-            unlink($this->pathToDb);
-        }
-
-        $this->dbh = new \PDO('sqlite:'.$this->pathToDb);
+        // adminata supports MySQL, MariaDB and Percona; this used a temporary SQLite file.
+        $this->dbh = TestDatabase::pdo('adminata_exporter_pdo_test');
         $this->dbh->exec('CREATE TABLE `user` (`id` int(11), `username` varchar(255) NOT NULL, `email` varchar(255) NOT NULL )');
 
         $data = [
@@ -54,11 +42,9 @@ final class PDOStatementSourceIteratorTest extends TestCase
 
     protected function tearDown(): void
     {
-        unset($this->dbh);
+        $this->dbh->exec('DROP TABLE IF EXISTS `user`');
 
-        if (is_file($this->pathToDb)) {
-            unlink($this->pathToDb);
-        }
+        unset($this->dbh);
     }
 
     public function testHandler(): void
