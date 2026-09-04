@@ -8,10 +8,13 @@ pointer), `AGENTS.md` (fork's skeleton + "Template contract" and "Upstream sync"
 `UPGRADE-1.0.md` (document 10 §3), `CHANGELOG.md` + `CHANGELOG-sonata.md`, `NOTICE`,
 `CONTRIBUTING.md` (semver contract, template contract, sync policy, "not yet ported" policy).
 
-## 2. Sphinx docs (forked from `S/docs`, pruned)
+## 2. Sphinx docs (one site from the seven `docs/` sets, pruned)
 
-Pages are kept only when the feature is in the 1.0 scope; pages for deferred features get a
-one-paragraph "not yet ported in adminata" banner instead of being rewritten.
+The seven upstream `docs/` trees are imported with their packages and merged into one Sphinx site
+(`docs/`, sections per package, admin-bundle first). Pages are kept only when the feature is in
+the 1.0 scope; pages for deferred features get a one-paragraph "not yet ported in adminata" banner
+instead of being rewritten. form-extensions' date-picker page is rewritten for native inputs;
+twig-extensions' flash-message page for the new markup.
 
 | Page | Change |
 |---|---|

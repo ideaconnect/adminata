@@ -19,7 +19,7 @@ No Bootstrap/AdminLTE compatibility layer, no `.sonata-bc` scoping, no skins (C4
 
 ```
 assets/css/
-├── app.css                  # entry 1 → src/Resources/public/app.css
+├── app.css                  # entry 1 → packages/admin-bundle/src/Resources/public/app.css
 ├── fontawesome.css          # entry 2 → fontawesome.css (FA7 Free all.css, woff2 only)
 ├── adminata.css             # importable aggregate for apps (no @source, no "tailwindcss" import)
 ├── theme.css                # @custom-variant dark + @theme static tokens
@@ -36,13 +36,16 @@ assets/css/
 ```css
 @import "tailwindcss";
 @import "./adminata.css";
-@source "../../src/Resources/views";
+@source "../../packages";               /* all seven packages: views and the PHP defaults */
+@source not "../../packages/*/tests";
+@source not "../../packages/*/docs";
 @source "../js";
 @source not "../js/**/*.test.js";
 ```
 
-Published under `src/Resources/public/` (committed): `app.css`, `fontawesome.css`, `fonts/*.woff2`,
-`app.js`, `images/*`, `entrypoints.json`, `manifest.json`.
+Published under `packages/admin-bundle/src/Resources/public/` (committed): `app.css`,
+`fontawesome.css`, `fonts/*.woff2`, `app.js`, `images/*`, `entrypoints.json`, `manifest.json`.
+form-extensions' and twig-extensions' public directories are deleted (their styles live here).
 
 ## 3. Tokens and dark mode
 
@@ -97,6 +100,9 @@ First task of phase 1: a 20-line fixture built with the pinned Tailwind version 
 `admin-lte-fas.scss` (2,877 lines with the JS) have a rule-by-rule disposition in
 `R/gap-css-architecture.md` §5; kept rules become `components/*.css` entries (readmore, flash
 read-more toggle, list cell hooks, sticky `.stuck`); AdminLTE overrides and `tree.scss` are dropped.
+form-extensions' `assets/scss/app.scss` (Tempus Dominus theme) and twig-extensions'
+`flashmessage.css` are dropped as well; the flash read-more toggle is re-implemented in
+`components/alert.css`.
 
 ## 7. Per-app recipe (recomaty-panel: Webpack Encore + `@tailwindcss/postcss`)
 
@@ -104,7 +110,8 @@ read-more toggle, list cell hooks, sticky `.stuck`); AdminLTE overrides and `tre
 /* assets/styles/admin.css */
 @import "tailwindcss";
 @import "../../vendor/idct/adminata/assets/css/adminata.css";
-@source "../../vendor/idct/adminata/src/Resources/views";
+@source "../../vendor/idct/adminata/packages";
+@source not "../../vendor/idct/adminata/packages/*/tests";
 @source "../../vendor/idct/adminata/assets/js";
 @source "../../templates";
 @source "../../src/Admin";

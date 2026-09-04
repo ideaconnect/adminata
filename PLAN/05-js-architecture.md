@@ -21,6 +21,11 @@ action and event) and `R/js-assets.md`. Decisions J1–J12 apply. Versions verif
 - `Config.param()` returns `null` for a missing `<meta name="sonata-config">` and keeps throwing on
   malformed JSON.
 - Runtime dependencies: `qs` (BSD-3) only.
+- **Library policy (J13)**: a package that depends on jQuery is rejected outright — `npm ls jquery`
+  must be empty in CI and ESLint bans the import. When a behaviour needs more than plain DOM code,
+  first check whether Tailwind/TailAdmin already covers it in CSS (dropdown panels, native
+  `<dialog>`, `<details>` accordions, CSS tooltips); otherwise choose a modern, popular, actively
+  released vanilla library (SortableJS, vanilla-calendar-pro, Tom Select are the vetted candidates).
 
 ## 2. Inherited controllers (9)
 
@@ -56,8 +61,9 @@ Tooltips are out of 1.0 (`title` stays native). No search shortcut (`search: fal
 
 ## 4. Post-1.0 controllers (10)
 
-`sonata-association` (modal add/edit/list flows, `fetch` + `FormData`, contracts in v1 document 06
-§2), `sonata-sortable` (SortableJS 1.15.7), `sonata-choice-field-mask`, `sonata-inline-row`,
+`sonata-association` (list selection in a `<dialog>` loaded with `fetch` GET, create/edit as full
+pages with a return parameter — **no AJAX form submission**, S5/J9; the v1 `fetch` + `FormData`
+design is withdrawn), `sonata-sortable` (SortableJS 1.15.7), `sonata-choice-field-mask`, `sonata-inline-row`,
 `sonata-editable` (Tailwind popover, JSON `data-source`), `sonata-treeview`, `sonata-tabs`
 (underline tabs, `role="tablist"`, `sonata-tabs:show`), `sonata-select` (Tom Select 2.6.2, only if
 select enhancement is ever wanted), `sonata-search-shortcut` (⌘/Ctrl+K), `sonata-datepicker`
@@ -77,7 +83,8 @@ controller card in `R/gap-js-architecture.md` §1.
 
 ## 6. Removed behaviours and their replacement in the app
 
-select2, iCheck, x-editable, jQuery UI sortable, jquery-form, Bootstrap JS (`.modal()`, `.tab()`,
+select2, iCheck, x-editable, jQuery UI sortable, jquery-form and its `ajaxSubmit` feature (the
+in-modal submission of association forms, dropped for good), Bootstrap JS (`.modal()`, `.tab()`,
 `.dropdown()`, `.collapse()`, `.popover()`, `.tooltip()`, `.alert()`), slimscroll, masonry,
 scrollTo, `treeView`, the per-field global functions of the association templates, `window.Admin`,
 `window.jQuery`. recomaty-panel's three jQuery files and one inline script are rewritten in plain
@@ -86,7 +93,7 @@ DOM code (document 10 §2); `jquery-ui-bundle` is removed from its `package.json
 ## 7. Build entries and outputs
 
 ```
-assets/js/app.js            # IIFE → src/Resources/public/app.js: starts the application, sets
+assets/js/app.js            # IIFE → packages/admin-bundle/src/Resources/public/app.js: starts the application, sets
                             #   window.sonataApplication, removes html.no-js
 assets/js/registry.js       # explicit definitions (9 inherited + 8 new)
 assets/js/core/{config,translation,utils,dom}.js
@@ -99,7 +106,7 @@ assets/css/app.css, fontawesome.css       # CSS entries (document 04)
   `fonts/[name][extname]`); `define __ADMINATA_VERSION__`; no source maps in production;
   `entrypoints.json`/`manifest.json` written by a tiny plugin. ESM library build (`startAdminata`)
   and AssetMapper path registration are post-1.0.
-- CI: `npm ci && npm run build && git diff --exit-code -- src/Resources/public`; `size-limit`
+- CI: `npm ci && npm run build && git diff --exit-code -- packages/admin-bundle/src/Resources/public`; `size-limit`
   13: `app.js` ≤ 100 KB minified (Stimulus + qs + 17 controllers).
 - Default `sonata_admin.assets.javascripts`: `bundles/sonataadmin/app.js`, rendered
   `<script src defer>`; the app's `extra_javascripts` follow, also `defer`.

@@ -19,6 +19,13 @@ table, re-checked against `APP/` in appendix C), `MDB/AGENTS.md` §6–7 (qualit
 Tests for deferred templates (history, ACL, association widgets) keep asserting the inherited
 markup until those templates are ported.
 
+The suites of the six other packages are imported with them (`packages/<name>/tests`) and run as
+separate PHPUnit suites: block-bundle, doctrine-extensions, exporter and the ORM bundle unchanged;
+twig-extensions' flash-message tests re-baselined to the rewritten template; form-extensions' type
+tests updated for the derived HTML5 formats (P6 f), its widget tests rewritten for the native
+inputs, and its Vitest suite (`datepicker_controller.test.js`, `setup.test.js`) deleted with the
+controller.
+
 ## 2. Demo / test application (Doctrine ORM + sqlite + fixtures)
 
 `tests/App/OrmKernel` registering DoctrineBundle 3.3, FixturesBundle and
@@ -100,9 +107,10 @@ archive. Added on the migration branch:
 
 ## 7. MongoDB fork job
 
-Nightly, informational in 1.0: check out `ideaconnect/sonata-admin-mongodb-bundle`, install
-`idct/adminata:@dev` (path repo), run `make test` with Mongo + Firefox. Becomes blocking once the
-association templates are ported.
+`mongo-compat.yaml`, from phase 1: on every PR, check out `ideaconnect/sonata-admin-mongodb-bundle`,
+install `idct/adminata:@dev` (path repo), `composer validate`, run its unit suite (blocking).
+Nightly: its functional Panther suite with Mongo + Firefox (informational until the association
+widgets exist and its modal scenarios are adapted to the non-AJAX flow).
 
 ## 8. Accessibility and responsive checks (definition of done items)
 

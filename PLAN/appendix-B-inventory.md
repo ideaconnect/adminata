@@ -44,7 +44,22 @@
 `'keep-open'`; `SonataAdminExtension.php:94-100` skin CSS path, `:200-201` `'sonata-medium-date'`;
 `IconRuntime.php:20-38` FA-only `parse_icon`.
 
-## 2. TailAdmin free edition v2.3.0 (2026-04-28)
+## 2. The six other Sonata packages shipped by adminata (latest releases, verified 2026-09-04)
+
+| Package | Version | Namespace / bundle class | Config root | Templates | Assets | Notes |
+|---|---|---|---|---|---|---|
+| `block-bundle` | 5.4.0 (2025-11-30) | `Sonata\BlockBundle\` / `SonataBlockBundle` | `sonata_block` | 12 (`Block/*` 11, `Profiler/block`); 2 with Bootstrap (`block_core_rss`, `block_side_menu_template`) | none | requires `form-extensions`; `templates.block_base` extended by admin blocks |
+| `doctrine-extensions` | 2.6.0 (2025-11-23) | `Sonata\Doctrine\` (+ `Bridge\Symfony`) / `SonataDoctrineBundle` | `sonata_doctrine` | none | none | `doctrine/dbal`, `doctrine/persistence` |
+| `doctrine-orm-admin-bundle` | 4.21.0 (2026-01-05) | `Sonata\DoctrineORMAdminBundle\` / `SonataDoctrineORMAdminBundle` | `sonata_doctrine_orm_admin` | 3 (`Block/block_audit` with Bootstrap; two form themes without) | none | requires `doctrine/orm ^3.3`, `doctrine-bundle`, `admin-bundle ^4.39.0` |
+| `exporter` | 3.4.0 (2025-11-23) | `Sonata\Exporter\` (+ `Bridge\Symfony`) / `SonataExporterBundle` | `sonata_exporter` | none | none | suggests `phpoffice/phpspreadsheet` |
+| `form-extensions` | 2.7.0 (2025-11-23) | `Sonata\Form\` / `SonataFormBundle` | `sonata_form` | 1 (`Form/datepicker`, Bootstrap + Tempus Dominus) | `assets/js` (Stimulus `datepicker` controller + tests), `assets/scss`, 4 public files (`app.js` 122 KB, `app.css` 46 KB) — all deleted | `BasePickerType`, `DateRangeType`, `BooleanType`, `CollectionType`, … |
+| `twig-extensions` | 2.6.0 (2025-11-23) | `Sonata\Twig\` (+ `Bridge\Symfony`) / `SonataTwigBundle` | `sonata_twig` | 1 (`FlashMessage/render`, Bootstrap) | `public/css/flashmessage.css` — deleted | flash types map, `sonata_template_box`, deprecation helpers |
+
+None of the six ships tests in the Composer dist; their `tests/` and `docs/` trees come from the
+upstream tags at import (document 07 §10). `idct/sonata-admin-mongodb-bundle` v5.2.2 stays external
+(`php ^8.4`, `admin-bundle ^4.39`, `exporter ^3.0`, `form-extensions ^2.0`).
+
+## 3. TailAdmin free edition v2.3.0 (2026-04-28)
 
 | Item | Value |
 |---|---|

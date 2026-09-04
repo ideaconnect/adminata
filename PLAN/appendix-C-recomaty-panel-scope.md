@@ -57,7 +57,13 @@ Bootstrap/AdminLTE class occurrences across `templates/`: `callout` 316, `btn` 7
 
 ## 4. Template scope derived from §2
 
-**Rewritten in 1.0 (98 files, 4,739 Twig lines):** `standard_layout`, `ajax_layout`,
+Across the seven packages adminata ships (148 templates): 100 rewritten in 1.0 (the 98
+admin-bundle files below plus form-extensions' `Form/datepicker.html.twig` and twig-extensions'
+`FlashMessage/render.html.twig`), 12 copied unchanged (ten Bootstrap-free block-bundle templates
+and the two ORM form themes), 36 deferred (the 33 admin-bundle files below plus the ORM
+`block_audit` and block-bundle's `block_core_rss` and `block_side_menu_template`); document 03 §G.
+
+**Admin-bundle templates rewritten in 1.0 (98 files, 4,739 Twig lines):** `standard_layout`, `ajax_layout`,
 `empty_layout`; `Menu/sonata_menu`; `Core/{add_block,dashboard,user_block}`; `Breadcrumb/*` (2);
 `Block/block_admin_list`; `Button/*` (6); `Pager/*` (5); `Form/{form_admin_fields,filter_admin_fields}`,
 `Form/Type/sonata_type_model_autocomplete`; `Helper/render_form_dismissable_errors`;
@@ -68,7 +74,7 @@ Bootstrap/AdminLTE class occurrences across `templates/`: `callout` 316, `btn` 7
 `base_array_macro`, `delete`, `batch_confirmation`, `action_buttons`, `dashboard__action`,
 `dashboard__action_create`; `CRUD/Association/list_*` (4) and `show_*` (4).
 
-**Deferred (33 files, 2,499 lines), inherited as-is with a `{# adminata: not yet ported #}` marker:**
+**Admin-bundle templates deferred (33 files, 2,499 lines), inherited as-is with a `{# adminata: not yet ported #}` marker:**
 `CRUD/Association/edit_*` (11), `CRUD/{base_history,history,history_revision_timestamp}`,
 `CRUD/{base_show_compare,show_compare}`, `CRUD/{base_acl,base_acl_macro,acl}`, `CRUD/preview`,
 `CRUD/select_subclass`, `CRUD/tree`, `CRUD/list_outer_rows_mosaic`, `CRUD/{base_list_flat_field,

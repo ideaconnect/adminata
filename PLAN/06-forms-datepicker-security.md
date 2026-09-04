@@ -54,7 +54,10 @@ the app's own Stimulus controllers. Nothing changes in the mechanism:
 - `sonata-collection` (unchanged) clones the prototype, replaces `__name__`, appends the row and
   dispatches `sonata-collection-item-added`; the app's controllers inside the new row connect
   through its own application's MutationObserver (R6).
-- No sortable collections in 1.0 (the app has none).
+- No sortable collections in 1.0 (the app has none). `sonata_type_collection` (`AdminType` inline
+  rows) stays out: its server-rendered "add" relied on posting the outer form through `ajaxSubmit`
+  to `sonata_admin_append_form_element`, the feature the owner removed (S5); if it is ever needed it
+  gets a client-side prototype like the native collection.
 
 ## 3. Autocomplete (`sonata_type_model_autocomplete`) — hand-written combobox
 
@@ -96,32 +99,37 @@ Facts (form-extensions 2.7.0): `BasePickerType` sets `widget: single_text`, `htm
 DatePickerType`. Sonata's own date filters use Symfony `DateType`/`DateTimeType` with `single_text`
 and HTML5 on, so they are native already.
 
-Plan:
+Plan (form-extensions is part of adminata now, so both the PHP type and its template change in place):
 
-- adminata's `form_admin_fields.html.twig` overrides `sonata_type_datetime_picker_widget` and
-  `sonata_type_datetime_picker_widget_html`: `type="time"` when `calendar` is false, `type="date"`
-  when `clock` is false, otherwise `type="datetime-local"`; `step="1"` when `seconds`; `min`/`max`
-  from `restrictions.minDate/maxDate` when ISO-formatted; `value` passed verbatim; class
-  `adm-input`; `color-scheme` from `base.css` makes the native pickers dark in dark mode.
-- Requirement on the app: each picker field's `format` must be HTML5-compatible —
-  `yyyy-MM-dd` (date), `yyyy-MM-dd'T'HH:mm` (datetime, `…:ss` with seconds), `HH:mm` (time).
-  recomaty-panel's twelve usages (appendix C §2) currently use `dd-MM-yyyy HH:mm`, `dd.MM.yyyy`,
-  `dd.MM.yyyy H:i:s`, `H:mm`, `yyyy-MM-dd`; each becomes one option change. The alternative is to
-  switch those fields to Symfony's core `DateType`/`DateTimeType`/`TimeType` with `widget:
-  single_text` (HTML5 by default), which needs no adminata block at all.
-- `bundles/sonataform/app.{js,css}` are dropped from the default asset lists; the app replaces
-  `@SonataForm/Form/datepicker.html.twig` in `twig.form_themes` with adminata's form theme.
-- No picker library in 1.0. If a popup calendar is wanted later, `sonata-datepicker` wraps
-  `vanilla-calendar-pro` (3.3.2, released 2026-09-04) over the same native inputs.
-- Tests: PHPUnit widget tests for the two blocks; acceptance F3/F4 round-trip `07:30` and
-  `2026-09-04T10:15`.
+- `packages/form-extensions/src/Type/BasePickerType.php` (P6 f): `html5: true` semantics — the wire
+  `format` is derived from `datepicker_options.display.components` (`yyyy-MM-dd` when `clock` is
+  false, `HH:mm` or `HH:mm:ss` when `calendar` is false, `yyyy-MM-dd'T'HH:mm[:ss]` otherwise); a
+  different `format` throws like Symfony's `DateType` with `html5: true`; the `localization.format`
+  view variable and `JavaScriptFormatConverter` are removed. `DateRangePickerType`/
+  `DateTimeRangePickerType` inherit the behaviour. `SonataFormExtension` stops registering
+  `bundles/sonataform/app.{js,css}`.
+- `packages/form-extensions/src/Bridge/Symfony/Resources/views/Form/datepicker.html.twig` rewritten:
+  `sonata_type_datetime_picker_widget(_html)` emit `type="time"` when `calendar` is false,
+  `type="date"` when `clock` is false, otherwise `type="datetime-local"`; `step="1"` when
+  `seconds`; `min`/`max` from `restrictions.minDate/maxDate`; `value` verbatim; class `adm-input`;
+  `color-scheme` from `base.css` makes the native pickers dark in dark mode. `SonataFormBundle`
+  keeps prepending this theme globally, so admin forms and the app's plain forms both get it and
+  the app's `twig.form_themes` entry stays valid.
+- Requirement on the app: **delete** the `format` options of its twelve picker usages
+  (appendix C §2); nothing else.
+- form-extensions' `assets/` (Tempus Dominus Stimulus controller, SCSS) and
+  `Resources/public/` are deleted; no picker library in 1.0. If a popup calendar is wanted later,
+  `sonata-datepicker` wraps `vanilla-calendar-pro` (3.3.2, released 2026-09-04) over the same
+  native inputs.
+- Tests: form-extensions' type tests updated for the derived formats; widget tests for the two
+  blocks; acceptance F3/F4 round-trip `07:30` and `2026-09-04T10:15`.
 
 ## 5. Security review
 
 | Topic | Fact | Plan |
 |---|---|---|
 | Session CSRF | `sonata.delete` and `sonata.batch` intentions are session tokens (`CRUDController.php:138,203,263,393,495`) | unchanged; delete/batch stay full-page POSTs |
-| Stateless CSRF | The app declares `submit`, `authenticate`, `logout` as stateless token ids; Symfony's `csrf_protection_controller.js` mints the token in a capture-phase `submit` listener; once a double-submit succeeded, later requests without the cookie/token pair are rejected | 1.0 has no fetch-based POST (batch, filters and edit forms are plain submits; autocomplete is GET). Post-1.0 `sonata-association` submits via `form.requestSubmit()`, then intercepts with a capturing listener registered later and calls `fetch` with `credentials: 'same-origin'` |
+| Stateless CSRF | The app declares `submit`, `authenticate`, `logout` as stateless token ids; Symfony's `csrf_protection_controller.js` mints the token in a capture-phase `submit` listener; once a double-submit succeeded, later requests without the cookie/token pair are rejected | No fetch-based POST in any phase (J9): batch, filters and edit forms are plain submits, autocomplete is GET, post-1.0 association widgets open create/edit as full pages. The rule never has to be engineered around |
 | Inline edit | `SetObjectFieldValueAction` relies solely on `X-Requested-With` | post-1.0; keep parity, send the header |
 | XSS surfaces | 52 `\|raw` sites, `safe_label`, `help_html`, `objectName` in JSON | inventory each during the rewrite; JSON travels in `data-*` attributes parsed with `JSON.parse`; labels inserted with `textContent` unless `safe_label` |
 | CSP | no inline scripts except the theme pre-paint under `sonata_script_attributes`; no `onclick` | nonce-friendly by construction |

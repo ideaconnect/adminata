@@ -7,7 +7,10 @@ byte-identical. Element-level tables with file:line evidence live in `R/layout-n
 `R/list-datagrid.md`, `R/forms-edit.md`, `R/show-misc.md` and the TailAdmin recipes in
 `R/tailadmin-catalog.md` §2. Controller names refer to document 05.
 
-Scope (appendix C §4): 98 templates rewritten in 1.0 (4,739 Twig lines), 33 deferred (2,499 lines).
+Scope (appendix C §4): of the 148 templates in the seven packages, 100 are rewritten in 1.0 (98
+admin-bundle templates, 4,739 Twig lines, plus form-extensions' datepicker theme and
+twig-extensions' flash template), 12 are copied unchanged (block-bundle and ORM templates without
+Bootstrap markup) and 36 are deferred (§E, §G).
 
 ## A. Layouts, navigation, dashboard (phase 2)
 
@@ -23,7 +26,7 @@ Scope (appendix C §4): 98 templates rewritten in 1.0 (4,739 Twig lines), 33 def
 | `Breadcrumb/breadcrumb.html.twig`, `breadcrumb_title.html.twig` | `<li><a>`, `<li class="active"><span>` | **unchanged files**; layout `<ol>` gets TailAdmin classes, chevrons via CSS `::after`, `aria-label`, `aria-current` | — | `BreadcrumbsRuntimeTest` pins the markup |
 | `Block/block_admin_list.html.twig` | AdminLTE `box` per group + table + `btn-group` | TailAdmin card per group with a rows list; icon buttons | — | `extends sonata_block.templates.block_base`; `dashboard__action*.html.twig` includes |
 | `CRUD/dashboard__action.html.twig`, `dashboard__action_create.html.twig` | `btn btn-link btn-flat`, Bootstrap dropdown for subclasses | link buttons; subclass dropdown | `sonata-dropdown` | `action_create` key; icons via `parse_icon` |
-| New `FlashMessage/render.html.twig` (included from `notice`) | twig-extensions Bootstrap alerts + CSS-checkbox collapse | `T/partials/alert/*` recipes + dismiss button | `sonata-dismiss` | `alert alert-{type}` kept (PHP-emitted type map), `read-more-*` kept; the app's nine `notice` overrides become `{{ parent() }}` |
+| `@SonataTwig/FlashMessage/render.html.twig` (twig-extensions, **rewritten in place**; included from `notice`) | Bootstrap alerts + CSS-checkbox collapse + `flashmessage.css` | `T/partials/alert/*` recipes + dismiss button; the read-more toggle stays CSS-only; `Resources/public/css/flashmessage.css` deleted, styles live in adminata's CSS | `sonata-dismiss` | `alert alert-{type}` kept (PHP-emitted type map), `read-more-*` kept; `sonata_flashmessages_types()` loop unchanged; the app's nine `notice` overrides become `{{ parent() }}` |
 | Login / password pages | app-owned templates on the layout | no adminata template; `sonata_header` collapses when `logo` and `sonata_nav` are empty | — | T9 |
 
 ## B. List, filters, pager, batch (phase 3)
@@ -52,6 +55,8 @@ Scope (appendix C §4): 98 templates rewritten in 1.0 (4,739 Twig lines), 33 def
 | `CRUD/base_edit.html.twig`, `edit.html.twig`, `base_edit_form.html.twig` (16 blocks), `base_edit_form_macro.html.twig` | `nav-tabs-custom`, `box box-primary` groups in `row` + `col-md-12`, `well.form-actions` sticky bar | groups as cards in a `grid grid-cols-12 gap-6` container using the group `class` verbatim (default `col-span-12`) and `box_class` as extra card classes; sticky bottom action bar (`sticky bottom-0 … backdrop-blur`, `.stuck` shadow); no tabs in 1.0 (a `tab` set renders groups sequentially with an `<h2>` until `sonata-tabs` exists) | `sonata-confirm-exit`, `sonata-edit`, `sonata-sticky` `action` target, `sonata-dismiss` | `btn_*` names, `_tab` param, `sonata-ba-form-actions`, `sonata-ba-collapsed-fields`, `form_rest` (lock protection `_lock_version`); the app overrides `form`, `sonata_pre_fieldsets`, `sonata_post_fieldsets`, `sonata_form_actions` |
 | `CRUD/base_array_macro.html.twig`, `Helper/render_form_dismissable_errors.html.twig` | `alert alert-danger` + `data-dismiss` | error alert recipe (`T/partials/alert/alert-error.html`) | `sonata-dismiss` | |
 | `CRUD/delete.html.twig` | `sonata-ba-delete` > `box box-danger` | centred `max-w-[600px]` card with the danger-alert body | — | `_method=DELETE`, `_sonata_csrf_token`, "Yes, delete", "or edit" link |
+| `@SonataForm/Form/datepicker.html.twig` (form-extensions, **rewritten in place**) | Tempus Dominus `input-group date` + `fas fa-calendar` + inline options | native `<input type="date\|datetime-local\|time">` chosen from `datepicker_options.display.components`, `adm-input`, `step` for seconds, `min`/`max` from restrictions; `BasePickerType` (P6 f) fixes the wire format | — | blocks `sonata_type_datetime_picker_widget(_html)` kept; theme still prepended globally by `SonataFormBundle`; `bundles/sonataform/*` deleted (document 06 §4) |
+| `@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig`, `filter_admin_fields.html.twig` (ORM bundle) | extend the admin themes; ORM-specific blocks delegate to admin blocks and association includes; no Bootstrap classes | **copied unchanged**; verified in phases 3–4 | — | the MongoDB fork's two themes have the same shape |
 
 ## D. Show, buttons, helpers (phase 4)
 
@@ -66,22 +71,37 @@ Scope (appendix C §4): 98 templates rewritten in 1.0 (4,739 Twig lines), 33 def
 
 | Group | Files | Trigger |
 |---|---|---|
-| Association edit flows | `CRUD/Association/edit_{many_to_many,many_to_one,one_to_many,one_to_one,modal,many_script,one_script,one_to_many_inline_table,one_to_many_inline_tabs,one_to_many_sortable_script_table,one_to_many_sortable_script_tabs}.html.twig` (11) | first `ModelListType`, `ModelType` or `AdminType` field (also unlocks the MongoDB fork's Panther suite); controllers `sonata-association`, `sonata-modal` (exists), `sonata-sortable`, `sonata-inline-row`, `sonata-tabs` |
+| Association edit flows | `CRUD/Association/edit_{many_to_many,many_to_one,one_to_many,one_to_one,modal,many_script,one_script,one_to_many_inline_table,one_to_many_inline_tabs,one_to_many_sortable_script_table,one_to_many_sortable_script_tabs}.html.twig` (11) | first `ModelListType`, `ModelType` or `AdminType` field; redesigned **without AJAX form submission** (S5, J9): list selection in a `<dialog>` loaded with `fetch` GET, create/edit as full pages, `edit_*_script` files emptied; controllers `sonata-association`, `sonata-modal` (exists), `sonata-tabs`, later `sonata-sortable`, `sonata-inline-row` (also unlocks the MongoDB fork's Panther suite once its scenarios follow the new flow) |
 | History and compare | `CRUD/base_history.html.twig`, `history.html.twig`, `history_revision_timestamp.html.twig`, `base_show_compare.html.twig`, `show_compare.html.twig` | first admin with an audit reader |
 | ACL | `CRUD/base_acl.html.twig`, `base_acl_macro.html.twig`, `acl.html.twig` | `security.handler: acl` |
 | Other CRUD pages | `CRUD/preview.html.twig`, `select_subclass.html.twig`, `tree.html.twig`, `list_outer_rows_mosaic.html.twig`, `base_list_flat_field.html.twig`, `base_list_flat_inner_row.html.twig`, `action.html.twig` | preview mode, subclasses, tree/mosaic list modes, custom `CRUDController` actions rendering `action.html.twig` |
 | Global search and tab menu | `Core/search.html.twig`, `Core/tab_menu_template.html.twig` | `search: true`; child admins or `configureTabMenu()` |
 | Dashboard blocks | `Block/block_admin_preview.html.twig`, `block_rss_dashboard.html.twig`, `block_search_result.html.twig`, `block_stats.html.twig` | first use of the block type |
 | Helper | `Helper/short-object-description.html.twig` | association flows |
+| Other packages | ORM `Block/block_audit.html.twig` (`panel-group`, `data-toggle="collapse"`); block-bundle `Block/block_core_rss.html.twig` (`panel panel-default`, `media`), `Block/block_side_menu_template.html.twig` | first audit reader; first RSS or side-menu block |
 
-A PHPUnit test lists these 33 paths and fails if one is rendered by the demo app without having
+A PHPUnit test lists these 36 paths and fails if one is rendered by the demo app without having
 been ported (the file keeps a `{# adminata: not yet ported #}` marker).
 
 ## F. New or removed files
 
-- New: `FlashMessage/render.html.twig`, `Core/list_mode_buttons.html.twig` (shared by
-  `standard_layout` and `ajax_layout`).
-- Removed public assets: `admin-lte-skins/`, `select2-locale/`, `moment-locale/`, eot/ttf/woff/svg
-  font variants, Source Sans Pro, `vendor/`.
+- New: `Core/list_mode_buttons.html.twig` (shared by `standard_layout` and `ajax_layout`).
+- Removed admin-bundle public assets: `admin-lte-skins/`, `select2-locale/`, `moment-locale/`,
+  eot/ttf/woff/svg font variants, Source Sans Pro, `vendor/`.
+- Removed from the other packages: form-extensions `assets/` (Tempus Dominus controller, SCSS) and
+  `src/Bridge/Symfony/Resources/public/` (`app.js`, `app.css`, manifests); twig-extensions
+  `src/Bridge/Symfony/Resources/public/css/flashmessage.css`.
 - Kept public assets: `images/ajax-loader.gif`, `images/default_mosaic_image.png`,
   `images/logo_title.png` (neutral adminata logo replaces the Sonata one).
+
+## G. Templates of the six other packages (17 files)
+
+| Package | Template | Bootstrap? | Disposition |
+|---|---|---|---|
+| twig-extensions | `FlashMessage/render.html.twig` | yes (alerts, `close`, `data-dismiss`) | rewritten in place (phase 2) |
+| form-extensions | `Form/datepicker.html.twig` | yes (`input-group`, `form-control`) | rewritten in place, native inputs (phase 4) |
+| ORM | `Form/form_admin_fields.html.twig`, `Form/filter_admin_fields.html.twig` | no | copied unchanged |
+| ORM | `Block/block_audit.html.twig` | yes (`panel-group`, collapse) | deferred |
+| block-bundle | `Block/block_base.html.twig` (extended by admin blocks), `block_container`, `block_template`, `block_core_text`, `block_core_menu`, `block_core_action`, `block_exception`, `block_exception_debug`, `block_no_page_available`, `Profiler/block.html.twig` | no | copied unchanged (10) |
+| block-bundle | `Block/block_core_rss.html.twig`, `Block/block_side_menu_template.html.twig` | yes | deferred |
+
