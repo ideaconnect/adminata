@@ -1,0 +1,40 @@
+/*
+ * The Tailwind CSS v4 behaviour adminata's stylesheet architecture depends on (PLAN/04 §4).
+ * bin/tailwind-fixture.mjs compiles this with the pinned tailwindcss and asserts each rule.
+ */
+
+@import "tailwindcss";
+
+/* T6: matches the `.dark` element itself, which TailAdmin's `(&:is(.dark *))` does not. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* T5: every token is emitted, and utilities reference it through `var()`. */
+@theme static {
+    --color-probe-500: oklch(0.6 0.2 250);
+}
+
+/* T1, T3, T10: a multi-property primitive, which `@apply` accepts. */
+@utility adm-probe {
+    padding-inline: 1rem;
+    padding-block: 0.5rem;
+}
+
+/* T1: never used as a candidate, so it must not reach the output. */
+@utility adm-unused-probe {
+    outline-style: dashed;
+}
+
+/* T3: `@apply` with an `@utility` name. */
+.probe-applied {
+    @apply adm-probe;
+}
+
+/* T7: a layer declared after the import sorts after `utilities`. */
+@layer sonata-overrides {
+    .probe-override {
+        color: red;
+    }
+}
+
+/* T4: brace expansion with a range, for utilities no scanned source mentions. */
+@source inline("col-span-{1..3}");
