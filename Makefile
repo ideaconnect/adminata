@@ -42,7 +42,12 @@ lint-php: ## php-cs-fixer, both configurations
 
 lint-composer: ## composer validate and composer-normalize
 	$(COMPOSER) validate --strict --no-check-lock
-	$(COMPOSER) normalize --dry-run
+	@# ergebnis/composer-normalize is a Composer plugin here and a standalone phar in CI.
+	@if $(COMPOSER) normalize --help > /dev/null 2>&1; then \
+		$(COMPOSER) normalize --dry-run; \
+	else \
+		composer-normalize --dry-run; \
+	fi
 .PHONY: lint-composer
 
 lint-yaml: ## yamllint over the repository
@@ -108,7 +113,11 @@ cs-fix-xliff: ## Reformat XLIFF files in place
 .PHONY: cs-fix-xliff
 
 cs-fix-composer: ## Normalise composer.json
-	$(COMPOSER) normalize
+	@if $(COMPOSER) normalize --help > /dev/null 2>&1; then \
+		$(COMPOSER) normalize; \
+	else \
+		composer-normalize; \
+	fi
 .PHONY: cs-fix-composer
 
 ## --- Static analysis ------------------------------------------------------

@@ -1,0 +1,12 @@
+# PHPStan against the lowest supported Symfony line (7.4).
+#
+# The forked packages carry `@phpstan-ignore` comments for API that exists on one Symfony line and
+# not the other — `Routing\Loader\XmlFileLoader` is gone in 8.x, for instance — so an ignore that
+# matches on one line is unmatched on the other. Reporting unmatched ignores stays on for the
+# highest line, where it is what keeps dead ignores from accumulating; here it is off.
+
+includes:
+    - phpstan.neon.dist
+
+parameters:
+    reportUnmatchedIgnoredErrors: false

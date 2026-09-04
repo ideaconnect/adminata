@@ -48,7 +48,7 @@ final class ListAdminCommandTest extends TestCase
         $pool = new Pool($container, ['acme.admin.foo', 'acme.admin.bar']);
         $command = new ListAdminCommand($pool);
 
-        CommandHelper::addCommandToApplication($application, $command);
+        $application->addCommand($command);
 
         $command = $application->find('sonata:admin:list');
         $commandTester = new CommandTester($command);
