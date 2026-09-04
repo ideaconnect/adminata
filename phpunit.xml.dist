@@ -48,6 +48,14 @@
         </testsuite>
     </testsuites>
 
+    <!-- The `network` group reaches Packagist. Run it on request: vendor/bin/phpunit 
+         with the network group selected on the command line. -->
+    <groups>
+        <exclude>
+            <group>network</group>
+        </exclude>
+    </groups>
+
     <source ignoreSuppressionOfDeprecations="true">
         <include>
             <directory>packages/admin-bundle/src</directory>

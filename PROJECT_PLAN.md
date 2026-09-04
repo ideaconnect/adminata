@@ -199,7 +199,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     view variables it defines, so it goes with P4-01. There are no Symfony 6.4 guards to remove.
   - Accept: suites green; `git status --short | grep -v '^ D'` empty apart from intended edits.
 
-- [ ] **P0-15 · `ReplaceTest` and migration dry run** · M · depends: P0-02, P0-13
+- [x] **P0-15 · `ReplaceTest` and migration dry run** · M · depends: P0-02, P0-13
   - Read: PLAN/02 §13; PLAN/07 §1; PLAN/10 §1 step 1.
   - Do: `tests/Contract/ReplaceTest.php` (`#[Group('network')]`): temp project with a `path`
     repository to this checkout requiring `idct/adminata @dev`, `idct/sonata-admin-mongodb-bundle ^5`,
@@ -829,6 +829,13 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   that reads its `horizontal_*` view variables. The deleted `assets/scss/` is dispositioned
   rule-by-rule in `PLAN/research/gap-css-architecture.md` §5, and `git show` recovers the files if
   P1-05 wants them.
+- 2026-09-05 — **P0-15 done.** `tests/Contract/ReplaceTest.php` has four cases: adminata alone,
+  adminata next to `idct/sonata-admin-mongodb-bundle`, an assertion that **no real
+  `sonata-project` package is installed** alongside it, and the first step of PLAN/10 §1 against
+  the real application (`ADMINATA_APP_DIR=/home/bartosz/dev/r3/recomaty-panel-clean`), which
+  resolves — its dependencies work with adminata today. `phpunit.xml.dist` excludes the `network`
+  group by default, so `make test` stays offline; `--group network` overrides that.
+  `symfony/process` joined `require-dev`.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README
