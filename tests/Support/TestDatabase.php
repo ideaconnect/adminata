@@ -47,7 +47,7 @@ final class TestDatabase
             $url = self::DEFAULT_URL;
         }
 
-        $parameters = (new DsnParser(['mysql' => 'pdo_mysql', 'mariadb' => 'pdo_mysql']))->parse($url);
+        $parameters = new DsnParser(['mysql' => 'pdo_mysql', 'mariadb' => 'pdo_mysql'])->parse($url);
 
         if (null !== $database) {
             $parameters['dbname'] = $database;

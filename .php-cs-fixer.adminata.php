@@ -1,0 +1,58 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the adminata package.
+ *
+ * (c) IDCT Bartosz Pachołek <bartosz@idct.tech>
+ *
+ * Forked from the Sonata Project
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/*
+ * adminata's own PHP: the repository-level test suites and scripts. Same rules as
+ * `.php-cs-fixer.dist.php`, but with the combined header, because these files are ours.
+ */
+
+$header = <<<'HEADER'
+    This file is part of the adminata package.
+
+    (c) IDCT Bartosz Pachołek <bartosz@idct.tech>
+
+    Forked from the Sonata Project
+    (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+    HEADER;
+
+$rules = (require __DIR__.'/.php-cs-fixer.rules.php')($header);
+
+// `bin/` appears with P0-08 (bin/console and the check scripts).
+$paths = array_values(array_filter([__DIR__.'/bin', __DIR__.'/tests'], is_dir(...)));
+
+$finder = PhpCsFixer\Finder::create()
+    ->in($paths)
+    ->exclude('var')
+    ->append([
+        __DIR__.'/.php-cs-fixer.adminata.php',
+        __DIR__.'/.php-cs-fixer.dist.php',
+        __DIR__.'/.php-cs-fixer.rules.php',
+    ]);
+
+$config = new PhpCsFixer\Config();
+$config
+    ->setFinder($finder)
+    ->setRiskyAllowed(true)
+    ->setRules($rules)
+    ->setUsingCache(true)
+    ->setCacheFile(__DIR__.'/.php-cs-fixer.adminata.cache')
+    ->setUnsupportedPhpVersionAllowed(true)
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect());
+
+return $config;
