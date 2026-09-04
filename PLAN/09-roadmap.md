@@ -17,7 +17,7 @@ code it touched, and every phase exit is a **milestone**: `main` is pushed to
    PHP-CS-Fixer 3.95, composer-normalize, yamllint, Makefile,
    `.github/workflows/{test,qa,lint,symfony-lint,stale,upstream-watch,versions-watch}.yaml`, Dependabot.
 4. PHP changes of P6 (admin config nodes removed, grid/box defaults, asset defaults, skin append
-   removed, `adminata.theme.mode`, theme cookie helper, form-extensions `BasePickerType` HTML5
+   removed, `sonata_admin.theme` node, theme cookie helper, form-extensions `BasePickerType` HTML5
    formats, `SonataFormExtension` asset registration removed) with their tests updated.
 5. Delete form-extensions' `assets/` and `Resources/public/`, twig-extensions' `Resources/public/`,
    the `MopaBootstrapBundle` switch and the Symfony 6.4 shims.

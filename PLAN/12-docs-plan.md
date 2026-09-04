@@ -18,7 +18,7 @@ twig-extensions' flash-message page for the new markup.
 
 | Page | Change |
 |---|---|
-| `reference/configuration.rst` | full tree dump: removed `options.*` nodes, asset defaults, `dashboard.blocks[].class` default, new `adminata:` root |
+| `reference/configuration.rst` | full tree dump: removed `options.*` nodes, asset defaults, `dashboard.blocks[].class` default, new `theme` node |
 | `reference/action_create_edit.rst`, `action_show.rst` | group `class`/`box_class` examples in Tailwind terms; tabs marked "not yet ported" |
 | `reference/action_list.rst` | `header_class`/`row_align`/`label_icon` still valid; custom action templates with `adm-btn-icon`; custom cell template example; `editable` marked "not yet ported" |
 | `reference/dashboard.rst` | block `class` (`md:col-span-6`), `icon` raw HTML, section headers via `ConfigureMenuEvent` |

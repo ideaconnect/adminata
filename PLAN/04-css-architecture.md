@@ -65,7 +65,7 @@ form-extensions' and twig-extensions' public directories are deleted (their styl
   (`--adm-control-h`, `--adm-control-px/py`, `--adm-cell-px/py`, `--adm-card-p`, sidebar widths,
   header height) and an `html[data-density="compact"]` override; body recipe from `T/src/index.html`.
 - Dark mode is stamped server-side: `<html class="no-js{% if theme == 'dark' %} dark{% endif %}"
-  data-theme="…">` from the `sonata_theme` cookie (default from `adminata.theme.mode`); `.dark`
+  data-theme="…">` from the `sonata_theme` cookie (default from `sonata_admin.theme.mode`); `.dark`
   never goes on `<body>`.
 
 ## 4. Emission rules that must hold (verify first)

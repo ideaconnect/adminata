@@ -54,7 +54,7 @@ Twig extension aliases. Full admin list: `R/php-compat.md` §2.2.
 | `sonata_admin.dashboard.blocks[].class` default | `col-md-4` → `md:col-span-4` |
 | `sonata_admin.assets.stylesheets` default | `bundles/sonataadmin/app.css`, `bundles/sonataadmin/fontawesome.css` |
 | `sonata_admin.assets.javascripts` default | `bundles/sonataadmin/app.js` (rendered with `defer`) |
-| new `adminata:` root | `theme.mode` (`light\|dark\|system`, default `system`), `theme.logo_dark`, `theme.logo_icon` |
+| new `sonata_admin.theme` node | `mode` (`light\|dark\|system`, default `system`), `logo_dark`, `logo_icon` — a node under the admin root, not an eighth bundle |
 | `sonata_block`, `sonata_doctrine`, `sonata_doctrine_orm_admin`, `sonata_exporter`, `sonata_form`, `sonata_twig` | unchanged trees and defaults (`sonata_form` keeps `form_type`; `sonata_doctrine_orm_admin.templates.types.*` keeps overriding `LIST_TEMPLATES`/`SHOW_TEMPLATES` entries) |
 
 ## 4. Template registry keys and file paths
