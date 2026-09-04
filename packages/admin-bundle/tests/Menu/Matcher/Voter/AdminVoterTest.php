@@ -28,7 +28,7 @@ final class AdminVoterTest extends TestCase
     {
         $item = $this->createMock(ItemInterface::class);
         $item
-            ->method('getExtra')
+            ->expects(static::any())->method('getExtra')
             ->with(static::logicalOr(
                 static::equalTo('admin'),
                 static::equalTo('route')

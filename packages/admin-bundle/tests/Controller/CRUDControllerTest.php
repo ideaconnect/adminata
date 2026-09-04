@@ -544,7 +544,7 @@ final class CRUDControllerTest extends TestCase
     public function testPreList(): void
     {
         $this->admin
-            ->method('hasRoute')
+            ->expects(static::any())->method('hasRoute')
             ->with(static::equalTo('list'))
             ->willReturn(true);
 
@@ -566,7 +566,7 @@ final class CRUDControllerTest extends TestCase
         $datagrid = $this->createMock(DatagridInterface::class);
 
         $this->admin
-            ->method('hasRoute')
+            ->expects(static::any())->method('hasRoute')
             ->with(static::equalTo('list'))
             ->willReturn(true);
 
@@ -927,12 +927,12 @@ final class CRUDControllerTest extends TestCase
         }
 
         $this->admin
-            ->method('hasRoute')
+            ->expects(static::any())->method('hasRoute')
             ->with(static::equalTo($route))
             ->willReturn(true);
 
         $this->admin
-            ->method('hasAccess')
+            ->expects(static::any())->method('hasAccess')
             ->with(static::equalTo($route))
             ->willReturn(true);
 
@@ -955,7 +955,7 @@ final class CRUDControllerTest extends TestCase
         ]);
 
         $this->admin
-            ->method('hasAccess')
+            ->expects(static::any())->method('hasAccess')
             ->with(static::equalTo('edit'), $object)
             ->willReturn(false);
 
@@ -1632,7 +1632,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn($form);
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -1688,7 +1688,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn(true);
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -1742,7 +1742,7 @@ final class CRUDControllerTest extends TestCase
             ->with(static::equalTo('edit'));
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -1807,7 +1807,7 @@ final class CRUDControllerTest extends TestCase
             ->with(static::equalTo('edit'));
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -1892,7 +1892,7 @@ final class CRUDControllerTest extends TestCase
             ->with(static::equalTo('edit'));
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -1999,7 +1999,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn($object);
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -2033,7 +2033,7 @@ final class CRUDControllerTest extends TestCase
             ->with(static::equalTo('edit'));
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -2094,7 +2094,7 @@ final class CRUDControllerTest extends TestCase
             ->with(static::equalTo('edit'));
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -2142,7 +2142,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn(\stdClass::class);
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -2211,7 +2211,7 @@ final class CRUDControllerTest extends TestCase
             ->with(static::equalTo('edit'));
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -2272,7 +2272,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn($object);
 
         $this->admin
-            ->method('checkAccess')
+            ->expects(static::any())->method('checkAccess')
             ->with(static::equalTo('edit'));
 
         $this->admin
@@ -2280,7 +2280,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn($class);
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -2308,7 +2308,7 @@ final class CRUDControllerTest extends TestCase
             ->willThrowException(new LockException());
 
         $this->admin
-            ->method('toString')
+            ->expects(static::any())->method('toString')
             ->with(static::equalTo($object))
             ->willReturn($class);
 
@@ -3118,7 +3118,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn('Foo');
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -3148,7 +3148,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn($object);
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('123');
 
@@ -3547,7 +3547,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn('Foo');
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -3577,7 +3577,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn($object);
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('123');
 
@@ -3625,7 +3625,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn($object);
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('123');
 
@@ -3732,7 +3732,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn('Foo');
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('foo_normalized');
 
@@ -3762,7 +3762,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn($object);
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('123');
 
@@ -3811,7 +3811,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn($object);
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('123');
 
@@ -3863,7 +3863,7 @@ final class CRUDControllerTest extends TestCase
             ->willReturn($object);
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($object))
             ->willReturn('123');
 
@@ -4560,6 +4560,9 @@ final class CRUDControllerTest extends TestCase
         static::assertSame($response, $result);
     }
 
+    /**
+     * @param non-empty-string $method
+     */
     private function assertLoggerLogsModelManagerException(MockObject $subject, string $method): void
     {
         $exception = new ModelManagerException(

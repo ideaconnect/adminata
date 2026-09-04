@@ -186,8 +186,8 @@ final class AdminHelperTest extends TestCase
         $fieldDescription->method('hasAdmin')->willReturn(true);
         $fieldDescription->method('getAdmin')->willReturn($admin);
 
-        $admin->method('hasFormFieldDescription')->with('bar')->willReturn(true);
-        $admin->method('getFormFieldDescription')->with('bar')->willReturn($fieldDescription);
+        $admin->expects(static::any())->method('hasFormFieldDescription')->with('bar')->willReturn(true);
+        $admin->expects(static::any())->method('getFormFieldDescription')->with('bar')->willReturn($fieldDescription);
 
         $associationAdmin
             ->method('getFormFieldDescriptions')
@@ -307,7 +307,7 @@ final class AdminHelperTest extends TestCase
             ]);
 
         $admin
-            ->method('hasFormFieldDescription')
+            ->expects(static::any())->method('hasFormFieldDescription')
             ->with($associationMapping['fieldName'])
             ->willReturn(false);
 
@@ -395,7 +395,7 @@ final class AdminHelperTest extends TestCase
             ]);
 
         $admin
-            ->method('hasFormFieldDescription')
+            ->expects(static::any())->method('hasFormFieldDescription')
             ->with($associationMapping['fieldName'])
             ->willReturn(false);
 
@@ -506,7 +506,7 @@ final class AdminHelperTest extends TestCase
             ]);
 
         $admin
-            ->method('hasFormFieldDescription')
+            ->expects(static::any())->method('hasFormFieldDescription')
             ->with($associationMapping['fieldName'])
             ->willReturn(false);
 
@@ -699,7 +699,7 @@ final class AdminHelperTest extends TestCase
         $collectionObject = $this->createMock(\stdClass::class);
 
         $admin = $this->createMock(AdminInterface::class);
-        $admin->method('hasFormFieldDescription')->with('collection')->willReturn(true);
+        $admin->expects(static::any())->method('hasFormFieldDescription')->with('collection')->willReturn(true);
         $admin->method('getClass')->willReturn($object::class);
 
         $subObjectAdmin = $this->createMock(AdminInterface::class);
@@ -736,7 +736,7 @@ final class AdminHelperTest extends TestCase
         $subObjectCollectionFieldDescription->method('getParentAssociationMappings')->willReturn([]);
         $subObjectCollectionFieldDescription->expects(static::never())->method('getValue');
 
-        $subObjectAdmin->method('getFormFieldDescription')->with('collection')->willReturn(
+        $subObjectAdmin->expects(static::any())->method('getFormFieldDescription')->with('collection')->willReturn(
             $subObjectCollectionFieldDescription
         );
 

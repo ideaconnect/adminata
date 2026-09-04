@@ -22,15 +22,15 @@ use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
+ * An item either names an admin service or carries its own label and route; the code that
+ * consumes it (GroupMenuProvider) checks which, and the configuration normalises both into the
+ * same array, so the three keys are optional rather than two alternative shapes.
+ *
  * @phpstan-type Item = array{
- *     label: string,
+ *     admin?: string,
+ *     label?: string,
  *     roles: list<string>,
- *     route: string,
- *     route_absolute: bool,
- *     route_params: array<string, string>
- * }|array{
- *     admin: string,
- *     roles: list<string>,
+ *     route?: string,
  *     route_absolute: bool,
  *     route_params: array<string, string>
  * }
@@ -96,7 +96,6 @@ final class Pool
                 $admin = $this->getInstance($item['admin']);
 
                 // NEXT_MAJOR: Keep the "if" part.
-                // @phpstan-ignore-next-line
                 if (method_exists($admin, 'showInDashboard')) {
                     if (!$admin->showInDashboard()) {
                         continue;

@@ -163,17 +163,17 @@ final class RenderElementExtensionTest extends TestCase
             ->willReturn('sonata_admin_foo_service');
 
         $this->admin
-            ->method('id')
+            ->expects(static::any())->method('id')
             ->with(static::equalTo($this->object))
             ->willReturn('12345');
 
         $this->admin
-            ->method('getUrlSafeIdentifier')
+            ->expects(static::any())->method('getUrlSafeIdentifier')
             ->with(static::equalTo($this->object))
             ->willReturn('12345');
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($this->object))
             ->willReturn('12345');
 
@@ -207,7 +207,7 @@ final class RenderElementExtensionTest extends TestCase
             ->method('hasAccess')
             ->willReturn(true);
 
-        $this->templateRegistry->method('getTemplate')->with('base_list_field')
+        $this->templateRegistry->expects(static::any())->method('getTemplate')->with('base_list_field')
             ->willReturn('@SonataAdmin/CRUD/base_list_field.html.twig');
 
         $this->fieldDescription
@@ -242,7 +242,7 @@ final class RenderElementExtensionTest extends TestCase
 
     public function testRenderListElementWithAdditionalValuesInArray(): void
     {
-        $this->templateRegistry->method('getTemplate')->with('base_list_field')
+        $this->templateRegistry->expects(static::any())->method('getTemplate')->with('base_list_field')
             ->willReturn('@SonataAdmin/CRUD/base_list_field.html.twig');
 
         $this->fieldDescription

@@ -1404,6 +1404,7 @@ class CRUDController extends AbstractController
     final protected function assertObjectExists(Request $request, bool $strict = false): ?object
     {
         $admin = $this->admin;
+
         $object = null;
 
         while (null !== $admin) {
@@ -1417,7 +1418,12 @@ class CRUDController extends AbstractController
                         $objectId
                     ));
                 }
-                $object ??= $adminObject;
+                if (null === $object) {
+                    // The loop starts at the controller's own admin, which is the one that
+                    // manages T; the later iterations only validate the parent admins' ids.
+                    /** @phpstan-var T $adminObject */
+                    $object = $adminObject;
+                }
             } elseif ($strict || $admin !== $this->admin) {
                 throw $this->createNotFoundException(\sprintf(
                     'Unable to find the %s object id of the admin "%s".',

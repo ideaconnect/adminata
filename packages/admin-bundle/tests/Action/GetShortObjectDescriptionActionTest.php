@@ -81,7 +81,7 @@ final class GetShortObjectDescriptionActionTest extends TestCase
             'uniqid' => 'asdasd123',
         ]);
 
-        $this->admin->method('getObject')->with(42)->willReturn(null);
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn(null);
 
         $this->expectException(NotFoundHttpException::class);
         ($this->action)($request);
@@ -97,7 +97,7 @@ final class GetShortObjectDescriptionActionTest extends TestCase
 
         $this->adminFetcher->method('get')->willReturn($this->admin);
 
-        $this->admin->method('getObject')->with(null)->willReturn(null);
+        $this->admin->expects(static::any())->method('getObject')->with(null)->willReturn(null);
 
         $this->expectException(BadRequestParamHttpException::class);
         ($this->action)($request);
@@ -119,8 +119,8 @@ final class GetShortObjectDescriptionActionTest extends TestCase
 
         $this->adminFetcher->method('get')->willReturn($this->admin);
 
-        $this->admin->method('getObject')->with(42)->willReturn($object);
-        $this->admin->method('toString')->with($object)->willReturn('bar');
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
+        $this->admin->expects(static::any())->method('toString')->with($object)->willReturn('bar');
         $this->admin->method('getCode')->willReturn('sonata.post.admin');
         $this->admin->method('getTemplateRegistry')->willReturn($templateRegistry);
 
@@ -139,9 +139,9 @@ final class GetShortObjectDescriptionActionTest extends TestCase
 
         $this->adminFetcher->method('get')->willReturn($this->admin);
 
-        $this->admin->method('getObject')->with(null)->willReturn(null);
-        $this->admin->method('id')->with(null)->willReturn('');
-        $this->admin->method('toString')->with(null)->willReturn('');
+        $this->admin->expects(static::any())->method('getObject')->with(null)->willReturn(null);
+        $this->admin->expects(static::any())->method('id')->with(null)->willReturn('');
+        $this->admin->expects(static::any())->method('toString')->with(null)->willReturn('');
 
         $this->expectException(BadRequestParamHttpException::class);
         ($this->action)($request);
@@ -159,9 +159,9 @@ final class GetShortObjectDescriptionActionTest extends TestCase
 
         $this->adminFetcher->method('get')->willReturn($this->admin);
 
-        $this->admin->method('id')->with($object)->willReturn('42');
-        $this->admin->method('getObject')->with(42)->willReturn($object);
-        $this->admin->method('toString')->with($object)->willReturn('bar');
+        $this->admin->expects(static::any())->method('id')->with($object)->willReturn('42');
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
+        $this->admin->expects(static::any())->method('toString')->with($object)->willReturn('bar');
 
         $response = ($this->action)($request);
 
@@ -181,14 +181,14 @@ final class GetShortObjectDescriptionActionTest extends TestCase
 
         $this->adminFetcher->method('get')->willReturn($this->admin);
 
-        $this->admin->method('id')->with($object)->willReturn('42');
-        $this->admin->method('getObject')->with(42)->willReturnCallback(static function () use ($object, $request) {
+        $this->admin->expects(static::any())->method('id')->with($object)->willReturn('42');
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturnCallback(static function () use ($object, $request) {
             static::assertFalse($request->query->has('subclass'), 'subclass query parameter should be removed at this stage');
 
             return $object;
         });
 
-        $this->admin->method('toString')->with($object)->willReturn('bar');
+        $this->admin->expects(static::any())->method('toString')->with($object)->willReturn('bar');
 
         ($this->action)($request);
 

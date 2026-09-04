@@ -97,12 +97,12 @@ final class SonataAdminRuntimeTest extends TestCase
             ->willReturn('sonata_admin_foo_service');
 
         $this->admin
-            ->method('id')
+            ->expects(static::any())->method('id')
             ->with(static::equalTo($this->object))
             ->willReturn('12345');
 
         $this->admin
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($this->object))
             ->willReturn('12345');
 
@@ -111,7 +111,7 @@ final class SonataAdminRuntimeTest extends TestCase
             ->method('hasAccess')
             ->willReturn(true);
         $this->adminBar
-            ->method('getNormalizedIdentifier')
+            ->expects(static::any())->method('getNormalizedIdentifier')
             ->with(static::equalTo($this->object))
             ->willReturn('12345');
 

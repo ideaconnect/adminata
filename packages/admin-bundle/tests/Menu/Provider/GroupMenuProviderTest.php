@@ -669,7 +669,7 @@ final class GroupMenuProviderTest extends TestCase
             ->willReturn($hasRoute);
 
         $admin
-            ->method('hasAccess')
+            ->expects(static::any())->method('hasAccess')
             ->with(static::equalTo('list'))
             ->willReturn($isGranted);
 

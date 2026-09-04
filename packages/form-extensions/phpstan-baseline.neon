@@ -1,4 +1,0 @@
-parameters:
-    ignoreErrors:
-        - #https://github.com/phpstan/phpstan/issues/12951
-            message: '#of internal class Symfony\\Polyfill#'

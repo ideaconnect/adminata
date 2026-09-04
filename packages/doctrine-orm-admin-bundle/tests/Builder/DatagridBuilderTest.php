@@ -160,7 +160,7 @@ final class DatagridBuilderTest extends TestCase
 
         $guessType->method('getOptions')->willReturn(['name' => 'value']);
         $guessType->method('getType')->willReturn(ModelFilter::class);
-        $datagrid->method('addFilter')->with(static::isInstanceOf(ModelFilter::class));
+        $datagrid->expects(static::any())->method('addFilter')->with(static::isInstanceOf(ModelFilter::class));
 
         $this->datagridBuilder->addFilter($datagrid, null, $fieldDescription);
     }

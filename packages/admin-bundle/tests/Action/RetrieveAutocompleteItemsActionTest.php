@@ -83,10 +83,10 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
 
         $this->admin->method('getNewInstance')->willReturn($object);
         $this->admin->expects(static::once())->method('setSubject')->with($object);
-        $this->admin->method('hasAccess')->with('create')->willReturn(true);
+        $this->admin->expects(static::any())->method('hasAccess')->with('create')->willReturn(true);
         $this->admin->method('getFormFieldDescriptions')->willReturn([]);
-        $this->admin->method('hasFormFieldDescription')->with('barField')->willReturn(true);
-        $this->admin->method('getFormFieldDescription')->with('barField')->willReturn($fieldDescription);
+        $this->admin->expects(static::any())->method('hasFormFieldDescription')->with('barField')->willReturn(true);
+        $this->admin->expects(static::any())->method('getFormFieldDescription')->with('barField')->willReturn($fieldDescription);
 
         $fieldDescription->method('getTargetModel')->willReturn(Foo::class);
         $fieldDescription->method('getName')->willReturn('barField');
@@ -113,9 +113,9 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
 
         $this->admin->method('getNewInstance')->willReturn($object);
         $this->admin->expects(static::once())->method('setSubject')->with($object);
-        $this->admin->method('hasAccess')->with('create')->willReturn(true);
-        $this->admin->method('hasFormFieldDescription')->with('barField')->willReturn(true);
-        $this->admin->method('getFormFieldDescription')->with('barField')->willReturn($fieldDescription);
+        $this->admin->expects(static::any())->method('hasAccess')->with('create')->willReturn(true);
+        $this->admin->expects(static::any())->method('hasFormFieldDescription')->with('barField')->willReturn(true);
+        $this->admin->expects(static::any())->method('getFormFieldDescription')->with('barField')->willReturn($fieldDescription);
         $this->admin->method('getFormFieldDescriptions')->willReturn([]);
         $fieldDescription->method('getTargetModel')->willReturn(Foo::class);
         $fieldDescription->method('getName')->willReturn('barField');
@@ -142,8 +142,8 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
         $filter = new FooFilter();
         $filter->initialize('foo');
 
-        $datagrid->method('hasFilter')->with('foo')->willReturn(true);
-        $datagrid->method('getFilter')->with('foo')->willReturn($filter);
+        $datagrid->expects(static::any())->method('hasFilter')->with('foo')->willReturn(true);
+        $datagrid->expects(static::any())->method('getFilter')->with('foo')->willReturn($filter);
         $datagrid->expects(static::exactly(3))->method('setValue');
 
         $response = ($this->action)($request);
@@ -211,8 +211,8 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
         $filter = new FooFilter();
         $filter->initialize('entity.property');
 
-        $datagrid->method('hasFilter')->with('entity.property')->willReturn(true);
-        $datagrid->method('getFilter')->with('entity.property')->willReturn($filter);
+        $datagrid->expects(static::any())->method('hasFilter')->with('entity.property')->willReturn(true);
+        $datagrid->expects(static::any())->method('getFilter')->with('entity.property')->willReturn($filter);
         $datagrid->expects(static::exactly(3))->method('setValue');
 
         $response = ($this->action)($request);
@@ -234,14 +234,14 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
 
         $this->admin->method('getNewInstance')->willReturn($model);
         $this->admin->expects(static::once())->method('setSubject')->with($model);
-        $this->admin->method('hasAccess')->with('create')->willReturn(true);
-        $this->admin->method('hasFormFieldDescription')->with('barField')->willReturn(true);
-        $this->admin->method('getFormFieldDescription')->with('barField')->willReturn($fieldDescription);
+        $this->admin->expects(static::any())->method('hasAccess')->with('create')->willReturn(true);
+        $this->admin->expects(static::any())->method('hasFormFieldDescription')->with('barField')->willReturn(true);
+        $this->admin->expects(static::any())->method('getFormFieldDescription')->with('barField')->willReturn($fieldDescription);
         $this->admin->method('getFormFieldDescriptions')->willReturn([]);
         $targetAdmin->expects(static::once())->method('checkAccess')->with('list');
-        $targetAdmin->method('id')->with($model)->willReturn('123');
+        $targetAdmin->expects(static::any())->method('id')->with($model)->willReturn('123');
         $targetAdmin->method('getDatagrid')->willReturn($datagrid);
-        $targetAdmin->method('getObjectMetadata')->with($model)->willReturn($metadata);
+        $targetAdmin->expects(static::any())->method('getObjectMetadata')->with($model)->willReturn($metadata);
         $metadata->method('getTitle')->willReturn('FOO');
 
         $datagrid->method('getPager')->willReturn($pager);
@@ -261,7 +261,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
         $formConfig = static::createStub(FormConfigInterface::class);
 
         $this->admin->method('getForm')->willReturn($form);
-        $form->method('get')->with($field)->willReturn($formType);
+        $form->expects(static::any())->method('get')->with($field)->willReturn($formType);
         $formType->method('getConfig')->willReturn($formConfig);
         $formConfig->method('getAttribute')->willReturnMap([
             ['disabled', null, $disabled],
@@ -283,7 +283,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
         $formConfig = static::createStub(FormConfigInterface::class);
 
         $this->admin->method('getForm')->willReturn($form);
-        $form->method('get')->with($field)->willReturn($formType);
+        $form->expects(static::any())->method('get')->with($field)->willReturn($formType);
         $formType->method('getConfig')->willReturn($formConfig);
 
         $formConfig->method('getAttribute')->willReturnMap([
@@ -304,7 +304,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
         $formConfig = static::createStub(FormConfigInterface::class);
 
         $this->admin->method('getForm')->willReturn($form);
-        $form->method('get')->with($field)->willReturn($formType);
+        $form->expects(static::any())->method('get')->with($field)->willReturn($formType);
         $formType->method('getConfig')->willReturn($formConfig);
 
         $formConfig->method('getAttribute')->willReturnMap([

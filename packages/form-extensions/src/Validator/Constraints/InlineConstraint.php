@@ -117,6 +117,8 @@ final class InlineConstraint extends Constraint
 
     public function getClosure(): mixed
     {
+        // `__sleep()` returns [] for a closure-based constraint, so unserialize() leaves the
+        // promoted properties uninitialised even though they have a default.
         return $this->method ?? null;
     }
 
@@ -127,11 +129,14 @@ final class InlineConstraint extends Constraint
 
     public function getMethod(): mixed
     {
+        // `__sleep()` returns [] for a closure-based constraint, so unserialize() leaves the
+        // promoted properties uninitialised even though they have a default.
         return $this->method ?? null;
     }
 
     public function getService(): mixed
     {
+        // See getMethod(): may be uninitialised after unserialize().
         return $this->service ?? null;
     }
 

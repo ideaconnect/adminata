@@ -110,13 +110,13 @@ final class SetObjectFieldValueActionTest extends TestCase
 
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
-        $this->admin->method('getObject')->with(42)->willReturn($object);
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
         $this->admin->method('getCode')->willReturn('sonata.post.admin');
-        $this->admin->method('hasAccess')->with('edit', $object)->willReturn(true);
-        $this->admin->method('hasListFieldDescription')->with('enabled')->willReturn(true);
-        $this->admin->method('getListFieldDescription')->with('enabled')->willReturn($fieldDescription);
+        $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
+        $this->admin->expects(static::any())->method('hasListFieldDescription')->with('enabled')->willReturn(true);
+        $this->admin->expects(static::any())->method('getListFieldDescription')->with('enabled')->willReturn($fieldDescription);
         $this->admin->expects(static::once())->method('update')->with($object);
-        $this->templateRegistry->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
+        $this->templateRegistry->expects(static::any())->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
         $fieldDescription->method('getOption')->willReturnMap([
             ['editable', null, true],
         ]);
@@ -125,7 +125,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription->method('getTemplate')->willReturn('field_template');
         $fieldDescription->method('getValue')->willReturn('some value');
 
-        $this->validator->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
+        $this->validator->expects(static::any())->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
 
         $response = ($this->action)($request);
 
@@ -163,14 +163,14 @@ final class SetObjectFieldValueActionTest extends TestCase
 
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
-        $this->admin->method('getObject')->with(42)->willReturn($object);
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
         $this->admin->method('getCode')->willReturn('sonata.post.admin');
-        $this->admin->method('hasAccess')->with('edit', $object)->willReturn(true);
-        $this->admin->method('hasListFieldDescription')->with('dateProp')->willReturn(true);
-        $this->admin->method('getListFieldDescription')->with('dateProp')->willReturn($fieldDescription);
+        $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
+        $this->admin->expects(static::any())->method('hasListFieldDescription')->with('dateProp')->willReturn(true);
+        $this->admin->expects(static::any())->method('getListFieldDescription')->with('dateProp')->willReturn($fieldDescription);
         $this->admin->expects(static::once())->method('update')->with($object);
 
-        $this->templateRegistry->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
+        $this->templateRegistry->expects(static::any())->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
         $fieldDescription->method('getOption')->willReturnMap([
             ['timezone', null, $timezone],
             ['data_transformer', null, null],
@@ -180,7 +180,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription->method('getType')->willReturn('date');
         $fieldDescription->method('getTemplate')->willReturn('field_template');
         $fieldDescription->method('getValue')->willReturn('some value');
-        $this->validator->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
+        $this->validator->expects(static::any())->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
 
         $response = ($this->action)($request);
 
@@ -210,14 +210,14 @@ final class SetObjectFieldValueActionTest extends TestCase
 
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
-        $this->admin->method('getObject')->with(42)->willReturn($object);
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
         $this->admin->method('getCode')->willReturn('sonata.post.admin');
-        $this->admin->method('hasAccess')->with('edit', $object)->willReturn(true);
-        $this->admin->method('hasListFieldDescription')->with('bar')->willReturn(true);
-        $this->admin->method('getListFieldDescription')->with('bar')->willReturn($fieldDescription);
+        $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
+        $this->admin->expects(static::any())->method('hasListFieldDescription')->with('bar')->willReturn(true);
+        $this->admin->expects(static::any())->method('getListFieldDescription')->with('bar')->willReturn($fieldDescription);
         $this->admin->method('getClass')->willReturn($object::class);
         $this->admin->expects(static::once())->method('update')->with($object);
-        $this->templateRegistry->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
+        $this->templateRegistry->expects(static::any())->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
         $fieldDescription->method('getType')->willReturn('choice');
         $fieldDescription->method('getOption')->willReturnMap([
             ['class', null, Bar::class],
@@ -228,9 +228,9 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription->method('getAdmin')->willReturn($this->admin);
         $fieldDescription->method('getTemplate')->willReturn('field_template');
         $fieldDescription->method('getValue')->willReturn('some value');
-        $this->modelManager->method('find')->with($associationObject::class, 1)->willReturn($associationObject);
+        $this->modelManager->expects(static::any())->method('find')->with($associationObject::class, 1)->willReturn($associationObject);
 
-        $this->validator->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
+        $this->validator->expects(static::any())->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
 
         $response = ($this->action)($request);
 
@@ -253,11 +253,11 @@ final class SetObjectFieldValueActionTest extends TestCase
 
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
-        $this->admin->method('getObject')->with(42)->willReturn($object);
-        $this->admin->method('hasAccess')->with('edit', $object)->willReturn(true);
-        $this->admin->method('hasListFieldDescription')->with('bar.enabled')->willReturn(true);
-        $this->admin->method('getListFieldDescription')->with('bar.enabled')->willReturn($fieldDescription);
-        $this->validator->method('validate')->with($bar)->willReturn(new ConstraintViolationList([
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
+        $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
+        $this->admin->expects(static::any())->method('hasListFieldDescription')->with('bar.enabled')->willReturn(true);
+        $this->admin->expects(static::any())->method('getListFieldDescription')->with('bar.enabled')->willReturn($fieldDescription);
+        $this->validator->expects(static::any())->method('validate')->with($bar)->willReturn(new ConstraintViolationList([
             new ConstraintViolation('error1', null, [], null, 'enabled', null),
             new ConstraintViolation('error2', null, [], null, 'enabled', null),
         ]));
@@ -286,13 +286,13 @@ final class SetObjectFieldValueActionTest extends TestCase
 
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
-        $this->admin->method('getObject')->with(42)->willReturn($object);
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
         $this->admin->method('getCode')->willReturn('sonata.post.admin');
-        $this->admin->method('hasAccess')->with('edit', $object)->willReturn(true);
-        $this->admin->method('hasListFieldDescription')->with('status')->willReturn(true);
-        $this->admin->method('getListFieldDescription')->with('status')->willReturn($fieldDescription);
+        $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
+        $this->admin->expects(static::any())->method('hasListFieldDescription')->with('status')->willReturn(true);
+        $this->admin->expects(static::any())->method('getListFieldDescription')->with('status')->willReturn($fieldDescription);
         $this->admin->expects(static::once())->method('update')->with($object);
-        $this->templateRegistry->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
+        $this->templateRegistry->expects(static::any())->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
         $fieldDescription->method('getOption')->willReturnMap([
             ['data_transformer', null, null],
             ['editable', null, true],
@@ -303,7 +303,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription->method('getTemplate')->willReturn('field_template');
         $fieldDescription->method('getValue')->willReturn(['some value']);
 
-        $this->validator->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
+        $this->validator->expects(static::any())->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
 
         $response = ($this->action)($request);
 
@@ -329,13 +329,13 @@ final class SetObjectFieldValueActionTest extends TestCase
 
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
-        $this->admin->method('getObject')->with(42)->willReturn($object);
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
         $this->admin->method('getCode')->willReturn('sonata.post.admin');
-        $this->admin->method('hasAccess')->with('edit', $object)->willReturn(true);
-        $this->admin->method('hasListFieldDescription')->with('enabled')->willReturn(true);
-        $this->admin->method('getListFieldDescription')->with('enabled')->willReturn($fieldDescription);
+        $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
+        $this->admin->expects(static::any())->method('hasListFieldDescription')->with('enabled')->willReturn(true);
+        $this->admin->expects(static::any())->method('getListFieldDescription')->with('enabled')->willReturn($fieldDescription);
         $this->admin->expects(static::once())->method('update')->with($object);
-        $this->templateRegistry->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
+        $this->templateRegistry->expects(static::any())->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
         $fieldDescription->method('getOption')->willReturnMap([
             ['data_transformer', null, $dataTransformer],
             ['editable', null, true],
@@ -345,7 +345,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription->method('getTemplate')->willReturn('field_template');
         $fieldDescription->method('getValue')->willReturn('some value');
 
-        $this->validator->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
+        $this->validator->expects(static::any())->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
 
         $response = ($this->action)($request);
 
@@ -376,13 +376,13 @@ final class SetObjectFieldValueActionTest extends TestCase
 
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
-        $this->admin->method('getObject')->with(42)->willReturn($object);
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
         $this->admin->method('getCode')->willReturn('sonata.post.admin');
-        $this->admin->method('hasAccess')->with('edit', $object)->willReturn(true);
-        $this->admin->method('hasListFieldDescription')->with('enabled')->willReturn(true);
-        $this->admin->method('getListFieldDescription')->with('enabled')->willReturn($fieldDescription);
+        $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
+        $this->admin->expects(static::any())->method('hasListFieldDescription')->with('enabled')->willReturn(true);
+        $this->admin->expects(static::any())->method('getListFieldDescription')->with('enabled')->willReturn($fieldDescription);
         $this->admin->expects(static::once())->method('update')->with($object);
-        $this->templateRegistry->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
+        $this->templateRegistry->expects(static::any())->method('getTemplate')->with('base_list_field')->willReturn('admin_template');
         $fieldDescription->method('getOption')->willReturnMap([
             ['data_transformer', null, $dataTransformer],
             ['editable', null, true],
@@ -392,7 +392,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription->method('getTemplate')->willReturn('field_template');
         $fieldDescription->method('getValue')->willReturn('some value');
 
-        $this->validator->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
+        $this->validator->expects(static::any())->method('validate')->with($object)->willReturn(new ConstraintViolationList([]));
 
         $response = ($this->action)($request);
 

@@ -69,8 +69,8 @@ final class XmlSourceIteratorTest extends TestCase
         static::assertSame(3, $i);
 
         $i = 0;
-        foreach ($iterator as $value) {
-            static::assertCount(3, $value);
+        foreach ($iterator as $rewoundValue) {
+            static::assertCount(3, $rewoundValue);
             ++$i;
         }
         static::assertSame(3, $i);

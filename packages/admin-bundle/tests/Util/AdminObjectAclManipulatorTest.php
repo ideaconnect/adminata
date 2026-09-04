@@ -138,12 +138,12 @@ final class AdminObjectAclManipulatorTest extends TestCase
         $aclData->setAclRolesForm($form);
         $aclData->setAcl($acl);
 
-        $this->formFactory->method('createNamedBuilder')->with(
+        $this->formFactory->expects(static::any())->method('createNamedBuilder')->with(
             AdminObjectAclManipulator::ACL_USERS_FORM_NAME,
             FormType::class
         )->willReturn($formBuilder);
         $formBuilder->method('getForm')->willReturn($form);
-        $securityHandler->method('getObjectAcl')->with(static::isInstanceOf(ObjectIdentityInterface::class))->willReturn($acl);
+        $securityHandler->expects(static::any())->method('getObjectAcl')->with(static::isInstanceOf(ObjectIdentityInterface::class))->willReturn($acl);
 
         $resultForm = $this->adminObjectAclManipulator->createAclUsersForm($aclData);
 
@@ -179,7 +179,7 @@ final class AdminObjectAclManipulatorTest extends TestCase
 
         $aclData->setAclRolesForm($form);
         $aclData->setAcl($acl);
-        $this->formFactory->method('createNamedBuilder')->with(
+        $this->formFactory->expects(static::any())->method('createNamedBuilder')->with(
             AdminObjectAclManipulator::ACL_ROLES_FORM_NAME,
             FormType::class
         )->willReturn($formBuilder);

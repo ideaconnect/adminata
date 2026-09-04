@@ -179,9 +179,9 @@ final class DefaultRouteGeneratorTest extends TestCase
         $parentAdmin->expects(static::never())->method('getPersistentParameters')->willReturn(['from' => 'parent']);
 
         $request = new Request();
-        $request->attributes = $this->createMock(ParameterBag::class);
-        $request->attributes->method('has')->willReturn(true);
-        $request->attributes
+        $attributes = $this->createMock(ParameterBag::class);
+        $attributes->method('has')->willReturn(true);
+        $attributes
             ->method('get')
             ->willReturnCallback(static function (string $key): ?string {
                 if ('childId' === $key) {
@@ -190,6 +190,7 @@ final class DefaultRouteGeneratorTest extends TestCase
 
                 return null;
             });
+        $request->attributes = $attributes;
 
         $admin->method('getRequest')->willReturn($request);
         $admin->method('getParent')->willReturn($parentAdmin);
@@ -339,9 +340,9 @@ final class DefaultRouteGeneratorTest extends TestCase
         $parentAdmin->expects(static::never())->method('getPersistentParameters')->willReturn(['from' => 'parent']);
 
         $request = new Request();
-        $request->attributes = $this->createMock(ParameterBag::class);
-        $request->attributes->method('has')->willReturn(true);
-        $request->attributes
+        $attributes = $this->createMock(ParameterBag::class);
+        $attributes->method('has')->willReturn(true);
+        $attributes
             ->method('get')
             ->willReturnCallback(static function (string $key): ?string {
                 if ('childId' === $key) {
@@ -350,6 +351,7 @@ final class DefaultRouteGeneratorTest extends TestCase
 
                 return null;
             });
+        $request->attributes = $attributes;
 
         $admin->method('getRequest')->willReturn($request);
         $admin->method('getParent')->willReturn($parentAdmin);

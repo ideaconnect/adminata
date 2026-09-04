@@ -74,7 +74,7 @@ final class DataTransformerResolverTest extends TestCase
             static fn (mixed $value): string => (string) (int) $value,
             static fn (mixed $value): bool => filter_var($value, \FILTER_VALIDATE_BOOLEAN)
         );
-        $this->fieldDescription->method('getOption')->with('data_transformer')->willReturn($customDataTransformer);
+        $this->fieldDescription->expects(static::any())->method('getOption')->with('data_transformer')->willReturn($customDataTransformer);
         $this->fieldDescription->method('getType')->willReturn($fieldType);
 
         $dataTransformer = $this->resolve();
@@ -159,7 +159,7 @@ final class DataTransformerResolverTest extends TestCase
         ]);
         $this->fieldDescription->method('getType')->willReturn('choice');
         $this->fieldDescription->method('getTargetModel')->willReturn($className);
-        $this->modelManager->method('find')->with($className, $newId)->willReturn($object);
+        $this->modelManager->expects(static::any())->method('find')->with($className, $newId)->willReturn($object);
 
         $dataTransformer = $this->resolve();
 
@@ -180,7 +180,7 @@ final class DataTransformerResolverTest extends TestCase
         ]);
         $this->fieldDescription->method('getType')->willReturn('choice');
         $this->fieldDescription->method('getTargetModel')->willReturn($targetModel);
-        $this->modelManager->method('find')->with($className, $newId)->willReturn($object);
+        $this->modelManager->expects(static::any())->method('find')->with($className, $newId)->willReturn($object);
 
         $dataTransformer = $this->resolve();
 

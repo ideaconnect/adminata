@@ -57,7 +57,7 @@ final class SearchActionTest extends TestCase
     public function testGlobalPage(): void
     {
         $request = new Request(['q' => 'some search']);
-        $this->twig->method('render')->with('search.html.twig', [
+        $this->twig->expects(static::any())->method('render')->with('search.html.twig', [
             'base_template' => 'layout.html.twig',
             'query' => 'some search',
             'groups' => [],
