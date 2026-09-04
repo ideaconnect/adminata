@@ -219,7 +219,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `vendor/bin/phpunit --testsuite exporter` green with no skipped test; the whole run
     reports at most the two Symfony-8 conditional skips of `InlineConstraintTest`.
 
-- [ ] **P0-MS · Milestone M0 push** · S · depends: P0-03, P0-09, P0-11, P0-12, P0-14, P0-15
+- [x] **P0-MS · Milestone M0 push** · S · depends: P0-03, P0-09, P0-11, P0-12, P0-14, P0-15
   - Do: full definition of done; `CHANGELOG.md` Unreleased entries; merge to `main`; `git push origin main`;
     watch the first CI run and fix red jobs.
   - Accept: `main` on GitHub at the merge commit; every workflow green; status log updated.
@@ -836,6 +836,10 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   resolves — its dependencies work with adminata today. `phpunit.xml.dist` excludes the `network`
   group by default, so `make test` stays offline; `--group network` overrides that.
   `symfony/process` joined `require-dev`.
+- 2026-09-05 — **Milestone M0 complete.** Definition of done green: `make lint`, `make phpstan`,
+  `make rector`, `make test` (2631 tests, 2 skips), `make test-contract` and
+  `bin/check-replace-versions.php`. `CHANGELOG.md` records the milestone. `main` pushed to
+  `ideaconnect/adminata`; CI runs for the first time on this push.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README
