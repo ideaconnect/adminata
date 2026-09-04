@@ -1,0 +1,12 @@
+# Paths adminata owns in packages/twig-extensions.
+src/Bridge/Symfony/Resources/views/**
+src/Bridge/Symfony/Resources/public/**
+.github/**
+Makefile
+*.md
+phpunit.xml.dist
+rector.php
+.php-cs-fixer.dist.php
+phpstan.neon.dist
+phpstan-baseline.neon
+composer.json

@@ -1,0 +1,26 @@
+# Paths adminata owns in packages/form-extensions.
+assets/**
+src/Bridge/Symfony/Resources/views/**
+src/Bridge/Symfony/Resources/public/**
+src/Type/BasePickerType.php
+src/Bridge/Symfony/DependencyInjection/SonataFormExtension.php
+src/Test/AbstractWidgetTestCase.php
+package.json
+package-lock.json
+webpack.config.js
+vite.config.js
+postcss.config.js
+prettier.config.js
+.babelrc.js
+.eslintrc.js
+.stylelintrc.js
+.prettierignore
+.github/**
+Makefile
+*.md
+phpunit.xml.dist
+rector.php
+.php-cs-fixer.dist.php
+phpstan.neon.dist
+phpstan-baseline.neon
+composer.json

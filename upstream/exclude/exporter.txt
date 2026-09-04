@@ -1,0 +1,14 @@
+# Paths adminata owns in packages/exporter: tooling, plus the three source-iterator tests that
+# were written against SQLite and now run on MySQL (PLAN/README directive 9).
+tests/Source/DoctrineDBALConnectionSourceIteratorTest.php
+tests/Source/DoctrineORMQuerySourceIteratorTest.php
+tests/Source/PDOStatementSourceIteratorTest.php
+.github/**
+Makefile
+*.md
+phpunit.xml.dist
+rector.php
+.php-cs-fixer.dist.php
+phpstan.neon.dist
+phpstan-baseline.neon
+composer.json

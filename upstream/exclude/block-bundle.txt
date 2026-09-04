@@ -1,0 +1,13 @@
+# Paths adminata owns in packages/block-bundle: the templates listed as rewritten or deferred
+# in PLAN/03 §G.
+src/Resources/views/Block/block_core_rss.html.twig
+src/Resources/views/Block/block_side_menu_template.html.twig
+.github/**
+Makefile
+*.md
+phpunit.xml.dist
+rector.php
+.php-cs-fixer.dist.php
+phpstan.neon.dist
+phpstan-baseline.neon
+composer.json
