@@ -86,7 +86,7 @@ jobs:
 
             - name: Upload coverage to Codecov
               if: ${{ !cancelled() && hashFiles('build/logs/clover.xml') != '' }}
-              uses: codecov/codecov-action@v6
+              uses: codecov/codecov-action@v7
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
                   slug: ideaconnect/adminata
