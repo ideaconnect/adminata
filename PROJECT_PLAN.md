@@ -163,7 +163,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `CRUD/base_show.html.twig`, so it becomes `col-span-12` when P4-06 and P4-07 rewrite those.
   - Accept: `grep -rn "col-md-\|box box-primary" packages/*/src --include=*.php` empty; suites green.
 
-- [ ] **P0-12 · PHP change (d)/(e): theme cookie runtime and html helpers** · M · depends: P0-10
+- [x] **P0-12 · PHP change (d)/(e): theme cookie runtime and html helpers** · M · depends: P0-10
   - Read: PLAN/01 P6 (d,e); PLAN/04 §3; PLAN/06 §6.
   - Do: `Sonata\AdminBundle\Twig\ThemeRuntime` (+ extension registration in `Resources/config/twig.php`)
     with `sonata_theme()` (cookie `sonata_theme` validated against `light|dark|system`, fallback
@@ -793,6 +793,18 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   to `md:col-span-4`. Plan correction in the same commit: the group `class` default `col-md-12` the
   task attributed to `BaseGroupedMapper`/`AbstractAdmin` is actually a Twig `|default()` in
   `base_edit_form_macro.html.twig` and `base_show.html.twig`, so it belongs to P4-06 and P4-07.
+- 2026-09-05 — **P0-12 done.** `Sonata\AdminBundle\Twig\ThemeRuntime` and `ThemeExtension` provide
+  `sonata_theme()` (the `sonata_theme` cookie when it holds one of the three modes, else the
+  configured `sonata_admin.theme.mode`, else `system`) and `sonata_html_dir(locale)` (RTL for ar,
+  fa, he, ur, matched on the language subtag), registered in `Resources/config/twig.php` with the
+  theme-mode parameter injected. 21 unit tests cover a missing request, a missing cookie, each
+  accepted mode, four rejected cookie values, an unknown configured mode, and both helpers.
+  Part (e) of P6 turned out to have nothing in PHP: the `SKIN`, `USE_SELECT2` and `USE_ICHECK`
+  entries of the `sonata-config` meta are assembled in `standard_layout.html.twig`, so they go with
+  P2-01, which rewrites that template. They already render as `null` because the options are gone.
+- 2026-09-05 — Note for whoever sees it next: PHPStan's **result cache** intermittently reports a
+  bogus `FormErrorIterator` generics error (in `CRUDController` or its test) that disappears after
+  `vendor/bin/phpstan clear-result-cache`. CI starts cold, so it only affects local runs.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

@@ -23,6 +23,7 @@ use Sonata\AdminBundle\Twig\Extension\RenderElementExtension;
 use Sonata\AdminBundle\Twig\Extension\SecurityExtension;
 use Sonata\AdminBundle\Twig\Extension\SonataAdminExtension;
 use Sonata\AdminBundle\Twig\Extension\TemplateRegistryExtension;
+use Sonata\AdminBundle\Twig\Extension\ThemeExtension;
 use Sonata\AdminBundle\Twig\Extension\XEditableExtension;
 use Sonata\AdminBundle\Twig\GroupRuntime;
 use Sonata\AdminBundle\Twig\IconRuntime;
@@ -30,6 +31,7 @@ use Sonata\AdminBundle\Twig\RenderElementRuntime;
 use Sonata\AdminBundle\Twig\SecurityRuntime;
 use Sonata\AdminBundle\Twig\SonataAdminRuntime;
 use Sonata\AdminBundle\Twig\TemplateRegistryRuntime;
+use Sonata\AdminBundle\Twig\ThemeRuntime;
 use Sonata\AdminBundle\Twig\XEditableRuntime;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -38,6 +40,16 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('sonata.admin.twig.extension.x_editable_type_mapping', XEditableRuntime::FIELD_DESCRIPTION_MAPPING);
 
     $containerConfigurator->services()
+
+        ->set('sonata.admin.twig.theme_extension', ThemeExtension::class)
+            ->tag('twig.extension')
+
+        ->set('sonata.admin.twig.theme_runtime', ThemeRuntime::class)
+            ->tag('twig.runtime')
+            ->args([
+                service('request_stack'),
+                param('sonata.admin.configuration.theme.mode'),
+            ])
 
         // NEXT_MAJOR: Remove the `args()` call.
         ->set('sonata.admin.twig.sonata_admin_extension', SonataAdminExtension::class)
