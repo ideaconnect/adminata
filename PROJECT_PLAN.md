@@ -72,7 +72,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `composer validate --strict` ok; `composer install` ok; a `php -r` snippet instantiates all
     seven bundle classes (PLAN/02 §1 table); `composer show --self | grep -A7 replaces` lists seven entries.
 
-- [ ] **P0-03 · Repository documents** · S · depends: P0-02
+- [x] **P0-03 · Repository documents** · S · depends: P0-02
   - Read: PLAN/07 §5, §8, §9; PLAN/00 "What drop-in means".
   - Do: `README.md` (hard-fork banner, seven packages, what is/is not preserved, install), `LICENSE`
     (MIT, three copyright lines), `NOTICE`, `AGENTS.md` (conventions + the ground rules above +
@@ -701,3 +701,9 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   has no sqlite driver (`php8.5-sqlite3` is not installed), so Composer runs locally need
   `--ignore-platform-req=ext-pdo_sqlite` and the ORM functional suite cannot run here until the
   extension is installed.
+- 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
+  `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
+  `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README
+  links resolve; P5-12 replaces them with the executed checklist. `.gitattributes` deliberately
+  keeps `assets/` in the dist archive (PLAN/07 §4) and export-ignores tests, docs, PLAN, CI and the
+  build tooling.
