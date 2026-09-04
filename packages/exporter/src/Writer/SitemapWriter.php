@@ -18,8 +18,8 @@ namespace Sonata\Exporter\Writer;
  */
 final class SitemapWriter implements WriterInterface
 {
-    public const LIMIT_SIZE = 10_485_760;
-    public const LIMIT_URL = 50000;
+    public const int LIMIT_SIZE = 10_485_760;
+    public const int LIMIT_URL = 50000;
 
     private string $pattern;
 
