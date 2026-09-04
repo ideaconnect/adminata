@@ -853,7 +853,12 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   run; the exporter's ODM source iterator wants a real MongoDB, so `test.yaml` gained a service for
   it; and the `lowest` row installed `doctrine/orm` 3.3 and `symfony/property-info` 6.4, neither of
   which has the API the code calls, so the ORM floor moved to `^3.6` (PLAN/01 P5 and PLAN/07 §3
-  updated) and `symfony/property-info` is declared in `require-dev`.
+  updated) and `symfony/property-info` is declared in `require-dev`. The third run showed the same
+  shape again — a Symfony component resolving to 6.4 next to 8.x siblings — so every component
+  adminata's code paths reach is now constrained to `^7.4 || ^8.0` in `require-dev`
+  (`clock`, `http-client`, `password-hasher`, `property-info`, `type-info`, `var-dumper`,
+  `var-exporter`), and `composer update --prefer-lowest --dry-run` no longer downgrades any Symfony
+  package below 7.4.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README
