@@ -1,0 +1,128 @@
+name: Lint
+
+on:
+    schedule:
+        - cron: '30 0 * * *'
+    push:
+        branches:
+            - main
+    pull_request:
+
+permissions:
+    contents: read
+
+jobs:
+    php-cs-fixer:
+        name: PHP-CS-Fixer
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Install PHP with extensions
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.5'
+                  coverage: none
+                  tools: composer:v2
+                  extensions: mongodb, pdo_mysql
+
+            - name: Install Composer dependencies (highest)
+              uses: ramsey/composer-install@v4
+              with:
+                  dependency-versions: highest
+
+            - name: Lint PHP files
+              run: make lint-php
+
+    composer:
+        name: Composer
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Install PHP with extensions
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.5'
+                  coverage: none
+                  tools: composer:v2, composer-normalize:2
+
+            - name: Lint composer.json
+              run: make lint-composer
+
+            - name: Check that replace, UPSTREAM.md and upstream/remotes.txt agree
+              run: php bin/check-replace-versions.php
+
+    yaml-files:
+        name: YAML files
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Install yamllint
+              run: sudo apt-get update && sudo apt-get install --yes yamllint
+
+            - name: Lint YAML files
+              run: make lint-yaml
+
+    xml-files:
+        name: XML and XLIFF files
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Install xmllint
+              run: sudo apt-get update && sudo apt-get install --yes libxml2-utils
+
+            - name: Lint XML files
+              run: make lint-xml
+
+            - name: Lint XLIFF files
+              run: make lint-xliff
+
+    jquery:
+        name: No jQuery
+
+        runs-on: ubuntu-latest
+
+        # Owner directive 2: jQuery is not a dependency of adminata, directly or through any
+        # other package. The npm side of this gate arrives with package.json in task P1-02;
+        # until then the check is the grep below.
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Set up Node
+              if: hashFiles('package.json') != ''
+              uses: actions/setup-node@v6
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
+
+            - name: Install npm dependencies
+              if: hashFiles('package-lock.json') != ''
+              run: npm ci
+
+            - name: No package may depend on jQuery
+              if: hashFiles('package.json') != ''
+              run: npm run check:jquery
+
+            - name: No jQuery in adminata's own sources
+              run: |
+                  if grep -rIn --include='*.js' --include='*.twig' --include='*.json' \
+                      -e 'jquery' -e 'jQuery' assets packages/*/src/Resources/views 2>/dev/null; then
+                      echo '::error::jQuery must not appear in adminata sources (owner directive 2).'
+                      exit 1
+                  fi

@@ -1,0 +1,59 @@
+name: Upstream watch
+
+on:
+    schedule:
+        - cron: '0 6 * * 1'
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    issues: write
+
+jobs:
+    upstream-watch:
+        name: Newer releases of the forked packages
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+              with:
+                  fetch-depth: 0
+
+            - name: Compare each package with its upstream latest release
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  set -euo pipefail
+
+                  grep -v '^#' upstream/remotes.txt | while read -r name url tag; do
+                      [ -z "$name" ] && continue
+                      repo=$(echo "$url" | sed -E 's#https://github.com/([^/]+/[^/]+)\.git#\1#')
+                      latest=$(gh api "repos/$repo/releases/latest" --jq .tag_name 2>/dev/null || echo '')
+
+                      if [ -z "$latest" ] || [ "$latest" = "$tag" ]; then
+                          echo "$name: up to date at $tag"
+                          continue
+                      fi
+
+                      echo "$name: $tag -> $latest"
+                      {
+                          echo "\`packages/$name\` is at \`$tag\`; upstream released \`$latest\`."
+                          echo
+                          echo 'Report:'
+                          echo
+                          echo '```'
+                          upstream/diff.sh "$name" "$tag" "$latest" 2>&1 || true
+                          echo '```'
+                          echo
+                          echo "Apply with \`make upstream-sync PKG=$name TO=$latest\` (see UPSTREAM.md)."
+                      } > body.md
+
+                      title="Sync $name to $latest"
+
+                      if [ -z "$(gh issue list --search "$title in:title" --state open --json number --jq '.[0].number')" ]; then
+                          gh issue create --title "$title" --body-file body.md --label upstream \
+                              || gh issue create --title "$title" --body-file body.md
+                      fi
+                  done

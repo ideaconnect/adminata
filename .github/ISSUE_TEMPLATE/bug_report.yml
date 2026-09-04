@@ -1,0 +1,35 @@
+name: Bug report
+description: Something in adminata behaves incorrectly
+labels: [bug]
+body:
+    - type: markdown
+      attributes:
+          value: |
+              adminata 1.0 ships a subset of Sonata Admin on purpose. A template that has not been
+              ported yet carries a `{# adminata: not yet ported #}` comment and renders the
+              inherited Bootstrap markup — that is not a bug, it is the backlog in PROJECT_PLAN.md.
+
+    - type: input
+      id: versions
+      attributes:
+          label: Versions
+          description: adminata, PHP and Symfony versions.
+          placeholder: adminata 1.0.0, PHP 8.5.10, Symfony 8.1.6
+      validations:
+          required: true
+
+    - type: textarea
+      id: reproduce
+      attributes:
+          label: How to reproduce
+          description: The admin class, field configuration or configuration that triggers it.
+      validations:
+          required: true
+
+    - type: textarea
+      id: expected
+      attributes:
+          label: What you expected, and what happened instead
+          description: For rendering bugs, screenshots in both light and dark mode help.
+      validations:
+          required: true

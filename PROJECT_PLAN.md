@@ -133,7 +133,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `make lint phpstan rector test` green; `bin/console about` works;
     `upstream/diff.sh twig-extensions 2.5.0 2.6.0` prints a diff stat.
 
-- [ ] **P0-09 · GitHub Actions and Dependabot** · M · depends: P0-08
+- [x] **P0-09 · GitHub Actions and Dependabot** · M · depends: P0-08
   - Read: PLAN/07 §7.
   - Do: `.github/workflows/{test,qa,lint,symfony-lint,stale,upstream-watch,versions-watch}.yaml`,
     `.github/dependabot.yml`; `bin/check-replace-versions.php` (compares `replace` with
@@ -769,6 +769,15 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   so upstream syncs will not clobber them; and `xmllint` is not installed on this machine, so
   `lint-xml`/`lint-xliff` print a skip line — P0-09's `lint.yaml` installs `libxml2-utils` so the
   check really runs in CI.
+- 2026-09-05 — **P0-09 done.** Seven workflows, `dependabot.yml`, PR and issue templates,
+  `bin/check-replace-versions.php` (it cross-checks `replace`, `UPSTREAM.md` and
+  `upstream/remotes.txt`, and exits 0) and `versions.json` for the weekly `versions-watch`.
+  `test.yaml` runs a MySQL 8.4 service on the port `docker-compose.yml` uses, so
+  `phpunit.xml.dist` needs no CI-specific configuration, and it drives Panther through the
+  runner's own Firefox rather than a Selenium container, which could not reach the loopback
+  Panther serves on. `lint.yaml` installs `libxml2-utils` so the XML checks actually run, and its
+  jQuery job greps adminata's sources today and calls `npm run check:jquery` from P1-02 onward.
+  The first real CI run happens on the M0 push (P0-MS).
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

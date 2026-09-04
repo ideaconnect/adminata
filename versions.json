@@ -1,0 +1,37 @@
+{
+    "_comment": "Consumed by .github/workflows/versions-watch.yaml. Every entry is a dependency whose version PLAN/07 §2 pins deliberately; the job reports newer releases so the owner directive 'latest releases everywhere' can be re-checked. Keep the versions in step with PLAN/07 §2, composer.json and package.json.",
+    "composer": {
+        "doctrine/doctrine-bundle": "3.3.1",
+        "doctrine/mongodb-odm-bundle": "5.6.0",
+        "doctrine/orm": "3.6.8",
+        "friendsofphp/php-cs-fixer": "3.95.24",
+        "infection/infection": "0.35.4",
+        "phpstan/phpstan": "2.2.13",
+        "phpunit/phpunit": "13.3.2",
+        "rector/rector": "2.6.6",
+        "symfony/framework-bundle": "8.1.6",
+        "symfony/panther": "2.4.0",
+        "symfony/stimulus-bundle": "3.4.0",
+        "symfonycasts/tailwind-bundle": "1.0.0",
+        "twig/twig": "3.28.0"
+    },
+    "npm": {
+        "@axe-core/playwright": "4.13.0",
+        "@fontsource-variable/outfit": "5.3.0",
+        "@fortawesome/fontawesome-free": "7.3.1",
+        "@hotwired/stimulus": "3.2.2",
+        "@playwright/test": "1.62.1",
+        "@size-limit/file": "13.0.3",
+        "@tailwindcss/vite": "4.3.3",
+        "eslint": "10.10.0",
+        "html-validate": "11.13.0",
+        "jsdom": "30.0.1",
+        "prettier": "3.9.6",
+        "prettier-plugin-tailwindcss": "0.8.1",
+        "qs": "6.16.0",
+        "stylelint": "17.15.0",
+        "tailwindcss": "4.3.3",
+        "vite": "8.2.2",
+        "vitest": "5.0.0"
+    }
+}
