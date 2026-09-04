@@ -279,7 +279,7 @@ final class DatagridTest extends TestCase
             ->method('getName')
             ->willReturn('bar');
         $filter
-            ->method('getOption')
+            ->expects(static::any())->method('getOption')
             ->with(static::equalTo('show_filter'))
             ->willReturn(true);
         $filter
@@ -616,7 +616,7 @@ final class DatagridTest extends TestCase
 
         $field3 = $this->createMock(FieldDescriptionInterface::class);
         $field3->method('getName')->willReturn('field3');
-        $field3->method('getOption')->with('sortable')->willReturn('field3sortBy');
+        $field3->expects(static::any())->method('getOption')->with('sortable')->willReturn('field3sortBy');
 
         $this->datagrid = new Datagrid(
             $this->query,

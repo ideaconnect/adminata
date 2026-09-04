@@ -113,11 +113,12 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     afterwards.
   - Accept: `vendor/bin/rector process --dry-run` clean; phpunit green; cs check clean.
 
-- [ ] **P0-07 · PHPStan 2.2 level 8** · L · depends: P0-06
+- [x] **P0-07 · PHPStan 2.2 level 8** · L · depends: P0-06
   - Read: PLAN/07 §6; `MDB/phpstan.neon.dist`.
   - Do: `phpstan.neon.dist` (level 8, bleedingEdge, strict rules, symfony + phpunit extensions,
-    paths `packages/*/src`, `tests`); import each package's baseline as `phpstan/baseline-<name>.neon`;
-    trim entries that are cheap to fix in tests (never by ignoring); regenerate.
+    paths `packages/*/{src,tests}` and `tests`); root `phpstan-console-application.php`; import each
+    package's baseline as `phpstan/baseline-<name>.neon` with its paths rewritten; trim entries that
+    are cheap to fix in tests (never by ignoring); regenerate.
   - Accept: `vendor/bin/phpstan analyse --memory-limit=1G` clean; `grep -r "@phpstan-ignore" tests` empty.
 
 - [ ] **P0-08 · Makefile, lint tooling, `bin/console`** · M · depends: P0-07
@@ -697,6 +698,10 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 - [ ] **B-09** Optional select enhancement (`sonata-select`, Tom Select).
 - [ ] **B-10** ESM entry (`startAdminata`), AssetMapper mapping and docs, Flex recipe, tooltips, toast flash mode.
 - [ ] **B-11** Monthly upstream sync of the seven packages; Infection nightly; `BEST_VERSION.md`.
+- [ ] **B-12** Give the 188 `expects(static::any())` call sites P0-07 introduced a real invocation
+  count. PHPUnit 13 deprecates `any()` and PHPUnit 14 removes it, and the 627 deprecations the suite
+  reports are the same sites. Each needs a judgement about how often the tested code should call the
+  mocked method, so it is not a mechanical change.
 
 ---
 
@@ -748,6 +753,15 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   are skipped because they weaken or break the inherited tests — the first run produced 29 failures
   and 1 error, and each rule is named in `rector.php` with the test that caught it. Rector 2.6 has
   no versioned PHPUnit sets any more, so `PHPUNIT_CODE_QUALITY` accompanies `UP_TO_PHP_84` alone.
+- 2026-09-05 — **P0-07 done.** PHPStan level 8 with bleedingEdge is clean over the seven packages
+  (src *and* tests) and adminata's own PHP. 267 findings, all fallout from the raised floors, were
+  fixed at the cause — the commit message lists them. Two stand out: 188 `->method()->with()` chains
+  became `->expects(static::any())->method()->with()`, which is what PHPUnit's own `method()` does
+  internally (forward work tracked as B-12); and relaxing `Pool`'s `Item` shape from two alternative
+  array shapes to one with optional keys resolved 31 findings at once, because that is what the
+  configuration produces and what `GroupMenuProvider` checks for. One baseline entry was added, for
+  `InlineConstraint`'s `?? null` guards, which its own test proves are load-bearing. Two more Rector
+  rules are skipped because they delete the type information these fixes add.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

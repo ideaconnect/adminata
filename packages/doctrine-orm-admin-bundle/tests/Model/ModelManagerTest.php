@@ -819,7 +819,7 @@ final class ModelManagerTest extends TestCase
             ->willReturn($em);
 
         $em
-            ->method('getClassMetadata')
+            ->expects(static::any())->method('getClassMetadata')
             ->with($class)
             ->willReturn($classMetadata);
 

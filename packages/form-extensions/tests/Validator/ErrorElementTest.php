@@ -171,10 +171,10 @@ final class ErrorElementTest extends TestCase
         $constraint = new NotNull();
 
         $this->contextualValidator
-            ->method('atPath')
+            ->expects(static::any())->method('atPath')
             ->with('');
         $this->contextualValidator
-            ->method('validate')
+            ->expects(static::any())->method('validate')
             ->with($this->subject, $constraint, 'foo_core');
 
         static::assertSame($this->errorElement, $this->errorElement->with('baz'));

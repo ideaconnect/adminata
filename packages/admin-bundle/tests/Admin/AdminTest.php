@@ -194,7 +194,7 @@ final class AdminTest extends TestCase
             [$admin, 'EXTRA_CUSTOM_ROLE', $admin, false],
         ]);
         $customExtension = $this->createMock(AbstractAdminExtension::class);
-        $customExtension->method('getAccessMapping')->with($admin)->willReturn(
+        $customExtension->expects(static::any())->method('getAccessMapping')->with($admin)->willReturn(
             ['custom_action' => ['CUSTOM_ROLE', 'EXTRA_CUSTOM_ROLE']]
         );
         $admin->addExtension($customExtension);
@@ -224,7 +224,7 @@ final class AdminTest extends TestCase
             [$admin, 'EXTRA_CUSTOM_ROLE', $admin, false],
         ]);
         $customExtension = $this->createMock(AbstractAdminExtension::class);
-        $customExtension->method('getAccessMapping')->with($admin)->willReturn(
+        $customExtension->expects(static::any())->method('getAccessMapping')->with($admin)->willReturn(
             ['custom_action' => ['CUSTOM_ROLE', 'EXTRA_CUSTOM_ROLE']]
         );
         $admin->addExtension($customExtension);
@@ -242,7 +242,7 @@ final class AdminTest extends TestCase
             [$admin, 'EXTRA_CUSTOM_ROLE', $admin, true],
         ]);
         $customExtension = $this->createMock(AbstractAdminExtension::class);
-        $customExtension->method('getAccessMapping')->with($admin)->willReturn(
+        $customExtension->expects(static::any())->method('getAccessMapping')->with($admin)->willReturn(
             ['custom_action' => ['CUSTOM_ROLE', 'EXTRA_CUSTOM_ROLE']]
         );
         $admin->addExtension($customExtension);
@@ -255,9 +255,9 @@ final class AdminTest extends TestCase
     {
         $admin = new PostAdmin();
         $securityHandler = $this->createMock(SecurityHandlerInterface::class);
-        $securityHandler->method('isGranted')->with($admin, 'EDIT_ROLE', $admin)->willReturn(true);
+        $securityHandler->expects(static::any())->method('isGranted')->with($admin, 'EDIT_ROLE', $admin)->willReturn(true);
         $customExtension = $this->createMock(AbstractAdminExtension::class);
-        $customExtension->method('getAccessMapping')->with($admin)->willReturn(
+        $customExtension->expects(static::any())->method('getAccessMapping')->with($admin)->willReturn(
             ['edit_action' => ['EDIT_ROLE']]
         );
         $admin->addExtension($customExtension);
@@ -1715,7 +1715,7 @@ final class AdminTest extends TestCase
 
         $modelManager = $this->createMock(ModelManagerInterface::class);
         $modelManager
-            ->method('find')
+            ->expects(static::any())->method('find')
             ->with(Comment::class, $adminId)
             ->willReturn($comment);
 
@@ -1750,7 +1750,7 @@ final class AdminTest extends TestCase
         $admin = new PostAdmin();
 
         $templateRegistry = $this->createMock(MutableTemplateRegistryInterface::class);
-        $templateRegistry->method('getTemplate')->with('button_create')->willReturn('Foo.html.twig');
+        $templateRegistry->expects(static::any())->method('getTemplate')->with('button_create')->willReturn('Foo.html.twig');
 
         $admin->setTemplateRegistry($templateRegistry);
 
@@ -1983,7 +1983,7 @@ final class AdminTest extends TestCase
         $admin->initialize();
 
         $templateRegistry = $this->createMock(MutableTemplateRegistryInterface::class);
-        $templateRegistry->method('getTemplate')->with('action_create')->willReturn('Foo.html.twig');
+        $templateRegistry->expects(static::any())->method('getTemplate')->with('action_create')->willReturn('Foo.html.twig');
 
         $admin->setTemplateRegistry($templateRegistry);
 

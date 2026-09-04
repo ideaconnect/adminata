@@ -29,10 +29,10 @@ final class TemplateRegistryRuntimeTest extends TestCase
     protected function setUp(): void
     {
         $templateRegistry = $this->createMock(TemplateRegistryInterface::class);
-        $templateRegistry->method('getTemplate')->with('edit')->willReturn('@SonataAdmin/CRUD/edit.html.twig');
+        $templateRegistry->expects(static::any())->method('getTemplate')->with('edit')->willReturn('@SonataAdmin/CRUD/edit.html.twig');
 
         $adminTemplateRegistry = $this->createMock(MutableTemplateRegistryInterface::class);
-        $adminTemplateRegistry->method('getTemplate')->with('edit')->willReturn('@SonataAdmin/CRUD/edit.html.twig');
+        $adminTemplateRegistry->expects(static::any())->method('getTemplate')->with('edit')->willReturn('@SonataAdmin/CRUD/edit.html.twig');
 
         $admin = static::createStub(AdminInterface::class);
         $admin

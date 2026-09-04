@@ -183,7 +183,7 @@ final class AbstractFormContractorTest extends TestCase
         $this->fieldDescription
             ->method('describesAssociation')
             ->willReturn(false);
-        $this->fieldDescription->method('getOption')->with(static::logicalOr(
+        $this->fieldDescription->expects(static::any())->method('getOption')->with(static::logicalOr(
             static::equalTo('edit'),
             static::equalTo('admin_code')
         ))->willReturn('sonata.admin.code');

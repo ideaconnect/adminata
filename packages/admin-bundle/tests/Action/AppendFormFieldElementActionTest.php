@@ -93,7 +93,7 @@ final class AppendFormFieldElementActionTest extends TestCase
         $formBuilder = $this->createMock(FormBuilderInterface::class);
         $formBuilder->method('getForm')->willReturn($form);
 
-        $this->admin->method('getObject')->with(42)->willReturn($object);
+        $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
         $this->admin->method('getClass')->willReturn($object::class);
         $this->admin->expects(static::once())->method('setSubject')->with($object);
         $this->admin->method('getFormTheme')->willReturn([]);
@@ -105,9 +105,9 @@ final class AppendFormFieldElementActionTest extends TestCase
         $fieldDescription = static::createMock(FieldDescriptionInterface::class);
         $fieldDescription->method('getAssociationAdmin')->willReturn($associationAdmin);
         $this->admin->method('getFormFieldDescription')->willReturn($fieldDescription);
-        $modelManager->method('find')->with($object::class, 42)->willReturn($object);
+        $modelManager->expects(static::any())->method('find')->with($object::class, 42)->willReturn($object);
         $renderer->expects(static::once())->method('setTheme')->with($formViewChild);
-        $renderer->method('searchAndRenderBlock')->with($formViewChild, 'widget')->willReturn('block');
+        $renderer->expects(static::any())->method('searchAndRenderBlock')->with($formViewChild, 'widget')->willReturn('block');
 
         $response = ($this->action)($request);
 
@@ -122,7 +122,7 @@ final class AppendFormFieldElementActionTest extends TestCase
     {
         $runtime = $this->createMock(FormRenderer::class);
 
-        $this->twig->method('getRuntime')->with(FormRenderer::class)->willReturn($runtime);
+        $this->twig->expects(static::any())->method('getRuntime')->with(FormRenderer::class)->willReturn($runtime);
 
         return $runtime;
     }

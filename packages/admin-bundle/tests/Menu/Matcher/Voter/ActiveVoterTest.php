@@ -25,7 +25,7 @@ final class ActiveVoterTest extends TestCase
     {
         $item = $this->createMock(ItemInterface::class);
         $item
-            ->method('getExtra')
+            ->expects(static::any())->method('getExtra')
             ->with(static::logicalOr(
                 static::equalTo('active'),
                 static::equalTo('sonata_admin')

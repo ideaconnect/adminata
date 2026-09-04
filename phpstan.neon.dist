@@ -1,0 +1,49 @@
+# PHPStan for the whole repository: the seven forked packages and adminata's own PHP.
+# Each package's upstream baseline is imported under phpstan/, with its paths rewritten.
+
+includes:
+    - phpstan/baseline-admin-bundle.neon
+    - phpstan/baseline-block-bundle.neon
+    - phpstan/baseline-doctrine-orm-admin-bundle.neon
+    - phpstan/baseline-exporter.neon
+    - phpstan/baseline-form-extensions.neon
+    - phpstan/baseline-twig-extensions.neon
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+parameters:
+    level: 8
+    symfony:
+        consoleApplicationLoader: ./phpstan-console-application.php
+    paths:
+        - packages/admin-bundle/src
+        - packages/admin-bundle/tests
+        - packages/block-bundle/src
+        - packages/block-bundle/tests
+        - packages/doctrine-extensions/src
+        - packages/doctrine-extensions/tests
+        - packages/doctrine-orm-admin-bundle/src
+        - packages/doctrine-orm-admin-bundle/tests
+        - packages/exporter/src
+        - packages/exporter/tests
+        - packages/form-extensions/src
+        - packages/form-extensions/tests
+        - packages/twig-extensions/src
+        - packages/twig-extensions/tests
+        - tests
+    scanFiles:
+        - vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php
+    excludePaths:
+        analyseAndScan:
+            - packages/admin-bundle/src/Resources/skeleton/**
+    treatPhpDocTypesAsCertain: false
+    checkInternalClassCaseSensitivity: true
+    checkMissingVarTagTypehint: true
+    checkMissingTypehints: true
+    checkUninitializedProperties: true
+    featureToggles:
+        skipCheckGenericClasses:
+            - Symfony\Component\Form\AbstractType
+            - Symfony\Component\Form\FormBuilderInterface
+            - Symfony\Component\Form\FormInterface
+            - Symfony\Component\Form\FormTypeExtensionInterface
+            - Symfony\Component\Form\FormTypeInterface

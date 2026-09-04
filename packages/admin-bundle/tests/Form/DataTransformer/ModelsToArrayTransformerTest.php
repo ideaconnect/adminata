@@ -127,11 +127,11 @@ final class ModelsToArrayTransformerTest extends TestCase
         $modelManager = $this->createMock(ModelManagerInterface::class);
         $proxyQuery = static::createStub(ProxyQueryInterface::class);
         $modelManager
-            ->method('createQuery')
+            ->expects(static::any())->method('createQuery')
             ->with(static::equalTo(Foo::class))
             ->willReturn($proxyQuery);
         $modelManager
-            ->method('executeQuery')
+            ->expects(static::any())->method('executeQuery')
             ->with(static::equalTo($proxyQuery))
             ->willReturn([$object1]);
         $modelManager

@@ -28,18 +28,8 @@ final class DoctrineORMQuerySourceIteratorTest extends TestCase
 
     protected function setUp(): void
     {
-        /* @phpstan-ignore function.alreadyNarrowedType */
-        if (method_exists(ORMSetup::class, 'createAttributeMetadataConfig')) {
-            $config = ORMSetup::createAttributeMetadataConfig([], true);
-            if (\PHP_VERSION_ID >= 80400) {
-                $config->enableNativeLazyObjects(true);
-            } else {
-                $config->setProxyDir(sys_get_temp_dir());
-                $config->setProxyNamespace('Sonata');
-            }
-        } else {
-            $config = ORMSetup::createAttributeMetadataConfiguration([], true);
-        }
+        $config = ORMSetup::createAttributeMetadataConfig([], true);
+        $config->enableNativeLazyObjects(true);
 
         $this->em = new EntityManager(
             $this->createConnection(),

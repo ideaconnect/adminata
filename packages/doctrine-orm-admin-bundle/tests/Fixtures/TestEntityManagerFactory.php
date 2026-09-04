@@ -16,7 +16,6 @@ namespace Sonata\DoctrineORMAdminBundle\Tests\Fixtures;
 use Adminata\Tests\Support\TestDatabase;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\DriverManager;
-use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
@@ -25,25 +24,8 @@ final class TestEntityManagerFactory
 {
     public static function create(): EntityManagerInterface
     {
-        if (version_compare(\PHP_VERSION, '8.0.0', '>=')) {
-            /* @phpstan-ignore function.alreadyNarrowedType */
-            if (\PHP_VERSION_ID >= 80400 && method_exists(ORMSetup::class, 'createAttributeMetadataConfig')) {
-                $config = ORMSetup::createAttributeMetadataConfig([], true);
-            } else {
-                $config = ORMSetup::createAttributeMetadataConfiguration([], true);
-            }
-        } else {
-            /**
-             * @var Configuration $config
-             *
-             * @phpstan-ignore-next-line
-             */
-            $config = ORMSetup::createAnnotationMetadataConfiguration([], true);
-        }
-
-        if (\PHP_VERSION_ID >= 80400) {
-            $config->enableNativeLazyObjects(true);
-        }
+        $config = ORMSetup::createAttributeMetadataConfig([], true);
+        $config->enableNativeLazyObjects(true);
 
         // adminata supports MySQL, MariaDB and Percona only, so these tests run against the
         // MySQL service of the repository's docker-compose.yml on their own database, created by

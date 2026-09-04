@@ -62,6 +62,8 @@ final class DoctrineORMQuerySourceIterator extends AbstractPropertySourceIterato
 
     /**
      * @param iterable<mixed> $iterable
+     *
+     * @return \Iterator<array-key, mixed>
      */
     private function iterableToIterator(iterable $iterable): \Iterator
     {

@@ -207,7 +207,7 @@ final class AdminObjectAclDataTest extends TestCase
             ->willReturn(['VIEW', 'EDIT', 'HISTORY', 'DELETE', 'UNDELETE', 'OPERATOR', 'MASTER', 'OWNER']);
 
         $securityHandler
-            ->method('buildSecurityInformation')
+            ->expects(static::any())->method('buildSecurityInformation')
             ->with(static::isInstanceOf(AdminInterface::class))
             ->willReturn([]);
 

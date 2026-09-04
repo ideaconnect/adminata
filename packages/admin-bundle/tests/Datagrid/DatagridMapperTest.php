@@ -57,7 +57,14 @@ final class DatagridMapperTest extends TestCase
         $datagridBuilder = $this->createMock(DatagridBuilderInterface::class);
         $fieldDescriptionCollection = new FieldDescriptionCollection();
 
-        $this->datagrid = new Datagrid($this->createMock(ProxyQueryInterface::class), $fieldDescriptionCollection, $this->createMock(PagerInterface::class), $this->createMock(FormBuilder::class), []);
+        // `Datagrid`'s template parameter is inferred from both the query and the pager, so
+        // both mocks need their generic argument spelled out.
+        /** @var ProxyQueryInterface<object>&MockObject $proxyQuery */
+        $proxyQuery = $this->createMock(ProxyQueryInterface::class);
+        /** @var PagerInterface<ProxyQueryInterface<object>>&MockObject $pager */
+        $pager = $this->createMock(PagerInterface::class);
+
+        $this->datagrid = new Datagrid($proxyQuery, $fieldDescriptionCollection, $pager, $this->createMock(FormBuilder::class), []);
 
         $this->admin = $this->createMock(AdminInterface::class);
 

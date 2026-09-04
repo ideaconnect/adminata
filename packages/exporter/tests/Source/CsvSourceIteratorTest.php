@@ -83,8 +83,8 @@ final class CsvSourceIteratorTest extends TestCase
         static::assertSame(3, $i);
 
         $i = 0;
-        foreach ($iterator as $value) {
-            static::assertCount(2, $value);
+        foreach ($iterator as $rewoundValue) {
+            static::assertCount(2, $rewoundValue);
             ++$i;
         }
         static::assertSame(3, $i);

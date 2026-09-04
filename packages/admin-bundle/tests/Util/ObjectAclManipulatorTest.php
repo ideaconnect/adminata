@@ -90,7 +90,7 @@ final class ObjectAclManipulatorTest extends TestCase
         $securityHandler->expects(static::atLeastOnce())->method('addObjectOwner')->with($acl, static::isInstanceOf(UserSecurityIdentity::class));
         $securityHandler->expects(static::atLeastOnce())->method('addObjectClassAces')->with($acl, $this->admin);
         $securityHandler->expects(static::atLeastOnce())->method('updateAcl')->with($acl)->willThrowException(new \Exception('test exception'));
-        $this->output->method('writeln')->with(static::logicalAnd(
+        $this->output->expects(static::any())->method('writeln')->with(static::logicalAnd(
             static::stringContains('ignoring'),
             static::stringContains('test exception')
         ));

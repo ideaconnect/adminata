@@ -83,17 +83,17 @@ final class GroupExtensionTest extends TestCase
             ->willReturn(true);
 
         $adminCreatable
-            ->method('hasRoute')
+            ->expects(static::any())->method('hasRoute')
             ->with('create')
             ->willReturn(true);
 
         $adminCreatable
-            ->method('hasAccess')
+            ->expects(static::any())->method('hasAccess')
             ->with('create')
             ->willReturn(true);
 
         $adminNonCreatable
-            ->method('hasAccess')
+            ->expects(static::any())->method('hasAccess')
             ->with('create')
             ->willReturn(false);
 

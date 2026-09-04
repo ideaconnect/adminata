@@ -113,12 +113,12 @@ final class GroupMenuProvider implements MenuProviderInterface
         // Still must be granted unanimously to group and item
 
         $isItemGranted = true;
-        if (isset($item['roles']) && [] !== $item['roles']) {
+        if ([] !== $item['roles']) {
             $isItemGranted = array_any($item['roles'], fn ($role) => $this->checker->isGranted($role));
         }
 
         $isGroupGranted = true;
-        if (isset($group['roles']) && [] !== $group['roles']) {
+        if ([] !== $group['roles']) {
             $isGroupGranted = array_any($group['roles'], fn ($role) => $this->checker->isGranted($role));
         }
 

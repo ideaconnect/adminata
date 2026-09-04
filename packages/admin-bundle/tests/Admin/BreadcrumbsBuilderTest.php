@@ -43,7 +43,7 @@ final class BreadcrumbsBuilderTest extends TestCase
         $labelTranslatorStrategy = static::createStub(LabelTranslatorStrategyInterface::class);
 
         $routeGenerator = $this->createMock(RouteGeneratorInterface::class);
-        $routeGenerator->method('generate')->with('sonata_admin_dashboard')->willReturn('/dashboard');
+        $routeGenerator->expects(static::any())->method('generate')->with('sonata_admin_dashboard')->willReturn('/dashboard');
 
         $admin->method('getRouteGenerator')->willReturn($routeGenerator);
         $labelTranslatorStrategy->method('getLabel')->willReturnMap([
@@ -60,13 +60,13 @@ final class BreadcrumbsBuilderTest extends TestCase
         $childAdmin->method('getTranslationDomain')->willReturn('ChildBundle');
         $childAdmin->method('getLabelTranslatorStrategy')->willReturn($labelTranslatorStrategy);
         $childAdmin->method('getClassnameLabel')->willReturn('my_child_class_name');
-        $childAdmin->method('hasRoute')->with('list')->willReturn(true);
-        $childAdmin->method('hasAccess')->with('list')->willReturn(true);
-        $childAdmin->method('generateUrl')->with('list')->willReturn('/myadmin/my-object/mychildadmin/list');
+        $childAdmin->expects(static::any())->method('hasRoute')->with('list')->willReturn(true);
+        $childAdmin->expects(static::any())->method('hasAccess')->with('list')->willReturn(true);
+        $childAdmin->expects(static::any())->method('generateUrl')->with('list')->willReturn('/myadmin/my-object/mychildadmin/list');
         $childAdmin->method('getCurrentChildAdmin')->willReturn(null);
         $childAdmin->method('hasSubject')->willReturn(true);
         $childAdmin->method('getSubject')->willReturn($childSubject);
-        $childAdmin->method('toString')->with($childSubject)->willReturn('My subject');
+        $childAdmin->expects(static::any())->method('toString')->with($childSubject)->willReturn('My subject');
 
         $admin->method('hasRoute')->willReturnMap([
             ['show', true],
@@ -91,7 +91,7 @@ final class BreadcrumbsBuilderTest extends TestCase
         $admin->method('getRequest')->willReturn($request);
         $admin->method('hasSubject')->willReturn(true);
         $admin->method('getSubject')->willReturn($subject);
-        $admin->method('toString')->with($subject)->willReturn('My subject');
+        $admin->expects(static::any())->method('toString')->with($subject)->willReturn('My subject');
         $admin->method('getTranslationDomain')->willReturn('FooBundle');
         $admin->method('getLabelTranslatorStrategy')->willReturn($labelTranslatorStrategy);
         $admin->method('getClassnameLabel')->willReturn('my_class_name');
@@ -153,13 +153,13 @@ final class BreadcrumbsBuilderTest extends TestCase
 
         $menu = $this->createMock(ItemInterface::class);
         $menuFactory = $this->createMock(MenuFactory::class);
-        $menuFactory->method('createItem')->with('root')->willReturn($menu);
+        $menuFactory->expects(static::any())->method('createItem')->with('root')->willReturn($menu);
         $admin = $this->createMock(AdminInterface::class);
         $admin->method('getMenuFactory')->willReturn($menuFactory);
         $labelTranslatorStrategy = static::createStub(LabelTranslatorStrategyInterface::class);
 
         $routeGenerator = $this->createMock(RouteGeneratorInterface::class);
-        $routeGenerator->method('generate')->with('sonata_admin_dashboard')->willReturn('/dashboard');
+        $routeGenerator->expects(static::any())->method('generate')->with('sonata_admin_dashboard')->willReturn('/dashboard');
         $admin->method('getRouteGenerator')->willReturn($routeGenerator);
 
         $menu->method('addChild')->willReturnMap([
@@ -190,7 +190,7 @@ final class BreadcrumbsBuilderTest extends TestCase
             ], $menu],
         ]);
 
-        $menu->method('setExtra')->with('safe_label', false)->willReturn($menu);
+        $menu->expects(static::any())->method('setExtra')->with('safe_label', false)->willReturn($menu);
 
         $labelTranslatorStrategy->method('getLabel')->willReturnMap([
             ['my_class_name_list', 'breadcrumb', 'link', 'My class'],
@@ -203,7 +203,7 @@ final class BreadcrumbsBuilderTest extends TestCase
         $childAdmin->method('getTranslationDomain')->willReturn('ChildBundle');
         $childAdmin->method('getLabelTranslatorStrategy')->willReturn($labelTranslatorStrategy);
         $childAdmin->method('getClassnameLabel')->willReturn('my_child_class_name');
-        $childAdmin->method('hasRoute')->with('list')->willReturn(false);
+        $childAdmin->expects(static::any())->method('hasRoute')->with('list')->willReturn(false);
         $childAdmin->method('getCurrentChildAdmin')->willReturn(null);
         $childAdmin->method('hasSubject')->willReturn(false);
 
@@ -211,8 +211,8 @@ final class BreadcrumbsBuilderTest extends TestCase
             ['list', true],
             ['show', false],
         ]);
-        $admin->method('hasAccess')->with('list')->willReturn(true);
-        $admin->method('generateUrl')->with('list')->willReturn('/myadmin/list');
+        $admin->expects(static::any())->method('hasAccess')->with('list')->willReturn(true);
+        $admin->expects(static::any())->method('generateUrl')->with('list')->willReturn('/myadmin/list');
         $admin->method('getCurrentChildAdmin')->willReturn('my_action' === $action ? $childAdmin : null);
 
         if ('list' === $action) {
@@ -228,7 +228,7 @@ final class BreadcrumbsBuilderTest extends TestCase
         $admin->method('getRequest')->willReturn($request);
         $admin->method('hasSubject')->willReturn(true);
         $admin->method('getSubject')->willReturn($subject);
-        $admin->method('toString')->with($subject)->willReturn('My subject');
+        $admin->expects(static::any())->method('toString')->with($subject)->willReturn('My subject');
         $admin->method('getTranslationDomain')->willReturn('FooBundle');
         $admin->method('getLabelTranslatorStrategy')->willReturn($labelTranslatorStrategy);
         $admin->method('getClassnameLabel')->willReturn('my_class_name');

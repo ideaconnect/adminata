@@ -75,7 +75,7 @@ final class LockExtensionTest extends TestCase
         $this->configureAdmin($this->modelManager);
         $event = new FormEvent($form, $this->object);
 
-        $this->modelManager->method('getLockVersion')->with($this->object)->willReturn(1);
+        $this->modelManager->expects(static::any())->method('getLockVersion')->with($this->object)->willReturn(1);
 
         $form->expects(static::once())->method('add')->with(
             '_lock_version',
@@ -134,7 +134,7 @@ final class LockExtensionTest extends TestCase
         $this->configureAdmin($this->modelManager);
         $event = new FormEvent($form, $this->object);
 
-        $this->modelManager->method('getLockVersion')->with($this->object)->willReturn(null);
+        $this->modelManager->expects(static::any())->method('getLockVersion')->with($this->object)->willReturn(null);
         $form->expects(static::never())->method('add');
 
         $this->lockExtension->configureFormFields($formMapper);

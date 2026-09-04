@@ -91,13 +91,11 @@ final class AppKernel extends Kernel
 
         $loader->load(__DIR__.'/config/config.yml');
 
-        if (\PHP_VERSION_ID >= 80400) {
-            $container->loadFromExtension('doctrine', [
-                'orm' => [
-                    'enable_native_lazy_objects' => true,
-                ],
-            ]);
-        }
+        $container->loadFromExtension('doctrine', [
+            'orm' => [
+                'enable_native_lazy_objects' => true,
+            ],
+        ]);
 
         if (class_exists(CacheCompatibilityPass::class)) {
             // doctrine-bundle v2
