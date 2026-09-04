@@ -180,13 +180,13 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
                             \IntlDateFormatter::SHORT;
                     }
 
-                    return (new \IntlDateFormatter(
+                    return new \IntlDateFormatter(
                         $this->locale,
                         $format,
                         $timeFormat,
                         null,
                         \IntlDateFormatter::GREGORIAN
-                    ))->getPattern();
+                    )->getPattern();
                 }
 
                 return $format;

@@ -93,7 +93,7 @@ final class InlineConstraint extends Constraint
         return get_object_vars($this);
     }
 
-    public function __wakeup(): void
+    public function __unserialize(array $data): void
     {
         if (\is_string($this->getService()) && \is_string($this->getMethod())) {
             return;

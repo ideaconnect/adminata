@@ -37,7 +37,7 @@ final class ResizeFormListenerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->factory = (new FormFactoryBuilder())->getFormFactory();
+        $this->factory = new FormFactoryBuilder()->getFormFactory();
         $this->form = $this->getBuilder()
             ->setCompound(true)
             ->setDataMapper(new DataMapper())
