@@ -865,6 +865,9 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   in doctrine/dbal 4.3. The row's last complaint — 48 tests "did not remove their own exception
   handlers" — is Symfony-minor bookkeeping rather than a floor problem, so that row alone runs with
   `--do-not-fail-on-risky`; every other row keeps `failOnRisky`.
+- 2026-09-05 — **All four workflows green on `main`** (run 33930365756 and siblings): Test (five
+  matrix rows against MySQL and MongoDB services), Quality assurance (PHPStan and Rector on both
+  Symfony lines), Lint and Symfony lint. Milestone M0 is closed.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README
