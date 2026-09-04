@@ -23,7 +23,9 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-const built = fileURLToPath(new URL('../packages/admin-bundle/src/Resources/public/app.css', import.meta.url));
+const built = fileURLToPath(
+    new URL('../packages/admin-bundle/src/Resources/public/app.css', import.meta.url),
+);
 const contractFile = fileURLToPath(new URL('../assets/css/contract.json', import.meta.url));
 
 if (!existsSync(built)) {

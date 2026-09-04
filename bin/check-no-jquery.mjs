@@ -17,7 +17,7 @@
 
 import { execFileSync } from 'node:child_process';
 
-let output = '';
+let output;
 
 try {
     output = execFileSync('npm', ['ls', 'jquery', '--all', '--json'], { encoding: 'utf8' });

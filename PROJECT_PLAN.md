@@ -248,7 +248,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `npm run build` twice leaves `git diff --exit-code -- packages/admin-bundle/src/Resources/public` clean;
     outputs `app.js`, `app.css`, `fontawesome.css`, `entrypoints.json`, `manifest.json` exist.
 
-- [ ] **P1-03 · ESLint 10, Prettier 3.9, Stylelint 17, jQuery gate** · S · depends: P1-02
+- [x] **P1-03 · ESLint 10, Prettier 3.9, Stylelint 17, jQuery gate** · S · depends: P1-02
   - Read: PLAN/07 §6; PLAN/01 J13.
   - Do: `eslint.config.js` (flat; `@eslint/js` recommended, prettier, header plugin with the combined
     header, import plugin; `no-restricted-globals: ['$','jQuery','Alpine']`,
@@ -897,6 +897,14 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   repository* by default, which had `app.css` at 68 kB of utilities generated from the plan and the
   build scripts; `source(none)` with the explicit `@source` list of PLAN/04 §2 brings it to 8.8 kB.
   `css:contract` is back in `assets-check`, and `make fixture` runs the assertions.
+- 2026-09-05 — **P1-03 done.** `eslint.config.js` (flat, `@eslint/js` recommended + prettier, with
+  `no-restricted-globals` for `$`/`jQuery`/`Alpine` and `no-restricted-imports` for `jquery` and
+  `jquery-ui`), `prettier.config.js` + `.prettierignore` (the forked packages keep upstream's
+  formatting so upstream diffs still apply), `stylelint.config.js` with Tailwind v4's at-rules.
+  All four scripts pass, and the jQuery gate was proved by installing jQuery: it fails with
+  `jquery@3.7.1` and passes again once removed. There is no header-comment plugin: the one the plan
+  named does not support ESLint 10, so the header rule stays with php-cs-fixer for PHP and is a
+  convention for JavaScript.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README
