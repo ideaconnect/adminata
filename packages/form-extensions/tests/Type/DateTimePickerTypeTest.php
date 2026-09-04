@@ -13,8 +13,9 @@ declare(strict_types=1);
 
 namespace Sonata\Form\Tests\Type;
 
-use Sonata\Form\Date\JavaScriptFormatConverter;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\Form\Type\DateTimePickerType;
+use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormExtensionInterface;
 use Symfony\Component\Form\PreloadedExtension;
@@ -33,7 +34,6 @@ final class DateTimePickerTypeTest extends TypeTestCase
     public function testParentIsDateTimeType(): void
     {
         $form = new DateTimePickerType(
-            new JavaScriptFormatConverter(),
             'en'
         );
 
@@ -43,7 +43,6 @@ final class DateTimePickerTypeTest extends TypeTestCase
     public function testGetName(): void
     {
         $type = new DateTimePickerType(
-            new JavaScriptFormatConverter(),
             'en'
         );
 
@@ -86,14 +85,49 @@ final class DateTimePickerTypeTest extends TypeTestCase
             'html5' => false,
         ]);
 
-        // Symfony 8.1's DateTimeToLocalizedStringTransformer normalises the narrow no-break
-        // space ICU 72+ puts before AM/PM to a plain space on the way out, and accepts both
-        // on the way in.
-        static::assertSame('8:02 PM', $form->getViewData());
+        // A time-only picker exchanges its value the way <input type="time"> does.
+        static::assertSame('20:02', $form->getViewData());
 
-        $form->submit("5:23\u{202F}AM");
+        $form->submit('05:23');
         static::assertSame('1970-01-01 05:23:00', $form->getData()->format('Y-m-d H:i:s'));
         static::assertTrue($form->isSynchronized());
+    }
+
+    /**
+     * @param array<string, bool> $components
+     */
+    #[DataProvider('provideTheFormatIsDerivedFromTheComponentsCases')]
+    public function testTheFormatIsDerivedFromTheComponents(array $components, string $expected): void
+    {
+        $form = $this->factory->create(DateTimePickerType::class, null, [
+            'datepicker_options' => [
+                'display' => [
+                    'components' => $components,
+                ],
+            ],
+        ]);
+
+        static::assertSame($expected, $form->getConfig()->getOption('format'));
+    }
+
+    /**
+     * @return iterable<array-key, array{array<string, bool>, string}>
+     */
+    public static function provideTheFormatIsDerivedFromTheComponentsCases(): iterable
+    {
+        yield 'date only' => [['clock' => false], 'yyyy-MM-dd'];
+        yield 'time only' => [['calendar' => false, 'seconds' => false], 'HH:mm'];
+        yield 'time only with seconds' => [['calendar' => false, 'seconds' => true], 'HH:mm:ss'];
+        yield 'date and time' => [['seconds' => false], "yyyy-MM-dd'T'HH:mm"];
+        yield 'date and time with seconds' => [['seconds' => true], "yyyy-MM-dd'T'HH:mm:ss"];
+    }
+
+    public function testACustomFormatIsRefused(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('it renders a native HTML5 input');
+
+        $this->factory->create(DateTimePickerType::class, null, ['format' => 'dd.MM.yyyy HH:mm']);
     }
 
     /**
@@ -101,7 +135,7 @@ final class DateTimePickerTypeTest extends TypeTestCase
      */
     protected function getExtensions(): array
     {
-        $type = new DateTimePickerType(new JavaScriptFormatConverter(), 'en');
+        $type = new DateTimePickerType('en');
 
         return [
             new PreloadedExtension([$type], []),

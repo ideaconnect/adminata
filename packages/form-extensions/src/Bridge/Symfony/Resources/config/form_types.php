@@ -45,7 +45,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->tag('kernel.locale_aware')
             ->tag('form.type', ['alias' => 'sonata_type_date_picker'])
             ->args([
-                service('sonata.form.date.javascript_format_converter'),
                 param('kernel.default_locale'),
             ])
 
@@ -53,7 +52,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->tag('kernel.locale_aware')
             ->tag('form.type', ['alias' => 'sonata_type_datetime_picker'])
             ->args([
-                service('sonata.form.date.javascript_format_converter'),
                 param('kernel.default_locale'),
             ])
 

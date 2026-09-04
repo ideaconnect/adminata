@@ -15,7 +15,6 @@ namespace Sonata\Form\Tests\Type;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\Form\Date\JavaScriptFormatConverter;
 use Sonata\Form\Tests\Fixtures\Type\DummyPickerType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormConfigInterface;
@@ -26,15 +25,6 @@ use Symfony\Component\Form\FormView;
  */
 final class BasePickerTypeTest extends TestCase
 {
-    private JavaScriptFormatConverter $javaScriptFormatConverter;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->javaScriptFormatConverter = new JavaScriptFormatConverter();
-    }
-
     /**
      * @param array<string, mixed> $expectedOptions
      * @param array<string, mixed> $options
@@ -42,10 +32,7 @@ final class BasePickerTypeTest extends TestCase
     #[DataProvider('provideFinishViewCases')]
     public function testFinishView(array $expectedOptions, array $options): void
     {
-        $type = new DummyPickerType(
-            $this->javaScriptFormatConverter,
-            'en',
-        );
+        $type = new DummyPickerType('en');
 
         $view = new FormView();
         $form = new Form(static::createStub(FormConfigInterface::class));
@@ -59,10 +46,7 @@ final class BasePickerTypeTest extends TestCase
 
     public function testChangeLocale(): void
     {
-        $type = new DummyPickerType(
-            $this->javaScriptFormatConverter,
-            'en',
-        );
+        $type = new DummyPickerType('en');
 
         static::assertSame('en', $type->getLocale());
 
@@ -81,9 +65,6 @@ final class BasePickerTypeTest extends TestCase
                 'constraints' => [
                     'minDate' => '1/1/1900',
                     'maxDate' => '0:00',
-                ],
-                'localization' => [
-                    'format' => 'H:mm',
                 ],
             ],
             [
@@ -104,9 +85,6 @@ final class BasePickerTypeTest extends TestCase
                         'seconds' => true,
                     ],
                 ],
-                'localization' => [
-                    'format' => 'yyyy-MM-dd',
-                ],
             ],
             [
                 'html5' => false,
@@ -122,11 +100,7 @@ final class BasePickerTypeTest extends TestCase
         ];
 
         yield [
-            [
-                'localization' => [
-                    'format' => '',
-                ],
-            ],
+            [],
             [
                 'datepicker_options' => [
                     'display' => [
