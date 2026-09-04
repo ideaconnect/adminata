@@ -81,7 +81,7 @@ A CI job (`versions-watch`, weekly) lists newer releases of every entry above an
     "twig/twig": "^3.28", "twig/string-extra": "^3.0",
     "knplabs/knp-menu": "^3.6", "knplabs/knp-menu-bundle": "^3.0",
     "doctrine/collections": "^2.0 || ^3.0", "doctrine/common": "^3.0", "doctrine/dbal": "^4.0", "doctrine/persistence": "^4.0",
-    "doctrine/orm": "^3.3", "doctrine/doctrine-bundle": "^3.0",
+    "doctrine/orm": "^3.6", "doctrine/doctrine-bundle": "^3.0",
     "psr/container": "^2.0", "psr/log": "^3.0"
   },
   "require-dev": { "doctrine/doctrine-fixtures-bundle": "^4.0", "dama/doctrine-test-bundle": "^8.6", "symfony/panther": "^2.4", "phpunit/phpunit": "^13.3", "phpstan/*": "^2.2", "rector/rector": "^2.6", "friendsofphp/php-cs-fixer": "^3.95", "infection/infection": "^0.35", "phpoffice/phpspreadsheet": "^5.0" },

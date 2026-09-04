@@ -64,7 +64,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Read: PLAN/07 §3; PLAN/01 P3–P5; PLAN/02 §1.
   - Do: compute the union of the seven `packages/*/composer.json` `require` lists (drop
     `sonata-project/*`, raise floors to `php ^8.4`, `symfony/* ^7.4 || ^8.0`, `twig ^3.28`,
-    `doctrine/orm ^3.3`, `doctrine/doctrine-bundle ^3.0`, `symfony/stimulus-bundle ^3.4`); write
+    `doctrine/orm ^3.6`, `doctrine/doctrine-bundle ^3.0`, `symfony/stimulus-bundle ^3.4`); write
     `replace` × 7 at the exact versions; `autoload`/`autoload-dev` PSR-4 × 7 plus `Adminata\Tests\`
     → `tests/`; `require-dev` at PLAN/07 §2 versions; scripts; `suggest`; delete
     `packages/*/composer.json`. Run `composer install`, `composer normalize`.
@@ -847,6 +847,13 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   `phpstan-lts.neon.dist` tolerates on that line alone while the highest line keeps reporting
   unmatched ignores; and the console `add()`/`addCommand()` bridge in five test files was dead
   weight — every supported Symfony has `addCommand()` — so it is gone along with `CommandHelper`.
+  The second run found three more: PHPUnit 13 validates coverage targets and
+  `#[CoversMethod(AbstractAdmin::class, '__construct')]` names a constructor that class does not
+  have, which warned once per test (195 of them) and, with `failOnWarning`, failed the coverage
+  run; the exporter's ODM source iterator wants a real MongoDB, so `test.yaml` gained a service for
+  it; and the `lowest` row installed `doctrine/orm` 3.3 and `symfony/property-info` 6.4, neither of
+  which has the API the code calls, so the ORM floor moved to `^3.6` (PLAN/01 P5 and PLAN/07 §3
+  updated) and `symfony/property-info` is declared in `require-dev`.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

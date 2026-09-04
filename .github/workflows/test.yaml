@@ -28,6 +28,17 @@ jobs:
         # runner rather than a Selenium service container: a container cannot reach the
         # runner's loopback, where Panther starts its own web server.
         services:
+            # The exporter's ODM source iterator talks to a real server.
+            mongo:
+                image: mongo:8
+                ports:
+                    - 27017:27017
+                options: >-
+                    --health-cmd "mongosh --quiet --eval 'db.runCommand({ping:1}).ok' | grep -q 1"
+                    --health-interval 5s
+                    --health-timeout 5s
+                    --health-retries 20
+
             database:
                 image: mysql:8.4
                 env:

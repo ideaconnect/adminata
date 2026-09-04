@@ -89,7 +89,6 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[CoversMethod(AbstractAdmin::class, '__construct')]
 #[CoversMethod(AbstractAdmin::class, 'hasChild')]
 #[CoversMethod(AbstractAdmin::class, 'addChild')]
 #[CoversMethod(AbstractAdmin::class, 'getChild')]

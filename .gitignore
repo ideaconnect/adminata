@@ -10,3 +10,4 @@
 .DS_Store
 /.php-cs-fixer.packages.cache
 /.php-cs-fixer.adminata.cache
+/build/
