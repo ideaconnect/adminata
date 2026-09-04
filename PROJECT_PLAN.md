@@ -47,7 +47,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
 
 ## Milestone M0 — Bootstrap (PLAN/09 phase 0)
 
-- [ ] **P0-01 · Import the seven upstream packages** · L · depends: —
+- [x] **P0-01 · Import the seven upstream packages** · L · depends: —
   - Read: PLAN/07 §2 (tags), §4 (layout), §10 (remotes); PLAN/01 P1, P2, P9.
   - Do: create `upstream/remotes.txt` (name → GitHub URL for SonataAdminBundle, SonataBlockBundle,
     sonata-doctrine-extensions, SonataDoctrineORMAdminBundle, exporter, form-extensions,
@@ -56,7 +56,8 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     4.21.0, 3.4.0, 2.7.0, 2.6.0. Record tag + commit per package in `UPSTREAM.md`. Measure
     `du -sh .git`; if above 300 MB, re-import the small packages with `--squash` and note it.
   - Deliver: `packages/<name>/` × 7, `upstream/remotes.txt`, `UPSTREAM.md`.
-  - Accept: `ls -d packages/*/src | wc -l` prints 7; `git log --oneline --merges | grep -c "packages/"` ≥ 7;
+  - Accept: `ls -d packages/*/src | wc -l` prints 7;
+    `git log --merges --format=%B | grep -c "^git-subtree-dir: packages/"` prints 7;
     `jq -r .name packages/*/composer.json` lists the seven upstream names.
 
 - [ ] **P0-02 · Root `composer.json`** · M · depends: P0-01
@@ -683,3 +684,9 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 ## Status log
 
 - 2026-09-04 — Plan v3 committed and pushed (`8430fae`); PROJECT_PLAN.md created; no task started.
+- 2026-09-04 — **P0-01 done.** Seven upstream packages imported with `git subtree add` at the PLAN/07
+  §2 tags (full history, no `--squash`: `.git` is 65 MB against the 300 MB threshold).
+  `upstream/remotes.txt` and `UPSTREAM.md` written. Plan change in the same commit: the P0-01 accept
+  command grepped `git log --oneline`, which never contains the subtree footer; it now counts
+  `git-subtree-dir: packages/` over full commit messages (`--merges` alone also matches the imported
+  upstream merge commits, so the footer is the precise check).

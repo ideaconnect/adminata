@@ -1,0 +1,86 @@
+{
+    "name": "sonata-project/block-bundle",
+    "description": "Symfony SonataBlockBundle",
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "keywords": [
+        "sonata",
+        "block"
+    ],
+    "authors": [
+        {
+            "name": "Thomas Rabaix",
+            "email": "thomas.rabaix@sonata-project.org",
+            "homepage": "https://sonata-project.org"
+        },
+        {
+            "name": "Sonata Community",
+            "homepage": "https://github.com/sonata-project/SonataBlockBundle/contributors"
+        }
+    ],
+    "homepage": "https://docs.sonata-project.org/projects/SonataBlockBundle",
+    "require": {
+        "php": "^8.2",
+        "doctrine/collections": "^1.8 || ^2.0",
+        "doctrine/common": "^3.0",
+        "psr/container": "^1.0 || ^2.0",
+        "psr/log": "^2.0 || ^3.0",
+        "sonata-project/form-extensions": "^2.0",
+        "symfony/asset": "^6.4 || ^7.3 || ^8.0",
+        "symfony/config": "^6.4 || ^7.3 || ^8.0",
+        "symfony/console": "^6.4 || ^7.3 || ^8.0",
+        "symfony/dependency-injection": "^6.4 || ^7.3 || ^8.0",
+        "symfony/event-dispatcher": "^6.4 || ^7.3 || ^8.0",
+        "symfony/event-dispatcher-contracts": "^2.0 || ^3.0",
+        "symfony/form": "^6.4 || ^7.3 || ^8.0",
+        "symfony/framework-bundle": "^6.4 || ^7.3 || ^8.0",
+        "symfony/http-foundation": "^6.4 || ^7.3 || ^8.0",
+        "symfony/http-kernel": "^6.4 || ^7.3 || ^8.0",
+        "symfony/options-resolver": "^6.4 || ^7.3 || ^8.0",
+        "symfony/twig-bundle": "^6.4 || ^7.3 || ^8.0",
+        "symfony/validator": "^6.4 || ^7.3 || ^8.0",
+        "twig/twig": "^3.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.4",
+        "knplabs/knp-menu": "^3.1",
+        "knplabs/knp-menu-bundle": "^3.0",
+        "matthiasnoback/symfony-config-test": "^6.1",
+        "matthiasnoback/symfony-dependency-injection-test": "^6.2.0",
+        "phpstan/extension-installer": "^1.0",
+        "phpstan/phpstan": "^1.0 || ^2.0",
+        "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
+        "phpstan/phpstan-strict-rules": "^1.0 || ^2.0",
+        "phpstan/phpstan-symfony": "^1.0 || ^2.0",
+        "phpunit/phpunit": "^11.5.38 || ^12.3.10",
+        "rector/rector": "^1.1 || ^2.0",
+        "symfony/browser-kit": "^6.4 || ^7.3 || ^8.0",
+        "symfony/error-handler": "^6.4 || ^7.3 || ^8.0",
+        "symfony/stopwatch": "^6.4 || ^7.3 || ^8.0"
+    },
+    "conflict": {
+        "knplabs/knp-menu-bundle": "<3.0"
+    },
+    "suggest": {
+        "knplabs/knp-menu-bundle": "Required to use the menu block"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Sonata\\BlockBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sonata\\BlockBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    }
+}

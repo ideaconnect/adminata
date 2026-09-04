@@ -1,0 +1,76 @@
+{
+    "name": "sonata-project/doctrine-extensions",
+    "description": "Doctrine2 behavioral extensions",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "json",
+        "doctrine2",
+        "doctrine"
+    ],
+    "authors": [
+        {
+            "name": "Thomas Rabaix",
+            "email": "thomas.rabaix@sonata-project.org",
+            "homepage": "http://sonata-project.org"
+        },
+        {
+            "name": "Sonata Community",
+            "homepage": "https://github.com/sonata-project/sonata-doctrine-extensions/contributors"
+        }
+    ],
+    "homepage": "https://github.com/sonata-project/sonata-doctrine-extensions",
+    "require": {
+        "php": "^8.2",
+        "doctrine/dbal": "^3.4 || ^4.0",
+        "doctrine/persistence": "^3.0.2 || ^4.0"
+    },
+    "require-dev": {
+        "doctrine/doctrine-bundle": "^2.17 || ^3.0",
+        "doctrine/event-manager": "^1.2 || ^2.0",
+        "doctrine/mongodb-odm": "^2.4",
+        "doctrine/orm": "^2.16 || ^3.0",
+        "friendsofphp/php-cs-fixer": "^3.4",
+        "matthiasnoback/symfony-config-test": "^6.1",
+        "matthiasnoback/symfony-dependency-injection-test": "^6.1",
+        "phpstan/extension-installer": "^1.0",
+        "phpstan/phpstan-strict-rules": "^1.0 || ^2.0",
+        "phpunit/phpunit": "^10.5.54 || ^11.5.38 || ^12.3.10",
+        "psalm/plugin-phpunit": "^0.18 || ^0.19",
+        "rector/rector": "^1.1 || ^2.0",
+        "symfony/dependency-injection": "^6.4 || ^7.3 || ^8.0",
+        "symfony/doctrine-bridge": "^6.4 || ^7.3 || ^8.0",
+        "symfony/expression-language": "^6.4 || ^7.3 || ^8.0",
+        "symfony/framework-bundle": "^6.4 || ^7.3 || ^8.0"
+    },
+    "conflict": {
+        "doctrine/doctrine-bundle": "<2.7",
+        "doctrine/mongodb-odm": "<2.4",
+        "doctrine/orm": "<2.16"
+    },
+    "suggest": {
+        "doctrine/mongodb-odm": "If you use mongo",
+        "doctrine/orm": "If you use doctrine orm",
+        "symfony/framework-bundle": "If you want to use symfony"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Sonata\\Doctrine\\": "src/",
+            "Sonata\\Doctrine\\Bridge\\Symfony\\": "src/Bridge/Symfony/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sonata\\Doctrine\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    }
+}

@@ -1,0 +1,28 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{%- apply trim|raw %}
+    {% if value is null %}
+        &nbsp;
+    {% elseif value.trans is defined %}
+        {# Enum implements TranslatableInterface and therefore has direct control over how it should be displayed. #}
+        {{ value|trans }}
+    {% else %}
+        {% set value = use_value|default(false) ? value.value : value.name %}
+
+        {% if translation_domain|default(null) is null %}
+            {% set value = value %}
+        {% else %}
+            {% set value = value|trans({}, translation_domain) %}
+        {% endif %}
+        {{ value }}
+    {% endif %}
+{% endapply -%}
