@@ -1,0 +1,52 @@
+# 10 — Migrating recomaty-panel (`MIGRATION.md`) and generic upgrade notes
+
+Derived from the production-app audit (`R/gap-real-app-audit.md`, re-checked against
+`~/dev/r3/recomaty-panel-clean` in appendix C). There is no compatibility layer, so every item
+below is a real edit in the app; the total is about 46 hours for an engineer who knows the app.
+The v1 estimate (24–27 h) assumed the compat stylesheet did most of the work.
+
+## 1. Procedure (executed once, on a branch, during phase 5)
+
+| Step | Edit | Hours |
+|---|---|---|
+| 0 | commit everything; `git checkout -b adminata` | — |
+| 1 | `composer require idct/adminata --no-plugins --no-scripts` then `composer install`; `bin/console cache:clear && bin/console assets:install public`; `git diff -- config/` must be empty (Flex `unconfigure` guard) | 0.5 |
+| 2 | `config/packages/sonata_admin.yaml`: delete `options.use_select2`; optional `adminata: { theme: { mode: system } }`; `assets.remove_stylesheets: [bundles/sonataadmin/app.css]` once the app compiles Tailwind (step 11) | 0.5 |
+| 3 | `config/packages/twig.yaml`: replace `@SonataForm/Form/datepicker.html.twig` with `@SonataAdmin/Form/form_admin_fields.html.twig` (global theme for the plain forms on admin pages) | 0.2 |
+| 4 | Layout override `templates/layout/standard_layout_override.html.twig`: delete the `admin_lte_skin_class`, `logo`, `javascripts`, `sonata_javascript_config`, `sonata_javascript_pool` blocks (verbatim upstream copies and dead moment/select2 branches); drop the Font Awesome CDN link; replace the Flowbite alert embed in `sonata_page_content_header` with an `adm-alert` div; rewrite the `#universal-modal` in `sonata_wrapper` as a `<dialog class="adm-dialog" {{ stimulus_controller('sonata-modal') }}>` | 2 |
+| 5 | Login page, password-reset layout, `user_block`: TailAdmin sign-in recipe on the same blocks (`sonata_nav`, `logo`, `sonata_left_side`, `body_attributes`, `sonata_wrapper`); drop `glyphicon` spans; user dropdown items as `adm-dropdown__item` | 3 |
+| 6 | Nine page templates with hard-coded `notice` includes → `{% block notice %}{{ parent() }}{% endblock %}` | 0.5 |
+| 7 | Page templates: `admin/dashboard_stats` (AdminLTE boxes → `adm-card`/metric cards, keep `data-controller="chart"`), `transaction/create_manual`, `promo_code/create`, `recomapp/legacyEans/{create,reject}`, `pocket_rvm/reject`, `recomat/clone`, `recomat/edit` (activation box → `adm-card`, buttons → `adm-btn`), `test_runner/launch`, `security/password_change`; delete dead `generic_create`, `message/*`, `recomat/confirm_archive`, `promo_code/upload` (no controller renders them) | 6 |
+| 8 | Bundle overrides under `templates/bundles/SonataAdminBundle/`: 16 `list__action*` templates (base, four standard, eleven custom) → `adm-btn-icon adm-btn-icon-{edit,show,delete,…}` (drop `btn btn-action-icon`), keep the `*_link` hooks and add `sr-only` labels; `Button/create_button` → same slot, `adm-btn`; `crud/button_launch_test` likewise; `list_enum`, `Association/list_many_to_one`, `list__select`: replace `label label-*`/`btn` with `adm-badge`/`adm-btn`; delete `Association/base_list_inner_row.html.twig` (never resolved) | 3 |
+| 9 | `crud/list_with_summaries.html.twig`: move the summary table into `{% block list_after_table %}` (no stray `</div>`), `adm-card` + `adm-table` | 1 |
+| 10 | 55 cell templates under `templates/field/` (1,041 lines): `callout` (316 uses), `label label-*`, `btn*`, `box*`, `table*`, `text-*`, `progress*`, inline pastel `background-color`s → `adm-callout-*`, `adm-badge-*`, `adm-btn-*`, Tailwind utilities with `dark:` variants (tokens instead of hex); keep the `<td class="sonata-ba-list-field …" objectId>` envelope and `{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}` | 12 |
+| 11 | CSS/build: add `assets/styles/admin.css` per document 04 §7 (`@tailwindcss/postcss` 4.3.3 in Encore); delete `admin-theme.scss` + partials (453 lines) and the AdminLTE-fighting parts of `sonata-overrides.scss` (658 → about 150 lines: keep `.btn-action-*` palette only if still wanted, `th.content-width`, image preview); rename `.mt-10` → `.app-mt-10` (and `PasswordChangeForm` `row_attr`); update the `font-family: 'Font Awesome …'` rule to `"Font Awesome 7 Free"` | 4 |
+| 12 | Admin classes: 31 group classes `col-md-N` → `col-span-12 md:col-span-N` (`'section-geolocation col-md-12 hidden'` → `'section-geolocation col-span-12 hidden'`); remove `'class' => 'form-control'`/`'btn btn-success'` attrs in `NoteForm`, `PasswordChangeForm`, `SmartLoginAssignForm` | 1 |
+| 13 | Date/time fields (12 usages, document 06 §4): set HTML5-compatible `format`s (`yyyy-MM-dd`, `yyyy-MM-dd'T'HH:mm`, `HH:mm`) on `PartnerPromoAdmin`, `PromoCodeAdmin`, `TransactionAdmin`, `RecomatAdmin`, `RvmStateAdmin`, `RvmFaultStateAdmin`, `AcmContentJobAdmin`, `RecomatDateHoursForm`, `RecomatWeekdayHoursForm`, `CreateManualTransactionType` — or switch them to Symfony core types | 2 |
+| 14 | Icons: `fa fa-clock-o` → `fa fa-clock` (`rvmTaskState.html.twig`); nothing else (75 of 76 names resolve in FA7 Free) | 0.3 |
+| 15 | JS: `npm i jquery`? **No** — port instead: `UniversalModal.js` → `dialog.showModal()` on the new `<dialog>` (19 lines), `SectionSlider.js` → toggle the `hidden` attribute (14 lines), `TransactionItemsAccordion.js` → `fetch` + `insertAdjacentHTML` (56 lines); delete `import $ from 'jquery'`, `jquery-ui-bundle` imports and the two npm deps; remove `.addExternals({ jquery: 'jQuery' })` | 2 |
+| 16 | Tests: run the Behat suite; add the BrowserKit and Panther scenarios of document 08 §6; fix what breaks (adminata or app) | 8 |
+| **Total** | | **≈ 46** |
+
+## 2. What the app keeps unchanged
+
+Admin classes and their `configure*` methods; `config/services/admin/*.yaml` tags and calls
+(`setTemplate`, `setFormTheme`, `setListActions`); `sonata_doctrine_orm_admin.templates.types`;
+custom controllers and routes; `SidebarMenuSubscriber` (its `sidebar-section-header` items render
+as TailAdmin group titles); `BaseAdmin` summaries and deprecation messages; the second Stimulus
+application and its seven controllers; ux-autocomplete fields and filters; Dropzone; `csrf.yaml`
+stateless tokens; `lock_protection`; `use_stickyforms`; flash keys; all `admin_app_*` route names.
+
+## 3. `UPGRADE-1.0.md` (generic notes for other Sonata 4.43 apps)
+
+| § | Topic |
+|---|---|
+| U1 | Install: `composer require idct/adminata --no-plugins --no-scripts`, `composer install`, `cache:clear`, `assets:install` |
+| U2 | Removed config nodes (`options.skin`, `use_select2`, `use_icheck`, `use_bootlint`); changed defaults (asset lists, `dashboard.blocks[].class`, group `class`, `box_class`) |
+| U3 | Markup vocabulary: Bootstrap/AdminLTE classes are gone; `.adm-*` components; compile Tailwind yourself for arbitrary utilities (document 04 §7) |
+| U4 | Layout overrides: blocks kept (document 02 §5), `admin_lte_skin_class` and `_skin` gone, `notice` → `{{ parent() }}` |
+| U5 | JavaScript: no jQuery, no `window.Admin`; `window.sonataApplication` only; controllers and events (document 05); modals are `<dialog>` + `sonata-modal` |
+| U6 | Forms: native selects; native date/time inputs with HTML5 `format`s; `bundles/sonataform/app.{js,css}` no longer default |
+| U7 | Icons: Font Awesome 7 Free, no v4/v5 shims; rename v4-only names |
+| U8 | Dark mode: `html.dark` is stamped; add `dark:` variants to hard-coded colours |
+| U9 | Not yet ported templates (document 03 §E) still render their Bootstrap markup unstyled; open an issue when you need one |

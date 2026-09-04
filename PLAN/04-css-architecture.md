@@ -1,0 +1,148 @@
+# 04 — CSS architecture (Tailwind 4.3)
+
+Condensed from `R/gap-css-architecture.md` (recipes and rule-by-rule disposition of Sonata's SCSS)
+minus the compatibility layer. Decisions C1–C8 apply. Versions: `tailwindcss` 4.3.3,
+`@tailwindcss/vite` 4.3.3 (verified 2026-09-04; pin exactly, bump with Dependabot).
+
+## 1. Layers
+
+| Layer | Mechanism | Purpose |
+|---|---|---|
+| (a) Prebuilt `app.css` | compiled from adminata's own templates and JS (`@source`) | zero-config install (demo app, MongoDB fork tests, small apps) |
+| (b) `.adm-*` components | `@utility adm-*` for single-selector primitives (`adm-btn`, `adm-btn-icon`, `adm-input`, `adm-select`, `adm-badge`, `adm-card`, `adm-callout`, `adm-alert`, …); `@layer components` for descendant rules (tables, sidebar, pagination); every name safelisted | readable templates; the design-system vocabulary the app's own cell and page templates reuse |
+| (c) Grid safelist | `@source inline()` for `{,sm:,md:,lg:,xl:}col-span-{1..12}` and `{sm:,md:,lg:,xl:}col-start-{2..12}` | group `class` values from admin classes and the PHP defaults reach the prebuilt CSS |
+| (d) Per-app compile | the app imports `adminata.css` and adds `@source` globs for adminata's views and its own templates (§7) | arbitrary utilities in app templates; **recommended for recomaty-panel** |
+
+No Bootstrap/AdminLTE compatibility layer, no `.sonata-bc` scoping, no skins (C4).
+
+## 2. Source layout (`assets/css`)
+
+```
+assets/css/
+├── app.css                  # entry 1 → src/Resources/public/app.css
+├── fontawesome.css          # entry 2 → fontawesome.css (FA7 Free all.css, woff2 only)
+├── adminata.css             # importable aggregate for apps (no @source, no "tailwindcss" import)
+├── theme.css                # @custom-variant dark + @theme static tokens
+├── base.css                 # @layer base: border-color shim, body, .dark color-scheme, density vars
+├── fonts.css                # @font-face Outfit Variable (self-hosted)
+├── components/*.css         # card, button, badge, callout, form, table, alert, dropdown, pagination,
+│                            # sidebar, layout, modal, list, show, misc  → the .adm-* layer
+├── safelist.css             # @source inline() lists (grid; generated adm-* names)
+└── contract.json            # GENERATED selector list asserted by CI
+```
+
+`app.css`:
+
+```css
+@import "tailwindcss";
+@import "./adminata.css";
+@source "../../src/Resources/views";
+@source "../js";
+@source not "../js/**/*.test.js";
+```
+
+Published under `src/Resources/public/` (committed): `app.css`, `fontawesome.css`, `fonts/*.woff2`,
+`app.js`, `images/*`, `entrypoints.json`, `manifest.json`.
+
+## 3. Tokens and dark mode
+
+- `@custom-variant dark (&:where(.dark, .dark *));` — matches the `.dark` element itself (TailAdmin's
+  `(&:is(.dark *))` does not).
+- `@theme static { … }` copies TailAdmin's palette (brand, blue-light, gray, orange, success, error,
+  warning, theme-pink/purple), type scale (`text-title-*`, `text-theme-*`), shadows, extra
+  breakpoints (`2xsm`, `xsm`, `3xl`) verbatim from `T/src/css/style.css:8-166`; does **not** copy
+  the `--font-*: initial` / `--breakpoint-*: initial` resets nor the Google Fonts import.
+- Additions: `--radius-control` (0.5 rem), `--radius-card` (1 rem), `--radius-panel`, `--radius-modal`;
+  semantic z-index ladder `--z-index-{base:1, overlay:10, sticky:20, dropdown:30, sidebar:40,
+  header:50, modal:60, popover:70, toast:80, loader:90}`.
+- Brand re-theming: utilities compile to `var(--color-brand-500)`, so any later stylesheet that
+  redefines `--color-brand-*` re-themes without a rebuild (documented for the app).
+- `base.css` restores Tailwind v3's default border colour (`gray-200` / dark `gray-800`), sets
+  `color-scheme` (also makes native date/time inputs dark), defines runtime density variables
+  (`--adm-control-h`, `--adm-control-px/py`, `--adm-cell-px/py`, `--adm-card-p`, sidebar widths,
+  header height) and an `html[data-density="compact"]` override; body recipe from `T/src/index.html`.
+- Dark mode is stamped server-side: `<html class="no-js{% if theme == 'dark' %} dark{% endif %}"
+  data-theme="…">` from the `sonata_theme` cookie (default from `adminata.theme.mode`); `.dark`
+  never goes on `<body>`.
+
+## 4. Emission rules that must hold (verify first)
+
+| # | Assumption | Consequence if wrong |
+|---|---|---|
+| T1 | `@utility` classes are emitted only when seen in scanned sources or `@source inline()` | safelist strategy for `.adm-*` |
+| T3 | `@apply` accepts `@utility` names but not `@layer components` classes | `.adm-*` primitives must be `@utility` |
+| T4 | `@source inline("…")` supports brace expansion with ranges | grid safelist |
+| T5 | `@theme static` emits all variables; utilities reference `var(--…)` | runtime brand override |
+| T6 | `@custom-variant dark (&:where(.dark, .dark *))` semantics | dark selectors |
+| T7 | A layer declared after `@import "tailwindcss"` sorts after `utilities` | `@layer sonata-overrides` for the few collision fixes |
+| T9 | Bare `z-99999`, `h-(--var)`, `max-sm:` syntax | copied partials, density |
+| T10 | Multi-property custom utilities sort before single-property core utilities | `class="adm-input px-2"` lets `px-2` win |
+| T11 | Preflight keeps `[hidden]{display:none!important}` | controllers toggle the `hidden` attribute |
+| T12 | Unscoped preflight is acceptable (the page is adminata's) | decision, not a fact |
+
+First task of phase 1: a 20-line fixture built with the pinned Tailwind version asserting T1–T11.
+(v1's T2 and T8 concerned the removed compatibility layer.)
+
+## 5. Safelist (`safelist.css`)
+
+- Grid outputs: `{,sm:,md:,lg:,xl:}col-span-{1..12}`, `{sm:,md:,lg:,xl:}col-start-{2..12}`.
+- `{,sm:,md:,lg:}hidden`, `{sm:,md:,lg:}block` for `row_attr`/`attr` users.
+- Generated: every `adm-*` utility name (from `components/*.css` by `bin/build-css-safelist.mjs`),
+  TailAdmin's `menu-item*`, `menu-dropdown-*`, `no-scrollbar`, `custom-scrollbar`.
+- Cost: about 104 grid rules (≈ 4 KB) plus utilities the templates emit anyway.
+
+## 6. Sonata SCSS disposition
+
+`styles.scss`, `layout.scss`, `tree.scss`, `flashmessage.scss`, `readmore.scss`,
+`admin-lte-fas.scss` (2,877 lines with the JS) have a rule-by-rule disposition in
+`R/gap-css-architecture.md` §5; kept rules become `components/*.css` entries (readmore, flash
+read-more toggle, list cell hooks, sticky `.stuck`); AdminLTE overrides and `tree.scss` are dropped.
+
+## 7. Per-app recipe (recomaty-panel: Webpack Encore + `@tailwindcss/postcss`)
+
+```css
+/* assets/styles/admin.css */
+@import "tailwindcss";
+@import "../../vendor/idct/adminata/assets/css/adminata.css";
+@source "../../vendor/idct/adminata/src/Resources/views";
+@source "../../vendor/idct/adminata/assets/js";
+@source "../../templates";
+@source "../../src/Admin";
+:root { --color-brand-500: #0ea5e9; } /* optional re-theme */
+```
+
+```yaml
+sonata_admin:
+    assets:
+        remove_stylesheets: [bundles/sonataadmin/app.css]
+        extra_stylesheets: [{ path: 'build/admin.css', package_name: null }]
+```
+
+Encore: `.enablePostCssLoader()` with `@tailwindcss/postcss` 4.3.3 in `postcss.config.mjs`; the
+app's Sass files that fight AdminLTE are deleted (document 10). Other toolchains (AssetMapper +
+`symfonycasts/tailwind-bundle` 1.0.0, Vite) are documented post-1.0.
+
+## 8. Icons, fonts, budget
+
+- **Font Awesome 7.3.1 Free**: `all.css` (90 KB min) + `fa-solid-900.woff2` (119 KB) +
+  `fa-regular-400.woff2` (20 KB); brands (115 KB) shipped only if an app asks. No `v4-shims`,
+  no `v4-font-face`, no `v5-font-face`: every icon name the app uses resolves through FA7's built-in
+  aliases except `clock-o` (appendix C §6), which the app renames.
+- **Outfit Variable** self-hosted (`@fontsource-variable/outfit` 5.3.0, latin + latin-ext),
+  `font-display: swap`.
+
+| File | Sonata 4.43 | adminata target (min / br) |
+|---|---|---|
+| `app.css` | 345 KB | ≤ 120 KB / ≤ 20 KB |
+| `fontawesome.css` | (inside app.css) | ≤ 80 KB / ≤ 15 KB (or `all.css` verbatim ≤ 95 KB) |
+| fonts | 2.1 MB | ≤ 320 KB |
+
+CI job `css-contract`: parse built CSS, assert every `contract.json` selector exists, assert absence
+of `.btn`, `.box`, `.label`, `.col-md-*`, `.container{`, `.collapse{visibility`, Google Fonts URLs,
+ttf/eot refs; size budgets; dead-class lint over `class="…"` literals in templates.
+
+## 9. Flags carried into the risk register
+
+F1 missing safelist entry silently drops an `.adm-*` class (CI contract); F2 Tailwind semantics
+unverified locally; F3 app classes named like utilities (`mt-10`, `hidden`) change meaning
+page-wide once the app compiles Tailwind; F4 FA7 renames in the app.

@@ -1,0 +1,76 @@
+# Appendix A — Twig block names per template
+
+Generated from `sonata-project/admin-bundle` 4.43.0 `src/Resources/views` (131 templates, 138 unique block names). Every name must survive in adminata (document 02 §5); additions are allowed, removals are majors.
+
+- `Block/block_admin_list.html.twig`: block 
+- `Block/block_admin_preview.html.twig`: block list_header no_result_content table_body table_footer table_header 
+- `Block/block_rss_dashboard.html.twig`: block 
+- `Block/block_search_result.html.twig`: block 
+- `Block/block_stats.html.twig`: block 
+- `CRUD/Association/list_many_to_many.html.twig`: field relation_link relation_value 
+- `CRUD/Association/list_many_to_one.html.twig`: field 
+- `CRUD/Association/list_one_to_many.html.twig`: field relation_link relation_value 
+- `CRUD/Association/list_one_to_one.html.twig`: field 
+- `CRUD/Association/show_many_to_many.html.twig`: field 
+- `CRUD/Association/show_many_to_one.html.twig`: field 
+- `CRUD/Association/show_one_to_many.html.twig`: field 
+- `CRUD/Association/show_one_to_one.html.twig`: field 
+- `CRUD/action.html.twig`: actions content tab_menu 
+- `CRUD/base_acl.html.twig`: actions form form_acl_roles form_acl_users 
+- `CRUD/base_edit.html.twig`: actions form navbar_title tab_menu title 
+- `CRUD/base_edit_form.html.twig`: btn_acl btn_create btn_create_and_create btn_create_and_edit btn_create_and_list btn_delete btn_preview btn_update_and_edit btn_update_and_list form formactions sonata_form_action_url sonata_form_actions sonata_form_attributes sonata_post_fieldsets sonata_pre_fieldsets sonata_tab_content 
+- `CRUD/base_history.html.twig`: actions content 
+- `CRUD/base_list.html.twig`: actions batch batch_actions batch_javascript list_filters list_filters_actions list_footer list_header list_table navbar_title no_result_content pager_links pager_results sonata_list_filter_group_class tab_menu table table_body table_footer table_header title 
+- `CRUD/base_list_field.html.twig`: field field_span_attributes 
+- `CRUD/base_list_flat_field.html.twig`: field 
+- `CRUD/base_list_flat_inner_row.html.twig`: row 
+- `CRUD/base_show.html.twig`: actions field_row navbar_title show show_field show_groups show_title tab_menu title 
+- `CRUD/base_show_compare.html.twig`: show_field 
+- `CRUD/base_show_field.html.twig`: field field_compare field_value name 
+- `CRUD/batch_confirmation.html.twig`: actions content tab_menu 
+- `CRUD/delete.html.twig`: actions content tab_menu 
+- `CRUD/list__action.html.twig`: field 
+- `CRUD/list__batch.html.twig`: field 
+- `CRUD/list__select.html.twig`: field 
+- `CRUD/list_array.html.twig`: field 
+- `CRUD/list_boolean.html.twig`: field field_span_attributes 
+- `CRUD/list_choice.html.twig`: field field_span_attributes 
+- `CRUD/list_currency.html.twig`: field 
+- `CRUD/list_date.html.twig`: field 
+- `CRUD/list_datetime.html.twig`: field 
+- `CRUD/list_email.html.twig`: field 
+- `CRUD/list_enum.html.twig`: field field_span_attributes 
+- `CRUD/list_html.html.twig`: field 
+- `CRUD/list_outer_rows_mosaic.html.twig`: sonata_mosaic_background sonata_mosaic_default_view sonata_mosaic_description sonata_mosaic_hover_view 
+- `CRUD/list_percent.html.twig`: field 
+- `CRUD/list_time.html.twig`: field 
+- `CRUD/list_trans.html.twig`: field 
+- `CRUD/list_url.html.twig`: field 
+- `CRUD/preview.html.twig`: actions form formactions preview side_menu 
+- `CRUD/select_subclass.html.twig`: content title 
+- `CRUD/show_array.html.twig`: field 
+- `CRUD/show_boolean.html.twig`: field 
+- `CRUD/show_choice.html.twig`: field 
+- `CRUD/show_currency.html.twig`: field 
+- `CRUD/show_date.html.twig`: field 
+- `CRUD/show_datetime.html.twig`: field 
+- `CRUD/show_email.html.twig`: field 
+- `CRUD/show_enum.html.twig`: field 
+- `CRUD/show_html.html.twig`: field 
+- `CRUD/show_percent.html.twig`: field 
+- `CRUD/show_time.html.twig`: field 
+- `CRUD/show_trans.html.twig`: field 
+- `CRUD/show_url.html.twig`: field 
+- `CRUD/tree.html.twig`: list_table tab_menu 
+- `Core/dashboard.html.twig`: breadcrumb content title 
+- `Core/search.html.twig`: breadcrumb content title 
+- `Core/tab_menu_template.html.twig`: dividerElement dropdownElement item label linkElement spanElement 
+- `Form/Type/sonata_type_model_autocomplete.html.twig`: sonata_type_model_autocomplete_ajax_request_parameters sonata_type_model_autocomplete_dropdown_item_format sonata_type_model_autocomplete_selection_format 
+- `Form/filter_admin_fields.html.twig`: checkbox_widget choice_widget_collapsed choice_widget_expanded form_widget_simple sonata_type_model_autocomplete_widget textarea_widget 
+- `Form/form_admin_fields.html.twig`: checkbox_label checkbox_radio_label checkbox_row checkbox_widget choice_widget_collapsed choice_widget_expanded date_widget datetime_widget form_errors form_help form_label form_row form_widget_simple money_widget percent_widget radio_label radio_row radio_widget sonata_type_choice_field_mask_widget sonata_type_choice_multiple_sortable sonata_type_immutable_array_widget sonata_type_immutable_array_widget_row sonata_type_model_autocomplete_select2_options_js sonata_type_model_autocomplete_widget sonata_type_model_list_widget sonata_type_native_collection_widget sonata_type_native_collection_widget_row sonata_type_template_widget textarea_widget time_widget 
+- `Menu/sonata_menu.html.twig`: item label linkElement root spanElement 
+- `Pager/base_results.html.twig`: max_per_page num_pages num_results 
+- `Pager/simple_pager_results.html.twig`: num_pages num_results 
+- `ajax_layout.html.twig`: content form list preview show 
+- `empty_layout.html.twig`: sonata_breadcrumb sonata_header sonata_left_side sonata_nav sonata_page_content sonata_wrapper stylesheets 
+- `standard_layout.html.twig`: admin_lte_skin_class body_attributes bootlint html_attributes javascripts logo meta_tags notice side_bar_after_nav side_bar_after_nav_content side_bar_before_nav side_bar_nav sonata_admin_content sonata_admin_content_actions_wrappers sonata_breadcrumb sonata_head_title sonata_header sonata_header_noscript_warning sonata_javascript_config sonata_javascript_pool sonata_left_side sonata_nav sonata_page_content sonata_page_content_header sonata_page_content_nav sonata_side_nav sonata_sidebar_search sonata_top_nav_menu sonata_top_nav_menu_add_block sonata_top_nav_menu_user_block sonata_wrapper stylesheets tab_menu_navbar_header 

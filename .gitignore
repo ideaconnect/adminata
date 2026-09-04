@@ -1,0 +1,10 @@
+/vendor/
+/node_modules/
+/var/
+/.phpunit.cache/
+/.php-cs-fixer.cache
+/composer.lock
+/package-lock.json.bak
+/tests/Visual/__diff__/
+/tests/Visual/test-results/
+.DS_Store
