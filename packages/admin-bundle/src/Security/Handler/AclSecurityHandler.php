@@ -148,9 +148,7 @@ final class AclSecurityHandler implements AclSecurityHandlerInterface
         // retrieving the ACL for the object identity
         $objectIdentity = ObjectIdentity::fromDomainObject($object);
         $acl = $this->getObjectAcl($objectIdentity);
-        if (null === $acl) {
-            $acl = $this->createAcl($objectIdentity);
-        }
+        $acl ??= $this->createAcl($objectIdentity);
 
         // retrieving the security identity of the currently logged-in user
         $token = $this->tokenStorage->getToken();
@@ -280,12 +278,6 @@ final class AclSecurityHandler implements AclSecurityHandlerInterface
      */
     private function isAnyGranted(array $attributes, ?object $subject = null): bool
     {
-        foreach ($attributes as $attribute) {
-            if ($this->authorizationChecker->isGranted($attribute, $subject)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($attributes, fn ($attribute) => $this->authorizationChecker->isGranted($attribute, $subject));
     }
 }

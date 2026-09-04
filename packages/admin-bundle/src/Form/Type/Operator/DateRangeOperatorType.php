@@ -20,8 +20,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class DateRangeOperatorType extends AbstractType
 {
-    public const TYPE_BETWEEN = 1;
-    public const TYPE_NOT_BETWEEN = 2;
+    public const int TYPE_BETWEEN = 1;
+    public const int TYPE_NOT_BETWEEN = 2;
 
     public function configureOptions(OptionsResolver $resolver): void
     {

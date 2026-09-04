@@ -838,10 +838,8 @@ final class AdminTest extends TestCase
 
         static::assertSame([], $admin->getExtensions());
 
-        $adminExtension1 = $this->createMock(AdminExtensionInterface::class);
-
         $this->expectException(\InvalidArgumentException::class);
-        $admin->removeExtension($adminExtension1);
+        $admin->removeExtension($this->createMock(AdminExtensionInterface::class));
     }
 
     public function testGetFilterTheme(): void
@@ -1277,9 +1275,7 @@ final class AdminTest extends TestCase
     {
         $admin = new PostAdmin();
 
-        $filterPersister = $this->createMock(FilterPersisterInterface::class);
-
-        $admin->setFilterPersister($filterPersister);
+        $admin->setFilterPersister($this->createMock(FilterPersisterInterface::class));
     }
 
     public function testGetRootCode(): void
@@ -1562,12 +1558,10 @@ final class AdminTest extends TestCase
         $modelManager = static::createStub(ModelManagerInterface::class);
         $modelAdmin->setModelManager($modelManager);
 
-        $pager = $this->createMock(PagerInterface::class);
-
         $datagrid = $this->createMock(DatagridInterface::class);
         $datagrid->expects(static::once())
             ->method('getPager')
-            ->willReturn($pager);
+            ->willReturn($this->createMock(PagerInterface::class));
 
         $datagridBuilder = $this->createMock(DatagridBuilderInterface::class);
         $datagridBuilder->expects(static::once())
@@ -1872,10 +1866,9 @@ final class AdminTest extends TestCase
         $expected = [];
 
         $pathInfo = new PathInfoBuilder($this->createMock(AuditManagerInterface::class));
-        $routerMock = $this->createMock(RouterInterface::class);
 
         $routeGenerator = new DefaultRouteGenerator(
-            $routerMock,
+            $this->createMock(RouterInterface::class),
             new RoutesCache($this->cacheTempFolder, true)
         );
 

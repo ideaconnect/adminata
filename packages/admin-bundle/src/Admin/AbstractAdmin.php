@@ -95,15 +95,15 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
             Doctrine\\\Orm|Doctrine\\\Phpcr|Doctrine\\\MongoDB|Doctrine\\\CouchDB
         )\\\(.*)@x';
 
-    private const ACTION_TREE = 1;
-    private const ACTION_SHOW = 2;
-    private const ACTION_EDIT = 4;
-    private const ACTION_DELETE = 8;
-    private const ACTION_ACL = 16;
-    private const ACTION_HISTORY = 32;
-    private const ACTION_LIST = 64;
-    private const ACTION_BATCH = 128;
-    private const INTERNAL_ACTIONS = [
+    private const int ACTION_TREE = 1;
+    private const int ACTION_SHOW = 2;
+    private const int ACTION_EDIT = 4;
+    private const int ACTION_DELETE = 8;
+    private const int ACTION_ACL = 16;
+    private const int ACTION_HISTORY = 32;
+    private const int ACTION_LIST = 64;
+    private const int ACTION_BATCH = 128;
+    private const array INTERNAL_ACTIONS = [
         'tree' => self::ACTION_TREE,
         'show' => self::ACTION_SHOW,
         'edit' => self::ACTION_EDIT,
@@ -121,8 +121,8 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
     private const MASK_OF_ACTION_LIST = self::ACTION_SHOW | self::ACTION_EDIT | self::ACTION_DELETE | self::ACTION_ACL | self::ACTION_BATCH;
     private const MASK_OF_ACTIONS_USING_OBJECT = self::MASK_OF_ACTION_SHOW | self::MASK_OF_ACTION_EDIT | self::MASK_OF_ACTION_HISTORY | self::MASK_OF_ACTION_ACL;
 
-    private const DEFAULT_LIST_PER_PAGE_RESULTS = 25;
-    private const DEFAULT_LIST_PER_PAGE_OPTIONS = [10, 25, 50, 100, 250];
+    private const int DEFAULT_LIST_PER_PAGE_RESULTS = 25;
+    private const array DEFAULT_LIST_PER_PAGE_OPTIONS = [10, 25, 50, 100, 250];
 
     /**
      * @deprecated since sonata-project/admin-bundle 4.15, will be removed in 5.0.
@@ -1403,9 +1403,7 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
 
     final public function getUniqId(): string
     {
-        if (null === $this->uniqId) {
-            $this->uniqId = \sprintf('s%s', uniqid());
-        }
+        $this->uniqId ??= \sprintf('s%s', uniqid());
 
         return $this->uniqId;
     }
@@ -1756,13 +1754,7 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
             $access[$action] = [$access[$action]];
         }
 
-        foreach ($access[$action] as $role) {
-            if (false === $this->isGranted($role, $object)) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($access[$action], fn ($role) => !(false === $this->isGranted($role, $object)));
     }
 
     /**

@@ -20,9 +20,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ContainsOperatorType extends AbstractType
 {
-    public const TYPE_CONTAINS = 1;
-    public const TYPE_NOT_CONTAINS = 2;
-    public const TYPE_EQUAL = 3;
+    public const int TYPE_CONTAINS = 1;
+    public const int TYPE_NOT_CONTAINS = 2;
+    public const int TYPE_EQUAL = 3;
 
     public function configureOptions(OptionsResolver $resolver): void
     {

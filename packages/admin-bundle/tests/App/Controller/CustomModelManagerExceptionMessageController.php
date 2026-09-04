@@ -20,7 +20,7 @@ use Sonata\AdminBundle\Controller\CRUDController;
  */
 final class CustomModelManagerExceptionMessageController extends CRUDController
 {
-    public const ERROR_MESSAGE = 'message from model manager exception';
+    public const string ERROR_MESSAGE = 'message from model manager exception';
 
     /**
      * @phpstan-throws void

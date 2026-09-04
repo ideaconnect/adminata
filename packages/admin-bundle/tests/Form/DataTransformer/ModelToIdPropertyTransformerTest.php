@@ -269,11 +269,9 @@ final class ModelToIdPropertyTransformerTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('A multiple selection must be passed a collection not a single value. Make sure that form option "multiple=false" is set for many-to-one relation and "multiple=true" is set for many-to-many or one-to-many relations.');
-
-        $modelManager = $this->createMock(ModelManagerInterface::class);
         $model = new FooArrayAccess();
         $model->setBar('example');
-        $transformer = new ModelToIdPropertyTransformer($modelManager, FooArrayAccess::class, 'bar', true);
+        $transformer = new ModelToIdPropertyTransformer($this->createMock(ModelManagerInterface::class), FooArrayAccess::class, 'bar', true);
         $transformer->transform($model);
     }
 

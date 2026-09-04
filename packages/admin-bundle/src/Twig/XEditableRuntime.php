@@ -19,7 +19,7 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 final class XEditableRuntime implements RuntimeExtensionInterface
 {
-    public const FIELD_DESCRIPTION_MAPPING = [
+    public const array FIELD_DESCRIPTION_MAPPING = [
         FieldDescriptionInterface::TYPE_ENUM => 'select',
         FieldDescriptionInterface::TYPE_CHOICE => 'select',
         FieldDescriptionInterface::TYPE_BOOLEAN => 'select',

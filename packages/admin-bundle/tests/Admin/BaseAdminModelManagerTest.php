@@ -22,8 +22,6 @@ final class BaseAdminModelManagerTest extends TestCase
 {
     public function testHook(): void
     {
-        $securityHandler = $this->createMock(SecurityHandlerInterface::class);
-
         $modelManager = $this->createMock(ModelManagerInterface::class);
         $modelManager->expects(static::once())->method('create');
         $modelManager->expects(static::once())->method('update');
@@ -31,7 +29,7 @@ final class BaseAdminModelManagerTest extends TestCase
 
         $admin = new BaseAdminModelManager_Admin();
         $admin->setModelManager($modelManager);
-        $admin->setSecurityHandler($securityHandler);
+        $admin->setSecurityHandler($this->createMock(SecurityHandlerInterface::class));
 
         $t = new \stdClass();
 
@@ -61,13 +59,12 @@ final class BaseAdminModelManagerTest extends TestCase
 
     public function testCreateQuery(): void
     {
-        $query = $this->createMock(ProxyQueryInterface::class);
         $modelManager = $this->createMock(ModelManagerInterface::class);
         $modelManager
             ->expects(static::once())
             ->method('createQuery')
             ->with(\stdClass::class)
-            ->willReturn($query);
+            ->willReturn($this->createMock(ProxyQueryInterface::class));
 
         $admin = new BaseAdminModelManager_Admin();
         $admin->setModelClass(\stdClass::class);

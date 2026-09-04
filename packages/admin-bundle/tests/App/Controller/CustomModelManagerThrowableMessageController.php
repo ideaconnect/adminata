@@ -21,7 +21,7 @@ use Sonata\AdminBundle\Exception\ModelManagerThrowable;
  */
 final class CustomModelManagerThrowableMessageController extends CRUDController
 {
-    public const ERROR_MESSAGE = 'message from model manager throwable';
+    public const string ERROR_MESSAGE = 'message from model manager throwable';
 
     /**
      * @phpstan-throws void

@@ -35,7 +35,7 @@ use Symfony\Component\Form\FormBuilder;
  */
 final class DatagridMapperTest extends TestCase
 {
-    private const DEFAULT_GRANTED_ROLE = 'ROLE_ADMIN_BAZ';
+    private const string DEFAULT_GRANTED_ROLE = 'ROLE_ADMIN_BAZ';
 
     /**
      * @var DatagridMapper<object>
@@ -55,15 +55,9 @@ final class DatagridMapperTest extends TestCase
     protected function setUp(): void
     {
         $datagridBuilder = $this->createMock(DatagridBuilderInterface::class);
-
-        /** @var ProxyQueryInterface<object>&MockObject $proxyQuery */
-        $proxyQuery = $this->createMock(ProxyQueryInterface::class);
-        /** @var PagerInterface<ProxyQueryInterface<object>>&MockObject $pager */
-        $pager = $this->createMock(PagerInterface::class);
         $fieldDescriptionCollection = new FieldDescriptionCollection();
-        $formBuilder = $this->createMock(FormBuilder::class);
 
-        $this->datagrid = new Datagrid($proxyQuery, $fieldDescriptionCollection, $pager, $formBuilder, []);
+        $this->datagrid = new Datagrid($this->createMock(ProxyQueryInterface::class), $fieldDescriptionCollection, $this->createMock(PagerInterface::class), $this->createMock(FormBuilder::class), []);
 
         $this->admin = $this->createMock(AdminInterface::class);
 

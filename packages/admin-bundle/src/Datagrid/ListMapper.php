@@ -31,13 +31,13 @@ use Sonata\AdminBundle\Mapper\MapperInterface;
  */
 final class ListMapper implements MapperInterface
 {
-    public const NAME_ACTIONS = '_actions';
-    public const NAME_BATCH = '_batch';
-    public const NAME_SELECT = '_select';
+    public const string NAME_ACTIONS = '_actions';
+    public const string NAME_BATCH = '_batch';
+    public const string NAME_SELECT = '_select';
 
-    public const TYPE_ACTIONS = 'actions';
-    public const TYPE_BATCH = 'batch';
-    public const TYPE_SELECT = 'select';
+    public const string TYPE_ACTIONS = 'actions';
+    public const string TYPE_BATCH = 'batch';
+    public const string TYPE_SELECT = 'select';
 
     /**
      * @param FieldDescriptionCollection<FieldDescriptionInterface> $list
@@ -92,19 +92,13 @@ final class ListMapper implements MapperInterface
 
         // Default sort on "associated_property"
         if (isset($fieldDescriptionOptions['associated_property'])) {
-            if (!isset($fieldDescriptionOptions['sortable'])) {
-                $fieldDescriptionOptions['sortable'] = !\is_callable($fieldDescriptionOptions['associated_property']);
-            }
-            if (!isset($fieldDescriptionOptions['sort_parent_association_mappings'])) {
-                $fieldDescriptionOptions['sort_parent_association_mappings'] = [[
-                    'fieldName' => $name,
-                ]];
-            }
-            if (!isset($fieldDescriptionOptions['sort_field_mapping'])) {
-                $fieldDescriptionOptions['sort_field_mapping'] = [
-                    'fieldName' => $fieldDescriptionOptions['associated_property'],
-                ];
-            }
+            $fieldDescriptionOptions['sortable'] ??= !\is_callable($fieldDescriptionOptions['associated_property']);
+            $fieldDescriptionOptions['sort_parent_association_mappings'] ??= [[
+                'fieldName' => $name,
+            ]];
+            $fieldDescriptionOptions['sort_field_mapping'] ??= [
+                'fieldName' => $fieldDescriptionOptions['associated_property'],
+            ];
         }
 
         // Type-guess the action field here because it is not a model property.

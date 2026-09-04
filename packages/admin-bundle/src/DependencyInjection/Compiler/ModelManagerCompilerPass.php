@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\Exception\LogicException;
  */
 final class ModelManagerCompilerPass implements CompilerPassInterface
 {
-    public const MANAGER_TAG = 'sonata.admin.manager';
+    public const string MANAGER_TAG = 'sonata.admin.manager';
 
     public function process(ContainerBuilder $container): void
     {

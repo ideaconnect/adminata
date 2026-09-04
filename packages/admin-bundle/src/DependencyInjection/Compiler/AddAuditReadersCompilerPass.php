@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 final class AddAuditReadersCompilerPass implements CompilerPassInterface
 {
-    public const AUDIT_READER_TAG = 'sonata.admin.audit_reader';
+    public const string AUDIT_READER_TAG = 'sonata.admin.audit_reader';
 
     public function process(ContainerBuilder $container): void
     {

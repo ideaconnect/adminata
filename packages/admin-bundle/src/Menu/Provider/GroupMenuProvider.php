@@ -114,24 +114,12 @@ final class GroupMenuProvider implements MenuProviderInterface
 
         $isItemGranted = true;
         if (isset($item['roles']) && [] !== $item['roles']) {
-            $isItemGranted = false;
-            foreach ($item['roles'] as $role) {
-                if ($this->checker->isGranted($role)) {
-                    $isItemGranted = true;
-                    break;
-                }
-            }
+            $isItemGranted = array_any($item['roles'], fn ($role) => $this->checker->isGranted($role));
         }
 
         $isGroupGranted = true;
         if (isset($group['roles']) && [] !== $group['roles']) {
-            $isGroupGranted = false;
-            foreach ($group['roles'] as $role) {
-                if ($this->checker->isGranted($role)) {
-                    $isGroupGranted = true;
-                    break;
-                }
-            }
+            $isGroupGranted = array_any($group['roles'], fn ($role) => $this->checker->isGranted($role));
         }
 
         return $isItemGranted && $isGroupGranted;

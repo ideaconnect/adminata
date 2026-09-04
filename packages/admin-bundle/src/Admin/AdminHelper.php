@@ -31,10 +31,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 final class AdminHelper
 {
-    /**
-     * @var string
-     */
-    private const FORM_FIELD_DELETE = '_delete';
+    private const string FORM_FIELD_DELETE = '_delete';
 
     public function __construct(
         private PropertyAccessorInterface $propertyAccessor,
@@ -146,9 +143,7 @@ final class AdminHelper
             // retrieve the posted data
             $data = BCHelper::getFromRequest($admin->getRequest(), $formBuilder->getName());
 
-            if (!isset($data[$childFormBuilder->getName()])) {
-                $data[$childFormBuilder->getName()] = [];
-            }
+            $data[$childFormBuilder->getName()] ??= [];
 
             $objectCount = null === $value ? 0 : \count($value);
             $postCount = \count($data[$childFormBuilder->getName()]);

@@ -108,13 +108,7 @@ final class RoleSecurityHandler implements SecurityHandlerInterface
      */
     private function isAnyGranted(array $attributes, ?object $subject = null): bool
     {
-        foreach ($attributes as $attribute) {
-            if ($this->authorizationChecker->isGranted($attribute, $subject)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($attributes, fn ($attribute) => $this->authorizationChecker->isGranted($attribute, $subject));
     }
 
     /**
@@ -122,15 +116,7 @@ final class RoleSecurityHandler implements SecurityHandlerInterface
      */
     private function hasOnlyAdminRoles(array $attributes): bool
     {
-        // NEXT_MAJOR: Change the foreach to a single check.
-        foreach ($attributes as $attribute) {
-            // If the attribute is not already a ROLE_ we generate the related role.
-            if (\is_string($attribute) && !str_starts_with($attribute, 'ROLE_')) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($attributes, static fn ($attribute) => \is_string($attribute) && !str_starts_with($attribute, 'ROLE_'));
     }
 
     /**

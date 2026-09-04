@@ -32,12 +32,12 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 final class PersistenceEvent extends Event
 {
-    public const TYPE_PRE_UPDATE = 'pre_update';
-    public const TYPE_POST_UPDATE = 'post_update';
-    public const TYPE_PRE_PERSIST = 'pre_persist';
-    public const TYPE_POST_PERSIST = 'post_persist';
-    public const TYPE_PRE_REMOVE = 'pre_remove';
-    public const TYPE_POST_REMOVE = 'post_remove';
+    public const string TYPE_PRE_UPDATE = 'pre_update';
+    public const string TYPE_POST_UPDATE = 'post_update';
+    public const string TYPE_PRE_PERSIST = 'pre_persist';
+    public const string TYPE_POST_PERSIST = 'post_persist';
+    public const string TYPE_PRE_REMOVE = 'pre_remove';
+    public const string TYPE_POST_REMOVE = 'post_remove';
 
     /**
      * @param AdminInterface<object> $admin

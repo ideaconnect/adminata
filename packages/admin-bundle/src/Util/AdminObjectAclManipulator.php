@@ -34,8 +34,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 final class AdminObjectAclManipulator
 {
-    public const ACL_USERS_FORM_NAME = 'acl_users_form';
-    public const ACL_ROLES_FORM_NAME = 'acl_roles_form';
+    public const string ACL_USERS_FORM_NAME = 'acl_users_form';
+    public const string ACL_ROLES_FORM_NAME = 'acl_roles_form';
 
     /**
      * @phpstan-param class-string<MaskBuilderInterface> $maskBuilderClass
@@ -176,9 +176,7 @@ final class AdminObjectAclManipulator
         // Retrieve object identity
         $objectIdentity = ObjectIdentity::fromDomainObject($data->getObject());
         $acl = $data->getSecurityHandler()->getObjectAcl($objectIdentity);
-        if (null === $acl) {
-            $acl = $data->getSecurityHandler()->createAcl($objectIdentity);
-        }
+        $acl ??= $data->getSecurityHandler()->createAcl($objectIdentity);
 
         $data->setAcl($acl);
 

@@ -30,7 +30,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 final class BatchActionEvent extends Event
 {
-    public const TYPE_PRE_BATCH_ACTION = 'pre_batch_action';
+    public const string TYPE_PRE_BATCH_ACTION = 'pre_batch_action';
 
     /**
      * @var mixed[]

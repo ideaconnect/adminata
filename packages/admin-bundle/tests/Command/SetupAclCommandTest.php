@@ -32,9 +32,8 @@ final class SetupAclCommandTest extends TestCase
     protected function setUp(): void
     {
         $this->container = new Container();
-        $admin = $this->createMock(AdminInterface::class);
 
-        $this->container->set('acme.admin.foo', $admin);
+        $this->container->set('acme.admin.foo', $this->createMock(AdminInterface::class));
     }
 
     public function testExecute(): void
