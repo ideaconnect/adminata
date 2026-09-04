@@ -261,7 +261,7 @@ final class SitemapWriter implements WriterInterface
         return \sprintf(
             '    <url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%s</priority></url>'."\n",
             $data['url'],
-            (new \DateTime($data['lastmod']))->format('Y-m-d'),
+            new \DateTime($data['lastmod'])->format('Y-m-d'),
             $data['changefreq'],
             $data['priority']
         );
