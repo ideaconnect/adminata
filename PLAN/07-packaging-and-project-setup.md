@@ -84,7 +84,7 @@ A CI job (`versions-watch`, weekly) lists newer releases of every entry above an
     "doctrine/orm": "^3.3", "doctrine/doctrine-bundle": "^3.0",
     "psr/container": "^2.0", "psr/log": "^3.0"
   },
-  "require-dev": { "doctrine/doctrine-fixtures-bundle": "^4.0", "ext-pdo_sqlite": "*", "symfony/panther": "^2.4", "phpunit/phpunit": "^13.3", "phpstan/*": "^2.2", "rector/rector": "^2.6", "friendsofphp/php-cs-fixer": "^3.95", "infection/infection": "^0.35", "phpoffice/phpspreadsheet": "^5.0" },
+  "require-dev": { "doctrine/doctrine-fixtures-bundle": "^4.0", "dama/doctrine-test-bundle": "^8.6", "symfony/panther": "^2.4", "phpunit/phpunit": "^13.3", "phpstan/*": "^2.2", "rector/rector": "^2.6", "friendsofphp/php-cs-fixer": "^3.95", "infection/infection": "^0.35", "phpoffice/phpspreadsheet": "^5.0" },
   "replace": {
     "sonata-project/admin-bundle": "4.43.0", "sonata-project/block-bundle": "5.4.0",
     "sonata-project/doctrine-extensions": "2.6.0", "sonata-project/doctrine-orm-admin-bundle": "4.21.0",

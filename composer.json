@@ -84,7 +84,6 @@
         "twig/twig": "^3.28"
     },
     "require-dev": {
-        "ext-pdo_sqlite": "*",
         "dama/doctrine-test-bundle": "^8.6",
         "doctrine/doctrine-fixtures-bundle": "^4.3",
         "doctrine/event-manager": "^2.0",

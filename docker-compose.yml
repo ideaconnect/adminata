@@ -1,0 +1,23 @@
+# Services the test suites need. Start them with `make services-up`.
+#
+# adminata 1.0 supports MySQL, MariaDB and Percona; there is no SQLite support and the
+# test databases are MySQL too. Override DATABASE_URL to point the suites at your own
+# server (for example a MariaDB or Percona container) instead of this one.
+services:
+    database:
+        image: mysql:8.4
+        command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+        environment:
+            MYSQL_ROOT_PASSWORD: adminata
+            MYSQL_DATABASE: adminata_test
+        ports:
+            - '7010:3306'
+        healthcheck:
+            test: ['CMD', 'mysqladmin', 'ping', '-h', '127.0.0.1', '-padminata']
+            interval: 5s
+            timeout: 5s
+            retries: 20
+        tmpfs:
+            - /var/lib/mysql

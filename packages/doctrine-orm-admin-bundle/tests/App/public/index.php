@@ -14,7 +14,15 @@ declare(strict_types=1);
 use Sonata\DoctrineORMAdminBundle\Tests\App\AppKernel;
 use Symfony\Component\HttpFoundation\Request;
 
-require __DIR__.'/../../../vendor/autoload.php';
+// Running from this package: vendor/ is three levels up. Running from adminata, where the
+// package lives in packages/doctrine-orm-admin-bundle, it is five.
+foreach ([__DIR__.'/../../../vendor/autoload.php', __DIR__.'/../../../../../vendor/autoload.php'] as $autoload) {
+    if (file_exists($autoload)) {
+        require $autoload;
+
+        break;
+    }
+}
 
 $kernel = new AppKernel('test', false);
 $request = Request::createFromGlobals();

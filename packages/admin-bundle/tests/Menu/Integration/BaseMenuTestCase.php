@@ -39,6 +39,8 @@ abstract class BaseMenuTestCase extends TestCase
         $twigPaths = array_filter([
             \sprintf('%s/../../../../../../vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views', __DIR__),
             \sprintf('%s/../../../vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views', __DIR__),
+            // adminata: this package lives in packages/admin-bundle, so vendor/ is five levels up
+            \sprintf('%s/../../../../../vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views', __DIR__),
             \sprintf('%s/../../../src/Resources/views', __DIR__),
         ], is_dir(...));
 

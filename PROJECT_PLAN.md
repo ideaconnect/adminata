@@ -82,16 +82,18 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `/.github`, `/upstream`), `.symfony.bundle.yaml`.
   - Accept: files exist; every relative link in `README.md` resolves; `composer validate --strict` still ok.
 
-- [ ] **P0-04 · PHPUnit 13 across the seven suites** · L · depends: P0-02
+- [x] **P0-04 · PHPUnit 13 across the seven suites** · L · depends: P0-02
   - Read: PLAN/07 §6; PLAN/08 §1.
   - Do: root `phpunit.xml.dist` with test suites `admin`, `block`, `doctrine`, `orm`, `exporter`,
     `form`, `twig` (→ `packages/<name>/tests`) and `adminata-unit`, `adminata-functional`,
     `adminata-contract` (→ `tests/{Unit,Functional,Contract}`); merge the packages' bootstraps into
-    `tests/bootstrap.php`; delete per-package `phpunit.xml.dist`; `KERNEL_CLASS` for the admin
-    functional tests; fix PHPUnit 13 API breaks (attributes, deprecations) — mechanical changes are
-    allowed in tests; `ext-pdo_sqlite` for the ORM suite.
+    `tests/bootstrap.php`; delete per-package `phpunit.xml.dist`; `KERNEL_CLASS` per test class
+    (four of the seven packages ship their own test kernel); fix PHPUnit 13 API breaks (attributes,
+    deprecations) — mechanical changes are allowed in tests; the test databases are **MySQL**
+    (owner directive 9), served by `docker-compose.yml`, with the ORM package's `custom_bootstrap.php`
+    replaced by a lazy PHPUnit extension.
   - Accept: `vendor/bin/phpunit` green for every suite on the local PHP 8.5; no skipped suite; no
-    `KNOWN_FAILURES` file needed.
+    `KNOWN_FAILURES` file needed. Browser tests need geckodriver or `PANTHER_SELENIUM_HOST`.
 
 - [ ] **P0-05 · PHP-CS-Fixer 3.95** · M · depends: P0-04
   - Read: PLAN/07 §6; `MDB/.php-cs-fixer.dist.php`.
@@ -118,7 +120,8 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Do: `Makefile` targets `lint` (cs, composer-normalize, yamllint, xmllint over xml/xliff,
     `lint:twig packages tests`, `lint:container`, `lint:xliff`, `lint:yaml`), `cs-fix`, `phpstan`,
     `rector`, `rector-fix`, `test`, `test-unit`, `test-functional`, `test-contract`, `demo`,
-    `upstream-diff PKG= FROM= TO=`, `upstream-sync PKG= TO=`; `.yamllint`; `bin/console` booting
+    `upstream-diff PKG= FROM= TO=`, `upstream-sync PKG= TO=`, `services-up`, `services-down`
+    (the MySQL of `docker-compose.yml`); `.yamllint`; `bin/console` booting
     `Sonata\AdminBundle\Tests\App\AppKernel` (until P1-09); `upstream/diff.sh`, `upstream/sync.sh`,
     `upstream/exclude/<name>.txt` per PLAN/07 §10.
   - Accept: `make lint phpstan rector test` green; `bin/console about` works;
@@ -194,6 +197,16 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `APP/composer.json` (path from env `ADMINATA_APP_DIR`, skipped when unset) and runs the
     PLAN/10 §1 step-1 commands in dry-run mode.
   - Accept: `vendor/bin/phpunit --group network` green locally.
+
+- [ ] **P0-16 · Port the three SQLite-only exporter tests to MySQL** · S · depends: P0-04
+  - Read: PLAN/README directive 9.
+  - Do: `packages/exporter/tests/Source/{DoctrineDBALConnectionSourceIteratorTest,DoctrineORMQuerySourceIteratorTest,PDOStatementSourceIteratorTest}.php`
+    skip themselves because they were written against an in-memory SQLite database, which adminata
+    does not support. Point them at `ADMINATA_TEST_DATABASE_URL` (their own database, created the
+    way `Adminata\Tests\PHPUnit\OrmDatabaseExtension` creates the ORM ones) and drop the
+    `extension_loaded('pdo_sqlite')` guards.
+  - Accept: `vendor/bin/phpunit --testsuite exporter` green with no skipped test; the whole run
+    reports at most the two Symfony-8 conditional skips of `InlineConstraintTest`.
 
 - [ ] **P0-MS · Milestone M0 push** · S · depends: P0-03, P0-09, P0-11, P0-12, P0-14, P0-15
   - Do: full definition of done; `CHANGELOG.md` Unreleased entries; merge to `main`; `git push origin main`;
@@ -293,8 +306,9 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
 
 - [ ] **P1-09 · Demo ORM application** · L · depends: P0-MS
   - Read: PLAN/08 §2; appendix C §2.
-  - Do: `tests/App/Kernel.php` (Framework, Twig, Security with in-memory users, Doctrine sqlite in
-    `var/`, FixturesBundle, KnpMenu, the seven Sonata bundles), `tests/App/config/*`
+  - Do: `tests/App/Kernel.php` (Framework, Twig, Security with in-memory users, Doctrine on the
+    MySQL service of `docker-compose.yml` — owner directive 9, no SQLite — FixturesBundle, KnpMenu,
+    the seven Sonata bundles), `tests/App/config/*`
     (`sonata_admin` with three groups, raw `<i>` icons, `theme`, `use_stickyforms`,
     `lock_protection`; `sonata_block`; `sonata_form`), an event subscriber injecting a
     `sidebar-section-header` item, first entities and admins (`Category`, `Product`: string, int,
@@ -697,10 +711,23 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   `symfony/security-acl: "<3.1 >=4.0"` becomes a disjunction (`composer validate --strict` rejects
   the conjunction); the three upstream guards that survive the raised floors are kept in `conflict`;
   the contracts packages and the dev-dependency union are spelled out.
-- 2026-09-04 — Blocker for P0-04: `ext-pdo_sqlite` is declared in `require-dev` but the local PHP 8.5
-  has no sqlite driver (`php8.5-sqlite3` is not installed), so Composer runs locally need
-  `--ignore-platform-req=ext-pdo_sqlite` and the ORM functional suite cannot run here until the
-  extension is installed.
+- 2026-09-04 — **Owner directive 9: MySQL, MariaDB and Percona only; no SQLite.** Raised when the
+  ORM suite turned out to need `ext-pdo_sqlite`, which this machine does not have. Recorded in
+  PLAN/README, and PLAN/07 §3, PLAN/08 §2, PLAN/09 phase 1 and the tasks below were changed to match:
+  `ext-pdo_sqlite` is out of `require-dev`, the test databases are MySQL, and `docker-compose.yml`
+  ships one (`mysql:8.4` on 127.0.0.1:7010, `tmpfs` data directory).
+- 2026-09-04 — **P0-04 done.** One `phpunit.xml.dist` with the ten suites, `tests/bootstrap.php`
+  merged from the seven identical dev-kit bootstraps, and two PHPUnit 13 extensions:
+  `KernelClassExtension` sets `KERNEL_CLASS` per test class (four packages ship their own kernel and
+  a single environment variable cannot serve them), `OrmDatabaseExtension` replaces the ORM
+  package's `custom_bootstrap.php` — it creates both MySQL databases and loads the fixtures once,
+  on `TestSuite\Loaded` rather than per test, because dama/doctrine-test-bundle wraps every test in
+  a transaction, and it restores the error and exception handler stack the console leaves behind so
+  the admin functional tests do not turn risky. Twelve fixes to inherited tests, all of them either
+  layout-driven or upstream-version-driven, are listed in the commit message.
+  **2604 tests green** (5 skips: 3 SQLite-only exporter tests → P0-16, 2 Symfony-8 conditional).
+  Browser tests need a driver: `PANTHER_SELENIUM_HOST=http://127.0.0.1:4444/wd/hub` was used here
+  because another container holds port 4444; `PANTHER_FIREFOX_PORT` moves a spawned geckodriver.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

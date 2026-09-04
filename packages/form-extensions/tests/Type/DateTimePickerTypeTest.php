@@ -86,7 +86,10 @@ final class DateTimePickerTypeTest extends TypeTestCase
             'html5' => false,
         ]);
 
-        static::assertSame("8:02\u{202F}PM", $form->getViewData());
+        // Symfony 8.1's DateTimeToLocalizedStringTransformer normalises the narrow no-break
+        // space ICU 72+ puts before AM/PM to a plain space on the way out, and accepts both
+        // on the way in.
+        static::assertSame('8:02 PM', $form->getViewData());
 
         $form->submit("5:23\u{202F}AM");
         static::assertSame('1970-01-01 05:23:00', $form->getData()->format('Y-m-d H:i:s'));

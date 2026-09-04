@@ -24,7 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Security\Acl\Domain\Acl;
+use Symfony\Component\Security\Acl\Model\MutableAclInterface;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
 use Symfony\Component\Security\Acl\Model\ObjectIdentityInterface;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
@@ -62,7 +62,10 @@ final class AdminObjectAclManipulatorTest extends TestCase
     public function testUpdateAclRoles(): void
     {
         $form = static::createStub(Form::class);
-        $acl = $this->createMock(Acl::class);
+        // The interface, not Symfony\Component\Security\Acl\Domain\Acl: that concrete class
+        // has an `addPropertyChangedListener()` signature incompatible with
+        // doctrine/persistence 4's `NotifyPropertyChanged`, so loading it is a fatal error.
+        $acl = $this->createMock(MutableAclInterface::class);
         $securityHandler = $this->createMock(AclSecurityHandlerInterface::class);
 
         $form->method('getData')->willReturn([
@@ -110,7 +113,7 @@ final class AdminObjectAclManipulatorTest extends TestCase
         $form = static::createStub(Form::class);
         $formBuilder = static::createStub(FormBuilder::class);
         $securityHandler = $this->createMock(AclSecurityHandlerInterface::class);
-        $acl = static::createStub(Acl::class);
+        $acl = static::createStub(MutableAclInterface::class);
 
         $securityHandler
             ->method('getObjectPermissions')
@@ -152,7 +155,7 @@ final class AdminObjectAclManipulatorTest extends TestCase
         $form = static::createStub(Form::class);
         $formBuilder = static::createStub(FormBuilder::class);
         $securityHandler = static::createStub(AclSecurityHandlerInterface::class);
-        $acl = static::createStub(Acl::class);
+        $acl = static::createStub(MutableAclInterface::class);
 
         $securityHandler
             ->method('getObjectPermissions')
