@@ -32,6 +32,10 @@ git commit) was revised under these directives:
    are adapted to Tailwind.
 7. **`idct/sonata-admin-mongodb-bundle` must keep working** against adminata.
 8. **Git**: the project lives in `ideaconnect/adminata`; changes are pushed after milestones.
+9. **MySQL, MariaDB and Percona only (2026-09-04).** 1.0 supports no other database; SQLite is
+   not supported and is not used by the test infrastructure either. The imported suites, the
+   demo application and CI all run on MySQL (`docker-compose.yml` ships one), with
+   `DATABASE_URL` / `ADMINATA_TEST_DATABASE_URL` pointing them at another server.
 
 ## Reading order
 

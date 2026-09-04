@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Sonata\Form\Tests\Bridge\Symfony\DependencyInjection;
 
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Symfony\Component\Config\Definition\Processor;
 use PHPUnit\Framework\TestCase;
 use Sonata\Form\Bridge\Symfony\DependencyInjection\Configuration;
 
@@ -28,12 +30,20 @@ final class ConfigurationTest extends TestCase
 
     public function testInvalidFormTypeValueLeadsToErrorMessage(): void
     {
-        $this->assertConfigurationIsInvalid(
-            [
-                ['form_type' => '3D'],
-            ],
-            'The form_type option value must be one of'
-        );
+        $configs = [
+            ['form_type' => '3D'],
+        ];
+
+        $this->assertConfigurationIsInvalid($configs);
+
+        // The `$expectedMessage` argument of assertConfigurationIsInvalid() is unusable on
+        // PHPUnit 13: matthiasnoback/symfony-config-test 6.2.0 hands the exception object to
+        // PHPUnit's ExceptionMessageIsOrContains constraint, which since PHPUnit 13 matches
+        // against the message string instead. Assert the message directly.
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('The form_type option value must be one of');
+
+        (new Processor())->processConfiguration($this->getConfiguration(), $configs);
     }
 
     public function testProcessedConfigurationLooksAsExpected(): void

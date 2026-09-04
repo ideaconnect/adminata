@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    One configuration for the whole repository: the seven imported suites of the forked
+    packages plus adminata's own. The per-package phpunit.xml.dist files were deleted at
+    import; `KERNEL_CLASS` is set per test class by Adminata\Tests\PHPUnit\KernelClassExtension.
+-->
+
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         colors="true"
+         failOnWarning="true"
+         failOnRisky="true"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         displayDetailsOnAllIssues="true"
+         cacheDirectory=".phpunit.cache"
+         bootstrap="tests/bootstrap.php"
+>
+    <testsuites>
+        <testsuite name="admin">
+            <directory>packages/admin-bundle/tests</directory>
+        </testsuite>
+        <testsuite name="block">
+            <directory>packages/block-bundle/tests</directory>
+        </testsuite>
+        <testsuite name="doctrine">
+            <directory>packages/doctrine-extensions/tests</directory>
+        </testsuite>
+        <testsuite name="orm">
+            <directory>packages/doctrine-orm-admin-bundle/tests</directory>
+        </testsuite>
+        <testsuite name="exporter">
+            <directory>packages/exporter/tests</directory>
+        </testsuite>
+        <testsuite name="form">
+            <directory>packages/form-extensions/tests</directory>
+        </testsuite>
+        <testsuite name="twig">
+            <directory>packages/twig-extensions/tests</directory>
+        </testsuite>
+        <testsuite name="adminata-unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="adminata-functional">
+            <directory>tests/Functional</directory>
+        </testsuite>
+        <testsuite name="adminata-contract">
+            <directory>tests/Contract</directory>
+        </testsuite>
+    </testsuites>
+
+    <source ignoreSuppressionOfDeprecations="true">
+        <include>
+            <directory>packages/admin-bundle/src</directory>
+            <directory>packages/block-bundle/src</directory>
+            <directory>packages/doctrine-extensions/src</directory>
+            <directory>packages/doctrine-orm-admin-bundle/src</directory>
+            <directory>packages/exporter/src</directory>
+            <directory>packages/form-extensions/src</directory>
+            <directory>packages/twig-extensions/src</directory>
+        </include>
+    </source>
+
+    <extensions>
+        <bootstrap class="Adminata\Tests\PHPUnit\KernelClassExtension" />
+        <bootstrap class="Adminata\Tests\PHPUnit\OrmDatabaseExtension" />
+        <bootstrap class="Symfony\Component\Panther\ServerExtension" />
+        <bootstrap class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
+    </extensions>
+
+    <php>
+        <ini name="precision" value="8" />
+        <server name="PANTHER_WEB_SERVER_DIR" value="./packages/doctrine-orm-admin-bundle/tests/App/public/" />
+        <!-- adminata supports MySQL, MariaDB and Percona; `docker compose up -d` starts a
+             matching MySQL. Override these to run the suites against your own server. -->
+        <server name="DATABASE_URL" value="mysql://root:adminata@127.0.0.1:7010/adminata_orm_test?serverVersion=8.4.0&amp;charset=utf8mb4" />
+        <server name="ADMINATA_TEST_DATABASE_URL" value="mysql://root:adminata@127.0.0.1:7010/adminata_orm_unit_test?serverVersion=8.4.0&amp;charset=utf8mb4" />
+        <server name="APP_ENV" value="test" force="true" />
+        <server name="APP_DEBUG" value="false" />
+    </php>
+</phpunit>

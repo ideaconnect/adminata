@@ -26,7 +26,7 @@ tests updated for the derived HTML5 formats (P6 f), its widget tests rewritten f
 inputs, and its Vitest suite (`datepicker_controller.test.js`, `setup.test.js`) deleted with the
 controller.
 
-## 2. Demo / test application (Doctrine ORM + sqlite + fixtures)
+## 2. Demo / test application (Doctrine ORM + MySQL + fixtures)
 
 `tests/App/OrmKernel` registering DoctrineBundle 3.3, FixturesBundle and
 `SonataDoctrineORMAdminBundle` 4.21, with entities and admins that mirror recomaty-panel's usage

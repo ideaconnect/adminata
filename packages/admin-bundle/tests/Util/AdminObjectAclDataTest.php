@@ -20,7 +20,7 @@ use Sonata\AdminBundle\Security\Acl\Permission\MaskBuilder;
 use Sonata\AdminBundle\Security\Handler\AclSecurityHandlerInterface;
 use Sonata\AdminBundle\Util\AdminObjectAclData;
 use Symfony\Component\Form\Form;
-use Symfony\Component\Security\Acl\Domain\Acl;
+use Symfony\Component\Security\Acl\Model\MutableAclInterface;
 
 /**
  * @author Kévin Dunglas <kevin@les-tilleuls.coop>
@@ -53,7 +53,11 @@ final class AdminObjectAclDataTest extends TestCase
 
     public function testSetAcl(): AdminObjectAclData
     {
-        $acl = $this->createMock(Acl::class);
+        // `AdminObjectAclData::setAcl()` takes the interface. Mocking the concrete
+        // Symfony\Component\Security\Acl\Domain\Acl loads a class whose
+        // `addPropertyChangedListener()` signature is incompatible with
+        // doctrine/persistence 4's `NotifyPropertyChanged`, which is a fatal error.
+        $acl = $this->createMock(MutableAclInterface::class);
         $adminObjectAclData = $this->createAdminObjectAclData();
         $ret = $adminObjectAclData->setAcl($acl);
 
@@ -65,7 +69,7 @@ final class AdminObjectAclDataTest extends TestCase
     #[Depends('testSetAcl')]
     public function testGetAcl(AdminObjectAclData $adminObjectAclData): void
     {
-        static::assertInstanceOf(Acl::class, $adminObjectAclData->getAcl());
+        static::assertInstanceOf(MutableAclInterface::class, $adminObjectAclData->getAcl());
     }
 
     public function testGetMasks(): void

@@ -61,7 +61,7 @@ final class Kernel extends BaseKernel
         ]);
 
         $container->loadFromExtension('doctrine', [
-            'dbal' => ['url' => 'sqlite://:memory:'],
+            'dbal' => ['url' => $_SERVER['DATABASE_URL'] ?? 'mysql://root:adminata@127.0.0.1:7010/adminata_test?serverVersion=8.4.0&charset=utf8mb4'],
             'orm' => [
                 'controller_resolver' => [
                     'auto_mapping' => false,

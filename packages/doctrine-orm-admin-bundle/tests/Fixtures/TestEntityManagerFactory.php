@@ -15,20 +15,16 @@ namespace Sonata\DoctrineORMAdminBundle\Tests\Fixtures;
 
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Tools\DsnParser;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMSetup;
-use PHPUnit\Framework\TestCase;
 
 final class TestEntityManagerFactory
 {
     public static function create(): EntityManagerInterface
     {
-        if (!\extension_loaded('pdo_sqlite')) {
-            TestCase::markTestSkipped('Extension pdo_sqlite is required.');
-        }
-
         if (version_compare(\PHP_VERSION, '8.0.0', '>=')) {
             /* @phpstan-ignore function.alreadyNarrowedType */
             if (\PHP_VERSION_ID >= 80400 && method_exists(ORMSetup::class, 'createAttributeMetadataConfig')) {
@@ -49,11 +45,17 @@ final class TestEntityManagerFactory
             $config->enableNativeLazyObjects(true);
         }
 
+        // adminata supports MySQL, MariaDB and Percona only, so these tests run against the
+        // MySQL service of the repository's docker-compose.yml on their own database.
+        // Override ADMINATA_TEST_DATABASE_URL to point them somewhere else.
+        $url = $_SERVER['ADMINATA_TEST_DATABASE_URL'] ?? null;
+
+        if (!\is_string($url) || '' === $url) {
+            $url = 'mysql://root:adminata@127.0.0.1:7010/adminata_orm_unit_test?serverVersion=8.4.0&charset=utf8mb4';
+        }
+
         $connection = DriverManager::getConnection(
-            [
-                'driver' => 'pdo_sqlite',
-                'memory' => true,
-            ],
+            (new DsnParser(['mysql' => 'pdo_mysql', 'mariadb' => 'pdo_mysql']))->parse($url),
             $config
         );
 

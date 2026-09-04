@@ -62,7 +62,6 @@ final class CRUDControllerTest extends WebTestCase
         $client->setMaxRedirects(1);
         $client->request(Request::METHOD_GET, '/admin/tests/app/foo/create', ['with_form_errors' => '1']);
         $crawler = $client->submitForm('Create', []);
-        file_put_contents('tmp.html', $crawler->html());
         static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
         static::assertCount(
             1,

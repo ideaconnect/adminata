@@ -43,7 +43,7 @@ Exit gate: `make lint phpstan rector test` green for all suites; scratch-app res
    from `sonata-edit`), Vitest harness + fixture dumper, JS contract snapshot.
 6. Contract tests: `HookContractTest`, `TemplatePathTest`, `DeferredTemplateTest`,
    `ConfigContractTest`, `ReplaceTest`; the 36 deferred templates get their marker comment.
-7. Demo ORM app skeleton (kernel, sqlite, fixtures, first admins); Playwright + axe harness;
+7. Demo ORM app skeleton (kernel, MySQL, fixtures, first admins); Playwright + axe harness;
    Panther harness from the MongoDB fork; `mongo-compat.yaml` PR job (resolution + unit suite).
 
 Exit gate: reproducible build; contract suites pass for the untouched templates; CSS budgets met by

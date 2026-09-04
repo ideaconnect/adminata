@@ -35,8 +35,10 @@ final class FilterChoiceWidgetTest extends BaseWidgetTestCase
 
         $html = $this->renderWidget($choice->createView());
 
-        static::assertStringContainsString(
-            '<option value="" selected="selected">[trans]Choose an option[/trans]</option>',
+        // Symfony 8 renders the placeholder option with an extra `hidden="hidden"` attribute,
+        // so match the attributes that carry meaning instead of the exact tag.
+        static::assertMatchesRegularExpression(
+            '#<option value=""[^>]*selected="selected"[^>]*>\[trans\]Choose an option\[/trans\]</option>#',
             $this->cleanHtmlWhitespace($html)
         );
     }
