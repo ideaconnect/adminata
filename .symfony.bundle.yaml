@@ -1,0 +1,13 @@
+# Metadata for symfony.com's bundle listing. adminata has one living branch.
+
+branches:
+    - main
+
+maintained_branches:
+    - main
+
+doc_dir: 'docs/'
+
+current_branch: main
+
+dev_branch: main

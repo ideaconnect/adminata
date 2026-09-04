@@ -1,0 +1,53 @@
+adminata
+Copyright (c) 2026 IDCT Bartosz Pachołek
+
+This product is a hard fork and bundles or derives from the following works.
+
+## Forked packages (MIT)
+
+Copyright (c) 2010 Thomas Rabaix and the Sonata Project contributors
+<https://sonata-project.org>
+
+| Package | Version forked | Directory |
+|---|---|---|
+| sonata-project/admin-bundle | 4.43.0 | packages/admin-bundle |
+| sonata-project/block-bundle | 5.4.0 | packages/block-bundle |
+| sonata-project/doctrine-extensions | 2.6.0 | packages/doctrine-extensions |
+| sonata-project/doctrine-orm-admin-bundle | 4.21.0 | packages/doctrine-orm-admin-bundle |
+| sonata-project/exporter | 3.4.0 | packages/exporter |
+| sonata-project/form-extensions | 2.7.0 | packages/form-extensions |
+| sonata-project/twig-extensions | 2.6.0 | packages/twig-extensions |
+
+Their PHP sources keep the upstream file headers. See UPSTREAM.md for the exact
+commits and the sync process.
+
+## Design system
+
+TailAdmin — free Tailwind CSS dashboard template, v2.3.0.
+<https://tailadmin.com> · <https://github.com/TailAdmin/tailadmin-free-tailwind-dashboard-template>
+Copyright (c) 2023 TailAdmin. Licensed under the MIT License; note that the
+template's own `package.json` declares ISC, while its LICENSE file is MIT.
+adminata transcribes markup recipes and design tokens from the free edition. It
+does not vendor the template, and it does not use the TailAdmin name or logo as
+its own branding. Templates derived from a TailAdmin partial carry a Twig
+comment naming the source.
+
+## Bundled runtime dependencies
+
+| Component | Version | Licence |
+|---|---|---|
+| Stimulus (@hotwired/stimulus) | 3.2.2 | MIT — Copyright (c) Basecamp |
+| qs | 6.16.0 | BSD-3-Clause — Copyright (c) 2014, Nathan LaFreniere and contributors |
+| Tailwind CSS | 4.3.x | MIT — Copyright (c) Tailwind Labs, Inc. |
+| Font Awesome Free | 7.3.1 | Icons CC BY 4.0, Fonts SIL OFL 1.1, Code MIT — Copyright (c) Fonticons, Inc. |
+| Outfit Variable (@fontsource-variable/outfit) | 5.3.0 | SIL Open Font License 1.1 — Copyright (c) Smartsheet Inc. |
+
+The compiled assets committed under
+`packages/admin-bundle/src/Resources/public/` contain the Stimulus, qs, Tailwind,
+Font Awesome and Outfit works listed above.
+
+## Not bundled
+
+jQuery, jQuery UI, jquery-form, select2, iCheck, x-editable, Bootstrap,
+AdminLTE, Tempus Dominus and slimscroll — all present in upstream Sonata Admin
+— are **not** part of adminata and are not dependencies of it.
