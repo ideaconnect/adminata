@@ -13,23 +13,19 @@ declare(strict_types=1);
 
 namespace Sonata\Exporter\Tests\Source;
 
-use Doctrine\DBAL\Driver;
-use Doctrine\DBAL\DriverManager;
+use Adminata\Tests\Support\TestDatabase;
 use PHPUnit\Framework\TestCase;
 use Sonata\Exporter\Source\DoctrineDBALConnectionSourceIterator;
 
 final class DoctrineDBALConnectionSourceIteratorTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        if (!\extension_loaded('pdo_sqlite') || !class_exists(Driver\PDO\SQLite\Driver::class)) {
-            static::markTestSkipped('The sqlite extension is not available.');
-        }
-    }
-
     public function testRewindWithEmptyQuery(): void
     {
-        $connection = DriverManager::getConnection(['driver' => 'pdo_sqlite', 'path' => ':memory:']);
+        // adminata supports MySQL, MariaDB and Percona; this used an in-memory SQLite database.
+        $connection = TestDatabase::connect(
+            TestDatabase::parameters(database: 'adminata_exporter_dbal_test'),
+            true
+        );
 
         $iterator = new DoctrineDBALConnectionSourceIterator($connection, 'SELECT :param AS foo', ['param' => '1']);
         $iterator->rewind();

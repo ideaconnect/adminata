@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\Exporter\Tests\Source;
 
+use Adminata\Tests\Support\TestDatabase;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -28,10 +28,6 @@ final class DoctrineORMQuerySourceIteratorTest extends TestCase
 
     protected function setUp(): void
     {
-        if (!\extension_loaded('pdo_sqlite') || !class_exists(Driver\PDO\SQLite\Driver::class)) {
-            static::markTestSkipped('The sqlite extension is not available.');
-        }
-
         /* @phpstan-ignore function.alreadyNarrowedType */
         if (method_exists(ORMSetup::class, 'createAttributeMetadataConfig')) {
             $config = ORMSetup::createAttributeMetadataConfig([], true);
@@ -68,11 +64,9 @@ final class DoctrineORMQuerySourceIteratorTest extends TestCase
 
     protected function tearDown(): void
     {
-        if (\extension_loaded('pdo_sqlite') && class_exists(Driver\PDO\SQLite\Driver::class)) {
-            $this->em
-                ->createQuery('DELETE FROM '.Entity::class)
-                ->execute();
-        }
+        $this->em
+            ->createQuery('DELETE FROM '.Entity::class)
+            ->execute();
     }
 
     public function testEntityManagerClear(): void
@@ -92,7 +86,10 @@ final class DoctrineORMQuerySourceIteratorTest extends TestCase
 
     private function createConnection(): Connection
     {
-        // @phpstan-ignore-next-line method.internalClass
-        return new Connection([], new Driver\PDO\SQLite\Driver());
+        // adminata supports MySQL, MariaDB and Percona; this used an in-memory SQLite database.
+        return TestDatabase::connect(
+            TestDatabase::parameters(database: 'adminata_exporter_orm_test'),
+            true
+        );
     }
 }

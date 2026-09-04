@@ -198,7 +198,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     PLAN/10 §1 step-1 commands in dry-run mode.
   - Accept: `vendor/bin/phpunit --group network` green locally.
 
-- [ ] **P0-16 · Port the three SQLite-only exporter tests to MySQL** · S · depends: P0-04
+- [x] **P0-16 · Port the three SQLite-only exporter tests to MySQL** · S · depends: P0-04
   - Read: PLAN/README directive 9.
   - Do: `packages/exporter/tests/Source/{DoctrineDBALConnectionSourceIteratorTest,DoctrineORMQuerySourceIteratorTest,PDOStatementSourceIteratorTest}.php`
     skip themselves because they were written against an in-memory SQLite database, which adminata
@@ -728,6 +728,10 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   **2604 tests green** (5 skips: 3 SQLite-only exporter tests → P0-16, 2 Symfony-8 conditional).
   Browser tests need a driver: `PANTHER_SELENIUM_HOST=http://127.0.0.1:4444/wd/hub` was used here
   because another container holds port 4444; `PANTHER_FIREFOX_PORT` moves a spawned geckodriver.
+- 2026-09-04 — **P0-16 done.** The three exporter tests run against MySQL through a new
+  `Adminata\Tests\Support\TestDatabase` helper (URL resolution, per-suite database name, create or
+  recreate, plain PDO handle), which `OrmDatabaseExtension` and `TestEntityManagerFactory` now use
+  too. **2604 tests green, 2 skips** — both of them upstream's own "skip on Symfony 8" guards.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README
