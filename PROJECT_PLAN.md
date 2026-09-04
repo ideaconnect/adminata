@@ -184,15 +184,19 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: form suite green; a unit test asserts the three derived formats and the exception;
     `grep -rn sonataform packages/form-extensions/src` empty.
 
-- [ ] **P0-14 · Cleanups of upstream tooling and dead assets** · S · depends: P0-04
+- [x] **P0-14 · Cleanups of upstream tooling and dead assets** · S · depends: P0-04
   - Read: PLAN/03 §F; PLAN/09 phase 0 item 5.
-  - Do: delete twig-extensions `src/Bridge/Symfony/Resources/public/` (and any DI reference), the
-    admin-bundle `MopaBootstrapBundle` switch, Symfony 6.4 guards, obsolete cookbook recipes
-    (`recipe_bootlint`, `recipe_icheck`, `recipe_jquery_ui`, `recipe_select2`), admin-bundle
-    `package.json`, `webpack.config.js`, `.eslintrc*`, `.stylelintrc*`, `.prettierrc*`,
-    `.browserslistrc`, `assets/scss/`, and the prebuilt contents of
-    `packages/admin-bundle/src/Resources/public/` except `images/{ajax-loader.gif,default_mosaic_image.png,logo_title.png}`
-    (keep `assets/js/controllers` and `assets/images` for P1-06).
+  - Do: delete twig-extensions `src/Bridge/Symfony/Resources/public/` (and any DI reference),
+    obsolete cookbook recipes (`recipe_bootlint`, `recipe_icheck`, `recipe_jquery_ui`,
+    `recipe_select2`) and their toctree entries, the admin- and form-extensions build tooling
+    (`package.json`, `webpack.config.js`, `vite.config.js`, `postcss.config.js`, `.eslintrc*`,
+    `.stylelintrc*`, `prettier*`, `.babelrc*`), `assets/scss/`, the packages' own `.github/`, and
+    the prebuilt `admin-lte-skins/` and `select2-locale/` (keep `assets/js/controllers` and
+    `assets/images` for P1-06). The rest of `packages/admin-bundle/src/Resources/public/`
+    (`app.css`, `app.js`, `fonts/`, `images/`, the manifests) stays until P1-02 rebuilds it: three
+    Panther tests drive the inherited UI and need its CSS and JavaScript. The
+    `MopaBootstrapBundle` extension stays too — the form theme still reads the three `horizontal_*`
+    view variables it defines, so it goes with P4-01. There are no Symfony 6.4 guards to remove.
   - Accept: suites green; `git status --short | grep -v '^ D'` empty apart from intended edits.
 
 - [ ] **P0-15 · `ReplaceTest` and migration dry run** · M · depends: P0-02, P0-13
@@ -817,6 +821,14 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   seven new ones cover the five derived formats and the two exceptions.
   Watch out when running suites after a DI change: the imported test apps compile into
   `/tmp/sonata-*` and a stale container produced 102 "class not found" errors until it was removed.
+- 2026-09-05 — **P0-14 done.** 185 files deleted, no file modified beyond the docs toctree. Two
+  items of the task were moved rather than done, each because something still depends on them, and
+  the task text and PLAN/09 phase 0 item 5 now say so: the prebuilt `app.css`/`app.js` stay until
+  P1-02 rebuilds them (deleting them made three ORM Panther tests fail, since they drive the
+  inherited UI), and the `MopaBootstrapBundle` extension stays until P4-01 rewrites the form theme
+  that reads its `horizontal_*` view variables. The deleted `assets/scss/` is dispositioned
+  rule-by-rule in `PLAN/research/gap-css-architecture.md` §5, and `git show` recovers the files if
+  P1-05 wants them.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README
