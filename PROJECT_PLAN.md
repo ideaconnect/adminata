@@ -154,12 +154,13 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `bin/console config:dump-reference sonata_admin` shows the new tree; admin suite green;
     `grep -rn "use_select2\|use_icheck\|use_bootlint\|'skin'" packages/admin-bundle/src --include=*.php` empty.
 
-- [ ] **P0-11 · PHP change (b): grid and box defaults** · S · depends: P0-04
+- [x] **P0-11 · PHP change (b): grid and box defaults** · S · depends: P0-04
   - Read: PLAN/01 P6 (b).
-  - Do: `BaseGroupedMapper` / `AbstractAdmin`: group `class` default `col-md-12` → `col-span-12`,
-    `box_class` default `box box-primary` → `''`; `Configuration` dashboard block `class` default
-    `col-md-4` → `md:col-span-4`; update `FormMapperTest`, `ShowMapperTest`, `ConfigurationTest`,
-    `AbstractAdminTest` and DI tests.
+  - Do: `BaseGroupedMapper` `box_class` default `box box-primary` → `''`; `Configuration` dashboard
+    block `class` default `col-md-4` → `md:col-span-4`; update `FormMapperTest`, `ShowMapperTest`,
+    `ConfigurationTest`, `AbstractAdminTest` and DI tests. The group `class` default `col-md-12`
+    is **not** in PHP — it is `|default('col-md-12')` in `CRUD/base_edit_form_macro.html.twig` and
+    `CRUD/base_show.html.twig`, so it becomes `col-span-12` when P4-06 and P4-07 rewrite those.
   - Accept: `grep -rn "col-md-\|box box-primary" packages/*/src --include=*.php` empty; suites green.
 
 - [ ] **P0-12 · PHP change (d)/(e): theme cookie runtime and html helpers** · M · depends: P0-10
@@ -788,6 +789,10 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   checkbox, which no longer exists, so it clicks the checkbox itself.
   Templates still read the removed options; `getOption()` returns null for them and P2-01 rewrites
   those templates.
+- 2026-09-05 — **P0-11 done.** `box_class` defaults to an empty string and the dashboard block class
+  to `md:col-span-4`. Plan correction in the same commit: the group `class` default `col-md-12` the
+  task attributed to `BaseGroupedMapper`/`AbstractAdmin` is actually a Twig `|default()` in
+  `base_edit_form_macro.html.twig` and `base_show.html.twig`, so it belongs to P4-06 and P4-07.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

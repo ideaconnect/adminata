@@ -80,7 +80,7 @@ abstract class BaseGroupedMapper implements MapperInterface
             'label' => $this->getAdmin()->getLabelTranslatorStrategy()->getLabel($name, $this->getName(), 'group'),
             'translation_domain' => null,
             'name' => $name,
-            'box_class' => 'box box-primary',
+            'box_class' => '',
             'empty_message' => 'message_form_group_empty',
             'empty_message_translation_domain' => 'SonataAdminBundle',
         ];
