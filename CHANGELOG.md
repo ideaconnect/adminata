@@ -10,6 +10,10 @@ Changes inherited from the forked Sonata packages are listed separately in
 
 ## [Unreleased]
 
+adminata is pre-1.0 and under construction; [PROJECT_PLAN.md](PROJECT_PLAN.md) tracks what is done.
+Milestone M0 (bootstrap) is complete: the seven packages are imported, replaced and green under
+adminata's own tooling, and the PHP changes the Tailwind interface forces are in.
+
 ### Added
 
 - Hard fork of seven `sonata-project` packages into one Composer package `idct/adminata`, imported
@@ -18,12 +22,34 @@ Changes inherited from the forked Sonata packages are listed separately in
   `twig-extensions` 2.6.0 (see [UPSTREAM.md](UPSTREAM.md)).
 - Root `composer.json` replacing all seven package names at those exact versions, with the union of
   their requirements on PHP `^8.4` and Symfony `^7.4 || ^8.0`.
+- `sonata_admin.theme` with `mode` (`light`, `dark` or `system`), `logo_dark` and `logo_icon`, and
+  the Twig functions `sonata_theme()` and `sonata_html_dir()`. The mode is resolved server-side
+  from the `sonata_theme` cookie so a page never paints the wrong theme first.
+- One PHPUnit configuration for the seven imported suites and adminata's own, a `ReplaceTest` that
+  proves the seven-way `replace` resolves next to `idct/sonata-admin-mongodb-bundle`, and seven CI
+  workflows including a weekly watch on both the forked packages and the pinned dependency versions.
 - Repository documents: `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
-  `CHANGELOG-sonata.md`, `UPSTREAM.md`.
+  `CHANGELOG-sonata.md`, `UPSTREAM.md`, `Makefile`, `upstream/{diff,sync}.sh`.
 
 ### Changed
 
-- Nothing released yet. adminata is pre-1.0 and under construction; follow
-  [PROJECT_PLAN.md](PROJECT_PLAN.md).
+- Date and time pickers exchange their value in the format a native HTML5 input uses, derived from
+  `datepicker_options.display.components`. An explicit `format` is refused, the way Symfony's
+  `DateType` refuses one when `html5` is enabled.
+- Default assets are `bundles/sonataadmin/app.css`, `bundles/sonataadmin/fontawesome.css` and
+  `bundles/sonataadmin/app.js`; the AdminLTE skin stylesheet is no longer appended.
+- A form group's `box_class` defaults to an empty string, and a dashboard block's `class` to
+  `md:col-span-4`.
+- The test suites, the demo application and CI run on **MySQL**; adminata 1.0 supports MySQL,
+  MariaDB and Percona, and not SQLite.
+
+### Removed
+
+- `sonata_admin.options.skin`, `use_select2`, `use_icheck` and `use_bootlint`. They are removed, not
+  deprecated: leaving them in `sonata_admin.yaml` is a container build error.
+- `Sonata\Form\Date\JavaScriptFormatConverter`, form-extensions' `assets/` and its published
+  `Resources/public/`, twig-extensions' `flashmessage.css`, the prebuilt AdminLTE skins and select2
+  locales, the packages' Webpack/Babel/ESLint/Stylelint/Prettier configuration, and the cookbook
+  recipes for bootlint, iCheck, jQuery UI and select2.
 
 [Unreleased]: https://github.com/ideaconnect/adminata/commits/main

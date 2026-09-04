@@ -139,8 +139,10 @@ test-functional: ## adminata's functional suite (needs a browser or PANTHER_SELE
 	$(PHPUNIT) --testsuite adminata-functional
 .PHONY: test-functional
 
-test-contract: ## The frozen-interface suite of PLAN/02
-	$(PHPUNIT) --testsuite adminata-contract
+test-contract: ## The frozen-interface suite of PLAN/02, including its network checks
+	# The offline half is empty until P1-08 adds the hook, template-path and config contracts.
+	$(PHPUNIT) --testsuite adminata-contract --do-not-fail-on-empty-test-suite
+	$(PHPUNIT) --testsuite adminata-contract --group network
 .PHONY: test-contract
 
 coverage: ## Test suite with a clover report
