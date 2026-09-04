@@ -1,0 +1,196 @@
+{
+    "name": "idct/adminata",
+    "description": "Sonata Admin, re-skinned: the Sonata Admin PHP stack (admin, block, doctrine, ORM admin, exporter, form and twig extensions) with a Tailwind CSS v4 / TailAdmin user interface. Installs in place of the sonata-project packages.",
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "keywords": [
+        "admin",
+        "admin-generator",
+        "bundle",
+        "sonata",
+        "symfony",
+        "tailadmin",
+        "tailwindcss"
+    ],
+    "authors": [
+        {
+            "name": "IDCT Bartosz Pachołek",
+            "email": "bartosz@idct.tech",
+            "homepage": "https://idct.tech",
+            "role": "Maintainer of the fork"
+        },
+        {
+            "name": "Thomas Rabaix",
+            "email": "thomas.rabaix@sonata-project.org",
+            "homepage": "https://sonata-project.org",
+            "role": "Original author of the forked packages"
+        },
+        {
+            "name": "Sonata Community",
+            "homepage": "https://github.com/sonata-project/SonataAdminBundle/contributors",
+            "role": "Original authors of the forked packages"
+        },
+        {
+            "name": "TailAdmin",
+            "homepage": "https://tailadmin.com",
+            "role": "Design system the user interface is derived from"
+        }
+    ],
+    "homepage": "https://github.com/ideaconnect/adminata",
+    "support": {
+        "issues": "https://github.com/ideaconnect/adminata/issues",
+        "source": "https://github.com/ideaconnect/adminata"
+    },
+    "require": {
+        "php": "^8.4",
+        "doctrine/collections": "^2.0 || ^3.0",
+        "doctrine/common": "^3.0",
+        "doctrine/dbal": "^4.0",
+        "doctrine/doctrine-bundle": "^3.0",
+        "doctrine/orm": "^3.3",
+        "doctrine/persistence": "^4.0",
+        "knplabs/knp-menu": "^3.6",
+        "knplabs/knp-menu-bundle": "^3.0",
+        "psr/container": "^2.0",
+        "psr/log": "^3.0",
+        "symfony/asset": "^7.4 || ^8.0",
+        "symfony/config": "^7.4 || ^8.0",
+        "symfony/console": "^7.4 || ^8.0",
+        "symfony/dependency-injection": "^7.4 || ^8.0",
+        "symfony/deprecation-contracts": "^3.6",
+        "symfony/doctrine-bridge": "^7.4 || ^8.0",
+        "symfony/event-dispatcher": "^7.4 || ^8.0",
+        "symfony/event-dispatcher-contracts": "^3.0",
+        "symfony/expression-language": "^7.4 || ^8.0",
+        "symfony/form": "^7.4 || ^8.0",
+        "symfony/framework-bundle": "^7.4 || ^8.0",
+        "symfony/http-foundation": "^7.4 || ^8.0",
+        "symfony/http-kernel": "^7.4 || ^8.0",
+        "symfony/options-resolver": "^7.4 || ^8.0",
+        "symfony/property-access": "^7.4 || ^8.0",
+        "symfony/routing": "^7.4 || ^8.0",
+        "symfony/security-bundle": "^7.4 || ^8.0",
+        "symfony/security-core": "^7.4 || ^8.0",
+        "symfony/security-csrf": "^7.4 || ^8.0",
+        "symfony/serializer": "^7.4 || ^8.0",
+        "symfony/stimulus-bundle": "^3.4",
+        "symfony/string": "^7.4 || ^8.0",
+        "symfony/translation": "^7.4 || ^8.0",
+        "symfony/translation-contracts": "^3.0",
+        "symfony/twig-bridge": "^7.4 || ^8.0",
+        "symfony/twig-bundle": "^7.4 || ^8.0",
+        "symfony/validator": "^7.4 || ^8.0",
+        "twig/string-extra": "^3.0",
+        "twig/twig": "^3.28"
+    },
+    "require-dev": {
+        "ext-pdo_sqlite": "*",
+        "dama/doctrine-test-bundle": "^8.6",
+        "doctrine/doctrine-fixtures-bundle": "^4.3",
+        "doctrine/event-manager": "^2.0",
+        "doctrine/mongodb-odm": "^2.6",
+        "ergebnis/composer-normalize": "^2.52",
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "infection/infection": "^0.35",
+        "matthiasnoback/symfony-config-test": "^6.2",
+        "matthiasnoback/symfony-dependency-injection-test": "^6.3",
+        "phpoffice/phpspreadsheet": "^5.9",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.2",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpstan/phpstan-symfony": "^2.0",
+        "phpunit/phpunit": "^13.3",
+        "psr/event-dispatcher": "^1.0",
+        "rector/rector": "^2.6",
+        "sonata-project/entity-audit-bundle": "^1.23",
+        "symfony/browser-kit": "^7.4 || ^8.0",
+        "symfony/cache": "^7.4 || ^8.0",
+        "symfony/css-selector": "^7.4 || ^8.0",
+        "symfony/dom-crawler": "^7.4 || ^8.0",
+        "symfony/error-handler": "^7.4 || ^8.0",
+        "symfony/filesystem": "^7.4 || ^8.0",
+        "symfony/maker-bundle": "^1.67",
+        "symfony/panther": "^2.4",
+        "symfony/security-acl": "^3.3",
+        "symfony/stopwatch": "^7.4 || ^8.0",
+        "symfony/uid": "^7.4 || ^8.0",
+        "symfony/yaml": "^7.4 || ^8.0"
+    },
+    "replace": {
+        "sonata-project/admin-bundle": "4.43.0",
+        "sonata-project/block-bundle": "5.4.0",
+        "sonata-project/doctrine-extensions": "2.6.0",
+        "sonata-project/doctrine-orm-admin-bundle": "4.21.0",
+        "sonata-project/exporter": "3.4.0",
+        "sonata-project/form-extensions": "2.7.0",
+        "sonata-project/twig-extensions": "2.6.0"
+    },
+    "conflict": {
+        "doctrine/mongodb-odm": "<2.4",
+        "phpoffice/phpspreadsheet": "<1.23",
+        "sonata-project/entity-audit-bundle": ">=2.0",
+        "symfony/security-acl": "<3.1 || >=4.0"
+    },
+    "suggest": {
+        "doctrine/mongodb-odm": "To use the MongoDB ODM document manager and exporter source",
+        "idct/sonata-admin-mongodb-bundle": "To manage MongoDB ODM documents with Sonata admins",
+        "phpoffice/phpspreadsheet": "To export data as XLS or XLSX",
+        "sonata-project/entity-audit-bundle": "To enable the entity history pages (post-1.0)",
+        "twig/extra-bundle": "Auto configures the Twig Intl extension"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sonata\\AdminBundle\\": "packages/admin-bundle/src/",
+            "Sonata\\BlockBundle\\": "packages/block-bundle/src/",
+            "Sonata\\DoctrineORMAdminBundle\\": "packages/doctrine-orm-admin-bundle/src/",
+            "Sonata\\Doctrine\\": "packages/doctrine-extensions/src/",
+            "Sonata\\Doctrine\\Bridge\\Symfony\\": "packages/doctrine-extensions/src/Bridge/Symfony/",
+            "Sonata\\Exporter\\": "packages/exporter/src/",
+            "Sonata\\Exporter\\Bridge\\Symfony\\": "packages/exporter/src/Bridge/Symfony/",
+            "Sonata\\Form\\": "packages/form-extensions/src/",
+            "Sonata\\Twig\\": "packages/twig-extensions/src/",
+            "Sonata\\Twig\\Bridge\\Symfony\\": "packages/twig-extensions/src/Bridge/Symfony/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Adminata\\Tests\\": "tests/",
+            "Sonata\\AdminBundle\\Tests\\": "packages/admin-bundle/tests/",
+            "Sonata\\BlockBundle\\Tests\\": "packages/block-bundle/tests/",
+            "Sonata\\DoctrineORMAdminBundle\\Tests\\": "packages/doctrine-orm-admin-bundle/tests/",
+            "Sonata\\Doctrine\\Tests\\": "packages/doctrine-extensions/tests/",
+            "Sonata\\Exporter\\Tests\\": "packages/exporter/tests/",
+            "Sonata\\Form\\Tests\\": "packages/form-extensions/tests/",
+            "Sonata\\Twig\\Tests\\": "packages/twig-extensions/tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "infection/extension-installer": true,
+            "phpstan/extension-installer": true,
+            "symfony/runtime": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.x-dev"
+        }
+    },
+    "scripts": {
+        "test:cs": "php-cs-fixer check --diff",
+        "test:everything": [
+            "@test:cs",
+            "@test:rector",
+            "@test:phpstan",
+            "@test:twig",
+            "@test:phpunit"
+        ],
+        "test:phpstan": "phpstan analyse --memory-limit=1G",
+        "test:phpunit": "phpunit",
+        "test:rector": "rector process --dry-run",
+        "test:twig": "bin/console lint:twig packages tests"
+    }
+}

@@ -90,7 +90,7 @@ A CI job (`versions-watch`, weekly) lists newer releases of every entry above an
     "sonata-project/doctrine-extensions": "2.6.0", "sonata-project/doctrine-orm-admin-bundle": "4.21.0",
     "sonata-project/exporter": "3.4.0", "sonata-project/form-extensions": "2.7.0", "sonata-project/twig-extensions": "2.6.0"
   },
-  "conflict": { "symfony/security-acl": "<3.1 >=4.0" },
+  "conflict": { "symfony/security-acl": "<3.1 || >=4.0", "doctrine/mongodb-odm": "<2.4", "phpoffice/phpspreadsheet": "<1.23", "sonata-project/entity-audit-bundle": ">=2.0" },
   "suggest": { "idct/sonata-admin-mongodb-bundle": "MongoDB ODM admins", "phpoffice/phpspreadsheet": "XLS/XLSX export", "twig/extra-bundle": "Intl", "sonata-project/entity-audit-bundle": "history pages (post-1.0)" },
   "autoload": { "psr-4": {
     "Sonata\\AdminBundle\\": "packages/admin-bundle/src/", "Sonata\\BlockBundle\\": "packages/block-bundle/src/",
@@ -104,8 +104,19 @@ A CI job (`versions-watch`, weekly) lists newer releases of every entry above an
 ```
 
 The `require` list is the union of the seven upstream lists (floors raised, internal
-`sonata-project/*` entries dropped). Decisions: floors as P4; no `provide`; author roster
-regenerated from the full clones; CI job asserting each `replace` version equals `UPSTREAM.md`.
+`sonata-project/*` entries dropped); it also declares `symfony/event-dispatcher-contracts` and
+`symfony/translation-contracts`, whose interfaces the admin and form packages import directly.
+`require-dev` is likewise the union of the seven upstream dev lists at the §2 versions, because the
+seven imported suites all have to run (`dama/doctrine-test-bundle`, `doctrine/mongodb-odm`,
+`symfony/maker-bundle`, `sonata-project/entity-audit-bundle`, `phpoffice/phpspreadsheet` … are each
+exercised by tests). The `conflict` block keeps the upstream guards that survive the raised floors
+and drops those the floors make redundant (`knplabs/knp-menu-bundle <3.0`,
+`doctrine/doctrine-bundle <2.7`, `doctrine/orm <2.16`, `sonata-project/block-bundle <4.2`);
+upstream's `symfony/security-acl: "<3.1 >=4.0"` is an unsatisfiable conjunction and becomes a
+disjunction. Decisions: floors as P4; no `provide` (the ORM bundle's virtual
+`sonata-project/admin-bundle-persistency-layer` is dropped so a persistence bundle installed
+alongside can provide it); author roster regenerated from the full clones; CI job asserting each
+`replace` version equals `UPSTREAM.md`.
 
 ## 4. Repository layout
 

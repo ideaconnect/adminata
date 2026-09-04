@@ -60,7 +60,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `git log --merges --format=%B | grep -c "^git-subtree-dir: packages/"` prints 7;
     `jq -r .name packages/*/composer.json` lists the seven upstream names.
 
-- [ ] **P0-02 · Root `composer.json`** · M · depends: P0-01
+- [x] **P0-02 · Root `composer.json`** · M · depends: P0-01
   - Read: PLAN/07 §3; PLAN/01 P3–P5; PLAN/02 §1.
   - Do: compute the union of the seven `packages/*/composer.json` `require` lists (drop
     `sonata-project/*`, raise floors to `php ^8.4`, `symfony/* ^7.4 || ^8.0`, `twig ^3.28`,
@@ -690,3 +690,14 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   command grepped `git log --oneline`, which never contains the subtree footer; it now counts
   `git-subtree-dir: packages/` over full commit messages (`--merges` alone also matches the imported
   upstream merge commits, so the footer is the precise check).
+- 2026-09-04 — **P0-02 done.** Root `composer.json` written (union `require`, `require-dev` union at
+  the PLAN/07 §2 versions, `replace` × 7, PSR-4 × 10 + `Adminata\Tests\`), the seven per-package
+  `composer.json` files deleted, `composer update` and `composer normalize` clean, all seven bundle
+  classes instantiate. Plan changes in the same commit (PLAN/07 §3): upstream's unsatisfiable
+  `symfony/security-acl: "<3.1 >=4.0"` becomes a disjunction (`composer validate --strict` rejects
+  the conjunction); the three upstream guards that survive the raised floors are kept in `conflict`;
+  the contracts packages and the dev-dependency union are spelled out.
+- 2026-09-04 — Blocker for P0-04: `ext-pdo_sqlite` is declared in `require-dev` but the local PHP 8.5
+  has no sqlite driver (`php8.5-sqlite3` is not installed), so Composer runs locally need
+  `--ignore-platform-req=ext-pdo_sqlite` and the ORM functional suite cannot run here until the
+  extension is installed.
