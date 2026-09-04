@@ -1,0 +1,11 @@
+# adminata upstream remotes — one line per forked package.
+# Format: <package-dir>  <git-url>  <imported-tag>
+# Used by upstream/diff.sh and upstream/sync.sh, and by P0-01 to (re-)create the remotes:
+#   while read -r name url tag; do git remote add "upstream-$name" "$url"; done < upstream/remotes.txt
+admin-bundle              https://github.com/sonata-project/SonataAdminBundle.git            4.43.0
+block-bundle              https://github.com/sonata-project/SonataBlockBundle.git            5.4.0
+doctrine-extensions       https://github.com/sonata-project/sonata-doctrine-extensions.git   2.6.0
+doctrine-orm-admin-bundle https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git 4.21.0
+exporter                  https://github.com/sonata-project/exporter.git                     3.4.0
+form-extensions           https://github.com/sonata-project/form-extensions.git              2.7.0
+twig-extensions           https://github.com/sonata-project/twig-extensions.git              2.6.0
