@@ -1,0 +1,12 @@
+# Paths adminata owns in packages/doctrine-extensions: tooling, plus the test kernel, which
+# runs on MySQL here (PLAN/README directive 9).
+tests/App/Kernel.php
+.github/**
+Makefile
+*.md
+phpunit.xml.dist
+rector.php
+.php-cs-fixer.dist.php
+phpstan.neon.dist
+phpstan-baseline.neon
+composer.json

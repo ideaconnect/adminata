@@ -121,7 +121,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     are cheap to fix in tests (never by ignoring); regenerate.
   - Accept: `vendor/bin/phpstan analyse --memory-limit=1G` clean; `grep -r "@phpstan-ignore" tests` empty.
 
-- [ ] **P0-08 · Makefile, lint tooling, `bin/console`** · M · depends: P0-07
+- [x] **P0-08 · Makefile, lint tooling, `bin/console`** · M · depends: P0-07
   - Read: PLAN/07 §6, §7.
   - Do: `Makefile` targets `lint` (cs, composer-normalize, yamllint, xmllint over xml/xliff,
     `lint:twig packages tests`, `lint:container`, `lint:xliff`, `lint:yaml`), `cs-fix`, `phpstan`,
@@ -762,6 +762,13 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   configuration produces and what `GroupMenuProvider` checks for. One baseline entry was added, for
   `InlineConstraint`'s `?? null` guards, which its own test proves are load-bearing. Two more Rector
   rules are skipped because they delete the type information these fixes add.
+- 2026-09-05 — **P0-08 done.** `Makefile` (with `make help`), `.yamllint`, `bin/console` on the
+  admin bundle's test kernel until P1-09, `upstream/{diff,sync}.sh` and the seven
+  `upstream/exclude/*.txt`. `make lint phpstan rector test` is green. Two notes: the exclusion
+  lists also cover the files this milestone changed for the MySQL switch and the PHPUnit 13 fixes,
+  so upstream syncs will not clobber them; and `xmllint` is not installed on this machine, so
+  `lint-xml`/`lint-xliff` print a skip line — P0-09's `lint.yaml` installs `libxml2-utils` so the
+  check really runs in CI.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

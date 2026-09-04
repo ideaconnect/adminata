@@ -1,0 +1,35 @@
+# Paths adminata owns in packages/admin-bundle: never taken from an upstream diff.
+# One glob per line, matched by `git diff -- ':(exclude)<glob>'` in upstream/sync.sh.
+src/Resources/views/**
+src/Resources/public/**
+assets/**
+package.json
+package-lock.json
+webpack.config.js
+postcss.config.js
+prettier.config.js
+.babelrc.js
+.eslintrc.js
+.stylelintrc.js
+.prettierignore
+.browserslistrc
+.github/**
+Makefile
+*.md
+phpunit.xml.dist
+rector.php
+.php-cs-fixer.dist.php
+phpstan.neon.dist
+phpstan-baseline.neon
+phpstan-console-application.php
+composer.json
+docs/cookbook/recipe_bootlint.rst
+docs/cookbook/recipe_icheck.rst
+docs/cookbook/recipe_jquery_ui.rst
+docs/cookbook/recipe_select2.rst
+# PLAN/01 P6: merged by hand.
+src/DependencyInjection/Configuration.php
+src/DependencyInjection/SonataAdminExtension.php
+src/Mapper/BaseGroupedMapper.php
+src/Admin/AbstractAdmin.php
+src/SonataConfiguration.php
