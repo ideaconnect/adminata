@@ -26,7 +26,7 @@ final class JavaScriptFormatConverter
      * For ICU formats see http://userguide.icu-project.org/formatparse/datetime#TOC-Date-Time-Format-Syntax
      * For JavaScript formats see https://github.com/Eonasdan/tempus-dominus/blob/master/src/js/datetime.ts#L922-L947.
      */
-    private const FORMAT_CONVERT_RULES = [
+    private const array FORMAT_CONVERT_RULES = [
         'yyyy' => 'yyyy', 'yy' => 'yy', 'y' => 'yyyy',
         'EEEE' => 'dddd', 'EE' => 'ddd', 'E' => 'ddd',
         'a' => 'T',

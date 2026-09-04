@@ -32,7 +32,7 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
     /**
      * @var array<string, array<string>|string>
      */
-    private const DATEPICKER_ALLOWED_OPTIONS = [
+    private const array DATEPICKER_ALLOWED_OPTIONS = [
         'allowInputToggle' => 'bool',
         'dateRange' => 'bool',
         'debug' => 'bool',
@@ -50,7 +50,7 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
     /**
      * @var array<string, array<string>|string>
      */
-    private const RESTRICTIONS_OPTIONS = [
+    private const array RESTRICTIONS_OPTIONS = [
         'minDate' => ['string', \DateTimeInterface::class],
         'maxDate' => ['string', \DateTimeInterface::class],
         'disabledDates' => ['string[]', 'DateTimeInterface[]'],
@@ -63,7 +63,7 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
     /**
      * @var array<string, array<string>|string>
      */
-    private const LOCALIZATION_OPTIONS = [
+    private const array LOCALIZATION_OPTIONS = [
         'locale' => 'string',
         'hourCycle' => 'string',
     ];
@@ -71,7 +71,7 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
     /**
      * @var array<string, array<string>|string>
      */
-    private const DISPLAY_OPTIONS = [
+    private const array DISPLAY_OPTIONS = [
         'sideBySide' => 'bool',
         'calendarWeeks' => 'bool',
         'viewMode' => 'string',
@@ -84,7 +84,7 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
     /**
      * @var array<string, array<string>|string>
      */
-    private const DISPLAY_ICONS_OPTIONS = [
+    private const array DISPLAY_ICONS_OPTIONS = [
         'time' => 'string',
         'date' => 'string',
         'up' => 'string',
@@ -99,7 +99,7 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
     /**
      * @var array<string, array<string>|string>
      */
-    private const DISPLAY_BUTTONS_OPTIONS = [
+    private const array DISPLAY_BUTTONS_OPTIONS = [
         'today' => 'bool',
         'clear' => 'bool',
         'close' => 'bool',
@@ -108,7 +108,7 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
     /**
      * @var array<string, array<string>|string>
      */
-    private const DISPLAY_COMPONENTS_OPTIONS = [
+    private const array DISPLAY_COMPONENTS_OPTIONS = [
         'calendar' => 'bool',
         'date' => 'bool',
         'month' => 'bool',
@@ -225,9 +225,7 @@ abstract class BasePickerType extends AbstractType implements LocaleAwareInterfa
             unset($datePickerOptions['restrictions']);
         }
 
-        if (!isset($datePickerOptions['localization'])) {
-            $datePickerOptions['localization'] = [];
-        }
+        $datePickerOptions['localization'] ??= [];
 
         $datePickerOptions['localization']['format'] = $this->formatConverter->convert($options['format'] ?? '');
 
