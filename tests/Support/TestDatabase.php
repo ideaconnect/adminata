@@ -32,7 +32,7 @@ use Doctrine\DBAL\Tools\DsnParser;
  */
 final class TestDatabase
 {
-    public const DEFAULT_URL = 'mysql://root:adminata@127.0.0.1:7010/adminata_test?serverVersion=8.4.0&charset=utf8mb4';
+    public const string DEFAULT_URL = 'mysql://root:adminata@127.0.0.1:7010/adminata_test?serverVersion=8.4.0&charset=utf8mb4';
 
     /**
      * @return array<string, mixed>

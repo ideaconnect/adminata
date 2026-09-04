@@ -44,9 +44,9 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 final class OrmDatabaseExtension implements Extension
 {
-    public const TEST_NAMESPACE = 'Sonata\\DoctrineORMAdminBundle\\Tests\\';
+    public const string TEST_NAMESPACE = 'Sonata\\DoctrineORMAdminBundle\\Tests\\';
 
-    private const MAX_HANDLER_RESTORES = 16;
+    private const int MAX_HANDLER_RESTORES = 16;
 
     private static bool $prepared = false;
 
