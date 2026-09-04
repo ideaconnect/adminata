@@ -38,6 +38,10 @@ return static fn (string $header): array => [
     'header_comment' => ['header' => $header],
     'list_syntax' => ['syntax' => 'short'],
     'method_argument_space' => ['on_multiline' => 'ensure_fully_multiline'],
+    // Renames `__wakeup()` to `__unserialize(array $data)` without moving the restore logic
+    // over, which silently breaks classes that pair `__serialize()` with `__wakeup()` —
+    // form-extensions' InlineConstraint is one, and its own test catches it.
+    'modern_serialization_methods' => false,
     'multiline_whitespace_before_semicolons' => ['strategy' => 'no_multi_line'],
     'no_useless_else' => true,
     'no_useless_return' => true,
