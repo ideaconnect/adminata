@@ -20,7 +20,9 @@ code it touched, and every phase exit is a **milestone**: `main` is pushed to
    removed, `sonata_admin.theme` node, theme cookie helper, form-extensions `BasePickerType` HTML5
    formats, `SonataFormExtension` asset registration removed) with their tests updated.
 5. Delete form-extensions' `assets/` and `Resources/public/`, twig-extensions' `Resources/public/`,
-   the `MopaBootstrapBundle` switch and the Symfony 6.4 shims.
+   the packages' build tooling and `.github/`, and the obsolete cookbook recipes. The
+   `MopaBootstrapBundle` compatibility extension stays until phase 4: the three `horizontal_*` view
+   variables it defines are still read by the form theme it rewrites.
 6. All inherited test files of the seven packages green on PHP 8.4/8.5 × Symfony 7.4/8.1 (templates
    still untouched).
 7. Scratch app: `composer require idct/adminata idct/sonata-admin-mongodb-bundle
