@@ -30,7 +30,7 @@ final class ConfigurationTest extends TestCase
         static::assertNull($config['options']['pager_links']);
         static::assertTrue($config['options']['confirm_exit']);
         static::assertFalse($config['options']['js_debug']);
-        static::assertTrue($config['options']['use_icheck']);
+        static::assertTrue($config['options']['use_stickyforms']);
         static::assertSame('bundles/sonataadmin/images/default_mosaic_image.png', $config['options']['mosaic_background']);
         static::assertSame('default', $config['options']['default_group']);
         static::assertSame('SonataAdminBundle', $config['options']['default_label_catalogue']);
