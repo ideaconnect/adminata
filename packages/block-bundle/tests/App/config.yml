@@ -1,0 +1,23 @@
+framework:
+    secret: secret
+    test: true
+    router:
+        utf8: true
+    http_method_override: false
+
+twig:
+    strict_variables: true
+    paths:
+        - '%kernel.project_dir%/templates'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Sonata\BlockBundle\Tests\App\Block\DemoBlockService:
+        tags: ['sonata.block']
+
+    Sonata\BlockBundle\Tests\App\Controller\DemoController:
+        tags:
+            - controller.service_arguments
