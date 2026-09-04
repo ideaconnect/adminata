@@ -621,15 +621,13 @@ final class CRUDControllerTest extends TestCase
 
     public function testBatchActionDelete(): void
     {
-        $modelManager = $this->createMock(ModelManagerInterface::class);
-
         $this->admin->expects(static::once())
             ->method('checkAccess')
             ->with(static::equalTo('batchDelete'));
 
         $this->admin->expects(static::once())
             ->method('getModelManager')
-            ->willReturn($modelManager);
+            ->willReturn($this->createMock(ModelManagerInterface::class));
 
         $this->admin->expects(static::once())
             ->method('getFilterParameters')
@@ -2116,11 +2114,9 @@ final class CRUDControllerTest extends TestCase
 
         $this->request->setMethod(Request::METHOD_POST);
         $this->request->headers->set('X-Requested-With', 'XMLHttpRequest');
-
-        $formView = $this->createMock(FormView::class);
         $form
             ->method('createView')
-            ->willReturn($formView);
+            ->willReturn($this->createMock(FormView::class));
 
         static::assertInstanceOf(Response::class, $response = $this->controller->editAction($this->request));
         static::assertSame(Response::HTTP_NOT_ACCEPTABLE, $response->getStatusCode());
@@ -2316,11 +2312,9 @@ final class CRUDControllerTest extends TestCase
             ->with(static::equalTo($object))
             ->willReturn($class);
 
-        $formView = $this->createMock(FormView::class);
-
         $form
             ->method('createView')
-            ->willReturn($formView);
+            ->willReturn($this->createMock(FormView::class));
 
         $this->expectTranslate('flash_lock_error', [
             '%name%' => $class,
@@ -2946,11 +2940,9 @@ final class CRUDControllerTest extends TestCase
 
         $this->request->setMethod(Request::METHOD_POST);
         $this->request->headers->set('X-Requested-With', 'XMLHttpRequest');
-
-        $formView = $this->createMock(FormView::class);
         $form
             ->method('createView')
-            ->willReturn($formView);
+            ->willReturn($this->createMock(FormView::class));
 
         static::assertInstanceOf(Response::class, $response = $this->controller->createAction($this->request));
         static::assertSame(Response::HTTP_NOT_ACCEPTABLE, $response->getStatusCode());
@@ -3067,11 +3059,9 @@ final class CRUDControllerTest extends TestCase
             ->method('getClass')
             ->willReturn(\stdClass::class);
 
-        $dataSourceIterator = $this->createMock(\Iterator::class);
-
         $this->admin->expects(static::once())
             ->method('getDataSourceIterator')
-            ->willReturn($dataSourceIterator);
+            ->willReturn($this->createMock(\Iterator::class));
 
         $this->request->query->set('format', 'json');
 
@@ -4229,11 +4219,9 @@ final class CRUDControllerTest extends TestCase
 
         $this->expectGetController();
 
-        $datagrid = $this->createMock(DatagridInterface::class);
-
         $this->admin->expects(static::once())
             ->method('getDatagrid')
-            ->willReturn($datagrid);
+            ->willReturn($this->createMock(DatagridInterface::class));
 
         $this->expectTranslate('flash_batch_empty', [], 'SonataAdminBundle');
 
@@ -4318,11 +4306,9 @@ final class CRUDControllerTest extends TestCase
 
         $this->expectGetController();
 
-        $datagrid = $this->createMock(DatagridInterface::class);
-
         $this->admin->expects(static::once())
             ->method('getDatagrid')
-            ->willReturn($datagrid);
+            ->willReturn($this->createMock(DatagridInterface::class));
 
         $this->expectTranslate('flash_foo_error', [], 'SonataAdminBundle');
 
@@ -4348,11 +4334,9 @@ final class CRUDControllerTest extends TestCase
 
         $this->expectGetController();
 
-        $datagrid = $this->createMock(DatagridInterface::class);
-
         $this->admin->expects(static::once())
             ->method('getDatagrid')
-            ->willReturn($datagrid);
+            ->willReturn($this->createMock(DatagridInterface::class));
 
         $this->expectTranslate('flash_batch_empty', [], 'SonataAdminBundle');
 
@@ -4384,21 +4368,17 @@ final class CRUDControllerTest extends TestCase
         $this->expectGetController();
 
         $datagrid = $this->createMock(DatagridInterface::class);
-
-        $query = $this->createMock(ProxyQueryInterface::class);
         $datagrid->expects(static::once())
             ->method('getQuery')
-            ->willReturn($query);
+            ->willReturn($this->createMock(ProxyQueryInterface::class));
 
         $this->admin->expects(static::once())
             ->method('getDatagrid')
             ->willReturn($datagrid);
 
-        $modelManager = $this->createMock(ModelManagerInterface::class);
-
         $this->admin
             ->method('getModelManager')
-            ->willReturn($modelManager);
+            ->willReturn($this->createMock(ModelManagerInterface::class));
 
         $this->admin
             ->method('getClass')
@@ -4480,11 +4460,9 @@ final class CRUDControllerTest extends TestCase
         $this->expectGetController();
 
         $datagrid = $this->createMock(DatagridInterface::class);
-
-        $query = $this->createMock(ProxyQueryInterface::class);
         $datagrid->expects(static::once())
             ->method('getQuery')
-            ->willReturn($query);
+            ->willReturn($this->createMock(ProxyQueryInterface::class));
 
         $this->admin->expects(static::once())
             ->method('getDatagrid')

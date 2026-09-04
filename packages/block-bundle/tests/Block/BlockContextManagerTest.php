@@ -31,15 +31,13 @@ final class BlockContextManagerTest extends TestCase
 
         $service->expects(static::once())->method('configureSettings');
 
-        $blockLoader = $this->createMock(BlockLoaderInterface::class);
-
         $serviceManager = $this->createMock(BlockServiceManagerInterface::class);
         $serviceManager->expects(static::once())->method('get')->willReturn($service);
 
         $block = $this->createMock(BlockInterface::class);
         $block->expects(static::once())->method('getSettings')->willReturn([]);
 
-        $manager = new BlockContextManager($blockLoader, $serviceManager);
+        $manager = new BlockContextManager($this->createMock(BlockLoaderInterface::class), $serviceManager);
 
         $settings = ['template' => 'custom.html.twig'];
 
@@ -92,15 +90,13 @@ final class BlockContextManagerTest extends TestCase
         $service = $this->createMock(AbstractBlockService::class);
         $service->expects(static::once())->method('configureSettings');
 
-        $blockLoader = $this->createMock(BlockLoaderInterface::class);
-
         $serviceManager = $this->createMock(BlockServiceManagerInterface::class);
         $serviceManager->expects(static::once())->method('get')->willReturn($service);
 
         $block = $this->createMock(BlockInterface::class);
         $block->expects(static::once())->method('getSettings')->willReturn([]);
 
-        $manager = new BlockContextManager($blockLoader, $serviceManager);
+        $manager = new BlockContextManager($this->createMock(BlockLoaderInterface::class), $serviceManager);
 
         $settings = ['template' => 'custom.html.twig'];
 
@@ -122,8 +118,6 @@ final class BlockContextManagerTest extends TestCase
         $service = $this->createMock(AbstractBlockService::class);
         $service->expects(static::exactly(2))->method('configureSettings');
 
-        $blockLoader = $this->createMock(BlockLoaderInterface::class);
-
         $serviceManager = $this->createMock(BlockServiceManagerInterface::class);
         $serviceManager->expects(static::exactly(2))->method('get')->willReturn($service);
 
@@ -134,7 +128,7 @@ final class BlockContextManagerTest extends TestCase
         ]);
         $block->expects(static::once())->method('getSetting')->with('template')->willReturn('custom.html.twig');
 
-        $manager = new BlockContextManager($blockLoader, $serviceManager, $logger);
+        $manager = new BlockContextManager($this->createMock(BlockLoaderInterface::class), $serviceManager, $logger);
 
         $blockContext = $manager->get($block);
 

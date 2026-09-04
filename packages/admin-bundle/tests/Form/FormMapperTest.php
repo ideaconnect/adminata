@@ -34,7 +34,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 final class FormMapperTest extends TestCase
 {
-    private const DEFAULT_GRANTED_ROLE = 'ROLE_ADMIN_BAZ';
+    private const string DEFAULT_GRANTED_ROLE = 'ROLE_ADMIN_BAZ';
 
     /**
      * @var FormContractorInterface&MockObject
@@ -68,9 +68,7 @@ final class FormMapperTest extends TestCase
         $this->admin = new CleanAdmin();
         $this->admin->setModelClass(\stdClass::class);
         $this->admin->setSubject(new \stdClass());
-
-        $modelManager = $this->createMock(ModelManagerInterface::class);
-        $this->admin->setModelManager($modelManager);
+        $this->admin->setModelManager($this->createMock(ModelManagerInterface::class));
 
         $securityHandler = static::createStub(SecurityHandlerInterface::class);
         $securityHandler

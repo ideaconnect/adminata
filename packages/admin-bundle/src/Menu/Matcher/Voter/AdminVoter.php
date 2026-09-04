@@ -64,12 +64,6 @@ final class AdminVoter implements VoterInterface
             return true;
         }
 
-        foreach ($admin->getChildren() as $child) {
-            if ($this->match($child, $requestCode)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($admin->getChildren(), fn ($child) => $this->match($child, $requestCode));
     }
 }

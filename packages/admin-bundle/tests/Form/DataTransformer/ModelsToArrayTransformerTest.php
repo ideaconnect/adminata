@@ -37,10 +37,8 @@ final class ModelsToArrayTransformerTest extends TestCase
 
     public function testReverseTransformWithNull(): void
     {
-        $modelManager = $this->createMock(ModelManagerInterface::class);
-
         $transformer = new ModelsToArrayTransformer(
-            $modelManager,
+            $this->createMock(ModelManagerInterface::class),
             Foo::class
         );
 

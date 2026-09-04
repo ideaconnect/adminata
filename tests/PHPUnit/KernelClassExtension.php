@@ -23,6 +23,7 @@ use PHPUnit\Runner\Extension\Extension;
 use PHPUnit\Runner\Extension\Facade;
 use PHPUnit\Runner\Extension\ParameterCollection;
 use PHPUnit\TextUI\Configuration\Configuration;
+use Sonata\AdminBundle\Tests\App\AppKernel;
 
 /**
  * Points `KERNEL_CLASS` at the right test kernel for the test that is about to run.
@@ -40,8 +41,8 @@ final class KernelClassExtension implements Extension
      *
      * @var array<string, class-string>
      */
-    private const KERNELS = [
-        'Sonata\\AdminBundle\\Tests\\' => \Sonata\AdminBundle\Tests\App\AppKernel::class,
+    private const array KERNELS = [
+        'Sonata\\AdminBundle\\Tests\\' => AppKernel::class,
         'Sonata\\BlockBundle\\Tests\\' => \Sonata\BlockBundle\Tests\App\AppKernel::class,
         'Sonata\\DoctrineORMAdminBundle\\Tests\\' => \Sonata\DoctrineORMAdminBundle\Tests\App\AppKernel::class,
         'Sonata\\Twig\\Tests\\' => \Sonata\Twig\Tests\App\AppKernel::class,

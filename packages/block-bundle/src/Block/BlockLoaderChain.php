@@ -32,13 +32,7 @@ final class BlockLoaderChain implements BlockLoaderInterface
      */
     public function exists(string $type): bool
     {
-        foreach ($this->loaders as $loader) {
-            if ($loader->exists($type)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->loaders, static fn ($loader) => $loader->exists($type));
     }
 
     public function load($configuration): BlockInterface

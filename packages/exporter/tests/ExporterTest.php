@@ -30,11 +30,10 @@ final class ExporterTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Invalid "foo" format');
-        $source = $this->createMock(\Iterator::class);
         $writer = $this->createMock(TypedWriterInterface::class);
 
         $exporter = new Exporter([$writer]);
-        $exporter->getResponse('foo', 'foo', $source);
+        $exporter->getResponse('foo', 'foo', $this->createMock(\Iterator::class));
     }
 
     public function testConstructorRejectsNonTypedWriters(): void

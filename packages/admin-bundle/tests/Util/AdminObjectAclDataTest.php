@@ -53,13 +53,8 @@ final class AdminObjectAclDataTest extends TestCase
 
     public function testSetAcl(): AdminObjectAclData
     {
-        // `AdminObjectAclData::setAcl()` takes the interface. Mocking the concrete
-        // Symfony\Component\Security\Acl\Domain\Acl loads a class whose
-        // `addPropertyChangedListener()` signature is incompatible with
-        // doctrine/persistence 4's `NotifyPropertyChanged`, which is a fatal error.
-        $acl = $this->createMock(MutableAclInterface::class);
         $adminObjectAclData = $this->createAdminObjectAclData();
-        $ret = $adminObjectAclData->setAcl($acl);
+        $ret = $adminObjectAclData->setAcl($this->createMock(MutableAclInterface::class));
 
         static::assertSame($adminObjectAclData, $ret);
 
@@ -84,9 +79,8 @@ final class AdminObjectAclDataTest extends TestCase
 
     public function testSetForm(): AdminObjectAclData
     {
-        $form = $this->createMock(Form::class);
         $adminObjectAclData = $this->createAdminObjectAclData();
-        $ret = $adminObjectAclData->setAclUsersForm($form);
+        $ret = $adminObjectAclData->setAclUsersForm($this->createMock(Form::class));
 
         static::assertSame($adminObjectAclData, $ret);
 
@@ -101,9 +95,8 @@ final class AdminObjectAclDataTest extends TestCase
 
     public function testSetAclUsersForm(): AdminObjectAclData
     {
-        $form = $this->createMock(Form::class);
         $adminObjectAclData = $this->createAdminObjectAclData();
-        $ret = $adminObjectAclData->setAclUsersForm($form);
+        $ret = $adminObjectAclData->setAclUsersForm($this->createMock(Form::class));
 
         static::assertSame($adminObjectAclData, $ret);
 
@@ -118,9 +111,8 @@ final class AdminObjectAclDataTest extends TestCase
 
     public function testSetAclRolesForm(): AdminObjectAclData
     {
-        $form = $this->createMock(Form::class);
         $adminObjectAclData = $this->createAdminObjectAclData();
-        $ret = $adminObjectAclData->setAclRolesForm($form);
+        $ret = $adminObjectAclData->setAclRolesForm($this->createMock(Form::class));
 
         static::assertSame($adminObjectAclData, $ret);
 

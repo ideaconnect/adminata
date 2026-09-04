@@ -1417,10 +1417,7 @@ class CRUDController extends AbstractController
                         $objectId
                     ));
                 }
-                if (null === $object) {
-                    /** @phpstan-var T $object */
-                    $object = $adminObject;
-                }
+                $object ??= $adminObject;
             } elseif ($strict || $admin !== $this->admin) {
                 throw $this->createNotFoundException(\sprintf(
                     'Unable to find the %s object id of the admin "%s".',

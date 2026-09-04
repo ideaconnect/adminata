@@ -21,9 +21,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class BooleanType extends AbstractType
 {
-    public const TYPE_YES = 1;
+    public const int TYPE_YES = 1;
 
-    public const TYPE_NO = 2;
+    public const int TYPE_NO = 2;
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

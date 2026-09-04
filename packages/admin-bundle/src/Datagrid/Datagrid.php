@@ -76,9 +76,7 @@ final class Datagrid implements DatagridInterface
     {
         $this->buildPager();
 
-        if (null === $this->results) {
-            $this->results = $this->pager->getCurrentPageResults();
-        }
+        $this->results ??= $this->pager->getCurrentPageResults();
 
         return $this->results;
     }
@@ -165,13 +163,7 @@ final class Datagrid implements DatagridInterface
 
     public function hasActiveFilters(): bool
     {
-        foreach ($this->filters as $filter) {
-            if ($filter->isActive()) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->filters, static fn ($filter) => $filter->isActive());
     }
 
     public function hasDisplayableFilters(): bool

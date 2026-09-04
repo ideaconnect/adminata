@@ -193,8 +193,6 @@ final class AdminEventExtensionTest extends TestCase
 
     public function testPreBatchAction(): void
     {
-        $admin = $this->createMock(AdminInterface::class);
-        $proxyQuery = $this->createMock(ProxyQueryInterface::class);
         $idx = [1, 2, 3];
 
         $this->getExtension([
@@ -221,6 +219,6 @@ final class AdminEventExtensionTest extends TestCase
                 }
             ),
             static::equalTo('sonata.admin.event.batch_action.pre_batch_action'),
-        ])->preBatchAction($admin, 'delete', $proxyQuery, $idx, false);
+        ])->preBatchAction($this->createMock(AdminInterface::class), 'delete', $this->createMock(ProxyQueryInterface::class), $idx, false);
     }
 }

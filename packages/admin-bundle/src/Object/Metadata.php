@@ -15,10 +15,7 @@ namespace Sonata\AdminBundle\Object;
 
 final class Metadata implements MetadataInterface
 {
-    /**
-     * @var string
-     */
-    public const DEFAULT_MOSAIC_BACKGROUND = 'bundles/sonataadmin/images/default_mosaic_image.png';
+    public const string DEFAULT_MOSAIC_BACKGROUND = 'bundles/sonataadmin/images/default_mosaic_image.png';
 
     private ?string $image = null;
 

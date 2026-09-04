@@ -42,10 +42,8 @@ final class BlockServiceManagerTest extends TestCase
     {
         $this->expectException(BlockServiceNotFoundException::class);
 
-        $service = $this->createMock(\stdClass::class);
-
         $container = new Container();
-        $container->set('test', $service);
+        $container->set('test', $this->createMock(\stdClass::class));
 
         $manager = new BlockServiceManager($container, []);
 
@@ -73,9 +71,7 @@ final class BlockServiceManagerTest extends TestCase
     {
         $manager = new BlockServiceManager(new Container(), []);
 
-        $service = $this->createMock(BlockServiceInterface::class);
-
-        $manager->add('foo.bar', $service);
+        $manager->add('foo.bar', $this->createMock(BlockServiceInterface::class));
 
         static::assertEmpty($manager->getServicesByContext('fake'));
     }
@@ -84,9 +80,7 @@ final class BlockServiceManagerTest extends TestCase
     {
         $manager = new BlockServiceManager(new Container(), []);
 
-        $service = $this->createMock(BlockServiceInterface::class);
-
-        $manager->add('foo.bar', $service, ['fake']);
+        $manager->add('foo.bar', $this->createMock(BlockServiceInterface::class), ['fake']);
 
         static::assertNotEmpty($manager->getServicesByContext('fake'));
     }

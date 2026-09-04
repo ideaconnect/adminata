@@ -49,7 +49,7 @@ use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
  */
 final class Pool
 {
-    public const DEFAULT_ADMIN_KEY = 'default';
+    public const string DEFAULT_ADMIN_KEY = 'default';
 
     /**
      * @param string[]                            $adminServiceCodes

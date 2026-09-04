@@ -21,7 +21,7 @@ use Twig\TwigFilter;
 final class XEditableExtension extends AbstractExtension
 {
     // NEXT_MAJOR: Remove this const.
-    public const FIELD_DESCRIPTION_MAPPING = [
+    public const array FIELD_DESCRIPTION_MAPPING = [
         FieldDescriptionInterface::TYPE_CHOICE => 'select',
         FieldDescriptionInterface::TYPE_BOOLEAN => 'select',
         FieldDescriptionInterface::TYPE_TEXTAREA => 'textarea',

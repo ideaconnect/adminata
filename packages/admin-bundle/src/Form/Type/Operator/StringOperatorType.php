@@ -20,12 +20,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class StringOperatorType extends AbstractType
 {
-    public const TYPE_CONTAINS = 1;
-    public const TYPE_NOT_CONTAINS = 2;
-    public const TYPE_EQUAL = 3;
-    public const TYPE_STARTS_WITH = 4;
-    public const TYPE_ENDS_WITH = 5;
-    public const TYPE_NOT_EQUAL = 6;
+    public const int TYPE_CONTAINS = 1;
+    public const int TYPE_NOT_CONTAINS = 2;
+    public const int TYPE_EQUAL = 3;
+    public const int TYPE_STARTS_WITH = 4;
+    public const int TYPE_ENDS_WITH = 5;
+    public const int TYPE_NOT_EQUAL = 6;
 
     public function configureOptions(OptionsResolver $resolver): void
     {

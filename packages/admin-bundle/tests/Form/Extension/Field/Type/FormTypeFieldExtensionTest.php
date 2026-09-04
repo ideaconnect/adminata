@@ -52,8 +52,6 @@ final class FormTypeFieldExtensionTest extends TestCase
 
     public function testBuildViewWithNoSonataAdminArray(): void
     {
-        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-
         $parentFormView = new FormView();
         $parentFormView->vars['sonata_admin_enabled'] = false;
 
@@ -61,7 +59,7 @@ final class FormTypeFieldExtensionTest extends TestCase
         $formView->parent = $parentFormView;
 
         $options = [];
-        $config = new FormConfigBuilder('test', \stdClass::class, $eventDispatcher, $options);
+        $config = new FormConfigBuilder('test', \stdClass::class, $this->createMock(EventDispatcherInterface::class), $options);
         $form = new Form($config);
 
         $extension = new FormTypeFieldExtension([], []);
@@ -116,11 +114,9 @@ final class FormTypeFieldExtensionTest extends TestCase
         $admin = $this->createMock(AdminInterface::class);
         $admin->expects(static::exactly(2))->method('getCode')->willReturn('my.admin.reference');
 
-        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-
         $formView = new FormView();
         $options = [];
-        $config = new FormConfigBuilder('test', \stdClass::class, $eventDispatcher, $options);
+        $config = new FormConfigBuilder('test', \stdClass::class, $this->createMock(EventDispatcherInterface::class), $options);
         $config->setAttribute('sonata_admin', [
             'admin' => $admin,
             'name' => 'name',
@@ -157,13 +153,11 @@ final class FormTypeFieldExtensionTest extends TestCase
 
     public function testBuildViewWithNestedForm(): void
     {
-        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-
         $formView = new FormView();
         $formView->vars['name'] = 'format';
 
         $options = [];
-        $config = new FormConfigBuilder('test', \stdClass::class, $eventDispatcher, $options);
+        $config = new FormConfigBuilder('test', \stdClass::class, $this->createMock(EventDispatcherInterface::class), $options);
         $config->setAttribute('sonata_admin', ['admin' => false]);
 
         $form = new Form($config);
@@ -214,11 +208,9 @@ final class FormTypeFieldExtensionTest extends TestCase
 
     public function testBuildViewWithNestedFormWithNoParent(): void
     {
-        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-
         $formView = new FormView();
         $options = [];
-        $config = new FormConfigBuilder('test', \stdClass::class, $eventDispatcher, $options);
+        $config = new FormConfigBuilder('test', \stdClass::class, $this->createMock(EventDispatcherInterface::class), $options);
         $form = new Form($config);
 
         $extension = new FormTypeFieldExtension([], []);
@@ -231,8 +223,6 @@ final class FormTypeFieldExtensionTest extends TestCase
 
     public function testBuildViewCollectionField(): void
     {
-        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-
         $formView = new FormView();
         $formView->vars['name'] = 'field';
         $formView->vars['attr'] = ['hidden' => true];
@@ -286,7 +276,7 @@ final class FormTypeFieldExtensionTest extends TestCase
         $formView->parent->parent->parent->vars['sonata_admin_enabled'] = false;
 
         $options = [];
-        $config = new FormConfigBuilder('test', \stdClass::class, $eventDispatcher, $options);
+        $config = new FormConfigBuilder('test', \stdClass::class, $this->createMock(EventDispatcherInterface::class), $options);
         $config->setAttribute('sonata_admin', ['admin' => false]);
 
         $form = new Form($config);

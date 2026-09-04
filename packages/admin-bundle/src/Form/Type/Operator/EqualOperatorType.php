@@ -20,8 +20,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class EqualOperatorType extends AbstractType
 {
-    public const TYPE_EQUAL = 1;
-    public const TYPE_NOT_EQUAL = 2;
+    public const int TYPE_EQUAL = 1;
+    public const int TYPE_NOT_EQUAL = 2;
 
     public function configureOptions(OptionsResolver $resolver): void
     {

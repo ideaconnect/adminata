@@ -78,7 +78,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 final class ErrorElement
 {
-    private const DEFAULT_TRANSLATION_DOMAIN = 'validators';
+    private const string DEFAULT_TRANSLATION_DOMAIN = 'validators';
 
     /**
      * @var string[]
@@ -142,9 +142,7 @@ final class ErrorElement
 
         $this->current = implode('.', $this->stack);
 
-        if (!isset($this->propertyPaths[$this->current])) {
-            $this->propertyPaths[$this->current] = new PropertyPath($this->current);
-        }
+        $this->propertyPaths[$this->current] ??= new PropertyPath($this->current);
 
         return $this;
     }

@@ -105,10 +105,12 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `vendor/bin/php-cs-fixer check` clean for both configurations; `vendor/bin/phpunit`
     still green.
 
-- [ ] **P0-06 · Rector 2.6** · M · depends: P0-05
+- [x] **P0-06 · Rector 2.6** · M · depends: P0-05
   - Read: PLAN/07 §6; `MDB/rector.php`.
-  - Do: `rector.php` (`UP_TO_PHP_84`, PHPUnit 13 and code-quality sets, fork's skip list, paths as
-    above); run; **one commit per package**; re-run CS-Fixer afterwards.
+  - Do: `rector.php` (`UP_TO_PHP_84` plus `PHPUNIT_CODE_QUALITY` — Rector 2.6 no longer ships the
+    versioned PHPUnit sets — the fork's skip list plus the mock-to-stub rules that change what the
+    inherited suites assert, paths as above); run; **one commit per package**; re-run CS-Fixer
+    afterwards.
   - Accept: `vendor/bin/rector process --dry-run` clean; phpunit green; cs check clean.
 
 - [ ] **P0-07 · PHPStan 2.2 level 8** · L · depends: P0-06
@@ -740,6 +742,12 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   form-extensions 3). `modern_serialization_methods` is disabled: it renames `__wakeup()` to
   `__unserialize(array $data)` without moving the restore logic, which broke form-extensions'
   `InlineConstraint` — caught by its own test.
+- 2026-09-04 — **P0-06 done.** 113 files modernised, one commit per package (admin-bundle 64,
+  block-bundle 15, doctrine-orm-admin-bundle 16, exporter 8, doctrine-extensions 5,
+  form-extensions 5, twig-extensions 0) plus adminata's own. Five rules of `PHPUNIT_CODE_QUALITY`
+  are skipped because they weaken or break the inherited tests — the first run produced 29 failures
+  and 1 error, and each rule is named in `rector.php` with the test that caught it. Rector 2.6 has
+  no versioned PHPUnit sets any more, so `PHPUNIT_CODE_QUALITY` accompanies `UP_TO_PHP_84` alone.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

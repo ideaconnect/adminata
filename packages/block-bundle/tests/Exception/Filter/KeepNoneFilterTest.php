@@ -26,10 +26,9 @@ final class KeepNoneFilterTest extends TestCase
     #[DataProvider('provideFilterCases')]
     public function testFilter(\Exception $exception): void
     {
-        $block = $this->createMock(BlockInterface::class);
         $filter = new KeepNoneFilter();
 
-        $result = $filter->handle($exception, $block);
+        $result = $filter->handle($exception, $this->createMock(BlockInterface::class));
 
         static::assertFalse($result, 'Should handle no exceptions');
     }

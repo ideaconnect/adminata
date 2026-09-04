@@ -25,7 +25,7 @@ use Symfony\Component\Uid\Uuid;
 
 final class UidFilter extends Filter implements SearchableFilterInterface
 {
-    public const CHOICES = [
+    public const array CHOICES = [
         EqualOperatorType::TYPE_EQUAL => '=',
         EqualOperatorType::TYPE_NOT_EQUAL => '<>',
     ];

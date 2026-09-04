@@ -27,7 +27,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class DefaultRouteGeneratorTest extends TestCase
 {
-    private const ROUTER_DOMAIN = 'http://sonata-project';
+    private const string ROUTER_DOMAIN = 'http://sonata-project';
 
     private string $cacheTempFolder;
 
@@ -134,11 +134,9 @@ final class DefaultRouteGeneratorTest extends TestCase
         $admin->method('getExtensions')->willReturn([]);
         $admin->method('getCode')->willReturn('Code');
 
-        $router = $this->createMock(RouterInterface::class);
-
         $cache = new RoutesCache($this->cacheTempFolder, true);
 
-        $generator = new DefaultRouteGenerator($router, $cache);
+        $generator = new DefaultRouteGenerator($this->createMock(RouterInterface::class), $cache);
         $generator->generateUrl($admin, 'foo', []);
     }
 

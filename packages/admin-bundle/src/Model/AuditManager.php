@@ -39,13 +39,7 @@ final class AuditManager implements AuditManagerInterface
 
     public function hasReader(string $class): bool
     {
-        foreach ($this->readers as $classes) {
-            if (\in_array($class, $classes, true)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->readers, static fn ($classes) => \in_array($class, $classes, true));
     }
 
     /**

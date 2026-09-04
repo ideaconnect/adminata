@@ -32,7 +32,7 @@ use Sonata\AdminBundle\Translator\NoopLabelTranslatorStrategy;
  */
 final class ShowMapperTest extends TestCase
 {
-    private const DEFAULT_GRANTED_ROLE = 'ROLE_ADMIN_BAZ';
+    private const string DEFAULT_GRANTED_ROLE = 'ROLE_ADMIN_BAZ';
 
     /**
      * @var ShowMapper<object>

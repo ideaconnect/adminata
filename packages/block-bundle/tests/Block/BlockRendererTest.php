@@ -69,10 +69,7 @@ final class BlockRendererTest extends TestCase
         $service->expects(static::once())->method('load');
         $service->expects(static::once())->method('execute')->willReturn($response);
         $this->blockServiceManager->expects(static::once())->method('get')->willReturn($service);
-
-        // mock a block object
-        $block = $this->createMock(BlockInterface::class);
-        $blockContext = new BlockContext($block, [
+        $blockContext = new BlockContext($this->createMock(BlockInterface::class), [
             'template' => 'fake_template',
         ]);
 
@@ -108,10 +105,7 @@ final class BlockRendererTest extends TestCase
 
         // mock the logger to ensure a crit message is logged
         $this->logger->expects(static::once())->method('error');
-
-        // mock a block object
-        $block = $this->createMock(BlockInterface::class);
-        $blockContext = new BlockContext($block, [
+        $blockContext = new BlockContext($this->createMock(BlockInterface::class), [
             'template' => 'fake_template',
         ]);
 

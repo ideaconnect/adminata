@@ -20,7 +20,7 @@ namespace Sonata\Exporter\Writer;
  */
 final class GsaFeedWriter implements WriterInterface
 {
-    public const LIMIT_SIZE = 31_457_280;
+    public const int LIMIT_SIZE = 31_457_280;
 
     private int $bufferPart;
 

@@ -25,14 +25,14 @@ use Symfony\Component\Translation\MessageCatalogue;
  */
 final class AdminExtractor implements ExtractorInterface, LabelTranslatorStrategyInterface
 {
-    private const PUBLIC_ADMIN_METHODS = [
+    private const array PUBLIC_ADMIN_METHODS = [
         'getShow',
         'getDatagrid',
         'getList',
         'getForm',
     ];
 
-    private const BREADCRUMB_ACTIONS = [
+    private const array BREADCRUMB_ACTIONS = [
         'list',
         'edit',
         'create',

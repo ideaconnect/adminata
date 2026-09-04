@@ -23,11 +23,11 @@ use Symfony\Component\Security\Acl\Permission\MaskBuilder as BaseMaskBuilder;
  */
 final class MaskBuilder extends BaseMaskBuilder
 {
-    public const MASK_LIST = 4096;       // 1 << 12
-    public const MASK_EXPORT = 8192;     // 1 << 13
-    public const MASK_HISTORY = 16384;   // 1 << 14
+    public const int MASK_LIST = 4096;       // 1 << 12
+    public const int MASK_EXPORT = 8192;     // 1 << 13
+    public const int MASK_HISTORY = 16384;   // 1 << 14
 
-    public const CODE_LIST = 'L';
-    public const CODE_EXPORT = 'E';
-    public const CODE_HISTORY = 'H';
+    public const string CODE_LIST = 'L';
+    public const string CODE_EXPORT = 'E';
+    public const string CODE_HISTORY = 'H';
 }

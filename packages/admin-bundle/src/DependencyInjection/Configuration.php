@@ -176,7 +176,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 final class Configuration implements ConfigurationInterface
 {
-    private const DEFAULT_PACKAGE = 'sonata_admin';
+    private const string DEFAULT_PACKAGE = 'sonata_admin';
 
     /**
      * @return TreeBuilder<'array'>

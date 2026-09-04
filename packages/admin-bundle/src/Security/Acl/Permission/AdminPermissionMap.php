@@ -40,17 +40,17 @@ if (interface_exists(PermissionMapInterface::class)) {
  */
 final class AdminPermissionMap extends BaseAdminPermissionMap
 {
-    public const PERMISSION_VIEW = 'VIEW';
-    public const PERMISSION_EDIT = 'EDIT';
-    public const PERMISSION_HISTORY = 'HISTORY';
-    public const PERMISSION_CREATE = 'CREATE';
-    public const PERMISSION_DELETE = 'DELETE';
-    public const PERMISSION_UNDELETE = 'UNDELETE';
-    public const PERMISSION_LIST = 'LIST';
-    public const PERMISSION_EXPORT = 'EXPORT';
-    public const PERMISSION_OPERATOR = 'OPERATOR';
-    public const PERMISSION_MASTER = 'MASTER';
-    public const PERMISSION_OWNER = 'OWNER';
+    public const string PERMISSION_VIEW = 'VIEW';
+    public const string PERMISSION_EDIT = 'EDIT';
+    public const string PERMISSION_HISTORY = 'HISTORY';
+    public const string PERMISSION_CREATE = 'CREATE';
+    public const string PERMISSION_DELETE = 'DELETE';
+    public const string PERMISSION_UNDELETE = 'UNDELETE';
+    public const string PERMISSION_LIST = 'LIST';
+    public const string PERMISSION_EXPORT = 'EXPORT';
+    public const string PERMISSION_OPERATOR = 'OPERATOR';
+    public const string PERMISSION_MASTER = 'MASTER';
+    public const string PERMISSION_OWNER = 'OWNER';
 
     /**
      * Map each permission to the permissions it should grant access for

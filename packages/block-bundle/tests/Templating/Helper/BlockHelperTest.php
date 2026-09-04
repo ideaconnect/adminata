@@ -30,22 +30,18 @@ final class BlockHelperTest extends TestCase
 {
     public function testRenderEventWithNoListener(): void
     {
-        $blockRenderer = $this->createMock(BlockRendererInterface::class);
-        $blockContextManager = $this->createMock(BlockContextManagerInterface::class);
         $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $eventDispatcher->expects(static::once())->method('dispatch')->willReturnCallback(static fn (BlockEvent $event): BlockEvent => $event);
 
-        $helper = new BlockHelper($blockRenderer, $blockContextManager, $eventDispatcher);
+        $helper = new BlockHelper($this->createMock(BlockRendererInterface::class), $this->createMock(BlockContextManagerInterface::class), $eventDispatcher);
 
         static::assertSame('', $helper->renderEvent('my.event'));
     }
 
     public function testRenderEventWithListeners(): void
     {
-        $blockService = $this->createMock(BlockServiceInterface::class);
-
         $blockServiceManager = $this->createMock(BlockServiceManagerInterface::class);
-        $blockServiceManager->expects(static::any())->method('get')->willReturn($blockService);
+        $blockServiceManager->expects(static::any())->method('get')->willReturn($this->createMock(BlockServiceInterface::class));
 
         $blockRenderer = $this->createMock(BlockRendererInterface::class);
         $blockRenderer->expects(static::once())->method('render')->willReturn(new Response('<span>test</span>'));

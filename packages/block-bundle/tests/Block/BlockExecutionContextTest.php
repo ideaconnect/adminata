@@ -42,9 +42,7 @@ final class BlockExecutionContextTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
 
-        $block = $this->createMock(BlockInterface::class);
-
-        $blockContext = new BlockContext($block, [
+        $blockContext = new BlockContext($this->createMock(BlockInterface::class), [
             'template' => 'fake_template',
         ]);
 

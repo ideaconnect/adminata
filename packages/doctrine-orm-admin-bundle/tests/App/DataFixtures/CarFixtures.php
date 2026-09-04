@@ -19,8 +19,8 @@ use Sonata\DoctrineORMAdminBundle\Tests\App\Entity\Car;
 
 final class CarFixtures extends Fixture
 {
-    public const CAR = 'car';
-    public const CAR_FROM_2010 = 'car_from_2010';
+    public const string CAR = 'car';
+    public const string CAR_FROM_2010 = 'car_from_2010';
 
     public function load(ObjectManager $manager): void
     {

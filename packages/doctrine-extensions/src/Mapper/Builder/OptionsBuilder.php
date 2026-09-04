@@ -15,10 +15,10 @@ namespace Sonata\Doctrine\Mapper\Builder;
 
 final class OptionsBuilder
 {
-    private const ONE_TO_ONE = 'one_to_one';
-    private const ONE_TO_MANY = 'one_to_many';
-    private const MANY_TO_ONE = 'many_to_one';
-    private const MANY_TO_MANY = 'many_to_many';
+    private const string ONE_TO_ONE = 'one_to_one';
+    private const string ONE_TO_MANY = 'one_to_many';
+    private const string MANY_TO_ONE = 'many_to_one';
+    private const string MANY_TO_MANY = 'many_to_many';
 
     /**
      * @var array<string, mixed>
@@ -142,9 +142,7 @@ final class OptionsBuilder
             );
         }
 
-        if (!isset($this->options['orderBy'])) {
-            $this->options['orderBy'] = [];
-        }
+        $this->options['orderBy'] ??= [];
 
         $this->options['orderBy'] = array_merge($this->options['orderBy'], [$field => $orientation]);
 
@@ -171,9 +169,7 @@ final class OptionsBuilder
             );
         }
 
-        if (!isset($this->options['joinColumns'])) {
-            $this->options['joinColumns'] = [];
-        }
+        $this->options['joinColumns'] ??= [];
 
         $this->options['joinColumns'][] = $joinColumn;
 

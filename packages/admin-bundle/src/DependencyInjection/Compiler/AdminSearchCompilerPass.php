@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\Exception\LogicException;
  */
 final class AdminSearchCompilerPass implements CompilerPassInterface
 {
-    public const TAG_ATTRIBUTE_TOGGLE_SEARCH = 'global_search';
+    public const string TAG_ATTRIBUTE_TOGGLE_SEARCH = 'global_search';
 
     public function process(ContainerBuilder $container): void
     {

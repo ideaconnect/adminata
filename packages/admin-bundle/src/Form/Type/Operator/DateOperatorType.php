@@ -20,11 +20,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class DateOperatorType extends AbstractType
 {
-    public const TYPE_GREATER_EQUAL = 1;
-    public const TYPE_GREATER_THAN = 2;
-    public const TYPE_EQUAL = 3;
-    public const TYPE_LESS_EQUAL = 4;
-    public const TYPE_LESS_THAN = 5;
+    public const int TYPE_GREATER_EQUAL = 1;
+    public const int TYPE_GREATER_THAN = 2;
+    public const int TYPE_EQUAL = 3;
+    public const int TYPE_LESS_EQUAL = 4;
+    public const int TYPE_LESS_THAN = 5;
 
     public function configureOptions(OptionsResolver $resolver): void
     {

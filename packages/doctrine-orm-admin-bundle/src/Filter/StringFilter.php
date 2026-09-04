@@ -20,12 +20,12 @@ use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
 
 final class StringFilter extends Filter implements SearchableFilterInterface
 {
-    public const TRIM_NONE = 0;
-    public const TRIM_LEFT = 1;
-    public const TRIM_RIGHT = 2;
+    public const int TRIM_NONE = 0;
+    public const int TRIM_LEFT = 1;
+    public const int TRIM_RIGHT = 2;
     public const TRIM_BOTH = self::TRIM_LEFT | self::TRIM_RIGHT;
 
-    public const CHOICES = [
+    public const array CHOICES = [
         StringOperatorType::TYPE_CONTAINS => 'LIKE',
         StringOperatorType::TYPE_STARTS_WITH => 'LIKE',
         StringOperatorType::TYPE_ENDS_WITH => 'LIKE',
@@ -37,7 +37,7 @@ final class StringFilter extends Filter implements SearchableFilterInterface
     /**
      * Filtering types do not make sense for searching by empty value.
      */
-    private const MEANINGLESS_TYPES = [
+    private const array MEANINGLESS_TYPES = [
         StringOperatorType::TYPE_CONTAINS,
         StringOperatorType::TYPE_STARTS_WITH,
         StringOperatorType::TYPE_ENDS_WITH,

@@ -19,7 +19,7 @@ use Sonata\DoctrineORMAdminBundle\Tests\App\Entity\Category;
 
 final class CategoryFixtures extends Fixture
 {
-    public const CATEGORY = 'category_novel';
+    public const string CATEGORY = 'category_novel';
 
     public function load(ObjectManager $manager): void
     {

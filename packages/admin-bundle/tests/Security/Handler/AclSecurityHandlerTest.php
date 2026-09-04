@@ -68,8 +68,6 @@ final class AclSecurityHandlerTest extends TestCase
         $informations = [
             'EDIT' => ['EDIT'],
         ];
-
-        $authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $admin = $this->createMock(AdminInterface::class);
         $admin->expects(static::once())
             ->method('getCode')
@@ -79,9 +77,7 @@ final class AclSecurityHandlerTest extends TestCase
             ->method('getSecurityInformation')
             ->willReturn($informations);
 
-        $aclProvider = $this->createMock(MutableAclProviderInterface::class);
-
-        $handler = new AclSecurityHandler($this->createMock(TokenStorageInterface::class), $authorizationChecker, $aclProvider, MaskBuilder::class, 'ROLE_SUPER_ADMIN');
+        $handler = new AclSecurityHandler($this->createMock(TokenStorageInterface::class), $this->createMock(AuthorizationCheckerInterface::class), $this->createMock(MutableAclProviderInterface::class), MaskBuilder::class, 'ROLE_SUPER_ADMIN');
 
         $results = $handler->buildSecurityInformation($admin);
 
@@ -97,9 +93,7 @@ final class AclSecurityHandlerTest extends TestCase
             ->method('isGranted')
             ->willThrowException(new AuthenticationCredentialsNotFoundException('FAIL'));
 
-        $aclProvider = $this->createMock(MutableAclProviderInterface::class);
-
-        $handler = new AclSecurityHandler($this->createMock(TokenStorageInterface::class), $authorizationChecker, $aclProvider, MaskBuilder::class, 'ROLE_SUPER_ADMIN');
+        $handler = new AclSecurityHandler($this->createMock(TokenStorageInterface::class), $authorizationChecker, $this->createMock(MutableAclProviderInterface::class), MaskBuilder::class, 'ROLE_SUPER_ADMIN');
 
         static::assertFalse($handler->isGranted($admin, 'raise exception', $admin));
     }
@@ -115,9 +109,7 @@ final class AclSecurityHandlerTest extends TestCase
             ->method('isGranted')
             ->willThrowException(new \RuntimeException('FAIL'));
 
-        $aclProvider = $this->createMock(MutableAclProviderInterface::class);
-
-        $handler = new AclSecurityHandler($this->createMock(TokenStorageInterface::class), $authorizationChecker, $aclProvider, MaskBuilder::class, 'ROLE_SUPER_ADMIN');
+        $handler = new AclSecurityHandler($this->createMock(TokenStorageInterface::class), $authorizationChecker, $this->createMock(MutableAclProviderInterface::class), MaskBuilder::class, 'ROLE_SUPER_ADMIN');
 
         static::assertFalse($handler->isGranted($admin, 'raise exception', $admin));
     }

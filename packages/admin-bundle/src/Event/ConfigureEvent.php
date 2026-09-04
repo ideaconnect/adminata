@@ -34,10 +34,10 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 final class ConfigureEvent extends Event
 {
-    public const TYPE_SHOW = 'show';
-    public const TYPE_DATAGRID = 'datagrid';
-    public const TYPE_FORM = 'form';
-    public const TYPE_LIST = 'list';
+    public const string TYPE_SHOW = 'show';
+    public const string TYPE_DATAGRID = 'datagrid';
+    public const string TYPE_FORM = 'form';
+    public const string TYPE_LIST = 'list';
 
     /**
      * @param AdminInterface<object>  $admin
