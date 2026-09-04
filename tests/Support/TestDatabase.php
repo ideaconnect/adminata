@@ -72,8 +72,15 @@ final class TestDatabase
             $server = $parameters;
             unset($server['dbname']);
 
+            // Not `Connection::quoteSingleIdentifier()`: that arrived in doctrine/dbal 4.3 and the
+            // `lowest` CI row installs 4.0. A database name is a plain identifier, so require one.
+            if (1 !== preg_match('/^[A-Za-z0-9_$]+$/', $database)) {
+                throw new \InvalidArgumentException(\sprintf('"%s" is not a usable database name.', $database));
+            }
+
+            $quoted = '`'.$database.'`';
+
             $connection = DriverManager::getConnection($server);
-            $quoted = $connection->quoteSingleIdentifier($database);
 
             if ($drop) {
                 $connection->executeStatement(\sprintf('DROP DATABASE IF EXISTS %s', $quoted));
