@@ -154,8 +154,8 @@ test-contract: ## The frozen-interface suite of PLAN/02, including its network c
 	$(PHPUNIT) --testsuite adminata-contract --group network
 .PHONY: test-contract
 
-coverage: ## Test suite with a clover report
-	$(PHPUNIT) --coverage-clover build/logs/clover.xml
+coverage: ## Test suite with a clover report (PHPUNIT_FLAGS passes extra options)
+	$(PHPUNIT) $(PHPUNIT_FLAGS) --coverage-clover build/logs/clover.xml
 .PHONY: coverage
 
 demo: ## Serve the demo admin application

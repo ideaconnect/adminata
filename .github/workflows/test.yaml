@@ -60,17 +60,24 @@ jobs:
                     - '8.5'
                 dependencies: [highest]
                 symfony-require: ['']
+                phpunit-flags: ['']
                 include:
+                    # The floors, which is what this row exists to prove. Risky-test bookkeeping
+                    # differs between Symfony minors — the older error handler leaves handlers
+                    # installed — and that is noise here, so only this row tolerates it.
                     - php-version: '8.4'
                       dependencies: lowest
                       symfony-require: ''
+                      phpunit-flags: --do-not-fail-on-risky
                     # Both supported Symfony lines, pinned through Flex.
                     - php-version: '8.5'
                       dependencies: highest
                       symfony-require: 7.4.*
+                      phpunit-flags: ''
                     - php-version: '8.5'
                       dependencies: highest
                       symfony-require: 8.1.*
+                      phpunit-flags: ''
 
         steps:
             - name: Checkout
@@ -93,7 +100,7 @@ jobs:
                   dependency-versions: ${{ matrix.dependencies }}
 
             - name: Run the test suites with coverage
-              run: make coverage
+              run: make coverage PHPUNIT_FLAGS="${{ matrix.phpunit-flags }}"
 
             - name: Upload coverage to Codecov
               if: ${{ !cancelled() && hashFiles('build/logs/clover.xml') != '' }}
