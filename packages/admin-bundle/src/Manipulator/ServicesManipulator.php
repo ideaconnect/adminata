@@ -1,0 +1,104 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the Sonata Project package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Sonata\AdminBundle\Manipulator;
+
+use Symfony\Component\Yaml\Yaml;
+
+/**
+ * @author Marek Stipek <mario.dweller@seznam.cz>
+ * @author Simon Cosandey <simon.cosandey@simseo.ch>
+ */
+final class ServicesManipulator
+{
+    private string $template = '    %s:
+        class: %s
+        tags:
+            - { name: sonata.admin, model_class: %s, controller: %s, manager_type: %s, group: admin, label: %s }
+';
+
+    public function __construct(
+        private string $file,
+    ) {
+    }
+
+    /**
+     * @throws \RuntimeException
+     *
+     * @phpstan-param class-string $modelClass
+     * @phpstan-param class-string $adminClass
+     */
+    public function addResource(string $serviceId, string $modelClass, string $adminClass, string $controllerName, string $managerType): void
+    {
+        $code = "services:\n";
+
+        if (is_file($this->file)) {
+            $content = file_get_contents($this->file);
+            if (false === $content) {
+                throw new \RuntimeException(\sprintf('Cannot read the file "%s".', $this->getRealPath($this->file)));
+            }
+
+            $code = rtrim($content);
+            $data = (array) Yaml::parse($code);
+
+            if ('' !== $code) {
+                $code .= "\n";
+            }
+
+            if (\array_key_exists('services', $data)) {
+                if (\array_key_exists($serviceId, (array) $data['services'])) {
+                    throw new \RuntimeException(\sprintf(
+                        'The service "%s" is already defined in the file "%s".',
+                        $serviceId,
+                        $this->getRealPath($this->file)
+                    ));
+                }
+
+                if (null !== $data['services']) {
+                    $code .= "\n";
+                }
+            } else {
+                $code .= '' === $code ? '' : "\n".'services:'."\n";
+            }
+        }
+
+        $code .= \sprintf(
+            $this->template,
+            $serviceId,
+            $adminClass,
+            $modelClass,
+            $controllerName,
+            $managerType,
+            \array_slice(explode('\\', $modelClass), -1)[0]
+        );
+        @mkdir(\dirname($this->file), 0777, true);
+
+        if (false === @file_put_contents($this->file, $code)) {
+            throw new \RuntimeException(\sprintf(
+                'Unable to append service "%s" to the file "%s". You will have to do it manually.',
+                $serviceId,
+                $this->file
+            ));
+        }
+    }
+
+    private function getRealPath(string $file): string
+    {
+        $path = realpath($file);
+        if (false !== $path) {
+            return $path;
+        }
+
+        return $file;
+    }
+}
