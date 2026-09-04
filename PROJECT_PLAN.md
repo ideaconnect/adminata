@@ -228,7 +228,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
 
 ## Milestone M1 — Foundations (PLAN/09 phase 1)
 
-- [ ] **P1-01 · Tailwind 4.3 semantics fixture (T1–T11)** · M · depends: P0-MS
+- [x] **P1-01 · Tailwind 4.3 semantics fixture (T1–T11)** · M · depends: P0-MS
   - Read: PLAN/04 §4.
   - Do: `assets/css/__fixture__/{fixture.css,fixture.html}` and `bin/tailwind-fixture.mjs` compiling
     with the pinned `tailwindcss` (`@tailwindcss/node` or `@tailwindcss/cli`) and asserting each
@@ -887,6 +887,16 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   `assets-check` yet: Tailwind emits `.container` and `.collapse{visibility}` for class names it
   finds in the not-yet-ported templates, so the check can only pass once P1-05 has the component
   layer and M2-M4 have the markup.
+- 2026-09-05 — **P1-01 done.** `assets/css/__fixture__/fixture.css` and `bin/tailwind-fixture.mjs`
+  assert all eleven rules (T9 is three) against tailwindcss 4.3.3; every one holds, and PLAN/04 §4
+  now carries a status column and the evidence. Two things the fixture settled:
+  `container` and `collapse` **are** Tailwind v4 utilities, so their presence in the built CSS says
+  nothing about Bootstrap — PLAN/04 §8's forbidden list drops them, and the remaining entries are
+  matched as whole selectors so an arbitrary variant like `[&>.btn]:rounded-l-none` in a
+  not-yet-ported template does not trip the check. And `@import "tailwindcss"` scans the *whole
+  repository* by default, which had `app.css` at 68 kB of utilities generated from the plan and the
+  build scripts; `source(none)` with the explicit `@source` list of PLAN/04 §2 brings it to 8.8 kB.
+  `css:contract` is back in `assets-check`, and `make fixture` runs the assertions.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

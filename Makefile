@@ -173,12 +173,16 @@ assets-build: ## Build the stylesheets and the JavaScript into the admin bundle
 	npm run build
 .PHONY: assets-build
 
-assets-check: assets-build ## The build is fresh, within budget and jQuery-free
+assets-check: assets-build ## The build is fresh, contract-clean, within budget and jQuery-free
 	git diff --no-patch --exit-code -- packages/admin-bundle/src/Resources/public
+	npm run css:contract
 	npm run size
 	npm run check:jquery
-	@# `npm run css:contract` joins this target in P1-05, with the component layer it checks.
 .PHONY: assets-check
+
+fixture: ## The Tailwind v4 assumptions of PLAN/04 §4
+	npm run fixture
+.PHONY: fixture
 
 lint-js: ## ESLint and the jQuery gate
 	npm run lint:js

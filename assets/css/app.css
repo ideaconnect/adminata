@@ -5,7 +5,12 @@
  * The tokens (theme.css), base layer, component files and safelist arrive with P1-04 and P1-05.
  */
 
-@import "tailwindcss";
+/*
+ * `source(none)` turns off Tailwind v4's automatic detection, which would walk up from this file
+ * and scan the whole repository — the fixture, the build scripts, the plan. The sources are named
+ * explicitly instead, exactly as PLAN/04 §2 lists them.
+ */
+@import "tailwindcss" source(none);
 
 /* Every template and script of the seven packages, and adminata's own JavaScript. */
 @source "../../packages";

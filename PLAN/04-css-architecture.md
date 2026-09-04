@@ -70,21 +70,28 @@ form-extensions' and twig-extensions' public directories are deleted (their styl
 
 ## 4. Emission rules that must hold (verify first)
 
-| # | Assumption | Consequence if wrong |
-|---|---|---|
-| T1 | `@utility` classes are emitted only when seen in scanned sources or `@source inline()` | safelist strategy for `.adm-*` |
-| T3 | `@apply` accepts `@utility` names but not `@layer components` classes | `.adm-*` primitives must be `@utility` |
-| T4 | `@source inline("…")` supports brace expansion with ranges | grid safelist |
-| T5 | `@theme static` emits all variables; utilities reference `var(--…)` | runtime brand override |
-| T6 | `@custom-variant dark (&:where(.dark, .dark *))` semantics | dark selectors |
-| T7 | A layer declared after `@import "tailwindcss"` sorts after `utilities` | `@layer sonata-overrides` for the few collision fixes |
-| T9 | Bare `z-99999`, `h-(--var)`, `max-sm:` syntax | copied partials, density |
-| T10 | Multi-property custom utilities sort before single-property core utilities | `class="adm-input px-2"` lets `px-2` win |
-| T11 | Preflight keeps `[hidden]{display:none!important}` | controllers toggle the `hidden` attribute |
-| T12 | Unscoped preflight is acceptable (the page is adminata's) | decision, not a fact |
+| # | Assumption | Consequence if wrong | Status |
+|---|---|---|---|
+| T1 | `@utility` classes are emitted only when seen in scanned sources or `@source inline()` | safelist strategy for `.adm-*` | **holds** |
+| T3 | `@apply` accepts `@utility` names but not `@layer components` classes | `.adm-*` primitives must be `@utility` | **holds** |
+| T4 | `@source inline("…")` supports brace expansion with ranges | grid safelist | **holds** |
+| T5 | `@theme static` emits all variables; utilities reference `var(--…)` | runtime brand override | **holds** |
+| T6 | `@custom-variant dark (&:where(.dark, .dark *))` semantics | dark selectors | **holds** |
+| T7 | A layer declared after `@import "tailwindcss"` sorts after `utilities` | `@layer sonata-overrides` for the few collision fixes | **holds** |
+| T9 | Bare `z-99999`, `h-(--var)`, `max-sm:` syntax | copied partials, density | **holds** (three separate assertions) |
+| T10 | Multi-property custom utilities sort before single-property core utilities | `class="adm-input px-2"` lets `px-2` win | **holds** |
+| T11 | Preflight keeps `[hidden]{display:none!important}` | controllers toggle the `hidden` attribute | **holds** |
+| T12 | Unscoped preflight is acceptable (the page is adminata's) | decision, not a fact | decision |
 
-First task of phase 1: a 20-line fixture built with the pinned Tailwind version asserting T1–T11.
-(v1's T2 and T8 concerned the removed compatibility layer.)
+All eleven assertions (T9 counts three) are executable: `assets/css/__fixture__/fixture.css` and
+`bin/tailwind-fixture.mjs`, run by `npm run fixture` and by the `frontend` workflow. Verified
+against tailwindcss 4.3.3 on 2026-09-05. (v1's T2 and T8 concerned the removed compatibility layer.)
+
+**`container` and `collapse` are Tailwind utilities in v4**, emitting `.container{width:100%…}` and
+`.collapse{visibility:collapse}` whenever those class names appear in a scanned source. Their
+presence in the built CSS therefore says nothing about Bootstrap, and §8's forbidden list drops
+them; what it does assert is that no rule whose whole selector is `.btn`, `.box`, `.label` or
+`.col-md-*` exists.
 
 ## 5. Safelist (`safelist.css`)
 
@@ -144,9 +151,11 @@ app's Sass files that fight AdminLTE are deleted (document 10). Other toolchains
 | `fontawesome.css` | (inside app.css) | ≤ 80 KB / ≤ 15 KB (or `all.css` verbatim ≤ 95 KB) |
 | fonts | 2.1 MB | ≤ 320 KB |
 
-CI job `css-contract`: parse built CSS, assert every `contract.json` selector exists, assert absence
-of `.btn`, `.box`, `.label`, `.col-md-*`, `.container{`, `.collapse{visibility`, Google Fonts URLs,
-ttf/eot refs; size budgets; dead-class lint over `class="…"` literals in templates.
+CI job `css-contract`: parse built CSS, assert every `contract.json` selector exists, assert that no
+rule's whole selector is `.btn`, `.box`, `.label` or `.col-md-*` (matched at a selector boundary, so
+an arbitrary variant such as `[&>.btn]:rounded-l-none` in a not-yet-ported template does not trip
+it), and that no Google Fonts URL or ttf/eot reference appears; size budgets; dead-class lint over
+`class="…"` literals in templates. `.container` and `.collapse` are not on the list: see §4.
 
 ## 9. Flags carried into the risk register
 

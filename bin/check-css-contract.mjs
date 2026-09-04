@@ -34,16 +34,21 @@ if (!existsSync(built)) {
 const css = readFileSync(built, 'utf8');
 const failures = [];
 
-/** Selectors that must never appear: the Bootstrap and AdminLTE vocabulary adminata replaced. */
+/*
+ * The Bootstrap and AdminLTE vocabulary adminata replaced. Each is matched as a whole selector at a
+ * selector boundary, so an arbitrary variant in a not-yet-ported template — `[&>.btn]:rounded-l-none`
+ * compiles to `.\[\&\>\.btn\]\:rounded-l-none>.btn` — does not trip it.
+ *
+ * `container` and `collapse` are deliberately absent: they are Tailwind v4 utilities, so their
+ * presence says nothing about Bootstrap (PLAN/04 §4).
+ */
 const forbidden = [
-    /\.btn[\s.,:{]/,
-    /\.box[\s.,:{]/,
-    /\.label[\s.,:{]/,
-    /\.col-md-/,
-    /\.container\s*\{/,
-    /\.collapse\s*\{[^}]*visibility/,
+    /(^|[},])\s*\.btn\s*[,{]/,
+    /(^|[},])\s*\.box\s*[,{]/,
+    /(^|[},])\s*\.label\s*[,{]/,
+    /(^|[},])\s*\.col-md-\d/,
     /fonts\.googleapis\.com/,
-    /\.(ttf|eot)\b/,
+    /url\([^)]*\.(ttf|eot)[^)]*\)/,
 ];
 
 for (const pattern of forbidden) {
