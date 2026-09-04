@@ -1,0 +1,25 @@
+name: Missing Sonata feature
+description: A Sonata Admin feature adminata has not ported yet
+labels: [enhancement]
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Check the backlog in [PROJECT_PLAN.md](../../PROJECT_PLAN.md) first: the post-1.0
+              items are already ordered by expected demand.
+
+    - type: textarea
+      id: feature
+      attributes:
+          label: The feature
+          description: Which Sonata Admin feature, and which templates or controllers it involves.
+      validations:
+          required: true
+
+    - type: textarea
+      id: usage
+      attributes:
+          label: How you use it
+          description: What your application does with it today.
+      validations:
+          required: true

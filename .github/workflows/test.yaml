@@ -1,0 +1,95 @@
+name: Test
+
+on:
+    schedule:
+        - cron: '30 0 * * *'
+    push:
+        branches:
+            - main
+    pull_request:
+
+permissions:
+    contents: read
+
+jobs:
+    test:
+        name: PHP ${{ matrix.php-version }} + ${{ matrix.dependencies }}${{ matrix.symfony-require && format(' + symfony {0}', matrix.symfony-require) || '' }}
+
+        runs-on: ubuntu-latest
+
+        env:
+            SYMFONY_REQUIRE: ${{ matrix.symfony-require }}
+
+        # adminata supports MySQL, MariaDB and Percona; there is no SQLite support, so the
+        # doctrine-orm-admin-bundle suite needs a real server. The port matches
+        # docker-compose.yml so phpunit.xml.dist's defaults work unchanged.
+        #
+        # Panther is deliberately driven by the Firefox and geckodriver preinstalled on the
+        # runner rather than a Selenium service container: a container cannot reach the
+        # runner's loopback, where Panther starts its own web server.
+        services:
+            database:
+                image: mysql:8.4
+                env:
+                    MYSQL_ROOT_PASSWORD: adminata
+                    MYSQL_DATABASE: adminata_test
+                ports:
+                    - 7010:3306
+                options: >-
+                    --health-cmd "mysqladmin ping -h 127.0.0.1 -padminata"
+                    --health-interval 5s
+                    --health-timeout 5s
+                    --health-retries 20
+
+        strategy:
+            fail-fast: false
+            matrix:
+                php-version:
+                    - '8.4'
+                    - '8.5'
+                dependencies: [highest]
+                symfony-require: ['']
+                include:
+                    - php-version: '8.4'
+                      dependencies: lowest
+                      symfony-require: ''
+                    # Both supported Symfony lines, pinned through Flex.
+                    - php-version: '8.5'
+                      dependencies: highest
+                      symfony-require: 7.4.*
+                    - php-version: '8.5'
+                      dependencies: highest
+                      symfony-require: 8.1.*
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Install PHP with extensions
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-version }}
+                  coverage: pcov
+                  tools: composer:v2, flex
+                  extensions: mongodb, pdo_mysql
+
+            - name: Add PHPUnit matcher
+              run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+            - name: Install Composer dependencies (${{ matrix.dependencies }})
+              uses: ramsey/composer-install@v4
+              with:
+                  dependency-versions: ${{ matrix.dependencies }}
+
+            - name: Run the test suites with coverage
+              run: make coverage
+
+            - name: Upload coverage to Codecov
+              if: ${{ !cancelled() && hashFiles('build/logs/clover.xml') != '' }}
+              uses: codecov/codecov-action@v6
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}
+                  slug: ideaconnect/adminata
+                  files: ./build/logs/clover.xml
+                  flags: php-${{ matrix.php-version }}-${{ matrix.dependencies }}${{ matrix.symfony-require && format('-symfony-{0}', matrix.symfony-require) || '' }}
+                  fail_ci_if_error: false

@@ -1,0 +1,98 @@
+name: Versions watch
+
+on:
+    schedule:
+        - cron: '30 6 * * 1'
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    issues: write
+
+jobs:
+    versions-watch:
+        name: Newer releases of the pinned dependencies
+
+        runs-on: ubuntu-latest
+
+        # Owner directive 3 is "latest releases everywhere". Dependabot raises the constraints
+        # adminata actually declares; this job watches the versions PLAN/07 §2 pins by hand,
+        # including tools that are not Composer or npm dependencies of this repository.
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Set up Node
+              uses: actions/setup-node@v6
+              with:
+                  node-version: '24'
+
+            - name: Compare versions.json with the registries
+              id: compare
+              run: |
+                  node --input-type=module <<'NODE' > outdated.md
+                  import { readFileSync } from 'node:fs';
+
+                  const pinned = JSON.parse(readFileSync('versions.json', 'utf8'));
+                  const rows = [];
+
+                  const latestComposer = async (name) => {
+                      const response = await fetch(`https://repo.packagist.org/p2/${name}.json`);
+                      if (!response.ok) return null;
+                      const body = await response.json();
+                      const versions = (body.packages[name] ?? [])
+                          .map((entry) => entry.version)
+                          .filter((version) => /^v?\d+\.\d+\.\d+$/.test(version));
+                      return versions.length > 0 ? versions[0].replace(/^v/, '') : null;
+                  };
+
+                  const latestNpm = async (name) => {
+                      const response = await fetch(`https://registry.npmjs.org/${name}/latest`);
+                      if (!response.ok) return null;
+                      return (await response.json()).version ?? null;
+                  };
+
+                  for (const [ecosystem, packages] of Object.entries(pinned)) {
+                      if (ecosystem.startsWith('_')) continue;
+                      for (const [name, version] of Object.entries(packages)) {
+                          const latest = ecosystem === 'composer' ? await latestComposer(name) : await latestNpm(name);
+                          if (latest !== null && latest !== version) {
+                              rows.push(`| \`${name}\` | ${version} | ${latest} |`);
+                          }
+                      }
+                  }
+
+                  if (rows.length > 0) {
+                      console.log('| Package | Pinned | Latest |');
+                      console.log('|---|---|---|');
+                      console.log(rows.join('\n'));
+                  }
+                  NODE
+
+                  if [ -s outdated.md ]; then
+                      echo 'outdated=true' >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Open or update the issue
+              if: steps.compare.outputs.outdated == 'true'
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                  set -euo pipefail
+                  title='Newer releases of pinned dependencies'
+                  {
+                      echo 'PLAN/07 §2 pins these by hand; newer releases are available.'
+                      echo
+                      cat outdated.md
+                      echo
+                      echo 'Update `versions.json`, PLAN/07 §2 and the corresponding constraint together.'
+                  } > body.md
+
+                  number=$(gh issue list --search "$title in:title" --state open --json number --jq '.[0].number')
+
+                  if [ -n "$number" ]; then
+                      gh issue edit "$number" --body-file body.md
+                  else
+                      gh issue create --title "$title" --body-file body.md --label dependencies \
+                          || gh issue create --title "$title" --body-file body.md
+                  fi

@@ -1,0 +1,47 @@
+name: Symfony lint
+
+on:
+    schedule:
+        - cron: '30 0 * * *'
+    push:
+        branches:
+            - main
+    pull_request:
+
+permissions:
+    contents: read
+
+jobs:
+    symfony-lint:
+        name: Container, Twig, XLIFF and YAML
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Install PHP with extensions
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.5'
+                  coverage: none
+                  tools: composer:v2
+                  extensions: mongodb, pdo_mysql
+
+            - name: Install Composer dependencies (highest)
+              uses: ramsey/composer-install@v4
+              with:
+                  dependency-versions: highest
+
+            - name: Lint the container
+              run: make lint-container
+
+            - name: Lint Twig templates
+              run: make lint-twig
+
+            - name: Lint XLIFF catalogues
+              run: make lint-symfony-xliff
+
+            - name: Lint YAML files
+              run: make lint-symfony-yaml

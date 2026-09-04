@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+    - name: Sonata Admin itself
+      url: https://github.com/sonata-project/SonataAdminBundle/issues
+      about: Bugs in the PHP layer adminata inherited are usually upstream bugs; report them there too.
