@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType as FormNumberType;
 
 final class NumberFilter extends Filter
 {
-    public const CHOICES = [
+    public const array CHOICES = [
         NumberOperatorType::TYPE_EQUAL => '=',
         NumberOperatorType::TYPE_GREATER_EQUAL => '>=',
         NumberOperatorType::TYPE_GREATER_THAN => '>',

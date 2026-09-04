@@ -19,8 +19,8 @@ use Sonata\DoctrineORMAdminBundle\Tests\App\Entity\Product;
 
 final class ProductFixtures extends Fixture
 {
-    public const PRODUCT_1 = 'product_1';
-    public const PRODUCT_2 = 'product_2';
+    public const string PRODUCT_1 = 'product_1';
+    public const string PRODUCT_2 = 'product_2';
 
     public function load(ObjectManager $manager): void
     {

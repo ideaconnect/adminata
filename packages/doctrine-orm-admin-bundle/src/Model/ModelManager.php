@@ -43,9 +43,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 final class ModelManager implements ModelManagerInterface, LockInterface, ProxyResolverInterface
 {
-    public const ID_SEPARATOR = '~';
+    public const string ID_SEPARATOR = '~';
 
-    private const BATCH_SIZE = 20;
+    private const int BATCH_SIZE = 20;
 
     /**
      * @var EntityManagerInterface[]

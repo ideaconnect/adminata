@@ -24,7 +24,7 @@ use Sonata\DoctrineORMAdminBundle\Tests\App\Entity\Reader;
 
 final class BookFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const BOOK = 'book';
+    public const string BOOK = 'book';
 
     public function load(ObjectManager $manager): void
     {

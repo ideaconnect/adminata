@@ -24,7 +24,7 @@ use Sonata\DoctrineORMAdminBundle\Tests\Fixtures\Util\NonIntegerIdentifierTestCl
  */
 final class UuidBinaryType extends StringType
 {
-    public const NAME = 'sonata_uuid_binary';
+    public const string NAME = 'sonata_uuid_binary';
 
     public function getName(): string
     {

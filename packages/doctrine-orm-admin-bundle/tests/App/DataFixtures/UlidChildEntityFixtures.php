@@ -21,10 +21,10 @@ use Symfony\Component\Uid\Ulid;
 
 final class UlidChildEntityFixtures extends Fixture implements FixtureInterface
 {
-    public const ULID_FOO = 'foo';
-    public const ULID_BAR = 'bar';
-    public const ULID_BAZ = 'baz';
-    public const ULID_QUX = 'qux';
+    public const string ULID_FOO = 'foo';
+    public const string ULID_BAR = 'bar';
+    public const string ULID_BAZ = 'baz';
+    public const string ULID_QUX = 'qux';
 
     public function load(ObjectManager $manager): void
     {

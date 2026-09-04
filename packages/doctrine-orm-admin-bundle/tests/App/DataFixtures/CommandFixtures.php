@@ -19,8 +19,8 @@ use Sonata\DoctrineORMAdminBundle\Tests\App\Entity\Command;
 
 final class CommandFixtures extends Fixture
 {
-    public const COMMAND_1 = 'command_1';
-    public const COMMAND_2 = 'command_2';
+    public const string COMMAND_1 = 'command_1';
+    public const string COMMAND_2 = 'command_2';
 
     public function load(ObjectManager $manager): void
     {

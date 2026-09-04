@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class ClassFilter extends Filter
 {
-    public const CHOICES = [
+    public const array CHOICES = [
         EqualOperatorType::TYPE_EQUAL => 'INSTANCE OF',
         EqualOperatorType::TYPE_NOT_EQUAL => 'NOT INSTANCE OF',
     ];

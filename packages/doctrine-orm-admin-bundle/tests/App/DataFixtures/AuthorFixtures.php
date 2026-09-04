@@ -20,8 +20,8 @@ use Sonata\DoctrineORMAdminBundle\Tests\App\Entity\Author;
 
 final class AuthorFixtures extends Fixture
 {
-    public const AUTHOR = 'author';
-    public const AUTHOR_WITH_TWO_BOOKS = 'author_with_two_books';
+    public const string AUTHOR = 'author';
+    public const string AUTHOR_WITH_TWO_BOOKS = 'author_with_two_books';
 
     public function load(ObjectManager $manager): void
     {
