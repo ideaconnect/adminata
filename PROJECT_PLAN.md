@@ -627,7 +627,7 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   - Accept: `git diff -- config/` empty except the removed `use_select2` line; `composer validate`;
     `bin/console cache:clear` and `assets:install public` succeed; `bundles.php` untouched.
 
-- [ ] **P5-02 · Layout override (step 4)** · S · depends: P5-01
+- [x] **P5-02 · Layout override (step 4)** · S · depends: P5-01
   - Accept: the override keeps only `stylesheets`, `sonata_head_title`, `sonata_top_nav_menu_add_block`,
     `sonata_wrapper` (dialog), `sonata_page_content_header` (`adm-alert`), `content`; pages render.
 
@@ -2164,6 +2164,31 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   `lint:container` all succeed. `lint:twig` reports two errors that predate this and are the app's
   own: `importmap()` without AssetMapper in `base.html.twig`, and a `toAdminUser` filter the linter
   does not resolve.
+
+- 2026-09-05 — **P5-02 done.** The panel's layout override is 168 lines down to 143, and what went
+  was what had stopped meaning anything: `admin_lte_skin_class`, and the whole `javascripts` block
+  with `sonata_javascript_config` and `sonata_javascript_pool` inside it, which existed to localise
+  moment and select2. The Font Awesome CDN link went with them — adminata self-hosts Font Awesome 7.
+  The universal modal is a native `<dialog class="adm-dialog">` driven by `sonata-modal`, and the
+  deprecation notice is an `adm-alert` rather than a Flowbite embed.
+
+  **Deviation from PLAN/10 step 4, which was wrong.** It lists `logo` among the "verbatim upstream
+  copies" to delete. It is not one: the panel's `logo` block renders the signed-in administrator's
+  White Label — their mark, or their name when they have no mark — and falls back to the stock
+  wordmark only for an unbranded panel. Deleting it would cost every branded customer their logo.
+  It is ported to adminata's sidebar markup instead, keeping the `logo--white-label` hook.
+
+  Screens render. Verification needed a way in: the panel's login is behind stateless CSRF, whose
+  token is minted by JavaScript, so `curl` cannot post it. `tests/adminata-render.php` — a
+  throwaway deleted at the end of M5 — boots a `KernelBrowser` in the test environment, signs a
+  marked account in with `loginUser()` and writes each page to `var/adminata-render/`. The
+  dashboard, the administrator list and its create form all come back 200 on adminata's shell.
+
+  **One app defect found, for P5-09**: `PartnerAdmin` declares `fileAsset` as `TYPE_STRING` while
+  the value is a `FileAsset` entity with no `__toString()`, so the list throws on any row that has
+  one. `CRUD/base_list_field.html.twig` is byte-identical to what was imported from 4.43.0 but for
+  the readmore button's class, so this predates adminata and would fail the same way on `develop`.
+
 
 
 
