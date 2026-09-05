@@ -12,7 +12,14 @@ Changes inherited from the forked Sonata packages are listed separately in
 
 adminata is pre-1.0 and under construction; [PROJECT_PLAN.md](PROJECT_PLAN.md) tracks what is done.
 Milestone M0 (bootstrap) is complete: the seven packages are imported, replaced and green under
-adminata's own tooling, and the PHP changes the Tailwind interface forces are in.
+adminata's own tooling, and the PHP changes the Tailwind interface forces are in. Milestone M1
+(foundations) is complete: the Tailwind and Stimulus build, the demo application, and every gate
+the template rewrites of M2 to M4 will be measured against.
+
+The templates themselves are still Sonata's Bootstrap ones. They render unstyled, because M1
+removed the CSS and JavaScript that used to style them and has not yet replaced them — that state
+is deliberate, written down, and asserted: see `tests/Contract/deferred-templates.txt`,
+`tests/Visual/support/findings.json` and the `legacy-ui` PHPUnit group.
 
 ### Added
 
@@ -30,6 +37,20 @@ adminata's own tooling, and the PHP changes the Tailwind interface forces are in
   workflows including a weekly watch on both the forked packages and the pinned dependency versions.
 - Repository documents: `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG-sonata.md`, `UPSTREAM.md`, `Makefile`, `upstream/{diff,sync}.sh`.
+- Tailwind CSS v4 stylesheet built from TailAdmin v2.3.0's tokens, with a `.adm-*` component layer,
+  a generated safelist and a CSS contract test; Stimulus 3.2 with an explicit controller registry,
+  a Vite 8 build and a JavaScript contract snapshot. **No jQuery**, anywhere.
+- A demo application under `tests/App`: the seven bundles wired the way an application wires them,
+  two admins over MySQL and deterministic fixtures. `make demo` serves it; the functional, browser,
+  visual and accessibility suites all drive it.
+- Contract tests that freeze what a fork may not move: the markup hooks of every template group,
+  every `@Sonata*/…` template path including the ones the MongoDB fork hard-codes, the
+  configuration tree of six of the seven roots, and the list of templates 1.0 inherits unported.
+- Browser and visual gates: Playwright screenshots per page, viewport and theme from a pinned
+  container; `@axe-core/playwright` against WCAG 2.1 AA in both themes; `html-validate` over the
+  rendered DOM; and a Panther harness that asserts an empty browser console.
+- A CI job that installs `idct/adminata` into `idct/sonata-admin-mongodb-bundle` and runs its
+  suite, so owner directive 7 is checked on every pull request rather than remembered.
 
 ### Changed
 
