@@ -9,6 +9,9 @@ sonata_admin:
         use_stickyforms: true
         lock_protection: true
         html5_validate: false
+    # A submitted filter is remembered for the next plain visit to the list (PLAN/08 §2). Each
+    # browser test gets its own session, so nothing here leaks between them.
+    persist_filters: true
     theme:
         mode: system
     dashboard:
@@ -21,11 +24,13 @@ sonata_admin:
                 icon: '<i class="fa-solid fa-box"></i>'
                 items:
                     - Adminata\Tests\App\Admin\ProductAdmin
+                    - Adminata\Tests\App\Admin\ProductVariantAdmin
             taxonomy:
                 label: Taxonomy
                 icon: '<i class="fa-solid fa-tags"></i>'
                 items:
                     - Adminata\Tests\App\Admin\CategoryAdmin
+                    - Adminata\Tests\App\Admin\TagAdmin
             settings:
                 label: Settings
                 icon: '<i class="fa-solid fa-gear"></i>'

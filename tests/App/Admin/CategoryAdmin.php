@@ -23,6 +23,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\DateTimeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -54,6 +55,7 @@ final class CategoryAdmin extends AbstractAdmin
         $filter
             ->add('name')
             ->add('active')
+            ->add('createdAt', DateTimeFilter::class)
             // The one combobox in the demo: `ProductAdmin` is the association admin the
             // autocomplete action resolves, and `property` names a filter on *its* datagrid.
             ->add('products', ModelAutocompleteFilter::class, [

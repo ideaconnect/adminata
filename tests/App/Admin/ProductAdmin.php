@@ -18,16 +18,23 @@ namespace Adminata\Tests\App\Admin;
 
 use Adminata\Tests\App\Entity\Category;
 use Adminata\Tests\App\Entity\Product;
+use Adminata\Tests\App\Entity\Tag;
 use Adminata\Tests\App\Enum\ProductStatus;
 use Adminata\Tests\App\Form\ProductVariantType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\BooleanFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\DateTimeRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\NumberFilter;
@@ -40,37 +47,87 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
- * The field types P1-09 puts on the page: string, integer, datetime, boolean, enum and
- * many-to-one in the list and the show, the matching filters, and one native Symfony
- * CollectionType with `allow_add`/`allow_delete`. M3 and M4 widen this to the rest of
- * appendix C §2.
+ * The demo's "everything" admin (appendix C §2, PLAN/08 §2): every list cell type the application
+ * uses, both shapes of custom cell template, a custom row action, a custom batch action with a
+ * confirmation step, export fields, a `templates.list` override and every filter type but the
+ * autocomplete one, which `CategoryAdmin` carries.
  *
  * @phpstan-extends AbstractAdmin<Product>
  */
 final class ProductAdmin extends AbstractAdmin
 {
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection->add('archive', $this->getRouterIdParameter().'/archive');
+    }
+
+    protected function configureDefaultSortValues(array &$sortValues): void
+    {
+        $sortValues[DatagridInterface::SORT_BY] = 'name';
+        $sortValues[DatagridInterface::SORT_ORDER] = 'ASC';
+        $sortValues[DatagridInterface::PER_PAGE] = 25;
+    }
+
     protected function configureListFields(ListMapper $list): void
     {
         $list
             ->add('id', FieldDescriptionInterface::TYPE_INTEGER)
             ->addIdentifier('name')
             ->add('sku', FieldDescriptionInterface::TYPE_STRING)
-            ->add('price', FieldDescriptionInterface::TYPE_INTEGER, ['header_class' => 'text-right'])
+            ->add('price', FieldDescriptionInterface::TYPE_INTEGER, [
+                'header_class' => 'text-right',
+                'row_align' => 'right',
+            ])
+            // A cell template that extends the envelope, and one that writes its own `<td>`.
+            ->add('stock', FieldDescriptionInterface::TYPE_INTEGER, [
+                'template' => 'admin/list_stock.html.twig',
+            ])
+            ->add('specification', FieldDescriptionInterface::TYPE_ARRAY, [
+                'template' => 'admin/list_specification.html.twig',
+            ])
             ->add('status', FieldDescriptionInterface::TYPE_ENUM)
             ->add('category', FieldDescriptionInterface::TYPE_MANY_TO_ONE, [
                 'sortable' => true,
                 'sort_field_mapping' => ['fieldName' => 'name'],
                 'sort_parent_association_mappings' => [['fieldName' => 'category']],
             ])
+            ->add('tags', FieldDescriptionInterface::TYPE_MANY_TO_MANY)
             ->add('featured', FieldDescriptionInterface::TYPE_BOOLEAN)
+            ->add('availableFrom', FieldDescriptionInterface::TYPE_DATE)
+            ->add('pickupAt', FieldDescriptionInterface::TYPE_TIME)
             ->add('releasedAt', FieldDescriptionInterface::TYPE_DATETIME)
+            ->add('highlights', FieldDescriptionInterface::TYPE_HTML)
+            ->add('description', FieldDescriptionInterface::TYPE_TEXTAREA, [
+                'collapse' => ['height' => 40],
+            ])
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
                     'edit' => [],
+                    'archive' => ['template' => 'admin/list__action_archive.html.twig'],
                     'delete' => [],
                 ],
             ]);
+    }
+
+    /**
+     * `configureBatchActions` ×2 in the application: the default delete plus one custom action
+     * that asks first.
+     */
+    protected function configureBatchActions(array $actions): array
+    {
+        $actions['archive'] = [
+            'label' => 'Archive',
+            'translation_domain' => false,
+            'ask_confirmation' => true,
+        ];
+
+        return $actions;
+    }
+
+    protected function configureExportFields(): array
+    {
+        return ['id', 'name', 'sku', 'price', 'status', 'stock', 'category'];
     }
 
     protected function configureDatagridFilters(DatagridMapper $filter): void
@@ -81,14 +138,32 @@ final class ProductAdmin extends AbstractAdmin
             ->add('price', NumberFilter::class)
             ->add('status', ChoiceFilter::class, [
                 'field_type' => EnumType::class,
-                'field_options' => ['class' => ProductStatus::class],
+                'field_options' => [
+                    'class' => ProductStatus::class,
+                    // ux-autocomplete's own markup, which adminata renders and never touches
+                    // (PLAN/05 R4). The demo writes the attribute rather than installing the
+                    // package: what is under test is that the theme leaves it alone.
+                    'attr' => ['data-controller' => 'symfony--ux-autocomplete--autocomplete'],
+                ],
             ])
             ->add('category', ModelFilter::class, [
                 'field_type' => EntityType::class,
                 'field_options' => ['class' => Category::class],
             ])
+            ->add('tags', ModelFilter::class, [
+                'field_type' => EntityType::class,
+                'field_options' => ['class' => Tag::class, 'multiple' => true],
+            ])
             ->add('featured', BooleanFilter::class)
-            ->add('releasedAt', DateTimeRangeFilter::class);
+            ->add('availableFrom', DateRangeFilter::class)
+            ->add('releasedAt', DateTimeRangeFilter::class)
+            // A filter over a property no column holds, which is the shape the application's nine
+            // callback filters take.
+            ->add('inStock', CallbackFilter::class, [
+                'callback' => $this->filterInStock(...),
+                'field_type' => BooleanType::class,
+                'label' => 'In stock',
+            ]);
     }
 
     protected function configureFormFields(FormMapper $form): void
@@ -126,10 +201,17 @@ final class ProductAdmin extends AbstractAdmin
             ->add('name')
             ->add('sku')
             ->add('price')
+            ->add('stock')
             ->add('status', FieldDescriptionInterface::TYPE_ENUM)
             ->add('category')
+            ->add('tags', FieldDescriptionInterface::TYPE_MANY_TO_MANY)
             ->add('featured')
-            ->add('releasedAt');
+            ->add('availableFrom', FieldDescriptionInterface::TYPE_DATE)
+            ->add('pickupAt', FieldDescriptionInterface::TYPE_TIME)
+            ->add('releasedAt')
+            ->add('specification', FieldDescriptionInterface::TYPE_ARRAY)
+            ->add('highlights', FieldDescriptionInterface::TYPE_HTML)
+            ->add('description', FieldDescriptionInterface::TYPE_TEXTAREA);
     }
 
     /**
@@ -146,6 +228,27 @@ final class ProductAdmin extends AbstractAdmin
     protected function preUpdate(object $object): void
     {
         $this->syncVariants($object);
+    }
+
+    /**
+     * `true` means "stock left", `false` means "none": `BooleanType` submits 1 and 2, and an
+     * unset filter never reaches here.
+     *
+     * @phpstan-param ProxyQueryInterface<Product> $query
+     */
+    private function filterInStock(ProxyQueryInterface $query, string $alias, string $field, FilterData $data): bool
+    {
+        if (!$data->hasValue()) {
+            return false;
+        }
+
+        $query->getQueryBuilder()->andWhere(\sprintf(
+            '%s.stock %s 0',
+            $alias,
+            BooleanType::TYPE_YES === $data->getValue() ? '>' : '='
+        ));
+
+        return true;
     }
 
     /**

@@ -45,6 +45,9 @@ final class DemoSmokeTest extends WebTestCase
         yield 'product create' => ['/admin/tests/app/product/create'];
         yield 'category list' => ['/admin/tests/app/category/list'];
         yield 'category create' => ['/admin/tests/app/category/create'];
+        yield 'tag list' => ['/admin/tests/app/tag/list'];
+        yield 'variant list' => ['/admin/tests/app/productvariant/list'];
+        yield 'product show' => ['/admin/tests/app/product/1/show'];
         yield 'search' => ['/admin/search?q=Product'];
     }
 
@@ -218,6 +221,215 @@ final class DemoSmokeTest extends WebTestCase
         foreach ($ids as $id) {
             static::assertNull($manager->getRepository(Product::class)->find($id));
         }
+    }
+
+    /**
+     * Every list cell type the application uses reaches the page (appendix C §2), and both shapes
+     * of custom cell template: one extending `base_list_field`, one writing its own `<td>`.
+     */
+    public function testTheListRendersEveryCellType(): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', '/admin/tests/app/product/list');
+
+        foreach ([
+            'string', 'integer', 'boolean', 'enum', 'date', 'time', 'datetime',
+            'array', 'html', 'textarea', 'many_to_one', 'many_to_many', 'actions',
+        ] as $type) {
+            static::assertGreaterThan(
+                0,
+                $crawler->filter('td.sonata-ba-list-field-'.$type)->count(),
+                \sprintf('No cell of type "%s" on the product list.', $type)
+            );
+        }
+
+        // The template that extends the envelope keeps it; the one that writes its own `<td>`
+        // still carries the classes and the `objectId` an application's script reads.
+        static::assertGreaterThan(0, $crawler->filter('td.sonata-ba-list-field-integer .adm-badge')->count());
+        static::assertGreaterThan(0, $crawler->filter('td.demo-specification[objectId] dl dt')->count());
+
+        // `header_class` and `row_align`, and the sortable column with a `sort_field_mapping`.
+        static::assertCount(1, $crawler->filter('th.text-right'));
+        static::assertGreaterThan(0, $crawler->filter('td[style="text-align:right"]')->count());
+        static::assertCount(
+            1,
+            $crawler->filter('th.sonata-ba-list-field-header-many_to_one a[href*="_sort_by%5D=category"]')
+        );
+
+        // `sort_field_mapping` orders by the association's `name`, not by its identifier: the
+        // categories are Beverages(1), Snacks(2), Household(3), Discontinued(4), so descending
+        // gives Snacks by name and Discontinued by id.
+        $crawler = $client->request(
+            'GET',
+            '/admin/tests/app/product/list?filter%5B_sort_by%5D=category&filter%5B_sort_order%5D=DESC'
+        );
+
+        static::assertStringContainsString(
+            'Snacks',
+            $crawler->filter('table.sonata-ba-list tbody tr')->first()->filter('td.sonata-ba-list-field-many_to_one')->text()
+        );
+    }
+
+    /**
+     * The `templates.list` override adds to `list_after_table` and changes nothing else.
+     */
+    public function testTheTemplatesListOverrideRendersAfterTheTable(): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', '/admin/tests/app/product/list');
+
+        $summary = $crawler->filter('#product-list-summary');
+
+        static::assertCount(1, $summary);
+        static::assertStringContainsString('42 products', $summary->text());
+    }
+
+    /**
+     * A ux-autocomplete select is emitted with its `data-controller` untouched; the theme only
+     * appends its own class (PLAN/06 §1, PLAN/05 R4).
+     */
+    public function testAUxAutocompleteSelectIsLeftAlone(): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', '/admin/tests/app/product/list');
+
+        $select = $crawler->filter('select[data-controller="symfony--ux-autocomplete--autocomplete"]');
+
+        static::assertCount(1, $select);
+        static::assertSame('adm-select', $select->attr('class'));
+    }
+
+    /**
+     * The custom row action: a route the admin added, reached from a template of the demo's own.
+     */
+    public function testTheCustomRowActionArchivesOneProduct(): void
+    {
+        $client = self::browser();
+        $id = self::firstProductId($client);
+
+        $crawler = $client->request('GET', '/admin/tests/app/product/list');
+        static::assertGreaterThan(0, $crawler->filter('a.archive_link')->count());
+
+        $client->request('GET', \sprintf('/admin/tests/app/product/%d/archive', $id));
+        static::assertResponseRedirects();
+
+        $manager = self::entityManager($client);
+        $manager->clear();
+        $product = $manager->getRepository(Product::class)->find($id);
+
+        static::assertInstanceOf(Product::class, $product);
+        static::assertTrue($product->isArchived());
+    }
+
+    /**
+     * The custom batch action, through the same confirmation page as delete.
+     */
+    public function testTheCustomBatchActionArchivesTheSelection(): void
+    {
+        $client = self::browser();
+        $manager = self::entityManager($client);
+        $products = $manager->getRepository(Product::class)->findBy(['archived' => false], ['id' => 'ASC'], 3);
+        $ids = array_map(static fn (Product $product): ?int => $product->getId(), $products);
+
+        $crawler = $client->request('GET', '/admin/tests/app/product/list');
+        $token = $crawler->filter('input[name="_sonata_csrf_token"]')->attr('value');
+
+        $crawler = $client->request('POST', '/admin/tests/app/product/batch', [
+            'action' => 'archive',
+            'idx' => array_map(strval(...), $ids),
+            '_sonata_csrf_token' => $token,
+        ]);
+
+        static::assertResponseIsSuccessful();
+        static::assertCount(1, $crawler->filter('.sonata-ba-delete'));
+
+        $client->submit($crawler->filter('.sonata-ba-delete form')->form());
+        static::assertResponseRedirects();
+
+        $manager->clear();
+        foreach ($ids as $id) {
+            $product = $manager->getRepository(Product::class)->find($id);
+
+            static::assertInstanceOf(Product::class, $product);
+            static::assertTrue($product->isArchived(), \sprintf('Product %d was not archived.', (int) $id));
+        }
+    }
+
+    /**
+     * `configureExportFields` decides the columns, and only those.
+     */
+    public function testTheExportCarriesTheConfiguredColumns(): void
+    {
+        $client = self::browser();
+        $client->request('GET', '/admin/tests/app/product/export?format=csv');
+
+        $response = $client->getResponse();
+        static::assertTrue($response->isSuccessful());
+
+        $csv = $client->getInternalResponse()->getContent();
+        $lines = explode("\n", trim($csv));
+
+        static::assertSame('Id,Name,Sku,Price,Status,Stock,Category', $lines[0]);
+        static::assertCount(43, $lines, 'Every product should be exported, plus the header.');
+    }
+
+    /**
+     * `persist_filters`: a submitted filter is put back on the next plain visit to the list.
+     */
+    public function testASubmittedFilterIsRememberedForTheNextVisit(): void
+    {
+        $client = self::browser();
+
+        $client->request('GET', '/admin/tests/app/product/list?filter%5Bsku%5D%5Bvalue%5D=SKU-0007');
+        static::assertCount(1, $client->getCrawler()->filter('table.sonata-ba-list tbody tr'));
+
+        $crawler = $client->request('GET', '/admin/tests/app/product/list');
+
+        static::assertCount(
+            1,
+            $crawler->filter('table.sonata-ba-list tbody tr'),
+            'The filter was not restored from the session.'
+        );
+
+        // And `filters=reset` clears it again, which is what the reset button links to.
+        $crawler = $client->request('GET', '/admin/tests/app/product/list?filters=reset');
+
+        static::assertGreaterThan(1, $crawler->filter('table.sonata-ba-list tbody tr')->count());
+    }
+
+    /**
+     * The child list an application fetches into an accordion: filtered by its parent, requested
+     * with `X-Requested-With`, and still parseable as `table.sonata-ba-list`.
+     */
+    public function testAChildListIsFetchedAsAFragment(): void
+    {
+        $client = self::browser();
+        $id = self::firstProductId($client);
+
+        $crawler = $client->request(
+            'GET',
+            \sprintf('/admin/tests/app/productvariant/list?filter%%5Bproduct%%5D%%5Bvalue%%5D=%d', $id),
+            server: ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest'],
+        );
+
+        static::assertResponseIsSuccessful();
+        static::assertStringNotContainsString('<html', (string) $client->getResponse()->getContent());
+        static::assertCount(2, $crawler->filter('table.sonata-ba-list tbody tr'));
+    }
+
+    /**
+     * `->remove(ListMapper::NAME_BATCH)`: a list with no checkbox column, and a footer that does
+     * not offer an action for a selection that cannot exist.
+     */
+    public function testAListCanDropItsBatchColumn(): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', '/admin/tests/app/tag/list');
+
+        static::assertResponseIsSuccessful();
+        static::assertCount(0, $crawler->filter('td.sonata-ba-list-field-batch'));
+        static::assertCount(0, $crawler->filter('input[name="idx[]"]'));
+        static::assertCount(4, $crawler->filter('table.sonata-ba-list tbody tr'));
     }
 
     /**

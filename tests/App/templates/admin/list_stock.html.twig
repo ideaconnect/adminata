@@ -1,0 +1,14 @@
+{#
+    A custom cell template that *extends* `base_list_field` and overrides `field` — the shape 55 of
+    recomaty-panel's cell templates use (appendix C §2). The envelope, its classes and its
+    `objectId` attribute stay the bundle's.
+#}
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+    {% if value > 0 %}
+        <span class="adm-badge adm-badge-success">{{ value }}</span>
+    {% else %}
+        <span class="adm-badge adm-badge-error">{{ 'Out of stock' }}</span>
+    {% endif %}
+{% endblock %}

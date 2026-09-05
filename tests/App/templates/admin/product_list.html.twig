@@ -1,0 +1,16 @@
+{#
+    A `templates.list` override that only adds to `list_after_table` — the additive block PLAN/02 §5
+    promises, and where the application hangs the summaries it used to put in `list_footer`.
+#}
+{% extends '@SonataAdmin/CRUD/list.html.twig' %}
+
+{% block list_after_table %}
+    <div class="adm-card mt-4" id="product-list-summary">
+        <div class="adm-card-body">
+            <p class="text-theme-sm text-gray-500 dark:text-gray-400">
+                {{ admin.datagrid.pager.countResults }} products, of which
+                {{ admin.datagrid.results|filter(product => product.featured)|length }} on this page are featured.
+            </p>
+        </div>
+    </div>
+{% endblock %}

@@ -523,7 +523,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     elements, `_context=filter`); Vitest; axe; Panther keyboard flow on the demo filter.
   - Accept: tests green; `ModelAutocompleteFilter` works in the demo.
 
-- [ ] **P3-10 · Demo list coverage, Panther and visual baselines** · M · depends: P3-03 … P3-09
+- [x] **P3-10 · Demo list coverage, Panther and visual baselines** · M · depends: P3-03 … P3-09
   - Read: PLAN/08 §2, §3; appendix C §2.
   - Do: demo admins with every filter type, every cell type (including custom cell templates
     extending `base_list_field` and emitting raw `<td>`), `header_class`, `sort_field_mapping`,
@@ -1807,4 +1807,38 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   (**2815 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
   (**124**), `make assets-check`, `make test-visual` (**330 passed**), `make test-functional`
   (**28**).
+
+- 2026-09-05 — **P3-10 done.** The demo grew into what appendix C §2 describes. A `Tag` entity and
+  a many-to-many on `Product` (plus `availableFrom`, `pickupAt`, `description`, `highlights`,
+  `specification`, `stock`, `archived`) put every list cell type the application uses on one page:
+  string, integer, boolean, enum, date, time, datetime, array, html, textarea, many-to-one,
+  many-to-many and `_action`. Both shapes of custom cell template are there — `list_stock` extends
+  `base_list_field` and overrides `field`, `list_specification` writes its own `<td>` — as are
+  `header_class`, `row_align`, a sortable column whose `sort_field_mapping` orders by the
+  association's name, and `configureDefaultSortValues`.
+
+  Around them: a custom row action on a route `configureRoutes` adds, a custom `archive` batch
+  action with `ask_confirmation` through the same page delete uses, `configureExportFields` (CSV,
+  seven columns, 42 rows), a `templates.list` override that only fills `list_after_table`, a
+  `ProductVariantAdmin` for the child list an application fetches with `X-Requested-With`, a
+  `TagAdmin` with `->remove(ListMapper::NAME_BATCH)`, `persist_filters`, and the last three filter
+  types — `CallbackFilter` over a property no column holds, `DateRangeFilter`, `DateTimeFilter`.
+
+  Two deviations. **(1)** The ux-autocomplete filter writes
+  `attr: {data-controller: 'symfony--ux-autocomplete--autocomplete'}` on a real `ChoiceType` rather
+  than installing `symfony/ux-autocomplete`: what is under test is that the theme emits the
+  attribute untouched and only appends `adm-select`, and the package's own controller is not
+  registered in the demo either way. **(2)** `Category::$products` is only a mapping — no column,
+  nothing writes through it.
+
+  `persist_filters` cost the Panther suite its shared session. A filter submitted by one test was
+  restored for the next, because the base case cleared two named cookies and kept the session
+  deliberately, to keep the login. It now clears every cookie and signs in again per test: four
+  seconds for the whole class, and no test decides what another sees.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2829 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
+  (**124**), `make assets-check`, `make test-visual` (**372 passed**), `make test-functional`
+  (**42**).
+
 

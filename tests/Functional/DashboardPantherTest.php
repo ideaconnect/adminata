@@ -349,6 +349,49 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
+     * A list whose batch column was removed still renders and still starts `sonata-batch` without
+     * complaining: the controller has to tolerate a missing `all` target and an empty row set.
+     */
+    public function testAListWithoutABatchColumnLoadsCleanly(): void
+    {
+        $crawler = $this->client->request('GET', $this->url('/admin/tests/app/tag/list'));
+
+        static::assertCount(4, $crawler->filter('table.sonata-ba-list tbody tr'));
+        static::assertCount(0, $crawler->filter('input[name="idx[]"]'));
+
+        $this->assertConsoleIsEmpty('The tag list wrote to the browser console.');
+    }
+
+    /**
+     * The export menu opens from the keyboard, and its links carry the datagrid state the page was
+     * rendered with — which is what makes "export what I am looking at" true.
+     */
+    public function testTheExportMenuOpensAndKeepsTheCurrentFilter(): void
+    {
+        $this->client->request('GET', $this->url(
+            '/admin/tests/app/product/list?filter%5Bsku%5D%5Bvalue%5D=SKU-0007'
+        ));
+
+        // Found from the link outwards: the list page carries several dropdowns and only one of
+        // them holds the export formats.
+        $button = $this->client->findElement(WebDriverBy::xpath(
+            "//a[contains(@href, 'format=csv')]/ancestor::div[contains(@class, 'adm-dropdown')][1]"
+            ."//button[@aria-haspopup='menu']"
+        ));
+        $button->sendKeys(WebDriverKeys::ARROW_DOWN);
+
+        $csv = $this->client->findElement(WebDriverBy::cssSelector('a[href*="format=csv"]'));
+
+        static::assertTrue($csv->isDisplayed());
+
+        $href = $csv->getAttribute('href');
+        static::assertIsString($href);
+        static::assertStringContainsString('SKU-0007', urldecode($href));
+
+        $this->assertConsoleIsEmpty('The export menu wrote to the browser console.');
+    }
+
+    /**
      * The per-page select carries whole URLs as its option values, and `sonata-per-page` navigates
      * to the one chosen.
      */

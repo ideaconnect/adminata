@@ -50,9 +50,38 @@ class Product implements \Stringable
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $releasedAt = null;
 
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $availableFrom = null;
+
+    #[ORM\Column(type: Types::TIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $pickupAt = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
+    /** Markup on purpose: `TYPE_HTML` renders it unescaped, and something has to prove it. */
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $highlights = null;
+
+    /** @var array<string, string> */
+    #[ORM\Column(type: Types::JSON)]
+    private array $specification = [];
+
+    #[ORM\Column(type: Types::INTEGER)]
+    private int $stock = 0;
+
+    /** Set by the demo's custom `archive` batch action. */
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $archived = false;
+
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
+
+    /** @var Collection<int, Tag> */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'products')]
+    #[ORM\JoinTable(name: 'demo_product_tag')]
+    private Collection $tags;
 
     /** @var Collection<int, ProductVariant> */
     #[ORM\OneToMany(targetEntity: ProductVariant::class, mappedBy: 'product', cascade: ['persist'], orphanRemoval: true)]
@@ -60,6 +89,7 @@ class Product implements \Stringable
 
     public function __construct()
     {
+        $this->tags = new ArrayCollection();
         $this->variants = new ArrayCollection();
     }
 
@@ -141,6 +171,104 @@ class Product implements \Stringable
     public function setReleasedAt(?\DateTimeImmutable $releasedAt): void
     {
         $this->releasedAt = $releasedAt;
+    }
+
+    public function getAvailableFrom(): ?\DateTimeImmutable
+    {
+        return $this->availableFrom;
+    }
+
+    public function setAvailableFrom(?\DateTimeImmutable $availableFrom): void
+    {
+        $this->availableFrom = $availableFrom;
+    }
+
+    public function getPickupAt(): ?\DateTimeImmutable
+    {
+        return $this->pickupAt;
+    }
+
+    public function setPickupAt(?\DateTimeImmutable $pickupAt): void
+    {
+        $this->pickupAt = $pickupAt;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getHighlights(): ?string
+    {
+        return $this->highlights;
+    }
+
+    public function setHighlights(?string $highlights): void
+    {
+        $this->highlights = $highlights;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getSpecification(): array
+    {
+        return $this->specification;
+    }
+
+    /**
+     * @param array<string, string> $specification
+     */
+    public function setSpecification(array $specification): void
+    {
+        $this->specification = $specification;
+    }
+
+    public function getStock(): int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(int $stock): void
+    {
+        $this->stock = $stock;
+    }
+
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(bool $archived): void
+    {
+        $this->archived = $archived;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): void
+    {
+        if ($this->tags->contains($tag)) {
+            return;
+        }
+
+        $this->tags->add($tag);
+    }
+
+    public function removeTag(Tag $tag): void
+    {
+        $this->tags->removeElement($tag);
     }
 
     public function getCategory(): ?Category
