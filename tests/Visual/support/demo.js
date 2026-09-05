@@ -45,6 +45,7 @@ export const PAGES = [
     { name: 'product-create', path: '/admin/tests/app/product/create' },
     { name: 'product-show', path: '/admin/tests/app/product/1/show' },
     { name: 'product-edit', path: '/admin/tests/app/product/1/edit' },
+    { name: 'product-delete', path: '/admin/tests/app/product/3/delete' },
     { name: 'login', path: '/login' },
     { name: 'empty-layout', path: '/admin/demo/empty' },
     { name: 'dialog', path: '/admin/demo/dialog' },

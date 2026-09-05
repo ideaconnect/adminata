@@ -590,7 +590,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     4 `Association/show_*`; groups grid.
   - Accept: show tests green (`EUR 10.746135`-style expectations untouched); Playwright baseline.
 
-- [ ] **P4-08 · Buttons, action bar, delete page** · S · depends: P4-01
+- [x] **P4-08 · Buttons, action bar, delete page** · S · depends: P4-01
   - Read: PLAN/03 §D rows 3, and §C "delete" row.
   - Do: six `Button/*`, `action_buttons.html.twig` (`<ul class="sonata-actions">` flex row),
     `delete.html.twig` (danger card, `_method=DELETE`, `_sonata_csrf_token`).
@@ -2028,6 +2028,21 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2844 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
   `make test-js` (**124**), `make assets-check`, `make test-visual` (**483 passed**).
+
+- 2026-09-05 — **P4-08 done.** The six `Button/*` templates keep `sonata-action-element` and the
+  `<li>` an application's overrides emit, and gain the secondary button recipe; the `<ul
+  class="sonata-actions">` flex row they sit in was already the layout's from P2-04. The delete page
+  is a card with an error border — the same shape as the batch confirmation — around the POST that
+  matters: `_method=DELETE`, `_sonata_csrf_token` and the `btn_delete` submit, all unchanged. Its
+  title is the page's `<h1>`, because the delete page overrides `content` and has no page header of
+  its own.
+
+  The demo's delete page joined the visual walk: **525 checks** over ten pages, all clean.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2844 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
+  `make test-js` (**124**), `make assets-check`, `make test-visual` (**525 passed**).
+
 
 
 

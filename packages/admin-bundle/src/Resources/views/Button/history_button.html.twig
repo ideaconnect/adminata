@@ -1,7 +1,10 @@
 {#
 
-This file is part of the Sonata package.
+This file is part of the adminata package.
 
+(c) IDCT Bartosz Pachołek <bartosz@idct.tech>
+
+Forked from the Sonata Project
 (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
 
 For the full copyright and license information, please view the LICENSE
@@ -15,8 +18,8 @@ file that was distributed with this source code.
     and admin.hasRoute('history')
 %}
     <li>
-        <a class="sonata-action-element" href="{{ admin.generateObjectUrl('history', object) }}">
-            <i class="fas fa-archive" aria-hidden="true"></i>
+        <a class="adm-btn adm-btn-secondary adm-btn-sm sonata-action-element" href="{{ admin.generateObjectUrl('history', object) }}">
+            <i class="fas fa-box-archive" aria-hidden="true"></i>
             {{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}
         </a>
     </li>
