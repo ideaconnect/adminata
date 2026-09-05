@@ -51,6 +51,16 @@
     @variant dark {
         border-top-color: var(--color-gray-800);
     }
+
+    /*
+     * The rule separates the body from the header above it, so a card without one — the list, the
+     * filter panel, and any an application writes — had it drawn straight across the card's own
+     * rounded top, cutting the corners off. `:first-child` outranks the dark rule above, which is
+     * why the reset can be a shorthand and still take the colour with it.
+     */
+    &:first-child {
+        border-top: 0;
+    }
 }
 
 @utility adm-card-footer {

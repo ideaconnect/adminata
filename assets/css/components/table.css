@@ -4,17 +4,19 @@
  * application overrides and the MongoDB fork all select on them; the styling hangs off those.
  */
 
+/*
+ * The clipping box, not a framed one: it exists so the table's square corners do not poke out of
+ * the rounded card it sits in, and so the `sr-only` labels inside the table are positioned against
+ * something that clips them. The frame is the card's — drawing one here too put a second 1px
+ * border immediately inside the first, which reads as a heavier line and gave the corner two radii
+ * that do not nest.
+ *
+ * The radius is the card's less its border, which is what makes the two curves concentric.
+ */
 @utility adm-table-wrap {
     position: relative;
     overflow: hidden;
-    border: 1px solid var(--color-gray-200);
-    border-radius: 0.75rem;
-    background-color: var(--color-white);
-
-    @variant dark {
-        border-color: var(--color-gray-800);
-        background-color: rgb(255 255 255 / 3%);
-    }
+    border-radius: calc(var(--radius-card) - 1px);
 }
 
 @utility adm-table-scroll {

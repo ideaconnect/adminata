@@ -753,6 +753,21 @@ mistake cannot recur.
     own to scroll in; before that a column that would not shrink widened the page.
   - Accept: the same row is 61px and thirteen fit a screen; `scrollWidth == clientWidth`.
 
+- [x] **P5-FIX-18 · A straight line across the card's rounded top** · S
+  - `adm-card-body` carries a `border-top` to separate it from the header above it. The list card
+    and the filter card have no header, so the body was the card's first child and the rule was
+    drawn straight across the card's own rounded top, cutting the corners off.
+  - And under it, a second one: `adm-table-wrap` drew its own 1px border immediately inside the
+    card's, in the same colour — a doubled line — with a 12px radius nested in the card's 16px at a
+    1px offset, so the two curves did not agree either.
+  - Do: `adm-card-body:first-child` has no rule (`:first-child` outranks the dark variant, so the
+    reset can be a shorthand and take the colour with it), which fixes an application's header-less
+    cards too. `adm-table-wrap` keeps only what it is for — clipping the table's square corners and
+    containing the `sr-only` labels — at `calc(var(--radius-card) - 1px)`, which is the radius that
+    is concentric with the card's.
+  - Accept: at 3× the corner is a single 1px curve in both themes; a card *with* a header keeps its
+    separator, which the show page proves.
+
 - [x] **P5-FIX-14 · Dark dropdowns painted light text on a light background** · S
   - `@custom-variant dark` is written `&:where(.dark, .dark *)` so that it adds no specificity —
     which is what lets an application override adminata — and the cost is that a dark rule and the
@@ -2657,3 +2672,22 @@ mistake cannot recur.
   by area, U2 carries the two new nodes and the two existing ones worth revisiting, U4 warns that
   `sonata_nav` is nested inside `sonata_wrapper` — which is what made the sign-in language selector
   disappear — and U8 carries the zero-specificity `dark` ordering rule that P5-FIX-14 was.
+
+- 2026-09-05 — **M5 pushed; CI green at `ad8d2b4f6`.** All seven workflows — Lint, Symfony lint,
+  Quality assurance, Front end, Test, Visual and MongoDB fork. The `v1.0.0-rc1` tag is deliberately
+  **not** cut: P5-MS depends on P5-11, whose acceptance is the owner's sign-off, and a release
+  candidate is a statement that the acceptance run passed. That is the owner's to make, not
+  something to infer from an absence of new reports.
+
+  The first push failed on **stylelint**, which wanted `inset-inline: 0 auto` in place of the two
+  longhands. It reached CI because `make lint` does not run stylelint — that is `make lint-css`, a
+  separate target — so the local gate had been five of the front-end workflow's nine steps. All
+  nine are run individually now.
+
+  **P5-FIX-18**, from the owner: a straight line across the rounded top of every header-less card,
+  and under it a second, doubled border where `adm-table-wrap` drew its own 1px inside the card's in
+  the same colour, with a 12px radius nested in a 16px one. Both gone; the corner is a single 1px
+  curve at 3× in both themes, and a card *with* a header keeps its separator. Thirty-five baselines
+  moved — six pages × two themes × three viewports — which is the honest blast radius of a rule
+  that applied to every card without a header, and every one of the thirty-five was a screenshot
+  diff, not a behaviour or accessibility failure.
