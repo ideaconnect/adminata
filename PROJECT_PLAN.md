@@ -391,7 +391,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     events; tolerant of missing targets); Vitest; Panther: collapse persists after reload.
   - Accept: tests green; `assets/js/__contract__/controllers.json` updated.
 
-- [ ] **P2-03 · `sonata-theme`, dark-mode toggle and pre-paint script** · M · depends: P2-01
+- [x] **P2-03 · `sonata-theme`, dark-mode toggle and pre-paint script** · M · depends: P2-01
   - Read: PLAN/01 C2; PLAN/04 §3; PLAN/05 §3 row 5, §8.
   - Do: controller (toggle `html.dark`, cookie, event), header button in
     `sonata_top_nav_menu_dark_mode`, the 3-line `system` pre-paint script under
@@ -724,13 +724,6 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   also surfaces 14 findings in inherited package code — `ProxyQuery`'s covariant template,
   `ModelFilter` and `SmartPaginatorFactory`'s unresolved `T`, `DoctrineORMQuerySourceIterator`,
   and four inherited test entities — each of which needs a decision rather than a baseline entry.
-- [ ] **B-14** Finish the `FormErrorIterator` generic. `skipCheckGenericClasses` removed the
-  deterministic failure — fifteen consecutive runs clean since — but one parallel run has still
-  reported it, so PHPStan can in principle still flake on an incremental analysis. The durable fix
-  is either upstream in PHPStan or a signature change to
-  `FormErrorIteratorToConstraintViolationList::transform()`, which handles only a flattened
-  iterator today and would raise a TypeError on the nested one its parameter type nominally
-  permits. That is a change to inherited public API and belongs in its own task.
 
 ---
 
@@ -1289,3 +1282,61 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2803 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
   (**56**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).
+
+- 2026-09-05 — **P2-03 done.** `sonata-theme` cycles light, dark, system; the header carries the
+  button in `sonata_top_nav_menu_dark_mode`; and the one inline script adminata ships resolves
+  `system` before the first paint. `ThemeRuntime` already decided the theme server-side from the
+  `sonata_theme` cookie, so the controller only handles the click: it repaints `<html>` and writes
+  the cookie the server reads next time. `system` stays in the cycle rather than disappearing once
+  a visitor touches the toggle — a browser that follows the OS at sunset should keep doing so.
+  Three new translation ids. Eight Vitest cases (**65 JS tests**) and two Panther ones: the cookie
+  is honoured before the first paint, and the page carries exactly one inline script.
+
+  Both new controllers had to learn that **Stimulus runs every `…ValueChanged` callback before
+  `connect()`**, with the *default* as the previous value rather than nothing — so neither the
+  arguments nor `connect()` can tell the initial call from a real one. An explicit flag does.
+  Without it, connecting rewrote the cookie and announced a theme change on every page load. The
+  same ordering means `window.matchMedia` has to be called in `initialize()`: a repaint triggered
+  by the initial callback runs before `connect()` would have created it.
+
+  Getting the Panther tests to run at all took four fixes, three of them real defects.
+
+  **The demo server was deadlocking.** `DemoServer` starts PHP's built-in server through Symfony's
+  `Process`, which buffers what the child writes; the server logs a line per request and nothing
+  ever drains those pipes, so once the operating system's 64 kB buffer filled — three or four page
+  loads, counting stylesheets, scripts and fonts — the server blocked on the write and answered
+  nothing more. What that looked like was a browser hanging on the third navigation of a run and a
+  WebDriver command timing out a minute later, which says nothing about the cause.
+  `disableOutput()` fixes it; `PHP_CLI_SERVER_WORKERS=8` went in beside it, because a single
+  threaded server and a browser that opens several connections is the next thing to go wrong.
+
+  **The browser suite was running in the `test` environment**, whose mock session storage keys the
+  session by name in a temp file instead of by a cookie — so on a real server every request after
+  the first arrived already authenticated, whoever sent it. There is now a `browser` environment
+  for a real HTTP server, and `packages_test.yaml` is BrowserKit-only.
+
+  **Panther opens a browser session per test and quits none of them.** `createPantherClient()`
+  reuses its client for Chrome and Firefox but not for Selenium: it overwrites
+  `self::$pantherClients[0]` and the old session leaks, so a class of five tests asks a node
+  configured for one session for five. The base case now keeps one session per class.
+
+  And the demo grew **a login form**, which PLAN/08 §2 lists and P2-10 would have added anyway.
+  `http_basic` is what BrowserKit and Playwright send, but the only way to hand credentials to a
+  real browser is `http://user:pass@host`, and Firefox puts a confirmation dialog in front of
+  repeating one. The firewall keeps both, with `http_basic` as the entry point so an
+  unauthenticated request still answers 401.
+
+  **B-14 is closed rather than carried.** The `FormErrorIterator` generic turned out to fail
+  *deterministically* in a single process and only intermittently across workers — the parallel
+  runs that looked clean were luck, and the result cache then replayed whichever answer it saw. No
+  annotation satisfies both resolutions: `iterable<FormError>&FormErrorIterator` is rejected
+  against `FormErrorIterator<FormError>`, and narrowing the element type is "always true" under one
+  resolution and "wrong type" under the other. What works is to drop the `@param` entirely — the
+  `skipCheckGenericClasses` entry already erases it — and narrow with a runtime `instanceof`, which
+  says the same thing to the reader, to PHPStan and to PHP. Ten consecutive runs clean, cold cache
+  and warm. It also removed a latent TypeError: an unflattened iterator yields child iterators, and
+  upstream handed those to a method typed for a `FormError`.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2805 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
+  (**65**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).

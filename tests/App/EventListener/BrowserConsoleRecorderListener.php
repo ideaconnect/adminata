@@ -36,8 +36,10 @@ final class BrowserConsoleRecorderListener
 {
     public const string PROPERTY = '__adminataConsole';
 
+    public const string MARKER = 'data-adminata-console-recorder';
+
     private const string SCRIPT = <<<'JS'
-        <script>
+        <script data-adminata-console-recorder>
         (function () {
             window.PROPERTY = [];
 

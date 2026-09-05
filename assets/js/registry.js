@@ -20,6 +20,7 @@ import PerPageController from './controllers/per_page_controller.js';
 import ReadmoreController from './controllers/readmore_controller.js';
 import RevisionController from './controllers/revision_controller.js';
 import StickyController from './controllers/sticky_controller.js';
+import ThemeController from './controllers/theme_controller.js';
 
 /**
  * Every controller is registered here by hand: no `stimulus-bridge`, no `require.context`, so the
@@ -41,6 +42,7 @@ export const controllers = {
     'sonata-readmore': ReadmoreController,
     'sonata-revision': RevisionController,
     'sonata-sticky': StickyController,
+    'sonata-theme': ThemeController,
 };
 
 /**

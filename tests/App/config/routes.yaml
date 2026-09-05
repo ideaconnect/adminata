@@ -1,3 +1,10 @@
+demo_app:
+    resource: '../Controller/'
+    type: attribute
+
+demo_logout:
+    path: /logout
+
 admin_area:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.php'
     prefix: /admin

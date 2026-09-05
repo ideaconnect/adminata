@@ -75,6 +75,20 @@ file that was distributed with this source code.
         #}
         {% block sonata_script_attributes %}{% endblock %}
 
+        {#
+            The only inline script adminata ships (PLAN/01 J4). `sonata_theme()` resolves the
+            cookie server-side, but `system` is a question only the browser can answer, and asking
+            it after the stylesheet has painted is a white flash on a dark desktop. Three lines,
+            before the first paint, under the same nonce block as every other script.
+        #}
+        {% if 'system' == _theme %}
+            <script {{ block('sonata_script_attributes') }}>
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark');
+                }
+            </script>
+        {% endif %}
+
         <title>
         {% block sonata_head_title %}
             {{ 'Admin'|trans({}, 'SonataAdminBundle') }}
@@ -210,11 +224,26 @@ file that was distributed with this source code.
 
                                 {% block sonata_top_nav_menu %}
                                     <ul class="ms-auto flex items-center gap-2">
-                                        {#
-                                            The dark-mode toggle. P2-03 fills it with the
-                                            `sonata-theme` controller and its button.
-                                        #}
-                                        {% block sonata_top_nav_menu_dark_mode %}{% endblock %}
+                                        {% block sonata_top_nav_menu_dark_mode %}
+                                            <li>
+                                                <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                                                        {{ stimulus_controller('sonata-theme', {
+                                                            theme: _theme,
+                                                            cookieName: 'sonata_theme',
+                                                            labels: {
+                                                                light: 'theme_light'|trans({}, 'SonataAdminBundle'),
+                                                                dark: 'theme_dark'|trans({}, 'SonataAdminBundle'),
+                                                                system: 'theme_system'|trans({}, 'SonataAdminBundle'),
+                                                            },
+                                                        }) }}
+                                                        {{ stimulus_action('sonata-theme', 'cycle', 'click') }}
+                                                >
+                                                    {# Both icons ship; the stylesheet shows the one the current theme calls for. #}
+                                                    <i class="fas fa-moon hidden dark:inline-block" aria-hidden="true"></i>
+                                                    <i class="fas fa-sun inline-block dark:hidden" aria-hidden="true"></i>
+                                                </button>
+                                            </li>
+                                        {% endblock %}
 
                                         {% block sonata_top_nav_menu_add_block %}
                                             {% set addBlock = include(get_global_template('add_block')) %}

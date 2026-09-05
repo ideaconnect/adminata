@@ -45,11 +45,14 @@ parameters:
             - Symfony\Component\Form\AbstractType
             - Symfony\Component\Form\FormBuilderInterface
             # `@template T of FormError|FormErrorIterator` names the class in its own bound, and
-            # PHPStan resolves that recursion inconsistently. In CRUDController it infers exactly
-            # the `FormErrorIterator<FormError>` that FormErrorIteratorToConstraintViolationList
-            # asks for, then rejects it against the same bound rendered as
-            # `iterable<FormError>&FormErrorIterator`. Not in the upstream list because upstream's
-            # pinned PHPStan did not reach that resolution.
+            # PHPStan resolves that recursion inconsistently: the type it infers for
+            # `FormInterface::getErrors()` and the type it renders for a parameter declared
+            # `FormErrorIterator<FormError>` are the same set written two ways, and it rejects one
+            # against the other — always in a single process, intermittently across workers, and
+            # then from the result cache for ever after. Erasing the class's generics is what makes
+            # the analysis agree with itself; `FormErrorIteratorToConstraintViolationList` narrows
+            # the element type with an `instanceof` instead. Not in the upstream list because
+            # upstream's pinned PHPStan did not reach that resolution.
             - Symfony\Component\Form\FormErrorIterator
             - Symfony\Component\Form\FormInterface
             - Symfony\Component\Form\FormTypeExtensionInterface

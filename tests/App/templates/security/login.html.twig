@@ -1,0 +1,38 @@
+{#
+    The demo's login page. Deliberately plain: P2-10 puts an application's login on the admin
+    layout with `logo` and `sonata_nav` emptied (PLAN/01 T9), and this is what it will replace.
+#}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ 'Admin'|trans({}, 'SonataAdminBundle') }} — sign in</title>
+        {% for stylesheet in sonata_config.getOption('stylesheets', []) %}
+            <link rel="stylesheet" href="{{ asset(stylesheet.path, stylesheet.package_name) }}">
+        {% endfor %}
+    </head>
+    <body class="adm-shell">
+        <main class="adm-content" style="max-width: 24rem">
+            <form method="post" action="{{ path('demo_login') }}" class="adm-card">
+                <div class="adm-card-body">
+                    <h1 class="adm-card-title">{{ sonata_config.title }}</h1>
+
+                    {% if error %}
+                        <p class="adm-alert adm-alert-error">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                    {% endif %}
+
+                    <label class="adm-label" for="username">Username</label>
+                    <input class="adm-input" type="text" id="username" name="_username" value="{{ last_username }}" autocomplete="username" required autofocus>
+
+                    <label class="adm-label" for="password">Password</label>
+                    <input class="adm-input" type="password" id="password" name="_password" autocomplete="current-password" required>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <button class="adm-btn adm-btn-primary" type="submit">Sign in</button>
+                </div>
+            </form>
+        </main>
+    </body>
+</html>

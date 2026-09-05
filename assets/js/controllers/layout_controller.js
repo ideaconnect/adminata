@@ -48,8 +48,17 @@ export default class extends Controller {
         cookieName: { type: String, default: 'sonata_sidebar_hide' },
     };
 
-    connect() {
+    // Not `connect()`: Stimulus runs every `…ValueChanged` callback before it, and those repaint.
+    initialize() {
         this.query = window.matchMedia(`(min-width: ${this.breakpointValue}px)`);
+
+        // Stimulus runs every `…ValueChanged` callback before `connect()`, with the *default* as
+        // the previous value rather than nothing, so there is no way to tell the initial call from
+        // a real one by its arguments alone.
+        this.connected = false;
+    }
+
+    connect() {
         // `event.matches` rather than `query.matches`: the event carries the state the change is
         // announcing, and reading it back off the list is a race with whatever else is resizing.
         this.onBreakpointChange = (event) => {
@@ -62,6 +71,7 @@ export default class extends Controller {
 
         this.query.addEventListener('change', this.onBreakpointChange);
         this.render();
+        this.connected = true;
     }
 
     disconnect() {
@@ -98,24 +108,41 @@ export default class extends Controller {
         this.headerMenuOpenValue = !this.headerMenuOpenValue;
     }
 
+    /**
+     * The state the server rendered is not a change: rewriting the cookie and announcing it on
+     * every page load would make both meaningless.
+     */
     collapsedValueChanged() {
         this.render();
+
+        if (!this.connected) {
+            return;
+        }
+
         this.writeCookie();
-        this.dispatch('sidebar-changed', {
-            detail: { collapsed: this.collapsedValue, mobileOpen: this.mobileOpenValue },
-        });
+        this.announceSidebar();
     }
 
     mobileOpenValueChanged() {
         this.render();
-        this.dispatch('sidebar-changed', {
-            detail: { collapsed: this.collapsedValue, mobileOpen: this.mobileOpenValue },
-        });
+
+        if (this.connected) {
+            this.announceSidebar();
+        }
     }
 
     headerMenuOpenValueChanged() {
         this.render();
-        this.dispatch('header-menu-changed', { detail: { open: this.headerMenuOpenValue } });
+
+        if (this.connected) {
+            this.dispatch('header-menu-changed', { detail: { open: this.headerMenuOpenValue } });
+        }
+    }
+
+    announceSidebar() {
+        this.dispatch('sidebar-changed', {
+            detail: { collapsed: this.collapsedValue, mobileOpen: this.mobileOpenValue },
+        });
     }
 
     render() {

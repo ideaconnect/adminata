@@ -31,6 +31,8 @@ return static function (ContainerConfigurator $container): void {
         ->load('Adminata\\Tests\\App\\EventListener\\', dirname(__DIR__).'/EventListener')
             ->exclude(dirname(__DIR__).'/EventListener/BrowserConsoleRecorderListener.php')
         ->load('Adminata\\Tests\\App\\Form\\', dirname(__DIR__).'/Form')
+        ->load('Adminata\\Tests\\App\\Controller\\', dirname(__DIR__).'/Controller')
+            ->tag('controller.service_arguments')
 
         ->set(ProductAdmin::class)
             ->tag('sonata.admin', [
@@ -52,8 +54,9 @@ return static function (ContainerConfigurator $container): void {
             ]);
 
     // Only where a browser test reads it back: it rewrites every HTML response, and `make demo`
-    // has no reason to carry that.
-    if ('test' === $container->env()) {
+    // has no reason to carry that. `browser` is the environment DemoServer runs a real HTTP server
+    // in; `test` is BrowserKit, in process.
+    if (in_array($container->env(), ['test', 'browser'], true)) {
         $container->services()
             ->defaults()
                 ->autowire()
