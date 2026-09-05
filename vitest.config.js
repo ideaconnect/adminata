@@ -23,5 +23,9 @@ export default defineConfig({
         setupFiles: ['assets/js/__tests__/setup.js'],
         include: ['assets/js/**/*.test.js'],
         restoreMocks: true,
+        // The suites mount the markup the demo actually renders, and the product list is a
+        // quarter of a megabyte of it. Five seconds is Vitest's default and is enough here but
+        // not on a shared CI runner, where the same file takes three times as long.
+        testTimeout: 20_000,
     },
 });
