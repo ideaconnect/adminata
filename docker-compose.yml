@@ -21,3 +21,19 @@ services:
             retries: 20
         tmpfs:
             - /var/lib/mysql
+
+    # The browser the Panther suite drives (PLAN/08 §3). Start it and export
+    # PANTHER_SELENIUM_HOST=http://127.0.0.1:4444 to run `make test-functional` against it instead
+    # of a geckodriver on this machine.
+    #
+    # `host.docker.internal` is how the browser reaches the demo application, which
+    # Adminata\Tests\Support\DemoServer serves from the host: the container has no PHP, and the
+    # demo needs the database and the installed bundle assets that are already here.
+    selenium:
+        image: selenium/standalone-firefox:latest
+        shm_size: 2gb
+        ports:
+            - '4444:4444'
+            - '7900:7900'
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'

@@ -103,6 +103,9 @@ make services-up                  # the MySQL the suites and the demo run on
 make lint phpstan rector test     # PHP gates
 make lint-js test-js assets-build # JavaScript and CSS gates
 make test-visual                  # screenshots, axe and html-validate (needs Docker)
+make test-functional              # BrowserKit and Panther against the demo
+                                  # (needs a geckodriver, or `docker compose up -d selenium`
+                                  #  plus PANTHER_SELENIUM_HOST=http://127.0.0.1:4444)
 make demo                         # http://127.0.0.1:8000/admin — user "admin", password "admin"
 ```
 

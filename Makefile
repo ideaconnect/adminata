@@ -144,7 +144,9 @@ test-unit: ## adminata's unit suite
 	$(PHPUNIT) --testsuite adminata-unit
 .PHONY: test-unit
 
-test-functional: ## adminata's functional suite (needs a browser or PANTHER_SELENIUM_HOST)
+test-functional: demo-db ## adminata's functional suite, BrowserKit and Panther
+	@# The Panther half needs a browser. Either a geckodriver on this machine, or
+	@# `docker compose up -d selenium` plus PANTHER_SELENIUM_HOST=http://127.0.0.1:4444.
 	$(PHPUNIT) --testsuite adminata-functional
 .PHONY: test-functional
 

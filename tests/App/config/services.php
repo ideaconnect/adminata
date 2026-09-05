@@ -18,6 +18,7 @@ use Adminata\Tests\App\Admin\CategoryAdmin;
 use Adminata\Tests\App\Admin\ProductAdmin;
 use Adminata\Tests\App\Entity\Category;
 use Adminata\Tests\App\Entity\Product;
+use Adminata\Tests\App\EventListener\BrowserConsoleRecorderListener;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $container): void {
@@ -28,6 +29,7 @@ return static function (ContainerConfigurator $container): void {
 
         ->load('Adminata\\Tests\\App\\DataFixtures\\', dirname(__DIR__).'/DataFixtures')
         ->load('Adminata\\Tests\\App\\EventListener\\', dirname(__DIR__).'/EventListener')
+            ->exclude(dirname(__DIR__).'/EventListener/BrowserConsoleRecorderListener.php')
         ->load('Adminata\\Tests\\App\\Form\\', dirname(__DIR__).'/Form')
 
         ->set(ProductAdmin::class)
@@ -48,4 +50,14 @@ return static function (ContainerConfigurator $container): void {
                 'group' => 'Taxonomy',
                 'icon' => '<i class="fa-solid fa-tags"></i>',
             ]);
+
+    // Only where a browser test reads it back: it rewrites every HTML response, and `make demo`
+    // has no reason to carry that.
+    if ('test' === $container->env()) {
+        $container->services()
+            ->defaults()
+                ->autowire()
+                ->autoconfigure()
+            ->set(BrowserConsoleRecorderListener::class);
+    }
 };
