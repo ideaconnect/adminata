@@ -13,34 +13,14 @@
 import { describe, expect, it } from 'vitest';
 
 import BatchController from '../controllers/batch_controller.js';
-import { mount, settle } from './helpers.js';
+import { fixture, mount, settle } from './helpers.js';
 
-const LIST = `
-    <form data-controller="sonata-batch">
-        <table>
-            <thead>
-                <tr>
-                    <th>
-                        <input type="checkbox" id="list_batch_checkbox"
-                               data-sonata-batch-target="all"
-                               data-action="change->sonata-batch#toggleAll">
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                ${[1, 2, 3, 4, 5]
-                    .map(
-                        (i) => `<tr id="row-${i}"><td class="sonata-ba-list-field-batch">
-                            <input type="checkbox" name="idx[]" value="${i}"
-                                   data-sonata-batch-target="row"
-                                   data-action="click->sonata-batch#toggleRow">
-                        </td></tr>`,
-                    )
-                    .join('')}
-            </tbody>
-        </table>
-    </form>
-`;
+/*
+ * What the demo's product list actually renders (PLAN/05 §9). The fixture is dumped by
+ * `JsFixtureDumperTest`, so a template that renames `data-sonata-batch-target` or drops the
+ * action fails here instead of in a browser.
+ */
+const LIST = fixture('product-list', 'form[action*="batch"]');
 
 const rows = (element) => [...element.querySelectorAll('[data-sonata-batch-target="row"]')];
 const all = (element) => element.querySelector('#list_batch_checkbox');
@@ -49,6 +29,10 @@ const selected = (element) =>
     [...element.querySelectorAll('tbody tr')].map((row) =>
         row.classList.contains('sonata-ba-list-row-selected'),
     );
+
+/** The indices of the rows a predicate holds for, which is what the assertions compare. */
+const indices = (values) => values.flatMap((value, index) => (value ? [index] : []));
+const every = (element, value) => rows(element).map(() => value);
 
 /**
  * A click that the browser would deliver with the shift key down.
@@ -67,15 +51,15 @@ describe('sonata-batch', () => {
         all(element).dispatchEvent(new Event('change', { bubbles: true }));
         await settle();
 
-        expect(checked(element)).toEqual([true, true, true, true, true]);
-        expect(selected(element)).toEqual([true, true, true, true, true]);
+        expect(checked(element)).toEqual(every(element, true));
+        expect(selected(element)).toEqual(every(element, true));
 
         all(element).checked = false;
         all(element).dispatchEvent(new Event('change', { bubbles: true }));
         await settle();
 
-        expect(checked(element)).toEqual([false, false, false, false, false]);
-        expect(selected(element)).toEqual([false, false, false, false, false]);
+        expect(checked(element)).toEqual(every(element, false));
+        expect(selected(element)).toEqual(every(element, false));
     });
 
     it('shows the header as indeterminate while only some rows are selected', async () => {
@@ -104,7 +88,7 @@ describe('sonata-batch', () => {
         rows(element)[2].click();
         await settle();
 
-        expect(selected(element)).toEqual([false, false, true, false, false]);
+        expect(indices(selected(element))).toEqual([2]);
     });
 
     it('extends the selection downwards with shift', async () => {
@@ -115,7 +99,7 @@ describe('sonata-batch', () => {
         shiftClick(rows(element)[3]);
         await settle();
 
-        expect(checked(element)).toEqual([false, true, true, true, false]);
+        expect(indices(checked(element))).toEqual([1, 2, 3]);
     });
 
     /** Upstream's condition read `indexedDB > currentIndex`, so this direction never worked. */
@@ -127,7 +111,7 @@ describe('sonata-batch', () => {
         shiftClick(rows(element)[1]);
         await settle();
 
-        expect(checked(element)).toEqual([false, true, true, true, false]);
+        expect(indices(checked(element))).toEqual([1, 2, 3]);
     });
 
     it('clears a range with shift when the anchor is being cleared', async () => {
@@ -142,7 +126,7 @@ describe('sonata-batch', () => {
         shiftClick(rows(element)[3]);
         await settle();
 
-        expect(checked(element)).toEqual([true, false, false, false, true]);
+        expect(indices(checked(element).slice(0, 5))).toEqual([0, 4]);
     });
 
     it('runs on a list with no header checkbox', async () => {
@@ -155,6 +139,6 @@ describe('sonata-batch', () => {
         rows(element)[0].click();
         await settle();
 
-        expect(checked(element)).toEqual([true, false, false, false, false]);
+        expect(indices(checked(element))).toEqual([0]);
     });
 });

@@ -1,0 +1,811 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="no-js" data-theme="system">
+    <head>
+                    <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <meta name="sonata-config" content='{"CONFIRM_EXIT":true,"USE_STICKYFORMS":true,"DEBUG":false}'
+        >
+        <meta name="sonata-translations" content='{"CONFIRM_EXIT":"You have unsaved changes."}'
+        >
+
+                                    <link rel="stylesheet" href="/bundles/sonataadmin/fontawesome.css?v=fixture">
+                            <link rel="stylesheet" href="/bundles/sonataadmin/app.css?v=fixture">
+                    
+                                
+                                                <script src="/bundles/sonataadmin/app.js?v=fixture" defer ></script>
+                                    
+                
+                            <script >
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark');
+                }
+            </script>
+                <title>Admin - Category List</title>
+    </head>
+    <body
+            class="adm-shell"
+                data-sidebar="expanded"
+                data-sidebar-mobile="closed"
+                data-controller="sonata-layout sonata-sticky" data-sonata-layout-collapsed-value="false" data-sonata-layout-mobile-open-value="false" data-sonata-layout-header-menu-open-value="false" data-sonata-layout-breakpoint-value="1024" data-sonata-layout-cookie-name-value="sonata_sidebar_hide">
+
+                <a class="adm-skip-link" href="#sonata-content">Skip to the content</a>
+
+                                    <aside class="adm-sidebar main-sidebar" data-sonata-layout-target="sidebar">
+                    <div class="adm-sidebar-header">
+                                                    <a class="logo flex items-center gap-3" href="/admin/dashboard">
+                                                                    <img class="h-8 w-auto" src="/bundles/sonataadmin/images/logo_title.png" alt="adminata demo">
+                                                                                                    <span class="menu-item-text text-lg font-semibold text-gray-800 dark:text-white/90">adminata demo</span>
+                                                            </a>
+                                            </div>
+
+                    <div class="adm-sidebar-nav no-scrollbar">
+                                                                                
+                                                                                         <nav aria-label="Sections" data-controller="sonata-menu">
+                <ul class="sidebar-menu">
+            <li class="sidebar-section-header"><div class="adm-menu-group-title">Shop</div></li>
+    <li><button type="button"
+            class="menu-item menu-item-inactive"
+            aria-expanded="false"
+                        data-sonata-menu-target="toggle"
+            data-action="click->sonata-menu#toggle"
+    ><i class="fa-solid fa-box"></i><span class="menu-item-text">Catalogue</span>
+        <i class="fas fa-angle-down menu-item-arrow ms-auto" aria-hidden="true"></i>
+    </button>
+        <ul class="menu-dropdown menu_level_1">
+            <li><a href="/admin/tests/app/product/list"
+       class="menu-dropdown-item menu-dropdown-item-inactive"
+           ><span class="menu-item-text">Products</span>
+    </a>
+</li>
+    <li><a href="/admin/tests/app/productvariant/list"
+       class="menu-dropdown-item menu-dropdown-item-inactive"
+           ><span class="menu-item-text">Variants</span>
+    </a>
+</li>
+
+    </ul>
+</li>
+    <li class="active"><button type="button"
+            class="menu-item menu-item-active"
+            aria-expanded="true"
+                        data-sonata-menu-target="toggle"
+            data-action="click->sonata-menu#toggle"
+    ><i class="fa-solid fa-tags"></i><span class="menu-item-text">Taxonomy</span>
+        <i class="fas fa-angle-down menu-item-arrow ms-auto" aria-hidden="true"></i>
+    </button>
+        <ul class="menu-dropdown menu_level_1">
+            <li class="active"><a href="/admin/tests/app/category/list"
+       class="menu-dropdown-item menu-dropdown-item-active"
+       aria-current="page"    ><span class="menu-item-text">Categories</span>
+    </a>
+</li>
+    <li><a href="/admin/tests/app/tag/list"
+       class="menu-dropdown-item menu-dropdown-item-inactive"
+           ><span class="menu-item-text">Tags</span>
+    </a>
+</li>
+
+    </ul>
+</li>
+    <li><a href="/admin/dashboard"
+       class="menu-item menu-item-inactive"
+           ><i class="fa-solid fa-gear"></i><span class="menu-item-text">Settings</span>
+    </a>
+</li>
+
+    </ul>
+</nav>
+
+                                                                                                                                                                                                                            </div>
+                </aside>
+            
+                                        <div class="adm-overlay lg:hidden" hidden
+                     data-sonata-layout-target="overlay"
+                     data-action="click->sonata-layout#closeSidebar"
+                ></div>
+            
+            <div class="adm-main" data-sonata-layout-target="content">
+                                                        
+                                            <header class="adm-header main-header" data-sonata-sticky-target="topNavbar">
+                                                            <noscript>
+                                    <div class="noscript-warning adm-alert adm-alert-warning">
+                                        Javascript is disabled in your web browser. Some features will not work properly.
+                                    </div>
+                                </noscript>
+                            
+                                                                                    <button type="button" class="sidebar-toggle adm-btn-icon adm-btn-icon-round lg:hidden"
+                                        title="Toggle Navigation"
+                                        aria-label="Toggle Navigation"
+                                        aria-expanded="false"
+                                        data-sonata-layout-target="toggle"
+                                        data-action="click->sonata-layout#toggleSidebar"
+                                >
+                                    <i class="fas fa-bars" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="sidebar-toggle adm-btn-icon adm-btn-icon-round hidden lg:inline-flex"
+                                        title="Toggle Navigation"
+                                        aria-label="Toggle Navigation"
+                                        aria-expanded="true"
+                                        data-sonata-layout-target="collapseOnly"
+                                        data-action="click->sonata-layout#toggleCollapsed"
+                                >
+                                    <i class="fas fa-bars" aria-hidden="true"></i>
+                                </button>
+
+                                                                                                                                            <form action="/admin/search" method="GET" role="search" class="hidden lg:block">
+                                            <label class="sr-only" for="sonata-search-input">Search</label>
+                                            <input type="search" id="sonata-search-input" name="q"
+                                                   value=""
+                                                   class="adm-input xl:w-[430px]"
+                                                   placeholder="Search">
+                                                                                        <button type="submit" class="sr-only">Search</button>
+                                        </form>
+                                                                    
+                                                                    <ul class="ms-auto flex items-center gap-2">
+                                                                                    <li>
+                                                <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                                                        data-controller="sonata-theme" data-sonata-theme-theme-value="system" data-sonata-theme-cookie-name-value="sonata_theme" data-sonata-theme-labels-value="{&quot;light&quot;:&quot;Switch to the light theme&quot;,&quot;dark&quot;:&quot;Switch to the dark theme&quot;,&quot;system&quot;:&quot;Follow the system theme&quot;}"
+                                                        data-action="click->sonata-theme#cycle"
+                                                >
+                                                                                                        <i class="fas fa-moon hidden dark:inline-block" aria-hidden="true"></i>
+                                                    <i class="fas fa-sun inline-block dark:hidden" aria-hidden="true"></i>
+                                                </button>
+                                            </li>
+                                        
+                                                                                                                                    <li class="adm-dropdown"
+                                                    data-controller="sonata-dropdown"
+                                                    data-action="keydown.esc->sonata-dropdown#closeAndFocus keydown->sonata-dropdown#navigate"
+                                                >
+                                                    <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                                                            aria-expanded="false"
+                                                            aria-haspopup="menu"
+                                                            aria-label="Add new"
+                                                            data-sonata-dropdown-target="toggle"
+                                                            data-action="click->sonata-dropdown#toggle"
+                                                    >
+                                                        <i class="fas fa-plus" aria-hidden="true"></i>
+                                                    </button>
+                                                    
+
+
+    <div class="adm-dropdown__menu dropdown-add" role="menu" hidden data-sonata-dropdown-target="menu"><div class="grid gap-4 grid-cols-1">
+                            <ul role="none">
+                                            <li role="none">
+                            <p class="flex items-center gap-2 px-3 py-2 text-theme-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                <i class="fa-solid fa-box"></i>
+                                                                                                                                        Catalogue
+                                                            </p>
+
+                            <ul role="none">
+                                                                                                                                                        <li role="none">
+                                                <a class="adm-dropdown__item" role="menuitem" href="/admin/tests/app/product/create">
+                                                                                                            Products
+                                                                                                    </a>
+                                            </li>
+                                                                                                                                                                                                            </ul>
+                        </li>
+                                            <li role="none">
+                            <p class="flex items-center gap-2 px-3 py-2 text-theme-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                <i class="fa-solid fa-tags"></i>
+                                                                                                                                        Taxonomy
+                                                            </p>
+
+                            <ul role="none">
+                                                                                                                                                        <li role="none">
+                                                <a class="adm-dropdown__item" role="menuitem" href="/admin/tests/app/category/create">
+                                                                                                            Categories
+                                                                                                    </a>
+                                            </li>
+                                                                                                                                                                                                                                    <li role="none">
+                                                <a class="adm-dropdown__item" role="menuitem" href="/admin/tests/app/tag/create">
+                                                                                                            Tags
+                                                                                                    </a>
+                                            </li>
+                                                                                                                                        </ul>
+                        </li>
+                                    </ul>
+                    </div>
+    </div>
+
+                                                </li>
+                                                                                    
+                                                                                                                                                                                    <li class="adm-dropdown user-menu"
+                                                    data-controller="sonata-dropdown"
+                                                    data-action="keydown.esc->sonata-dropdown#closeAndFocus keydown->sonata-dropdown#navigate"
+                                                >
+                                                    <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                                                            aria-expanded="false"
+                                                            aria-label="admin"
+                                                            data-sonata-dropdown-target="toggle"
+                                                            data-action="click->sonata-dropdown#toggle"
+                                                    >
+                                                        <span aria-hidden="true">AD</span>
+                                                    </button>
+                                                    <div class="adm-dropdown__menu" hidden data-sonata-dropdown-target="menu">
+                                                        <p class="px-3 py-2 text-theme-sm font-medium text-gray-700 dark:text-gray-300">admin</p>
+                                                        <ul class="dropdown-user">
+                                                            
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                                                                                        </ul>
+                                                                            
+                        </header>
+                                    
+                <main class="content-wrapper" id="sonata-content">
+                                            <div class="adm-content">
+                                                        
+                                                            <div class="content-header mb-6 flex flex-col gap-2">                                                                                                            <nav aria-label="Breadcrumb">
+                                            <ol class="adm-breadcrumb breadcrumb">
+                                                                                                                                                                    <li>
+                            <a href="/admin/dashboard">
+                    <i class="fa fa-home" aria-hidden="true"></i><span class="sr-only">Dashboard</span>                </a>
+                    </li>
+            <li class="active"><span>Category List</span></li>
+    
+                                                                                                                                                </ol>
+                                        </nav>
+                                                                    
+                                                                                                                                                        <div class="adm-page-header mb-0" data-sonata-sticky-target="navbar">
+                                                                                                                                                    
+                                                <div class="flex flex-wrap items-center gap-2">
+                                                    
+                                                    
+
+    <div class="flex items-center gap-0.5 rounded-lg bg-gray-100 p-0.5 dark:bg-gray-900"
+         role="group"
+         aria-label="View mode"
+    >
+                                <a href="/admin/tests/app/category/list?filter%5Bproducts%5D%5Bvalue%5D=1&amp;_list_mode=list"
+               class="rounded-md px-3 py-2 text-theme-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 active bg-white text-gray-900 shadow-theme-xs dark:bg-gray-800 dark:text-white"
+               aria-current="true"            >
+                                                    <i class="fas fa-list fa-fw" aria-hidden="true"></i>
+                <span class="sr-only">List</span>
+            </a>
+                                <a href="/admin/tests/app/category/list?filter%5Bproducts%5D%5Bvalue%5D=1&amp;_list_mode=mosaic"
+               class="rounded-md px-3 py-2 text-theme-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                           >
+                                                    <i class="fas fa-th-large fa-fw" aria-hidden="true"></i>
+                <span class="sr-only">Mosaic</span>
+            </a>
+            </div>
+
+                                                                                                                                                                                                                            <ul class="sonata-actions flex flex-wrap items-center gap-2">
+                                                                <li>
+            <a class="adm-btn adm-btn-secondary adm-btn-sm sonata-action-element" href="/admin/tests/app/category/create">
+                <i class="fas fa-circle-plus" aria-hidden="true"></i>
+                Add new
+            </a>
+        </li>
+                                                            </ul>
+                                                                                                            
+                                                                                                            <div class="adm-dropdown sonata-actions" id="filter-list-sfixture00000"
+             data-controller="sonata-filter-list sonata-dropdown" data-sonata-filter-list-active-class="active" data-sonata-filter-list-sonata-filter-outlet="#filter-container-sfixture00000"
+             data-action="keydown.esc->sonata-dropdown#closeAndFocus"
+        >
+            <button type="button" class="adm-btn adm-btn-secondary adm-btn-sm sonata-ba-action"
+                    aria-expanded="false"
+                    data-sonata-dropdown-target="toggle"
+                    data-action="click->sonata-dropdown#toggle"
+            >
+                <i class="fas fa-filter" aria-hidden="true"></i>
+                Filters
+                <span class="adm-badge adm-badge-brand" data-sonata-filter-list-target="counter"></span>
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+            </button>
+
+            <ul class="adm-dropdown__menu max-h-[75vh] overflow-y-auto" hidden data-sonata-dropdown-target="menu">
+                                                                            <li>
+                        <button type="button"
+                                class="adm-dropdown__item sonata-toggle-filter sonata-ba-action"
+                                aria-pressed="false"
+                                data-filter="filter-sfixture00000-name"
+                                data-sonata-filter-list-target="field"
+                                data-action="click->sonata-filter-list#toggle:prevent:stop"
+                        >
+                                                                                                Name
+                                                                                    </button>
+                    </li>
+                                                                            <li>
+                        <button type="button"
+                                class="adm-dropdown__item sonata-toggle-filter sonata-ba-action"
+                                aria-pressed="false"
+                                data-filter="filter-sfixture00000-active"
+                                data-sonata-filter-list-target="field"
+                                data-action="click->sonata-filter-list#toggle:prevent:stop"
+                        >
+                                                                                                Active
+                                                                                    </button>
+                    </li>
+                                                                            <li>
+                        <button type="button"
+                                class="adm-dropdown__item sonata-toggle-filter sonata-ba-action"
+                                aria-pressed="false"
+                                data-filter="filter-sfixture00000-createdAt"
+                                data-sonata-filter-list-target="field"
+                                data-action="click->sonata-filter-list#toggle:prevent:stop"
+                        >
+                                                                                                Created At
+                                                                                    </button>
+                    </li>
+                                                                            <li>
+                        <button type="button"
+                                class="adm-dropdown__item sonata-toggle-filter sonata-ba-action active"
+                                aria-pressed="true"
+                                data-filter="filter-sfixture00000-products"
+                                data-sonata-filter-list-target="field"
+                                data-action="click->sonata-filter-list#toggle:prevent:stop"
+                        >
+                                                                                                Products
+                                                                                    </button>
+                    </li>
+                            </ul>
+        </div>
+                                                                                                    </div>
+                                            </div>
+                                                                                                                                        </div>
+                            
+                            <div class="content">
+                                
+                                                                            
+
+
+                
+                    
+                    
+                                        
+                                    
+                                    
+                                    
+                                    
+                                                                            <div class="grid grid-cols-12 gap-4 md:gap-6">
+                                            <div class="col-span-12 sonata-filters-box"
+             id="filter-container-sfixture00000" data-controller="sonata-filter" data-sonata-filter-default-values-value="{&quot;_page&quot;:1,&quot;_per_page&quot;:25}" data-sonata-filter-sonata-filter-list-outlet="#filter-list-sfixture00000" >
+            <div class="adm-card">
+                <div class="adm-card-body">
+                    <form
+                        class="sonata-filter-form "
+                        action="/admin/tests/app/category/list"
+                        method="GET"aria-label="Filters"
+                        data-sonata-filter-target="form"
+                        data-action="submit->sonata-filter#prepareSubmit">
+                        
+
+                        <div class="flex flex-col gap-3">
+                                                                                                                                                                                                                                                                                        <div class="grid grid-cols-12 items-center gap-3 " id="filter-sfixture00000-name" data-sonata-filter-target="group" hidden>
+                                                                                                                        <label for="filter_name_value" class="adm-label col-span-12 mb-0 md:col-span-3">
+                                                                                    Name
+                                        </label>
+                                                                                                            <div class="advanced-filter col-span-12 md:col-span-3" data-sonata-filter-target="advanced" hidden>
+                                                <select id="filter_name_type" name="filter[name][type]" class="adm-select"><option value=""></option><option value="1">contains</option><option value="2">does not contain</option><option value="3">is equal to</option><option value="4">starts with</option><option value="5">ends with</option><option value="6">is not equal to</option></select>
+
+                                    </div>
+
+                                    <div class="col-span-11 md:col-span-5">
+                                                    <input type="text" id="filter_name_value" name="filter[name][value]" class="adm-input" />
+
+                                    </div>
+
+                                                                            <div class="col-span-1">
+                                            <button type="button" class="adm-btn-icon sonata-ba-action"
+                                                    aria-label="Reset"
+                                                    data-action="click->sonata-filter#hideFilter" data-sonata-filter-id-param="filter-sfixture00000-name"
+                                            >
+                                                <i class="fas fa-circle-minus" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                                                    </div>
+
+                                                                                                                                                                                                                                                                                                                                                                                                <div class="grid grid-cols-12 items-center gap-3 " id="filter-sfixture00000-active" data-sonata-filter-target="group" hidden>
+                                                                                                                        <label for="filter_active_value" class="adm-label col-span-12 mb-0 md:col-span-3">
+                                                                                    Active
+                                        </label>
+                                                                                                            <div class="advanced-filter col-span-12 md:col-span-3" data-sonata-filter-target="advanced" hidden>
+                                                    <input type="hidden" id="filter_active_type" name="filter[active][type]" class="" />
+
+                                    </div>
+
+                                    <div class="col-span-11 md:col-span-5">
+                                                <select id="filter_active_value" name="filter[active][value]" class="adm-select"><option value=""></option><option value="1">yes</option><option value="2">no</option></select>
+
+                                    </div>
+
+                                                                            <div class="col-span-1">
+                                            <button type="button" class="adm-btn-icon sonata-ba-action"
+                                                    aria-label="Reset"
+                                                    data-action="click->sonata-filter#hideFilter" data-sonata-filter-id-param="filter-sfixture00000-active"
+                                            >
+                                                <i class="fas fa-circle-minus" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                                                    </div>
+
+                                                                                                                                                                                                                                                                                                                                                                                                <div class="grid grid-cols-12 items-center gap-3 " id="filter-sfixture00000-createdAt" data-sonata-filter-target="group" hidden>
+                                                                                                                        <label for="filter_createdAt_value" class="adm-label col-span-12 mb-0 md:col-span-3">
+                                                                                    Created At
+                                        </label>
+                                                                                                            <div class="advanced-filter col-span-12 md:col-span-3" data-sonata-filter-target="advanced" hidden>
+                                                <select id="filter_createdAt_type" name="filter[createdAt][type]" class="adm-select"><option value=""></option><option value="3">=</option><option value="1">&gt;=</option><option value="2">&gt;</option><option value="4">&lt;=</option><option value="5">&lt;</option></select>
+
+                                    </div>
+
+                                    <div class="col-span-11 md:col-span-5">
+                                                    <input type="datetime-local" id="filter_createdAt_value" name="filter[createdAt][value]" class="adm-input" />
+
+                                    </div>
+
+                                                                            <div class="col-span-1">
+                                            <button type="button" class="adm-btn-icon sonata-ba-action"
+                                                    aria-label="Reset"
+                                                    data-action="click->sonata-filter#hideFilter" data-sonata-filter-id-param="filter-sfixture00000-createdAt"
+                                            >
+                                                <i class="fas fa-circle-minus" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                                                    </div>
+
+                                                                                                                                                                                                                                                                                                                                                                                                <div class="grid grid-cols-12 items-center gap-3 " id="filter-sfixture00000-products" data-sonata-filter-target="group" >
+                                                                                                                        <label for="filter_products_value_autocomplete_input" class="adm-label col-span-12 mb-0 md:col-span-3">
+                                                                                    Products
+                                        </label>
+                                                                                                            <div class="advanced-filter col-span-12 md:col-span-3" data-sonata-filter-target="advanced" hidden>
+                                                <select id="filter_products_type" name="filter[products][type]" class="adm-select"><option value=""></option><option value="1">is equal to</option><option value="2">is not equal to</option></select>
+
+                                    </div>
+
+                                    <div class="col-span-11 md:col-span-5">
+                                            <div class="adm-combobox "
+     data-controller="sonata-autocomplete"
+     data-sonata-autocomplete-url-value="/admin/core/get-autocomplete-items"
+     data-sonata-autocomplete-request-parameters-value="{&quot;_sonata_admin&quot;:&quot;Adminata\\Tests\\App\\Admin\\CategoryAdmin&quot;,&quot;field&quot;:&quot;products&quot;,&quot;_context&quot;:&quot;filter&quot;}"
+     data-sonata-autocomplete-search-parameter-value="q"
+     data-sonata-autocomplete-page-parameter-value="_page"
+     data-sonata-autocomplete-per-page-parameter-value="_per_page"
+     data-sonata-autocomplete-min-length-value="2"
+     data-sonata-autocomplete-per-page-value="5"
+          data-sonata-autocomplete-delay-value="100"
+     data-sonata-autocomplete-multiple-value="false"
+     data-sonata-autocomplete-name-value="filter[products][value]"
+     data-sonata-autocomplete-safe-label-value="false"
+     data-sonata-autocomplete-disabled-value="false"
+     data-sonata-autocomplete-selected-value="[{&quot;id&quot;:&quot;1&quot;,&quot;label&quot;:&quot;Product 01&quot;}]"
+     data-sonata-autocomplete-min-length-text-value="Type %count% or more characters to search"
+     data-sonata-autocomplete-no-results-text-value="no result found"
+     data-sonata-autocomplete-loading-text-value="Loading information…"
+     data-sonata-autocomplete-more-text-value="Load more results"
+     data-sonata-autocomplete-remove-text-value="Remove"
+><input type="text" id="filter_products_value_autocomplete_input" class="adm-input "
+           role="combobox"
+           aria-autocomplete="list"
+           aria-expanded="false"
+           aria-controls="filter_products_value_listbox"
+           autocomplete="off"
+           value="Product 01"           data-sonata-autocomplete-target="input"
+           data-action="input->sonata-autocomplete#search keydown->sonata-autocomplete#navigate">
+
+    <ul class="adm-combobox__listbox "
+        id="filter_products_value_listbox"
+        role="listbox"
+        aria-label="Products"
+        hidden
+        data-sonata-autocomplete-target="listbox"></ul>
+
+    <div class="adm-combobox__status" role="status" data-sonata-autocomplete-target="status"></div><div id="filter_products_value_hidden_inputs_wrap" data-sonata-autocomplete-target="hiddenInputs"><input type="hidden" name="filter[products][value]" value="1"></div>
+
+    <template data-sonata-autocomplete-target="itemTemplate"><li class="adm-combobox__option " data-action="click->sonata-autocomplete#pick"></li></template>
+
+    <template data-sonata-autocomplete-target="chipTemplate"><li class="adm-chip"><span data-label></span><button type="button" class="adm-chip__remove" data-remove data-action="sonata-autocomplete#remove" aria-label="Remove"><span aria-hidden="true">&times;</span></button></li></template>
+</div>
+                                    </div>
+
+                                                                            <div class="col-span-1">
+                                            <button type="button" class="adm-btn-icon sonata-ba-action"
+                                                    aria-label="Reset"
+                                                    data-action="click->sonata-filter#hideFilter" data-sonata-filter-id-param="filter-sfixture00000-products"
+                                            >
+                                                <i class="fas fa-circle-minus" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                                                    </div>
+
+                                                                                                                                                                                        </div>
+
+                        <input type="hidden" name="filter[_page]" id="filter__page" value="1">
+
+                                                            <input type="hidden" id="filter__sort_by" name="filter[_sort_by]" class="" />
+            <input type="hidden" id="filter__sort_order" name="filter[_sort_order]" class="" />
+            <input type="hidden" id="filter__per_page" name="filter[_per_page]" class="" value="25" />
+
+
+                        <div class="mt-4 flex flex-wrap items-center gap-3">
+                            <button type="submit" class="adm-btn adm-btn-primary" data-sonata-filter-target="submitter">
+                                <i class="fas fa-filter" aria-hidden="true"></i> Filter
+                            </button>
+
+                            <a class="adm-btn adm-btn-secondary" href="/admin/tests/app/category/list?filters=reset">
+                                Reset
+                            </a>
+
+                                                            <button type="button" class="adm-btn adm-btn-ghost" data-action="click->sonata-filter#toggleAdvanced">
+                                    <i class="fas fa-gears" aria-hidden="true"></i>
+                                    Advanced filters
+                                </button>
+                                                    </div>
+
+                                            </form>
+                </div>
+            </div>
+        </div>
+                                        </div>
+                                    
+                                                                            <div class="grid grid-cols-12 gap-4 md:gap-6">
+                                            <div class="col-span-12">
+                
+                    <form action="/admin/tests/app/category/batch?filter%5B_page%5D=1&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1" method="POST"
+                  data-controller="sonata-batch"
+            >
+            <input type="hidden" name="_sonata_csrf_token" value="fixture-csrf-token">
+        
+        <div class="adm-card">
+            <div class="adm-card-body p-0">
+                
+
+                
+                                                        <div class="adm-table-wrap">
+                                            <table class="adm-table sonata-ba-list">
+                                                    <thead>
+                                <tr class="sonata-ba-list-field-header">
+                                                                                                                        <th class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">
+                                              <input type="checkbox" class="adm-checkbox" id="list_batch_checkbox"
+                                                     aria-label="All elements"
+                                                     data-sonata-batch-target="all"
+                                                     data-action="change->sonata-batch#toggleAll">
+                                            </th>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                            <th class="sonata-ba-list-field-header-integer sonata-ba-list-field-header-order-asc ">
+                                                                                                    <a class="inline-flex items-center gap-1" href="/admin/tests/app/category/list?filter%5B_page%5D=1&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1&amp;filter%5B_sort_order%5D=ASC&amp;filter%5B_sort_by%5D=id&amp;_list_mode=list">
+                                                                                                                                                                                                                                                            Id
+                                                                                                                                                                                                        <i class="fas fa-sort text-theme-xs" aria-hidden="true"></i>
+                                                    </a>
+                                                                                            </th>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                            <th class="sonata-ba-list-field-header-string sonata-ba-list-field-header-order-asc ">
+                                                                                                    <a class="inline-flex items-center gap-1" href="/admin/tests/app/category/list?filter%5B_page%5D=1&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1&amp;filter%5B_sort_order%5D=ASC&amp;filter%5B_sort_by%5D=name&amp;_list_mode=list">
+                                                                                                                                                                                                                                                            Name
+                                                                                                                                                                                                        <i class="fas fa-sort text-theme-xs" aria-hidden="true"></i>
+                                                    </a>
+                                                                                            </th>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                            <th class="sonata-ba-list-field-header-boolean sonata-ba-list-field-header-order-asc ">
+                                                                                                    <a class="inline-flex items-center gap-1" href="/admin/tests/app/category/list?filter%5B_page%5D=1&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1&amp;filter%5B_sort_order%5D=ASC&amp;filter%5B_sort_by%5D=active&amp;_list_mode=list">
+                                                                                                                                                                                                                                                            Active
+                                                                                                                                                                                                        <i class="fas fa-sort text-theme-xs" aria-hidden="true"></i>
+                                                    </a>
+                                                                                            </th>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                            <th class="sonata-ba-list-field-header-datetime sonata-ba-list-field-header-order-asc ">
+                                                                                                    <a class="inline-flex items-center gap-1" href="/admin/tests/app/category/list?filter%5B_page%5D=1&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1&amp;filter%5B_sort_order%5D=ASC&amp;filter%5B_sort_by%5D=createdAt&amp;_list_mode=list">
+                                                                                                                                                                                                                                                            Created At
+                                                                                                                                                                                                        <i class="fas fa-sort text-theme-xs" aria-hidden="true"></i>
+                                                    </a>
+                                                                                            </th>
+                                                                                                                                                                                                            
+                                            <th class="sonata-ba-list-field-header-actions">
+                                                                                                                                                                                                                                                            Actions
+                                                                                                                                                                                                </th>
+                                                                                                            </tr>
+                            </thead>
+                        
+                                                    <tbody>
+                                
+    <tr>
+        
+            
+
+<td class="sonata-ba-list-field sonata-ba-list-field-batch" objectId="2">
+        
+                                        
+                    <input type="checkbox" class="adm-checkbox" name="idx[]" value="2"
+           aria-label="Snacks"
+           data-sonata-batch-target="row"
+           data-action="click->sonata-batch#toggleRow">
+
+            </td>
+
+                
+
+<td class="sonata-ba-list-field sonata-ba-list-field-integer" objectId="2">
+        
+                                        
+                                                        2
+                            
+            </td>
+
+                
+
+<td class="sonata-ba-list-field sonata-ba-list-field-string" objectId="2">
+        
+            <a class="sonata-link-identifier" href="/admin/tests/app/category/2/show">                                    Snacks
+                            </a>
+    </td>
+
+                
+
+<td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectId="2">
+        
+                                        
+                    
+                                        
+            <span             class="x-editable"
+                  data-type="select"
+                  data-value="1"
+                                                                  data-title="Active"
+                                                                            data-pk="2"
+                  data-url="/admin/core/set-object-field-value?_sonata_admin=Adminata%5CTests%5CApp%5CAdmin%5CCategoryAdmin&amp;context=list&amp;field=active&amp;objectId=2&amp;_sonata_name=admin_tests_app_category_list&amp;filter%5Bproducts%5D%5Bvalue%5D=1" 
+        data-source="[{value: 0, text: 'no'},{value: 1, text: 'yes'}]"
+    >
+                <span class="adm-badge adm-badge-success">yes</span>
+            </span>
+            </td>
+
+                
+
+<td class="sonata-ba-list-field sonata-ba-list-field-datetime" objectId="2">
+        
+                                        
+                    <time datetime="2026-01-06T09:00:00+00:00" title="2026-01-06T09:00:00+00:00">
+            January 6, 2026 09:00
+        </time>
+            </td>
+
+                
+
+<td class="sonata-ba-list-field sonata-ba-list-field-actions" objectId="2">
+        
+                                        
+                    <div class="flex flex-wrap items-center gap-1">
+                    
+
+                    <a
+        href="/admin/tests/app/category/2/show"
+        class="adm-btn adm-btn-secondary adm-btn-sm view_link"
+        title="Show"
+    >
+                    <i class="fas fa-eye" aria-hidden="true"></i>
+                            Show
+            </a>
+                    
+
+                    <a
+        href="/admin/tests/app/category/2/edit"
+        class="adm-btn adm-btn-secondary adm-btn-sm edit_link"
+        title="Edit"
+    >
+                    <i class="fas fa-pencil" aria-hidden="true"></i>
+                            Edit
+            </a>
+                    
+
+                    <a
+        href="/admin/tests/app/category/2/delete"
+        class="adm-btn adm-btn-secondary adm-btn-sm delete_link"
+        title="Delete"
+    >
+                    <i class="fas fa-xmark" aria-hidden="true"></i>
+                            Delete
+            </a>
+            </div>
+
+            </td>
+
+        </tr>
+                            </tbody>
+                        
+                                                                    </table>
+                                        </div>
+                
+                
+            </div>
+
+                                                <div class="adm-list-footer">
+                                                    <div class="flex flex-wrap items-center gap-3">
+                                                                                                                                                    
+                                        <label class="adm-checkbox-label">
+                                                <input type="checkbox" class="adm-checkbox" name="all_elements" id="sfixture00000_all_elements">
+                                                All elements
+                                                (1)
+                                            </label>
+
+                                            <label class="sr-only" for="sfixture00000_batch_action">OK</label>
+                                            <select class="adm-select w-auto" name="action" id="sfixture00000_batch_action">
+                                                                                                    <option value="delete">
+                                                                                                                    Delete
+                                                                                                            </option>
+                                                                                            </select>
+                                        
+                                        <button type="submit" class="adm-btn adm-btn-primary adm-btn-sm">
+                                            OK
+                                        </button>
+                                                                    
+                                <div class="ms-auto flex flex-wrap items-center gap-3">
+                                                                            <div class="adm-dropdown"
+                                             data-controller="sonata-dropdown"
+                                             data-action="keydown.esc->sonata-dropdown#closeAndFocus keydown->sonata-dropdown#navigate"
+                                        >
+                                            <button type="button" class="adm-btn adm-btn-secondary adm-btn-sm"
+                                                    aria-expanded="false"
+                                                    aria-haspopup="menu"
+                                                    data-sonata-dropdown-target="toggle"
+                                                    data-action="click->sonata-dropdown#toggle"
+                                            >
+                                                <i class="fas fa-share-from-square" aria-hidden="true"></i>
+                                                Download
+                                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                            </button>
+
+                                            <ul class="adm-dropdown__menu" role="menu" hidden data-sonata-dropdown-target="menu">
+                                                                                                    <li role="none">
+                                                        <a class="adm-dropdown__item" role="menuitem" href="/admin/tests/app/category/export?filter%5B_page%5D=0&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1&amp;format=csv">
+                                                            <i class="fas fa-circle-down" aria-hidden="true"></i>
+                                                            CSV
+                                                        </a>
+                                                    </li>
+                                                                                                    <li role="none">
+                                                        <a class="adm-dropdown__item" role="menuitem" href="/admin/tests/app/category/export?filter%5B_page%5D=0&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1&amp;format=json">
+                                                            <i class="fas fa-circle-down" aria-hidden="true"></i>
+                                                            JSON
+                                                        </a>
+                                                    </li>
+                                                                                                    <li role="none">
+                                                        <a class="adm-dropdown__item" role="menuitem" href="/admin/tests/app/category/export?filter%5B_page%5D=0&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1&amp;format=xls">
+                                                            <i class="fas fa-circle-down" aria-hidden="true"></i>
+                                                            XLS
+                                                        </a>
+                                                    </li>
+                                                                                                    <li role="none">
+                                                        <a class="adm-dropdown__item" role="menuitem" href="/admin/tests/app/category/export?filter%5B_page%5D=0&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1&amp;format=xlsx">
+                                                            <i class="fas fa-circle-down" aria-hidden="true"></i>
+                                                            XLSX
+                                                        </a>
+                                                    </li>
+                                                                                                    <li role="none">
+                                                        <a class="adm-dropdown__item" role="menuitem" href="/admin/tests/app/category/export?filter%5B_page%5D=0&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1&amp;format=xml">
+                                                            <i class="fas fa-circle-down" aria-hidden="true"></i>
+                                                            XML
+                                                        </a>
+                                                    </li>
+                                                                                            </ul>
+                                        </div>
+                                    
+                                                                            
+    1 / 1
+    &nbsp;-&nbsp;
+
+    1 result    &nbsp;-&nbsp;
+
+<label class="adm-label mb-0" for="sfixture00000_per_page">Per page</label>
+    <select class="per-page adm-select w-auto" id="sfixture00000_per_page" data-controller="sonata-per-page" data-action="change->sonata-per-page#reload">
+                    <option  value="/admin/tests/app/category/list?filter%5B_page%5D=1&amp;filter%5B_per_page%5D=10&amp;filter%5Bproducts%5D%5Bvalue%5D=1">10</option>
+                    <option selected="selected" value="/admin/tests/app/category/list?filter%5B_page%5D=1&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1">25</option>
+                    <option  value="/admin/tests/app/category/list?filter%5B_page%5D=1&amp;filter%5B_per_page%5D=50&amp;filter%5Bproducts%5D%5Bvalue%5D=1">50</option>
+                    <option  value="/admin/tests/app/category/list?filter%5B_page%5D=1&amp;filter%5B_per_page%5D=100&amp;filter%5Bproducts%5D%5Bvalue%5D=1">100</option>
+                    <option  value="/admin/tests/app/category/list?filter%5B_page%5D=1&amp;filter%5B_per_page%5D=250&amp;filter%5Bproducts%5D%5Bvalue%5D=1">250</option>
+            </select>
+                                                                    </div>
+                            </div>
+                        
+                                                                                                </div>
+                                    </div>
+
+                
+                    </form>
+            </div>
+                                        </div>
+                                                                                                </div>
+                        </div>
+                                    </main>
+            </div>
+            </body>
+</html>

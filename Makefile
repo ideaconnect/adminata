@@ -159,6 +159,10 @@ coverage: ## Test suite with a clover report (PHPUNIT_FLAGS passes extra options
 	$(PHPUNIT) $(PHPUNIT_FLAGS) --coverage-clover build/logs/clover.xml
 .PHONY: coverage
 
+js-fixtures: demo-db ## Re-dump the HTML the JavaScript suites mount their controllers against
+	ADMINATA_UPDATE_JS_FIXTURES=1 $(PHPUNIT) --testsuite adminata-functional --filter JsFixtureDumperTest
+.PHONY: js-fixtures
+
 demo: demo-db demo-assets ## Serve the demo admin application on http://127.0.0.1:8000/admin (admin / admin)
 	$(PHP) -S 127.0.0.1:8000 -t tests/App/public
 .PHONY: demo
