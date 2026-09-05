@@ -9,14 +9,29 @@ file that was distributed with this source code.
 
 #}
 
+{#
+    The admin form theme (PLAN/06 §1).
+
+    Bootstrap's `form-group`, `has-error`, `help-block`, `control-label` and `col-sm-*` are gone;
+    the hooks PLAN/02 §8 lists — `#sonata-ba-field-container-{id}`, `sonata-ba-field`,
+    `sonata-ba-field-{edit}-{inline}`, `sonata-ba-field-error`, `sonata-ba-field-error-messages`,
+    `sonata-ba-field-help`, `control-label__text` and `required` — are not.
+
+    Every widget block *appends* to `attr.class` and never replaces it, so an application's own
+    `attr` — `data-controller` included — reaches the page untouched.
+
+    Five variables let a caller add to the recipes without overriding a block:
+    `row_class`, `label_class`, `widget_class`, `help_class` and `error_item_class`.
+#}
 {% extends 'form_div_layout.html.twig' %}
 
 {% block form_errors -%}
     {% if errors|length > 0 %}
-        {% if not form.parent %}<div class="alert alert-danger">{% endif %}
-            <ul class="list-unstyled">
+        {# The form's own errors are an alert; a field's are the message list under the control. #}
+        {% if not form.parent %}<div class="adm-alert adm-alert-error" role="alert">{% endif %}
+            <ul class="adm-error-list">
                 {% for error in errors %}
-                    <li><i class="fas fa-exclamation-circle" aria-hidden="true"></i> {{ error.message }}</li>
+                    <li{% if error_item_class|default('') is not empty %} class="{{ error_item_class }}"{% endif %}><i class="fas fa-circle-exclamation" aria-hidden="true"></i> {{ error.message }}</li>
                 {% endfor %}
             </ul>
         {% if not form.parent %}</div>{% endif %}
@@ -28,21 +43,46 @@ file that was distributed with this source code.
         {% set translation_domain = sonata_admin_translation_domain %}
     {% endif %}
     {% if help is not empty %}
-        {% set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' help-block sonata-ba-field-help')}) %}
+        {# `parent()` is what keeps `help_html` rendering as markup. #}
+        {% set help_attr = help_attr|merge({class: [
+            help_attr.class|default(''),
+            'adm-help sonata-ba-field-help',
+            help_class|default(''),
+        ]|filter(part => part is not empty)|join(' ')}) %}
         {{ parent() }}
     {% endif %}
 {%- endblock form_help %}
 
+{#
+    Append-only: `form_div_layout` writes the id, the name, `required`, `disabled` and everything
+    in `attr`, and this adds one attribute the theme knows and the caller cannot — that the control
+    is the one the error list belongs to.
+#}
+{% block widget_attributes -%}
+    {{- parent() -}}
+    {%- if errors|default([])|length > 0 and attr['aria-invalid'] is not defined %} aria-invalid="true"{% endif -%}
+{%- endblock widget_attributes %}
+
 {% block form_widget_simple %}
     {% set type = type|default('text') %}
     {% if type != 'file' %}
-        {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
+        {% set attr = attr|merge({'class': [
+            attr.class|default(''),
+            'adm-input',
+            widget_class|default(''),
+            errors|default([])|length > 0 ? 'adm-input-error' : '',
+        ]|filter(part => part is not empty)|join(' ')}) %}
     {% endif %}
     {{ parent() }}
 {% endblock form_widget_simple %}
 
 {% block textarea_widget %}
-    {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
+    {% set attr = attr|merge({'class': [
+        attr.class|default(''),
+        'adm-textarea',
+        widget_class|default(''),
+        errors|default([])|length > 0 ? 'adm-input-error' : '',
+    ]|filter(part => part is not empty)|join(' ')}) %}
     {{ parent() }}
 {% endblock textarea_widget %}
 
@@ -52,13 +92,13 @@ file that was distributed with this source code.
     {% else %}
         {% set currencySymbol = money_pattern|replace({'{{ widget }}': ''})|trim %}
         {% if money_pattern matches '/^{{ widget }}/' %}
-            <div class="input-group">
+            <div class="adm-input-group">
                 {{- block('form_widget_simple') -}}
-                <span class="input-group-addon">{{ currencySymbol }}</span>
+                <span class="adm-input-affix">{{ currencySymbol }}</span>
             </div>
         {% elseif money_pattern matches '/{{ widget }}$/' %}
-            <div class="input-group">
-                <span class="input-group-addon">{{ currencySymbol }}</span>
+            <div class="adm-input-group">
+                <span class="adm-input-affix">{{ currencySymbol }}</span>
                 {{- block('form_widget_simple') -}}
             </div>
         {% endif %}
@@ -67,9 +107,9 @@ file that was distributed with this source code.
 
 {% block percent_widget %}
     {% set type = type|default('text') %}
-    <div class="input-group">
-        {{ block('form_widget_simple') }}
-        <span class="input-group-addon">%</span>
+    <div class="adm-input-group">
+        {{- block('form_widget_simple') -}}
+        <span class="adm-input-affix">%</span>
     </div>
 {% endblock percent_widget %}
 
@@ -97,14 +137,14 @@ file that was distributed with this source code.
 
 {# Labels #}
 {% block form_label %}
-    {% if label is not same as(false) and sonata_admin.options['form_type'] == 'horizontal' %}
-        {% set label_class = 'col-sm-3' %}
-    {% endif %}
-
-    {% set label_class = label_class|default('') ~ ' control-label' %}
-
     {% if label is not same as(false) %}
-        {% set label_attr = label_attr|merge({'class': label_attr.class|default('') ~ ' ' ~ label_class }) %}
+        {% set label_attr = label_attr|merge({'class': [
+            label_attr.class|default(''),
+            'adm-label',
+            label_class|default(''),
+            sonata_admin.options['form_type'] == 'horizontal' ? 'col-span-12 mb-0 md:col-span-3 md:pt-2.5' : '',
+            required ? 'required' : '',
+        ]|filter(part => part is not empty)|join(' ')}) %}
 
         {#- The autocomplete widget's control is the combobox it draws, and it draws one whether or
             not the field is compound. -#}
@@ -112,9 +152,6 @@ file that was distributed with this source code.
             {% set label_attr = label_attr|merge({'for': id ~ '_autocomplete_input'}) %}
         {% elseif not compound %}
             {% set label_attr = label_attr|merge({'for': id}) %}
-        {% endif %}
-        {% if required %}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
         {% endif %}
 
         {% if label is empty %}
@@ -136,6 +173,9 @@ file that was distributed with this source code.
             {%- else -%}
                 {{- label|trans(label_translation_parameters, sonata_admin.field_description.translationDomain|default(sonata_admin.admin.translationDomain)) -}}
             {%- endif -%}
+            {#- The control already carries `required`, which is what a screen reader announces; the
+                asterisk is for everyone else. -#}
+            {%- if required %}<span class="adm-required" aria-hidden="true">*</span>{% endif -%}
         </label>
     {% endif %}
 {% endblock form_label %}
@@ -242,14 +282,19 @@ file that was distributed with this source code.
     {% endif %}
 {% endblock choice_widget_collapsed %}
 
+{#
+    `single_text` is a native `<input type="date|time|datetime-local">` and is the shape adminata
+    uses everywhere (PLAN/06 §4). The multi-select fallbacks stay for the forms that ask for them;
+    the Bootstrap grid they sat in is a flex row now.
+#}
 {% block date_widget %}
     {% if widget == 'single_text' %}
         {{ block('form_widget_simple') }}
     {% else %}
         {% if row is not defined or row == true %}
-            {% set attr = attr|merge({'class': attr.class|default('') ~ ' row' }) %}
+            {% set attr = attr|merge({'class': (attr.class|default('') ~ ' flex flex-wrap gap-2')|trim}) %}
         {% endif %}
-        {% set input_wrapper_class = input_wrapper_class|default('col-sm-4') %}
+        {% set input_wrapper_class = input_wrapper_class|default('min-w-24 flex-1') %}
         <div {{ block('widget_container_attributes') }}>
             {{ date_pattern|replace({
                 '{{ year }}':  '<div class="'~ input_wrapper_class ~ '">' ~ form_widget(form.year) ~ '</div>',
@@ -265,9 +310,9 @@ file that was distributed with this source code.
         {{ block('form_widget_simple') }}
     {% else %}
         {% if row is not defined or row == true %}
-            {% set attr = attr|merge({'class': attr.class|default('') ~ ' row' }) %}
+            {% set attr = attr|merge({'class': (attr.class|default('') ~ ' flex flex-wrap gap-2')|trim}) %}
         {% endif %}
-        {% set input_wrapper_class = input_wrapper_class|default('col-sm-6') %}
+        {% set input_wrapper_class = input_wrapper_class|default('min-w-20 flex-1') %}
         <div {{ block('widget_container_attributes') }}>
             <div class="{{ input_wrapper_class }}">
                 {{ form_widget(form.hour) }}
@@ -290,25 +335,25 @@ file that was distributed with this source code.
     {% if widget == 'single_text' %}
         {{ block('form_widget_simple') }}
     {% else %}
-        {% set attr = attr|merge({'class': attr.class|default('') ~ ' row' }) %}
+        {% set attr = attr|merge({'class': (attr.class|default('') ~ ' flex flex-wrap items-start gap-2')|trim}) %}
         <div {{ block('widget_container_attributes') }}>
             {{ form_errors(form.date) }}
             {{ form_errors(form.time) }}
 
             {% if form.date.vars.widget == 'single_text' %}
-                <div class="col-sm-2">
+                <div class="min-w-40 flex-1">
                     {{ form_widget(form.date) }}
                 </div>
             {% else %}
-                {{ form_widget(form.date, {'row': false, 'input_wrapper_class': 'col-sm-2'}) }}
+                {{ form_widget(form.date, {'row': false, 'input_wrapper_class': 'min-w-24 flex-1'}) }}
             {% endif %}
 
             {% if form.time.vars.widget == 'single_text' %}
-                <div class="col-sm-2">
+                <div class="min-w-32 flex-1">
                     {{ form_widget(form.time) }}
                 </div>
             {% else %}
-                {{ form_widget(form.time, {'row': false, 'input_wrapper_class': 'col-sm-2'}) }}
+                {{ form_widget(form.time, {'row': false, 'input_wrapper_class': 'min-w-20 flex-1'}) }}
             {% endif %}
         </div>
     {% endif %}
@@ -316,8 +361,14 @@ file that was distributed with this source code.
 
 {% block form_row %}
     {% set show_label = show_label ?? true %}
+    {% set horizontal = sonata_admin is defined and sonata_admin.options['form_type'] == 'horizontal' %}
     {% set row_id = 'sonata-ba-field-container-'~id %}
-    {% set row_class = (row_attr.class|default('') ~ ' form-group' ~ (errors|length > 0 ? ' has-error'))|trim %}
+    {% set row_class = [
+        row_attr.class|default(''),
+        'adm-form-row',
+        row_class|default(''),
+        horizontal ? 'grid grid-cols-12 items-start gap-x-3 gap-y-1' : '',
+    ]|filter(part => part is not empty)|join(' ') %}
     <div{% with {attr: row_attr|merge({id: row_id, class: row_class})} %}{{ block('attributes') }}{% endwith %}>
         {% set div_class = 'sonata-ba-field' %}
 
@@ -325,21 +376,22 @@ file that was distributed with this source code.
             {% set div_class = div_class ~ ' sonata-collection-row-without-label' %}
         {% endif %}
 
-        {% if sonata_admin is defined and sonata_admin.options['form_type'] == 'horizontal' %}
-            {# Add an offset if no label or is a checkbox/radio #}
+        {% if horizontal %}
+            {#- Nine of the twelve columns, and the whole width when there is no label to sit
+                beside: an empty label column is space nothing uses. -#}
             {% if label is same as(false) or form.vars.checked is defined %}
                 {% if 'collection' in form.parent.vars.block_prefixes %}
-                    {% set div_class = div_class ~ ' col-sm-12' %}
+                    {% set div_class = div_class ~ ' col-span-12' %}
                 {% else %}
-                    {% set div_class = div_class ~ ' col-sm-9 col-sm-offset-3' %}
+                    {% set div_class = div_class ~ ' col-span-12 md:col-span-9 md:col-start-4' %}
                 {% endif %}
             {% else %}
-                {% set div_class = div_class ~ ' col-sm-9' %}
+                {% set div_class = div_class ~ ' col-span-12 md:col-span-9' %}
             {% endif %}
         {% endif %}
 
         {% if show_label %}
-            {{ form_label(form, label|default(null)) }}
+            {{ form_label(form, label|default(null), {label_class: label_class|default('')}) }}
         {% endif %}
 
         {% if sonata_admin is defined and sonata_admin_enabled %}
@@ -351,15 +403,17 @@ file that was distributed with this source code.
         {% endif %}
 
         <div class="{{ div_class }}">
-            {{ form_widget(form, {'horizontal': false, 'horizontal_input_wrapper_class': ''}) }} {# {'horizontal': false, 'horizontal_input_wrapper_class': ''} needed to avoid MopaBootstrapBundle messing with the DOM #}
+            {#- Forwarded, not inherited: `form_widget` and the rest start from the view's own
+                variables, so a class passed to `form_row` reaches them only by being passed on. -#}
+            {{ form_widget(form, {widget_class: widget_class|default('')}) }}
 
             {% if errors|length > 0 %}
-                <div class="help-block sonata-ba-field-error-messages">
-                    {{ form_errors(form) }}
+                <div class="mt-1.5 sonata-ba-field-error-messages">
+                    {{ form_errors(form, {error_item_class: error_item_class|default('')}) }}
                 </div>
             {% endif %}
 
-            {{ form_help(form) }}
+            {{ form_help(form, {help_class: help_class|default('')}) }}
         </div>
     </div>
 {% endblock form_row %}

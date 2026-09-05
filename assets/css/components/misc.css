@@ -3,6 +3,14 @@
  * GIF, and the combobox the autocomplete widget draws.
  */
 
+@utility adm-form-row {
+    margin-bottom: 1.25rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
 @utility adm-label {
     display: block;
     margin-bottom: 0.375rem;
@@ -22,8 +30,9 @@
     font-size: var(--text-theme-xs);
     line-height: var(--text-theme-xs--line-height);
 
+    /* gray-500 is 3.57:1 on the dark page and this text is 12px; gray-400 is 6.89:1. */
     @variant dark {
-        color: var(--color-gray-500);
+        color: var(--color-gray-400);
     }
 }
 
@@ -35,7 +44,23 @@
 }
 
 @utility adm-required {
+    margin-inline-start: 0.125rem;
     color: var(--color-error-500);
+}
+
+@utility adm-error-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    color: var(--color-error-500);
+    font-size: var(--text-theme-xs);
+    line-height: var(--text-theme-xs--line-height);
+
+    & > li {
+        display: flex;
+        align-items: baseline;
+        gap: 0.375rem;
+    }
 }
 
 @utility adm-spinner {
@@ -113,6 +138,11 @@
     color: var(--color-gray-500);
     font-size: var(--text-theme-xs);
     line-height: var(--text-theme-xs--line-height);
+
+    /* Same 12px-on-dark arithmetic as `adm-help`. */
+    @variant dark {
+        color: var(--color-gray-400);
+    }
 
     &:empty {
         display: none;

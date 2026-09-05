@@ -540,7 +540,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
 
 ## Milestone M4 — Forms and show (PLAN/09 phase 4)
 
-- [ ] **P4-01 · Form theme: rows, labels, help, errors, simple widgets** · L · depends: P3-MS
+- [x] **P4-01 · Form theme: rows, labels, help, errors, simple widgets** · L · depends: P3-MS
   - Read: PLAN/06 §1; PLAN/03 §C row 1; PLAN/02 §8 "Forms".
   - Do: in `Form/form_admin_fields.html.twig`: `form_row`, `form_label`, `form_help` (`help_html`
     raw), `form_errors`, `form_widget_simple`, `textarea_widget`, `widget_attributes` (append only),
@@ -1863,6 +1863,33 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   The second lesson was that **shared state between tests is a bug waiting for a reason**. The
   Panther suite kept one session per class on purpose, and it was fine until `persist_filters`
   gave a test something worth leaving behind.
+
+- 2026-09-05 — **P4-01 done.** The form theme's row, label, help, error and simple-widget blocks are
+  TailAdmin's. `form-group`, `has-error`, `help-block`, `control-label`, `input-group` and the
+  `col-sm-*` grid are gone; `#sonata-ba-field-container-{id}`, `sonata-ba-field`,
+  `sonata-ba-field-{edit}-{inline}`, `sonata-ba-field-error`, `sonata-ba-field-error-messages`,
+  `sonata-ba-field-help` and `required` are not. Horizontal mode is `grid grid-cols-12` with the
+  label on three columns and the field on nine, and a field with no label takes all twelve rather
+  than leaving an empty label column.
+
+  Three things beyond a class swap. The control now carries `aria-invalid="true"` and
+  `adm-input-error` when its field has errors — `widget_attributes` appends it and never replaces
+  anything, so an application's `attr`, `data-controller` included, still reaches the page
+  untouched. The required marker is a real `<span class="adm-required" aria-hidden="true">*</span>`
+  rather than a Bootstrap `::after`, because the control's own `required` is what a screen reader
+  announces. And `row_class`, `label_class`, `widget_class`, `help_class` and `error_item_class`
+  are **forwarded** from `form_row` into `form_label`, `form_widget`, `form_errors` and `form_help`:
+  each of those starts from the view's own variables, so a class passed to the row reaches them
+  only by being passed on.
+
+  One accessibility defect, inherited and finally visible: `adm-help` used gray-500 in dark mode,
+  which is 3.57:1 against the dark page at 12px. It had never been rendered by an adminata template
+  before this one. gray-400 is 6.89:1; `adm-combobox__status` had the same colour and the same fix.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2829 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
+  (**124**), `make assets-check`, `make test-visual` (**372 passed**).
+
 
 
 
