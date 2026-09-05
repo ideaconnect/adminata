@@ -339,7 +339,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     DOM; `visual.yaml` workflow; `make test-visual`.
   - Accept: `npx playwright test` passes and writes baselines under `tests/Visual/__snapshots__` (committed).
 
-- [ ] **P1-11 · Panther harness** · M · depends: P1-09
+- [x] **P1-11 · Panther harness** · M · depends: P1-09
   - Read: PLAN/08 §3; `MDB/tests/Functional/` base classes; `MDB/docker-compose.yml`.
   - Do: `tests/Functional/BasePantherTestCase.php` (from the fork, with the console-error assertion
     helper and `PANTHER_SELENIUM_HOST` switch), `docker-compose.yml` with `selenium/standalone-firefox`,
@@ -724,6 +724,13 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   also surfaces 14 findings in inherited package code — `ProxyQuery`'s covariant template,
   `ModelFilter` and `SmartPaginatorFactory`'s unresolved `T`, `DoctrineORMQuerySourceIterator`,
   and four inherited test entities — each of which needs a decision rather than a baseline entry.
+- [ ] **B-14** Finish the `FormErrorIterator` generic. `skipCheckGenericClasses` removed the
+  deterministic failure — fifteen consecutive runs clean since — but one parallel run has still
+  reported it, so PHPStan can in principle still flake on an incremental analysis. The durable fix
+  is either upstream in PHPStan or a signature change to
+  `FormErrorIteratorToConstraintViolationList::transform()`, which handles only a flattened
+  iterator today and would raise a TypeError on the nested one its parameter type nominally
+  permits. That is a change to inherited public API and belongs in its own task.
 
 ---
 
@@ -1105,3 +1112,45 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2800 tests, 2 skips**), `make test-contract`, `make lint-js`, `make test-js`,
   `make assets-check`, `make test-visual` (**99 tests**).
+
+- 2026-09-05 — **P1-11 done.** `tests/Functional/BasePantherTestCase.php` drives a real browser
+  against the demo, with the fork's `PANTHER_SELENIUM_HOST` switch and the `PANTHER_FIREFOX_PORT`
+  escape hatch; `docker-compose.yml` gained a `selenium/standalone-firefox` with
+  `host.docker.internal` mapped to the host gateway; `DashboardPantherTest` is the first test and
+  `make test-functional` runs the suite. **15 tests green** (13 BrowserKit, 2 Panther).
+
+  Four things had to be solved to get there, none of them obvious from the plan.
+
+  **Panther manages one web server per process, and the ORM suite has already claimed it.**
+  `startWebServer()` returns as soon as it finds a manager — before it looks at
+  `external_base_uri` — so the option is silently ignored and Panther's base URI still points at
+  `packages/doctrine-orm-admin-bundle/tests/App`. The symptom was an empty product list and a
+  missing console recorder, neither of which says anything about the cause. adminata's browser
+  tests therefore serve the demo themselves through a new `Adminata\Tests\Support\DemoServer`
+  and request **absolute** URLs. `DemoServer` also refuses to start on a port that already
+  answers: Panther's own default is 9080, so the demo took 9088.
+
+  **geckodriver implements no log endpoint** — `manage()->getLog('browser')` is a Chrome extension
+  to WebDriver — so "every test asserts an empty browser console" (PLAN/08 §3) needs the page to
+  keep the record. `BrowserConsoleRecorderListener`, registered only in the test environment, puts
+  a recorder first in the `<head>` of every HTML response from a `kernel.response` listener rather
+  than from a template, so the M2 to M4 rewrites cannot lose it. It has to treat an **absent**
+  `Content-Type` as HTML: `Response::prepare()` fills that header in after the event.
+
+  **Firefox accepts a top-level navigation to a URL carrying credentials**, which is what spares
+  the demo a login form; the base URI is `http://admin:admin@host:9088`. And a Selenium in a
+  container reaches the host through the gateway, so `DemoServer` dials `host.docker.internal`
+  whenever `PANTHER_SELENIUM_HOST` is set — `ADMINATA_DEMO_BROWSER_HOST` overrides it.
+
+  The first run also caught exactly what it is for: the product list logs
+  `ReferenceError: jQuery is not defined`, because the inherited `CRUD/list.html.twig` still emits
+  Sonata's inline jQuery and adminata ships none (owner directive 2). The test asserts that
+  message **exactly** rather than skipping, so M3's rewrite will fail it and the fix is to replace
+  it with `assertConsoleIsEmpty()`.
+
+  One thing left open, filed as **B-14**: `skipCheckGenericClasses` removed the deterministic
+  `FormErrorIterator` failure of P1-08, but one parallel PHPStan run since has still reported it.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2802 tests, 2 skips**), `make test-contract`, `make test-functional`, `make lint-js`,
+  `make test-js`, `make assets-check`.
