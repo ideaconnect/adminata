@@ -76,12 +76,25 @@ export async function mountFixture(identifier, controller, page, selector) {
     );
 }
 
+/**
+ * The parsed page, kept.
+ *
+ * Nothing here mutates it — a caller takes `outerHTML` and Stimulus mounts a copy — and parsing
+ * the list fixture is a quarter of a megabyte of HTML, which at once per mount is most of the
+ * suite's running time.
+ */
 function parse(page) {
     if (!pages.has(page)) {
-        pages.set(page, readFileSync(`tests/fixtures/js/${page}.html`, 'utf8'));
+        pages.set(
+            page,
+            new DOMParser().parseFromString(
+                readFileSync(`tests/fixtures/js/${page}.html`, 'utf8'),
+                'text/html',
+            ),
+        );
     }
 
-    return new DOMParser().parseFromString(pages.get(page), 'text/html');
+    return pages.get(page);
 }
 
 function element(page, selector) {

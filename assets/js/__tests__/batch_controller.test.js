@@ -71,11 +71,11 @@ describe('sonata-batch', () => {
         expect(all(element).indeterminate).toBe(true);
         expect(all(element).checked).toBe(false);
 
-        rows(element).forEach((row) => {
-            if (!row.checked) {
-                row.click();
-            }
-        });
+        // Through the header rather than by clicking the other twenty-four rows one at a time: the
+        // property under test is the indeterminate state clearing once every row is selected, and
+        // twenty-five dispatched clicks is what timed the test out on a slower machine.
+        all(element).checked = true;
+        all(element).dispatchEvent(new Event('change', { bubbles: true }));
         await settle();
 
         expect(all(element).indeterminate).toBe(false);
