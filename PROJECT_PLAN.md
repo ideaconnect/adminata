@@ -986,6 +986,26 @@ mistake cannot recur.
   - Accept: the login and both password-reset screens are English end to end in `en` and unchanged
     in `pl`.
 
+- [x] **P5-FIX-22 · (application) The grid, the leftover Bootstrap, and no jQuery** · M
+  - A pass over all 147 of the panel's templates. **jQuery: none.** Bootstrap vocabulary inside
+    `class` attributes: nine files, all the same kind — hooks kept beside adminata's classes and
+    doing nothing (`alert alert-danger` next to `adm-alert-error`), a `table table-condensed` on the
+    test-runner page, `label label-danger` on the stale-time cell that its controller also toggled
+    by name, and `text-yellow` on five icons. All ported; the cell's template and controller now
+    agree on `adm-badge` / `adm-badge-error`.
+  - The grid, reviewed at 768, 1024, 1440, 1920 and 2560: the list page holds at every width, the
+    sidebar becomes a drawer below 1024 and the table scrolls inside its card above it. Twelve
+    hand-written form rows carried `adm-form-grid grid-cols-12 gap-4` — a class adminata never
+    defined plus two utilities inert without `display: grid` — and are `adm-form-row`, which is
+    what the form theme emits for the panel's `standard` type. `col-span-12 md:col-span-12` said
+    nothing twice.
+  - Dead hooks removed (`pt-overrides datagrid-filter`, `logo--white-label`); the summaries table
+    got its scroll box; a checkbox's help is a block rather than a `<small>` running on beside it.
+  - Accept: every list and create screen rendered fresh has **no class without a rule** beyond
+    Sonata's contract hooks; the Bootstrap scanner finds zero files; PHPStan and php-cs clean.
+    The panel's own `npx vitest run` fails identically before and after — it has no Vitest config
+    and crawls into adminata's suites without jsdom — and is not a signal.
+
 ### Hardening against the defect class the gates missed
 
 - [x] **P6-03 · A hygiene suite for what no standard covers** · M · depends: P6-01
