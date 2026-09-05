@@ -37,10 +37,12 @@ for (const { name, path } of PAGES) {
                 contentType: 'application/json',
             });
 
+            // Keyed by width as well as theme: a table that only overflows at 375px, or a control
+            // the layout only shows there, is a different page to axe.
             assertKnownFindings(
                 expect,
                 'axe',
-                `${name}:${theme}`,
+                `${name}:${theme}@${testInfo.project.name.split('-').pop()}`,
                 violations.map((violation) => violation.id),
             );
         });

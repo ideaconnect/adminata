@@ -13,11 +13,15 @@ file that was distributed with this source code.
     {% if value is empty %}
         &nbsp;
     {% else %}
+        {# A Symfony route points inside this application; an address does not. #}
+        {% set leaves_the_application = true %}
+
         {% if url|default(null) %}
             {# target url is string #}
             {% set url_address = url %}
         {% elseif route|default(null) is not null and route.name not in ['edit', 'show'] %}
             {# target url is Symfony route #}
+            {% set leaves_the_application = false %}
             {% set parameters = route.parameters|default([]) %}
 
             {% if route.absolute|default(false) %}
@@ -34,9 +38,16 @@ file that was distributed with this source code.
             {% set value = value|replace({'http://': '', 'https://': ''}) %}
         {% endif %}
 
+        {#
+            A link that leaves the application opens in a new tab, and `rel` keeps that tab from
+            reaching back through `window.opener`. Merged the way round that lets an application's
+            `attributes` option override either of them.
+        #}
+        {% set link_attributes = (leaves_the_application ? {'target': '_blank', 'rel': 'noopener'} : {})|merge(attributes|default({})) %}
+
         <a
             href="{{ url_address }}"
-        {%- for attribute, value in attributes|default([]) %}
+        {%- for attribute, value in link_attributes %}
             {{ attribute }}="{{ value|escape('html_attr') }}"
         {%- endfor -%}
         >

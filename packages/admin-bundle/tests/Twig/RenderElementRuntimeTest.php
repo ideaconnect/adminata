@@ -785,7 +785,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectId="12345">
-                    <span class="label label-success">yes</span>
+                    <span class="adm-badge adm-badge-success">yes</span>
                 </td>',
                 FieldDescriptionInterface::TYPE_BOOLEAN,
                 true,
@@ -793,7 +793,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectId="12345">
-                    <span class="label label-danger">no</span>
+                    <span class="adm-badge adm-badge-error">no</span>
                 </td>',
                 FieldDescriptionInterface::TYPE_BOOLEAN,
                 false,
@@ -801,7 +801,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectId="12345">
-                    <span class="label label-danger">no</span>
+                    <span class="adm-badge adm-badge-error">no</span>
                 </td>',
                 FieldDescriptionInterface::TYPE_BOOLEAN,
                 null,
@@ -819,7 +819,7 @@ final class RenderElementRuntimeTest extends TestCase
                             data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[{value: 0, text: 'no'},{value: 1, text: 'yes'}]"
                         >
-                            <span class="label label-success">yes</span>
+                            <span class="adm-badge adm-badge-success">yes</span>
                         </span>
                     </td>
                     EOT,
@@ -839,7 +839,7 @@ final class RenderElementRuntimeTest extends TestCase
                             data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[{value: 0, text: 'no'},{value: 1, text: 'yes'}]"
                         >
-                        <span class="label label-danger">no</span> </span>
+                        <span class="adm-badge adm-badge-error">no</span> </span>
                     </td>
                     EOT,
                 FieldDescriptionInterface::TYPE_BOOLEAN,
@@ -857,7 +857,7 @@ final class RenderElementRuntimeTest extends TestCase
                             data-pk="12345"
                             data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[{value: 0, text: 'no'},{value: 1, text: 'yes'}]" >
-                            <span class="label label-danger">no</span> </span>
+                            <span class="adm-badge adm-badge-error">no</span> </span>
                     </td>
                     EOT,
                 FieldDescriptionInterface::TYPE_BOOLEAN,
@@ -1156,7 +1156,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
-                <a href="http://example.com">http://example.com</a>
+                <a href="http://example.com" target="_blank" rel="noopener">http://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'http://example.com',
@@ -1164,7 +1164,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
-                <a href="https://example.com">https://example.com</a>
+                <a href="https://example.com" target="_blank" rel="noopener">https://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'https://example.com',
@@ -1172,7 +1172,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
-                <a href="https://example.com" target="_blank">https://example.com</a>
+                <a href="https://example.com" target="_blank" rel="noopener">https://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'https://example.com',
@@ -1180,7 +1180,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
-                <a href="https://example.com" target="_blank" class="fooLink">https://example.com</a>
+                <a href="https://example.com" target="_blank" rel="noopener" class="fooLink">https://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'https://example.com',
@@ -1188,7 +1188,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
-                <a href="http://example.com">example.com</a>
+                <a href="http://example.com" target="_blank" rel="noopener">example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'http://example.com',
@@ -1196,7 +1196,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
-                <a href="https://example.com">example.com</a>
+                <a href="https://example.com" target="_blank" rel="noopener">example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'https://example.com',
@@ -1204,7 +1204,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
-                <a href="http://example.com">http://example.com</a>
+                <a href="http://example.com" target="_blank" rel="noopener">http://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'http://example.com',
@@ -1212,7 +1212,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
-                <a href="https://example.com">https://example.com</a>
+                <a href="https://example.com" target="_blank" rel="noopener">https://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'https://example.com',
@@ -1220,7 +1220,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
-                <a href="http://example.com">Foo</a>
+                <a href="http://example.com" target="_blank" rel="noopener">Foo</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'Foo',
@@ -1228,7 +1228,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
-                <a href="http://example.com">&lt;b&gt;Foo&lt;/b&gt;</a>
+                <a href="http://example.com" target="_blank" rel="noopener">&lt;b&gt;Foo&lt;/b&gt;</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 '<b>Foo</b>',
@@ -1244,7 +1244,7 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
-                <a href="https://example.com">https://example.com</a>
+                <a href="https://example.com" target="_blank" rel="noopener">https://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'https://example.com',
@@ -1547,20 +1547,20 @@ final class RenderElementRuntimeTest extends TestCase
             ['safe' => false, 'inline' => true],
         ];
         yield [
-            '<th>Data</th> <td><span class="label label-success">yes</span></td>',
+            '<th>Data</th> <td><span class="adm-badge adm-badge-success">yes</span></td>',
             FieldDescriptionInterface::TYPE_BOOLEAN,
             true,
             [],
         ];
         yield [
-            '<th>Data</th> <td><span class="label label-danger">yes</span></td>',
+            '<th>Data</th> <td><span class="adm-badge adm-badge-error">yes</span></td>',
             FieldDescriptionInterface::TYPE_BOOLEAN,
             true,
             ['inverse' => true],
         ];
-        yield ['<th>Data</th> <td><span class="label label-danger">no</span></td>', FieldDescriptionInterface::TYPE_BOOLEAN, false, []];
+        yield ['<th>Data</th> <td><span class="adm-badge adm-badge-error">no</span></td>', FieldDescriptionInterface::TYPE_BOOLEAN, false, []];
         yield [
-            '<th>Data</th> <td><span class="label label-success">no</span></td>',
+            '<th>Data</th> <td><span class="adm-badge adm-badge-success">no</span></td>',
             FieldDescriptionInterface::TYPE_BOOLEAN,
             false,
             ['inverse' => true],
@@ -1678,68 +1678,68 @@ final class RenderElementRuntimeTest extends TestCase
             ], 'multiple' => true],
         ];
         yield [
-            '<th>Data</th> <td><a href="http://example.com">http://example.com</a></td>',
+            '<th>Data</th> <td><a href="http://example.com" target="_blank" rel="noopener">http://example.com</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             'http://example.com',
             ['safe' => false],
         ];
         yield [
-            '<th>Data</th> <td><a href="http://example.com" target="_blank">http://example.com</a></td>',
+            '<th>Data</th> <td><a href="http://example.com" target="_blank" rel="noopener">http://example.com</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             'http://example.com',
             ['safe' => false, 'attributes' => ['target' => '_blank']],
         ];
         yield [
-            '<th>Data</th> <td><a href="http://example.com" target="_blank" class="fooLink">http://example.com</a></td>',
+            '<th>Data</th> <td><a href="http://example.com" target="_blank" rel="noopener" class="fooLink">http://example.com</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             'http://example.com',
             ['safe' => false, 'attributes' => ['target' => '_blank', 'class' => 'fooLink']],
         ];
         yield [
-            '<th>Data</th> <td><a href="https://example.com">https://example.com</a></td>',
+            '<th>Data</th> <td><a href="https://example.com" target="_blank" rel="noopener">https://example.com</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             'https://example.com',
             ['safe' => false],
         ];
         yield [
-            '<th>Data</th> <td><a href="http://example.com">example.com</a></td>',
+            '<th>Data</th> <td><a href="http://example.com" target="_blank" rel="noopener">example.com</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             'http://example.com',
             ['safe' => false, 'hide_protocol' => true],
         ];
         yield [
-            '<th>Data</th> <td><a href="https://example.com">example.com</a></td>',
+            '<th>Data</th> <td><a href="https://example.com" target="_blank" rel="noopener">example.com</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             'https://example.com',
             ['safe' => false, 'hide_protocol' => true],
         ];
         yield [
-            '<th>Data</th> <td><a href="http://example.com">http://example.com</a></td>',
+            '<th>Data</th> <td><a href="http://example.com" target="_blank" rel="noopener">http://example.com</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             'http://example.com',
             ['safe' => false, 'hide_protocol' => false],
         ];
         yield [
-            '<th>Data</th> <td><a href="https://example.com">https://example.com</a></td>',
+            '<th>Data</th> <td><a href="https://example.com" target="_blank" rel="noopener">https://example.com</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             'https://example.com',
             ['safe' => false,
                 'hide_protocol' => false, ],
         ];
         yield [
-            '<th>Data</th> <td><a href="http://example.com">Foo</a></td>',
+            '<th>Data</th> <td><a href="http://example.com" target="_blank" rel="noopener">Foo</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             'Foo',
             ['safe' => false, 'url' => 'http://example.com'],
         ];
         yield [
-            '<th>Data</th> <td><a href="http://example.com">&lt;b&gt;Foo&lt;/b&gt;</a></td>',
+            '<th>Data</th> <td><a href="http://example.com" target="_blank" rel="noopener">&lt;b&gt;Foo&lt;/b&gt;</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             '<b>Foo</b>',
             ['safe' => false, 'url' => 'http://example.com'],
         ];
         yield [
-            '<th>Data</th> <td><a href="http://example.com"><b>Foo</b></a></td>',
+            '<th>Data</th> <td><a href="http://example.com" target="_blank" rel="noopener"><b>Foo</b></a></td>',
             FieldDescriptionInterface::TYPE_URL,
             '<b>Foo</b>',
             ['safe' => true, 'url' => 'http://example.com'],

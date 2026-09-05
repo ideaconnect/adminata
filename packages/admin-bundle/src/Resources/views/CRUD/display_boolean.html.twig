@@ -16,11 +16,12 @@ file that was distributed with this source code.
         {% set text = 'label_type_no'|trans({}, 'SonataAdminBundle') %}
     {% endif %}
 
+    {# `label label-*` was Bootstrap's and is in PLAN/02 §8's dropped list. #}
     {% if inverse|default(false) ? not value : value %}
-        {% set class = 'label-success' %}
+        {% set class = 'adm-badge-success' %}
     {% else %}
-        {% set class = 'label-danger' %}
+        {% set class = 'adm-badge-error' %}
     {% endif %}
 
-    <span class="label {{ class }}">{{ text }}</span>
+    <span class="adm-badge {{ class }}">{{ text }}</span>
 {% endapply -%}

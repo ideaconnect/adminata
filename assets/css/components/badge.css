@@ -22,29 +22,35 @@
     }
 }
 
+/*
+ * The 700 shade, not TailAdmin's 600: on the matching 50 ground the 600s land between 3.3 and
+ * 4.4:1, and PLAN/08 §8 asks for AA. The alert recipes already used 700.
+ */
 @utility adm-badge-success {
     background-color: var(--color-success-50);
-    color: var(--color-success-600);
+    color: var(--color-success-700);
 
     @variant dark {
         background-color: rgb(18 183 106 / 15%);
-        color: var(--color-success-500);
+
+        /* 400, not 500: on the 15% tint over the dark card the 500s sit at about 3.5:1. */
+        color: var(--color-success-400);
     }
 }
 
 @utility adm-badge-error {
     background-color: var(--color-error-50);
-    color: var(--color-error-600);
+    color: var(--color-error-700);
 
     @variant dark {
         background-color: rgb(240 68 56 / 15%);
-        color: var(--color-error-500);
+        color: var(--color-error-400);
     }
 }
 
 @utility adm-badge-warning {
     background-color: var(--color-warning-50);
-    color: var(--color-warning-600);
+    color: var(--color-warning-700);
 
     @variant dark {
         background-color: rgb(247 144 9 / 15%);
@@ -54,7 +60,7 @@
 
 @utility adm-badge-info {
     background-color: var(--color-blue-light-50);
-    color: var(--color-blue-light-600);
+    color: var(--color-blue-light-700);
 
     @variant dark {
         background-color: rgb(11 165 236 / 15%);
