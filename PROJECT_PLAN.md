@@ -511,7 +511,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `aria-label`s; native per-page select with URL option values.
   - Accept: pager tests green; Panther per-page reload.
 
-- [ ] **P3-08 · Batch confirmation page** · S · depends: P3-01
+- [x] **P3-08 · Batch confirmation page** · S · depends: P3-01
   - Do: `CRUD/batch_confirmation.html.twig` (danger card, same POST fields).
   - Accept: functional batch flow with `confirmation=ok` green.
 
@@ -1753,4 +1753,15 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2813 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
+  `make assets-check`, `make test-visual` (252 passed).
+
+- 2026-09-05 — **P3-08 done.** The batch confirmation is a card with an error border where the
+  AdminLTE `box-danger` was; `sonata-ba-delete` and the whole POST are untouched —
+  `confirmation=ok`, the `data` payload, `_sonata_csrf_token` and the hidden `form_rest`. The
+  wrapper that hid the rest of the form is a `hidden` attribute rather than
+  `style="display: none"`. A functional test drives both halves: the list posts to `/batch`, the
+  confirmation page answers, and submitting it deletes the two products it named.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2814 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
   `make assets-check`, `make test-visual` (252 passed).
