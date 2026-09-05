@@ -1,0 +1,11 @@
+/*
+ * adminata's stylesheet without Tailwind itself and without the source globs: the aggregate an
+ * application imports when it compiles Tailwind on its own (PLAN/04 §7), so it gets the same
+ * tokens, base layer and components while its own `@source` list decides which utilities exist.
+ *
+ * The component layer and the safelist join this file in P1-05.
+ */
+
+@import './theme.css';
+@import './base.css';
+@import './fonts.css';

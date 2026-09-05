@@ -257,7 +257,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `lint:prettier`, `check:jquery` (fails when `npm ls jquery --all` finds a package).
   - Accept: all four scripts pass; adding `jquery` to `package.json` in a scratch branch makes `check:jquery` fail.
 
-- [ ] **P1-04 · Tokens, base, fonts, Font Awesome 7, size budgets** · M · depends: P1-01, P1-02
+- [x] **P1-04 · Tokens, base, fonts, Font Awesome 7, size budgets** · M · depends: P1-01, P1-02
   - Read: PLAN/04 §3, §8; PLAN/01 C1, C6, C7, C8.
   - Do: fetch TailAdmin v2.3.0 to a scratch dir; `assets/css/theme.css` (`@custom-variant dark`,
     `@theme static` tokens copied from `src/css/style.css` lines 8–166 without the font/breakpoint
@@ -905,6 +905,20 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   `jquery@3.7.1` and passes again once removed. There is no header-comment plugin: the one the plan
   named does not support ESLint 10, so the header rule stays with php-cs-fixer for PHP and is a
   convention for JavaScript.
+- 2026-09-05 — **P1-04 done.** `theme.css` (TailAdmin v2.3.0's tokens verbatim, minus its
+  `--font-*`/`--breakpoint-*` resets and its Google Fonts import, plus adminata's radius tokens and
+  the semantic z-index ladder), `base.css` (border-colour shim including a dark variant,
+  `color-scheme` — which is what makes the native date and time popups follow the theme — the nine
+  density variables and a compact override, body recipe), `fonts.css` and `adminata.css`, the
+  aggregate an application imports when it compiles Tailwind itself.
+  `fontawesome.css` composes Font Awesome's core with `solid.css` and `regular.css` rather than
+  importing `all.css`: that also carries Brands and the v4/v5 shims, whose `@font-face` rules point
+  at files adminata does not ship. The built stylesheet references exactly `./fonts/fa-solid-900.woff2`
+  and `./fonts/fa-regular-400.woff2`, no brands, no shims, no ttf/eot and no Google Fonts, and Vite
+  emits the two Outfit faces the same way. Vite's `base` is `./` so those URLs survive being
+  published anywhere. Sizes: app.js 44.8 kB, app.css 15.2 kB, fontawesome.css 70.0 kB, all inside
+  budget. Stylelint exempts the copied token block from the cosmetic rules, so it stays diffable
+  against the upstream template.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

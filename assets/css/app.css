@@ -2,7 +2,7 @@
  * adminata's stylesheet: Tailwind CSS v4 with the TailAdmin design tokens and the `.adm-*`
  * component layer. Compiled to packages/admin-bundle/src/Resources/public/app.css.
  *
- * The tokens (theme.css), base layer, component files and safelist arrive with P1-04 and P1-05.
+ * The component layer and the safelist join adminata.css in P1-05.
  */
 
 /*
@@ -11,6 +11,7 @@
  * explicitly instead, exactly as PLAN/04 §2 lists them.
  */
 @import 'tailwindcss' source(none);
+@import './adminata.css';
 
 /* Every template and script of the seven packages, and adminata's own JavaScript. */
 @source '../../packages';
