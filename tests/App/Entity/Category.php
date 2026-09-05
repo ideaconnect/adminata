@@ -42,6 +42,22 @@ class Category implements \Stringable
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeImmutable $createdAt;
 
+    #[ORM\Column(type: Types::STRING, length: 128, nullable: true)]
+    private ?string $contactEmail = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $homepage = null;
+
+    #[ORM\Column(type: Types::INTEGER)]
+    private int $sortOrder = 0;
+
+    /** One of `everyone`, `staff`, `hidden`: what a plain `ChoiceType` edits. */
+    #[ORM\Column(type: Types::STRING, length: 16)]
+    private string $visibility = 'everyone';
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $highlighted = false;
+
     /**
      * The inverse side exists so that `CategoryAdmin` can filter on it with a
      * `ModelAutocompleteFilter`; nothing writes through it and it maps no column.
@@ -105,6 +121,56 @@ class Category implements \Stringable
     public function setActive(bool $active): void
     {
         $this->active = $active;
+    }
+
+    public function getContactEmail(): ?string
+    {
+        return $this->contactEmail;
+    }
+
+    public function setContactEmail(?string $contactEmail): void
+    {
+        $this->contactEmail = $contactEmail;
+    }
+
+    public function getHomepage(): ?string
+    {
+        return $this->homepage;
+    }
+
+    public function setHomepage(?string $homepage): void
+    {
+        $this->homepage = $homepage;
+    }
+
+    public function getSortOrder(): int
+    {
+        return $this->sortOrder;
+    }
+
+    public function setSortOrder(int $sortOrder): void
+    {
+        $this->sortOrder = $sortOrder;
+    }
+
+    public function getVisibility(): string
+    {
+        return $this->visibility;
+    }
+
+    public function setVisibility(string $visibility): void
+    {
+        $this->visibility = $visibility;
+    }
+
+    public function isHighlighted(): bool
+    {
+        return $this->highlighted;
+    }
+
+    public function setHighlighted(bool $highlighted): void
+    {
+        $this->highlighted = $highlighted;
     }
 
     public function getCreatedAt(): \DateTimeImmutable

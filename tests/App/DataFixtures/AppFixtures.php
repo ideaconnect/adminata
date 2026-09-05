@@ -59,6 +59,11 @@ final class AppFixtures extends Fixture
             $category->setActive($active);
             $category->setDescription(\sprintf('Everything filed under %s.', strtolower($name)));
             $category->setCreatedAt($epoch->modify(\sprintf('+%d days', $index)));
+            $category->setContactEmail(\sprintf('%s@example.test', strtolower($name)));
+            $category->setHomepage(\sprintf('https://example.test/%s', strtolower($name)));
+            $category->setSortOrder(($index + 1) * 10);
+            $category->setVisibility(['everyone', 'staff', 'hidden'][$index % 3]);
+            $category->setHighlighted(0 === $index % 2);
 
             $manager->persist($category);
             $categories[] = $category;

@@ -46,6 +46,10 @@ export const PAGES = [
     { name: 'product-show', path: '/admin/tests/app/product/1/show' },
     { name: 'product-edit', path: '/admin/tests/app/product/1/edit' },
     { name: 'product-delete', path: '/admin/tests/app/product/3/delete' },
+    // Two-column groups, `help_html`, and the widgets the product form does not have: email, url,
+    // number, choice, checkbox, password and file.
+    { name: 'category-edit', path: '/admin/tests/app/category/1/edit' },
+    { name: 'category-show', path: '/admin/tests/app/category/1/show' },
     { name: 'login', path: '/login' },
     { name: 'empty-layout', path: '/admin/demo/empty' },
     { name: 'dialog', path: '/admin/demo/dialog' },

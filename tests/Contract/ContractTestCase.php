@@ -48,4 +48,35 @@ abstract class ContractTestCase extends TestCase
 
         return $found;
     }
+
+    /**
+     * Every Twig template the seven packages ship, as repository-relative paths.
+     *
+     * @return list<string>
+     */
+    final protected static function templates(): array
+    {
+        $root = self::root();
+        $found = [];
+
+        foreach (self::directories($root.'/packages/*/src/Resources/views') as $directory) {
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS)
+            );
+
+            foreach ($iterator as $file) {
+                if (!$file instanceof \SplFileInfo) {
+                    throw new \RuntimeException(\sprintf('Could not read the contents of "%s".', $directory));
+                }
+
+                if ('twig' === $file->getExtension()) {
+                    $found[] = substr($file->getPathname(), \strlen($root) + 1);
+                }
+            }
+        }
+
+        sort($found);
+
+        return $found;
+    }
 }
