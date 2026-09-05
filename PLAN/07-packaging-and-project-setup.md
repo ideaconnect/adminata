@@ -138,7 +138,7 @@ adminata/                                  git@github.com:ideaconnect/adminata.g
 ├── upstream/{remotes.txt,exclude/<name>.txt,diff.sh,sync.sh}
 ├── AGENTS.md CHANGELOG.md CHANGELOG-sonata.md CONTRIBUTING.md LICENSE NOTICE README.md
 ├── MIGRATION.md UPGRADE-1.0.md UPSTREAM.md
-├── composer.json package.json package-lock.json vite.config.js vitest.config.js eslint.config.js prettier.config.js stylelint.config.js playwright.config.ts
+├── composer.json package.json package-lock.json vite.config.js vitest.config.js eslint.config.js prettier.config.js stylelint.config.js playwright.config.js
 ├── phpunit.xml.dist phpstan.neon.dist rector.php .php-cs-fixer.dist.php infection.json5.dist .yamllint .editorconfig .gitattributes .readthedocs.yaml .symfony.bundle.yaml docker-compose.yml
 └── .github/{workflows,dependabot.yml,ISSUE_TEMPLATE,PULL_REQUEST_TEMPLATE.md}
 ```

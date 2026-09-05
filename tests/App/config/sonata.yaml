@@ -32,9 +32,9 @@ sonata_admin:
                 # A group rendered as a single top-level link rather than a collapsible section.
                 on_top: true
                 items:
-                    - {label: 'Dashboard', route: sonata_admin_dashboard}
+                    - { label: 'Dashboard', route: sonata_admin_dashboard }
         blocks:
-            - {type: sonata.admin.block.admin_list, position: left, class: 'md:col-span-6'}
+            - { type: sonata.admin.block.admin_list, position: left, class: 'md:col-span-6' }
 
 sonata_block:
     blocks:

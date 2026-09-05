@@ -168,6 +168,18 @@ demo-db: ## Create the demo database and load its fixtures
 	bin/console doctrine:fixtures:load --no-interaction
 .PHONY: demo-db
 
+test-visual: demo-db ## Playwright screenshots, axe and html-validate against the demo
+	bin/visual.sh npx playwright test
+.PHONY: test-visual
+
+visual-update: demo-db ## Regenerate the committed screenshot baselines
+	bin/visual.sh npx playwright test --update-snapshots
+.PHONY: visual-update
+
+visual-findings: demo-db ## Regenerate the accessibility and markup debt of the inherited templates
+	bin/visual.sh node bin/build-visual-findings.mjs
+.PHONY: visual-findings
+
 ## --- Front end ------------------------------------------------------------
 
 assets-install: ## Install the npm toolchain exactly as package-lock.json pins it

@@ -1,0 +1,106 @@
+{
+    "axe": {
+        "dashboard:light": [
+            "aria-required-parent",
+            "button-name",
+            "html-has-lang",
+            "link-name",
+            "list",
+            "meta-viewport"
+        ],
+        "dashboard:dark": [
+            "aria-required-parent",
+            "button-name",
+            "html-has-lang",
+            "link-name",
+            "list",
+            "meta-viewport"
+        ],
+        "product-list:light": [
+            "aria-required-children",
+            "aria-required-parent",
+            "button-name",
+            "html-has-lang",
+            "label",
+            "link-name",
+            "list",
+            "listitem",
+            "meta-viewport",
+            "select-name"
+        ],
+        "product-list:dark": [
+            "aria-required-children",
+            "aria-required-parent",
+            "button-name",
+            "html-has-lang",
+            "label",
+            "link-name",
+            "list",
+            "listitem",
+            "meta-viewport",
+            "select-name"
+        ],
+        "product-create:light": [
+            "aria-required-parent",
+            "button-name",
+            "html-has-lang",
+            "link-name",
+            "list",
+            "meta-viewport"
+        ],
+        "product-create:dark": [
+            "aria-required-parent",
+            "button-name",
+            "html-has-lang",
+            "link-name",
+            "list",
+            "meta-viewport"
+        ]
+    },
+    "markup": {
+        "dashboard": [
+            "element-required-attributes",
+            "heading-level",
+            "input-missing-label",
+            "long-title",
+            "no-deprecated-attr",
+            "no-inline-style",
+            "prefer-native-element",
+            "require-sri",
+            "text-content",
+            "valid-id",
+            "wcag/h30"
+        ],
+        "product-list": [
+            "attribute-boolean-style",
+            "attribute-empty-style",
+            "element-required-attributes",
+            "input-missing-label",
+            "long-title",
+            "no-inline-style",
+            "no-redundant-for",
+            "no-redundant-role",
+            "prefer-button",
+            "prefer-native-element",
+            "require-sri",
+            "text-content",
+            "unique-landmark",
+            "valid-for",
+            "wcag/h30"
+        ],
+        "product-create": [
+            "attribute-boolean-style",
+            "element-required-attributes",
+            "heading-level",
+            "input-missing-label",
+            "long-title",
+            "no-inline-style",
+            "no-redundant-role",
+            "prefer-native-element",
+            "require-sri",
+            "text-content",
+            "unique-landmark",
+            "wcag/h30"
+        ]
+    }
+}

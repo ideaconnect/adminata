@@ -12,6 +12,10 @@ ignore: |
 extends: default
 
 rules:
+    # Prettier formats adminata's own YAML and writes `{ a: b }`; yamllint's default forbids the
+    # spaces. Allowing either keeps one formatter in charge without the linter fighting it.
+    braces:
+        max-spaces-inside: 1
     comments: disable
     comments-indentation: disable
     document-start: disable
