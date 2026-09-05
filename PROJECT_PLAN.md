@@ -657,7 +657,7 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   - Do: `shortUidWithBranding` … `whiteLabelLogo`.
   - Accept: as P5-07a; `grep -rn "callout\|label label-\|btn btn-\|box-" templates/field` empty.
 
-- [ ] **P5-08 · CSS and build (step 11)** · M · depends: P5-02
+- [x] **P5-08 · CSS and build (step 11)** · M · depends: P5-02
   - Accept: Encore builds `build/admin.css` with `@tailwindcss/postcss`; `admin-theme.scss` gone;
     `sonata-overrides.scss` ≤ 160 lines; `.mt-10` renamed; FA family updated.
 
@@ -665,7 +665,7 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   - Accept: `grep -rn "col-md-" src` empty; `grep -rn "'format' =>" src/Admin src/Form | grep -i "yyyy\|dd\." ` empty;
     `grep -rn "clock-o" templates` empty.
 
-- [ ] **P5-10 · JavaScript port (step 15)** · S · depends: P5-02
+- [x] **P5-10 · JavaScript port (step 15)** · S · depends: P5-02
   - Accept: `grep -rnE "jQuery|\\$\\(" assets templates` empty; `jquery-ui*` gone from `package.json`;
     `npm ls jquery` empty; universal modal, section slider and accordion work in the browser.
 
@@ -2265,6 +2265,32 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   and there is no token to map them onto. And the eleven `<td>` rewrites produced a **duplicate
   `class` attribute** each, because the cells carried one already and the script replaced `style`
   with another; caught by looking, not by the linter, which accepts it.
+
+- 2026-09-05 — **P5-08 and P5-10 done.** The panel compiles Tailwind itself now:
+  `assets/styles/admin.css` imports Tailwind and adminata's stylesheet, with an `@source` list
+  naming both trees. That list is the whole point — a class the *panel* writes, `grid grid-cols-12`
+  or `dark:text-gray-400`, does not exist in adminata's build, which only ever saw adminata's
+  templates. `remove_stylesheets` drops the bundle's copy, which would otherwise be a second, older
+  one.
+
+  `admin-theme.scss` and its three partials are deleted (453 lines) and `sonata-overrides.scss` is
+  **659 lines down to 314**. What went was everything that fought AdminLTE or Bootstrap: the
+  signed-out header repainted because the skin class was missing, the body and table resets, the
+  list striping, the 147-line icon-button recipe, the navbar action buttons. What stayed is the
+  panel's own — its language menu, its login video, its operator strip — plus the hover colours of
+  its eight custom row actions, now a tint on top of `adm-btn-icon` rather than a second button
+  style beside it.
+
+  The three admin scripts are DOM code. `UniversalModal` calls `showModal()` on the native
+  `<dialog>`; `TransactionItemsAccordion` fetches the child list and lifts `table.sonata-ba-list`
+  out of an **inert `<template>`**, so nothing in the response loads or runs while the table is
+  looked for. And `SectionSlider` gained something the jQuery version never had: it applies the
+  saved value on load, so a section revealed by a stored selection is no longer hidden until
+  somebody touches the select.
+
+  `jquery`, `jquery-ui` and `jquery-ui-bundle` are out of `package.json`, `addExternals({ jquery })`
+  out of the Encore config, `npm ls jquery` is empty, and the bundle is 103 kB smaller.
+
 
 
 
