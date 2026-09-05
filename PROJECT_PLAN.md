@@ -642,7 +642,7 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   - Accept: 16 `list__action*`, `create_button`, `list_enum`, `list_many_to_one`, `list__select`
     ported; `Association/base_list_inner_row.html.twig` deleted; `grep -rn "btn btn-\|label label-" templates/bundles` empty.
 
-- [ ] **P5-06 · List summaries block (step 9)** · S · depends: P5-01
+- [x] **P5-06 · List summaries block (step 9)** · S · depends: P5-01
   - Accept: `crud/list_with_summaries.html.twig` overrides `list_after_table` only.
 
 - [ ] **P5-07a · Cell templates, first third (step 10)** · M · depends: P5-01
@@ -661,7 +661,7 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   - Accept: Encore builds `build/admin.css` with `@tailwindcss/postcss`; `admin-theme.scss` gone;
     `sonata-overrides.scss` ≤ 160 lines; `.mt-10` renamed; FA family updated.
 
-- [ ] **P5-09 · Admin classes, date formats, icons (steps 12–14)** · S · depends: P5-01
+- [x] **P5-09 · Admin classes, date formats, icons (steps 12–14)** · S · depends: P5-01
   - Accept: `grep -rn "col-md-" src` empty; `grep -rn "'format' =>" src/Admin src/Form | grep -i "yyyy\|dd\." ` empty;
     `grep -rn "clock-o" templates` empty.
 
@@ -2233,6 +2233,23 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 
   `Association/base_list_inner_row.html.twig` is deleted: it overrode a path Sonata never resolves,
   so it had never rendered once.
+
+- 2026-09-05 — **P5-06 and P5-09 done**, together because the first could not be seen without the
+  second. The summaries block moved from `list_footer` — where it opened with a stray `</div>` to
+  climb out of the AdminLTE box it was rendered inside — into `list_after_table`, the additive block
+  M3 added for exactly this. Rendering the one list that has summaries then failed, with adminata's
+  own exception: *"Cannot use the `format` option of `DatePickerType`: it renders a native HTML5
+  input… with the current `display.components` the value is exchanged as `yyyy-MM-dd`."* That is
+  P0-13's message doing its job, and step 13 doing what it says.
+
+  Nineteen `format` options came out of the twelve picker usages — and only those: the `d.m.Y H:i:s`
+  and `d/m/Y` formats on list and show *field descriptions* are PHP display formats Sonata still
+  honours, and a blanket removal would have silently changed how nine columns read. Thirty-one group
+  classes moved from `col-md-N` to `col-span-12 md:col-span-N`, `form-control` and `btn btn-success`
+  came out of five form types' `attr` (the theme appends and never replaces), `fa-clock-o` became
+  `fa-clock`, and `.mt-10` became `.app-mt-10` because Tailwind owns that name and means 2.5rem
+  by it.
+
 
 
 
