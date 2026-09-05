@@ -927,12 +927,18 @@ mistake cannot recur.
 
 ## Milestone M6 — Release (PLAN/09 phase 6)
 
-- [ ] **P6-01 · Documentation site** · L · depends: P5-MS
+- [x] **P6-01 · Documentation site** · L · depends: P5-MS
   - Read: PLAN/12.
   - Do: merge `packages/*/docs` into `docs/` (one Sphinx site, sections per package), prune to the 1.0
     scope, "not yet ported" banners, new pages (theming, icons, JavaScript API, compiling Tailwind
     yourself, porting status), `.readthedocs.yaml`, `documentation.yaml` workflow.
-  - Accept: `make docs` builds without warnings; `documentation.yaml` green.
+  - Accept: `make docs` builds without warnings — `-W --keep-going`, so a cross-reference that
+    stops resolving when a page is pruned fails the build rather than shipping a dead link;
+    `documentation.yaml` and `.readthedocs.yaml` both build the same site from the same pinned
+    requirements. `bin/docs.sh` uses a local `sphinx-build` when there is one and a Python
+    container otherwise, so the only thing a contributor needs installed is Docker.
+  - The four cookbook recipes PLAN/12 listed for deletion (bootlint, iCheck, jQuery UI, select2)
+    were already gone from upstream 4.43; nothing to delete.
 
 - [ ] **P6-02 · Release `v1.0.0`** · S · depends: P6-01
   - Do: `CHANGELOG.md`, `NOTICE`, `README.md` final; bump `replace` check; tag `v1.0.0`; Packagist
@@ -2714,3 +2720,31 @@ mistake cannot recur.
   moved — six pages × two themes × three viewports — which is the honest blast radius of a rule
   that applied to every card without a header, and every one of the thirty-five was a screenshot
   diff, not a behaviour or accessibility failure.
+
+- 2026-09-05 — **P6-01 done.** One Sphinx site out of six, in `docs/`: the packages' trees merged
+  under a section each, adminata's own pages in front of them. `make docs` builds it with
+  `-W --keep-going`, and `bin/docs.sh` falls back to a Python container when there is no local
+  `sphinx-build`, so the only thing a contributor needs installed is Docker — the same bargain
+  `bin/visual.sh` makes for the browsers. `.readthedocs.yaml` sets `fail_on_warning`, so the
+  published site cannot get a dead link through that path either.
+
+  Five new pages carry what a fork has to explain and upstream never had to: **theming** (the
+  tokens, and the `:where()` ordering rule that P5-FIX-14 was), **icons** (the whole `parse_icon`
+  contract, including that it throws on an unrecognised prefix), **JavaScript** (the controller
+  surface, generated from `controllers.json` so it cannot drift), **compiling Tailwind yourself**,
+  and **porting status** — thirty-seven templates, grouped by why each is deferred.
+
+  The inherited pages needed real edits, not a search and replace. `reference/configuration.rst`
+  was a stale dump listing four nodes that are now container build errors; it is the
+  `ConfigContractTest` capture instead, so the page fails a build rather than drifting.
+  form-extensions' date-picker page described Tempus Dominus and is rewritten for native inputs,
+  including which `display.components` yields which input type and why `format` now throws.
+  twig-extensions' flash-message example emitted Bootstrap markup with `data-dismiss`, which needs
+  a jQuery that no longer exists. Group and block `class` examples became Tailwind spans.
+
+  Three pages describe screens that are not ported and now say so in a banner at the top; two more
+  carry a targeted note where only one option is affected (`editable`, `ModelListType`).
+
+  The four cookbook recipes PLAN/12 listed for deletion — bootlint, iCheck, jQuery UI, select2 —
+  had already gone from upstream 4.43, so there was nothing to delete. The plan was written against
+  an older snapshot.

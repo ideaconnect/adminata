@@ -43,7 +43,6 @@
 /vite.config.js export-ignore
 /vitest.config.js export-ignore
 /Makefile export-ignore
-/packages/*/docs export-ignore
 /packages/*/tests export-ignore
 /packages/*/Makefile export-ignore
 /packages/*/CONTRIBUTING.md export-ignore

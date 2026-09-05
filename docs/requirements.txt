@@ -1,0 +1,5 @@
+# Pinned exactly, like every other tool adminata uses: a documentation build that drifts is a
+# documentation build that fails on someone else's machine.
+Pygments==2.20.0
+Sphinx==8.2.3
+sphinx-rtd-theme==3.0.2

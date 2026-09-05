@@ -1,0 +1,44 @@
+name: Documentation
+
+on:
+    schedule:
+        - cron: '30 0 * * *'
+    push:
+        branches:
+            - main
+    pull_request:
+
+permissions:
+    contents: read
+
+jobs:
+    build:
+        name: Sphinx
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Install Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: '3.13'
+                  cache: pip
+                  cache-dependency-path: docs/requirements.txt
+
+            - name: Install the pinned Sphinx
+              run: pip install -r docs/requirements.txt
+
+              # Warnings are errors: a cross-reference that stops resolving when a page is pruned
+              # fails here rather than shipping a dead link to Read the Docs.
+            - name: Build
+              run: sphinx-build -W --keep-going -b html docs var/docs
+
+            - name: Upload
+              uses: actions/upload-artifact@v4
+              with:
+                  name: documentation
+                  path: var/docs
+                  retention-days: 7

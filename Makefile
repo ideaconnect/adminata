@@ -195,6 +195,12 @@ visual-findings: demo-db demo-assets ## Regenerate the accessibility and markup 
 	bin/visual.sh node bin/build-visual-findings.mjs
 .PHONY: visual-findings
 
+## --- Documentation --------------------------------------------------------
+
+docs: ## Build the documentation site into var/docs (warnings are errors)
+	bin/docs.sh
+.PHONY: docs
+
 ## --- Front end ------------------------------------------------------------
 
 assets-install: ## Install the npm toolchain exactly as package-lock.json pins it

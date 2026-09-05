@@ -78,6 +78,10 @@ then publish the assets:
 bin/console assets:install public
 ```
 
+The documentation site is `docs/`; build it with `make docs`, which needs nothing installed but
+Docker. It merges the six packages' Sphinx trees with adminata's own pages — theming, icons, the
+JavaScript API, compiling Tailwind yourself, and what is not yet ported.
+
 Migrating an application that already runs Sonata Admin: [UPGRADE-1.0.md](UPGRADE-1.0.md) for the
 generic notes, and [MIGRATION.md](MIGRATION.md) for the checklist as it was actually executed
 against a 46-admin production panel, with what each step turned out to involve.
@@ -94,7 +98,7 @@ sonata_admin:
 The mode is stamped server-side from the `sonata_theme` cookie, so there is no flash of the wrong
 theme. Applications can re-theme without rebuilding by redefining the `--color-brand-*` custom
 properties, or compile Tailwind themselves against adminata's templates. See
-[PLAN/04-css-architecture.md](PLAN/04-css-architecture.md) until the documentation site exists.
+[docs/theming.rst](docs/theming.rst) and [docs/tailwind.rst](docs/tailwind.rst).
 
 ## Development
 
