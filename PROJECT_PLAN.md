@@ -463,7 +463,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
 
 ## Milestone M3 — List (PLAN/09 phase 3)
 
-- [ ] **P3-01 · `base_list.html.twig` and `list.html.twig`** · L · depends: P2-MS
+- [x] **P3-01 · `base_list.html.twig` and `list.html.twig`** · L · depends: P2-MS
   - Read: PLAN/03 §B rows 1–2; PLAN/02 §8 "List"; `PLAN/research/list-datagrid.md`.
   - Do: card header (title, actions), filter panel card (rows `grid grid-cols-12 gap-3`, existing
     `sonata-filter`/`sonata-filter-list` hooks and ids), table wrapper `max-w-full overflow-x-auto`,
@@ -1584,3 +1584,36 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   runs**. A template that stopped working kept passing on a machine that still had the old build.
   `KernelClassExtension` — which already knows every test kernel — now removes each one's cache
   before the run, so a local `make test` and a cold CI run see the same thing.
+
+- 2026-09-05 — **P3-01 done.** `CRUD/base_list.html.twig` is a card: the table inside an
+  `adm-table-wrap` that scrolls on its own, the footer **outside** it, and the filters in a card of
+  their own whose rows are a twelve-column grid. Every id, class and field name PLAN/02 §8 keeps is
+  where it was. `list_after_table` is the new block, after the card and inside the form, which is
+  where an application puts the summaries it used to hang off `list_footer`. `batch_javascript`
+  survives as an **empty** block: an application overriding it keeps compiling, and the twelve lines
+  of jQuery it held are `sonata-batch`'s job now.
+
+  The footer being outside the scrolling wrapper is the point of the rewrite, not a detail: a
+  dropdown inside an `overflow-x: auto` box is clipped by it, which is why upstream's export menu
+  needed a hundred pixels of bottom margin on every list without a pager.
+
+  Two measurable results. **`horizontal-overflow` is gone from `findings.json` entirely** — the
+  table scrolls in its own box and the page no longer does at 375px, so the product-list
+  screenshots have baselines again for the first time (252 Playwright checks, 36 images). And four
+  accessibility findings went with it: `aria-required-children`, `listitem` and `select-name` from
+  the filter dropdown, which is a real disclosure now rather than `role="menuitem"` in a plain
+  `<ul>`, and `prefer-button` from the filter toggles, which are `<button aria-pressed>`.
+
+  Two assertions moved with the markup. The ORM's `CompositePrimaryKeysTest` looked for
+  `.box-footer`, which was AdminLTE's and is not a hook §8 keeps; it reads `.adm-list-footer`.
+  And `DashboardPantherTest` finally does what P1-11 said it would: the product list stopped
+  throwing `ReferenceError: jQuery is not defined`, so the exact-message assertion is
+  `assertConsoleIsEmpty()`.
+
+  Sort affordance: `base_list` renders `fa-sort` on every sortable column and swaps it for
+  `fa-sort-up`/`-down` on the active one, with `aria-sort` on the header. The stylesheet's
+  `::after` arrow — active column only, generated content — is gone.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2810 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
+  `make assets-check`, `make test-visual` (**252 passed**).

@@ -1,18 +1,12 @@
 {
     "axe": {
         "product-list:light": [
-            "aria-required-children",
             "label",
-            "link-name",
-            "listitem",
-            "select-name"
+            "link-name"
         ],
         "product-list:dark": [
-            "aria-required-children",
             "label",
-            "link-name",
-            "listitem",
-            "select-name"
+            "link-name"
         ],
         "product-create:light": [
             "button-name",
@@ -28,7 +22,6 @@
             "input-missing-label",
             "no-redundant-for",
             "no-redundant-role",
-            "prefer-button",
             "valid-for",
             "wcag/h30"
         ],
@@ -39,15 +32,5 @@
             "wcag/h30"
         ]
     },
-    "responsive": {
-        "product-list@chromium-narrow": [
-            "horizontal-overflow"
-        ],
-        "product-list@firefox-narrow": [
-            "horizontal-overflow"
-        ],
-        "product-list@webkit-narrow": [
-            "horizontal-overflow"
-        ]
-    }
+    "responsive": {}
 }
