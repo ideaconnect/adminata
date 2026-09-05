@@ -322,7 +322,13 @@ file that was distributed with this source code.
                 <div class="content-wrapper">
                     {% block sonata_page_content %}
                         <div class="adm-content">
-                            <div class="content-header mb-6 flex flex-col gap-2">
+                            {#
+                                Captured rather than rendered in place: with neither a
+                                breadcrumb nor a page header — the dashboard, an empty layout —
+                                the wrapper would still take its margin, and a stray gap above
+                                the content is the kind of thing nobody tracks down.
+                            #}
+                            {% set contentHeader %}
                                 {% block sonata_breadcrumb %}
                                     {% if _breadcrumb is not empty or action is defined %}
                                         <nav aria-label="{{ 'breadcrumb'|trans({}, 'SonataAdminBundle') }}">
@@ -405,7 +411,11 @@ file that was distributed with this source code.
                                         {% endif %}
                                     {% endblock sonata_page_content_nav %}
                                 {% endblock sonata_page_content_header %}
-                            </div>
+                            {% endset %}
+
+                            {% if contentHeader|trim is not empty %}
+                                <div class="content-header mb-6 flex flex-col gap-2">{{ contentHeader|raw }}</div>
+                            {% endif %}
 
                             <div class="content">
                                 {% block sonata_admin_content %}

@@ -27,7 +27,6 @@
         "dashboard": [
             "heading-level",
             "long-title",
-            "no-deprecated-attr",
             "no-inline-style",
             "valid-id"
         ],
