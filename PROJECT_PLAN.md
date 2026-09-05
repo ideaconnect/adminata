@@ -631,7 +631,7 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   - Accept: the override keeps only `stylesheets`, `sonata_head_title`, `sonata_top_nav_menu_add_block`,
     `sonata_wrapper` (dialog), `sonata_page_content_header` (`adm-alert`), `content`; pages render.
 
-- [ ] **P5-03 · Login, password-reset layout, user block (step 5)** · M · depends: P5-02
+- [x] **P5-03 · Login, password-reset layout, user block (step 5)** · M · depends: P5-02
   - Accept: login and reset pages render on the TailAdmin sign-in recipe; `user_block` links present.
 
 - [ ] **P5-04 · Page templates and `notice` includes (steps 6–7)** · M · depends: P5-02
@@ -2188,6 +2188,20 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   the value is a `FileAsset` entity with no `__toString()`, so the list throws on any row that has
   one. `CRUD/base_list_field.html.twig` is byte-identical to what was imported from 4.43.0 but for
   the readmore button's class, so this predates adminata and would fail the same way on `develop`.
+
+- 2026-09-05 — **P5-03 done.** The login page, the shared password-reset shell and its two forms are
+  cards on adminata's shell: `adm-input`, `adm-label`, `adm-btn` and `adm-alert` in place of
+  `form-control`, `form-group has-feedback`, `btn btn-flat` and `alert alert-*`. The `glyphicon`
+  feedback spans went with Bootstrap's icon font. `sonata_nav`, `logo` and `sonata_left_side` stay
+  emptied, which is what makes `sonata_header` render nothing at all (PLAN/01 T9).
+
+  One thing changed beyond the recipes: the three actions were **icon-only buttons with the label in
+  `title` and `aria-label`**, and they are the buttons a visitor who cannot sign in has to find.
+  They carry their label as text now, icon beside it.
+
+  `user_block` supplies list items only — adminata renders the dropdown panel around them — so its
+  items are `adm-dropdown__item` and the rule between them is `adm-dropdown__divider`.
+
 
 
 
