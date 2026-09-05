@@ -296,7 +296,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `npm run test` green; `grep -rn "jQuery\|\$(" assets/js` empty; built `app.js` registers
     nine identifiers (snapshot test).
 
-- [ ] **P1-07 · `frontend.yaml` workflow** · S · depends: P1-05, P1-06
+- [x] **P1-07 · `frontend.yaml` workflow** · S · depends: P1-05, P1-06
   - Do: Node 24 and 26 matrix running `npm ci`, `lint:js`, `lint:css`, `lint:prettier`, `check:jquery`,
     `fixture`, `test`, `build`, `git diff --exit-code -- packages/admin-bundle/src/Resources/public`,
     `css:contract`, `size`.
@@ -954,6 +954,9 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   54.3 kB. `bin/build-js-contract.mjs` records the identifiers, targets, values, classes and
   outlets, and `contract.test.js` checks the registry and the built bundle against it — including
   that no jQuery reaches the output.
+- 2026-09-05 — **P1-07 done.** `frontend.yaml` on Node 24 and 26: `npm ci`, the three linters, the
+  jQuery gate, the Tailwind fixture, Vitest, a build, a diff of the committed output against it,
+  the CSS contract and the size budgets.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README
