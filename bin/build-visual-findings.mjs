@@ -42,34 +42,37 @@ const context = await browser.newContext({
 
 const findings = { axe: {}, markup: {}, responsive: {} };
 
-for (const { name, path } of PAGES) {
-    for (const theme of THEMES) {
-        await context.clearCookies();
-        await context.addCookies([{ name: 'sonata_theme', value: theme, url: BASE_URL }]);
+for (const [size, viewport] of Object.entries(VIEWPORTS)) {
+    for (const { name, path } of PAGES) {
+        for (const theme of THEMES) {
+            await context.clearCookies();
+            await context.addCookies([{ name: 'sonata_theme', value: theme, url: BASE_URL }]);
 
-        const page = await context.newPage();
-        await page.goto(path, { waitUntil: 'networkidle' });
-        await page.evaluate(() => document.fonts.ready);
+            const page = await context.newPage();
+            await page.setViewportSize(viewport);
+            await page.goto(path, { waitUntil: 'networkidle' });
+            await page.evaluate(() => document.fonts.ready);
 
-        const { violations } = await new AxeBuilder({ page })
-            .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-            .analyze();
+            const { violations } = await new AxeBuilder({ page })
+                .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+                .analyze();
 
-        const rules = [...new Set(violations.map((violation) => violation.id))].sort();
-        if (rules.length > 0) {
-            findings.axe[`${name}:${theme}`] = rules;
-        }
-
-        // The markup does not depend on the theme, so it is captured once, from the light run.
-        if (theme === THEMES[0]) {
-            const { rules: ids } = await validate(await page.content(), name);
-
-            if (ids.length > 0) {
-                findings.markup[name] = ids;
+            const rules = [...new Set(violations.map((violation) => violation.id))].sort();
+            if (rules.length > 0) {
+                findings.axe[`${name}:${theme}@${size}`] = rules;
             }
-        }
 
-        await page.close();
+            // The markup depends on neither the theme nor the width, so it is captured once.
+            if (theme === THEMES[0] && size === Object.keys(VIEWPORTS)[0]) {
+                const { rules: ids } = await validate(await page.content(), name);
+
+                if (ids.length > 0) {
+                    findings.markup[name] = ids;
+                }
+            }
+
+            await page.close();
+        }
     }
 }
 

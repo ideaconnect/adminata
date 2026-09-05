@@ -1,16 +1,44 @@
 {
     "axe": {
-        "product-list:light": [
+        "product-list:light@narrow": [
             "link-name"
         ],
-        "product-list:dark": [
+        "product-list:dark@narrow": [
             "link-name"
         ],
-        "product-create:light": [
+        "product-create:light@narrow": [
             "button-name",
             "link-name"
         ],
-        "product-create:dark": [
+        "product-create:dark@narrow": [
+            "button-name",
+            "link-name"
+        ],
+        "product-list:light@medium": [
+            "link-name"
+        ],
+        "product-list:dark@medium": [
+            "link-name"
+        ],
+        "product-create:light@medium": [
+            "button-name",
+            "link-name"
+        ],
+        "product-create:dark@medium": [
+            "button-name",
+            "link-name"
+        ],
+        "product-list:light@wide": [
+            "link-name"
+        ],
+        "product-list:dark@wide": [
+            "link-name"
+        ],
+        "product-create:light@wide": [
+            "button-name",
+            "link-name"
+        ],
+        "product-create:dark@wide": [
             "button-name",
             "link-name"
         ]

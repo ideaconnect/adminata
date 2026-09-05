@@ -492,7 +492,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `editable`), `base_list_inner_row`, `list_inner_row`, `list_outer_rows_list`; hover/selected rows via CSS.
   - Accept: envelope assertions of `RenderElementRuntimeTest` unchanged and green.
 
-- [ ] **P3-05 · Typed list and display templates** · M · depends: P3-04
+- [x] **P3-05 · Typed list and display templates** · M · depends: P3-04
   - Read: PLAN/03 §B "list_*" row.
   - Do: 14 `list_*` and 12 `display_*` templates (`adm-badge` booleans, `target="_blank"
     rel="noopener"` URLs, plain currency/percent); re-baseline the affected expectations of
@@ -1685,6 +1685,34 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 
   `base_list_inner_row`, `list_inner_row` and `list_outer_rows_list` needed nothing: hover and the
   selected-row highlight are CSS on `.adm-table`, and the row templates were never Bootstrap.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2812 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
+  `make assets-check`, `make test-visual` (252 passed).
+
+- 2026-09-05 — **P3-05 done.** Of the 26 typed templates, exactly two carried Bootstrap:
+  `display_boolean` (`label label-success|danger`, which PLAN/02 §8 drops) is now
+  `adm-badge adm-badge-success|error`, and `display_url` adds `target="_blank" rel="noopener"`.
+  The other 24 were already plain markup and are unchanged. 64 expectations re-baselined across
+  the two render-element test files, none of them touching the cell envelope.
+
+  **The new tab is only for links that leave the application.** The plan said "URLs"; a
+  `display_url` field can also render a Symfony route, and sending an internal admin link to a new
+  tab is not what anyone means. The defaults are merged the way round that lets an application's
+  `attributes` option override either of them.
+
+  Then the badge turned up four accessibility failures, which is the whole reason the gate exists.
+  TailAdmin's badge text is the 600 shade on the matching 50 ground: between **3.34 and 4.44:1**
+  for all four variants, so none of them reached AA. They are the 700 shade now — the alert
+  recipes already used it — and in dark mode the 400 rather than the 500, which sat at 3.48:1 over
+  the 15% tint.
+
+  Finding that needed a change to the gate itself. `findings.json` keyed accessibility by page and
+  theme, but the generator measured at one width while the spec runs at three — so a violation that
+  only appears at 1280 was invisible to the generator and failed the suite. The key is
+  `page:theme@size` now and the generator walks all three, which is also how the responsive check
+  has always been keyed. **The only accessibility findings left anywhere are `link-name` and
+  `button-name`, both from the row actions P3-06 owns.**
 
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2812 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
