@@ -321,7 +321,9 @@ file that was distributed with this source code.
                         class="sonata-filter-form {{ admin.isChild and 1 == admin.datagrid.filters|length ? 'hidden' : '' }}"
                         action="{{ admin.generateUrl(action|default('list')) }}"
                         method="GET"
-                        role="form"
+                        {#- Named rather than `role="form"`: the role on a `<form>` is redundant,
+                            and a landmark with no name is noise a screen reader has to step past. -#}
+                        aria-label="{{ 'link_filters'|trans({}, 'SonataAdminBundle') }}"
                         {{ stimulus_target('sonata-filter', 'form') }}
                         {{ stimulus_action('sonata-filter', 'prepareSubmit', 'submit') }}>
                         {{ form_errors(form) }}

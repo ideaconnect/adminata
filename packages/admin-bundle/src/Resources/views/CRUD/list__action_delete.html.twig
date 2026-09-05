@@ -9,22 +9,32 @@ file that was distributed with this source code.
 
 #}
 
+{#
+    The `delete` row action.
+
+    `delete_link` is the hook an application's CSS and the functional tests select on (PLAN/02 §8).
+
+    `list_action_button_content` still decides between the icon, the text and both; when the text
+    is hidden it stays in the accessibility tree rather than disappearing.
+#}
+
 {% if admin.hasAccess('delete', object) and admin.hasRoute('delete') %}
     {% set button_content = sonata_config.getOption('list_action_button_content') %}
+    {% set show_icon = button_content in ['icon', 'all'] %}
+    {% set show_text = button_content in ['text', 'all'] %}
+    {% set recipe = show_text ? 'adm-btn adm-btn-secondary adm-btn-sm' : 'adm-btn-icon adm-btn-icon-delete' %}
     <a
         href="{{ admin.generateObjectUrl('delete', object, actions.link_parameters|default([])) }}"
-        class="btn btn-sm btn-default delete_link"
+        class="{{ recipe }} delete_link"
         title="{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}"
     >
-        {% if button_content == 'icon' or button_content == 'all' %}
-            <i class="fas fa-times" aria-hidden="true"></i>
+        {% if show_icon %}
+            <i class="fas fa-xmark" aria-hidden="true"></i>
         {% endif %}
-        {% if button_content == 'text' or button_content == 'all' %}
+        {% if show_text %}
             {{ 'action_delete'|trans({}, 'SonataAdminBundle') }}
         {% else %}
-            <span class="sr-only">
-                {{ 'action_delete'|trans({}, 'SonataAdminBundle') }}
-            </span>
+            <span class="sr-only">{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}</span>
         {% endif %}
     </a>
 {% endif %}
