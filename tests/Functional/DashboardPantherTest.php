@@ -111,16 +111,7 @@ final class DashboardPantherTest extends BasePantherTestCase
 
         static::assertGreaterThan(0, $crawler->filter('table.sonata-ba-list tbody tr')->count());
 
-        // Not `assertConsoleIsEmpty()` yet, and deliberately exact. The inherited
-        // `CRUD/list.html.twig` still carries Sonata's inline jQuery, which throws because
-        // adminata ships none (owner directive 2) — this is the browser saying out loud what the
-        // deferred templates cost. M3 rewrites that template; the day it does, this assertion
-        // fails, and the fix is to replace it with `assertConsoleIsEmpty()`.
-        static::assertSame(
-            ['uncaught: ReferenceError: jQuery is not defined'],
-            $this->consoleMessages(),
-            'The console errors of the inherited product list changed.'
-        );
+        $this->assertConsoleIsEmpty('The product list wrote to the browser console.');
     }
 
     /**

@@ -62,14 +62,11 @@
         background-color: var(--color-brand-50);
     }
 
-    /* Sort affordance on the active column, replacing AdminLTE's `::after` arrows. */
-    .adm-table th.sonata-ba-list-field-order-active a::after {
-        content: ' ↓';
-    }
-
-    .adm-table th.sonata-ba-list-field-order-active.sonata-ba-list-field-order-desc a::after {
-        content: ' ↑';
-    }
+    /*
+     * No `::after` arrow: `base_list` renders a `fa-sort` icon on every sortable column and swaps
+     * it for `fa-sort-up`/`fa-sort-down` on the active one, so the affordance is there before a
+     * column has been sorted and it is a real element rather than generated content.
+     */
 
     .dark .adm-table thead th {
         border-bottom-color: var(--color-gray-800);

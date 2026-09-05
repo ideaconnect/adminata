@@ -17,17 +17,20 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class CompositePrimaryKeysTest extends BasePantherTestCase
 {
+    // The list footer is `.adm-list-footer` since M3 rewrote `CRUD/base_list.html.twig`;
+    // `.box-footer` was AdminLTE's and is not one of the hooks PLAN/02 §8 keeps.
+
     public function testListCompositePrimaryKeys(): void
     {
         $this->client->request(Request::METHOD_GET, '/admin/tests/app/car/list');
 
-        self::assertSelectorTextContains('.box-footer', '1 / 1  -  3 results');
+        self::assertSelectorTextContains('.adm-list-footer', '1 / 1  -  3 results');
     }
 
     public function testListRelationsCompositePrimaryKeys(): void
     {
         $this->client->request(Request::METHOD_GET, '/admin/tests/app/item/list');
 
-        self::assertSelectorTextContains('.box-footer', '1 / 1  -  3 results');
+        self::assertSelectorTextContains('.adm-list-footer', '1 / 1  -  3 results');
     }
 }
