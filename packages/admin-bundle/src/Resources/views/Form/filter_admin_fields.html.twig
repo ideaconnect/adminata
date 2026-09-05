@@ -9,80 +9,82 @@ file that was distributed with this source code.
 
 #}
 
-{% extends 'form_div_layout.html.twig' %}
-
 {#
-    Inspired from MopaBootstrapBundle: https://github.com/phiamo/MopaBootstrapBundle
+    The filter theme (PLAN/06 §1, PLAN/01 F2).
+
+    Native controls with adminata's recipes on them, in place of the Bootstrap `form-control` and
+    the `.checkbox` / `.radio` wrappers upstream inherited from MopaBootstrapBundle. Date and
+    date-time filters keep Symfony's HTML5 `single_text` widgets — `type=date` and
+    `type=datetime-local` — which need no picker library and which the browser localises itself.
+
+    Attributes an application sets on a filter field, `data-controller` among them, pass through
+    untouched: every block merges into `attr` rather than replacing it, which is what lets a
+    ux-autocomplete `<select>` keep working inside the panel.
 #}
 
-{% block choice_widget_collapsed %}
-    {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
-    {{ parent() }}
-{% endblock choice_widget_collapsed %}
-
-{% block textarea_widget %}
-    {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
-    {{ parent() }}
-{% endblock textarea_widget %}
+{% extends 'form_div_layout.html.twig' %}
 
 {% block form_widget_simple %}
-    {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
+    {% set type = type|default('text') %}
+    {% set recipe = type in ['checkbox', 'radio', 'hidden', 'file'] ? '' : 'adm-input' %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ recipe)|trim}) %}
     {{ parent() }}
 {% endblock form_widget_simple %}
 
+{% block textarea_widget %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' adm-textarea')|trim}) %}
+    {{ parent() }}
+{% endblock textarea_widget %}
+
+{% block choice_widget_collapsed %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' adm-select' ~ (multiple ? ' adm-select-multiple' : ''))|trim}) %}
+    {{ parent() }}
+{% endblock choice_widget_collapsed %}
+
 {% block choice_widget_expanded %}
-    {% set label_attr = label_attr|merge({'class': (label_attr.class|default(''))}) %}
-    {% set label_attr = label_attr|merge({'class': (label_attr.class ~ ' ' ~ (widget_type is defined and widget_type != '' ? (multiple ? 'checkbox' : 'radio') ~ '-' ~ widget_type : ''))}) %}
-    {% if expanded %}
-        {% set attr = attr|merge({'class': attr.class|default('')}) %}
-        <div {{ block('widget_container_attributes') }}>
-    {% endif %}
-    {% for child in form %}
-        {% if widget_type is defined and widget_type != 'inline' %}
-            <div class="{{ multiple ? 'checkbox' : 'radio' }}">
-        {% endif %}
-        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-        {{ form_widget(child, {'attr': {'class': attr.widget_class|default('')}}) }}
-        {{ child.vars.label|trans({}, translation_domain) }}
-        </label>
-        {% if widget_type is defined and widget_type != 'inline' %}
-            </div>
-        {% endif %}
-    {% endfor %}
-    {% if block('form_message') is defined %}
-        {{ block('form_message') }}
-    {% endif %}
-    {% if expanded %}
-        </div>
-    {% endif %}
+    <div {{ block('widget_container_attributes') }} class="flex flex-wrap items-center gap-3">
+        {% for child in form %}
+            <label class="{{ multiple ? 'adm-checkbox-label' : 'adm-radio-label' }}">
+                {{ form_widget(child) }}
+                {{ child.vars.label|trans({}, translation_domain) }}
+            </label>
+        {% endfor %}
+    </div>
 {% endblock choice_widget_expanded %}
 
 {% block checkbox_widget %}
-    {% if label is not same as(false) and label is empty %}
-        {% set label = name|humanize %}
-    {% endif %}
-    {% if form.parent != null and 'choice' not in form.parent.vars.block_prefixes %}
-        <div class="checkbox">
-    {% endif %}
-
-    {% if form.parent != null and 'choice' not in form.parent.vars.block_prefixes and label_render is defined %}
-        <label class="{% if inline is defined and inline %}checkbox-inline{% endif %}">
-    {% endif %}
-
-    <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %}/>
-    {% if form.parent != null and 'choice' not in form.parent.vars.block_prefixes %}
-        {% if label_render is defined and widget_checkbox_label in ['both', 'widget'] %}
-            {{ label|trans({}, translation_domain) }}
-            </label>
-        {% endif %}
-    {% endif %}
-    {% if form.parent != null and 'choice' not in form.parent.vars.block_prefixes %}
-        </div>
-        {% if block('form_message') is defined %}
-            {{ block('form_message') }}
-        {% endif %}
-    {% endif %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' adm-checkbox')|trim}) %}
+    {{ parent() }}
 {% endblock checkbox_widget %}
+
+{% block radio_widget %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' adm-radio')|trim}) %}
+    {{ parent() }}
+{% endblock radio_widget %}
+
+{#
+    Additive (PLAN/02 §5). A range filter is two `single_text` date inputs; upstream stacked them
+    through `form_div_layout`, which puts each on its own row and loses which is which.
+#}
+{% block sonata_type_date_range_widget %}
+    {#- `widget_container_attributes` keeps the container's own id, which is what the filter row's
+        `<label for>` points at. -#}
+    <div {{ block('widget_container_attributes') }} class="grid grid-cols-2 gap-2">
+        {% for child in form %}
+            <div>
+                {#- Each half needs a name of its own; the row's label names the filter, not the
+                    end of the range it belongs to. -#}
+                {{ form_widget(child, {'attr': child.vars.attr|default({})|merge({
+                    'aria-label': (child.vars.label ?? child.vars.name)|trans({}, translation_domain),
+                })}) }}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock sonata_type_date_range_widget %}
+
+{% block sonata_type_datetime_range_widget %}
+    {{ block('sonata_type_date_range_widget') }}
+{% endblock sonata_type_datetime_range_widget %}
 
 {% block sonata_type_model_autocomplete_widget %}
     {% include template %}
