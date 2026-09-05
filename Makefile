@@ -213,7 +213,7 @@ fixture: ## The Tailwind v4 assumptions of PLAN/04 §4
 	npm run fixture
 .PHONY: fixture
 
-lint-js: ## ESLint and the jQuery gate
+lint-js: lint-prettier ## ESLint, Prettier and the jQuery gate
 	npm run lint:js
 	npm run check:jquery
 .PHONY: lint-js

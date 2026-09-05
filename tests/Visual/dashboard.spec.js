@@ -37,7 +37,9 @@ for (const { name, path } of PAGES) {
                 // viewport shows is measured differently on every run. `responsive.spec` holds that
                 // debt, and striking an entry from it is what brings the baseline back.
                 test.skip(
-                    knownFindings('responsive', `${name}@${testInfo.project.name}`).includes('horizontal-overflow'),
+                    knownFindings('responsive', `${name}@${testInfo.project.name}`).includes(
+                        'horizontal-overflow',
+                    ),
                     'The page still scrolls sideways at this width — see tests/Visual/support/findings.json.',
                 );
 
