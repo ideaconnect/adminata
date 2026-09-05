@@ -160,7 +160,7 @@ file that was distributed with this source code.
                 ></div>
             {% endblock sonata_overlay %}
 
-            <div class="adm-main">
+            <div class="adm-main" {{ stimulus_target('sonata-layout', 'content') }}>
                 {% block sonata_header %}
                     {#
                         Nothing at all when both halves are empty: that is how an application's
