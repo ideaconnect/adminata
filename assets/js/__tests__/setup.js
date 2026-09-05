@@ -44,6 +44,20 @@ class ResizeObserverStub {
 globalThis.ResizeObserver = ResizeObserverStub;
 
 /*
+ * jsdom has no layout, so it implements no `matchMedia` at all. This is the smallest thing that
+ * answers a query: nothing matches and nothing ever changes, which is what a test that does not
+ * care about the viewport wants. A test that does care stubs it itself.
+ */
+if ('function' !== typeof globalThis.matchMedia) {
+    globalThis.matchMedia = (query) => ({
+        matches: false,
+        media: query,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+    });
+}
+
+/*
  * jsdom 30 knows the `<dialog>` element but implements none of its methods, so `showModal()` is
  * simply missing. This is the smallest thing that behaves like the specification for what
  * `sonata-modal` does with it: `open` reflects the attribute, `close()` fires `close`, and Escape

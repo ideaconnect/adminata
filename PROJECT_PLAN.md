@@ -354,7 +354,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     Any change the fork itself needs is a separate PR in the fork repository (note it in the status log).
   - Accept: the PR job is green on the M1 push.
 
-- [ ] **P1-13 · Dump the JavaScript test fixtures from the real templates** · M · depends: P2-MS
+- [x] **P1-13 · Dump the JavaScript test fixtures from the real templates** · M · depends: P2-MS
   - Read: PLAN/05 §9.
   - Do: `tests/Unit/Fixture/JsFixtureDumperTest.php` renders the templates the controllers attach
     to through the demo kernel into `tests/fixtures/js/*.html`; the Vitest suites load those
@@ -2085,6 +2085,39 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2860 tests, 2 skips**), `make test-contract` (**177 + 4**), `make lint-js`, `make lint-css`,
   `make test-js` (**124**), `make assets-check`, `make test-visual` (**609 passed**).
+
+- 2026-09-05 — **P1-13 done**, held back until M4 finished as the task said it should: it is only
+  worth dumping a template once the template is adminata's. `JsFixtureDumperTest` renders six demo
+  pages through the kernel into `tests/fixtures/js/*.html`, and `make js-fixtures` re-dumps them.
+  `assets/js/__tests__/fixtures.test.js` mounts **every controller in the registry** against those
+  files, with the page's own `sonata-config` and `sonata-translations` metas in the head, and
+  asserts each one connects and finds the targets it reaches for — which is the acceptance:
+  a template that renames `data-sonata-batch-target` now fails the JavaScript suite instead of a
+  browser. `sonata-revision` is the one controller with no page; its view is deferred, and the
+  suite says so.
+
+  Two deviations. The dumper lives in `tests/Functional/` rather than `tests/Unit/Fixture/`,
+  because it needs the demo database and the kernel, and `DemoDatabaseExtension` prepares those for
+  that namespace alone. And the behaviour suites keep their own markup where it is *parameterised* —
+  `menu({catalogue: true})`, `modal(attributes)`, `filter(defaults)` — because a fixture cannot vary
+  the server-side option under test; `batch` and `collection`, whose markup is a straight mirror of
+  one template and had already drifted from it, now read the fixture.
+
+  Making a render byte-identical took five normalisations: the admin `uniqid` (which prefixes every
+  field id, and whose regex cannot use `\b` on its right — an id continues into `_name`), the
+  identifier a block gives its wrapper, the two CSRF tokens, the cache-busting `?v=` stamp, and the
+  browser-console recorder the test environment injects. A sixth was not a normalisation but a
+  fix: **a `<time datetime>` carries the offset of the ambient default timezone**, and the seven
+  packages' own suites set one while testing timezone handling, so the dump depended on what had
+  run before it. It pins UTC now.
+
+  The demo's dialog page gained one flash of each type Sonata maps by default — the page
+  `sonata-dismiss` is dumped from, and the first baseline in the visual suite with an alert on it.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2866 tests, 2 skips**), `make test-contract` (**177 + 4**), `make lint-js`, `make lint-css`,
+  `make test-js` (**142**), `make assets-check`, `make test-visual` (**609 passed**).
+
 
 
 
