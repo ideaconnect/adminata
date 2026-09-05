@@ -40,7 +40,121 @@ const context = await browser.newContext({
     locale: 'en-US',
 });
 
-const findings = { axe: {}, markup: {}, responsive: {} };
+const findings = {
+    axe: {},
+    markup: {},
+    responsive: {},
+    'hygiene-translations': {},
+    'hygiene-unstyled': {},
+    'hygiene-borders': {},
+};
+
+/*
+ * The hygiene checks read the page rather than a standard, so their captures are made once per
+ * page and theme at the widest viewport — none of the three depends on the width.
+ */
+const HYGIENE = {
+    'hygiene-translations': () => {
+        const found = new Set();
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        const looksLikeAKey = /^[a-z][a-z0-9]*(_[a-z0-9]+)+$/;
+
+        for (let node = walker.nextNode(); node !== null; node = walker.nextNode()) {
+            const text = node.textContent.trim();
+
+            if (looksLikeAKey.test(text)) {
+                found.add(text);
+            }
+        }
+
+        for (const element of document.querySelectorAll('[aria-label], [title]')) {
+            for (const value of [element.getAttribute('aria-label'), element.getAttribute('title')]) {
+                if (value !== null && looksLikeAKey.test(value.trim())) {
+                    found.add(value.trim());
+                }
+            }
+        }
+
+        return [...found].sort();
+    },
+
+    'hygiene-unstyled': () => {
+        const styled = new Set();
+
+        const collect = (rules) => {
+            for (const rule of rules) {
+                if (rule.cssRules) {
+                    collect(rule.cssRules);
+                }
+
+                if (typeof rule.selectorText !== 'string') {
+                    continue;
+                }
+
+                for (const [, name] of rule.selectorText.matchAll(/\.((?:\\.|[-\w])+)/g)) {
+                    styled.add(name.replaceAll('\\', ''));
+                }
+            }
+        };
+
+        for (const sheet of document.styleSheets) {
+            try {
+                collect(sheet.cssRules);
+            } catch {
+                // A cross-origin sheet cannot be read; adminata serves none.
+            }
+        }
+
+        const used = new Set();
+
+        for (const element of document.querySelectorAll('[class]')) {
+            for (const name of element.classList) {
+                used.add(name);
+            }
+        }
+
+        return [...used].filter((name) => !styled.has(name)).sort();
+    },
+
+    'hygiene-borders': () => {
+        const describe = (element) =>
+            `${element.tagName.toLowerCase()}.${[...element.classList].slice(0, 2).join('.')}`;
+        const found = new Set();
+        const visible = (style, side) =>
+            parseFloat(style[`border${side}Width`]) > 0 &&
+            style[`border${side}Style`] !== 'none' &&
+            !/^rgba\(.*,\s*0\)$/.test(style[`border${side}Color`]);
+
+        for (const element of document.querySelectorAll('*')) {
+            const parent = element.parentElement;
+
+            if (parent === null || parent === document.body) {
+                continue;
+            }
+
+            const style = getComputedStyle(element);
+            const parentStyle = getComputedStyle(parent);
+
+            if (!visible(style, 'Top') || !visible(parentStyle, 'Top')) {
+                continue;
+            }
+
+            if (style.borderTopColor !== parentStyle.borderTopColor) {
+                continue;
+            }
+
+            const box = element.getBoundingClientRect();
+            const parentBox = parent.getBoundingClientRect();
+            const inset = parseFloat(parentStyle.borderTopWidth);
+
+            if (Math.abs(box.top - (parentBox.top + inset)) < 0.5 && box.height > 0) {
+                found.add(`${describe(parent)} > ${describe(element)}`);
+            }
+        }
+
+        return [...found].sort();
+    },
+};
 
 for (const [size, viewport] of Object.entries(VIEWPORTS)) {
     for (const { name, path } of PAGES) {
@@ -60,6 +174,17 @@ for (const [size, viewport] of Object.entries(VIEWPORTS)) {
             const rules = [...new Set(violations.map((violation) => violation.id))].sort();
             if (rules.length > 0) {
                 findings.axe[`${name}:${theme}@${size}`] = rules;
+            }
+
+            // None of the hygiene checks depends on the width, so they are captured at one.
+            if (size === Object.keys(VIEWPORTS).at(-1)) {
+                for (const [kind, check] of Object.entries(HYGIENE)) {
+                    const entries = await page.evaluate(check);
+
+                    if (entries.length > 0) {
+                        findings[kind][`${name}:${theme}`] = entries;
+                    }
+                }
             }
 
             // The markup depends on neither the theme nor the width, so it is captured once.
@@ -107,7 +232,8 @@ await browser.close();
 writeFileSync(OUTPUT, `${JSON.stringify(findings, null, 4)}\n`);
 
 console.log(
-    `Wrote ${Object.keys(findings.axe).length} accessibility, ${Object.keys(findings.markup).length} markup ` +
-        `and ${Object.keys(findings.responsive).length} responsive entries to ` +
-        'tests/Visual/support/findings.json.',
+    `Wrote ${Object.keys(findings.axe).length} accessibility, ${Object.keys(findings.markup).length} markup, ` +
+        `${Object.keys(findings.responsive).length} responsive and ` +
+        `${Object.keys(findings['hygiene-unstyled']).length + Object.keys(findings['hygiene-translations']).length + Object.keys(findings['hygiene-borders']).length} ` +
+        'hygiene entries to tests/Visual/support/findings.json.',
 );

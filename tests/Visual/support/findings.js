@@ -29,7 +29,7 @@ const FINDINGS = JSON.parse(readFileSync(new URL('./findings.json', import.meta.
 /**
  * The findings recorded for one check, or an empty list.
  *
- * @param {'axe' | 'markup' | 'responsive'} kind
+ * @param {'axe' | 'markup' | 'responsive' | 'hygiene-translations' | 'hygiene-unstyled' | 'hygiene-borders'} kind
  * @param {string} key
  * @returns {string[]}
  */
@@ -39,7 +39,7 @@ export function knownFindings(kind, key) {
 
 /**
  * @param {import('@playwright/test').Expect} expect
- * @param {'axe' | 'markup' | 'responsive'} kind
+ * @param {'axe' | 'markup' | 'responsive' | 'hygiene-translations' | 'hygiene-unstyled' | 'hygiene-borders'} kind
  * @param {string} key `page`, `page:theme` (accessibility) or `page@project` (responsive)
  * @param {ReadonlyArray<string>} found rule identifiers this run reported
  */

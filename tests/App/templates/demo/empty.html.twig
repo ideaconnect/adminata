@@ -6,7 +6,8 @@
 {% extends '@SonataAdmin/empty_layout.html.twig' %}
 
 {% block content %}
-    <div class="adm-card m-6 max-w-md">
+    {#- See the note in security/login.html.twig on why this is a `style`. -#}
+    <div class="adm-card" style="max-width: 28rem; margin: 1.5rem;">
         <div class="adm-card-header">
             <h1 class="adm-card-title">Empty layout</h1>
         </div>

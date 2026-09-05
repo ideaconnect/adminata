@@ -14,7 +14,10 @@
 {% block sonata_head_title %}{{ 'Admin'|trans({}, 'SonataAdminBundle') }} — sign in{% endblock %}
 
 {% block content %}
-    <div class="mx-auto max-w-sm">
+    {#- A `style` and not `mx-auto max-w-sm`: the demo runs on adminata's shipped stylesheet
+        alone, and those utilities are not in it — adminata generates what its own templates
+        use, and an application that wants more compiles Tailwind itself (PLAN/04 §7). -#}
+    <div style="max-width: 24rem; margin-inline: auto;">
         <form method="post" action="{{ path('demo_login') }}" class="adm-card">
             <div class="adm-card-body flex flex-col gap-3">
                 <h1 class="adm-card-title">{{ sonata_config.title }}</h1>

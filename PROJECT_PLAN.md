@@ -956,6 +956,27 @@ mistake cannot recur.
 
 ---
 
+### Hardening against the defect class the gates missed
+
+- [x] **P6-03 · A hygiene suite for what no standard covers** · M · depends: P6-01
+  - Nineteen defects in the acceptance phase were found by a person looking at the panel, and every
+    one had passed every gate: axe clean, HTML valid, nothing scrolling sideways, screenshots
+    matching because the baseline was taken with the defect already in it. They were not violations
+    of a standard — they were a class with no rule, a translation key rendered as itself, and two
+    borders drawn a pixel apart.
+  - Do: `tests/Visual/hygiene.spec.js`, three checks per page and theme, each generalised from one
+    of those. Translation keys are looked for in text nodes **and** in `aria-label`/`title`, because
+    the worst case of P5-FIX-19 was a screen reader announcing `pager_navigation`. Unstyled classes
+    are captured in `findings.json` the way the accessibility debt is, so the ninety-three
+    deliberately-unstyled Sonata hooks do not fail while a new one does.
+  - Found on the first run: five Tailwind utilities in the demo's own templates resolving to
+    nothing (`mx-auto`, `max-w-sm`, `m-6`, `max-w-md`, `gap-x-2`) — adminata generates the utilities
+    *its* templates use, and the demo is an application. The demo's login card had never actually
+    been width-capped. Fixed with explicit `style` attributes rather than by inventing a component
+    or letting demo-only classes into adminata's stylesheet.
+  - Accept: translations and borders clean on all fourteen pages in both themes with nothing in the
+    ledger; unstyled captured and shrinking; `make test-visual` green.
+
 ## Backlog (unscheduled; each becomes tasks when first needed — PLAN/09 backlog)
 
 - [ ] **B-01** Association widgets without AJAX submission (11 templates, `sonata-association`, `sonata-tabs`), then the MongoDB fork's Panther scenarios adapted.
@@ -2782,3 +2803,24 @@ mistake cannot recur.
   `v1.0.0` stays held, and for a different reason that does hold up: it asserts release, and
   P6-02's acceptance is `Packagist shows idct/adminata 1.0.0` — an action on the owner's account
   that is not mine to take.
+
+- 2026-09-06 — **P6-03: a suite for the defects the gates could not see.** The two plan items left
+  are the owner's — the `v1.0.0` tag asserts that P5-11's acceptance passed, and the Packagist
+  submission needs the owner's account — so the time went into the thing that would make that
+  sign-off safer rather than into waiting.
+
+  Nineteen defects were found in this phase by *looking*, and the striking part is that all of them
+  passed every gate. `hygiene.spec.js` generalises three of them into checks: a translation key
+  rendered as itself (in text and in `aria-label`, which is where it hurt most), a class the markup
+  uses that no stylesheet has a rule for, and two borders drawn a pixel apart in the same colour.
+
+  Translations and borders came back **clean on all fourteen pages in both themes**, which is
+  evidence rather than an assumption. The unstyled check found five: `mx-auto`, `max-w-sm`, `m-6`,
+  `max-w-md` and `gap-x-2`, all in the demo's own templates and all resolving to nothing — adminata
+  generates the utilities *its* templates use, and the demo is an application. The demo's login card
+  had never been width-capped despite saying so. Fixed with `style` attributes, not by inventing a
+  component and not by letting demo-only classes into the shipped stylesheet; the demo now runs on
+  exactly what adminata ships, which is the whole reason it is worth having.
+
+  The ninety-three classes that remain unstyled are Sonata's contract hooks and the layout's, which
+  are deliberately unstyled — captured in the ledger, so a new one fails and the known ones do not.
