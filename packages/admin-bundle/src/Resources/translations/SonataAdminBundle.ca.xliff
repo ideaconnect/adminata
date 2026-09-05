@@ -506,6 +506,62 @@
         <source>go_to_the_first_page</source>
         <target>Aneu a la primera pàgina</target>
       </trans-unit>
+      <trans-unit id="autocomplete_input_too_short">
+        <source>autocomplete_input_too_short</source>
+        <target state="needs-translation">Type %count% or more characters to search</target>
+      </trans-unit>
+      <trans-unit id="autocomplete_load_more">
+        <source>autocomplete_load_more</source>
+        <target state="needs-translation">Load more results</target>
+      </trans-unit>
+      <trans-unit id="autocomplete_remove">
+        <source>autocomplete_remove</source>
+        <target state="needs-translation">Remove</target>
+      </trans-unit>
+      <trans-unit id="breadcrumb">
+        <source>breadcrumb</source>
+        <target state="needs-translation">Breadcrumb</target>
+      </trans-unit>
+      <trans-unit id="list_mode">
+        <source>list_mode</source>
+        <target state="needs-translation">View mode</target>
+      </trans-unit>
+      <trans-unit id="list_mode_list">
+        <source>list_mode_list</source>
+        <target state="needs-translation">List</target>
+      </trans-unit>
+      <trans-unit id="list_mode_mosaic">
+        <source>list_mode_mosaic</source>
+        <target state="needs-translation">Mosaic</target>
+      </trans-unit>
+      <trans-unit id="message_close">
+        <source>message_close</source>
+        <target state="needs-translation">Close</target>
+      </trans-unit>
+      <trans-unit id="pager_navigation">
+        <source>pager_navigation</source>
+        <target state="needs-translation">Pages</target>
+      </trans-unit>
+      <trans-unit id="sidebar_navigation">
+        <source>sidebar_navigation</source>
+        <target state="needs-translation">Sections</target>
+      </trans-unit>
+      <trans-unit id="skip_to_content">
+        <source>skip_to_content</source>
+        <target state="needs-translation">Skip to the content</target>
+      </trans-unit>
+      <trans-unit id="theme_dark">
+        <source>theme_dark</source>
+        <target state="needs-translation">Switch to the dark theme</target>
+      </trans-unit>
+      <trans-unit id="theme_light">
+        <source>theme_light</source>
+        <target state="needs-translation">Switch to the light theme</target>
+      </trans-unit>
+      <trans-unit id="theme_system">
+        <source>theme_system</source>
+        <target state="needs-translation">Follow the system theme</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

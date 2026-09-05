@@ -753,6 +753,29 @@ mistake cannot recur.
     own to scroll in; before that a column that would not shrink widened the page.
   - Accept: the same row is 61px and thirteen fit a screen; `scrollWidth == clientWidth`.
 
+- [x] **P5-FIX-19 · Fourteen of adminata's own keys existed only in English** · M
+  - Reported as "texts on the login form are not translated". The login form itself is the
+    application's `ui` domain, which its restored production database holds exactly one row of — not
+    adminata's, and visible only because P5-FIX-13 made the language selector work, so English was
+    reachable for the first time. But looking for it found a real one next door.
+  - Symfony falls back to the key when a translation is missing, and the panel's
+    `framework.translator.fallbacks` is `pl`, not `en` — so a missing key is the key, on the page.
+    Every one of the fourteen strings adminata added was English-only: `skip_to_content` in the skip
+    link, `theme_light`/`theme_dark`/`theme_system` on the toggle, `message_close` on the alert
+    dismiss, `list_mode*` on the view switch, and — worst — `breadcrumb`, `pager_navigation`,
+    `sidebar_navigation` and `autocomplete_*`, which are `aria-label`s and live-region text, so a
+    Polish screen-reader user heard "pager_navigation".
+  - Do: all fourteen translated into Polish, the language of the application adminata was built for
+    and the one its owner can check. The other thirty-two catalogues get the English text with
+    `<target state="needs-translation">` — what XLIFF has the attribute for: the page reads a
+    sentence instead of an identifier, and a translator can find the work. Inventing thirty-two
+    languages' worth of UI copy and shipping it as authoritative is not something to do quietly.
+  - `TranslationContractTest` is the guard: every key the English catalogue defines exists in every
+    other, reported for all catalogues at once rather than one failure per run. It found seven more
+    gaps inherited from upstream — `preview_view_more` missing from `bs`, `sr_Cyrl` and `sr_Latn`,
+    and six `form.label_*` missing from SonataBlockBundle's `ru` — which are filled the same way.
+  - Accept: the skip link reads "Przejdź do treści" in Polish; `make test-contract` is 180.
+
 - [x] **P5-FIX-18 · A straight line across the card's rounded top** · S
   - `adm-card-body` carries a `border-top` to separate it from the header above it. The list card
     and the filter card have no header, so the body was the card's first child and the rule was

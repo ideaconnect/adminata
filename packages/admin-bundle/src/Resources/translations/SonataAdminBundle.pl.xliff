@@ -506,6 +506,62 @@
         <source>go_to_the_first_page</source>
         <target>Przejdź do pierwszej strony</target>
       </trans-unit>
+      <trans-unit id="autocomplete_input_too_short">
+        <source>autocomplete_input_too_short</source>
+        <target>Wpisz co najmniej %count% znaki, aby wyszukać</target>
+      </trans-unit>
+      <trans-unit id="autocomplete_load_more">
+        <source>autocomplete_load_more</source>
+        <target>Wczytaj więcej wyników</target>
+      </trans-unit>
+      <trans-unit id="autocomplete_remove">
+        <source>autocomplete_remove</source>
+        <target>Usuń</target>
+      </trans-unit>
+      <trans-unit id="breadcrumb">
+        <source>breadcrumb</source>
+        <target>Ścieżka nawigacji</target>
+      </trans-unit>
+      <trans-unit id="list_mode">
+        <source>list_mode</source>
+        <target>Tryb widoku</target>
+      </trans-unit>
+      <trans-unit id="list_mode_list">
+        <source>list_mode_list</source>
+        <target>Lista</target>
+      </trans-unit>
+      <trans-unit id="list_mode_mosaic">
+        <source>list_mode_mosaic</source>
+        <target>Mozaika</target>
+      </trans-unit>
+      <trans-unit id="message_close">
+        <source>message_close</source>
+        <target>Zamknij</target>
+      </trans-unit>
+      <trans-unit id="pager_navigation">
+        <source>pager_navigation</source>
+        <target>Strony</target>
+      </trans-unit>
+      <trans-unit id="sidebar_navigation">
+        <source>sidebar_navigation</source>
+        <target>Sekcje</target>
+      </trans-unit>
+      <trans-unit id="skip_to_content">
+        <source>skip_to_content</source>
+        <target>Przejdź do treści</target>
+      </trans-unit>
+      <trans-unit id="theme_dark">
+        <source>theme_dark</source>
+        <target>Przełącz na motyw ciemny</target>
+      </trans-unit>
+      <trans-unit id="theme_light">
+        <source>theme_light</source>
+        <target>Przełącz na motyw jasny</target>
+      </trans-unit>
+      <trans-unit id="theme_system">
+        <source>theme_system</source>
+        <target>Użyj motywu systemowego</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
