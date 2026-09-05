@@ -450,6 +450,18 @@
         <source>list.label__actions</source>
         <target>Actions</target>
       </trans-unit>
+      <trans-unit id="list_mode">
+        <source>list_mode</source>
+        <target>View mode</target>
+      </trans-unit>
+      <trans-unit id="list_mode_list">
+        <source>list_mode_list</source>
+        <target>List</target>
+      </trans-unit>
+      <trans-unit id="list_mode_mosaic">
+        <source>list_mode_mosaic</source>
+        <target>Mosaic</target>
+      </trans-unit>
       <trans-unit id="sidebar_navigation">
         <source>sidebar_navigation</source>
         <target>Sections</target>

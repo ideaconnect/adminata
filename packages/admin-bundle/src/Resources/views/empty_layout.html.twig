@@ -9,22 +9,26 @@ file that was distributed with this source code.
 
 #}
 
+{#
+    The layout with everything but the content taken out: what a login or a password page extends
+    (PLAN/01 T9).
+
+    Upstream zeroed the content's padding with an inline `<style>`. A body class does the same
+    thing and leaves the page free of inline styles, which is what a Content-Security-Policy
+    without `style-src 'unsafe-inline'` needs.
+#}
+
 {% extends get_global_template('layout') %}
 
 {% block sonata_header %}{% endblock %}
 {% block sonata_left_side %}{% endblock %}
 {% block sonata_nav %}{% endblock %}
 {% block sonata_breadcrumb %}{% endblock %}
+{% block sonata_overlay %}{% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-
-    <style>
-        .content {
-            margin: 0px;
-            padding: 0px;
-        }
-    </style>
+{% block body_attributes %}
+    class="adm-shell adm-empty-layout"
+    {{ stimulus_controller('sonata-layout')|stimulus_controller('sonata-sticky') }}
 {% endblock %}
 
 {% block sonata_wrapper %}

@@ -1,0 +1,43 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{#
+    The list-mode switcher, shared by `standard_layout` and `ajax_layout` (PLAN/03 §A row 2).
+
+    Upstream had the same eight lines in both, which is how they drifted apart. A segmented
+    control, with `active` kept because an application's CSS and the functional tests select on it.
+#}
+
+{% if admin is defined and action is defined and 'list' == action and admin.listModes|length > 1 %}
+    <div class="flex items-center gap-0.5 rounded-lg bg-gray-100 p-0.5 dark:bg-gray-900"
+         role="group"
+         aria-label="{{ 'list_mode'|trans({}, 'SonataAdminBundle') }}"
+    >
+        {% for mode, settings in admin.listModes %}
+            {% set current = admin.getListMode() == mode %}
+            <a href="{{ admin.generateUrl('list', app.request.query.all|merge({_list_mode: mode})) }}"
+               class="rounded-md px-3 py-2 text-theme-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200{% if current %} active bg-white text-gray-900 shadow-theme-xs dark:bg-gray-800 dark:text-white{% endif %}"
+               {% if current %}aria-current="true"{% endif %}
+            >
+                {# NEXT_MAJOR: Remove the if and keep the else part #}
+                {% if settings.icon is not defined and settings.class is defined %}
+                    {% deprecated 'Relying on the "class" setting is deprecated since sonata-project/admin-bundle 4.9, use the "icon" setting instead' %}
+                    <i class="{{ settings.class }}" aria-hidden="true"></i>
+                {% else %}
+                    {{ settings.icon|default('')|parse_icon }}
+                {% endif %}
+                {#- `list_mode_list` and `list_mode_mosaic` ship; an admin that adds a mode of its
+                    own adds the id too. -#}
+                <span class="sr-only">{{ ('list_mode_'~mode)|trans({}, 'SonataAdminBundle') }}</span>
+            </a>
+        {% endfor %}
+    </div>
+{% endif %}

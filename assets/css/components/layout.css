@@ -37,6 +37,17 @@
     }
 }
 
+/* `empty_layout`: no sidebar, no header, so the content column starts at the edge. */
+@utility adm-empty-layout {
+    .adm-main {
+        margin-inline-start: 0;
+    }
+
+    .adm-content {
+        padding: 0;
+    }
+}
+
 @utility adm-overlay {
     position: fixed;
     inset: 0;
