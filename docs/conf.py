@@ -29,8 +29,12 @@ for name in ('php', 'php-annotations', 'php-attributes', 'php-standalone', 'php-
     lexers[name] = PhpLexer(startinline=True)
 
 html_theme = 'sphinx_rtd_theme'
-html_static_path = ['_static']
 html_title = 'adminata'
+
+# No `html_static_path`: adminata ships no stylesheet or image of its own for the site, and an
+# empty `_static/` is not a directory git can carry — which is exactly how this first reached CI
+# as a warning the local build did not have.
+
 htmlhelp_basename = 'adminata'
 
 # Every `:doc:` and `:ref:` has to resolve.
