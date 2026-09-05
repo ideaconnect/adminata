@@ -20,6 +20,14 @@
             "classes": [],
             "outlets": []
         },
+        "sonata-dismiss": {
+            "targets": [],
+            "values": [
+                "remove"
+            ],
+            "classes": [],
+            "outlets": []
+        },
         "sonata-dropdown": {
             "targets": [
                 "menu",

@@ -108,11 +108,25 @@
         overflow: visible;
     }
 
-    .adm-alert__more ~ .adm-alert__more-label::after {
-        content: attr(data-more);
+    /*
+     * The label carries both words and the checkbox decides which one is shown. Not `content:
+     * attr(…)`, which not every screen reader reads out.
+     */
+    .adm-alert__more-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        cursor: pointer;
+        font-weight: 500;
     }
 
-    .adm-alert__more:checked ~ .adm-alert__more-label::after {
-        content: attr(data-less);
+    .adm-alert__more ~ * .adm-alert__more-less,
+    .adm-alert__more:checked ~ * .adm-alert__more-more {
+        display: none;
+    }
+
+    .adm-alert__more:checked ~ * .adm-alert__more-less {
+        display: inline;
     }
 }

@@ -420,7 +420,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `closable`, events), `adm-dialog` CSS, a demo page with a dialog; Vitest; Panther (focus trap, ESC).
   - Accept: tests green; documented usage snippet in `docs/` (or README until P6-01).
 
-- [ ] **P2-07 · Flash-message template (twig-extensions) and `sonata-dismiss`** · M · depends: P2-01
+- [x] **P2-07 · Flash-message template (twig-extensions) and `sonata-dismiss`** · M · depends: P2-01
   - Read: PLAN/03 §A "FlashMessage" row; PLAN/03 §G; PLAN/01 T3.
   - Do: rewrite `packages/twig-extensions/src/Bridge/Symfony/Resources/views/FlashMessage/render.html.twig`
     (TailAdmin alert recipes, `alert alert-{type}` marker classes, dismiss button, CSS-only read-more
@@ -1436,3 +1436,24 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2808 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
   (**91**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).
+
+- 2026-09-05 — **P2-07 done.** twig-extensions' `FlashMessage/render.html.twig` is a TailAdmin
+  alert. `alert alert-{type}` stays on every message — the type is PHP-emitted by `FlashManager`,
+  an application's CSS selects on it, and it is in the contract (PLAN/02 §8) — and so do the
+  `read-more-*` classes. What changed around them: the recipe classes, a dismiss button driven by
+  `sonata-dismiss` instead of `data-dismiss="alert"`, and `role="alert"` for `danger` against
+  `role="status"` for the rest, so only the one that should interrupt a screen reader does.
+  Three Vitest cases (**95 JS tests**); `DemoSmokeTest` asserts the flash a real save produces.
+
+  `sonata-dismiss` **removes** the element rather than hiding it: a dismissed flash has nothing
+  left to say, and a hidden one still sits in the accessibility tree. `remove: false` keeps it for
+  anything that needs to find it again.
+
+  The read-more label carries both words with the checkbox choosing between them, rather than the
+  `content: attr(data-more)` the stylesheet had from P1-05 — generated content is not read out by
+  every screen reader, and upstream's `<span class="more">` / `<span class="less">` was already the
+  contract.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2808 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
+  (**95**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).

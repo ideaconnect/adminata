@@ -10,6 +10,8 @@
         ".adm-alert__dismiss",
         ".adm-alert__more",
         ".adm-alert__more-label",
+        ".adm-alert__more-less",
+        ".adm-alert__more-more",
         ".adm-badge",
         ".adm-badge-brand",
         ".adm-badge-error",
