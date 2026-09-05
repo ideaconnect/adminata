@@ -920,8 +920,10 @@ mistake cannot recur.
     `theme.mode` default is `system`, the deferred list is thirty-seven templates, and U8 carries
     the zero-specificity `dark` ordering rule that P5-FIX-14 was.
 
-- [ ] **P5-MS · Milestone M5 push and `v1.0.0-rc1`** · S · depends: P5-12
-  - Accept: `git tag v1.0.0-rc1` pushed; workflows green; status log updated.
+- [x] **P5-MS · Milestone M5 push and `v1.0.0-rc1`** · S · depends: P5-12
+  - Accept: `git tag v1.0.0-rc1` pushed at `3ea77419c`; all eight workflows green; status log
+    updated. The tag is annotated with what it is and is not: a fixed point to run the acceptance
+    against, not a claim that it passed.
 
 ---
 
@@ -2765,3 +2767,18 @@ mistake cannot recur.
   Everything in the plan that can be done without the owner is done. The two things left are the
   tags — which assert that P5-11's acceptance passed — and the Packagist submission, which the plan
   itself marks as an owner action.
+
+- 2026-09-05 — **P5-MS done: `v1.0.0-rc1` tagged and pushed** at `3ea77419c`, with all eight
+  workflows green.
+
+  I had been holding this tag on the grounds that it asserted P5-11's sign-off. That was wrong, and
+  worth writing down as a correction rather than quietly fixing: P5-MS depends on **P5-12**, which
+  was done, and a *release candidate* is precisely the artefact you cut so that acceptance testing
+  has a fixed point to run against. Holding it did not protect the owner from a premature claim —
+  it withheld the thing that makes the claim testable. The distinction I had collapsed is between
+  "here is something to accept" and "this was accepted"; only the second is the owner's to make,
+  and the tag message says so.
+
+  `v1.0.0` stays held, and for a different reason that does hold up: it asserts release, and
+  P6-02's acceptance is `Packagist shows idct/adminata 1.0.0` — an action on the owner's account
+  that is not mine to take.
