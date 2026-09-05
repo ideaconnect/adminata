@@ -1,0 +1,143 @@
+# The markup hooks adminata promises (PLAN/02 §8).
+#
+# These are the names the PHP layer emits, an application's CSS and JavaScript select on, and the
+# functional tests of the seven packages assert. Styling hangs off them; they are not styling. A
+# rewritten template may change every Tailwind utility around them, but dropping one of these is a
+# major release.
+#
+# Each group names the templates that must between them carry every hook. `enabled: false` marks a
+# group whose templates milestones M2 to M4 still have to rewrite — the task that rewrites them
+# turns it on.
+
+shell:
+    enabled: true
+    milestone: M2
+    templates:
+        - standard_layout.html.twig
+        - ajax_layout.html.twig
+        - Core/user_block.html.twig
+        - Menu/sonata_menu.html.twig
+    hooks:
+        - main-header
+        - main-sidebar
+        - sidebar-menu
+        - content-wrapper
+        - content-header
+        - sonata-actions
+        - dropdown-user
+        - breadcrumb
+        - no-js
+
+list:
+    enabled: true
+    milestone: M3
+    templates:
+        - CRUD/base_list.html.twig
+        - CRUD/list.html.twig
+        - CRUD/base_list_field.html.twig
+        - CRUD/base_list_inner_row.html.twig
+        - CRUD/list__batch.html.twig
+        - CRUD/list__select.html.twig
+        - CRUD/list__action.html.twig
+    hooks:
+        - sonata-ba-list
+        - sonata-ba-list-field
+        - sonata-link-identifier
+        - objectId
+        - list_batch_checkbox
+        - all_elements
+        - sonata-filter-form
+        - sonata-toggle-filter
+        - advanced-filter
+
+list_row_actions:
+    enabled: true
+    milestone: M3
+    templates:
+        - CRUD/list__action_delete.html.twig
+        - CRUD/list__action_edit.html.twig
+        - CRUD/list__action_show.html.twig
+        - CRUD/list__action_history.html.twig
+    hooks:
+        # Upstream emits `view_link` for both show and history, not `show_link`/`history_link`;
+        # PLAN/02 §8 said otherwise and was corrected. The application's sixteen `list__action*`
+        # overrides depend on the real names.
+        - delete_link
+        - edit_link
+        - view_link
+
+pager:
+    enabled: true
+    milestone: M3
+    templates:
+        - Pager/base_links.html.twig
+        - Pager/base_results.html.twig
+        - Pager/links.html.twig
+        - Pager/results.html.twig
+        - Pager/simple_pager_results.html.twig
+    hooks:
+        - pagination
+        - per-page
+
+forms:
+    enabled: true
+    milestone: M4
+    templates:
+        - Form/form_admin_fields.html.twig
+    hooks:
+        - sonata-ba-field
+        - sonata-ba-field-error
+        - sonata-ba-field-help
+        - sonata-ba-field-error-messages
+        - control-label__text
+        - sonata-ba-field-container
+        - sonata-collection-row
+        - data-prototype
+
+form_chrome:
+    enabled: true
+    milestone: M4
+    templates:
+        - CRUD/base_edit.html.twig
+        - CRUD/base_edit_form.html.twig
+    hooks:
+        - sonata-ba-form
+        - sonata-ba-form-actions
+        - sonata-ba-collapsed-fields
+
+show:
+    enabled: true
+    milestone: M4
+    templates:
+        - CRUD/base_show.html.twig
+        - CRUD/base_show_field.html.twig
+        - CRUD/delete.html.twig
+    hooks:
+        # `sonata-ba-view-title` is not here: 4.43 emits it only from `CRUD/preview.html.twig`,
+        # which adminata defers (PLAN/03 §E). PLAN/02 §8 listed it under the show page and was
+        # corrected.
+        - sonata-ba-view
+        - sonata-ba-view-container
+        - sonata-ba-delete
+
+flash:
+    enabled: true
+    milestone: M2
+    package: twig-extensions
+    templates:
+        - FlashMessage/render.html.twig
+    hooks:
+        - alert
+        - read-more
+
+buttons:
+    enabled: true
+    milestone: M4
+    templates:
+        - Button/create_button.html.twig
+        - Button/edit_button.html.twig
+        - Button/list_button.html.twig
+        - Button/show_button.html.twig
+        - Button/history_button.html.twig
+    hooks:
+        - sonata-action-element

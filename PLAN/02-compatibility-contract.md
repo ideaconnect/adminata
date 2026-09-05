@@ -149,13 +149,14 @@ Sonata-owned names only. Style them through CSS selectors; never add Bootstrap t
   `#{uniqid}_all_elements`, `sonata-readmore*`, `sonata-filter-form`, `sonata-toggle-filter`,
   `advanced-filter`, `#filter-list-{uniqid}`, `#filter-container-{uniqid}`, `#filter-{uniqid}-{name}`,
   `ul.pagination > li(.active) > a`, `select.per-page`, `sonata-action-element`,
-  `{show,edit,delete,history}_link` on row-action anchors, `header_class` values passed through.
+  `{edit,delete}_link` and `view_link` (which the show *and* history row actions both carry) on row-action anchors, `header_class` values passed through.
 - Forms: `sonata-ba-form`, `sonata-ba-field`, `sonata-ba-field-error`, `sonata-ba-field-{edit}-{inline}`,
   `#sonata-ba-field-container-{id}`, `sonata-ba-field-help`, `sonata-ba-field-error-messages`,
   `control-label__text`, `required`, `sonata-ba-form-actions`, `sonata-ba-collapsed-fields`,
   `sonata-collection-row/-add/-delete`, `data-prototype`, `data-prototype-name`, `{form}_{field}`
   input classes, `#{id}_autocomplete_input`, `#{id}_hidden_inputs_wrap`, `data-sonata-*`.
-- Show/misc: `sonata-ba-view`, `sonata-ba-view-container`, `sonata-ba-view-title`, `sonata-ba-delete`,
+- Show/misc: `sonata-ba-view`, `sonata-ba-view-container`, `sonata-ba-delete` (`sonata-ba-view-title`
+  belongs to the deferred `CRUD/preview.html.twig`, not to the show page),
   `inner-field-short-description`, `alert alert-{success,danger,warning,info}` on flash messages
   (flash type names are PHP-emitted by twig-extensions), `read-more-*`.
 

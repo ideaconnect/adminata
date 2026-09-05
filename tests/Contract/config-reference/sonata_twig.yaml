@@ -1,0 +1,11 @@
+sonata_twig:
+
+    # Style used in the forms, some of the widgets need to be wrapped in a special div element
+    # depending on this style.
+    form_type:            standard # One of "standard"; "horizontal"
+    flashmessage:
+
+        # Prototype
+        message:
+            css_class:            ~
+            types:                []

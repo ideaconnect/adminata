@@ -4,6 +4,10 @@ ignore: |
     vendor/
     node_modules/
     var/
+    # Byte-for-byte captures of YamlReferenceDumper's output, which pads values into columns.
+    # Reformatting them would make the contract test compare against something the dumper cannot
+    # produce.
+    tests/Contract/config-reference/
 
 extends: default
 
