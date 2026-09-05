@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace Adminata\Tests\Functional;
 
 use Adminata\Tests\App\EventListener\BrowserConsoleRecorderListener;
+use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverKeys;
 use PHPUnit\Framework\Attributes\Group;
@@ -241,6 +242,58 @@ final class DashboardPantherTest extends BasePantherTestCase
 
         static::assertGreaterThan(1, $this->client->refreshCrawler()->filter('table.sonata-ba-list tbody tr')->count());
         $this->assertConsoleIsEmpty('Filtering wrote to the browser console.');
+    }
+
+    /**
+     * Shift-clicking a second row selects everything between it and the last one clicked — in both
+     * directions. Upstream's upward half read `indexedDB > currentIndex`, the browser's IndexedDB
+     * global rather than the loop's index, so it never ran.
+     */
+    public function testShiftSelectsARangeOfRows(): void
+    {
+        $this->client->request('GET', $this->url('/admin/tests/app/product/list'));
+
+        $boxes = $this->client->findElements(WebDriverBy::cssSelector('tbody input[name="idx[]"]'));
+        static::assertGreaterThan(4, \count($boxes));
+
+        $boxes[1]->click();
+
+        // One action chain, not a key press around a separate click: an element click is its own
+        // WebDriver command and does not pick up modifier state set outside it. `action()` is on
+        // `RemoteWebDriver`, which is what Panther always has; `WebDriver` does not declare it.
+        $driver = $this->client->getWebDriver();
+        static::assertInstanceOf(RemoteWebDriver::class, $driver);
+
+        $driver->action()
+            ->keyDown(null, WebDriverKeys::SHIFT)
+            ->click($boxes[3])
+            ->keyUp(null, WebDriverKeys::SHIFT)
+            ->perform();
+
+        static::assertSame([false, true, true, true, false], $this->rowSelection(5));
+
+        // And the header follows: some rows selected, not all.
+        static::assertTrue(
+            $this->client->executeScript('return document.getElementById("list_batch_checkbox").indeterminate;')
+        );
+
+        $this->assertConsoleIsEmpty('Selecting rows wrote to the browser console.');
+    }
+
+    /**
+     * @return list<bool>
+     */
+    private function rowSelection(int $count): array
+    {
+        $checked = $this->client->executeScript(
+            'return Array.from(document.querySelectorAll(\'tbody input[name="idx[]"]\'))'
+            .'.slice(0, arguments[0]).map((box) => box.checked);',
+            [$count]
+        );
+
+        static::assertIsArray($checked);
+
+        return array_map(static fn (mixed $value): bool => true === $value, array_values($checked));
     }
 
     private function filterPanelIsVisible(): bool
