@@ -1573,3 +1573,14 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   The other recurring lesson was that **jsdom is not a browser**. It focuses hidden elements
   happily, it implements no `<dialog>` method at all, and it has no layout to answer a media query
   with. Three defects passed the whole Vitest suite and were caught by Panther.
+- 2026-09-05 — **All seven workflows green on `main`** after one CI round. `Test` found
+  `Sonata\Twig\Tests\Functional\FunctionalTest::testRenderFlashes` answering 500: the rewritten
+  flash template calls `stimulus_controller()`, and twig-extensions' test kernel registers three
+  bundles, none of them `StimulusBundle`. adminata is one package whose `composer.json` requires
+  it, so the fixture now registers it too — guarded, because upstream's did not.
+
+  It passed locally for a reason worth fixing on its own: **the per-package test kernels cache
+  their compiled container and templates under the system temp directory, and those survive between
+  runs**. A template that stopped working kept passing on a machine that still had the old build.
+  `KernelClassExtension` — which already knows every test kernel — now removes each one's cache
+  before the run, so a local `make test` and a cold CI run see the same thing.
