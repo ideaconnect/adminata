@@ -9,31 +9,40 @@ file that was distributed with this source code.
 
 #}
 
-<div class="text-center">
-    <ul class="pagination">
+{#
+    The pager (PLAN/03 §B).
+
+    `ul.pagination > li(.active) > a` is the structure PLAN/02 §8 keeps — an application's CSS and
+    the functional tests select on it — so the classes are added beside it rather than instead of
+    it. The arrows were `&laquo;` and friends, characters a screen reader reads out as punctuation
+    or skips; they are icons with `aria-hidden` and a real label now.
+#}
+
+<nav aria-label="{{ 'pager_navigation'|trans({}, 'SonataAdminBundle') }}" class="flex justify-center">
+    <ul class="adm-pagination pagination">
         {% if admin.datagrid.pager.page > 2 %}
-            <li><a href="{{ admin.generateUrl(action, admin.datagrid.paginationparameters(1)) }}" title="{{ 'link_first_pager'|trans({}, 'SonataAdminBundle') }}">&laquo;</a></li>
+            <li><a href="{{ admin.generateUrl(action, admin.datagrid.paginationparameters(1)) }}" aria-label="{{ 'link_first_pager'|trans({}, 'SonataAdminBundle') }}" title="{{ 'link_first_pager'|trans({}, 'SonataAdminBundle') }}"><i class="fas fa-angles-left" aria-hidden="true"></i></a></li>
         {% endif %}
 
         {% if admin.datagrid.pager.page != admin.datagrid.pager.previouspage %}
-            <li><a href="{{ admin.generateUrl(action, admin.datagrid.paginationparameters(admin.datagrid.pager.previouspage)) }}" title="{{ 'link_previous_pager'|trans({}, 'SonataAdminBundle') }}">&lsaquo;</a></li>
+            <li><a href="{{ admin.generateUrl(action, admin.datagrid.paginationparameters(admin.datagrid.pager.previouspage)) }}" aria-label="{{ 'link_previous_pager'|trans({}, 'SonataAdminBundle') }}" title="{{ 'link_previous_pager'|trans({}, 'SonataAdminBundle') }}"><i class="fas fa-angle-left" aria-hidden="true"></i></a></li>
         {% endif %}
 
         {# Set the number of pages to display in the pager #}
         {% for page in admin.datagrid.pager.getLinks(sonata_config.getOption('pager_links')) %}
             {% if page == admin.datagrid.pager.page %}
-                <li class="active"><a href="{{ admin.generateUrl(action, admin.datagrid.paginationparameters(page)) }}">{{ page }}</a></li>
+                <li class="active"><a href="{{ admin.generateUrl(action, admin.datagrid.paginationparameters(page)) }}" aria-current="page">{{ page }}</a></li>
             {% else %}
                 <li><a href="{{ admin.generateUrl(action, admin.datagrid.paginationparameters(page)) }}">{{ page }}</a></li>
             {% endif %}
         {% endfor %}
 
         {% if admin.datagrid.pager.page != admin.datagrid.pager.nextpage %}
-            <li><a href="{{ admin.generateUrl(action, admin.datagrid.paginationparameters(admin.datagrid.pager.nextpage)) }}" title="{{ 'link_next_pager'|trans({}, 'SonataAdminBundle') }}">&rsaquo;</a></li>
+            <li><a href="{{ admin.generateUrl(action, admin.datagrid.paginationparameters(admin.datagrid.pager.nextpage)) }}" aria-label="{{ 'link_next_pager'|trans({}, 'SonataAdminBundle') }}" title="{{ 'link_next_pager'|trans({}, 'SonataAdminBundle') }}"><i class="fas fa-angle-right" aria-hidden="true"></i></a></li>
         {% endif %}
 
         {% if admin.datagrid.pager.page != admin.datagrid.pager.lastpage and admin.datagrid.pager.lastpage != admin.datagrid.pager.nextpage %}
-            <li><a href="{{ admin.generateUrl(action, admin.datagrid.paginationparameters(admin.datagrid.pager.lastpage)) }}" title="{{ 'link_last_pager'|trans({}, 'SonataAdminBundle') }}">&raquo;</a></li>
+            <li><a href="{{ admin.generateUrl(action, admin.datagrid.paginationparameters(admin.datagrid.pager.lastpage)) }}" aria-label="{{ 'link_last_pager'|trans({}, 'SonataAdminBundle') }}" title="{{ 'link_last_pager'|trans({}, 'SonataAdminBundle') }}"><i class="fas fa-angles-right" aria-hidden="true"></i></a></li>
         {% endif %}
     </ul>
-</div>
+</nav>
