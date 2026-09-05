@@ -499,7 +499,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `RenderElementRuntimeTest` and its Extension twin without touching envelope assertions.
   - Accept: admin twig suite green; diff of the test file touches only badge/url/boolean expectations.
 
-- [ ] **P3-06 · Row actions and association list templates** · S · depends: P3-04
+- [x] **P3-06 · Row actions and association list templates** · S · depends: P3-04
   - Read: PLAN/03 §B "list__action" and "Association/list" rows.
   - Do: `list__action.html.twig`, four `list__action_*` (`adm-btn-icon`, `*_link` hooks, `sr-only`,
     `list_action_button_content`), four `Association/list_*`.
@@ -1713,6 +1713,30 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   `page:theme@size` now and the generator walks all three, which is also how the responsive check
   has always been keyed. **The only accessibility findings left anywhere are `link-name` and
   `button-name`, both from the row actions P3-06 owns.**
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2812 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
+  `make assets-check`, `make test-visual` (252 passed).
+
+- 2026-09-05 — **P3-06 done.** The four typed row actions are icon buttons when
+  `list_action_button_content` hides the text and secondary buttons when it does not; `edit_link`,
+  `view_link` and `delete_link` are where they were, `history` sharing `view_link` with `show`
+  because that is upstream's doing and PLAN/02 §8 keeps it. `list__action` is a wrapping flex row
+  rather than a Bootstrap `btn-group`, so the actions stack on a narrow screen instead of forcing
+  the table wider. The four `Association/list_*` templates needed **nothing** — they were plain
+  `<a>` links already.
+
+  Two accessibility fixes worth naming. The breadcrumb's home link had no accessible name at all:
+  its label is the translation `link_breadcrumb_dashboard`, whose target is the raw markup
+  `<i class="fa fa-home"></i>`. `Breadcrumb/breadcrumb.html.twig` is frozen, so the fix belongs
+  where the label is — **all 34 catalogues** now carry `aria-hidden` on the icon and a visually
+  hidden label taken from each one's own `title_dashboard`. And the filter form's `role="form"` is
+  gone in favour of an `aria-label`: the role on a `<form>` is redundant, and an unnamed landmark
+  is noise a screen reader has to step past.
+
+  **The product list is now completely clean** — no accessibility findings at any width in either
+  theme, and no markup findings. What is left in `findings.json` is three entries on the create
+  page, all of them M4's.
 
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2812 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,

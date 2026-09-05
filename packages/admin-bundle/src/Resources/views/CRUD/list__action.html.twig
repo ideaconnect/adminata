@@ -12,7 +12,9 @@ file that was distributed with this source code.
 {% extends get_admin_template('base_list_field', admin.code) %}
 
 {% block field %}
-    <div class="btn-group">
+    {#- A row of buttons rather than a Bootstrap `btn-group`: the actions wrap on a narrow screen
+        instead of forcing the table wider. -#}
+    <div class="flex flex-wrap items-center gap-1">
         {% for actions in field_description.option('actions') %}
             {% include actions.template %}
         {% endfor %}

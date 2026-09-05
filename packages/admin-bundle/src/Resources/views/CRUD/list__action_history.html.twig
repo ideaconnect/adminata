@@ -9,22 +9,35 @@ file that was distributed with this source code.
 
 #}
 
+{#
+    The `history` row action.
+
+    `view_link` is the hook an application's CSS and the functional tests select on (PLAN/02 §8).
+
+    `view_link` and not a hook of its own: upstream gives the history and the show actions the
+    same class, and PLAN/02 §8 keeps it that way.
+
+    `list_action_button_content` still decides between the icon, the text and both; when the text
+    is hidden it stays in the accessibility tree rather than disappearing.
+#}
+
 {% if admin.hasAccess('history', object) and admin.hasRoute('history') %}
     {% set button_content = sonata_config.getOption('list_action_button_content') %}
+    {% set show_icon = button_content in ['icon', 'all'] %}
+    {% set show_text = button_content in ['text', 'all'] %}
+    {% set recipe = show_text ? 'adm-btn adm-btn-secondary adm-btn-sm' : 'adm-btn-icon adm-btn-icon-history' %}
     <a
         href="{{ admin.generateObjectUrl('history', object, actions.link_parameters|default([])) }}"
-        class="btn btn-sm btn-default view_link"
+        class="{{ recipe }} view_link"
         title="{{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}"
     >
-        {% if button_content == 'icon' or button_content == 'all' %}
-            <i class="fas fa-history" aria-hidden="true"></i>
+        {% if show_icon %}
+            <i class="fas fa-clock-rotate-left" aria-hidden="true"></i>
         {% endif %}
-        {% if button_content == 'text' or button_content == 'all' %}
+        {% if show_text %}
             {{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}
         {% else %}
-            <span class="sr-only">
-                {{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}
-            </span>
+            <span class="sr-only">{{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}</span>
         {% endif %}
     </a>
 {% endif %}

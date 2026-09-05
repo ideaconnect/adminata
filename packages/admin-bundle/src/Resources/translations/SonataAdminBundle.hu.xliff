@@ -200,7 +200,7 @@
       </trans-unit>
       <trans-unit id="link_breadcrumb_dashboard">
         <source>link_breadcrumb_dashboard</source>
-        <target>&lt;i class="fa fa-home"&gt;&lt;/i&gt;</target>
+        <target><![CDATA[<i class="fa fa-home" aria-hidden="true"></i><span class="sr-only">Vezérlőpult</span>]]></target>
       </trans-unit>
       <trans-unit id="title_delete">
         <source>title_delete</source>
