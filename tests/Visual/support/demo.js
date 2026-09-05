@@ -40,6 +40,8 @@ export const PAGES = [
         name: 'category-list-autocomplete',
         path: '/admin/tests/app/category/list?filter%5Bproducts%5D%5Bvalue%5D=1',
     },
+    // A list with its batch column removed: no checkboxes, and a footer that has to survive it.
+    { name: 'tag-list', path: '/admin/tests/app/tag/list' },
     { name: 'product-create', path: '/admin/tests/app/product/create' },
     { name: 'login', path: '/login' },
     { name: 'empty-layout', path: '/admin/demo/empty' },

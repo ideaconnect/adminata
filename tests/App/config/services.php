@@ -16,8 +16,13 @@ declare(strict_types=1);
 
 use Adminata\Tests\App\Admin\CategoryAdmin;
 use Adminata\Tests\App\Admin\ProductAdmin;
+use Adminata\Tests\App\Admin\ProductVariantAdmin;
+use Adminata\Tests\App\Admin\TagAdmin;
+use Adminata\Tests\App\Controller\ProductCRUDController;
 use Adminata\Tests\App\Entity\Category;
 use Adminata\Tests\App\Entity\Product;
+use Adminata\Tests\App\Entity\ProductVariant;
+use Adminata\Tests\App\Entity\Tag;
 use Adminata\Tests\App\EventListener\BrowserConsoleRecorderListener;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -38,10 +43,31 @@ return static function (ContainerConfigurator $container): void {
             ->tag('sonata.admin', [
                 'manager_type' => 'orm',
                 'model_class' => Product::class,
+                'controller' => ProductCRUDController::class,
                 'label' => 'Products',
                 'group' => 'Catalogue',
                 'icon' => '<i class="fa-solid fa-box"></i>',
                 'default' => true,
+            ])
+            // A `templates.list` override that only adds to `list_after_table` (appendix C §2).
+            ->call('setTemplate', ['list', 'admin/product_list.html.twig'])
+
+        ->set(ProductVariantAdmin::class)
+            ->tag('sonata.admin', [
+                'manager_type' => 'orm',
+                'model_class' => ProductVariant::class,
+                'label' => 'Variants',
+                'group' => 'Catalogue',
+                'icon' => '<i class="fa-solid fa-layer-group"></i>',
+            ])
+
+        ->set(TagAdmin::class)
+            ->tag('sonata.admin', [
+                'manager_type' => 'orm',
+                'model_class' => Tag::class,
+                'label' => 'Tags',
+                'group' => 'Taxonomy',
+                'icon' => '<i class="fa-solid fa-tag"></i>',
             ])
 
         ->set(CategoryAdmin::class)

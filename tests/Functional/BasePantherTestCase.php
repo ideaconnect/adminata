@@ -40,13 +40,6 @@ use Symfony\Component\Panther\PantherTestCase;
  */
 abstract class BasePantherTestCase extends PantherTestCase
 {
-    /**
-     * What a test may leave behind, cleared before the next one.
-     *
-     * @var list<string>
-     */
-    private const array COOKIES = ['sonata_theme', 'sonata_sidebar_hide'];
-
     protected Client $client;
     /**
      * One browser session for the whole class.
@@ -72,10 +65,11 @@ abstract class BasePantherTestCase extends PantherTestCase
         if (null !== self::$session) {
             $this->client = self::$session;
 
-            // Nothing a previous test chose may reach the next; the session cookie stays.
-            foreach (self::COOKIES as $cookie) {
-                $this->client->getWebDriver()->manage()->deleteCookieNamed($cookie);
-            }
+            // Nothing a previous test chose may reach the next. The session goes with the rest:
+            // `persist_filters` keeps a submitted filter in it, so a test that filtered a list
+            // would otherwise decide what the next one sees. Signing in again is the price.
+            $this->client->getWebDriver()->manage()->deleteAllCookies();
+            $this->signIn();
 
             return;
         }
