@@ -174,7 +174,8 @@ assets-build: ## Build the stylesheets and the JavaScript into the admin bundle
 .PHONY: assets-build
 
 assets-check: assets-build ## The build is fresh, contract-clean, within budget and jQuery-free
-	git diff --no-patch --exit-code -- packages/admin-bundle/src/Resources/public
+	git diff --no-patch --exit-code -- packages/admin-bundle/src/Resources/public \
+		assets/css/safelist.css assets/css/contract.json
 	npm run css:contract
 	npm run size
 	npm run check:jquery

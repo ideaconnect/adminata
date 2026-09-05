@@ -2,10 +2,29 @@
  * adminata's stylesheet without Tailwind itself and without the source globs: the aggregate an
  * application imports when it compiles Tailwind on its own (PLAN/04 §7), so it gets the same
  * tokens, base layer and components while its own `@source` list decides which utilities exist.
- *
- * The component layer and the safelist join this file in P1-05.
  */
 
 @import './theme.css';
 @import './base.css';
 @import './fonts.css';
+@import './components/button.css';
+@import './components/btn-icon.css';
+@import './components/input.css';
+@import './components/select.css';
+@import './components/textarea.css';
+@import './components/checkbox.css';
+@import './components/radio.css';
+@import './components/badge.css';
+@import './components/card.css';
+@import './components/callout.css';
+@import './components/alert.css';
+@import './components/dropdown.css';
+@import './components/table.css';
+@import './components/pagination.css';
+@import './components/sidebar.css';
+@import './components/layout.css';
+@import './components/dialog.css';
+@import './components/list.css';
+@import './components/show.css';
+@import './components/misc.css';
+@import './safelist.css';

@@ -1,0 +1,127 @@
+/*
+ * The page shell: fixed sidebar, sticky header, and the content column that scrolls with the
+ * window. The window-scroll model is deliberate — Sonata's `sonata-sticky` controller observes the
+ * viewport, and browser find-and-scroll behaves the way people expect (PLAN/01 T4).
+ */
+
+@utility adm-shell {
+    min-height: 100vh;
+}
+
+@utility adm-content {
+    padding: 1rem;
+    margin-inline: auto;
+    max-width: var(--breakpoint-2xl);
+}
+
+@utility adm-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-index-header);
+    display: flex;
+    width: 100%;
+    height: var(--adm-header-h);
+    align-items: center;
+    gap: 1rem;
+    padding-inline: 1rem;
+    border-bottom: 1px solid var(--color-gray-200);
+    background-color: var(--color-white);
+}
+
+@utility adm-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-index-overlay);
+    background-color: rgb(16 24 40 / 50%);
+}
+
+@utility adm-page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+@utility adm-page-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-gray-800);
+}
+
+@utility adm-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    list-style: none;
+}
+
+@layer components {
+    @media (width >= 1024px) {
+        .adm-main {
+            margin-inline-start: var(--adm-sidebar-w);
+        }
+
+        .adm-shell[data-sidebar='collapsed'] .adm-main {
+            margin-inline-start: var(--adm-sidebar-collapsed-w);
+        }
+    }
+
+    .adm-content {
+        padding: 1.5rem;
+    }
+
+    .adm-breadcrumb li + li::before {
+        content: '/';
+        margin-inline: 0.375rem;
+        color: var(--color-gray-400);
+    }
+
+    .adm-breadcrumb a {
+        color: var(--color-gray-500);
+        font-size: var(--text-theme-sm);
+    }
+
+    .adm-breadcrumb a:hover {
+        color: var(--color-gray-700);
+    }
+
+    .adm-breadcrumb [aria-current='page'] {
+        color: var(--color-gray-800);
+        font-size: var(--text-theme-sm);
+    }
+
+    /* The sticky action bar of an edit form, once `sonata-sticky` has pinned it. */
+    .adm-sticky.stuck {
+        position: sticky;
+        bottom: 0;
+        z-index: var(--z-index-sticky);
+        border-top: 1px solid var(--color-gray-200);
+        background-color: var(--color-white);
+        box-shadow: var(--shadow-theme-lg);
+    }
+
+    .dark .adm-header {
+        border-bottom-color: var(--color-gray-800);
+        background-color: var(--color-gray-900);
+    }
+
+    .dark .adm-page-title,
+    .dark .adm-breadcrumb [aria-current='page'] {
+        color: rgb(255 255 255 / 90%);
+    }
+
+    .dark .adm-breadcrumb a {
+        color: var(--color-gray-400);
+    }
+
+    .dark .adm-breadcrumb a:hover {
+        color: var(--color-gray-200);
+    }
+
+    .dark .adm-sticky.stuck {
+        border-top-color: var(--color-gray-800);
+        background-color: var(--color-gray-900);
+    }
+}

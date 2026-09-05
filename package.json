@@ -9,9 +9,10 @@
         "node": ">=24"
     },
     "scripts": {
-        "build": "node bin/clean-assets.mjs && vite build --mode js && vite build --mode css && node bin/write-manifests.mjs",
+        "build": "node bin/build-css-safelist.mjs && node bin/clean-assets.mjs && vite build --mode js && vite build --mode css && node bin/write-manifests.mjs",
         "check:jquery": "node bin/check-no-jquery.mjs",
         "css:contract": "node bin/check-css-contract.mjs",
+        "css:safelist": "node bin/build-css-safelist.mjs",
         "fixture": "node bin/tailwind-fixture.mjs",
         "lint:css": "stylelint \"assets/**/*.css\"",
         "lint:js": "eslint .",

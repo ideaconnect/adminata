@@ -1,0 +1,40 @@
+/*
+ * Textareas: the input recipe with room to grow.
+ */
+
+@utility adm-textarea {
+    display: block;
+    width: 100%;
+    min-height: 6rem;
+    padding-inline: var(--adm-control-px);
+    padding-block: var(--adm-control-py);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-control);
+    background-color: transparent;
+    color: var(--color-gray-800);
+    font-size: var(--text-theme-sm);
+    line-height: var(--text-theme-sm--line-height);
+    box-shadow: var(--shadow-theme-xs);
+
+    &::placeholder {
+        color: var(--color-gray-400);
+    }
+
+    &:focus {
+        border-color: var(--color-brand-300);
+        outline: none;
+        box-shadow: var(--shadow-focus-ring);
+    }
+}
+
+@layer components {
+    .dark .adm-textarea {
+        border-color: var(--color-gray-700);
+        background-color: rgb(255 255 255 / 3%);
+        color: rgb(255 255 255 / 90%);
+    }
+
+    .dark .adm-textarea::placeholder {
+        color: rgb(255 255 255 / 30%);
+    }
+}

@@ -1,0 +1,53 @@
+/*
+ * The list page around the table: the filter panel, the batch bar and the cell hooks Sonata's PHP
+ * layer emits.
+ */
+
+@utility adm-filters {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+@utility adm-list-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+@utility adm-list-empty {
+    padding-block: 3rem;
+    color: var(--color-gray-500);
+    text-align: center;
+}
+
+@layer components {
+    /* Sonata renders these classes from PHP; the read-more toggle is its own markup. */
+    .sonata-ba-list-field-readmore {
+        display: inline-block;
+        max-width: 100%;
+    }
+
+    .sonata-readmore-content {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .sonata-readmore-content[data-expanded='true'] {
+        display: block;
+        overflow: visible;
+    }
+
+    .adm-list-empty {
+        font-size: var(--text-theme-sm);
+    }
+
+    .dark .adm-list-empty {
+        color: var(--color-gray-400);
+    }
+}

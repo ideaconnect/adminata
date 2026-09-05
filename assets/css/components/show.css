@@ -1,0 +1,50 @@
+/*
+ * The show page. Sonata renders a `<table><tr><th>label</th><td>value</td>` per field and its
+ * tests assert that shape, so this styles it rather than replacing it.
+ */
+
+@utility adm-show-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+@layer components {
+    .adm-show-table tr {
+        border-top: 1px solid var(--color-gray-100);
+    }
+
+    .adm-show-table tr:first-child {
+        border-top: 0;
+    }
+
+    .adm-show-table th {
+        width: 30%;
+        padding-inline: var(--adm-cell-px);
+        padding-block: var(--adm-cell-py);
+        color: var(--color-gray-500);
+        font-size: var(--text-theme-sm);
+        font-weight: 500;
+        text-align: start;
+        vertical-align: top;
+    }
+
+    .adm-show-table td {
+        padding-inline: var(--adm-cell-px);
+        padding-block: var(--adm-cell-py);
+        color: var(--color-gray-800);
+        font-size: var(--text-theme-sm);
+        vertical-align: top;
+    }
+
+    .dark .adm-show-table tr {
+        border-top-color: var(--color-gray-800);
+    }
+
+    .dark .adm-show-table th {
+        color: var(--color-gray-400);
+    }
+
+    .dark .adm-show-table td {
+        color: rgb(255 255 255 / 90%);
+    }
+}
