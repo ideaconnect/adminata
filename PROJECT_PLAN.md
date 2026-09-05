@@ -645,15 +645,15 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 - [x] **P5-06 · List summaries block (step 9)** · S · depends: P5-01
   - Accept: `crud/list_with_summaries.html.twig` overrides `list_after_table` only.
 
-- [ ] **P5-07a · Cell templates, first third (step 10)** · M · depends: P5-01
+- [x] **P5-07a · Cell templates, first third (step 10)** · M · depends: P5-01
   - Do: `templates/field/` files `accentColor` … `enum` (alphabetical), plus `component/adminUser`.
   - Accept: no Bootstrap/AdminLTE class in the ported files; envelope kept; pages render in both themes.
 
-- [ ] **P5-07b · Cell templates, second third (step 10)** · M · depends: P5-01
+- [x] **P5-07b · Cell templates, second third (step 10)** · M · depends: P5-01
   - Do: `imagePreviewPromoPromoted` … `rvmTaskType`.
   - Accept: as P5-07a.
 
-- [ ] **P5-07c · Cell templates, last third (step 10)** · M · depends: P5-01
+- [x] **P5-07c · Cell templates, last third (step 10)** · M · depends: P5-01
   - Do: `shortUidWithBranding` … `whiteLabelLogo`.
   - Accept: as P5-07a; `grep -rn "callout\|label label-\|btn btn-\|box-" templates/field` empty.
 
@@ -2249,6 +2249,23 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   came out of five form types' `attr` (the theme appends and never replaces), `fa-clock-o` became
   `fa-clock`, and `.mt-10` became `.app-mt-10` because Tailwind owns that name and means 2.5rem
   by it.
+
+- 2026-09-05 — **P5-07a, b and c done** — as one pass rather than three, because the work turned out
+  to be one shape repeated: a script did the class names that map one-to-one across all 55 templates
+  and *reported the twelve files it could not decide*, which were then done by hand. Splitting the
+  alphabet three ways would have split the same decision three times.
+
+  The eleven state cells that painted the `<td>` with a Bootstrap 3 pastel and its matching ink now
+  put an `adm-badge` **inside** the cell. A coloured cell fights the table's own striping, and those
+  hexes had no dark-mode answer at all; the badge has one. Each icon also gained the name its
+  `title` only implied.
+
+  Two judgements worth writing down. `exactMaterial` keeps its thirteen inline colours: they are the
+  panel's identity colours for materials — glass green, PET blue, HDPE green — not contextual ones,
+  and there is no token to map them onto. And the eleven `<td>` rewrites produced a **duplicate
+  `class` attribute** each, because the cells carried one already and the script replaced `style`
+  with another; caught by looking, not by the linter, which accepts it.
+
 
 
 
