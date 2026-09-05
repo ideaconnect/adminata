@@ -9,6 +9,19 @@ file that was distributed with this source code.
 
 #}
 
+{#
+    The cell envelope (PLAN/01 Q1).
+
+    `<td class="sonata-ba-list-field sonata-ba-list-field-{type}" objectId="…">` is **byte-identical**
+    to upstream's, `row_align` included: an application's cell templates extend this file, and its
+    XHR accordion parses the attributes out of the response. Padding and typography come from CSS on
+    `.adm-table`, not from anything here.
+
+    The x-editable `<span>` is rendered only for a field that is actually `editable` — the same
+    condition upstream used. adminata ships no editing controller in 1.0, so the span is inert
+    markup an application's own script may still bind to.
+#}
+
 <td class="sonata-ba-list-field sonata-ba-list-field-{{ field_description.type }}" objectId="{{ admin.id(object) }}"{% if field_description.option('row_align') %} style="text-align:{{ field_description.option('row_align') }}"{% endif %}>
     {% set route_name = field_description.option('route').name|default(sonata_config.getOption('default_admin_route')) %}
     {% set route_parameters = field_description.option('route').parameters|default([]) %}
@@ -29,7 +42,7 @@ file that was distributed with this source code.
                     }) }}>
                         <div class="sonata-readmore-content" {{ stimulus_target('sonata-readmore', 'content') }}>{{ value }}</div>
                         <button type="button"
-                                class="sonata-readmore-btn btn-link"
+                                class="sonata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
                                 {{ stimulus_target('sonata-readmore', 'button') }}
                                 {{ stimulus_action('sonata-readmore', 'toggle', 'click') }}></button>
                     </div>

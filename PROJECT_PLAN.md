@@ -486,7 +486,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     typo fixed), native `appearance-none` checkbox recipe in both templates; Vitest; Panther shift-range.
   - Accept: tests green; contract snapshot updated.
 
-- [ ] **P3-04 · Cell envelope and row templates** · M · depends: P3-01
+- [x] **P3-04 · Cell envelope and row templates** · M · depends: P3-01
   - Read: PLAN/03 §B rows 3, 7; PLAN/01 Q1.
   - Do: `base_list_field.html.twig` (envelope byte-identical, readmore, editable span only when
     `editable`), `base_list_inner_row`, `list_inner_row`, `list_outer_rows_list`; hover/selected rows via CSS.
@@ -1670,3 +1670,22 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2812 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
   (**103**), `make assets-check`, `make test-visual` (252 passed).
+
+- 2026-09-05 — **P3-04 done, and it is the smallest task of the milestone on purpose.** The cell
+  envelope is what PLAN/01 Q1 froze: `<td class="sonata-ba-list-field sonata-ba-list-field-{type}"
+  objectId="…">`, `row_align` included, byte-identical to upstream's — an application's 55 cell
+  templates extend this file and its XHR accordion parses those attributes out of the response.
+  Padding and typography come from CSS on `.adm-table`. The x-editable `<span>` still renders only
+  for a field that is actually `editable`, which was already upstream's condition; adminata ships
+  no editing controller in 1.0, so it is inert markup an application's own script may bind to.
+
+  One class changed — the read-more button, from `btn-link` to the ghost recipe — and the
+  re-baselining is exactly four expectations across two test files. The *show* view's read-more
+  keeps `btn-link`, because `CRUD/base_show_field.html.twig` is M4's.
+
+  `base_list_inner_row`, `list_inner_row` and `list_outer_rows_list` needed nothing: hover and the
+  selected-row highlight are CSS on `.adm-table`, and the row templates were never Bootstrap.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2812 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
+  `make assets-check`, `make test-visual` (252 passed).
