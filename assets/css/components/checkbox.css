@@ -45,6 +45,14 @@
         border-color: var(--color-gray-700);
         background-color: transparent;
     }
+
+    @variant dark {
+        &:checked,
+        &:indeterminate {
+            border-color: var(--color-brand-500);
+            background-color: var(--color-brand-500);
+        }
+    }
 }
 
 @utility adm-checkbox-label {
@@ -57,13 +65,5 @@
 
     @variant dark {
         color: var(--color-gray-400);
-    }
-}
-
-@layer components {
-    .dark .adm-checkbox:checked,
-    .dark .adm-checkbox:indeterminate {
-        border-color: var(--color-brand-500);
-        background-color: var(--color-brand-500);
     }
 }

@@ -77,6 +77,16 @@
             "classes": [],
             "outlets": []
         },
+        "sonata-menu": {
+            "targets": [
+                "toggle"
+            ],
+            "values": [
+                "storageKey"
+            ],
+            "classes": [],
+            "outlets": []
+        },
         "sonata-per-page": {
             "targets": [],
             "values": [],

@@ -218,9 +218,9 @@ lint-js: lint-prettier ## ESLint, Prettier and the jQuery gate
 	npm run check:jquery
 .PHONY: lint-js
 
-lint-css: ## Stylelint, plus the dark-variant layer check
+lint-css: ## Stylelint, plus the cascade-layer check
 	npm run lint:css
-	npm run css:dark
+	npm run css:layers
 .PHONY: lint-css
 
 lint-prettier: ## Prettier

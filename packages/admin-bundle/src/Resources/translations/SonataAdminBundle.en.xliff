@@ -450,6 +450,10 @@
         <source>list.label__actions</source>
         <target>Actions</target>
       </trans-unit>
+      <trans-unit id="sidebar_navigation">
+        <source>sidebar_navigation</source>
+        <target>Sections</target>
+      </trans-unit>
       <trans-unit id="theme_light">
         <source>theme_light</source>
         <target>Switch to the light theme</target>

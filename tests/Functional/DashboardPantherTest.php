@@ -121,6 +121,39 @@ final class DashboardPantherTest extends BasePantherTestCase
         );
     }
 
+    /**
+     * A group a visitor opened is still open on the next page: `sonata-menu` keeps the map in
+     * `localStorage` and applies it over what the server rendered.
+     */
+    public function testAnOpenedMenuGroupSurvivesNavigation(): void
+    {
+        $this->client->request('GET', $this->url('/admin/dashboard'));
+
+        static::assertSame('false', $this->groupState('Catalogue'));
+
+        $this->client->executeScript(
+            'document.evaluate(\'//button[.//span[text()="Catalogue"]]\', document, null, 9, null)'
+            .'.singleNodeValue.click();'
+        );
+
+        static::assertSame('true', $this->groupState('Catalogue'));
+
+        $this->client->request('GET', $this->url('/admin/tests/app/category/list'));
+
+        static::assertSame('true', $this->groupState('Catalogue'), 'The open group was forgotten.');
+
+        $this->client->executeScript('window.localStorage.removeItem("sonata_sidebar_open");');
+    }
+
+    private function groupState(string $label): string
+    {
+        return (string) $this->client->executeScript(\sprintf(
+            'return document.evaluate(\'//button[.//span[text()="%s"]]\', document, null, 9, null)'
+            .'.singleNodeValue?.getAttribute("aria-expanded");',
+            $label
+        ));
+    }
+
     private function isDark(): bool
     {
         return true === $this->client->executeScript('return document.documentElement.classList.contains("dark");');

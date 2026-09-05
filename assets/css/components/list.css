@@ -19,6 +19,7 @@
 }
 
 @utility adm-list-empty {
+    font-size: var(--text-theme-sm);
     padding-block: 3rem;
     color: var(--color-gray-500);
     text-align: center;
@@ -45,9 +46,5 @@
     .sonata-readmore-content[data-expanded='true'] {
         display: block;
         overflow: visible;
-    }
-
-    .adm-list-empty {
-        font-size: var(--text-theme-sm);
     }
 }

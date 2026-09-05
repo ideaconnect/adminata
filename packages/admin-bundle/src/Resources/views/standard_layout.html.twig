@@ -332,7 +332,11 @@ file that was distributed with this source code.
                                             <div class="adm-page-header" {{ stimulus_target('sonata-sticky', 'navbar') }}>
                                                 {% block tab_menu_navbar_header %}
                                                     {% if _navbar_title is not empty %}
-                                                        <h2 class="adm-page-title">{{ _navbar_title|raw }}</h2>
+                                                        {#- `<h1>`: this is the page's own title,
+                                                            and every page should have exactly
+                                                            one. Upstream made it an anchor to
+                                                            nowhere. -#}
+                                                        <h1 class="adm-page-title">{{ _navbar_title|raw }}</h1>
                                                     {% endif %}
                                                 {% endblock %}
 

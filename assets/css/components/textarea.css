@@ -31,10 +31,10 @@
         background-color: rgb(255 255 255 / 3%);
         color: rgb(255 255 255 / 90%);
     }
-}
 
-@layer components {
-    .dark .adm-textarea::placeholder {
-        color: rgb(255 255 255 / 30%);
+    @variant dark {
+        &::placeholder {
+            color: rgb(255 255 255 / 30%);
+        }
     }
 }

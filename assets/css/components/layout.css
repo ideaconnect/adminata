@@ -12,6 +12,10 @@
     padding: 1rem;
     margin-inline: auto;
     max-width: var(--breakpoint-2xl);
+
+    @variant md {
+        padding: 1.5rem;
+    }
 }
 
 @utility adm-header {
@@ -75,10 +79,6 @@
         .adm-shell[data-sidebar='collapsed'] .adm-main {
             margin-inline-start: var(--adm-sidebar-collapsed-w);
         }
-    }
-
-    .adm-content {
-        padding: 1.5rem;
     }
 
     .adm-breadcrumb li + li::before {

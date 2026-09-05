@@ -22,6 +22,18 @@
     @variant dark {
         color: var(--color-gray-400);
     }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-brand-500);
+        outline-offset: 2px;
+    }
+
+    @variant dark {
+        &:hover {
+            background-color: rgb(255 255 255 / 5%);
+            color: var(--color-gray-200);
+        }
+    }
 }
 
 @utility adm-btn-icon-round {
@@ -51,16 +63,4 @@
 
 @utility adm-btn-icon-history {
     color: var(--color-gray-500);
-}
-
-@layer components {
-    .adm-btn-icon:focus-visible {
-        outline: 2px solid var(--color-brand-500);
-        outline-offset: 2px;
-    }
-
-    .dark .adm-btn-icon:hover {
-        background-color: rgb(255 255 255 / 5%);
-        color: var(--color-gray-200);
-    }
 }
