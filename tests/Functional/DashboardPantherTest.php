@@ -19,6 +19,7 @@ namespace Adminata\Tests\Functional;
 use Adminata\Tests\App\EventListener\BrowserConsoleRecorderListener;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverElement;
 use Facebook\WebDriver\WebDriverKeys;
 use Facebook\WebDriver\WebDriverSelect;
 use PHPUnit\Framework\Attributes\Group;
@@ -450,6 +451,7 @@ final class DashboardPantherTest extends BasePantherTestCase
         $this->client->findElement(WebDriverBy::cssSelector('input[id$="_name"]'))->sendKeys('Native dates');
         $this->client->findElement(WebDriverBy::cssSelector('input[id$="_sku"]'))->sendKeys('SKU-9001');
         $this->client->findElement(WebDriverBy::cssSelector('input[id$="_price"]'))->sendKeys('4200');
+        $this->chooseInTheCombobox('category', 'Beverages');
 
         $fill('releasedAt', '2026-09-04T10:15');
         $fill('availableFrom', '2026-09-05');
@@ -489,6 +491,74 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
+     * The combobox in its form context, single and multiple (PLAN/06 §3): the request carries the
+     * admin's `uniqid` and the field name instead of `_context=filter`, a multiple field keeps its
+     * selection as chips over `name[]` hidden inputs, and Backspace on an empty box drops the last
+     * one.
+     */
+    public function testTheAutocompleteFormFieldKeepsSingleAndMultipleSelections(): void
+    {
+        $this->client->request('GET', $this->url('/admin/tests/app/product/create'));
+
+        $this->client->findElement(WebDriverBy::cssSelector('input[id$="_name"]'))->sendKeys('Autocompleted');
+        $this->client->findElement(WebDriverBy::cssSelector('input[id$="_sku"]'))->sendKeys('SKU-9002');
+        $this->client->findElement(WebDriverBy::cssSelector('input[id$="_price"]'))->sendKeys('1500');
+
+        $this->chooseInTheCombobox('category', 'Household');
+
+        $this->chooseInTheCombobox('tags', 'Organic');
+        $this->chooseInTheCombobox('tags', 'Sale');
+        $this->chooseInTheCombobox('tags', 'Bulk');
+
+        $chips = fn (): array => array_values(array_map(
+            static fn (WebDriverElement $chip): string => $chip->getText(),
+            $this->client->findElements(WebDriverBy::cssSelector('[id$="_tags"] .adm-chip [data-label]'))
+        ));
+
+        static::assertSame(['Organic', 'Sale', 'Bulk'], $chips());
+
+        // Backspace in an empty box drops the last chip, and only then.
+        $tags = $this->client->findElement(WebDriverBy::cssSelector('input[id$="_tags_autocomplete_input"]'));
+        $tags->sendKeys(WebDriverKeys::BACKSPACE);
+
+        static::assertSame(['Organic', 'Sale'], $chips());
+
+        $this->client->findElement(WebDriverBy::cssSelector('button[name="btn_create_and_edit"]'))->click();
+        $edit = $this->client->waitFor('.sonata-ba-form');
+
+        static::assertCount(
+            0,
+            $edit->filter('.sonata-ba-field-error'),
+            'The form came back with errors: '.$edit->filter('.sonata-ba-field-error-messages')->text('')
+        );
+
+        // What the server rendered back: the single field shows its label, the multiple one its
+        // chips, and the hidden inputs are what carried them.
+        static::assertSame(
+            'Household',
+            $this->client->findElement(
+                WebDriverBy::cssSelector('input[id$="_category_autocomplete_input"]')
+            )->getAttribute('value')
+        );
+        // A many-to-many has no order of its own, so what comes back is the collection's, not the
+        // order the chips were added in.
+        static::assertEqualsCanonicalizing(['Organic', 'Sale'], $chips());
+        static::assertCount(
+            2,
+            $this->client->findElements(WebDriverBy::cssSelector('[id$="_tags_hidden_inputs_wrap"] input'))
+        );
+
+        $this->assertConsoleIsEmpty('The autocomplete form field wrote to the browser console.');
+
+        static::assertSame(1, preg_match('#/product/(\d+)/edit#', $this->client->getCurrentURL(), $matches));
+
+        $this->client->request('GET', $this->url(\sprintf('/admin/tests/app/product/%s/delete', $matches[1])));
+        $this->client->findElement(WebDriverBy::cssSelector('.sonata-ba-delete form button[type="submit"]'))->click();
+
+        $this->client->waitFor('table.sonata-ba-list');
+    }
+
+    /**
      * The per-page select carries whole URLs as its option values, and `sonata-per-page` navigates
      * to the one chosen.
      */
@@ -505,6 +575,23 @@ final class DashboardPantherTest extends BasePantherTestCase
 
         static::assertCount(42, $rows, 'The list did not reload with the larger page size.');
         $this->assertConsoleIsEmpty('Changing the page size wrote to the browser console.');
+    }
+
+    /**
+     * Types into one of the page's comboboxes and takes the first suggestion.
+     */
+    private function chooseInTheCombobox(string $field, string $term): void
+    {
+        $input = $this->client->findElement(
+            WebDriverBy::cssSelector(\sprintf('input[id$="_%s_autocomplete_input"]', $field))
+        );
+
+        $input->clear();
+        $input->sendKeys($term);
+
+        $this->client->waitForVisibility(\sprintf('[id$="_%s_listbox"] [role="option"]', $field));
+        $this->client->getKeyboard()->sendKeys(WebDriverKeys::ARROW_DOWN);
+        $this->client->getKeyboard()->sendKeys(WebDriverKeys::ENTER);
     }
 
     /**

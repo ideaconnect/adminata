@@ -28,6 +28,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Filter\Model\FilterData;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
@@ -177,7 +178,14 @@ final class ProductAdmin extends AbstractAdmin
                 ->add('name', TextType::class)
                 ->add('sku', TextType::class, ['help' => 'Unique stock keeping unit.'])
                 ->add('price', IntegerType::class, ['help' => 'In minor units.'])
-                ->add('category', EntityType::class, ['class' => Category::class])
+                // The combobox in its form context: `_context` is absent, so the action resolves
+                // the field description from the *form* rather than from the datagrid.
+                ->add('category', ModelAutocompleteType::class, ['property' => 'name'])
+                ->add('tags', ModelAutocompleteType::class, [
+                    'property' => 'name',
+                    'multiple' => true,
+                    'required' => false,
+                ])
             ->end()
             ->with('Publication', ['class' => 'col-span-4'])
                 ->add('status', EnumType::class, ['class' => ProductStatus::class])
