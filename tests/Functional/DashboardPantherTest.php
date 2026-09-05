@@ -332,6 +332,11 @@ final class DashboardPantherTest extends BasePantherTestCase
         $driver = $this->client->getWebDriver();
         static::assertInstanceOf(RemoteWebDriver::class, $driver);
 
+        // An element click scrolls to what it clicks; a pointer move inside an action chain is
+        // given a coordinate and does not. With sixteen columns the fourth row sits below a short
+        // viewport, and the move is then out of bounds.
+        $this->client->executeScript('arguments[0].scrollIntoView({block: "center"});', [$boxes[3]]);
+
         $driver->action()
             ->keyDown(null, WebDriverKeys::SHIFT)
             ->click($boxes[3])
