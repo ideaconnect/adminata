@@ -2291,6 +2291,28 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   `jquery`, `jquery-ui` and `jquery-ui-bundle` are out of `package.json`, `addExternals({ jquery })`
   out of the Encore config, `npm ls jquery` is empty, and the bundle is 103 kB smaller.
 
+- 2026-09-05 — **P5-11 in progress: everything automatable is green; the owner's visual sign-off is
+  what is left.** The panel's **whole Behat suite passes on adminata — 53 scenarios, 560 steps** —
+  and its PHPUnit suite passes at **3,682 tests** after one expectation was updated:
+  `VoucherBurnListTemplatesTest` asserted the Bootstrap pastels the state cell used to paint onto
+  its `<td>`, and now asserts the badge tones that replaced them.
+
+  A render sweep over **44 list pages and 25 create pages** — signed in through a `KernelBrowser`,
+  because the panel's login is behind stateless CSRF whose token only JavaScript can mint — found
+  three failures, none of them the migration's:
+
+  - `PartnerAdmin` declared `fileAsset` as `TYPE_STRING` while the value is a `FileAsset` entity
+    with no `__toString()`, so the list threw on every partner that had a logo. **Fixed**: it shows
+    the image, the way the White Label column already did. The bug predates adminata.
+  - `promocode` and `recomatgroupsettings` fail on the *developer's* database, not on the code: one
+    row holds `prepaid_m`, an enum value `develop` retired, and the schema is missing
+    `voucher_source`, a column a later migration adds. Both render once that database is caught up.
+
+  What P5-11 still needs is the part no test can give: **the owner looking at the panel in both
+  themes and saying it is right.** The branch is `adminata` in the app checkout, eleven commits,
+  `npx encore dev` built and ready to serve.
+
+
 
 
 
