@@ -60,7 +60,9 @@ final class ServiceLoader implements BlockLoaderInterface
         }
 
         $block = new Block();
-        $block->setId(uniqid('', true));
+        // Without the dot `uniqid(…, true)` puts in: the id reaches the page as
+        // `id="cms-block-…"`, and a dot makes it a selector nobody can write without escaping it.
+        $block->setId(str_replace('.', '', uniqid('', true)));
         $block->setType($configuration['type']);
         $block->setEnabled(true);
         $block->setCreatedAt(new \DateTime());

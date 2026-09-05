@@ -64,6 +64,9 @@ const safelist = `/*
 
 @source inline("{${names.join(',')}}");
 
+/* The add block's column count, composed from \`dropdown_number_groups_per_colums\`. */
+@source inline("grid-cols-{1..6}");
+
 /* Group and dashboard-block classes: \`col-span-N\` at every breakpoint, and offsets. */
 @source inline("{,sm:,md:,lg:,xl:}col-span-{1..12}");
 @source inline("{sm:,md:,lg:,xl:}col-start-{2..12}");

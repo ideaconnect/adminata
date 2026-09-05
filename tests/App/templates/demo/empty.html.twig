@@ -1,0 +1,17 @@
+{#
+    A page of the demo application on `empty_layout` — no sidebar, no header, no breadcrumb.
+    This is the shape a login or a password page takes.
+#}
+
+{% extends '@SonataAdmin/empty_layout.html.twig' %}
+
+{% block content %}
+    <div class="adm-card m-6 max-w-md">
+        <div class="adm-card-header">
+            <h1 class="adm-card-title">Empty layout</h1>
+        </div>
+        <div class="adm-card-body">
+            <p>The shell with everything but the content taken out.</p>
+        </div>
+    </div>
+{% endblock %}

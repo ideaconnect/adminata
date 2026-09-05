@@ -35,6 +35,9 @@ export const PAGES = [
     { name: 'dashboard', path: '/admin/dashboard' },
     { name: 'product-list', path: '/admin/tests/app/product/list' },
     { name: 'product-create', path: '/admin/tests/app/product/create' },
+    { name: 'login', path: '/login' },
+    { name: 'empty-layout', path: '/admin/demo/empty' },
+    { name: 'dialog', path: '/admin/demo/dialog' },
 ];
 
 /** @type {ReadonlyArray<'light' | 'dark'>} */

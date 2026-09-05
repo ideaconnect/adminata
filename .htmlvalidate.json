@@ -3,6 +3,7 @@
     "rules": {
         "attribute-boolean-style": "off",
         "attribute-empty-style": "off",
+        "no-inline-style": "off",
         "no-trailing-whitespace": "off",
         "require-sri": ["error", { "target": "crossorigin" }]
     }

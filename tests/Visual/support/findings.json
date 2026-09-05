@@ -24,16 +24,8 @@
         ]
     },
     "markup": {
-        "dashboard": [
-            "heading-level",
-            "long-title",
-            "no-inline-style",
-            "valid-id"
-        ],
         "product-list": [
             "input-missing-label",
-            "long-title",
-            "no-inline-style",
             "no-redundant-for",
             "no-redundant-role",
             "prefer-button",
@@ -42,8 +34,6 @@
         ],
         "product-create": [
             "heading-level",
-            "long-title",
-            "no-inline-style",
             "no-redundant-role",
             "text-content",
             "wcag/h30"
