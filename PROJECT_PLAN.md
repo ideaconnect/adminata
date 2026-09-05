@@ -281,17 +281,18 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `npm run build && npm run css:contract` green; `contract.json` committed; every `.adm-*`
     name appears in the built `app.css`.
 
-- [ ] **P1-06 · JS core, inherited controllers, Vitest, contract snapshot** · L · depends: P1-03
+- [x] **P1-06 · JS core, inherited controllers, Vitest, contract snapshot** · L · depends: P1-03
   - Read: PLAN/05 §1, §2, §7, §9; PLAN/02 §9.
   - Do: move `packages/admin-bundle/assets/js/controllers/*_controller.js` and `core/*` to
     `assets/js/`, images to `assets/images/`, then delete `packages/admin-bundle/assets/`;
     `assets/js/app.js` (start `Application`, `window.sonataApplication`, remove `html.no-js`);
     `registry.js` (explicit nine); `sonata-edit`: replace the jQuery tab line with
     `this.dispatch('show', {prefix: 'sonata-tabs'})`; `Config.param` null-tolerant;
-    `vitest.config.js` (jsdom); `tests/Unit/Fixture/JsFixtureDumperTest.php` rendering the relevant
-    Twig templates through the stub kernel into `tests/fixtures/js/*.html`; a Vitest test per
-    inherited controller; `assets/js/__contract__/controllers.json` + snapshot test introspecting
-    the built `app.js`.
+    `vitest.config.js` (jsdom); a Vitest test per inherited controller, each naming the template its
+    markup mirrors; `assets/js/__contract__/controllers.json` + snapshot test introspecting the
+    built `app.js`. The fixtures are hand-written here rather than dumped from Twig: the templates
+    are still the inherited Bootstrap ones, so a dumper would snapshot markup M2 to M4 replaces.
+    Task **P1-13** adds `JsFixtureDumperTest` once the templates are adminata's.
   - Accept: `npm run test` green; `grep -rn "jQuery\|\$(" assets/js` empty; built `app.js` registers
     nine identifiers (snapshot test).
 
@@ -351,6 +352,15 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     unit suite (blocking); nightly job — its Panther suite with a Mongo service (`continue-on-error: true`).
     Any change the fork itself needs is a separate PR in the fork repository (note it in the status log).
   - Accept: the PR job is green on the M1 push.
+
+- [ ] **P1-13 · Dump the JavaScript test fixtures from the real templates** · M · depends: P2-MS
+  - Read: PLAN/05 §9.
+  - Do: `tests/Unit/Fixture/JsFixtureDumperTest.php` renders the templates the controllers attach
+    to through the demo kernel into `tests/fixtures/js/*.html`; the Vitest suites load those
+    instead of their inline markup. Only worth doing once a template is adminata's, which is why
+    it follows M2 rather than sitting in P1-06.
+  - Accept: `npm run test` green against dumped fixtures; a template change that breaks a
+    controller fails the JavaScript suite.
 
 - [ ] **P1-MS · Milestone M1 push** · S · depends: P1-07, P1-08, P1-10, P1-11, P1-12
   - Accept: definition of done green; all workflows green on GitHub; status log updated.
@@ -929,6 +939,21 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   `npm run css:contract` checks all 101 selectors against the built stylesheet — it passes.
   `npm run build` regenerates the safelist first and `assets-check` diffs it, so the two cannot
   drift. app.css is 46.3 kB against a 120 kB budget.
+- 2026-09-05 — **P1-06 done.** The nine inherited controllers, `core/` and the three images moved
+  out of `packages/admin-bundle/assets/` into `assets/`, which is now deleted; `registry.js`
+  registers all nine explicitly and `app.js` starts the one application as
+  `window.sonataApplication`. Ten Vitest files, 45 tests, each naming the template its markup
+  mirrors. Three changes to the controllers themselves: the single jQuery call in `sonata-edit`
+  became a `sonata-tabs:show` event (a no-op until that controller exists), `Config.param()`
+  returns null on a page without the meta tag instead of throwing, and the relative imports got
+  their `.js` extensions so the modules are valid ESM outside a bundler.
+  **`qs` is gone** — owner decision 10 in PLAN/11, taken because the bundle was 95.6 kB of a 100 kB
+  budget with 9 of 17 controllers, and `qs` was 41 kB of it for a single `stringify` call.
+  `buildQueryString()` in `core/utils.js` replaces it and produces byte-identical output for every
+  shape the filter controller passes, checked against the real `qs` before removing it. app.js is
+  54.3 kB. `bin/build-js-contract.mjs` records the identifiers, targets, values, classes and
+  outlets, and `contract.test.js` checks the registry and the built bundle against it — including
+  that no jQuery reaches the output.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

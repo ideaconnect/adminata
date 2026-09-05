@@ -9,11 +9,12 @@
         "node": ">=24"
     },
     "scripts": {
-        "build": "node bin/build-css-safelist.mjs && node bin/clean-assets.mjs && vite build --mode js && vite build --mode css && node bin/write-manifests.mjs",
+        "build": "node bin/build-css-safelist.mjs && node bin/build-js-contract.mjs && node bin/clean-assets.mjs && vite build --mode js && vite build --mode css && node bin/write-manifests.mjs",
         "check:jquery": "node bin/check-no-jquery.mjs",
         "css:contract": "node bin/check-css-contract.mjs",
         "css:safelist": "node bin/build-css-safelist.mjs",
         "fixture": "node bin/tailwind-fixture.mjs",
+        "js:contract": "node bin/build-js-contract.mjs",
         "lint:css": "stylelint \"assets/**/*.css\"",
         "lint:js": "eslint .",
         "lint:prettier": "prettier --check .",
@@ -21,8 +22,7 @@
         "test": "vitest run"
     },
     "dependencies": {
-        "@hotwired/stimulus": "3.2.2",
-        "qs": "6.16.0"
+        "@hotwired/stimulus": "3.2.2"
     },
     "devDependencies": {
         "@eslint/js": "10.0.1",
