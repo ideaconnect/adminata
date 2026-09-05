@@ -1,0 +1,4 @@
+sonata_form:
+
+    # Must be one of standard, horizontal
+    form_type:            standard

@@ -302,7 +302,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `css:contract`, `size`.
   - Accept: green on the M1 push.
 
-- [ ] **P1-08 · Contract tests and deferred-template markers** · M · depends: P0-MS
+- [x] **P1-08 · Contract tests and deferred-template markers** · M · depends: P0-MS
   - Read: PLAN/02 §8, §10, §13; PLAN/03 §E, §G; PLAN/08 §4.
   - Do: `tests/Contract/hooks.yaml` (every hook, id, data attribute and link text of PLAN/02 §8/§10)
     and `HookContractTest` (static scan of template sources, per template group);
@@ -753,6 +753,9 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   **2604 tests green** (5 skips: 3 SQLite-only exporter tests → P0-16, 2 Symfony-8 conditional).
   Browser tests need a driver: `PANTHER_SELENIUM_HOST=http://127.0.0.1:4444/wd/hub` was used here
   because another container holds port 4444; `PANTHER_FIREFOX_PORT` moves a spawned geckodriver.
+  On this machine the Selenium route is the only one that works: the snap Firefox cannot be driven
+  by geckodriver under WSL ("Failed to read marionette port"), so `make test` locally needs
+  `PANTHER_SELENIUM_HOST=http://localhost:4444`. CI spawns its own driver and needs neither.
 - 2026-09-04 — **P0-16 done.** The three exporter tests run against MySQL through a new
   `Adminata\Tests\Support\TestDatabase` helper (URL resolution, per-suite database name, create or
   recreate, plain PDO handle), which `OrmDatabaseExtension` and `TestEntityManagerFactory` now use
@@ -968,3 +971,47 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   links resolve; P5-12 replaces them with the executed checklist. `.gitattributes` deliberately
   keeps `assets/` in the dist archive (PLAN/07 §4) and export-ignores tests, docs, PLAN, CI and the
   build tooling.
+
+- 2026-09-05 — **P1-08 done.** Five contract tests, 162 cases, on a shared `ContractTestCase`
+  (`root()`, `directories()`) that reads the packages off disk rather than through a kernel, so a
+  broken container cannot make a frozen-interface check pass by not running.
+  `deferred-templates.txt` lists the 36 templates 1.0 inherits unported, each now carrying
+  `{# adminata: not yet ported #}`; `DeferredTemplateTest` holds the list, the markers and the disk
+  in agreement, so porting one and forgetting to delist it fails. `TemplatePathTest` resolves every
+  registry default, every `@Sonata*/…` string under `packages/*/src` and the MongoDB fork's
+  hard-coded paths. `HookContractTest` scans template *sources* (not rendered output — a hook in a
+  branch the demo never takes is still contract) for the PLAN/02 §8 hooks, and writing it corrected
+  four of them in the plan: upstream emits `view_link`, not `show_link`/`history_link`;
+  `sonata-ba-view-title` belongs to the deferred `preview.html.twig`; `sidebar-menu` lives in
+  `Menu/sonata_menu.html.twig`; `sonata-action-element` in `Button/*`; and the pager templates are
+  `Pager/*`, not `CRUD/Pager/*`. One upstream default is dangling — `templates.outer_list_rows_tree`
+  names `CRUD/list_outer_rows_tree.html.twig`, absent from 4.43.0 — and is excluded as `NOT_SHIPPED`
+  with that reason.
+
+  Two deviations from the task text. `ConfigContractTest` dumps the `Configuration` classes through
+  `YamlReferenceDumper` instead of `bin/console config:dump-reference`: the admin test kernel
+  registers neither doctrine-extensions, the ORM admin nor the exporter, so the console resolves
+  only four of the seven roots. And it freezes **six** roots, not seven — doctrine-extensions
+  declares no `Configuration` class at all (`SonataDoctrineExtension::load()` only loads service
+  files and there is no `getConfiguration()`), so `sonata_doctrine` has no tree to capture. The
+  baseline is the post-P0-10 tree rather than the pristine import, which is what an application
+  actually configures against; the PLAN/02 §3 differences are asserted positively instead of
+  allowlisted — two extra cases check that `skin`/`use_select2`/`use_icheck`/`use_bootlint` are gone
+  and that the `theme` node is present. The captures are byte-for-byte dumper output, whose column
+  padding yamllint rejects, so `tests/Contract/config-reference/` is in the `.yamllint` ignore list;
+  reformatting them would make the test compare against something the dumper cannot produce.
+
+  PHPStan needed one config change. `FormErrorIterator` declares its own name inside its own
+  template bound (`@template T of FormError|FormErrorIterator`), and PHPStan resolves that
+  recursion inconsistently: at `CRUDController::handleXmlHttpRequestErrorResponse()` `dumpType`
+  reports exactly the `FormErrorIterator<FormError>` that
+  `FormErrorIteratorToConstraintViolationList::transform()` asks for, and the same analysis then
+  rejects it against that bound rendered as
+  `iterable<FormError>&FormErrorIterator`. It fires every time single-process and intermittently
+  under parallel workers, which is what made it look like a result-cache artifact. The class joins
+  the five Symfony form classes already in `skipCheckGenericClasses` — a statement about a vendor
+  class's generics, not a baseline entry or an ignore comment.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2787 tests, 2 skips**), `make test-contract` (162 + 4), `make lint-js`, `make test-js`,
+  `make assets-check`.

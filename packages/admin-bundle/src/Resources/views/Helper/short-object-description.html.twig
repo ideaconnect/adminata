@@ -1,3 +1,4 @@
+{# adminata: not yet ported — inherited Bootstrap markup, see PLAN/03 §E #}
 <span class="inner-field-short-description">
     {% if object and admin.hasRoute('edit') and admin.hasAccess('edit') %}
         <a href="{{ admin.generateObjectUrl('edit', object, link_parameters) }}" target="new">{{ description }}</a>
