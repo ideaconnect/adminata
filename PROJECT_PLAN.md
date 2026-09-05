@@ -533,7 +533,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     baselines for list pages; axe.
   - Accept: all suites green; baselines committed.
 
-- [ ] **P3-MS · Milestone M3 push** · S · depends: P3-10
+- [x] **P3-MS · Milestone M3 push** · S · depends: P3-10
   - Accept: definition of done green; workflows green; status log updated.
 
 ---
@@ -1840,5 +1840,29 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   (**2829 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
   (**124**), `make assets-check`, `make test-visual` (**372 passed**), `make test-functional`
   (**42**).
+
+- 2026-09-05 — **Milestone M3 complete.** All eleven tasks done. Definition of done green:
+  `make lint`, `make phpstan`, `make rector`, `make test` (**2829 tests, 2 skips**),
+  `make test-contract`, `make test-functional` (**42**), `make lint-js`, `make lint-css`,
+  `make test-js` (**124**), `make assets-check`, `make test-visual` (**372 passed**).
+  `CHANGELOG.md` records the milestone. `main` pushed to `ideaconnect/adminata`.
+
+  The list is adminata's: the list page and its filter panel, the datagrid table, batch selection,
+  five pagers, row and batch actions, export, the batch confirmation page and the autocomplete
+  combobox. `tests/Visual/support/findings.json` now holds nothing but the create page — six
+  `button-name` entries and three markup rules, all of them M4's to clear.
+
+  The lesson of this milestone was that **a template's contract is not only its markup**. Three
+  defects came from the same root: something in a template was in the wrong *place* rather than the
+  wrong shape. A `{% block %}` renders where it stands, so the autocomplete's request JSON was
+  printed into the page as text. A Stimulus target has to live inside its controller's element, and
+  `#{id}_hidden_inputs_wrap` did not. And a `<label for>` has to name an element that exists — the
+  filter panel and `form_label` both pointed at ids no widget carried. None of the three is visible
+  in a diff of class names.
+
+  The second lesson was that **shared state between tests is a bug waiting for a reason**. The
+  Panther suite kept one session per class on purpose, and it was fine until `persist_filters`
+  gave a test something worth leaving behind.
+
 
 

@@ -20,7 +20,12 @@ Milestone M2 (shell) is complete: the layout, the sidebar, the header, the dashb
 messages are adminata's own, and the pages they own — the dashboard, a login page, an empty layout,
 a dialog — have no accessibility and no markup findings in either theme.
 
-The list and the form are still Sonata's Bootstrap templates and render unstyled, which is
+Milestone M3 (list) is complete: list pages, filters, batch selection, pagers, row and batch
+actions, export and the autocomplete combobox are adminata's own. select2 is replaced by a
+hand-written ARIA 1.2 combobox with no dependency, and the request and response the
+`sonata_admin_retrieve_autocomplete_items` action speaks are unchanged.
+
+The form and the show page are still Sonata's Bootstrap templates and render unstyled, which is
 deliberate, written down and asserted: see `tests/Contract/deferred-templates.txt`,
 `tests/Visual/support/findings.json` and the `legacy-ui` PHPUnit group.
 
@@ -61,6 +66,15 @@ deliberate, written down and asserted: see `tests/Contract/deferred-templates.tx
   `sonata-dropdown`, `sonata-modal`, `sonata-dismiss` and the shared list-mode partial they serve.
   Dialogs are native `<dialog>`, so the focus trap and Escape are the browser's.
 - `Core/list_mode_buttons.html.twig`, shared by the standard and ajax layouts.
+- The list: a card with a filter panel, a scrolling table, batch selection with an indeterminate
+  header checkbox and shift-range selection, five pager templates, a native per-page select, an
+  export menu, row and batch actions, and a batch confirmation page. A new additive block
+  `list_after_table` replaces the footer an application used to hang its summaries off.
+- `sonata-autocomplete`: a hand-written ARIA 1.2 combobox for `sonata_type_model_autocomplete`,
+  single and multiple, with debouncing, remote paging, keyboard navigation and
+  `aria-activedescendant`. select2 and jQuery are gone; the request parameters, the JSON response,
+  `#{id}_autocomplete_input` and `#{id}_hidden_inputs_wrap` are not.
+- `sonata-batch`, replacing the JavaScript upstream printed into every list page.
 
 ### Changed
 
