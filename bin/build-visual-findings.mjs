@@ -104,7 +104,7 @@ await browser.close();
 writeFileSync(OUTPUT, `${JSON.stringify(findings, null, 4)}\n`);
 
 console.log(
-    `Wrote ${Object.keys(findings.axe).length} accessibility, ${Object.keys(findings.markup).length} markup `
-        + `and ${Object.keys(findings.responsive).length} responsive entries to `
-        + 'tests/Visual/support/findings.json.',
+    `Wrote ${Object.keys(findings.axe).length} accessibility, ${Object.keys(findings.markup).length} markup ` +
+        `and ${Object.keys(findings.responsive).length} responsive entries to ` +
+        'tests/Visual/support/findings.json.',
 );
