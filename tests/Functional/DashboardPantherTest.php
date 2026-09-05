@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Adminata\Tests\Functional;
 
+use Adminata\Tests\App\EventListener\BrowserConsoleRecorderListener;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
@@ -62,6 +63,46 @@ final class DashboardPantherTest extends BasePantherTestCase
         $this->assertConsoleIsEmpty('Collapsing the sidebar wrote to the browser console.');
     }
 
+    /**
+     * `ThemeRuntime` resolves the cookie before a byte is sent, so a visitor who chose dark never
+     * sees the light theme flash first (PLAN/01 C2).
+     */
+    public function testTheThemeCookieIsHonouredBeforeTheFirstPaint(): void
+    {
+        $this->client->request('GET', $this->url('/admin/dashboard'));
+
+        static::assertFalse($this->isDark(), 'The demo defaults to the system theme.');
+
+        $this->client->executeScript('document.cookie = "sonata_theme=dark; path=/";');
+        $this->client->reload();
+
+        static::assertTrue($this->isDark(), 'The server did not stamp html.dark from the cookie.');
+        static::assertSame('dark', $this->client->executeScript('return document.documentElement.dataset.theme;'));
+
+        $this->assertConsoleIsEmpty('The dark theme wrote to the browser console.');
+
+        $this->client->executeScript('document.cookie = "sonata_theme=; path=/; max-age=0";');
+    }
+
+    /**
+     * adminata ships exactly one inline script: the three lines that resolve the `system` theme
+     * before the first paint (PLAN/01 J4).
+     */
+    public function testTheLayoutCarriesOneInlineScript(): void
+    {
+        $this->client->request('GET', $this->url('/admin/dashboard'));
+
+        // Minus the console recorder, which only the test environment injects
+        // (BrowserConsoleRecorderListener) and which is not part of what adminata ships.
+        static::assertSame(
+            1,
+            $this->client->executeScript(\sprintf(
+                'return document.querySelectorAll("script:not([src]):not([%s])").length;',
+                BrowserConsoleRecorderListener::MARKER
+            ))
+        );
+    }
+
     public function testTheListLoads(): void
     {
         $crawler = $this->client->request('GET', $this->url('/admin/tests/app/product/list'));
@@ -78,6 +119,11 @@ final class DashboardPantherTest extends BasePantherTestCase
             $this->consoleMessages(),
             'The console errors of the inherited product list changed.'
         );
+    }
+
+    private function isDark(): bool
+    {
+        return true === $this->client->executeScript('return document.documentElement.classList.contains("dark");');
     }
 
     private function sidebarState(): string

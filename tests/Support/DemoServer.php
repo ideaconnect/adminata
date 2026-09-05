@@ -38,17 +38,12 @@ final class DemoServer
 
     private static ?Process $process = null;
 
-    /**
-     * The address the *browser* dials, with the credentials of the demo's in-memory user.
-     *
-     * Firefox accepts a top-level navigation to a URL carrying credentials, which is what spares
-     * the demo a login form it does not otherwise need.
-     */
+    /** The address the *browser* dials. */
     public static function baseUri(): string
     {
         self::start();
 
-        return \sprintf('http://admin:admin@%s:%d', self::browserHost(), self::port());
+        return \sprintf('http://%s:%d', self::browserHost(), self::port());
     }
 
     public static function start(): void
@@ -72,9 +67,26 @@ final class DemoServer
         $process = new Process(
             [\PHP_BINARY, '-S', \sprintf('0.0.0.0:%d', self::port()), '-t', \dirname(__DIR__).'/App/public'],
             \dirname(__DIR__, 2),
-            ['APP_ENV' => 'test', 'APP_DEBUG' => '0'],
+            [
+                // Not `test`: that environment's mock session storage keys the session by name in
+                // a temp file instead of by a cookie, so on a real server every request after the
+                // first arrives already authenticated, whoever sends it.
+                'APP_ENV' => 'browser',
+                'APP_DEBUG' => '0',
+                // PHP's built-in server is single-threaded, and a browser holds several
+                // connections open at once: sooner or later it is blocked on a request it cannot
+                // answer until one of the others finishes, and the page never loads.
+                'PHP_CLI_SERVER_WORKERS' => '8',
+            ],
         );
         $process->setTimeout(null);
+        // PHP's built-in server logs a line per request, and Symfony's Process buffers what it
+        // writes. Nothing here ever drains those pipes, so once the operating system's 64 kB
+        // buffer fills — three or four page loads, counting stylesheets, scripts and fonts — the
+        // server blocks on the write and answers nothing more. The symptom is a browser that
+        // hangs on the third navigation of a run and a WebDriver command that times out a minute
+        // later, which says nothing about the cause.
+        $process->disableOutput();
         $process->start();
 
         self::$process = $process;

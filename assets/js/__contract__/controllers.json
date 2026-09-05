@@ -113,6 +113,18 @@
             "values": [],
             "classes": [],
             "outlets": []
+        },
+        "sonata-theme": {
+            "targets": [
+                "label"
+            ],
+            "values": [
+                "cookieName",
+                "labels",
+                "theme"
+            ],
+            "classes": [],
+            "outlets": []
         }
     }
 }

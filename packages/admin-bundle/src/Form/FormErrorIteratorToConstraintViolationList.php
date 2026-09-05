@@ -27,7 +27,15 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 final class FormErrorIteratorToConstraintViolationList
 {
     /**
-     * @param FormErrorIterator<FormError> $errors
+     * The parameter deliberately carries no `@param FormErrorIterator<FormError>`.
+     * `FormErrorIterator` names itself in its own template bound, and PHPStan rejects the type it
+     * infers for `getErrors()` against the same type written as that annotation — see the note
+     * beside `skipCheckGenericClasses` in phpstan.neon.dist. The `instanceof` below says what the
+     * annotation used to, and says it to the runtime as well.
+     *
+     * `getErrors($deep, $flatten = true)` yields `FormError`s. Ask for `$flatten = false` and the
+     * iterator yields child iterators instead; upstream handed those to `buildViolation()`, which
+     * is typed for a `FormError` and would have raised a TypeError. They are skipped.
      */
     public static function transform(FormErrorIterator $errors, bool $removeSensitiveData = false): ConstraintViolationListInterface
     {
@@ -35,6 +43,10 @@ final class FormErrorIteratorToConstraintViolationList
         $list = new ConstraintViolationList();
 
         foreach ($errors as $error) {
+            if (!$error instanceof FormError) {
+                continue;
+            }
+
             $violation = static::buildViolation($error, $form, $removeSensitiveData);
 
             if (null === $violation) {

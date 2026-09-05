@@ -450,6 +450,18 @@
         <source>list.label__actions</source>
         <target>Actions</target>
       </trans-unit>
+      <trans-unit id="theme_light">
+        <source>theme_light</source>
+        <target>Switch to the light theme</target>
+      </trans-unit>
+      <trans-unit id="theme_dark">
+        <source>theme_dark</source>
+        <target>Switch to the dark theme</target>
+      </trans-unit>
+      <trans-unit id="theme_system">
+        <source>theme_system</source>
+        <target>Follow the system theme</target>
+      </trans-unit>
       <trans-unit id="breadcrumb">
         <source>breadcrumb</source>
         <target>Breadcrumb</target>

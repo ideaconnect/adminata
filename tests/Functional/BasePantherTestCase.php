@@ -40,10 +40,46 @@ use Symfony\Component\Panther\PantherTestCase;
  */
 abstract class BasePantherTestCase extends PantherTestCase
 {
+    /**
+     * What a test may leave behind, cleared before the next one.
+     *
+     * @var list<string>
+     */
+    private const array COOKIES = ['sonata_theme', 'sonata_sidebar_hide'];
+
     protected Client $client;
+    /**
+     * One browser session for the whole class.
+     *
+     * `createPantherClient()` reuses its client for Chrome and Firefox but not for Selenium: it
+     * overwrites `self::$pantherClients[0]` and the old session is never quit, so a class with
+     * five tests opens five sessions and the fourth waits out its timeout against a node
+     * configured for one.
+     */
+    private static ?Client $session = null;
+
+    public static function tearDownAfterClass(): void
+    {
+        // `PantherTestCase::tearDownAfterClass()` quits `self::$pantherClients`, this one among
+        // them; forgetting it here is what keeps the next class from reusing a dead session.
+        self::$session = null;
+
+        parent::tearDownAfterClass();
+    }
 
     protected function setUp(): void
     {
+        if (null !== self::$session) {
+            $this->client = self::$session;
+
+            // Nothing a previous test chose may reach the next; the session cookie stays.
+            foreach (self::COOKIES as $cookie) {
+                $this->client->getWebDriver()->manage()->deleteCookieNamed($cookie);
+            }
+
+            return;
+        }
+
         $options = [
             'external_base_uri' => DemoServer::baseUri(),
             'connection_timeout_in_ms' => 5000,
@@ -53,30 +89,30 @@ abstract class BasePantherTestCase extends PantherTestCase
         $seleniumHost = self::stringFromServer('PANTHER_SELENIUM_HOST');
 
         if (null !== $seleniumHost) {
-            $this->client = static::createPantherClient(
+            $this->client = self::$session = static::createPantherClient(
                 ['browser' => PantherTestCase::SELENIUM] + $options,
                 [],
-                ['host' => $seleniumHost, 'capabilities' => DesiredCapabilities::firefox()],
+                ['host' => $seleniumHost, 'capabilities' => self::capabilities()],
             );
+
+            $this->signIn();
 
             return;
         }
 
         $port = self::stringFromServer('PANTHER_FIREFOX_PORT');
 
-        $this->client = static::createPantherClient(
+        $this->client = self::$session = static::createPantherClient(
             ['browser' => PantherTestCase::FIREFOX] + $options,
             [],
-            null !== $port ? ['port' => (int) $port] : [],
+            ['capabilities' => ['moz:firefoxOptions' => self::firefoxOptions()]]
+            + (null !== $port ? ['port' => (int) $port] : []),
         );
+
+        $this->signIn();
     }
 
-    /**
-     * The absolute address of a demo page, credentials included.
-     *
-     * Firefox accepts a top-level navigation to a URL carrying credentials, which is what spares
-     * the demo a login form it does not otherwise need.
-     */
+    /** The absolute address of a demo page. */
     protected function url(string $path): string
     {
         return DemoServer::baseUri().$path;
@@ -116,6 +152,43 @@ abstract class BasePantherTestCase extends PantherTestCase
             $this->consoleMessages(),
             '' !== $message ? $message : 'The page wrote to the browser console.'
         );
+    }
+
+    /**
+     * Signs the browser session in through the demo's login form, once.
+     *
+     * Not `http_basic`: the only way to hand credentials to a browser through a URL is
+     * `http://user:pass@host`, and Firefox puts a confirmation dialog in front of repeating one —
+     * a modal that blocks WebDriver until it times out, a minute per test. A form leaves a session
+     * cookie, which every later navigation carries by itself.
+     */
+    private function signIn(): void
+    {
+        $crawler = $this->client->request('GET', $this->url('/login'));
+
+        $this->client->submit($crawler->selectButton('Sign in')->form([
+            '_username' => 'admin',
+            '_password' => 'admin',
+        ]));
+    }
+
+    /**
+     * `ui.prefersReducedMotion` is Panther's own default, restated because passing
+     * `moz:firefoxOptions` replaces it wholesale rather than merging into it.
+     *
+     * @return array<string, mixed>
+     */
+    private static function firefoxOptions(): array
+    {
+        return ['prefs' => ['ui.prefersReducedMotion' => 1]];
+    }
+
+    private static function capabilities(): DesiredCapabilities
+    {
+        $capabilities = DesiredCapabilities::firefox();
+        $capabilities->setCapability('moz:firefoxOptions', self::firefoxOptions());
+
+        return $capabilities;
     }
 
     private static function stringFromServer(string $name): ?string

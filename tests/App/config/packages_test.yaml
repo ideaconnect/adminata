@@ -1,5 +1,10 @@
-# Only in the test environment: `WebTestCase::createClient()` refuses to build a client without
-# `framework.test`, and a demo served by `make demo` has no reason to carry the test container.
+# Only in the `test` environment, which means only in-process under BrowserKit.
+#
+# `WebTestCase::createClient()` refuses to build a client without `framework.test`, and the mock
+# session storage keeps the suite off real session files. Neither belongs on a server a browser
+# talks to: the mock storage keys the session by name in a temp file rather than by a cookie, so
+# every request after the first arrives already authenticated whoever sends it. The browser suites
+# run in the `browser` environment for exactly that reason (Adminata\Tests\Support\DemoServer).
 
 framework:
     test: true

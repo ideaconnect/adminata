@@ -69,6 +69,18 @@ security:
         main:
             lazy: true
             provider: demo
+            # Both, on purpose. `http_basic` is what BrowserKit and Playwright send; the form is
+            # what a real browser can use, because credentials in a URL are the only alternative
+            # and Firefox puts a modal in front of repeating one.
+            # `http_basic` is the entry point so an unauthenticated request answers 401 rather
+            # than redirecting, which is what the BrowserKit and Playwright suites assert.
+            entry_point: http_basic
             http_basic: ~
+            form_login:
+                login_path: demo_login
+                check_path: demo_login
+                enable_csrf: true
+            logout:
+                path: demo_logout
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
