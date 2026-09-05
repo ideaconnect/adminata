@@ -10,6 +10,7 @@
  * file that was distributed with this source code.
  */
 
+import BatchController from './controllers/batch_controller.js';
 import CollectionController from './controllers/collection_controller.js';
 import ConfirmExitController from './controllers/confirm_exit_controller.js';
 import DismissController from './controllers/dismiss_controller.js';
@@ -36,6 +37,7 @@ import ThemeController from './controllers/theme_controller.js';
  * @type {Record<string, typeof import('@hotwired/stimulus').Controller>}
  */
 export const controllers = {
+    'sonata-batch': BatchController,
     'sonata-collection': CollectionController,
     'sonata-confirm-exit': ConfirmExitController,
     'sonata-dismiss': DismissController,

@@ -1,11 +1,9 @@
 {
     "axe": {
         "product-list:light": [
-            "label",
             "link-name"
         ],
         "product-list:dark": [
-            "label",
             "link-name"
         ],
         "product-create:light": [
@@ -19,7 +17,6 @@
     },
     "markup": {
         "product-list": [
-            "input-missing-label",
             "no-redundant-role",
             "wcag/h30"
         ],

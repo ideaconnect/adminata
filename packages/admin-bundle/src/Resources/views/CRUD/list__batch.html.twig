@@ -12,5 +12,10 @@ file that was distributed with this source code.
 {% extends get_admin_template('base_list_field', admin.code) %}
 
 {% block field %}
-    <input type="checkbox" name="idx[]" value="{{ admin.id(object) }}">
+    {#- Named after the row it selects: forty-two checkboxes all called "Select" tell a screen
+        reader nothing. -#}
+    <input type="checkbox" class="adm-checkbox" name="idx[]" value="{{ admin.id(object) }}"
+           aria-label="{{ admin.toString(object) }}"
+           {{ stimulus_target('sonata-batch', 'row') }}
+           {{ stimulus_action('sonata-batch', 'toggleRow', 'click') }}>
 {% endblock %}

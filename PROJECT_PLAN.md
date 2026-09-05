@@ -480,7 +480,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `data-controller` attributes); confirm the ORM and MongoDB filter themes (copied unchanged) render.
   - Accept: filter functional tests green; Panther: add/remove/reset filters; `prepareSubmit` keeps working.
 
-- [ ] **P3-03 · `sonata-batch`, `list__batch`, `list__select`** · M · depends: P3-01
+- [x] **P3-03 · `sonata-batch`, `list__batch`, `list__select`** · M · depends: P3-01
   - Read: PLAN/05 §3 row 7; PLAN/03 §B "list__batch" row.
   - Do: controller (select-all with indeterminate, row highlight, shift-range with the upstream
     typo fixed), native `appearance-none` checkbox recipe in both templates; Vitest; Panther shift-range.
@@ -1644,3 +1644,29 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2811 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
   `make assets-check`, `make test-visual` (252 passed).
+
+- 2026-09-05 — **P3-03 done.** `sonata-batch` replaces the twelve lines of jQuery upstream printed
+  into a `<script>` inside every list page: select-all with a real indeterminate state, the
+  `sonata-ba-list-row-selected` class an application's CSS may select on, and shift extending the
+  selection from the last row clicked. Seven Vitest cases (**103 JS tests**) and a Panther one.
+
+  **Upstream's shift-range only ever worked downwards.** Its upward half read
+  `indexedDB > currentIndex` — the browser's IndexedDB global, not the loop's index — so the
+  condition was never true. Both directions are covered by a test named after it.
+
+  The row checkboxes are named after the row they select: forty-two checkboxes all called "Select"
+  tell a screen reader nothing, and `input-missing-label` and axe's `label` both went with the
+  change. The remaining accessibility findings on the list are down to `link-name`, which the row
+  actions of P3-06 own.
+
+  Three things about the seams. `closest('tr, div.sonata-ba-list-field-batch')` keeps upstream's
+  `div` qualifier for a reason found by a failing test: in a table the checkbox's own `<td>`
+  carries that class, so the bare selector marks the cell rather than the row. Dispatching `click`
+  on a checkbox runs its activation behaviour, so a test that sets `checked` first and dispatches
+  after toggles it twice and reads the value back where it started. And a WebDriver element click
+  is its own command that does not pick up modifier state set around it — the shift-click needs one
+  action chain.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2812 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
+  (**103**), `make assets-check`, `make test-visual` (252 passed).
