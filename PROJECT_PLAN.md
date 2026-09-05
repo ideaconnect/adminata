@@ -548,7 +548,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     horizontal mode grid; `row_class`/`widget_class`/`label_class`/`help_class`/`error_item_class`.
   - Accept: `make lint`; the row/label/help/error cases of `AdminLayoutTest` green.
 
-- [ ] **P4-02 · Form theme: choices, checkboxes, radios** · M · depends: P4-01
+- [x] **P4-02 · Form theme: choices, checkboxes, radios** · M · depends: P4-01
   - Do: `choice_widget_collapsed` (native `adm-select`), `choice_widget_expanded`, `checkbox_*`,
     `radio_*`, `checkbox_radio_label`; a test proving `attr.data-controller` passes through untouched.
   - Accept: `tests/Form/Widget/*` rewritten and green.
@@ -1889,6 +1889,25 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2829 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
   (**124**), `make assets-check`, `make test-visual` (**372 passed**).
+
+- 2026-09-05 — **P4-02 done.** Selects are native and always were going to be: `use_select2` and the
+  `data-placeholder` it fed are gone with jQuery (PLAN/01 J6), and the placeholder is an empty
+  `<option>` again. A collapsed choice gets `adm-select`, a multiple one `adm-select-multiple`, and
+  an expanded one an `adm-choice-list`.
+
+  A checkbox *is* its label: `adm-checkbox-label` is the flex row that holds the box and the text,
+  so Bootstrap's wrapping `<div class="checkbox">` and the `checkbox-inline` special case that
+  escaped it both went. `control-label__text` stayed — an application selects on it.
+
+  Two new tests say what PLAN/05 R4 promises out loud: a select carrying
+  `data-controller="symfony--ux-autocomplete--autocomplete"`, `data-app-target` and a class of its
+  own comes out with all three intact and `adm-select` *appended* — `class="app-choice adm-select"`,
+  not replaced — and the same for an expanded choice list.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2831 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
+  (**124**), `make assets-check`, `make test-visual` (**372 passed**).
+
 
 
 
