@@ -12,6 +12,7 @@
 
 import CollectionController from './controllers/collection_controller.js';
 import ConfirmExitController from './controllers/confirm_exit_controller.js';
+import DropdownController from './controllers/dropdown_controller.js';
 import EditController from './controllers/edit_controller.js';
 import FilterController from './controllers/filter_controller.js';
 import FilterListController from './controllers/filter_list_controller.js';
@@ -35,6 +36,7 @@ import ThemeController from './controllers/theme_controller.js';
 export const controllers = {
     'sonata-collection': CollectionController,
     'sonata-confirm-exit': ConfirmExitController,
+    'sonata-dropdown': DropdownController,
     'sonata-edit': EditController,
     'sonata-filter': FilterController,
     'sonata-filter-list': FilterListController,

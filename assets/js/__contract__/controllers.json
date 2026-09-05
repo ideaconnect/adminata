@@ -20,6 +20,17 @@
             "classes": [],
             "outlets": []
         },
+        "sonata-dropdown": {
+            "targets": [
+                "menu",
+                "toggle"
+            ],
+            "values": [
+                "open"
+            ],
+            "classes": [],
+            "outlets": []
+        },
         "sonata-edit": {
             "targets": [
                 "tab",
