@@ -596,7 +596,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `delete.html.twig` (danger card, `_method=DELETE`, `_sonata_csrf_token`).
   - Accept: functional delete test green.
 
-- [ ] **P4-09 · ORM and MongoDB form themes verified** · S · depends: P4-03
+- [x] **P4-09 · ORM and MongoDB form themes verified** · S · depends: P4-03
   - Read: PLAN/03 §G; PLAN/02 §1 "MongoDB fork contract".
   - Do: render the ORM form and filter themes and the fork's themes in the demo and the
     `mongo-compat` job; confirm no Bootstrap class leaks from copied templates; the association blocks
@@ -2042,6 +2042,23 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2844 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
   `make test-js` (**124**), `make assets-check`, `make test-visual` (**525 passed**).
+
+- 2026-09-05 — **P4-09 done.** The ORM's two form themes carry no Bootstrap and never did: they
+  extend adminata's and delegate the association widgets to the eleven `CRUD/Association/edit_*`
+  templates, all of which are on the deferred list. The MongoDB fork's two themes have the same
+  shape, verified against a local checkout as well as by the `mongo-compat` job.
+
+  A property nobody would notice losing is now a test. `CopiedTemplateTest` scans the twelve
+  templates PLAN/03 §G copies unchanged for the forty-odd Bootstrap 3 and AdminLTE class names
+  PLAN/02 §8 drops — matched as whole words inside a `class` attribute, so `adm-btn` does not trip
+  `btn` — and asserts that every association template the ORM theme includes is declared deferred.
+  `Profiler/block.html.twig` is exempt and says why: it renders inside Symfony's web profiler,
+  whose `tab-content` is the profiler's own class.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2856 tests, 2 skips**), `make test-contract` (**175 + 4**), `make lint-js`, `make lint-css`,
+  `make test-js` (**124**), `make assets-check`, `make test-visual` (**525 passed**).
+
 
 
 
