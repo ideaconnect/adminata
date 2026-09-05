@@ -42,8 +42,7 @@
  * sidebar.
  */
 @utility adm-dropdown__menu-start {
-    inset-inline-start: 0;
-    inset-inline-end: auto;
+    inset-inline: 0 auto;
 }
 
 @utility adm-dropdown__item {
