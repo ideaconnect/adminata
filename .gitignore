@@ -7,6 +7,9 @@
 /package-lock.json.bak
 /tests/Visual/__diff__/
 /tests/Visual/test-results/
+/playwright-report/
+/blob-report/
+/.playwright-cache/
 .DS_Store
 /.php-cs-fixer.packages.cache
 /.php-cs-fixer.adminata.cache

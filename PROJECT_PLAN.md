@@ -331,7 +331,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     list, create, edit → 200).
   - Accept: `make demo` serves `/admin/dashboard`; `vendor/bin/phpunit --testsuite adminata-functional` green.
 
-- [ ] **P1-10 · Playwright, axe, html-validate harness** · M · depends: P1-09
+- [x] **P1-10 · Playwright, axe, html-validate harness** · M · depends: P1-09
   - Read: PLAN/08 §3, §8.
   - Do: `playwright.config.ts` (Chromium/Firefox/WebKit; viewports 375/768/1280; themes via the
     `sonata_theme` cookie; web server = demo app), `tests/Visual/dashboard.spec.ts` skeleton with
@@ -1062,3 +1062,46 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2800 tests, 2 skips**), `make test-contract`, `make lint-js`, `make test-js`,
   `make assets-check`; `make demo` serves `/admin/dashboard`.
+
+- 2026-09-05 — **P1-10 done.** `playwright.config.js`, three specs and a runner. Nine projects —
+  Chromium, Firefox and WebKit × 375/768/1280 — over the demo application, authenticated with the
+  same in-memory credentials, theme set through the `sonata_theme` cookie so one run can compare
+  light against dark. `dashboard.spec.js` takes a full-page screenshot per page, viewport and
+  theme; `accessibility.spec.js` runs axe against WCAG 2.1 A and AA; `markup.spec.js` runs
+  html-validate over the DOM the browser built rather than the Twig source, because that is where
+  a tag closed in one branch and left open in another shows up. **99 tests green.**
+
+  Four decisions. **Screenshots are Chromium-only.** PLAN/08 §3 asks for a baseline per page,
+  viewport and theme — eighteen images, 2.1 MB — and capturing the same eighteen in three engines
+  would triple what the repository carries and triple it again on every rewrite from M2 to M4, to
+  catch differences that are antialiasing far more often than they are bugs; the accessibility and
+  markup suites do run in all three, which is where an engine actually disagrees about the DOM.
+  **The browsers run in a container.** Screenshots are pixels, so `bin/visual.sh` serves the demo
+  with the host's PHP and drives it from `mcr.microsoft.com/playwright:v1.63.0-noble`; `make
+  test-visual` and the `visual` workflow are then literally the same command, and changing the
+  image means regenerating every baseline. `ADMINATA_PLAYWRIGHT_LOCAL=1` skips the container for
+  writing a spec. **`.js`, not `.ts`** (the plan wrote `playwright.config.ts`): nothing else in the
+  repository is TypeScript, and a `.ts` file would sit outside `eslint.config.js` and prettier.
+
+  The fourth is the one that shapes M2 to M4. The inherited Bootstrap interface **does not pass**
+  either check — the dashboard alone is missing `lang`, pins the viewport scale, has unnamed
+  buttons and links, and puts non-`<li>` children in a `<ul>`; the product list adds `label`,
+  `select-name`, `listitem` and `aria-required-children`. Skipping the suites until M2 would mean
+  noticing none of that until the end, so every finding is written down in
+  `tests/Visual/support/findings.json` and asserted **exactly**: a new violation fails, and fixing
+  one also fails until it is struck from the file in the same commit. That is 6 accessibility
+  entries and 3 markup entries today, and it is meant to end M4 as `{}`.
+  `make visual-findings` regenerates it.
+
+  Three smaller things. `html-validate` 11.13 declares an optional peer on vitest 3 or 4 and the
+  repository is on 5, for a matcher integration nothing here uses — resolved with an npm
+  `overrides` entry rather than `--legacy-peer-deps`. The validator is constructed from
+  `.htmlvalidate.json` by hand because `validateString()` resolves configuration relative to the
+  filename it is given, and a document that came from a browser has no file on disk. And Prettier
+  writes `{ a: b }` in YAML where yamllint's default forbids the spaces, so `.yamllint` now allows
+  either and Prettier stays the only formatter; the generated `config-reference/` captures are
+  ignored by both.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2800 tests, 2 skips**), `make test-contract`, `make lint-js`, `make test-js`,
+  `make assets-check`, `make test-visual` (**99 tests**).

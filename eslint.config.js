@@ -54,6 +54,13 @@ export default [
         },
     },
     {
+        // The browser suites run under Node: Playwright loads them, not a page.
+        files: ['tests/Visual/**/*.js'],
+        languageOptions: {
+            globals: { ...globals.browser, ...globals.node },
+        },
+    },
+    {
         // The build scripts run under Node and print to stdout on purpose.
         files: ['bin/**/*.mjs', '*.config.js', '*.config.mjs'],
         languageOptions: {
