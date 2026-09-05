@@ -1,12 +1,24 @@
 {#
 
-This file is part of the Sonata package.
+This file is part of the adminata package.
 
+(c) IDCT Bartosz Pachołek <bartosz@idct.tech>
+
+Forked from the Sonata Project
 (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
 
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
+#}
+{#
+    The show page (PLAN/03 §D).
+
+    `sonata-ba-view`, `sonata-ba-view-container` and the `<table><tr><th><td>` a field renders into
+    are the contract — the show tests assert that shape — so the table is styled rather than
+    replaced. Groups become cards in the same twelve-column grid the edit page uses, and a tabbed
+    show renders its tabs one after another under an `<h2>`, as the edit form does, until
+    `sonata-tabs` exists (PLAN/01 J2).
 #}
 
 {% extends base_template %}
@@ -39,44 +51,29 @@ file that was distributed with this source code.
         {% set has_tab = (showtabs|length == 1 and showtabs|keys[0] != 'default') or showtabs|length > 1 %}
 
         {% if has_tab %}
-            {% set tab_prefix = 'tab_' ~ admin.uniqid ~ '_' ~ random() %}
-            {% set tab_query_index = app.request.query.get('_tab', 0)|split("_")|last %}
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs" role="tablist">
-                    {% for name, show_tab in showtabs %}
-                        {% set _tab_name = tab_prefix ~ '_' ~ loop.index %}
-                        <li{% if (not app.request.query.has('_tab') and loop.index == 1) or (tab_query_index == loop.index) %} class="active"{% endif %}>
-                            <a href="#{{ _tab_name }}" class="changer-tab" aria-controls="{{ _tab_name }}" data-toggle="tab">
-                                {% if show_tab.translation_domain is defined and show_tab.translation_domain is same as(false) %}
-                                    {{ show_tab.label }}
-                                {% else %}
-                                    {{ show_tab.label|trans({}, show_tab.translation_domain ?? admin.translationDomain) }}
-                                {% endif %}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
+            {% set tab_prefix = 'tab_' ~ admin.uniqid %}
+            <div class="flex flex-col gap-8">
+                {% for code, show_tab in showtabs %}
+                    {% set _tab_name = tab_prefix ~ '_' ~ loop.index %}
+                    <section id="{{ _tab_name }}">
+                        <h2 class="adm-page-title mb-4">
+                            {%- if show_tab.translation_domain is defined and show_tab.translation_domain is same as(false) -%}
+                                {{ show_tab.label }}
+                            {%- else -%}
+                                {{ show_tab.label|trans({}, show_tab.translation_domain ?? admin.translationDomain) }}
+                            {%- endif -%}
+                        </h2>
 
-                <div class="tab-content">
-                    {% for code, show_tab in showtabs %}
-                        {% set _tab_name = tab_prefix ~ '_' ~ loop.index %}
-                        <div
-                            class="tab-pane fade{% if (not app.request.query.has('_tab') and loop.first) or (tab_query_index == loop.index) %} in active{% endif %}"
-                            id="{{ _tab_name }}"
-                        >
-                            <div class="box-body  container-fluid">
-                                <div class="sonata-ba-collapsed-fields">
-                                    {% if show_tab.description != false %}
-                                        <p>{{ show_tab.description|raw }}</p>
-                                    {% endif %}
+                        <div class="sonata-ba-collapsed-fields">
+                            {% if show_tab.description != false %}
+                                <p class="adm-card-subtitle mb-4">{{ show_tab.description|raw }}</p>
+                            {% endif %}
 
-                                    {% set groups = show_tab.groups %}
-                                    {{ block('show_groups') }}
-                                </div>
-                            </div>
+                            {% set groups = show_tab.groups %}
+                            {{ block('show_groups') }}
                         </div>
-                    {% endfor %}
-                </div>
+                    </section>
+                {% endfor %}
             </div>
         {% elseif showtabs['default'] is defined %}
             {% set groups = showtabs['default'].groups %}
@@ -89,15 +86,17 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block show_groups %}
-    <div class="row">
+    {#- The page title is the `<h1>` and a tab, when there is one, is the `<h2>`. -#}
+    {% set heading = has_tab|default(false) ? 'h3' : 'h2' %}
+    <div class="grid grid-cols-12 gap-6">
         {% block field_row %}
             {% for code in groups %}
                 {% set show_group = admin.showgroups[code] %}
 
-                <div class="{{ show_group.class|default('col-md-12') }} {{ no_padding|default(false) ? 'nopadding' }}">
-                    <div class="{{ show_group.box_class }}">
-                        <div class="box-header">
-                            <h4 class="box-title">
+                <div class="{{ show_group.class|default('col-span-12') }}">
+                    <div class="adm-card {{ show_group.box_class }}">
+                        <div class="adm-card-header">
+                            <{{ heading }} class="adm-card-title">
                                 {% block show_title %}
                                     {% if show_group.translation_domain is defined and show_group.translation_domain is same as(false) %}
                                         {{ show_group.label }}
@@ -105,27 +104,28 @@ file that was distributed with this source code.
                                         {{ show_group.label|trans({}, show_group.translation_domain ?? admin.translationDomain) }}
                                     {% endif %}
                                 {% endblock %}
-                            </h4>
+                            </{{ heading }}>
                         </div>
-                        <div class="box-body table-responsive no-padding">
-                            <table class="table">
-                                <tbody>
-                                {% for show_field_name in show_group.fields %}
-                                    {% block show_field %}
-                                        <tr class="sonata-ba-view-container">
-                                            {% if elements[show_field_name] is defined %}
-                                                {{ elements[show_field_name]|render_view_element(object) }}
-                                            {% endif %}
-                                        </tr>
-                                    {% endblock %}
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                        <div class="adm-card-body p-0">
+                            <div class="adm-table-wrap">
+                                <table class="adm-show-table">
+                                    <tbody>
+                                    {% for show_field_name in show_group.fields %}
+                                        {% block show_field %}
+                                            <tr class="sonata-ba-view-container">
+                                                {% if elements[show_field_name] is defined %}
+                                                    {{ elements[show_field_name]|render_view_element(object) }}
+                                                {% endif %}
+                                            </tr>
+                                        {% endblock %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         {% endblock %}
-
     </div>
 {% endblock %}
