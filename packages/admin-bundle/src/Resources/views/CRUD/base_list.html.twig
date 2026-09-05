@@ -340,19 +340,23 @@ file that was distributed with this source code.
                                     `aria-label` from the filter theme. -#}
                                 {% set valueField = form[filter.formName].children['value'] %}
                                 {% set valueIsCompound = valueField.children|length > 0 %}
+                                {#- The autocomplete widget's control is the combobox it draws, not
+                                    an element carrying the field's own id. -#}
+                                {% set valueLabelFor = 'sonata_type_model_autocomplete' in valueField.vars.block_prefixes
+                                    ? valueField.vars.id ~ '_autocomplete_input'
+                                    : valueField.vars.id %}
                                 {% set filterLabelId = 'filter-' ~ admin.uniqid ~ '-' ~ filter.name ~ '-label' %}
+                                {% set filterLabel = filter.translationDomain is same as(false)
+                                    ? filter.label
+                                    : filter.label|trans(filter.option('label_translation_parameters', {}), filter.translationDomain ?? admin.translationDomain) %}
                                 <div class="grid grid-cols-12 items-center gap-3 {% block sonata_list_filter_group_class %}{% endblock %}" id="filter-{{ admin.uniqid }}-{{ filter.name }}" {{ stimulus_target('sonata-filter', 'group') }}{% if valueIsCompound and filter.label is not same as(false) %} role="group" aria-labelledby="{{ filterLabelId }}"{% endif %} {% if not filterDisplayed %}hidden{% endif %}>
                                     {% if filter.label is not same as(false) %}
                                         {% if valueIsCompound %}
                                             <span id="{{ filterLabelId }}" class="adm-label col-span-12 mb-0 md:col-span-3">
                                         {% else %}
-                                            <label for="{{ valueField.vars.id }}" class="adm-label col-span-12 mb-0 md:col-span-3">
+                                            <label for="{{ valueLabelFor }}" class="adm-label col-span-12 mb-0 md:col-span-3">
                                         {% endif %}
-                                            {% if filter.translationDomain is same as(false) %}
-                                                {{ filter.label }}
-                                            {% else %}
-                                                {{ filter.label|trans(filter.option('label_translation_parameters', {}), filter.translationDomain ?? admin.translationDomain) }}
-                                            {% endif %}
+                                            {{ filterLabel }}
                                         {{ valueIsCompound ? '</span>'|raw : '</label>'|raw }}
                                     {% endif %}
                                     {% set attr = form[filter.formName].children['type'].vars.attr|default({}) %}
@@ -361,7 +365,7 @@ file that was distributed with this source code.
                                     </div>
 
                                     <div class="col-span-11 md:col-span-5">
-                                        {{ form_widget(form[filter.formName].children['value']) }}
+                                        {{ form_widget(form[filter.formName].children['value'], {'autocomplete_label': filterLabel}) }}
                                     </div>
 
                                     {% if filterCanBeDisplayed %}

@@ -34,6 +34,12 @@ export const CREDENTIALS = { username: 'admin', password: 'admin' };
 export const PAGES = [
     { name: 'dashboard', path: '/admin/dashboard' },
     { name: 'product-list', path: '/admin/tests/app/product/list' },
+    // The combobox filter, with a value already chosen: that is what makes the filter panel and
+    // the autocomplete widget visible without a click.
+    {
+        name: 'category-list-autocomplete',
+        path: '/admin/tests/app/category/list?filter%5Bproducts%5D%5Bvalue%5D=1',
+    },
     { name: 'product-create', path: '/admin/tests/app/product/create' },
     { name: 'login', path: '/login' },
     { name: 'empty-layout', path: '/admin/demo/empty' },

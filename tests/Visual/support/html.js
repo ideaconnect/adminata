@@ -36,6 +36,10 @@ import { HtmlValidate } from 'html-validate';
  *   M3's and M4's to rewrite.
  * - `no-trailing-whitespace` is about source formatting, which Twig's whitespace control decides
  *   and nobody reads.
+ * - `prefer-native-element` maps `role="listbox"` to `<select>`. A `<select>` is not a combobox
+ *   popup: the ARIA 1.2 pattern the autocomplete implements needs a list the input owns through
+ *   `aria-controls` and points into with `aria-activedescendant`, which no native element offers.
+ *   Only that one mapping is dropped; every other role the rule knows still has to be native.
  */
 const config = JSON.parse(readFileSync(new URL('../../../.htmlvalidate.json', import.meta.url), 'utf8'));
 
