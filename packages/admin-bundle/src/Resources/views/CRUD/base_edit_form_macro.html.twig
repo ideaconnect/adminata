@@ -1,39 +1,65 @@
-{% macro render_groups(admin, form, groups, has_tab) %}
-    <div class="row">
+{#
 
+This file is part of the adminata package.
+
+(c) IDCT Bartosz Pachołek <bartosz@idct.tech>
+
+Forked from the Sonata Project
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+{#
+    Form groups as cards in a twelve-column grid (PLAN/03 §C).
+
+    The group's `class` is emitted verbatim — an application writes `col-span-8` there and expects
+    it on the element — and `box_class` is appended to the card. `sonata-ba-collapsed-fields` is
+    the hook an application's own script uses to fold a group.
+#}
+{% macro render_groups(admin, form, groups, has_tab) %}
+    {#- The page title is the `<h1>` and a tab, when there is one, is the `<h2>`; a group heading
+        takes whichever level is next, because skipping one is what `heading-level` is about. -#}
+    {% set heading = has_tab ? 'h3' : 'h2' %}
+    <div class="grid grid-cols-12 gap-6">
     {% for code in groups|filter(code => admin.formgroups[code] is defined) %}
         {% set form_group = admin.formgroups[code] %}
 
-        <div class="{{ form_group.class|default('col-md-12') }}">
-            <div class="{{ form_group.box_class }}">
-                <div class="box-header">
-                    <h4 class="box-title">
+        <div class="{{ form_group.class|default('col-span-12') }}">
+            <div class="adm-card {{ form_group.box_class }}">
+                <div class="adm-card-header">
+                    <{{ heading }} class="adm-card-title">
                         {% if form_group.translation_domain is defined and form_group.translation_domain is same as(false) %}
                             {{ form_group.label }}
                         {% else %}
                             {{ form_group.label|trans({}, form_group.translation_domain ?? admin.translationDomain) }}
                         {% endif %}
-                    </h4>
+                    </{{ heading }}>
                 </div>
-                <div class="box-body">
+                <div class="adm-card-body">
                     <div class="sonata-ba-collapsed-fields">
                         {% if form_group.description %}
-                            {% if form_group.translation_domain is defined and form_group.translation_domain is same as(false) %}
-                                <p>{{ form_group.description|raw }}</p>
-                            {% else %}
-                                <p>{{ form_group.description|trans({}, form_group.translation_domain ?? admin.translationDomain)|raw }}</p>
-                            {% endif %}
+                            <p class="adm-card-subtitle mb-4">
+                                {%- if form_group.translation_domain is defined and form_group.translation_domain is same as(false) -%}
+                                    {{ form_group.description|raw }}
+                                {%- else -%}
+                                    {{ form_group.description|trans({}, form_group.translation_domain ?? admin.translationDomain)|raw }}
+                                {%- endif -%}
+                            </p>
                         {% endif %}
 
                         {% for form_field_name in form_group.fields|filter(form_field_name => form[form_field_name] is defined) %}
                             {{ form_row(form[form_field_name]) }}
                         {% else %}
                             {% if form_group.empty_message != false %}
-                                {% if form_group.empty_message_translation_domain is defined and form_group.empty_message_translation_domain is same as(false) %}
-                                    <em>{{ form_group.empty_message }}</em>
-                                {% else %}
-                                    <em>{{ form_group.empty_message|trans({}, form_group.empty_message_translation_domain ?? admin.translationDomain) }}</em>
-                                {% endif %}
+                                <em class="adm-help">
+                                    {%- if form_group.empty_message_translation_domain is defined and form_group.empty_message_translation_domain is same as(false) -%}
+                                        {{ form_group.empty_message }}
+                                    {%- else -%}
+                                        {{ form_group.empty_message|trans({}, form_group.empty_message_translation_domain ?? admin.translationDomain) }}
+                                    {%- endif -%}
+                                </em>
                             {% endif %}
                         {% endfor %}
                     </div>

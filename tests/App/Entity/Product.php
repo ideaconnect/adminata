@@ -74,6 +74,14 @@ class Product implements \Stringable
     #[ORM\Column(type: Types::BOOLEAN)]
     private bool $archived = false;
 
+    /**
+     * What `sonata_admin.options.lock_protection` needs: `LockExtension` puts it in the form as
+     * `_lock_version`, and a stale one is the optimistic-lock error the edit page has to show.
+     */
+    #[ORM\Version]
+    #[ORM\Column(type: Types::INTEGER)]
+    private int $version = 1;
+
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
@@ -269,6 +277,16 @@ class Product implements \Stringable
     public function removeTag(Tag $tag): void
     {
         $this->tags->removeElement($tag);
+    }
+
+    public function getVersion(): int
+    {
+        return $this->version;
+    }
+
+    public function setVersion(int $version): void
+    {
+        $this->version = $version;
     }
 
     public function getCategory(): ?Category

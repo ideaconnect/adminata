@@ -578,6 +578,71 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
+     * The edit chrome (PLAN/03 §C): groups are cards in a twelve-column grid, the action bar is
+     * sticky and gains `.stuck` once it leaves the flow, and `sonata-confirm-exit` arms the
+     * browser's own "leave site?" prompt as soon as a field changes — and disarms it on submit.
+     */
+    public function testTheEditChromeIsStickyAndGuardsAgainstLeaving(): void
+    {
+        $this->client->request('GET', $this->url('/admin/tests/app/product/1/edit'));
+
+        $groups = $this->client->findElements(WebDriverBy::cssSelector('.sonata-ba-collapsed-fields'));
+        static::assertCount(3, $groups, 'The three form groups of the demo admin.');
+
+        $actions = $this->client->findElement(WebDriverBy::cssSelector('.sonata-ba-form-actions'));
+        static::assertStringContainsString('adm-sticky', (string) $actions->getAttribute('class'));
+
+        // The bar sits below the fold on a form this long, so `sonata-sticky` pins it from the
+        // first intersection callback — no scrolling needed.
+        $this->client->waitForAttributeToContain('.sonata-ba-form-actions', 'class', 'stuck');
+
+        // And it lets go once the page is scrolled down to where the bar actually belongs.
+        $this->client->executeScript('window.scrollTo(0, document.body.scrollHeight);');
+        $this->client->waitForAttributeToNotContain('.sonata-ba-form-actions', 'class', 'stuck');
+
+        // `beforeunload` only counts once something changed, and a submit takes the guard off.
+        static::assertFalse($this->confirmExitIsArmed());
+
+        $this->client->findElement(WebDriverBy::cssSelector('input[id$="_name"]'))->sendKeys(' edited');
+
+        static::assertTrue($this->confirmExitIsArmed(), 'Editing a field did not arm the exit guard.');
+
+        $this->assertConsoleIsEmpty('The edit page wrote to the browser console.');
+    }
+
+    /**
+     * The optimistic lock: `lock_protection` puts `_lock_version` in the form, and a stale one
+     * comes back as a flash rather than an exception page.
+     */
+    public function testAStaleLockVersionIsReportedAsAFlash(): void
+    {
+        $this->client->request('GET', $this->url('/admin/tests/app/product/2/edit'));
+
+        $this->client->executeScript(
+            'document.querySelector(\'input[id$="__lock_version"]\').value = "0";'
+        );
+        $this->client->findElement(WebDriverBy::cssSelector('button[name="btn_update_and_edit"]'))->click();
+
+        $flash = $this->client->waitFor('.alert-danger');
+
+        static::assertStringContainsString('Another user has modified item', $flash->text());
+        $this->assertConsoleIsEmpty('The lock error wrote to the browser console.');
+    }
+
+    /**
+     * Whether `sonata-confirm-exit` would stop a navigation: it registers a `beforeunload`
+     * listener that only cancels once the form differs from the snapshot it took.
+     */
+    private function confirmExitIsArmed(): bool
+    {
+        return true === $this->client->executeScript(
+            'const event = new Event("beforeunload", {cancelable: true});'
+            .' window.dispatchEvent(event);'
+            .' return event.defaultPrevented;'
+        );
+    }
+
+    /**
      * Types into one of the page's comboboxes and takes the first suggestion.
      */
     private function chooseInTheCombobox(string $field, string $term): void

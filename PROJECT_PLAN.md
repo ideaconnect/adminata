@@ -575,7 +575,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `sonata_type_model_autocomplete_widget` block; Vitest; axe; Panther single and multiple.
   - Accept: tests green.
 
-- [ ] **P4-06 · Edit chrome** · L · depends: P4-03
+- [x] **P4-06 · Edit chrome** · L · depends: P4-03
   - Read: PLAN/03 §C "base_edit" row; PLAN/02 §7 button names; PLAN/01 T7, T8.
   - Do: `base_edit`, `edit`, `base_edit_form` (16 blocks; groups grid with class verbatim and
     `box_class` extras; tabs rendered sequentially with `<h2>`; sticky action bar with the `btn_*`
@@ -1985,6 +1985,36 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2842 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
   `make test-js` (**124**), `make assets-check`, `make test-visual` (**399 passed**).
+
+- 2026-09-05 — **P4-06 done.** Form groups are cards in a twelve-column grid, using the group's
+  `class` verbatim — an application writes `col-span-8` and gets it — with `box_class` appended to
+  the card. The action bar is `adm-sticky` and keeps `sonata-ba-form-actions`, the `btn_*` submit
+  names, the `_tab` parameter and `form_rest`, which is what carries `_lock_version`. Tabs render
+  sequentially under an `<h2>` until the post-1.0 `sonata-tabs` controller exists; `sonata-edit`'s
+  `tab` and `tabStore` targets stay wired for it.
+
+  Two controller defects the browser found. **`sonata-confirm-exit` never actually stopped a
+  navigation** in a current browser: it set `event.returnValue` and returned the message, which is
+  the legacy path — Chrome has required `preventDefault()` since 119. And **`sonata-sticky` threw
+  its first intersection callback away**, so a page that loaded with the action bar below the fold
+  left it unpinned until something scrolled. That first callback *is* the initial state.
+
+  The demo's `Product` gained an `#[ORM\Version]` column, which is what `lock_protection` needs to
+  put `_lock_version` in the form; a Panther test edits it to a stale value and finds the conflict
+  reported as a flash rather than an exception page. Two more browser tests cover the sticky bar
+  and the exit guard.
+
+  **`tests/Visual/support/findings.json` is `{}`.** Every page the demo renders passes WCAG 2.1 AA
+  in both themes, validates as HTML and does not scroll sideways — three widths, three browsers,
+  399 checks. The last two entries were `no-redundant-role`, from the `role="form"` upstream put on
+  a `<form>`, and `heading-level`, from a card title that jumped from `<h1>` to `<h3>`; a group
+  heading now takes whichever level is next, which depends on whether the form has tabs.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2844 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
+  `make test-js` (**124**), `make assets-check`, `make test-visual` (**399 passed**),
+  `make test-functional` (**47**).
+
 
 
 
