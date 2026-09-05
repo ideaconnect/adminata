@@ -940,10 +940,15 @@ mistake cannot recur.
   - The four cookbook recipes PLAN/12 listed for deletion (bootlint, iCheck, jQuery UI, select2)
     were already gone from upstream 4.43; nothing to delete.
 
-- [ ] **P6-02 · Release `v1.0.0`** · S · depends: P6-01
+- [~] **P6-02 · Release `v1.0.0`** · S · depends: P6-01
   - Do: `CHANGELOG.md`, `NOTICE`, `README.md` final; bump `replace` check; tag `v1.0.0`; Packagist
     submission (owner action); announcement text under `docs/`.
   - Accept: tag pushed; Packagist shows `idct/adminata 1.0.0`.
+  - **Prepared, not released.** `CHANGELOG.md` carries M5 and M6 under `[Unreleased]`, `NOTICE` is
+    complete and checked, and `README.md` says where the project actually stands. What remains is
+    the part that is not mine to do: the `v1.0.0-rc1` and `v1.0.0` tags depend on P5-11, whose
+    acceptance is the owner's sign-off, and the Packagist submission is an owner action. Cutting a
+    release candidate is a claim that the acceptance run passed; that claim is the owner's.
 
 - [ ] **P6-MS · Milestone M6 push** · S · depends: P6-02
 
@@ -2748,3 +2753,15 @@ mistake cannot recur.
   The four cookbook recipes PLAN/12 listed for deletion — bootlint, iCheck, jQuery UI, select2 —
   had already gone from upstream 4.43, so there was nothing to delete. The plan was written against
   an older snapshot.
+
+- 2026-09-05 — **P6-02 prepared.** `CHANGELOG.md` now covers M5 and M6 under `[Unreleased]` — the
+  row link and its option, the dropdown fixes, the table-scroll work, the content-width cap, the
+  translation contract and the docs site — and the heading stays `[Unreleased]` because there is no
+  tag. `NOTICE` was already complete and is unchanged: the Sphinx theme is a build-time tool, not a
+  bundled runtime work, so it does not belong in it. `README.md`'s status line said "pre-1.0, under
+  construction", which stopped being true some time ago; it now says 1.0 is written, unreleased,
+  and running a production panel, and that the tag waits on the sign-off.
+
+  Everything in the plan that can be done without the owner is done. The two things left are the
+  tags — which assert that P5-11's acceptance passed — and the Packagist submission, which the plan
+  itself marks as an owner action.

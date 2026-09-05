@@ -10,8 +10,11 @@ Composer's `replace`, so admin classes, configuration and persistence bundles �
 [`idct/sonata-admin-mongodb-bundle`](https://github.com/ideaconnect/sonata-admin-mongodb-bundle) —
 keep working unchanged.
 
-> **Status: pre-1.0, under construction.** Follow [PROJECT_PLAN.md](PROJECT_PLAN.md) for what is
-> done and [PLAN/README.md](PLAN/README.md) for the design it implements.
+> **Status: 1.0 is written and unreleased.** Every milestone of
+> [PROJECT_PLAN.md](PROJECT_PLAN.md) is implemented and green, and a 46-admin production panel runs
+> on it — see [MIGRATION.md](MIGRATION.md). What is left is the release itself: the tag waits on the
+> acceptance sign-off, so `idct/adminata` is not on Packagist yet and installs from a VCS or path
+> repository. [PLAN/README.md](PLAN/README.md) is the design it implements.
 
 ## Packages replaced
 
