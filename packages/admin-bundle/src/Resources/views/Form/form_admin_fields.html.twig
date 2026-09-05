@@ -66,9 +66,11 @@ file that was distributed with this source code.
 {% block form_widget_simple %}
     {% set type = type|default('text') %}
     {% if type != 'file' %}
+        {#- Idempotent: the date picker template applies the recipe itself, so that a plain form
+            rendered without this theme still gets it. -#}
         {% set attr = attr|merge({'class': [
             attr.class|default(''),
-            'adm-input',
+            'adm-input' in attr.class|default('') ? '' : 'adm-input',
             widget_class|default(''),
             errors|default([])|length > 0 ? 'adm-input-error' : '',
         ]|filter(part => part is not empty)|join(' ')}) %}

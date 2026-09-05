@@ -428,6 +428,67 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
+     * Native date and time inputs, both ways (PLAN/06 §4). The picker library is gone, so what the
+     * browser sends is what `BasePickerType` derives its format from — and a mismatch shows up as
+     * a value that does not survive the round trip.
+     */
+    public function testNativeDateAndTimeInputsRoundTrip(): void
+    {
+        $this->client->request('GET', $this->url('/admin/tests/app/product/create'));
+
+        $fill = function (string $suffix, string $value): void {
+            $field = $this->client->findElement(WebDriverBy::cssSelector(\sprintf('input[id$="_%s"]', $suffix)));
+            $field->clear();
+            // A native date or time input takes the parts in the order the *locale* shows them, so
+            // the value is set through the DOM rather than typed.
+            $this->client->executeScript(
+                'arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event("change", {bubbles: true}));',
+                [$field, $value]
+            );
+        };
+
+        $this->client->findElement(WebDriverBy::cssSelector('input[id$="_name"]'))->sendKeys('Native dates');
+        $this->client->findElement(WebDriverBy::cssSelector('input[id$="_sku"]'))->sendKeys('SKU-9001');
+        $this->client->findElement(WebDriverBy::cssSelector('input[id$="_price"]'))->sendKeys('4200');
+
+        $fill('releasedAt', '2026-09-04T10:15');
+        $fill('availableFrom', '2026-09-05');
+        $fill('pickupAt', '07:30');
+
+        $this->client->findElement(WebDriverBy::cssSelector('button[name="btn_create_and_edit"]'))->click();
+
+        $edit = $this->client->waitFor('.sonata-ba-form');
+
+        static::assertCount(
+            0,
+            $edit->filter('.sonata-ba-field-error'),
+            'The form came back with errors: '.$edit->filter('.sonata-ba-field-error-messages')->text('')
+        );
+
+        static::assertSame(
+            ['2026-09-04T10:15', '2026-09-05', '07:30'],
+            array_map(
+                fn (string $suffix): string => (string) $this->client
+                    ->findElement(WebDriverBy::cssSelector(\sprintf('input[id$="_%s"]', $suffix)))
+                    ->getAttribute('value'),
+                ['releasedAt', 'availableFrom', 'pickupAt']
+            )
+        );
+
+        $this->assertConsoleIsEmpty('The date inputs wrote to the browser console.');
+
+        // A browser test writes through the real server, outside the transaction the BrowserKit
+        // tests are wrapped in, so it puts back what it created — the row counts of every other
+        // test in this run depend on it.
+        static::assertSame(1, preg_match('#/product/(\d+)/edit#', $this->client->getCurrentURL(), $matches));
+
+        $this->client->request('GET', $this->url(\sprintf('/admin/tests/app/product/%s/delete', $matches[1])));
+        $this->client->findElement(WebDriverBy::cssSelector('.sonata-ba-delete form button[type="submit"]'))->click();
+
+        $this->client->waitFor('table.sonata-ba-list');
+    }
+
+    /**
      * The per-page select carries whole URLs as its option values, and `sonata-per-page` navigates
      * to the one chosen.
      */

@@ -39,7 +39,10 @@ use Sonata\DoctrineORMAdminBundle\Filter\DateTimeRangeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\NumberFilter;
 use Sonata\Form\Type\BooleanType;
+use Sonata\Form\Type\DatePickerType;
+use Sonata\Form\Type\DateRangePickerType;
 use Sonata\Form\Type\DateTimePickerType;
+use Sonata\Form\Type\DateTimeRangePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
@@ -155,8 +158,9 @@ final class ProductAdmin extends AbstractAdmin
                 'field_options' => ['class' => Tag::class, 'multiple' => true],
             ])
             ->add('featured', BooleanFilter::class)
-            ->add('availableFrom', DateRangeFilter::class)
-            ->add('releasedAt', DateTimeRangeFilter::class)
+            // The picker types as filter field types, which is how the application uses them.
+            ->add('availableFrom', DateRangeFilter::class, ['field_type' => DateRangePickerType::class])
+            ->add('releasedAt', DateTimeRangeFilter::class, ['field_type' => DateTimeRangePickerType::class])
             // A filter over a property no column holds, which is the shape the application's nine
             // callback filters take.
             ->add('inStock', CallbackFilter::class, [
@@ -180,7 +184,23 @@ final class ProductAdmin extends AbstractAdmin
                 ->add('featured', BooleanType::class, ['transform' => true])
                 ->add('releasedAt', DateTimePickerType::class, [
                     'required' => false,
-                    'datepicker_options' => ['display' => ['components' => ['calendar' => true, 'clock' => true]]],
+                    // Minutes, not seconds: `yyyy-MM-dd'T'HH:mm` on the wire and no `step` on the
+                    // input, which is what an application that shows a release time wants.
+                    'datepicker_options' => ['display' => ['components' => [
+                        'calendar' => true,
+                        'clock' => true,
+                        'seconds' => false,
+                    ]]],
+                ])
+                ->add('availableFrom', DatePickerType::class, ['required' => false])
+                // Time only: no calendar, so the widget is `<input type="time">`.
+                ->add('pickupAt', DateTimePickerType::class, [
+                    'required' => false,
+                    'datepicker_options' => ['display' => ['components' => [
+                        'calendar' => false,
+                        'clock' => true,
+                        'seconds' => false,
+                    ]]],
                 ])
             ->end()
             ->with('Variants', ['class' => 'col-span-12'])
