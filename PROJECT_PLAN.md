@@ -414,7 +414,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `Core/add_block.html.twig` panel with `grid grid-cols-{column_count}`; Vitest; Panther keyboard navigation.
   - Accept: tests green; `add_block` functional test green.
 
-- [ ] **P2-06 · `sonata-modal` and dialog styles** · M · depends: P1-05, P2-01
+- [x] **P2-06 · `sonata-modal` and dialog styles** · M · depends: P1-05, P2-01
   - Read: PLAN/05 §3 row 4; PLAN/01 J7.
   - Do: controller (`open`/`close`, sizes, move to `document.body` on first open, backdrop click when
     `closable`, events), `adm-dialog` CSS, a demo page with a dialog; Vitest; Panther (focus trap, ESC).
@@ -1411,3 +1411,28 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2807 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
   (**82**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).
+
+- 2026-09-05 — **P2-06 done.** `sonata-modal` drives a native `<dialog>`: `open`/`close` actions,
+  the four sizes, a backdrop click that closes only when `closable`, and `sonata-modal:opened` and
+  `:closed`. The top layer supplies the focus trap, Escape and the backdrop, which is the whole
+  reason adminata ships no modal library (PLAN/01 J7). A demo page at `/admin/demo/dialog` opens
+  one from nothing but markup — which is also the usage snippet now in the README — and the Panther
+  test tabs six times round the open dialog to prove focus never reaches the page behind it.
+  Eight Vitest cases (**91 JS tests**).
+
+  **It does not move the dialog to `document.body`**, which PLAN/05 §3 asked for. A top-layer
+  element is already outside every ancestor's stacking context and `overflow`, so the move buys
+  nothing — and it takes the dialog out of the controller's element, which unbinds every
+  `data-action` inside it, the close button included. The plan's line predates `<dialog>` being the
+  mechanism.
+
+  Two things jsdom does not have. It knows the `<dialog>` element but implements none of its
+  methods, so `__tests__/setup.js` supplies the smallest thing that behaves like the specification
+  — `open` reflecting the attribute, `close()` firing `close`, `cancel` preventable. And Firefox
+  parks focus on `<body>` between the last focusable of a modal dialog and the first, so the
+  containment assertion allows that step and checks only that no element of the page underneath
+  ever takes focus.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2808 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
+  (**91**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).

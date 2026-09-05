@@ -180,6 +180,58 @@ final class DashboardPantherTest extends BasePantherTestCase
         $this->assertConsoleIsEmpty('The add menu wrote to the browser console.');
     }
 
+    /**
+     * The dialog: opened by a button, closed by Escape and by the backdrop, with the focus trapped
+     * inside while it is open. All of that is the browser's, which is the point of using
+     * `<dialog>` (PLAN/01 J7); this is what proves the controller does not get in its way.
+     */
+    public function testTheDialogOpensTrapsFocusAndCloses(): void
+    {
+        $this->client->request('GET', $this->url('/admin/demo/dialog'));
+
+        $dialog = $this->client->findElement(WebDriverBy::id('demo-dialog'));
+
+        static::assertFalse($dialog->isDisplayed());
+
+        $this->client->findElement(WebDriverBy::id('open-dialog'))->click();
+
+        static::assertTrue($dialog->isDisplayed());
+        static::assertTrue($this->focusIsInsideTheDialog(), 'Focus stayed outside the dialog.');
+
+        // Tabbing round the dialog never reaches the page behind it. Firefox parks focus on the
+        // document between the last focusable and the first, so `<body>` is a step in the cycle;
+        // what matters is that no element of the page underneath ever takes it.
+        for ($i = 0; $i < 6; ++$i) {
+            $this->client->getKeyboard()->sendKeys(WebDriverKeys::TAB);
+
+            static::assertContains(
+                $this->focusedElement(),
+                ['BODY', 'inside'],
+                'Focus escaped the dialog on tab '.($i + 1).'.'
+            );
+        }
+
+        $this->client->getKeyboard()->sendKeys(WebDriverKeys::ESCAPE);
+
+        static::assertFalse($dialog->isDisplayed());
+        $this->assertConsoleIsEmpty('The dialog wrote to the browser console.');
+    }
+
+    private function focusIsInsideTheDialog(): bool
+    {
+        return 'inside' === $this->focusedElement();
+    }
+
+    /** `inside` when the dialog holds the focus, otherwise the focused element's id or tag name. */
+    private function focusedElement(): string
+    {
+        return (string) $this->client->executeScript(
+            'const active = document.activeElement;'
+            .'return document.getElementById("demo-dialog").contains(active)'
+            .' ? "inside" : (active.id || active.tagName);'
+        );
+    }
+
     private function groupState(string $label): string
     {
         return (string) $this->client->executeScript(\sprintf(

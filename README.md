@@ -115,6 +115,30 @@ accessibility runs drive. `make test-visual` drives it from the pinned
 `mcr.microsoft.com/playwright` image — the one that produced the committed baselines under
 `tests/Visual/__snapshots__`, since screenshots taken anywhere else differ in their fonts alone.
 
+### Dialogs
+
+adminata ships no modal library. Every dialog is a native `<dialog>` driven by the `sonata-modal`
+controller, and applications can use it on their own:
+
+```twig
+<div {{ stimulus_controller('sonata-modal', {size: 'lg', closable: true}) }}>
+    <button type="button" {{ stimulus_action('sonata-modal', 'open', 'click') }}>Open</button>
+
+    <dialog aria-labelledby="my-dialog-title" {{ stimulus_target('sonata-modal', 'dialog') }}>
+        <div class="adm-dialog__header">
+            <h2 class="adm-card-title" id="my-dialog-title">Title</h2>
+            <button type="button" aria-label="Close" {{ stimulus_action('sonata-modal', 'close', 'click') }}>×</button>
+        </div>
+        <div class="adm-dialog__body">…</div>
+    </dialog>
+</div>
+```
+
+`size` is `sm`, `md`, `lg` or `list`; `closable: false` keeps Escape and the backdrop from closing
+it. The browser's top layer supplies the focus trap and the backdrop, so the dialog must stay where
+it is written — moving it out of the controller's element would unbind the actions inside it. It
+dispatches `sonata-modal:opened` and `sonata-modal:closed`.
+
 Conventions and the contract every change must keep: [AGENTS.md](AGENTS.md) and
 [CONTRIBUTING.md](CONTRIBUTING.md).
 
