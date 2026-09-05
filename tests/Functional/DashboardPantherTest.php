@@ -40,6 +40,28 @@ final class DashboardPantherTest extends BasePantherTestCase
         $this->assertConsoleIsEmpty('The dashboard wrote to the browser console.');
     }
 
+    /**
+     * The rail is a preference, and `sonata-layout` writes it to the cookie the server reads back,
+     * so the page comes up collapsed rather than expanding and snapping shut.
+     */
+    public function testTheCollapsedSidebarSurvivesAReload(): void
+    {
+        $this->client->request('GET', $this->url('/admin/dashboard'));
+
+        static::assertSame('expanded', $this->sidebarState());
+
+        $this->client->executeScript(
+            'document.querySelector(\'[data-sonata-layout-target="collapseOnly"]\').click();'
+        );
+
+        static::assertSame('collapsed', $this->sidebarState());
+
+        $this->client->reload();
+
+        static::assertSame('collapsed', $this->sidebarState(), 'The cookie did not survive the reload.');
+        $this->assertConsoleIsEmpty('Collapsing the sidebar wrote to the browser console.');
+    }
+
     public function testTheListLoads(): void
     {
         $crawler = $this->client->request('GET', $this->url('/admin/tests/app/product/list'));
@@ -56,5 +78,10 @@ final class DashboardPantherTest extends BasePantherTestCase
             $this->consoleMessages(),
             'The console errors of the inherited product list changed.'
         );
+    }
+
+    private function sidebarState(): string
+    {
+        return (string) $this->client->executeScript('return document.body.dataset.sidebar;');
     }
 }

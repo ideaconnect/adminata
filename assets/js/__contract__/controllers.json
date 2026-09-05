@@ -57,6 +57,26 @@
                 "sonata-filter"
             ]
         },
+        "sonata-layout": {
+            "targets": [
+                "collapseOnly",
+                "content",
+                "headerMenu",
+                "headerMenuToggle",
+                "overlay",
+                "sidebar",
+                "toggle"
+            ],
+            "values": [
+                "breakpoint",
+                "collapsed",
+                "cookieName",
+                "headerMenuOpen",
+                "mobileOpen"
+            ],
+            "classes": [],
+            "outlets": []
+        },
         "sonata-per-page": {
             "targets": [],
             "values": [],

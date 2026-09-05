@@ -384,7 +384,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `make lint`; admin functional tests green after expectation updates; `HookContractTest`
     shell group enabled and green; demo dashboard shows the shell in light and dark.
 
-- [ ] **P2-02 · `sonata-layout` controller** · M · depends: P2-01
+- [x] **P2-02 · `sonata-layout` controller** · M · depends: P2-01
   - Read: PLAN/05 §3 row 1.
   - Do: controller (values `collapsed`, `mobileOpen`, `headerMenuOpen`, `breakpoint`, `cookieName`;
     targets; `sonata_sidebar_hide` cookie `SameSite=Lax`; `inert` on content while the drawer is open;
@@ -1261,3 +1261,31 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2802 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
   `make assets-check`, `make test-visual` (**124 passed, 2 skipped**).
+
+- 2026-09-05 — **P2-02 done.** `sonata-layout` replaces AdminLTE's push-menu and `sidebar.js`.
+  Mounted on `<body>`, which is also what the CSS keys off, so it writes state rather than reading
+  it: `data-sidebar` is `expanded` or `collapsed`, `data-sidebar-mobile` `open` or `closed`.
+  Eleven Vitest cases (**56 JS tests**) and a Panther test that collapses the rail, reloads, and
+  finds it still collapsed.
+
+  **The two sidebar states are kept apart, deliberately.** Above the breakpoint the sidebar is
+  always there and "collapsed" means the 90px rail — a preference worth a cookie. Below it the
+  sidebar is a drawer that should be closed on arrival, and remembering that it was open would be
+  wrong. Upstream folded both into one cookie; TailAdmin folds both into one flag whose meaning
+  flips at the breakpoint. So `collapsedValue` writes `sonata_sidebar_hide` (`SameSite=Lax`,
+  `Max-Age` a year, `Secure` over HTTPS) and `mobileOpenValue` writes nothing, and the hamburger
+  means whichever one the current width is about.
+
+  One target beyond the six PLAN/05 §3 names: `content`, on the `.adm-main` column, because
+  `inert` has to go on something and every other name in that list is either the sidebar or a
+  button. `headerMenu` and `headerMenuToggle` are implemented but unused until a template needs a
+  collapsing header cluster; every target is optional, which is what lets `empty_layout` render
+  with none of them.
+
+  The resize handler reads `event.matches`, not `query.matches`: the event carries the state it is
+  announcing, and jsdom's `matchMedia` has no layout to derive one from — which is also how the
+  test drives the breakpoint.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2803 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
+  (**56**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).
