@@ -398,7 +398,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `sonata_script_attributes`; Vitest; Panther (cookie `dark` → `html.dark` after reload).
   - Accept: tests green; no other inline script in the layout (`grep -c "<script>" …` = 1).
 
-- [ ] **P2-04 · Sidebar menu template and `sonata-menu`** · L · depends: P2-02
+- [x] **P2-04 · Sidebar menu template and `sonata-menu`** · L · depends: P2-02
   - Read: PLAN/03 §A row 4; PLAN/01 T5; PLAN/05 §3 row 2; appendix C §2 "Menu".
   - Do: rewrite `Menu/sonata_menu.html.twig` (KnpMenu blocks, group `<button aria-expanded>`,
     TailAdmin `menu-item*` classes, `keep-open`, `on_top`, raw `<i>` icons through `parse_icon`,
@@ -1340,3 +1340,44 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2805 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
   (**65**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).
+
+- 2026-09-05 — **P2-04 done.** `Menu/sonata_menu.html.twig` renders the TailAdmin sidebar: a group
+  is a `<button aria-expanded>` rather than upstream's `<a href="#">`, its panel is a
+  `menu-dropdown`, and the leaves are `menu-item` or `menu-dropdown-item`. Every KnpMenu block name
+  is still there, and so are `sidebar-menu`, `active` and `keep-open` — `active` is now written
+  literally, because upstream forced it through `currentClass`/`ancestorClass` and KnpMenu's own
+  defaults are `current` and `current_ancestor`. Items carrying `sidebar-section-header` (the class
+  an application's own subscriber injects) or the extra `section_header` render as a group title.
+  `sonata-menu` keeps the open groups in `localStorage`; **several may be open at once**, unlike
+  AdminLTE, which closed the others. Seven Vitest cases (**73 JS tests**) and a Panther one.
+
+  **`aria-expanded` is the only state.** The server writes it from `active` and `keep-open`, the
+  stylesheet hides the panel of a button that says `false`, and the controller sets that one
+  attribute — so the menu is right before any JavaScript runs, and right with none at all.
+
+  Two accessibility failures came straight out of the new markup, which is what the axe gate is
+  for. `adm-menu-group-title` was TailAdmin's gray-400: 2.57:1 on white. `menu-item-active` was
+  brand-500 on brand-50: 4.34:1, a hair under AA. Both darkened, in both themes. And the section
+  header started as an `<h2>`, which put it in the document outline above the page's own title;
+  it is a `<div>` now, and the page title — which upstream rendered as an anchor to nowhere — is
+  the `<h1>`.
+
+  Then the sidebar's groups would not close, and that turned out to be the **cascade-layer trap
+  again, in general form**. `bin/check-dark-variants.mjs` only looked at `.dark` rules; generalised
+  to every rule in `@layer components` whose *subject* is an `@utility`, it found **34 dead rules**
+  across fourteen files — `:focus-visible` outlines, `:disabled` buttons, `::placeholder` colours,
+  `::backdrop`, the whole collapsed rail, the drawer's off-canvas transform. All of it compiled,
+  linted and did nothing. Every one is now nested inside its utility, and the check is
+  `bin/check-css-layers.mjs`, run by `make lint-css` and the `frontend` workflow. It reads the
+  subject rather than the whole selector, so `.adm-breadcrumb li + li::before` stays where it
+  belongs.
+
+  The same trap has a third form, one layer up: **unlayered CSS beats every cascade layer**, so
+  Font Awesome's `.fas { display: inline-block }` won over Tailwind's `.hidden` and the theme
+  toggle showed a moon and a sun at once. `assets/css/fontawesome.css` now imports it
+  `layer(vendor)`, declared ahead of Tailwind's layers, and the default stylesheet order puts
+  Font Awesome first so that layer is registered first.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2806 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
+  (**73**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).

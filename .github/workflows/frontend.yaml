@@ -43,8 +43,8 @@ jobs:
             - name: Stylelint
               run: npm run lint:css
 
-            - name: Dark-mode rules the utilities layer would override
-              run: npm run css:dark
+            - name: Component rules the utilities layer would override
+              run: npm run css:layers
 
             - name: Prettier
               run: npm run lint:prettier

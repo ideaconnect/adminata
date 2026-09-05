@@ -82,6 +82,20 @@
     @variant dark {
         color: var(--color-gray-300);
     }
+
+    &[aria-selected='true'],
+    &:hover {
+        background-color: var(--color-brand-50);
+        color: var(--color-brand-600);
+    }
+
+    @variant dark {
+        &[aria-selected='true'],
+        &:hover {
+            background-color: rgb(70 95 255 / 12%);
+            color: var(--color-brand-400);
+        }
+    }
 }
 
 @utility adm-chip {
@@ -106,17 +120,5 @@
         to {
             transform: rotate(360deg);
         }
-    }
-
-    .adm-combobox__option[aria-selected='true'],
-    .adm-combobox__option:hover {
-        background-color: var(--color-brand-50);
-        color: var(--color-brand-600);
-    }
-
-    .dark .adm-combobox__option[aria-selected='true'],
-    .dark .adm-combobox__option:hover {
-        background-color: rgb(70 95 255 / 12%);
-        color: var(--color-brand-400);
     }
 }

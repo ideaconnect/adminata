@@ -18,6 +18,20 @@
         background-color: var(--color-gray-dark);
         color: var(--color-gray-300);
     }
+
+    &::backdrop {
+        background-color: rgb(16 24 40 / 50%);
+    }
+
+    &:not([open]) {
+        display: none;
+    }
+
+    .dark& {
+        border-color: var(--color-gray-800);
+        background-color: var(--color-gray-dark);
+        color: var(--color-gray-300);
+    }
 }
 
 @utility adm-dialog-sm {
@@ -59,21 +73,5 @@
 
     @variant dark {
         border-color: var(--color-gray-800);
-    }
-}
-
-@layer components {
-    .adm-dialog::backdrop {
-        background-color: rgb(16 24 40 / 50%);
-    }
-
-    .adm-dialog:not([open]) {
-        display: none;
-    }
-
-    .dark.adm-dialog {
-        border-color: var(--color-gray-800);
-        background-color: var(--color-gray-dark);
-        color: var(--color-gray-300);
     }
 }

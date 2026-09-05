@@ -630,8 +630,11 @@ final class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                             ->defaultValue(self::normalizeDefaultAssets([
-                                'bundles/sonataadmin/app.css',
+                                // Font Awesome first: its `.fas { display: … }` is as specific as
+                                // Tailwind's `.hidden`, so whichever sheet comes second wins, and
+                                // an icon that a utility hides has to stay hidden.
                                 'bundles/sonataadmin/fontawesome.css',
+                                'bundles/sonataadmin/app.css',
                             ]))
                         ->end()
                         ->arrayNode('extra_stylesheets')

@@ -7,9 +7,17 @@
  * ship. Every icon name the target application uses resolves through Font Awesome 7's own aliases
  * (PLAN/04 §8); the one exception, `clock-o`, the application renames.
  *
+ * Imported into a layer, which is the whole reason this file exists rather than a bare `<link>`.
+ * Unlayered CSS beats every cascade layer no matter what loads first, so Font Awesome's
+ * `.fas { display: inline-block }` would win over Tailwind's `.hidden` — a `hidden` icon that
+ * stays on the page. `vendor` is declared ahead of Tailwind's own layers, so adminata's utilities
+ * come after it.
+ *
  * Icons CC BY 4.0, fonts SIL OFL 1.1, code MIT — Fonticons, Inc.
  */
 
-@import '@fortawesome/fontawesome-free/css/fontawesome.css';
-@import '@fortawesome/fontawesome-free/css/solid.css';
-@import '@fortawesome/fontawesome-free/css/regular.css';
+@layer vendor;
+
+@import '@fortawesome/fontawesome-free/css/fontawesome.css' layer(vendor);
+@import '@fortawesome/fontawesome-free/css/solid.css' layer(vendor);
+@import '@fortawesome/fontawesome-free/css/regular.css' layer(vendor);

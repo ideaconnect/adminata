@@ -3,6 +3,8 @@
  */
 
 @utility adm-card {
+    /* A card must not clip a dropdown or a combobox listbox opened inside it. */
+    overflow: visible;
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-card);
     background-color: var(--color-white);
@@ -67,11 +69,4 @@
 @utility adm-card-flush {
     padding: 0;
     border-top: 0;
-}
-
-@layer components {
-    /* A card must not clip a dropdown or a combobox listbox opened inside it. */
-    .adm-card {
-        overflow: visible;
-    }
 }

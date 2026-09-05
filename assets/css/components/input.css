@@ -41,6 +41,34 @@
         background-color: rgb(255 255 255 / 3%);
         color: rgb(255 255 255 / 90%);
     }
+
+    @variant dark {
+        &::placeholder {
+            color: rgb(255 255 255 / 30%);
+        }
+    }
+
+    @variant dark {
+        &:focus {
+            border-color: var(--color-brand-800);
+        }
+    }
+
+    @variant dark {
+        &:disabled {
+            background-color: var(--color-gray-800);
+        }
+    }
+
+    /* The native calendar and clock buttons follow `color-scheme`; give them room to be clicked. */
+    &::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        opacity: 0.6;
+    }
+
+    &::-webkit-calendar-picker-indicator:hover {
+        opacity: 1;
+    }
 }
 
 @utility adm-input-error {
@@ -49,29 +77,5 @@
     &:focus {
         border-color: var(--color-error-500);
         box-shadow: 0 0 0 4px rgb(240 68 56 / 12%);
-    }
-}
-
-@layer components {
-    .dark .adm-input::placeholder {
-        color: rgb(255 255 255 / 30%);
-    }
-
-    .dark .adm-input:focus {
-        border-color: var(--color-brand-800);
-    }
-
-    .dark .adm-input:disabled {
-        background-color: var(--color-gray-800);
-    }
-
-    /* The native calendar and clock buttons follow `color-scheme`; give them room to be clicked. */
-    .adm-input::-webkit-calendar-picker-indicator {
-        cursor: pointer;
-        opacity: 0.6;
-    }
-
-    .adm-input::-webkit-calendar-picker-indicator:hover {
-        opacity: 1;
     }
 }

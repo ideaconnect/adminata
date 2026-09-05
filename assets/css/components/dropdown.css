@@ -27,6 +27,13 @@
 }
 
 @utility adm-dropdown__item {
+    @variant dark {
+        &:hover {
+            background-color: rgb(255 255 255 / 5%);
+            color: var(--color-gray-300);
+        }
+    }
+
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -47,6 +54,11 @@
     @variant dark {
         color: var(--color-gray-400);
     }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-brand-500);
+        outline-offset: -2px;
+    }
 }
 
 @utility adm-dropdown__divider {
@@ -59,11 +71,6 @@
 }
 
 @layer components {
-    .adm-dropdown__item:focus-visible {
-        outline: 2px solid var(--color-brand-500);
-        outline-offset: -2px;
-    }
-
     /*
      * An application's `user_block` is a list of raw `<li><a>` markup, so the item recipe has to
      * reach them without the template naming a class on each one.
@@ -88,7 +95,6 @@
         color: var(--color-gray-400);
     }
 
-    .dark .adm-dropdown__item:hover,
     .dark .adm-dropdown__menu ul > li > a:hover {
         background-color: rgb(255 255 255 / 5%);
         color: var(--color-gray-300);

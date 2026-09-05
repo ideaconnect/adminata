@@ -34,6 +34,12 @@
         border-color: var(--color-gray-700);
         background-color: transparent;
     }
+
+    @variant dark {
+        &:checked {
+            background-color: var(--color-gray-900);
+        }
+    }
 }
 
 @utility adm-radio-label {
@@ -46,11 +52,5 @@
 
     @variant dark {
         color: var(--color-gray-400);
-    }
-}
-
-@layer components {
-    .dark .adm-radio:checked {
-        background-color: var(--color-gray-900);
     }
 }

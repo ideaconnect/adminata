@@ -22,6 +22,17 @@
         background-color 150ms,
         border-color 150ms,
         color 150ms;
+
+    &:disabled,
+    &[aria-disabled='true'] {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-brand-500);
+        outline-offset: 2px;
+    }
 }
 
 @utility adm-btn-primary {
@@ -46,6 +57,12 @@
         border-color: var(--color-gray-700);
         background-color: var(--color-gray-800);
         color: var(--color-gray-300);
+    }
+
+    @variant dark {
+        &:hover:not(:disabled) {
+            background-color: var(--color-gray-700);
+        }
     }
 }
 
@@ -87,6 +104,13 @@
     @variant dark {
         color: var(--color-gray-400);
     }
+
+    @variant dark {
+        &:hover:not(:disabled) {
+            background-color: rgb(255 255 255 / 5%);
+            color: var(--color-gray-200);
+        }
+    }
 }
 
 @utility adm-btn-sm {
@@ -98,26 +122,4 @@
 @utility adm-btn-block {
     display: flex;
     width: 100%;
-}
-
-@layer components {
-    .adm-btn:disabled,
-    .adm-btn[aria-disabled='true'] {
-        cursor: not-allowed;
-        opacity: 0.5;
-    }
-
-    .adm-btn:focus-visible {
-        outline: 2px solid var(--color-brand-500);
-        outline-offset: 2px;
-    }
-
-    .dark .adm-btn-secondary:hover:not(:disabled) {
-        background-color: var(--color-gray-700);
-    }
-
-    .dark .adm-btn-ghost:hover:not(:disabled) {
-        background-color: rgb(255 255 255 / 5%);
-        color: var(--color-gray-200);
-    }
 }
