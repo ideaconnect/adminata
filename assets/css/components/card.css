@@ -6,6 +6,11 @@
     border: 1px solid var(--color-gray-200);
     border-radius: var(--radius-card);
     background-color: var(--color-white);
+
+    @variant dark {
+        border-color: var(--color-gray-800);
+        background-color: rgb(255 255 255 / 3%);
+    }
 }
 
 @utility adm-card-header {
@@ -21,17 +26,29 @@
     font-size: 1rem;
     font-weight: 500;
     color: var(--color-gray-800);
+
+    @variant dark {
+        color: rgb(255 255 255 / 90%);
+    }
 }
 
 @utility adm-card-subtitle {
     margin-top: 0.25rem;
     font-size: var(--text-theme-sm);
     color: var(--color-gray-500);
+
+    @variant dark {
+        color: var(--color-gray-400);
+    }
 }
 
 @utility adm-card-body {
     padding: var(--adm-card-p);
     border-top: 1px solid var(--color-gray-100);
+
+    @variant dark {
+        border-top-color: var(--color-gray-800);
+    }
 }
 
 @utility adm-card-footer {
@@ -41,6 +58,10 @@
     padding-inline: var(--adm-card-p);
     padding-block: 1rem;
     border-top: 1px solid var(--color-gray-100);
+
+    @variant dark {
+        border-top-color: var(--color-gray-800);
+    }
 }
 
 @utility adm-card-flush {
@@ -52,23 +73,5 @@
     /* A card must not clip a dropdown or a combobox listbox opened inside it. */
     .adm-card {
         overflow: visible;
-    }
-
-    .dark .adm-card {
-        border-color: var(--color-gray-800);
-        background-color: rgb(255 255 255 / 3%);
-    }
-
-    .dark .adm-card-title {
-        color: rgb(255 255 255 / 90%);
-    }
-
-    .dark .adm-card-subtitle {
-        color: var(--color-gray-400);
-    }
-
-    .dark .adm-card-body,
-    .dark .adm-card-footer {
-        border-top-color: var(--color-gray-800);
     }
 }

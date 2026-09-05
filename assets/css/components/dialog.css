@@ -12,6 +12,12 @@
     background-color: var(--color-white);
     color: var(--color-gray-700);
     box-shadow: var(--shadow-theme-xl);
+
+    @variant dark {
+        border-color: var(--color-gray-800);
+        background-color: var(--color-gray-dark);
+        color: var(--color-gray-300);
+    }
 }
 
 @utility adm-dialog-sm {
@@ -33,6 +39,10 @@
     gap: 1rem;
     padding: 1.25rem 1.5rem;
     border-bottom: 1px solid var(--color-gray-100);
+
+    @variant dark {
+        border-color: var(--color-gray-800);
+    }
 }
 
 @utility adm-dialog__body {
@@ -46,6 +56,10 @@
     gap: 0.75rem;
     padding: 1rem 1.5rem;
     border-top: 1px solid var(--color-gray-100);
+
+    @variant dark {
+        border-color: var(--color-gray-800);
+    }
 }
 
 @layer components {
@@ -57,15 +71,9 @@
         display: none;
     }
 
-    .dark .adm-dialog,
     .dark.adm-dialog {
         border-color: var(--color-gray-800);
         background-color: var(--color-gray-dark);
         color: var(--color-gray-300);
-    }
-
-    .dark .adm-dialog__header,
-    .dark .adm-dialog__footer {
-        border-color: var(--color-gray-800);
     }
 }

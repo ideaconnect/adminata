@@ -163,9 +163,15 @@ demo: demo-db demo-assets ## Serve the demo admin application on http://127.0.0.
 	$(PHP) -S 127.0.0.1:8000 -t tests/App/public
 .PHONY: demo
 
-demo-db: ## Create the demo database and load its fixtures
+demo-db: ## Recreate the demo database and load its fixtures
+	@# The schema is dropped, not updated. The fixture purger DELETEs, which leaves
+	@# AUTO_INCREMENT where it was, so a second load numbers every product 42 higher — the Id
+	@# column widens and every screenshot baseline shifts. TRUNCATE would reset it but MySQL
+	@# refuses on a table a foreign key points at, so the schema goes and comes back instead.
+	@# Deterministic fixtures have to mean deterministic identifiers.
 	bin/console doctrine:database:create --if-not-exists
-	bin/console doctrine:schema:update --force --complete
+	bin/console doctrine:schema:drop --force --full-database
+	bin/console doctrine:schema:create
 	bin/console doctrine:fixtures:load --no-interaction
 .PHONY: demo-db
 
@@ -212,8 +218,9 @@ lint-js: ## ESLint and the jQuery gate
 	npm run check:jquery
 .PHONY: lint-js
 
-lint-css: ## Stylelint
+lint-css: ## Stylelint, plus the dark-variant layer check
 	npm run lint:css
+	npm run css:dark
 .PHONY: lint-css
 
 lint-prettier: ## Prettier

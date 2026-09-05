@@ -35,6 +35,12 @@
         background-color: var(--color-gray-50);
         color: var(--color-gray-500);
     }
+
+    @variant dark {
+        border-color: var(--color-gray-700);
+        background-color: rgb(255 255 255 / 3%);
+        color: rgb(255 255 255 / 90%);
+    }
 }
 
 @utility adm-input-error {
@@ -47,12 +53,6 @@
 }
 
 @layer components {
-    .dark .adm-input {
-        border-color: var(--color-gray-700);
-        background-color: rgb(255 255 255 / 3%);
-        color: rgb(255 255 255 / 90%);
-    }
-
     .dark .adm-input::placeholder {
         color: rgb(255 255 255 / 30%);
     }

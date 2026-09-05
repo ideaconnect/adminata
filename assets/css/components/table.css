@@ -9,6 +9,11 @@
     border: 1px solid var(--color-gray-200);
     border-radius: 0.75rem;
     background-color: var(--color-white);
+
+    @variant dark {
+        border-color: var(--color-gray-800);
+        background-color: rgb(255 255 255 / 3%);
+    }
 }
 
 @utility adm-table-scroll {
@@ -64,11 +69,6 @@
 
     .adm-table th.sonata-ba-list-field-order-active.sonata-ba-list-field-order-desc a::after {
         content: ' ↑';
-    }
-
-    .dark .adm-table-wrap {
-        border-color: var(--color-gray-800);
-        background-color: rgb(255 255 255 / 3%);
     }
 
     .dark .adm-table thead th {

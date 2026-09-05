@@ -370,7 +370,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
 
 ## Milestone M2 — Shell (PLAN/09 phase 2)
 
-- [ ] **P2-01 · `standard_layout.html.twig`** · L · depends: P1-MS
+- [x] **P2-01 · `standard_layout.html.twig`** · L · depends: P1-MS
   - Read: PLAN/03 §A row 1; PLAN/02 §5, §9; PLAN/04 §3; PLAN/05 §8; `PLAN/research/layout-nav.md` §2.
   - Do: rewrite with the TailAdmin shell (window-scroll model: fixed `aside.main-sidebar`, sticky
     header, `lg:ml-[290px]` content, overlay); keep all 33 blocks and the 12 captured child blocks;
@@ -1207,3 +1207,57 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   "unit" suite is not offline: 31 of its 342 tests exercise `ObjectAclManipulator` against a real
   server through the ODM, so the blocking job needed the Mongo service its nightly sibling already
   had — it passed locally only because this machine has one on 27017.
+
+- 2026-09-05 — **P2-01 done.** `standard_layout.html.twig` is the TailAdmin shell: a fixed
+  `aside.main-sidebar` carrying the logo and the menu, a sticky `header.main-header`, and a content
+  column offset by the sidebar width. The window scrolls, not an inner pane (PLAN/01 T4). `<body>`
+  is the shell element and carries `data-sidebar` and `data-sidebar-mobile`, seeded from the
+  `sonata_sidebar_hide` cookie so the first paint is already right — the direct successor of
+  upstream's `sidebar-collapse` class. All 31 remaining blocks kept, `admin_lte_skin_class` and
+  `bootlint` gone, `sonata_overlay`, `sonata_header_search`, `sonata_top_nav_menu_dark_mode` and
+  `sonata_script_attributes` added, and the twelve captured child blocks untouched.
+  `<html lang dir class="no-js [dark]" data-theme>` comes from `sonata_theme()`; `user-scalable=no`
+  is gone; scripts carry `defer`; the search moved to the header and honours an override of
+  `sonata_sidebar_search`; the page actions are a plain button row (PLAN/01 T7 — the
+  `_actions|split('</a>')` heuristic is gone, the `<li>` pass-through is not). **2802 tests green**;
+  the only inherited expectation that moved was adminata's own, which asserted the dropped
+  `sonata-bc` class and now asserts `header.main-header` and `aside.main-sidebar`.
+
+  `sonata_header` had to capture `sonata_nav` with `{% set %}` rather than test it with `block()`:
+  T9 needs both halves to decide whether the header renders at all, and `block()` would run the two
+  `include()`s it contains a second time on every page. One new translation id, `breadcrumb`, for
+  the `<nav>` label.
+
+  Two defects surfaced the moment a page was actually looked at in dark mode, and both were
+  invisible to every check that existed.
+
+  **Every dark-mode override written in P1-05 was dead.** Cascade layers beat specificity, and
+  Tailwind puts everything an `@utility` emits in the `utilities` layer, which comes after
+  `components` — so `.dark .adm-header { … }` in `@layer components` never applied, however
+  specific it looked. Fifty-two rules across eighteen component files were affected; each moved
+  inside its utility as `@variant dark { … }`. `bin/check-dark-variants.mjs` now fails the build on
+  the pattern, `make lint-css` and the `frontend` workflow run it.
+
+  **The demo's identifiers were not deterministic.** The fixture purger DELETEs, which leaves
+  `AUTO_INCREMENT` where it was, so every `make demo-db` numbered the products 42 higher; the Id
+  column widened and every screenshot shifted. TRUNCATE would reset it but MySQL refuses on a table
+  a foreign key points at, so `demo-db` drops and recreates the schema instead.
+
+  Chasing that also changed how the screenshots are taken. They are **viewport-sized, not
+  full-page**: a full-page shot is measured from `scrollWidth`/`scrollHeight`, and those move by a
+  pixel whenever a page overflows horizontally, which is a hard dimension mismatch no tolerance can
+  absorb. The overflow itself is now a check of its own — `responsive.spec.js` asserts PLAN/08 §8's
+  "no page scrolls sideways" per page and viewport, and the one page that does (the inherited
+  product list at 375px) is recorded in `findings.json` alongside the axe and markup debt. A page
+  on that list has its screenshot skipped, because its rendered slice cannot be stable; striking
+  the entry is what brings its baseline back.
+
+  The debt those files carry shrank sharply with this template: `html-has-lang`, `meta-viewport`,
+  `unique-landmark`, `no-inline-style`, `prefer-native-element`, `text-content` and
+  `element-required-attributes` are gone from the pages the shell owns. `color-contrast` appears in
+  dark mode for the first time — because dark mode now works, and the inherited templates M3 and M4
+  still own do not have dark colours.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2802 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
+  `make assets-check`, `make test-visual` (**124 passed, 2 skipped**).

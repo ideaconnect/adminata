@@ -25,6 +25,7 @@ import { writeFileSync } from 'node:fs';
 import AxeBuilder from '@axe-core/playwright';
 import { chromium } from '@playwright/test';
 
+import { VIEWPORTS } from '../playwright.config.js';
 import { BASE_URL, CREDENTIALS, PAGES, THEMES } from '../tests/Visual/support/demo.js';
 import { validate } from '../tests/Visual/support/html.js';
 
@@ -39,7 +40,7 @@ const context = await browser.newContext({
     locale: 'en-US',
 });
 
-const findings = { axe: {}, markup: {} };
+const findings = { axe: {}, markup: {}, responsive: {} };
 
 for (const { name, path } of PAGES) {
     for (const theme of THEMES) {
@@ -72,11 +73,38 @@ for (const { name, path } of PAGES) {
     }
 }
 
+// The responsive check runs per viewport, and its keys are named after the Playwright projects
+// (`page@browser-size`) because that is what `responsive.spec.js` asserts against.
+for (const [size, viewport] of Object.entries(VIEWPORTS)) {
+    const page = await context.newPage();
+    await page.setViewportSize(viewport);
+
+    for (const { name, path } of PAGES) {
+        await page.goto(path, { waitUntil: 'networkidle' });
+        await page.evaluate(() => document.fonts.ready);
+
+        const { documentWidth, windowWidth } = await page.evaluate(() => ({
+            documentWidth: document.documentElement.scrollWidth,
+            windowWidth: window.innerWidth,
+        }));
+
+        if (documentWidth > windowWidth + 1) {
+            for (const browser of ['chromium', 'firefox', 'webkit']) {
+                findings.responsive[`${name}@${browser}-${size}`] = ['horizontal-overflow'];
+            }
+        }
+    }
+
+    await page.close();
+}
+
 await context.close();
 await browser.close();
 
 writeFileSync(OUTPUT, `${JSON.stringify(findings, null, 4)}\n`);
 
 console.log(
-    `Wrote ${Object.keys(findings.axe).length} accessibility and ${Object.keys(findings.markup).length} markup entries to tests/Visual/support/findings.json.`,
+    `Wrote ${Object.keys(findings.axe).length} accessibility, ${Object.keys(findings.markup).length} markup `
+        + `and ${Object.keys(findings.responsive).length} responsive entries to `
+        + 'tests/Visual/support/findings.json.',
 );
