@@ -28,9 +28,9 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
 
         $expression = <<<'EOD'
             /label
-                [@class="col-sm-3 control-label required"]
+                [@class="adm-label col-span-12 mb-0 md:col-span-3 md:pt-2.5 required"]
                 [@for="name"]
-                [.="[trans]Name[/trans]"]
+                [.="[trans]Name[/trans]*"]
             EOD;
 
         self::assertMatchesXpath($html, $expression);
@@ -50,9 +50,9 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
 
         $expression = <<<'EOD'
             /label
-                [@class="col-sm-3 control-label required"]
+                [@class="adm-label col-span-12 mb-0 md:col-span-3 md:pt-2.5 required"]
                 [@for="name"]
-                [.="Name"]
+                [.="Name*"]
             EOD;
 
         self::assertMatchesXpath($html, $expression);
@@ -72,9 +72,9 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
 
         $expression = <<<'EOD'
             /label
-                [@class="col-sm-3 control-label required"]
+                [@class="adm-label col-span-12 mb-0 md:col-span-3 md:pt-2.5 required"]
                 [@for="name"]
-                [.="[trans domain=custom_domain]Name[/trans]"]
+                [.="[trans domain=custom_domain]Name[/trans]*"]
             EOD;
 
         self::assertMatchesXpath($html, $expression);
@@ -91,9 +91,9 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
 
         $expression = <<<'EOD'
             /label
-                [@class="col-sm-3 control-label required"]
+                [@class="adm-label col-span-12 mb-0 md:col-span-3 md:pt-2.5 required"]
                 [@for="name"]
-                [.="[trans domain=sonata_translation_domain]Name[/trans]"]
+                [.="[trans domain=sonata_translation_domain]Name[/trans]*"]
             EOD;
 
         self::assertMatchesXpath($html, $expression);
@@ -110,7 +110,7 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
         $expression = <<<'EOD'
             /div
                 [@id="name_help"]
-                [@class="help-block sonata-ba-field-help help-text"]
+                [@class="adm-help sonata-ba-field-help help-text"]
                 [.="[trans]Help text test![/trans]"]
             EOD;
 
@@ -131,7 +131,7 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
         $expression = <<<'EOD'
             /div
                 [@id="name_help"]
-                [@class="help-block sonata-ba-field-help help-text"]
+                [@class="adm-help sonata-ba-field-help help-text"]
                 [.="[trans domain=sonata_translation_domain]Help text test![/trans]"]
             EOD;
 
@@ -145,7 +145,7 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
         $html = $this->renderRow($view);
 
         static::assertStringContainsString(
-            '<div id="sonata-ba-field-container-name" class="form-group">',
+            '<div id="sonata-ba-field-container-name" class="adm-form-row grid grid-cols-12 items-start gap-x-3 gap-y-1">',
             $html
         );
     }
@@ -159,10 +159,15 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
         $view = $form->createView();
         $html = $this->renderRow($view);
 
+        // The error state lives on the field and on the control, not on the row: `has-error` was
+        // Bootstrap's, and what an application selects on is `sonata-ba-field-error`.
         static::assertStringContainsString(
-            '<div id="sonata-ba-field-container-name" class="form-group has-error">',
+            '<div id="sonata-ba-field-container-name" class="adm-form-row grid grid-cols-12 items-start gap-x-3 gap-y-1">',
             $html
         );
+        static::assertStringContainsString('sonata-ba-field-error"', $html);
+        static::assertStringContainsString('class="adm-input adm-input-error" aria-invalid="true"', $html);
+        static::assertStringContainsString('class="mt-1.5 sonata-ba-field-error-messages"', $html);
     }
 
     public function testErrors(): void
@@ -175,20 +180,20 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
 
         $expression = <<<'EOD'
             /div
-                [@class="alert alert-danger"]
+                [@class="adm-alert adm-alert-error"]
                 [
                     ./ul
-                        [@class="list-unstyled"]
+                        [@class="adm-error-list"]
                         [
                             ./li
                                 [.=" [trans]Error 1[/trans]"]
                                 [
-                                    ./i[@class="fas fa-exclamation-circle"]
+                                    ./i[@class="fas fa-circle-exclamation"]
                                 ]
                             /following-sibling::li
                                 [.=" [trans]Error 2[/trans]"]
                                 [
-                                    ./i[@class="fas fa-exclamation-circle"]
+                                    ./i[@class="fas fa-circle-exclamation"]
                                 ]
                         ]
                         [count(./li)=2]
@@ -213,7 +218,8 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
         $html = $this->renderRow($view);
 
         static::assertStringContainsString(
-            '<div class="foo form-group" data-value="bar" id="sonata-ba-field-container-name">',
+            '<div class="foo adm-form-row grid grid-cols-12 items-start gap-x-3 gap-y-1"'
+            .' data-value="bar" id="sonata-ba-field-container-name">',
             $html
         );
     }

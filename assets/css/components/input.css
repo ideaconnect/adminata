@@ -79,3 +79,56 @@
         box-shadow: 0 0 0 4px rgb(240 68 56 / 12%);
     }
 }
+
+/*
+ * A currency symbol or a percent sign beside the control, in place of Bootstrap's `input-group`.
+ * The affix is not focusable and carries no meaning of its own: the label says what the number is.
+ */
+@utility adm-input-group {
+    display: flex;
+    align-items: stretch;
+
+    & > .adm-input {
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    & > .adm-input:not(:first-child) {
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+    }
+
+    & > .adm-input:not(:last-child) {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+    }
+}
+
+@utility adm-input-affix {
+    display: inline-flex;
+    align-items: center;
+    padding-inline: var(--adm-control-px);
+    border: 1px solid var(--color-gray-300);
+    background-color: var(--color-gray-50);
+    color: var(--color-gray-500);
+    font-size: var(--text-theme-sm);
+    white-space: nowrap;
+
+    &:first-child {
+        border-inline-end: 0;
+        border-start-start-radius: var(--radius-control);
+        border-end-start-radius: var(--radius-control);
+    }
+
+    &:last-child {
+        border-inline-start: 0;
+        border-start-end-radius: var(--radius-control);
+        border-end-end-radius: var(--radius-control);
+    }
+
+    @variant dark {
+        border-color: var(--color-gray-700);
+        background-color: rgb(255 255 255 / 3%);
+        color: var(--color-gray-400);
+    }
+}
