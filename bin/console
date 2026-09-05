@@ -16,11 +16,11 @@ declare(strict_types=1);
  */
 
 /*
- * Boots the admin bundle's test application, which registers all seven bundles. Task P1-09
- * replaces it with adminata's own demo application kernel.
+ * Boots adminata's demo application (tests/App), which registers all seven bundles the way an
+ * application does. `make demo` serves the same kernel.
  */
 
-use Sonata\AdminBundle\Tests\App\AppKernel;
+use Adminata\Tests\App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 
@@ -32,5 +32,6 @@ set_time_limit(0);
 
 require \dirname(__DIR__).'/vendor/autoload.php';
 
-$application = new Application(new AppKernel('test', false));
+$environment = $_SERVER['APP_ENV'] ?? 'dev';
+$application = new Application(new Kernel(\is_string($environment) ? $environment : 'dev', 'prod' !== $environment));
 $application->run(new ArgvInput());

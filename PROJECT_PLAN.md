@@ -128,7 +128,8 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `rector`, `rector-fix`, `test`, `test-unit`, `test-functional`, `test-contract`, `demo`,
     `upstream-diff PKG= FROM= TO=`, `upstream-sync PKG= TO=`, `services-up`, `services-down`
     (the MySQL of `docker-compose.yml`); `.yamllint`; `bin/console` booting
-    `Sonata\AdminBundle\Tests\App\AppKernel` (until P1-09); `upstream/diff.sh`, `upstream/sync.sh`,
+    `Sonata\AdminBundle\Tests\App\AppKernel` (replaced by the demo kernel in P1-09);
+    `upstream/diff.sh`, `upstream/sync.sh`,
     `upstream/exclude/<name>.txt` per PLAN/07 §10.
   - Accept: `make lint phpstan rector test` green; `bin/console about` works;
     `upstream/diff.sh twig-extensions 2.5.0 2.6.0` prints a diff stat.
@@ -316,7 +317,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `make test-contract` green (hook checks for not-yet-rewritten templates are marked
     `@todo` per group and enabled in later milestones).
 
-- [ ] **P1-09 · Demo ORM application** · L · depends: P0-MS
+- [x] **P1-09 · Demo ORM application** · L · depends: P0-MS
   - Read: PLAN/08 §2; appendix C §2.
   - Do: `tests/App/Kernel.php` (Framework, Twig, Security with in-memory users, Doctrine on the
     MySQL service of `docker-compose.yml` — owner directive 9, no SQLite — FixturesBundle, KnpMenu,
@@ -717,6 +718,12 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   count. PHPUnit 13 deprecates `any()` and PHPUnit 14 removes it, and the 627 deprecations the suite
   reports are the same sites. Each needs a judgement about how often the tested code should call the
   mocked method, so it is not a mechanical change.
+- [ ] **B-13** Install `phpstan/phpstan-doctrine`. It finds real mapping mismatches (a nullable
+  property behind a `JoinColumn(nullable: false)`, twice in the demo alone) and would let the
+  entities drop the `setId()` they only carry to give `?int $id` an assignment PHPStan can see. It
+  also surfaces 14 findings in inherited package code — `ProxyQuery`'s covariant template,
+  `ModelFilter` and `SmartPaginatorFactory`'s unresolved `T`, `DoctrineORMQuerySourceIterator`,
+  and four inherited test entities — each of which needs a decision rather than a baseline entry.
 
 ---
 
@@ -1015,3 +1022,43 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2787 tests, 2 skips**), `make test-contract` (162 + 4), `make lint-js`, `make test-js`,
   `make assets-check`.
+
+- 2026-09-05 — **P1-09 done.** `tests/App` is adminata's own demo application: `Kernel` registering
+  the seven bundles plus DoctrineBundle, FixturesBundle, KnpMenu and SecurityBundle;
+  `config/{packages,packages_test,sonata,routes,services}`; `Category`, `Product` and
+  `ProductVariant` on MySQL; `CategoryAdmin` and `ProductAdmin` covering string, integer, datetime,
+  boolean, enum and many-to-one in the list, the show and the filters, plus one native Symfony
+  `CollectionType` with `allow_add`/`allow_delete`; `SidebarSectionHeaderListener` injecting the
+  `sidebar-section-header` items recomaty-panel's own subscriber adds; deterministic fixtures
+  (4 categories, 42 products, 84 variants, a fixed epoch — P1-10 diffs screenshots of these pages,
+  so nothing may depend on the clock). Security is in-memory `http_basic` with a role hierarchy;
+  there is no user entity and no SonataUserBundle (owner directive 6). `bin/console` and `make demo`
+  now boot this kernel, `make demo-db` creates the database and loads the fixtures, and
+  `tests/Functional/DemoSmokeTest.php` drives 13 cases through BrowserKit — every page, the raw
+  `<i>` group icons rendering unescaped, the injected sidebar headers, a real create through the
+  form and the enum round trip.
+
+  Four things the first run found. **dama/doctrine-test-bundle keys its static connection by the
+  connection *name*, not by its parameters** — every test application here calls its connection
+  `default`, so the demo was handed whichever database the suite that ran first had opened
+  (`adminata_orm_test`) and every query looked for a table that was not there; the demo now
+  declares `dama_doctrine_test.connection_keys: {default: adminata_demo}`. `framework.test` has to
+  be on for `createClient()`, so the test-only settings moved into `config/packages_test.yaml`,
+  which `make demo` never loads. doctrine-bundle 3 removed `dbal.use_savepoints`,
+  `orm.auto_generate_proxy_classes` and `orm.report_fields_where_declared` and deprecated
+  `orm.enable_native_lazy_objects`. And Symfony 8 writes an IDE helper, `config/reference.php`,
+  into the kernel's config directory on every debug build: gitignored, and excluded from the
+  php-cs-fixer finder, which walks the filesystem rather than the index.
+
+  Two decisions worth recording. The entities carry `setId()` even though nothing calls it: PHPStan
+  at level 8 reports `?int $id = null` as "never assigned int" without `phpstan/phpstan-doctrine`,
+  and the inherited `Tests\App\Entity\Base` answers it the same way. Installing that extension
+  was tried and backed out — it finds two real mapping mismatches in the demo, but also 14 findings
+  in inherited package code that would have to live in baselines forever; it belongs in a task of
+  its own, filed as **B-13**. And a shared `ConsoleRunner` now carries the error/exception-handler
+  bookkeeping that `OrmDatabaseExtension` had inline, so the new `DemoDatabaseExtension` — which
+  creates `adminata_demo`, its schema and its fixtures once per run — gets it too.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2800 tests, 2 skips**), `make test-contract`, `make lint-js`, `make test-js`,
+  `make assets-check`; `make demo` serves `/admin/dashboard`.

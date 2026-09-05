@@ -1,0 +1,17 @@
+# Only in the test environment: `WebTestCase::createClient()` refuses to build a client without
+# `framework.test`, and a demo served by `make demo` has no reason to carry the test container.
+
+framework:
+    test: true
+    session:
+        storage_factory_id: session.storage.factory.mock_file
+    profiler:
+        collect: false
+
+dama_doctrine_test:
+    # dama/doctrine-test-bundle keys its static connection by the *connection name*, and the
+    # per-package test applications also call theirs `default`. Without a key of its own the demo
+    # would be handed whichever database the suite that ran first had opened
+    # (`adminata_orm_test`), and every one of its queries would look for a table that is not there.
+    connection_keys:
+        default: adminata_demo

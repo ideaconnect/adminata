@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Adminata\Tests\PHPUnit;
 
+use Adminata\Tests\App\Kernel;
 use PHPUnit\Event\Code\TestMethod;
 use PHPUnit\Event\Test\PreparationStarted;
 use PHPUnit\Event\Test\PreparationStartedSubscriber;
@@ -42,11 +43,11 @@ final class KernelClassExtension implements Extension
      * @var array<string, class-string>
      */
     private const array KERNELS = [
+        'Adminata\\Tests\\' => Kernel::class,
         'Sonata\\AdminBundle\\Tests\\' => AppKernel::class,
         'Sonata\\BlockBundle\\Tests\\' => \Sonata\BlockBundle\Tests\App\AppKernel::class,
         'Sonata\\DoctrineORMAdminBundle\\Tests\\' => \Sonata\DoctrineORMAdminBundle\Tests\App\AppKernel::class,
         'Sonata\\Twig\\Tests\\' => \Sonata\Twig\Tests\App\AppKernel::class,
-        // 'Adminata\\Tests\\' => the demo application kernel, added by task P1-09.
     ];
 
     public function bootstrap(Configuration $configuration, Facade $facade, ParameterCollection $parameters): void
