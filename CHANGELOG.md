@@ -25,9 +25,16 @@ actions, export and the autocomplete combobox are adminata's own. select2 is rep
 hand-written ARIA 1.2 combobox with no dependency, and the request and response the
 `sonata_admin_retrieve_autocomplete_items` action speaks are unchanged.
 
-The form and the show page are still Sonata's Bootstrap templates and render unstyled, which is
-deliberate, written down and asserted: see `tests/Contract/deferred-templates.txt`,
-`tests/Visual/support/findings.json` and the `legacy-ui` PHPUnit group.
+Milestone M4 (forms and show) is complete: the form theme, the collection widget, native date and
+time inputs, the edit chrome, the show page, the delete page and the action buttons are adminata's.
+**Every page the demo renders passes WCAG 2.1 AA in both themes, validates as HTML and does not
+scroll sideways** — `tests/Visual/support/findings.json`, the ledger of what the inherited
+interface still owed, is empty.
+
+What 1.0 inherits unported is written down rather than forgotten: 37 templates carrying an
+`adminata: not yet ported` marker, listed in `tests/Contract/deferred-templates.txt` and asserted
+by `DeferredTemplateTest`. They are the association edit flows, history and compare, ACL, preview,
+mosaic and tree list modes, global search, the tab menu and four dashboard blocks.
 
 ### Added
 
@@ -75,6 +82,16 @@ deliberate, written down and asserted: see `tests/Contract/deferred-templates.tx
   `aria-activedescendant`. select2 and jQuery are gone; the request parameters, the JSON response,
   `#{id}_autocomplete_input` and `#{id}_hidden_inputs_wrap` are not.
 - `sonata-batch`, replacing the JavaScript upstream printed into every list page.
+- The form theme: rows, labels, help (`help_html` kept), errors, and native widgets for text,
+  textarea, select, checkbox, radio, file, money and percent — each recipe *appended* to whatever
+  the application passed through `attr`, so a `data-controller` reaches the page untouched.
+  Horizontal mode is a twelve-column grid. A control with errors carries `aria-invalid`.
+- Native `<input type="date|time|datetime-local">` in place of Tempus Dominus, with the format
+  derived from `datepicker_options.display.components` on both sides of the wire.
+- The edit chrome: groups as cards in a twelve-column grid, a sticky action bar, the optimistic-lock
+  conflict as a dismissible alert; the show page, the delete page and the action buttons.
+- `tests/fixtures/js/*.html`, dumped from the demo application: every Stimulus controller is mounted
+  against the markup the templates actually render, so a renamed target fails the JavaScript suite.
 
 ### Changed
 

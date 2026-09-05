@@ -613,7 +613,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `sonata_type_model_autocomplete_select2_options_js` goes with select2).
   - Accept: everything green.
 
-- [ ] **P4-MS · Milestone M4 push** · S · depends: P4-10
+- [x] **P4-MS · Milestone M4 push** · S · depends: P4-10
   - Accept: definition of done green; workflows green; status log updated.
 
 ---
@@ -2117,6 +2117,31 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2866 tests, 2 skips**), `make test-contract` (**177 + 4**), `make lint-js`, `make lint-css`,
   `make test-js` (**142**), `make assets-check`, `make test-visual` (**609 passed**).
+
+- 2026-09-05 — **Milestone M4 complete.** All eleven tasks done, and P1-13 with them — it waited for
+  M4 by design. Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2866 tests, 2 skips**), `make test-contract` (**177 + 4**), `make test-functional` (**55**),
+  `make lint-js`, `make lint-css`, `make test-js` (**142**), `make assets-check`, `make test-visual`
+  (**609 passed**). `CHANGELOG.md` records the milestone. `main` pushed to `ideaconnect/adminata`.
+
+  The interface is adminata's. **`tests/Visual/support/findings.json` is `{}`** — twelve demo pages
+  pass WCAG 2.1 AA in both themes, validate as HTML and do not scroll sideways, at three widths in
+  three browsers. What 1.0 inherits unported is 37 marked templates, listed and asserted.
+
+  The lesson of this milestone was that **a rewrite renders code that had never run**. Six defects
+  were of exactly one kind: markup the fork had carried since P1-05 or earlier, correct-looking and
+  never on a page. `adm-help` was 3.57:1 in dark mode. Three button variants failed contrast the
+  first time a page used them — the association "add" button is the first `adm-btn-success` adminata
+  ever rendered. `form_div_layout` has no `file_widget`, so an override calling `parent()` was a 500
+  on any form with an upload. `sonata-confirm-exit` set `event.returnValue` and never called
+  `preventDefault()`, which no current browser honours. `sonata-sticky` threw away the intersection
+  callback that carries the initial state. None of them could be found by reading; each needed a
+  page that rendered it.
+
+  The second lesson was that **`|default()` is not `??`**: the Twig filter replaces a value that is
+  *empty*, and `false` is empty, so every date picker configured with `clock: false` rendered as a
+  `datetime-local`. One character of Twig, and the type system of neither language could see it.
+
 
 
 
