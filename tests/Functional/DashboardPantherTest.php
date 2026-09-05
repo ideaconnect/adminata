@@ -397,6 +397,37 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
+     * The collection widget: `sonata-collection` clones the prototype, substitutes `__name__` into
+     * every id and name, and the delete button takes its own row away (PLAN/06 §2).
+     */
+    public function testACollectionRowCanBeAddedAndRemoved(): void
+    {
+        $this->client->request('GET', $this->url('/admin/tests/app/product/create'));
+
+        $rows = fn (): int => \count(
+            $this->client->findElements(WebDriverBy::cssSelector('.sonata-collection-row'))
+        );
+
+        static::assertSame(0, $rows(), 'A new product starts with no variants.');
+
+        $add = $this->client->findElement(WebDriverBy::cssSelector('.sonata-collection-add'));
+        $add->click();
+        $add->click();
+
+        static::assertSame(2, $rows());
+
+        // The second row's fields carry index 1 in both halves of the contract.
+        $second = $this->client->findElements(WebDriverBy::cssSelector('.sonata-collection-row input[type="text"]'))[1];
+        static::assertStringEndsWith('_variants_1_label', (string) $second->getAttribute('id'));
+        static::assertStringContainsString('[variants][1][label]', (string) $second->getAttribute('name'));
+
+        $this->client->findElements(WebDriverBy::cssSelector('.sonata-collection-delete'))[0]->click();
+
+        static::assertSame(1, $rows(), 'Deleting a row left it on the page.');
+        $this->assertConsoleIsEmpty('The collection wrote to the browser console.');
+    }
+
+    /**
      * The per-page select carries whole URLs as its option values, and `sonata-per-page` navigates
      * to the one chosen.
      */

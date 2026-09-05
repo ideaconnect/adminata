@@ -39,7 +39,7 @@ upstream monthly. Change PHP only where the UI forces it (config nodes, grid/box
 asset defaults, a theme cookie, HTML5 date formats in form-extensions). Rewrite the 98 admin-bundle
 templates recomaty-panel renders plus the flash-message and date-picker templates of
 twig-extensions and form-extensions, group by group, in the TailAdmin visual language; copy the
-12 Bootstrap-free templates of block-bundle and the ORM bundle unchanged; leave the 36 templates
+12 Bootstrap-free templates of block-bundle and the ORM bundle unchanged; leave the 37 templates
 the app never renders as inherited files with a tracked TODO. Replace the JavaScript with 17
 Stimulus controllers written in plain DOM code, no jQuery, no third-party widgets except the `qs`
 query-string parser; modals are native `<dialog>`; date and time fields are native HTML5 inputs;
@@ -53,7 +53,7 @@ font. Stamp dark mode server-side from a cookie. Push `main` at every milestone.
 | Item | Value |
 |---|---|
 | Packages shipped | 7 (replacing `sonata-project/*` at their latest versions); the MongoDB fork stays external |
-| Templates rewritten / copied unchanged / deferred | 100 / 12 / 36 of 148 (appendix C §4, document 03 §G) |
+| Templates rewritten / copied unchanged / deferred | 100 / 12 / 37 of 149 (appendix C §4, document 03 §G) |
 | Twig block names | 138 admin-bundle names kept in rewritten templates except `admin_lte_skin_class` and `bootlint` |
 | PHP files changed in the fork | about 9 (document 01 P6); everything else is synced from upstream |
 | Stimulus controllers in 1.0 | 17 (9 inherited, 8 new); 10 more planned post-1.0 |

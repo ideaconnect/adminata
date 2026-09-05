@@ -71,6 +71,54 @@
     }
 }
 
+/*
+ * The native file input. Only the selector button can be styled, so that is what is styled; the
+ * rest is the browser's, which is the point (PLAN/01 J6 applied to file pickers).
+ */
+@utility adm-file {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-control);
+    color: var(--color-gray-500);
+    font-size: var(--text-theme-sm);
+    box-shadow: var(--shadow-theme-xs);
+
+    &::file-selector-button {
+        margin-inline-end: 0.75rem;
+        padding-inline: var(--adm-control-px);
+        padding-block: var(--adm-control-py);
+        border: 0;
+        border-inline-end: 1px solid var(--color-gray-300);
+        border-start-start-radius: var(--radius-control);
+        border-end-start-radius: var(--radius-control);
+        background-color: var(--color-gray-50);
+        color: var(--color-gray-700);
+        font-size: var(--text-theme-sm);
+        cursor: pointer;
+    }
+
+    &:focus-within {
+        border-color: var(--color-brand-300);
+        outline: none;
+        box-shadow: var(--shadow-focus-ring);
+    }
+
+    @variant dark {
+        border-color: var(--color-gray-700);
+        color: var(--color-gray-400);
+    }
+
+    @variant dark {
+        &::file-selector-button {
+            border-inline-end-color: var(--color-gray-700);
+            background-color: var(--color-gray-800);
+            color: var(--color-gray-400);
+        }
+    }
+}
+
 @utility adm-input-error {
     border-color: var(--color-error-500);
 
