@@ -185,6 +185,42 @@ final class DemoSmokeTest extends WebTestCase
     }
 
     /**
+     * The batch flow, both halves: the list posts to `/batch`, which answers with the confirmation
+     * page, and that page posts back with `confirmation=ok` and the payload it was given.
+     */
+    public function testABatchActionAsksForConfirmationAndThenRuns(): void
+    {
+        $client = self::browser();
+        $manager = self::entityManager($client);
+        $products = $manager->getRepository(Product::class)->findBy([], ['id' => 'ASC'], 2);
+        $ids = array_map(static fn (Product $product): ?int => $product->getId(), $products);
+
+        $crawler = $client->request('GET', '/admin/tests/app/product/list');
+        $token = $crawler->filter('input[name="_sonata_csrf_token"]')->attr('value');
+
+        $crawler = $client->request('POST', '/admin/tests/app/product/batch', [
+            'action' => 'delete',
+            'idx' => array_map(strval(...), $ids),
+            '_sonata_csrf_token' => $token,
+        ]);
+
+        static::assertResponseIsSuccessful();
+        static::assertCount(1, $crawler->filter('.sonata-ba-delete'));
+
+        $form = $crawler->filter('.sonata-ba-delete form')->form();
+        static::assertSame('ok', $form->getValues()['confirmation'] ?? null);
+
+        $client->submit($form);
+        static::assertResponseRedirects();
+        $client->followRedirect();
+
+        $manager->clear();
+        foreach ($ids as $id) {
+            static::assertNull($manager->getRepository(Product::class)->find($id));
+        }
+    }
+
+    /**
      * The enum column reaches the list as an enum, not as its backing string: a list field that
      * calls `->value` on a string is a crash the type map is supposed to prevent.
      */
