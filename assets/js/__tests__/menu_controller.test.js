@@ -113,6 +113,42 @@ describe('sonata-menu', () => {
         expect(expanded(element)).toEqual(['true', 'false']);
     });
 
+    /*
+     * jsdom has no layout, so `scrollHeight` is 0 and no transition ever runs. What can be checked
+     * here is the contract the animation has with the rest of the controller: that a click leaves
+     * the panel with nothing inline on it, and that restoring on connect does not animate — a
+     * sidebar that unfolds on every page load would be the obvious way to get this wrong.
+     */
+    it('leaves no inline styles on the panel after a click', async () => {
+        const { element } = await mount('sonata-menu', MenuController, menu());
+        const panel = element.querySelector('.menu-dropdown');
+
+        buttons(element)[0].click();
+        await settle();
+
+        expect(expanded(element)[0]).toBe('true');
+        expect(panel.getAttribute('style')).toBeFalsy();
+        expect(panel.dataset.sliding).toBeUndefined();
+
+        buttons(element)[0].click();
+        await settle();
+
+        expect(expanded(element)[0]).toBe('false');
+        expect(panel.getAttribute('style')).toBeFalsy();
+        expect(panel.dataset.sliding).toBeUndefined();
+    });
+
+    it('does not animate the groups it restores on connect', async () => {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ Catalogue: true }));
+
+        const { element } = await mount('sonata-menu', MenuController, menu());
+        const panel = element.querySelector('.menu-dropdown');
+
+        expect(expanded(element)).toEqual(['true', 'false']);
+        expect(panel.dataset.sliding).toBeUndefined();
+        expect(panel.getAttribute('style')).toBeFalsy();
+    });
+
     it('ignores a stored value that is not a map', async () => {
         window.localStorage.setItem(STORAGE_KEY, '"nonsense"');
 

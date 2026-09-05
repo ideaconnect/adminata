@@ -168,6 +168,28 @@
     .menu-item[aria-expanded='false'] + & {
         display: none;
     }
+
+    /*
+     * The slide. `sonata-menu` puts `data-sliding` on the panel for the length of the animation
+     * and drives the height itself, because there is no height to transition *to*: the panel is
+     * `auto`, and CSS cannot interpolate that in every browser adminata supports — `calc-size()`
+     * and `interpolate-size` are Chromium-only at the time of writing, and a sidebar that animates
+     * in one browser and jumps in another is worse than one that jumps in all three.
+     *
+     * Outside the animation the panel has no `overflow` and no `transition`, so a long group can
+     * still be scrolled into view and nothing is left mid-transition if the script never runs.
+     */
+    &[data-sliding] {
+        overflow: hidden;
+        transition: height 200ms ease-out;
+    }
+
+    /* Someone who asked for less motion gets the old instant toggle. */
+    @media (prefers-reduced-motion: reduce) {
+        &[data-sliding] {
+            transition: none;
+        }
+    }
 }
 
 @utility menu-dropdown-item {

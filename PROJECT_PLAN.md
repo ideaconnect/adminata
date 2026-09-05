@@ -956,6 +956,36 @@ mistake cannot recur.
 
 ---
 
+### Owner review of 2026-09-06
+
+- [x] **P5-FIX-20 · The menu sections do not slide** · S
+  - Sonata's AdminLTE menu slid a group open and shut; adminata's switched `display` instantly.
+    TailAdmin's free template has no collapse animation to borrow, so this is dedicated JavaScript —
+    and it has to be: the panel's height is `auto`, there is nothing for CSS to transition *to*, and
+    the properties that can interpolate a keyword (`interpolate-size`, `calc-size()`) are
+    Chromium-only. A sidebar that animates in one browser and jumps in another is worse than one
+    that jumps in all three.
+  - Do: `sonata-menu` drives the height and `menu-dropdown[data-sliding]` owns the transition.
+    `aria-expanded` is set *before* the animation, so it is correct throughout and the slide is
+    decoration; the height is measured before it changes, because a closed panel has none to start
+    from. Restoring on connect does not animate — a sidebar unfolding on every page load is the
+    obvious way to get this wrong — a second click mid-slide starts from where the first got to,
+    and `prefers-reduced-motion: reduce` gets the old instant toggle.
+  - Accept: measured frame by frame in a browser, `0 → 14 → … → 104` opening and the mirror closing,
+    with no inline style or `data-sliding` left behind; two Vitest cases on the contract jsdom can
+    see; `make test-visual` 1,311.
+
+- [x] **P5-FIX-21 · (application) The signed-out screens are Polish in English** · S
+  - Reported twice, and the first answer — that the `ui` domain has one row in the restored
+    database — was an explanation rather than a fix. The keys are Polish, so a missing translation
+    renders as correct Polish and nothing announces itself as broken.
+  - Do: `translations/ui.en.yaml` and `translations/messages.en.yaml`, file-based English for the
+    screens reached *before* signing in. Those have to read on a database restored from anywhere;
+    the domain stays database-backed and admin-editable, and Symfony merges the two, so a row added
+    through the Translation admin still wins for its key.
+  - Accept: the login and both password-reset screens are English end to end in `en` and unchanged
+    in `pl`.
+
 ### Hardening against the defect class the gates missed
 
 - [x] **P6-03 · A hygiene suite for what no standard covers** · M · depends: P6-01
@@ -2824,3 +2854,24 @@ mistake cannot recur.
 
   The ninety-three classes that remain unstyled are Sonata's contract hooks and the layout's, which
   are deliberately unstyled — captured in the ledger, so a new one fails and the known ones do not.
+
+- 2026-09-06 — **P5-FIX-20 and P5-FIX-21, from the owner.** The menu slides again, and the
+  signed-out screens are actually translated.
+
+  The slide is JavaScript, which wants justifying in a project that has spent this long removing
+  it: the panel's height is `auto`, CSS has nothing to transition to, and the two properties that
+  can interpolate a keyword are Chromium-only today. The controller drives the height and the
+  stylesheet owns the transition. What matters more than the animation is what it does not break —
+  `aria-expanded` is set before it starts, so it is correct at every moment and a screen reader
+  never sees an in-between; restoring what a visitor last chose does not animate; a second click
+  mid-slide picks up where the first left off; and `prefers-reduced-motion` gets the instant toggle.
+  Measured in a browser rather than assumed: `0 → 14 → 27 → … → 104` and the mirror back.
+
+  The translations are the more instructive one. The first report got an explanation — the `ui`
+  domain has one row in the restored production database — and the owner reported it again, which
+  was the right response to an answer that changed nothing on the screen. The keys being Polish is
+  what made it invisible: a missing translation rendered as correct Polish. English now comes from
+  files for the screens reached before signing in, because those have to read on a database
+  restored from anywhere; the domain stays admin-editable and a row still wins for its key.
+
+  `make test-visual` 1,311, `make test-js` 158, `make test-functional` 56, CSS contract 117.
