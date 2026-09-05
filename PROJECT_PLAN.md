@@ -623,7 +623,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
 These tasks run in the app checkout `APP/` on branch `adminata`; adminata defects found on the way
 become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 
-- [ ] **P5-01 · Composer, lock file and configuration (steps 1–3)** · S · depends: P4-MS
+- [x] **P5-01 · Composer, lock file and configuration (steps 1–3)** · S · depends: P4-MS
   - Accept: `git diff -- config/` empty except the removed `use_select2` line; `composer validate`;
     `bin/console cache:clear` and `assets:install public` succeed; `bundles.php` untouched.
 
@@ -2141,6 +2141,30 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   The second lesson was that **`|default()` is not `??`**: the Twig filter replaces a value that is
   *empty*, and `false` is empty, so every date picker configured with `clock: false` rendered as a
   `datetime-local`. One character of Twig, and the type system of neither language could see it.
+
+- 2026-09-05 — **P5-01 done**, in the app checkout on branch `adminata`. One `composer require`
+  removed all seven `sonata-project/*` packages: adminata `replace`s them at the versions the panel
+  was pinned to, so `config/bundles.php` keeps its seven Sonata bundle classes, its MongoDB one, and
+  `config/packages/sonata_{admin,block,form,doctrine_orm_admin}.yaml` were not touched. The seven
+  Flex entries came out of `symfony.lock` by hand, as PLAN/10 step 1 says.
+
+  **Deviation.** adminata is not published yet, so the app references it as a **path repository**
+  (`../../idct/adminata`, symlinked). P6-02 publishes it and the constraint becomes a version. Until
+  then an edit in the adminata checkout is live in the panel, which is what makes the rest of M5
+  practical.
+
+  Two config edits: `options.use_select2` deleted — it left with select2 and jQuery, and the
+  container refuses it now — and `theme.mode: system` added. `config/packages/twig.yaml` gained
+  `@SonataAdmin/Form/form_admin_fields.html.twig` so the plain Symfony forms the panel renders on
+  admin pages share the admin look (PLAN/10 step 3, PLAN/06 §1). `config/reference.php` is generated
+  and followed.
+
+  Accept: `git diff -- config/bundles.php` empty; `composer validate` clean but for the unbound
+  `@dev` the path repository needs; `bin/console cache:clear`, `assets:install public` and
+  `lint:container` all succeed. `lint:twig` reports two errors that predate this and are the app's
+  own: `importmap()` without AssetMapper in `base.html.twig`, and a `toAdminUser` filter the linter
+  does not resolve.
+
 
 
 
