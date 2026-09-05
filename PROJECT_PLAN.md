@@ -269,7 +269,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `npm run build && npm run size` green; `grep -c "fonts/fa-" packages/admin-bundle/src/Resources/public/fontawesome.css` ≥ 2;
     no `.ttf`/`.eot`/Google Fonts references in the built CSS.
 
-- [ ] **P1-05 · `.adm-*` component layer, safelist, CSS contract** · L · depends: P1-04
+- [x] **P1-05 · `.adm-*` component layer, safelist, CSS contract** · L · depends: P1-04
   - Read: PLAN/04 §1, §2, §5; `PLAN/research/tailadmin-catalog.md` §2; `PLAN/research/gap-css-architecture.md` §5.
   - Do: `assets/css/components/{button,btn-icon,input,select,textarea,checkbox,radio,badge,card,callout,alert,dropdown,table,pagination,sidebar,layout,dialog,list,show,misc}.css`
     (`@utility` for single-selector primitives, `@layer components` for descendant rules; recipes
@@ -919,6 +919,16 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   published anywhere. Sizes: app.js 44.8 kB, app.css 15.2 kB, fontawesome.css 70.0 kB, all inside
   budget. Stylelint exempts the copied token block from the cosmetic rules, so it stays diffable
   against the upstream template.
+- 2026-09-05 — **P1-05 done.** Twenty component files under `assets/css/components/` — 95
+  `@utility` primitives plus the descendant rules that style what the PHP layer emits
+  (`table.sonata-ba-list`, `sonata-ba-list-row-selected`, `ul.pagination > li.active`, the show
+  page's `<th>/<td>` pairs, an application's raw `<li><a>` user-block markup). No Bootstrap or
+  AdminLTE class is defined anywhere; the recipes come from TailAdmin v2.3.0 and the research
+  catalogue. `bin/build-css-safelist.mjs` generates `safelist.css` and `contract.json` from those
+  files, so a component cannot disappear because the one template using it is not ported yet, and
+  `npm run css:contract` checks all 101 selectors against the built stylesheet — it passes.
+  `npm run build` regenerates the safelist first and `assets-check` diffs it, so the two cannot
+  drift. app.css is 46.3 kB against a 120 kB budget.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README

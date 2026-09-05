@@ -1,0 +1,118 @@
+/*
+ * Flash messages. The read-more toggle is CSS-only — a checkbox and a sibling selector — so a long
+ * flash can be expanded without a controller.
+ */
+
+@utility adm-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-control);
+    background-color: var(--color-white);
+    color: var(--color-gray-700);
+    font-size: var(--text-theme-sm);
+    line-height: var(--text-theme-sm--line-height);
+}
+
+@utility adm-alert-success {
+    border-color: var(--color-success-200);
+    background-color: var(--color-success-50);
+    color: var(--color-success-700);
+}
+
+@utility adm-alert-error {
+    border-color: var(--color-error-200);
+    background-color: var(--color-error-50);
+    color: var(--color-error-700);
+}
+
+@utility adm-alert-warning {
+    border-color: var(--color-warning-200);
+    background-color: var(--color-warning-50);
+    color: var(--color-warning-700);
+}
+
+@utility adm-alert-info {
+    border-color: var(--color-blue-light-200);
+    background-color: var(--color-blue-light-50);
+    color: var(--color-blue-light-700);
+}
+
+@layer components {
+    .adm-alert__body {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .adm-alert__dismiss {
+        flex-shrink: 0;
+        margin-inline-start: auto;
+        color: inherit;
+        opacity: 0.6;
+    }
+
+    .adm-alert__dismiss:hover {
+        opacity: 1;
+    }
+
+    /* Read more: the checkbox is visually hidden and drives the sibling body's height. */
+    .adm-alert__more {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
+
+    .adm-alert__more ~ .adm-alert__body {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .adm-alert__more:checked ~ .adm-alert__body {
+        display: block;
+        overflow: visible;
+    }
+
+    .adm-alert__more ~ .adm-alert__more-label::after {
+        content: attr(data-more);
+    }
+
+    .adm-alert__more:checked ~ .adm-alert__more-label::after {
+        content: attr(data-less);
+    }
+
+    .dark .adm-alert {
+        border-color: var(--color-gray-800);
+        background-color: rgb(255 255 255 / 3%);
+        color: var(--color-gray-300);
+    }
+
+    .dark .adm-alert-success {
+        border-color: rgb(18 183 106 / 30%);
+        background-color: rgb(18 183 106 / 12%);
+        color: var(--color-success-300);
+    }
+
+    .dark .adm-alert-error {
+        border-color: rgb(240 68 56 / 30%);
+        background-color: rgb(240 68 56 / 12%);
+        color: var(--color-error-300);
+    }
+
+    .dark .adm-alert-warning {
+        border-color: rgb(247 144 9 / 30%);
+        background-color: rgb(247 144 9 / 12%);
+        color: var(--color-warning-300);
+    }
+
+    .dark .adm-alert-info {
+        border-color: rgb(11 165 236 / 30%);
+        background-color: rgb(11 165 236 / 12%);
+        color: var(--color-blue-light-300);
+    }
+}

@@ -1,0 +1,74 @@
+/*
+ * Cards: what replaces AdminLTE's boxes. Recipe from TailAdmin's ComponentCard.
+ */
+
+@utility adm-card {
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-card);
+    background-color: var(--color-white);
+}
+
+@utility adm-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-inline: var(--adm-card-p);
+    padding-block: 1.25rem;
+}
+
+@utility adm-card-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-gray-800);
+}
+
+@utility adm-card-subtitle {
+    margin-top: 0.25rem;
+    font-size: var(--text-theme-sm);
+    color: var(--color-gray-500);
+}
+
+@utility adm-card-body {
+    padding: var(--adm-card-p);
+    border-top: 1px solid var(--color-gray-100);
+}
+
+@utility adm-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-inline: var(--adm-card-p);
+    padding-block: 1rem;
+    border-top: 1px solid var(--color-gray-100);
+}
+
+@utility adm-card-flush {
+    padding: 0;
+    border-top: 0;
+}
+
+@layer components {
+    /* A card must not clip a dropdown or a combobox listbox opened inside it. */
+    .adm-card {
+        overflow: visible;
+    }
+
+    .dark .adm-card {
+        border-color: var(--color-gray-800);
+        background-color: rgb(255 255 255 / 3%);
+    }
+
+    .dark .adm-card-title {
+        color: rgb(255 255 255 / 90%);
+    }
+
+    .dark .adm-card-subtitle {
+        color: var(--color-gray-400);
+    }
+
+    .dark .adm-card-body,
+    .dark .adm-card-footer {
+        border-top-color: var(--color-gray-800);
+    }
+}

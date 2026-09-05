@@ -1,0 +1,122 @@
+/*
+ * The rest: form rows, labels, help text, errors, the spinner that replaces AdminLTE's animated
+ * GIF, and the combobox the autocomplete widget draws.
+ */
+
+@utility adm-label {
+    display: block;
+    margin-bottom: 0.375rem;
+    color: var(--color-gray-700);
+    font-size: var(--text-theme-sm);
+    line-height: var(--text-theme-sm--line-height);
+    font-weight: 500;
+}
+
+@utility adm-help {
+    margin-top: 0.375rem;
+    color: var(--color-gray-500);
+    font-size: var(--text-theme-xs);
+    line-height: var(--text-theme-xs--line-height);
+}
+
+@utility adm-error {
+    margin-top: 0.375rem;
+    color: var(--color-error-500);
+    font-size: var(--text-theme-xs);
+    line-height: var(--text-theme-xs--line-height);
+}
+
+@utility adm-required {
+    color: var(--color-error-500);
+}
+
+@utility adm-spinner {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid var(--color-brand-500);
+    border-top-color: transparent;
+    border-radius: 9999px;
+    animation: adm-spin 700ms linear infinite;
+}
+
+@utility adm-combobox {
+    position: relative;
+}
+
+@utility adm-combobox__listbox {
+    position: absolute;
+    inset-inline: 0;
+    z-index: var(--z-index-popover);
+    max-height: 16rem;
+    margin-top: 0.25rem;
+    overflow-y: auto;
+    padding: 0.25rem;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-control);
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-theme-lg);
+}
+
+@utility adm-combobox__option {
+    padding-inline: 0.75rem;
+    padding-block: 0.5rem;
+    border-radius: var(--radius-control);
+    color: var(--color-gray-700);
+    font-size: var(--text-theme-sm);
+    cursor: pointer;
+}
+
+@utility adm-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding-inline: 0.5rem;
+    padding-block: 0.125rem;
+    border-radius: var(--radius-control);
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-700);
+    font-size: var(--text-theme-xs);
+}
+
+@layer components {
+    @keyframes adm-spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .adm-combobox__option[aria-selected='true'],
+    .adm-combobox__option:hover {
+        background-color: var(--color-brand-50);
+        color: var(--color-brand-600);
+    }
+
+    .dark .adm-label {
+        color: var(--color-gray-400);
+    }
+
+    .dark .adm-help {
+        color: var(--color-gray-500);
+    }
+
+    .dark .adm-combobox__listbox {
+        border-color: var(--color-gray-800);
+        background-color: var(--color-gray-dark);
+    }
+
+    .dark .adm-combobox__option {
+        color: var(--color-gray-300);
+    }
+
+    .dark .adm-combobox__option[aria-selected='true'],
+    .dark .adm-combobox__option:hover {
+        background-color: rgb(70 95 255 / 12%);
+        color: var(--color-brand-400);
+    }
+
+    .dark .adm-chip {
+        background-color: rgb(255 255 255 / 5%);
+        color: var(--color-gray-300);
+    }
+}

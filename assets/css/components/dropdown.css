@@ -1,0 +1,93 @@
+/*
+ * Dropdown panels: the user menu, the add-block panel, the export menu and the language menu an
+ * application appends. Opened by the `sonata-dropdown` controller, which toggles the `hidden`
+ * attribute rather than a class.
+ */
+
+@utility adm-dropdown {
+    position: relative;
+}
+
+@utility adm-dropdown__menu {
+    position: absolute;
+    inset-inline-end: 0;
+    z-index: var(--z-index-dropdown);
+    min-width: 12rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-card);
+    background-color: var(--color-white);
+    box-shadow: var(--shadow-theme-lg);
+}
+
+@utility adm-dropdown__item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding-inline: 0.75rem;
+    padding-block: 0.5rem;
+    border-radius: var(--radius-control);
+    color: var(--color-gray-700);
+    font-size: var(--text-theme-sm);
+    line-height: var(--text-theme-sm--line-height);
+    font-weight: 500;
+    text-align: start;
+
+    &:hover {
+        background-color: var(--color-gray-100);
+    }
+}
+
+@utility adm-dropdown__divider {
+    margin-block: 0.5rem;
+    border-top: 1px solid var(--color-gray-200);
+}
+
+@layer components {
+    .adm-dropdown__item:focus-visible {
+        outline: 2px solid var(--color-brand-500);
+        outline-offset: -2px;
+    }
+
+    /*
+     * An application's `user_block` is a list of raw `<li><a>` markup, so the item recipe has to
+     * reach them without the template naming a class on each one.
+     */
+    .adm-dropdown__menu ul > li > a {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding-inline: 0.75rem;
+        padding-block: 0.5rem;
+        border-radius: var(--radius-control);
+        color: var(--color-gray-700);
+        font-size: var(--text-theme-sm);
+        font-weight: 500;
+    }
+
+    .adm-dropdown__menu ul > li > a:hover {
+        background-color: var(--color-gray-100);
+    }
+
+    .dark .adm-dropdown__menu {
+        border-color: var(--color-gray-800);
+        background-color: var(--color-gray-dark);
+    }
+
+    .dark .adm-dropdown__item,
+    .dark .adm-dropdown__menu ul > li > a {
+        color: var(--color-gray-400);
+    }
+
+    .dark .adm-dropdown__item:hover,
+    .dark .adm-dropdown__menu ul > li > a:hover {
+        background-color: rgb(255 255 255 / 5%);
+        color: var(--color-gray-300);
+    }
+
+    .dark .adm-dropdown__divider {
+        border-top-color: var(--color-gray-800);
+    }
+}

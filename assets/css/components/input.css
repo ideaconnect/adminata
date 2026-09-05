@@ -1,0 +1,77 @@
+/*
+ * Text inputs, including the native date, time and datetime-local inputs adminata uses instead of
+ * a picker library. Recipe from TailAdmin `src/form-elements.html`.
+ */
+
+@utility adm-input {
+    display: block;
+    width: 100%;
+    height: var(--adm-control-h);
+    padding-inline: var(--adm-control-px);
+    padding-block: var(--adm-control-py);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-control);
+    background-color: transparent;
+    color: var(--color-gray-800);
+    font-size: var(--text-theme-sm);
+    line-height: var(--text-theme-sm--line-height);
+    box-shadow: var(--shadow-theme-xs);
+    transition:
+        border-color 150ms,
+        box-shadow 150ms;
+
+    &::placeholder {
+        color: var(--color-gray-400);
+    }
+
+    &:focus {
+        border-color: var(--color-brand-300);
+        outline: none;
+        box-shadow: var(--shadow-focus-ring);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        background-color: var(--color-gray-50);
+        color: var(--color-gray-500);
+    }
+}
+
+@utility adm-input-error {
+    border-color: var(--color-error-500);
+
+    &:focus {
+        border-color: var(--color-error-500);
+        box-shadow: 0 0 0 4px rgb(240 68 56 / 12%);
+    }
+}
+
+@layer components {
+    .dark .adm-input {
+        border-color: var(--color-gray-700);
+        background-color: rgb(255 255 255 / 3%);
+        color: rgb(255 255 255 / 90%);
+    }
+
+    .dark .adm-input::placeholder {
+        color: rgb(255 255 255 / 30%);
+    }
+
+    .dark .adm-input:focus {
+        border-color: var(--color-brand-800);
+    }
+
+    .dark .adm-input:disabled {
+        background-color: var(--color-gray-800);
+    }
+
+    /* The native calendar and clock buttons follow `color-scheme`; give them room to be clicked. */
+    .adm-input::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        opacity: 0.6;
+    }
+
+    .adm-input::-webkit-calendar-picker-indicator:hover {
+        opacity: 1;
+    }
+}

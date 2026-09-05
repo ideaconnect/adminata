@@ -1,0 +1,55 @@
+/*
+ * Native selects. adminata ships no select enhancement: `sonata_admin.options.use_select2` is
+ * gone and every `<select>` is the browser's own (PLAN/01 J6).
+ */
+
+@utility adm-select {
+    display: block;
+    width: 100%;
+    height: var(--adm-control-h);
+    padding-inline: var(--adm-control-px) 2.5rem;
+    padding-block: var(--adm-control-py);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-control);
+    background-color: transparent;
+    color: var(--color-gray-800);
+    font-size: var(--text-theme-sm);
+    line-height: var(--text-theme-sm--line-height);
+    box-shadow: var(--shadow-theme-xs);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23667085' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m5 7.5 5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+
+    &:focus {
+        border-color: var(--color-brand-300);
+        outline: none;
+        box-shadow: var(--shadow-focus-ring);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        background-color: var(--color-gray-50);
+        color: var(--color-gray-500);
+    }
+}
+
+@utility adm-select-multiple {
+    height: auto;
+    min-height: 8rem;
+    padding-right: var(--adm-control-px);
+    background-image: none;
+}
+
+@layer components {
+    .dark .adm-select {
+        border-color: var(--color-gray-700);
+        background-color: rgb(255 255 255 / 3%);
+        color: rgb(255 255 255 / 90%);
+    }
+
+    .dark .adm-select option {
+        background-color: var(--color-gray-900);
+        color: rgb(255 255 255 / 90%);
+    }
+}

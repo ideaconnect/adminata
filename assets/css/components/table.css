@@ -1,0 +1,94 @@
+/*
+ * The list table. The markup keeps Sonata's own hooks — `table.sonata-ba-list`, the
+ * `sonata-ba-list-field*` cell classes, `sonata-ba-list-row-selected` — because the PHP layer,
+ * application overrides and the MongoDB fork all select on them; the styling hangs off those.
+ */
+
+@utility adm-table-wrap {
+    overflow: hidden;
+    border: 1px solid var(--color-gray-200);
+    border-radius: 0.75rem;
+    background-color: var(--color-white);
+}
+
+@utility adm-table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+@utility adm-table {
+    min-width: 100%;
+    border-collapse: collapse;
+    text-align: start;
+}
+
+@layer components {
+    .adm-table thead th {
+        padding-inline: var(--adm-cell-px);
+        padding-block: 0.75rem;
+        border-bottom: 1px solid var(--color-gray-100);
+        color: var(--color-gray-500);
+        font-size: var(--text-theme-xs);
+        line-height: var(--text-theme-xs--line-height);
+        font-weight: 500;
+        text-align: start;
+        white-space: nowrap;
+    }
+
+    .adm-table tbody tr {
+        border-top: 1px solid var(--color-gray-100);
+    }
+
+    .adm-table tbody tr:hover {
+        background-color: var(--color-gray-50);
+    }
+
+    .adm-table tbody td {
+        padding-inline: var(--adm-cell-px);
+        padding-block: var(--adm-cell-py);
+        color: var(--color-gray-700);
+        font-size: var(--text-theme-sm);
+        line-height: var(--text-theme-sm--line-height);
+        vertical-align: middle;
+    }
+
+    /* Sonata marks a checked row; the class is part of the contract with its JavaScript. */
+    .adm-table tbody tr.sonata-ba-list-row-selected {
+        background-color: var(--color-brand-50);
+    }
+
+    /* Sort affordance on the active column, replacing AdminLTE's `::after` arrows. */
+    .adm-table th.sonata-ba-list-field-order-active a::after {
+        content: ' ↓';
+    }
+
+    .adm-table th.sonata-ba-list-field-order-active.sonata-ba-list-field-order-desc a::after {
+        content: ' ↑';
+    }
+
+    .dark .adm-table-wrap {
+        border-color: var(--color-gray-800);
+        background-color: rgb(255 255 255 / 3%);
+    }
+
+    .dark .adm-table thead th {
+        border-bottom-color: var(--color-gray-800);
+        color: var(--color-gray-400);
+    }
+
+    .dark .adm-table tbody tr {
+        border-top-color: var(--color-gray-800);
+    }
+
+    .dark .adm-table tbody tr:hover {
+        background-color: rgb(255 255 255 / 3%);
+    }
+
+    .dark .adm-table tbody td {
+        color: var(--color-gray-300);
+    }
+
+    .dark .adm-table tbody tr.sonata-ba-list-row-selected {
+        background-color: rgb(70 95 255 / 12%);
+    }
+}

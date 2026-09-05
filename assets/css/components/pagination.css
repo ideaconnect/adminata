@@ -1,0 +1,54 @@
+/*
+ * The pager. Sonata's pager templates render `ul.pagination > li(.active) > a`, and its functional
+ * tests assert that structure, so the styling attaches to it rather than replacing it.
+ */
+
+@utility adm-pagination {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+}
+
+@layer components {
+    .adm-pagination > li > a,
+    .adm-pagination > li > span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.25rem;
+        height: 2.25rem;
+        padding-inline: 0.5rem;
+        border-radius: var(--radius-control);
+        color: var(--color-gray-600);
+        font-size: var(--text-theme-sm);
+        font-weight: 500;
+    }
+
+    .adm-pagination > li > a:hover {
+        background-color: var(--color-gray-100);
+        color: var(--color-gray-800);
+    }
+
+    .adm-pagination > li.active > a,
+    .adm-pagination > li.active > span {
+        background-color: var(--color-brand-500);
+        color: var(--color-white);
+    }
+
+    .adm-pagination > li.disabled > a,
+    .adm-pagination > li.disabled > span {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    .dark .adm-pagination > li > a,
+    .dark .adm-pagination > li > span {
+        color: var(--color-gray-400);
+    }
+
+    .dark .adm-pagination > li > a:hover {
+        background-color: rgb(255 255 255 / 5%);
+        color: var(--color-gray-200);
+    }
+}

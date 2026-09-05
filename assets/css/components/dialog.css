@@ -1,0 +1,71 @@
+/*
+ * Native `<dialog>`, driven by the `sonata-modal` controller. The top layer gives focus trapping
+ * and Escape for free, which is why adminata has no modal library (PLAN/01 J7).
+ */
+
+@utility adm-dialog {
+    width: 100%;
+    max-width: 32rem;
+    padding: 0;
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-modal);
+    background-color: var(--color-white);
+    color: var(--color-gray-700);
+    box-shadow: var(--shadow-theme-xl);
+}
+
+@utility adm-dialog-sm {
+    max-width: 24rem;
+}
+
+@utility adm-dialog-lg {
+    max-width: 48rem;
+}
+
+@utility adm-dialog-list {
+    max-width: 64rem;
+}
+
+@utility adm-dialog__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--color-gray-100);
+}
+
+@utility adm-dialog__body {
+    padding: 1.5rem;
+}
+
+@utility adm-dialog__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--color-gray-100);
+}
+
+@layer components {
+    .adm-dialog::backdrop {
+        background-color: rgb(16 24 40 / 50%);
+    }
+
+    .adm-dialog:not([open]) {
+        display: none;
+    }
+
+    .dark .adm-dialog,
+    .dark.adm-dialog {
+        border-color: var(--color-gray-800);
+        background-color: var(--color-gray-dark);
+        color: var(--color-gray-300);
+    }
+
+    .dark .adm-dialog__header,
+    .dark .adm-dialog__footer {
+        border-color: var(--color-gray-800);
+    }
+}
