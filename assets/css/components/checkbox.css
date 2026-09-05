@@ -67,3 +67,14 @@
         color: var(--color-gray-400);
     }
 }
+
+/*
+ * The list `choice_widget_expanded` draws: one label per choice, stacked. `list-style: none` is
+ * what replaced Bootstrap's `list-unstyled`.
+ */
+@utility adm-choice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    list-style: none;
+}

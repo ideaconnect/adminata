@@ -113,26 +113,27 @@ file that was distributed with this source code.
     </div>
 {% endblock percent_widget %}
 
+{#
+    A checkbox is its label: `adm-checkbox-label` is the flex row that holds the box and the text,
+    so Bootstrap's wrapping `<div class="checkbox">` — and the `checkbox-inline` special case that
+    escaped it — have nothing left to do.
+#}
 {% block checkbox_widget -%}
-    {% set parent_label_class = parent_label_class|default('') -%}
-    {% if 'checkbox-inline' in parent_label_class %}
-        {{- form_label(form, null, { widget: parent() }) -}}
-    {% else -%}
-        <div class="checkbox">
-            {{- form_label(form, null, { widget: parent() }) -}}
-        </div>
-    {%- endif %}
+    {%- set attr = attr|merge({'class': [
+        attr.class|default(''),
+        'adm-checkbox',
+        widget_class|default(''),
+    ]|filter(part => part is not empty)|join(' ')}) -%}
+    {{- form_label(form, null, { widget: parent() }) -}}
 {%- endblock checkbox_widget %}
 
 {% block radio_widget -%}
-    {%- set parent_label_class = parent_label_class|default('') -%}
-    {% if 'radio-inline' in parent_label_class %}
-        {{- form_label(form, null, { widget: parent() }) -}}
-    {% else -%}
-        <div class="radio">
-            {{- form_label(form, null, { widget: parent() }) -}}
-        </div>
-    {%- endif %}
+    {%- set attr = attr|merge({'class': [
+        attr.class|default(''),
+        'adm-radio',
+        widget_class|default(''),
+    ]|filter(part => part is not empty)|join(' ')}) -%}
+    {{- form_label(form, null, { widget: parent() }) -}}
 {%- endblock radio_widget %}
 
 {# Labels #}
@@ -194,12 +195,12 @@ file that was distributed with this source code.
     {% endif %}
     {# Do not display the label if widget is not defined in order to prevent double label rendering #}
     {% if widget is defined %}
-        {% if required %}
-            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' required')|trim}) %}
-        {% endif %}
-        {% if parent_label_class is defined %}
-            {% set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ parent_label_class)|trim}) %}
-        {% endif %}
+        {% set label_attr = label_attr|merge({class: [
+            label_attr.class|default(''),
+            'radio' in block_prefixes ? 'adm-radio-label' : 'adm-checkbox-label',
+            label_class|default(''),
+            required ? 'required' : '',
+        ]|filter(part => part is not empty)|join(' ')}) %}
         {% if label is not same as(false) and label is empty %}
             {% set label = name|humanize %}
         {% endif %}
@@ -219,15 +220,14 @@ file that was distributed with this source code.
 {% endblock checkbox_radio_label %}
 
 {% block choice_widget_expanded %}
-    {% set attr = attr|merge({'class': attr.class|default('') ~ ' list-unstyled'}) %}
+    {% set attr = attr|merge({'class': [
+        attr.class|default(''),
+        'adm-choice-list',
+    ]|filter(part => part is not empty)|join(' ')}) %}
     <ul {{ block('widget_container_attributes') }}>
     {% for child in form %}
         <li>
-            {{ form_widget(child, {
-                'horizontal': false,
-                'horizontal_input_wrapper_class': '',
-                'translation_domain': choice_translation_domain
-            }) }} {# 'horizontal' values are needed to avoid MopaBootstrapBundle messing with the DOM #}
+            {{ form_widget(child, {'translation_domain': choice_translation_domain}) }}
         </li>
     {% endfor %}
     </ul>
@@ -240,7 +240,15 @@ file that was distributed with this source code.
         {% set required = false %}
     {% endif %}
 
-    {% set attr = attr|merge({'class': attr.class|default('') ~ ' form-control'}) %}
+    {#- Native, always: `use_select2` is gone with jQuery and the placeholder it fed a plugin is an
+        empty `<option>` again (PLAN/01 J6). -#}
+    {% set attr = attr|merge({'class': [
+        attr.class|default(''),
+        'adm-select',
+        multiple ? 'adm-select-multiple' : '',
+        widget_class|default(''),
+        errors|default([])|length > 0 ? 'adm-input-error' : '',
+    ]|filter(part => part is not empty)|join(' ')}) %}
     {% if (sortable is defined) and sortable and multiple %}
         {{ block('sonata_type_choice_multiple_sortable') }}
     {% else %}
@@ -253,9 +261,7 @@ file that was distributed with this source code.
             {% endif %}
         {% endif %}
 
-        {% set use_select2 = sonata_config is defined and sonata_config.getOption('use_select2') %}
-
-        <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}{% if placeholder is defined and placeholder is not none and use_select2 %} data-placeholder="{{ data_placeholder }}"{% endif %}>
+        <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
             {% if empty_value is defined and empty_value is not none %}
                 <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
                     {% if empty_value != '' %}

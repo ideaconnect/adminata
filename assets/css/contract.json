@@ -50,6 +50,7 @@
         ".adm-checkbox-label",
         ".adm-chip",
         ".adm-chip__remove",
+        ".adm-choice-list",
         ".adm-combobox",
         ".adm-combobox__chips",
         ".adm-combobox__listbox",
