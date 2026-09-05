@@ -1,7 +1,10 @@
 {#
 
-This file is part of the Sonata package.
+This file is part of the adminata package.
 
+(c) IDCT Bartosz Pachołek <bartosz@idct.tech>
+
+Forked from the Sonata Project
 (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
 
 For the full copyright and license information, please view the LICENSE
@@ -35,7 +38,7 @@ file that was distributed with this source code.
                     {%- endblock -%}
                 </div>
                 <button type="button"
-                        class="sonata-readmore-btn btn-link"
+                        class="sonata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
                         {{ stimulus_target('sonata-readmore', 'button') }}
                         {{ stimulus_action('sonata-readmore', 'toggle', 'click') }}></button>
             </div>

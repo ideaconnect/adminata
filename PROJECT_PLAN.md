@@ -584,7 +584,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: functional edit tests green; Panther: confirm-exit prompt, sticky bar, lock error flash
     (demo `lock_protection`).
 
-- [ ] **P4-07 · Show pages** · M · depends: P4-01
+- [x] **P4-07 · Show pages** · M · depends: P4-01
   - Read: PLAN/03 §D rows 1–2.
   - Do: `base_show`, `show`, `base_show_field` (`<table><tr><th><td>` kept, readmore), 13 `show_*`,
     4 `Association/show_*`; groups grid.
@@ -2014,6 +2014,21 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   (**2844 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
   `make test-js` (**124**), `make assets-check`, `make test-visual` (**399 passed**),
   `make test-functional` (**47**).
+
+- 2026-09-05 — **P4-07 done.** The show page is the edit page's twin: groups as cards in the same
+  twelve-column grid, tabs rendered sequentially under an `<h2>`, and the field table styled rather
+  than replaced — `sonata-ba-view`, `sonata-ba-view-container` and the `<th>label</th><td>value</td>`
+  shape are what the show tests assert and what an application's four show cell templates extend.
+  The thirteen `show_*` cells and the four `Association/show_*` needed nothing: they delegate to the
+  display templates M3 had already rewritten. Only the readmore button carried a Bootstrap class.
+
+  The demo's show and edit pages joined the visual walk, which is now **483 checks** over nine
+  pages, and both are clean.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2844 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
+  `make test-js` (**124**), `make assets-check`, `make test-visual` (**483 passed**).
+
 
 
 

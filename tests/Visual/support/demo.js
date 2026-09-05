@@ -43,6 +43,8 @@ export const PAGES = [
     // A list with its batch column removed: no checkboxes, and a footer that has to survive it.
     { name: 'tag-list', path: '/admin/tests/app/tag/list' },
     { name: 'product-create', path: '/admin/tests/app/product/create' },
+    { name: 'product-show', path: '/admin/tests/app/product/1/show' },
+    { name: 'product-edit', path: '/admin/tests/app/product/1/edit' },
     { name: 'login', path: '/login' },
     { name: 'empty-layout', path: '/admin/demo/empty' },
     { name: 'dialog', path: '/admin/demo/dialog' },
