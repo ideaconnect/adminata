@@ -1,29 +1,9 @@
 {
-    "axe": {
-        "product-create:light@narrow": [
-            "button-name"
-        ],
-        "product-create:dark@narrow": [
-            "button-name"
-        ],
-        "product-create:light@medium": [
-            "button-name"
-        ],
-        "product-create:dark@medium": [
-            "button-name"
-        ],
-        "product-create:light@wide": [
-            "button-name"
-        ],
-        "product-create:dark@wide": [
-            "button-name"
-        ]
-    },
+    "axe": {},
     "markup": {
         "product-create": [
             "heading-level",
-            "no-redundant-role",
-            "text-content"
+            "no-redundant-role"
         ]
     },
     "responsive": {}

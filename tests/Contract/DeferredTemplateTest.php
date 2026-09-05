@@ -85,7 +85,7 @@ final class DeferredTemplateTest extends ContractTestCase
      */
     public function testTheListHasTheNumberOfTemplatesThePlanStates(): void
     {
-        static::assertCount(36, self::deferred());
+        static::assertCount(37, self::deferred());
     }
 
     /**

@@ -553,7 +553,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `radio_*`, `checkbox_radio_label`; a test proving `attr.data-controller` passes through untouched.
   - Accept: `tests/Form/Widget/*` rewritten and green.
 
-- [ ] **P4-03 · Form theme: collections and remaining Sonata blocks** · M · depends: P4-02
+- [x] **P4-03 · Form theme: collections and remaining Sonata blocks** · M · depends: P4-02
   - Read: PLAN/06 §2; PLAN/03 §C row 1.
   - Do: `sonata_type_native_collection_widget(_row)` (card rows, remove/add buttons, prototype),
     `sonata_type_immutable_array_widget(_row)`, `sonata_type_template_widget`,
@@ -1907,6 +1907,36 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2831 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
   (**124**), `make assets-check`, `make test-visual` (**372 passed**).
+
+- 2026-09-05 — **P4-03 done.** A collection row is a card with a named remove button and the add
+  button says "Add new" beside its icon; `sonata-collection-row`, `sonata-collection-add`,
+  `sonata-collection-delete`, `data-prototype` and `data-prototype-name` are untouched, which is
+  what `sonata-collection` and an application's own scripts hold on to. The immutable-array row
+  follows `form_row`, the file input is the browser's with its selector button restyled, and a
+  sortable multiple choice is the plain multiple select it always was underneath — `sortable` was a
+  select2 plugin, and the application has none.
+
+  `sonata_type_choice_field_mask_widget` is markup only. Upstream printed a page of jQuery there
+  that showed and hid other fields as the choice changed; the controller that replaces it is
+  post-1.0 (PLAN/01 J2), so the map and the field list are on the element as data attributes and
+  every field the map governs simply stays visible.
+
+  **Plan revision.** `sonata_type_model_list_widget` was 150 lines of Bootstrap, inline `onclick`
+  and a `.modal fade`, all of it driving the association flows owner directive 5 removed. It moved
+  to `Form/Type/sonata_type_model_list.html.twig`, marked and listed as deferred — the form theme
+  is now genuinely free of Bootstrap and of inline scripts, and the widget is ported with the
+  eleven `CRUD/Association/edit_*` templates it drives. The counts move with it: PLAN/03 §E and
+  PLAN/00 read **37 deferred of 149**, `DeferredTemplateTest` 37, `TemplatePathTest` 150 files.
+
+  **`tests/Visual/support/findings.json` has no `axe` entries left.** Every 1.0 page the demo
+  renders — dashboard, three lists, the create form, the login page, the empty layout, the dialog —
+  passes WCAG 2.1 AA in both themes at all three widths. What remains is two html-validate rules on
+  the create page, `heading-level` and `no-redundant-role`, both from the edit chrome P4-06 owns.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2833 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
+  `make test-js` (**124**), `make assets-check`, `make test-visual` (**372 passed**).
+
 
 
 

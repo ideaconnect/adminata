@@ -16,33 +16,39 @@ import CollectionController from '../controllers/collection_controller.js';
 import { mount, settle } from './helpers.js';
 
 /*
- * Mirrors `sonata_type_native_collection_widget` in
- * `@SonataAdmin/Form/form_admin_fields.html.twig`: a container carrying `data-prototype` with the
- * placeholder `__name__` in both the id and the name of every field. M4 rewrites that block, but
- * the prototype contract — and the four event names below, which applications listen for — cannot
- * change without a major release (PLAN/02 §9).
+ * Mirrors what `sonata_type_native_collection_widget` renders in
+ * `@SonataAdmin/Form/form_admin_fields.html.twig` after P4-03: a container carrying
+ * `data-prototype` with the placeholder `__name__` in both the id and the name of every field, and
+ * rows that are `adm-collection-row sonata-collection-row` cards with a named icon button. The
+ * prototype contract and the four event names below, which applications listen for, cannot change
+ * without a major release (PLAN/02 §9).
  */
-const prototype =
-    '<div data-sonata-collection-target="item">' +
-    '<input id="admin_items___name___label" name="admin[items][__name__][label]">' +
-    '<button data-action="sonata-collection#delete">Delete</button>' +
-    '</div>';
+const row = (index) =>
+    `<div class="adm-collection-row sonata-collection-row" data-sonata-collection-target="item">` +
+    '<div class="flex items-start gap-3"><div class="min-w-0 flex-1">' +
+    `<input id="admin_items_${index}_label" name="admin[items][${index}][label]">` +
+    '</div>' +
+    '<button type="button" class="adm-btn-icon adm-btn-icon-delete sonata-collection-delete"' +
+    ' data-action="click-&gt;sonata-collection#delete">' +
+    '<i class="fas fa-circle-minus" aria-hidden="true"></i><span class="sr-only">Delete</span>' +
+    '</button></div></div>';
+
+const prototype = row('__name__');
 
 const markup = `
     <div id="admin_items"
+         class="adm-collection"
          data-controller="sonata-collection"
          data-prototype='${prototype}'
          data-prototype-name="__name__"
          data-sonata-collection-num-items-value="1">
-        <div data-sonata-collection-target="item">
-            <input id="admin_items_0_label" name="admin[items][0][label]">
-            <button data-action="sonata-collection#delete">Delete</button>
-        </div>
-        <button data-action="sonata-collection#add">Add</button>
+        ${row(0).replace('click-&gt;', 'click->')}
+        <button type="button" class="adm-btn adm-btn-secondary adm-btn-sm sonata-collection-add"
+                data-action="click->sonata-collection#add">Add new</button>
     </div>
 `;
 
-const addButton = () => document.querySelector('[data-action="sonata-collection#add"]');
+const addButton = () => document.querySelector('.sonata-collection-add');
 const items = () => document.querySelectorAll('[data-sonata-collection-target=item]');
 
 describe('sonata-collection', () => {

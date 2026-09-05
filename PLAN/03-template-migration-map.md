@@ -10,7 +10,7 @@ byte-identical. Element-level tables with file:line evidence live in `R/layout-n
 Scope (appendix C §4): of the 148 templates in the seven packages, 100 are rewritten in 1.0 (98
 admin-bundle templates, 4,739 Twig lines, plus form-extensions' datepicker theme and
 twig-extensions' flash template), 12 are copied unchanged (block-bundle and ORM templates without
-Bootstrap markup) and 36 are deferred (§E, §G).
+Bootstrap markup) and 37 are deferred (§E, §G).
 
 ## A. Layouts, navigation, dashboard (phase 2)
 
@@ -71,7 +71,7 @@ Bootstrap markup) and 36 are deferred (§E, §G).
 
 | Group | Files | Trigger |
 |---|---|---|
-| Association edit flows | `CRUD/Association/edit_{many_to_many,many_to_one,one_to_many,one_to_one,modal,many_script,one_script,one_to_many_inline_table,one_to_many_inline_tabs,one_to_many_sortable_script_table,one_to_many_sortable_script_tabs}.html.twig` (11) | first `ModelListType`, `ModelType` or `AdminType` field; redesigned **without AJAX form submission** (S5, J9): list selection in a `<dialog>` loaded with `fetch` GET, create/edit as full pages, `edit_*_script` files emptied; controllers `sonata-association`, `sonata-modal` (exists), `sonata-tabs`, later `sonata-sortable`, `sonata-inline-row` (also unlocks the MongoDB fork's Panther suite once its scenarios follow the new flow) |
+| Association edit flows | `CRUD/Association/edit_{many_to_many,many_to_one,one_to_many,one_to_one,modal,many_script,one_script,one_to_many_inline_table,one_to_many_inline_tabs,one_to_many_sortable_script_table,one_to_many_sortable_script_tabs}.html.twig` (11) and `Form/Type/sonata_type_model_list.html.twig`, the widget that opens them (lifted out of the form theme in P4-03 so that the theme itself carries no Bootstrap) | first `ModelListType`, `ModelType` or `AdminType` field; redesigned **without AJAX form submission** (S5, J9): list selection in a `<dialog>` loaded with `fetch` GET, create/edit as full pages, `edit_*_script` files emptied; controllers `sonata-association`, `sonata-modal` (exists), `sonata-tabs`, later `sonata-sortable`, `sonata-inline-row` (also unlocks the MongoDB fork's Panther suite once its scenarios follow the new flow) |
 | History and compare | `CRUD/base_history.html.twig`, `history.html.twig`, `history_revision_timestamp.html.twig`, `base_show_compare.html.twig`, `show_compare.html.twig` | first admin with an audit reader |
 | ACL | `CRUD/base_acl.html.twig`, `base_acl_macro.html.twig`, `acl.html.twig` | `security.handler: acl` |
 | Other CRUD pages | `CRUD/preview.html.twig`, `select_subclass.html.twig`, `tree.html.twig`, `list_outer_rows_mosaic.html.twig`, `base_list_flat_field.html.twig`, `base_list_flat_inner_row.html.twig`, `action.html.twig` | preview mode, subclasses, tree/mosaic list modes, custom `CRUDController` actions rendering `action.html.twig` |
@@ -80,7 +80,7 @@ Bootstrap markup) and 36 are deferred (§E, §G).
 | Helper | `Helper/short-object-description.html.twig` | association flows |
 | Other packages | ORM `Block/block_audit.html.twig` (`panel-group`, `data-toggle="collapse"`); block-bundle `Block/block_core_rss.html.twig` (`panel panel-default`, `media`), `Block/block_side_menu_template.html.twig` | first audit reader; first RSS or side-menu block |
 
-A PHPUnit test lists these 36 paths and fails if one is rendered by the demo app without having
+A PHPUnit test lists these 37 paths and fails if one is rendered by the demo app without having
 been ported (the file keeps a `{# adminata: not yet ported #}` marker).
 
 ## F. New or removed files

@@ -144,10 +144,11 @@ final class TemplatePathTest extends ContractTestCase
             }
         }
 
-        // 148 at import (PLAN/00) plus `Core/list_mode_buttons.html.twig`, which PLAN/03 §F asks
-        // for: `standard_layout` and `ajax_layout` had the same switcher twice, which is how they
-        // drifted apart.
-        static::assertSame(149, $found, 'The seven packages ship 149 templates.');
+        // 148 at import (PLAN/00), plus `Core/list_mode_buttons.html.twig`, which PLAN/03 §F asks
+        // for — `standard_layout` and `ajax_layout` had the same switcher twice, which is how they
+        // drifted apart — plus `Form/Type/sonata_type_model_list.html.twig`, the unported
+        // `ModelListType` widget P4-03 lifted out of the form theme.
+        static::assertSame(150, $found, 'The seven packages ship 150 templates.');
     }
 
     /**
