@@ -1,0 +1,73 @@
+name: Front end
+
+on:
+    schedule:
+        - cron: '30 0 * * *'
+    push:
+        branches:
+            - main
+    pull_request:
+
+permissions:
+    contents: read
+
+jobs:
+    frontend:
+        name: Node ${{ matrix.node-version }}
+
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                node-version:
+                    - '24'
+                    - '26'
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
+
+            - name: Set up Node
+              uses: actions/setup-node@v6
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: npm
+
+            - name: Install exactly what the lock file pins
+              run: npm ci
+
+            - name: ESLint
+              run: npm run lint:js
+
+            - name: Stylelint
+              run: npm run lint:css
+
+            - name: Prettier
+              run: npm run lint:prettier
+
+            - name: No package depends on jQuery
+              run: npm run check:jquery
+
+            - name: The Tailwind assumptions of PLAN/04 §4 still hold
+              run: npm run fixture
+
+            - name: Vitest
+              run: npm run test
+
+            - name: Build
+              run: npm run build
+
+            - name: The committed build output matches a fresh build
+              run: >-
+                  git diff --exit-code --
+                  packages/admin-bundle/src/Resources/public
+                  assets/css/safelist.css
+                  assets/css/contract.json
+                  assets/js/__contract__/controllers.json
+
+            - name: CSS contract
+              run: npm run css:contract
+
+            - name: Size budgets
+              run: npm run size
