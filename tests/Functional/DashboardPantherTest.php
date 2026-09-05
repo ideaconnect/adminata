@@ -20,6 +20,7 @@ use Adminata\Tests\App\EventListener\BrowserConsoleRecorderListener;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverKeys;
+use Facebook\WebDriver\WebDriverSelect;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
@@ -278,6 +279,25 @@ final class DashboardPantherTest extends BasePantherTestCase
         );
 
         $this->assertConsoleIsEmpty('Selecting rows wrote to the browser console.');
+    }
+
+    /**
+     * The per-page select carries whole URLs as its option values, and `sonata-per-page` navigates
+     * to the one chosen.
+     */
+    public function testChangingThePerPageReloadsTheList(): void
+    {
+        $this->client->request('GET', $this->url('/admin/tests/app/product/list'));
+
+        static::assertCount(25, $this->client->getCrawler()->filter('table.sonata-ba-list tbody tr'));
+
+        $select = $this->client->findElement(WebDriverBy::cssSelector('select.per-page'));
+        new WebDriverSelect($select)->selectByVisibleText('50');
+
+        $rows = $this->client->waitFor('table.sonata-ba-list')->filter('table.sonata-ba-list tbody tr');
+
+        static::assertCount(42, $rows, 'The list did not reload with the larger page size.');
+        $this->assertConsoleIsEmpty('Changing the page size wrote to the browser console.');
     }
 
     /**

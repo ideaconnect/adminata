@@ -462,6 +462,10 @@
         <source>list_mode_mosaic</source>
         <target>Mosaic</target>
       </trans-unit>
+      <trans-unit id="pager_navigation">
+        <source>pager_navigation</source>
+        <target>Pages</target>
+      </trans-unit>
       <trans-unit id="skip_to_content">
         <source>skip_to_content</source>
         <target>Skip to the content</target>

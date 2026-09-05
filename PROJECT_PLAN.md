@@ -505,7 +505,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `list_action_button_content`), four `Association/list_*`.
   - Accept: tests green; ORM `ListBuilder` path renders in the demo.
 
-- [ ] **P3-07 · Pager templates** · S · depends: P3-01
+- [x] **P3-07 · Pager templates** · S · depends: P3-01
   - Read: PLAN/03 §B "Pager" rows.
   - Do: five `Pager/*` templates on the same `ul.pagination > li(.active) > a` structure with
     `aria-label`s; native per-page select with URL option values.
@@ -1740,4 +1740,17 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2812 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
+  `make assets-check`, `make test-visual` (252 passed).
+
+- 2026-09-05 — **P3-07 done.** The five `Pager/*` templates keep the
+  `ul.pagination > li(.active) > a` structure PLAN/02 §8 names — the classes are added beside it,
+  not instead of it — inside a labelled `<nav>`, with `aria-current="page"` on the page you are on.
+  The arrows were `&laquo;`, `&lsaquo;`, `&rsaquo;` and `&raquo;`, characters a screen reader
+  reads as punctuation or skips entirely; they are icons with `aria-hidden` and a real
+  `aria-label` now. The per-page select keeps its `per-page` hook and its whole-URL option values,
+  which is what `sonata-per-page` navigates to, and a Panther test changes it from 25 to 50 and
+  counts the rows.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2813 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
   `make assets-check`, `make test-visual` (252 passed).
