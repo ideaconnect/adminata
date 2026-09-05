@@ -456,7 +456,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     dialog open/close) asserting an empty console.
   - Accept: `make test-visual` and `make test-functional` green.
 
-- [ ] **P2-MS · Milestone M2 push** · S · depends: P2-11
+- [x] **P2-MS · Milestone M2 push** · S · depends: P2-11
   - Accept: definition of done green; workflows green; status log updated.
 
 ---
@@ -1551,3 +1551,25 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   (**2810 tests, 2 skips**), `make test-contract`, `make test-functional` (**23**), `make lint-js`,
   `make lint-css`, `make test-js`, `make assets-check`, `make test-visual` (**250 passed,
   2 skipped**).
+
+- 2026-09-05 — **Milestone M2 complete.** All twelve tasks done. Definition of done green:
+  `make lint`, `make phpstan`, `make rector`, `make test` (**2810 tests, 2 skips**),
+  `make test-contract`, `make test-functional` (**23**), `make lint-js`, `make lint-css`,
+  `make test-js` (**95**), `make assets-check`, `make test-visual` (**250 passed, 2 skipped**).
+  `CHANGELOG.md` records the milestone. `main` pushed to `ideaconnect/adminata`.
+
+  The shell is adminata's: layout, sidebar, header, dashboard, flash messages, seven new Stimulus
+  controllers, and the pages those own carry **no accessibility and no markup findings in either
+  theme**. What is left in `tests/Visual/support/findings.json` is the list and the form.
+
+  The recurring lesson of this milestone was the **cascade**, three times over. Dark-mode overrides
+  written in `@layer components` were dead against their `@utility` bases (52 rules); generalised,
+  the same trap had eaten 34 more — focus rings, disabled buttons, `::backdrop`, the collapsed rail;
+  and one layer up, Font Awesome's unlayered stylesheet beat Tailwind's `hidden` and put a moon and
+  a sun in the theme button at once. `bin/check-css-layers.mjs` fails the build on the first two
+  and `layer(vendor)` settles the third. None of it was visible to Stylelint, to Prettier or to a
+  test — only to a screenshot.
+
+  The other recurring lesson was that **jsdom is not a browser**. It focuses hidden elements
+  happily, it implements no `<dialog>` method at all, and it has no layout to answer a media query
+  with. Three defects passed the whole Vitest suite and were caught by Panther.
