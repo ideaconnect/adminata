@@ -106,7 +106,11 @@ file that was distributed with this source code.
     {% if label is not same as(false) %}
         {% set label_attr = label_attr|merge({'class': label_attr.class|default('') ~ ' ' ~ label_class }) %}
 
-        {% if not compound %}
+        {#- The autocomplete widget's control is the combobox it draws, and it draws one whether or
+            not the field is compound. -#}
+        {% if 'sonata_type_model_autocomplete' in block_prefixes %}
+            {% set label_attr = label_attr|merge({'for': id ~ '_autocomplete_input'}) %}
+        {% elseif not compound %}
             {% set label_attr = label_attr|merge({'for': id}) %}
         {% endif %}
         {% if required %}

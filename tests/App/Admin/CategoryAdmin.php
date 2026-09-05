@@ -23,6 +23,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -52,7 +53,16 @@ final class CategoryAdmin extends AbstractAdmin
     {
         $filter
             ->add('name')
-            ->add('active');
+            ->add('active')
+            // The one combobox in the demo: `ProductAdmin` is the association admin the
+            // autocomplete action resolves, and `property` names a filter on *its* datagrid.
+            ->add('products', ModelAutocompleteFilter::class, [
+                'field_options' => [
+                    'property' => 'name',
+                    'minimum_input_length' => 2,
+                    'items_per_page' => 5,
+                ],
+            ]);
     }
 
     protected function configureFormFields(FormMapper $form): void

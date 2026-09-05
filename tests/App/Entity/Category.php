@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace Adminata\Tests\App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,9 +42,19 @@ class Category implements \Stringable
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeImmutable $createdAt;
 
+    /**
+     * The inverse side exists so that `CategoryAdmin` can filter on it with a
+     * `ModelAutocompleteFilter`; nothing writes through it and it maps no column.
+     *
+     * @var Collection<int, Product>
+     */
+    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'category')]
+    private Collection $products;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->products = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -98,6 +110,14 @@ class Category implements \Stringable
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
     }
 
     public function setCreatedAt(\DateTimeImmutable $createdAt): void

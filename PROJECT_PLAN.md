@@ -515,7 +515,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Do: `CRUD/batch_confirmation.html.twig` (danger card, same POST fields).
   - Accept: functional batch flow with `confirmation=ok` green.
 
-- [ ] **P3-09 · `sonata-autocomplete` combobox (filter context)** · L · depends: P3-02
+- [x] **P3-09 · `sonata-autocomplete` combobox (filter context)** · L · depends: P3-02
   - Read: PLAN/06 §3; PLAN/05 §3 row 8; PLAN/01 J5.
   - Do: controller (single value first: debounce, min length, remote paging, `403`, keyboard,
     `aria-activedescendant`, click-outside, `safe_label`, hidden inputs, events);
@@ -1765,3 +1765,46 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2814 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
   `make assets-check`, `make test-visual` (252 passed).
+
+- 2026-09-05 — **P3-09 done.** select2 is replaced by a hand-written ARIA 1.2 combobox: about 380
+  lines of `sonata-autocomplete`, no dependency, and the wire contract untouched — the same
+  `q`/`_page`/`_per_page` plus `_sonata_admin`, `uniqid`, `field` and `_context=filter`, the same
+  `{status, more, items}` answer, the same `#{id}_autocomplete_input` and
+  `#{id}_hidden_inputs_wrap`, and hidden inputs as the only submitted state. The three overridable
+  blocks stayed: `…_ajax_request_parameters` now emits JSON instead of a JavaScript object literal,
+  and `…_dropdown_item_format` / `…_selection_format` became `<template>` elements the controller
+  clones. `…_select2_options_js` is gone.
+
+  Four deviations. **(1)** The association "add" button was an inline `onclick` opening a modal over
+  `ajaxSubmit`; both are gone (owner directive 5, PLAN/01 J4), so it is a plain link to the create
+  page until the post-1.0 `sonata-association` controller lands. **(2)** `#{id}_hidden_inputs_wrap`
+  moved inside the widget's wrapper — a Stimulus target has to live inside its controller's element;
+  the identifier an application selects on has not changed. **(3)** `.htmlvalidate.json` drops one
+  mapping of `prefer-native-element`: it wants `role="listbox"` to be a `<select>`, which cannot
+  carry `aria-activedescendant` for an input that owns it. **(4)** Three new English keys —
+  `autocomplete_input_too_short`, `autocomplete_load_more`, `autocomplete_remove`; `no_results_found`
+  and `loading_information` were already there.
+
+  Two labelling fixes fell out of it. The filter panel wrote `<label for>` at the *value* child's
+  id, which the combobox does not carry, so the label pointed at nothing; it now points at the
+  combobox, and the panel passes the filter's own label down so the listbox is named "Products"
+  rather than "Value". `form_label` got the same treatment for the form context, where the field is
+  compound whenever `multiple` is set and so had no `for` at all.
+
+  Three defects the browser found and jsdom could not. A `{% block %}` renders where it stands, so
+  the request-parameter JSON was also being printed as page text — 663px of it, which is what the
+  new horizontal-overflow check reported; it is captured into a variable now. `aria-activedescendant`
+  was set to the empty string when nothing was highlighted, which is a reference to nothing and
+  which html-validate rejects; it is removed instead. And `sendKeys` on the *keyboard* goes to the
+  focused element, which after adding a filter is the dropdown item, not the box.
+
+  The demo grew the inverse `Category::$products` (mapping only, no column) so `CategoryAdmin` can
+  carry a `ModelAutocompleteFilter` while `ProductAdmin` keeps its plain `ModelFilter`. The filter
+  page is a seventh entry in the visual walk, and `tests/Visual/autocomplete.spec.js` runs axe and
+  html-validate over the combobox with its listbox *open* — a state the server never renders.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2815 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
+  (**124**), `make assets-check`, `make test-visual` (**330 passed**), `make test-functional`
+  (**28**).
+

@@ -246,6 +246,73 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
+     * The hand-written combobox (PLAN/06 §3), driven only from the keyboard: it says how much more
+     * to type, it searches once the term is long enough, the arrow keys move `aria-activedescendant`
+     * and Enter writes the identifier into the hidden input the form actually submits.
+     */
+    public function testTheAutocompleteFilterIsUsableFromTheKeyboard(): void
+    {
+        $this->client->request('GET', $this->url('/admin/tests/app/category/list'));
+
+        $this->client->findElement(WebDriverBy::cssSelector('.sonata-actions [aria-expanded]'))->click();
+        $this->client->findElement(WebDriverBy::cssSelector('.sonata-toggle-filter[data-filter$="-products"]'))->click();
+
+        $input = $this->client->waitForVisibility('#filter_products_value_autocomplete_input')
+            ->filter('#filter_products_value_autocomplete_input');
+        $listbox = $this->client->findElement(WebDriverBy::id('filter_products_value_listbox'));
+
+        static::assertFalse($listbox->isDisplayed(), 'The listbox starts closed.');
+
+        // On the element, not the keyboard: the click that added the filter left focus on the
+        // dropdown item, and `sendKeys` on an element is what puts it in the box.
+        $this->client->findElement(WebDriverBy::id('filter_products_value_autocomplete_input'))->sendKeys('P');
+
+        static::assertSame(
+            'Type 1 or more characters to search',
+            $this->client->findElement(WebDriverBy::cssSelector('.adm-combobox__status'))->getText()
+        );
+        static::assertFalse($listbox->isDisplayed(), 'A term below the minimum length opened the listbox.');
+
+        $this->client->getKeyboard()->sendKeys('roduct 0');
+        $this->client->waitForVisibility('#filter_products_value_listbox');
+
+        // Five options and a sixth to load the rest: `items_per_page` is 5 on this filter.
+        $options = $this->client->findElements(WebDriverBy::cssSelector('#filter_products_value_listbox [role="option"]'));
+        static::assertCount(6, $options);
+        static::assertSame('Load more results', end($options)->getText());
+
+        $this->client->getKeyboard()->sendKeys(WebDriverKeys::ARROW_DOWN);
+        $this->client->getKeyboard()->sendKeys(WebDriverKeys::ARROW_DOWN);
+
+        $active = $input->attr('aria-activedescendant');
+        static::assertNotNull($active);
+        static::assertSame('true', $this->client->findElement(WebDriverBy::id($active))->getAttribute('aria-selected'));
+        static::assertSame('Product 02', $this->client->findElement(WebDriverBy::id($active))->getText());
+
+        $this->client->getKeyboard()->sendKeys(WebDriverKeys::ENTER);
+
+        static::assertFalse($listbox->isDisplayed(), 'Choosing an option left the listbox open.');
+        static::assertSame(
+            'Product 02',
+            $this->client->findElement(WebDriverBy::id('filter_products_value_autocomplete_input'))
+                ->getAttribute('value')
+        );
+        static::assertSame(
+            '2',
+            $this->client->findElement(
+                WebDriverBy::cssSelector('#filter_products_value_hidden_inputs_wrap input')
+            )->getAttribute('value')
+        );
+
+        $this->client->findElement(WebDriverBy::cssSelector('.sonata-filter-form button[type="submit"]'))->click();
+
+        $rows = $this->client->waitFor('table.sonata-ba-list')->filter('table.sonata-ba-list tbody tr');
+        static::assertCount(1, $rows, 'The autocomplete filter did not narrow the list.');
+
+        $this->assertConsoleIsEmpty('The autocomplete wrote to the browser console.');
+    }
+
+    /**
      * Shift-clicking a second row selects everything between it and the last one clicked — in both
      * directions. Upstream's upward half read `indexedDB > currentIndex`, the browser's IndexedDB
      * global rather than the loop's index, so it never ran.

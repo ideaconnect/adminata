@@ -5,6 +5,7 @@
         "attribute-empty-style": "off",
         "no-inline-style": "off",
         "no-trailing-whitespace": "off",
+        "prefer-native-element": ["error", { "mapping": { "listbox": false } }],
         "require-sri": ["error", { "target": "crossorigin" }]
     }
 }
