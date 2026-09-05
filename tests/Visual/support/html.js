@@ -20,6 +20,17 @@ import { HtmlValidate } from 'html-validate';
  * Built by hand rather than left to html-validate's own file resolution: `validateString()`
  * resolves configuration relative to the *filename it is given*, and these documents come from a
  * browser and have no file on disk, so nothing would be found.
+ *
+ * Four rules are tuned there, and `.htmlvalidate.json` cannot say why:
+ *
+ * - `attribute-boolean-style` and `attribute-empty-style` want `<script defer>`, not
+ *   `<script defer="">`. What is validated here is the DOM as the browser serialises it, and the
+ *   serialiser always writes the empty value — no template can satisfy either rule.
+ * - `require-sri` defaults to demanding `integrity` on every `<link>` and `<script>`. adminata's
+ *   assets are same-origin files whose hash is not known when the template renders, and Subresource
+ *   Integrity protects against a third-party origin, so it is narrowed to `crossorigin`.
+ * - `no-trailing-whitespace` is about source formatting, which Twig's whitespace control decides
+ *   and nobody reads.
  */
 const config = JSON.parse(readFileSync(new URL('../../../.htmlvalidate.json', import.meta.url), 'utf8'));
 

@@ -14,30 +14,60 @@
     color: var(--color-gray-700);
     font-size: var(--text-theme-sm);
     line-height: var(--text-theme-sm--line-height);
+
+    @variant dark {
+        border-color: var(--color-gray-800);
+        background-color: rgb(255 255 255 / 3%);
+        color: var(--color-gray-300);
+    }
 }
 
 @utility adm-alert-success {
     border-color: var(--color-success-200);
     background-color: var(--color-success-50);
     color: var(--color-success-700);
+
+    @variant dark {
+        border-color: rgb(18 183 106 / 30%);
+        background-color: rgb(18 183 106 / 12%);
+        color: var(--color-success-300);
+    }
 }
 
 @utility adm-alert-error {
     border-color: var(--color-error-200);
     background-color: var(--color-error-50);
     color: var(--color-error-700);
+
+    @variant dark {
+        border-color: rgb(240 68 56 / 30%);
+        background-color: rgb(240 68 56 / 12%);
+        color: var(--color-error-300);
+    }
 }
 
 @utility adm-alert-warning {
     border-color: var(--color-warning-200);
     background-color: var(--color-warning-50);
     color: var(--color-warning-700);
+
+    @variant dark {
+        border-color: rgb(247 144 9 / 30%);
+        background-color: rgb(247 144 9 / 12%);
+        color: var(--color-warning-300);
+    }
 }
 
 @utility adm-alert-info {
     border-color: var(--color-blue-light-200);
     background-color: var(--color-blue-light-50);
     color: var(--color-blue-light-700);
+
+    @variant dark {
+        border-color: rgb(11 165 236 / 30%);
+        background-color: rgb(11 165 236 / 12%);
+        color: var(--color-blue-light-300);
+    }
 }
 
 @layer components {
@@ -84,35 +114,5 @@
 
     .adm-alert__more:checked ~ .adm-alert__more-label::after {
         content: attr(data-less);
-    }
-
-    .dark .adm-alert {
-        border-color: var(--color-gray-800);
-        background-color: rgb(255 255 255 / 3%);
-        color: var(--color-gray-300);
-    }
-
-    .dark .adm-alert-success {
-        border-color: rgb(18 183 106 / 30%);
-        background-color: rgb(18 183 106 / 12%);
-        color: var(--color-success-300);
-    }
-
-    .dark .adm-alert-error {
-        border-color: rgb(240 68 56 / 30%);
-        background-color: rgb(240 68 56 / 12%);
-        color: var(--color-error-300);
-    }
-
-    .dark .adm-alert-warning {
-        border-color: rgb(247 144 9 / 30%);
-        background-color: rgb(247 144 9 / 12%);
-        color: var(--color-warning-300);
-    }
-
-    .dark .adm-alert-info {
-        border-color: rgb(11 165 236 / 30%);
-        background-color: rgb(11 165 236 / 12%);
-        color: var(--color-blue-light-300);
     }
 }

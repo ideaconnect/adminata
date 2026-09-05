@@ -12,6 +12,7 @@
         "build": "node bin/build-css-safelist.mjs && node bin/build-js-contract.mjs && node bin/clean-assets.mjs && vite build --mode js && vite build --mode css && node bin/write-manifests.mjs",
         "check:jquery": "node bin/check-no-jquery.mjs",
         "css:contract": "node bin/check-css-contract.mjs",
+        "css:dark": "node bin/check-dark-variants.mjs",
         "css:safelist": "node bin/build-css-safelist.mjs",
         "fixture": "node bin/tailwind-fixture.mjs",
         "js:contract": "node bin/build-js-contract.mjs",

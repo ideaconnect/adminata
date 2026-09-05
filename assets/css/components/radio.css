@@ -29,6 +29,11 @@
         cursor: not-allowed;
         background-color: var(--color-gray-100);
     }
+
+    @variant dark {
+        border-color: var(--color-gray-700);
+        background-color: transparent;
+    }
 }
 
 @utility adm-radio-label {
@@ -38,19 +43,14 @@
     font-size: var(--text-theme-sm);
     line-height: var(--text-theme-sm--line-height);
     color: var(--color-gray-700);
+
+    @variant dark {
+        color: var(--color-gray-400);
+    }
 }
 
 @layer components {
-    .dark .adm-radio {
-        border-color: var(--color-gray-700);
-        background-color: transparent;
-    }
-
     .dark .adm-radio:checked {
         background-color: var(--color-gray-900);
-    }
-
-    .dark .adm-radio-label {
-        color: var(--color-gray-400);
     }
 }

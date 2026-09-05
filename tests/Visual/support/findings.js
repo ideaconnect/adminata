@@ -27,13 +27,24 @@ import { readFileSync } from 'node:fs';
 const FINDINGS = JSON.parse(readFileSync(new URL('./findings.json', import.meta.url), 'utf8'));
 
 /**
+ * The findings recorded for one check, or an empty list.
+ *
+ * @param {'axe' | 'markup' | 'responsive'} kind
+ * @param {string} key
+ * @returns {string[]}
+ */
+export function knownFindings(kind, key) {
+    return FINDINGS[kind]?.[key] ?? [];
+}
+
+/**
  * @param {import('@playwright/test').Expect} expect
- * @param {'axe' | 'markup'} kind
- * @param {string} key page name, or `page:theme` for the accessibility suite
+ * @param {'axe' | 'markup' | 'responsive'} kind
+ * @param {string} key `page`, `page:theme` (accessibility) or `page@project` (responsive)
  * @param {ReadonlyArray<string>} found rule identifiers this run reported
  */
 export function assertKnownFindings(expect, kind, key, found) {
-    const known = FINDINGS[kind]?.[key] ?? [];
+    const known = knownFindings(kind, key);
     const unique = [...new Set(found)].sort();
 
     expect(

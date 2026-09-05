@@ -85,6 +85,9 @@ final class DemoDatabaseExtension implements Extension
 
         ConsoleRunner::run($kernel, [
             ['command' => 'doctrine:schema:create'],
+            // The identifiers are deterministic because `TestDatabase::connect(…, true)` above
+            // dropped the database first: the purger's DELETE would leave AUTO_INCREMENT where
+            // it was.
             ['command' => 'doctrine:fixtures:load', '--no-interaction' => true],
             [
                 'command' => 'assets:install',

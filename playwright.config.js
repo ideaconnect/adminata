@@ -25,8 +25,11 @@ import { BASE_URL, CREDENTIALS } from './tests/Visual/support/demo.js';
  * while writing a spec, but its screenshots will not match.
  */
 
-/** The three widths of PLAN/08: phone, tablet, desktop. */
-const VIEWPORTS = {
+/**
+ * The three widths of PLAN/08: phone, tablet, desktop. Exported because `responsive.spec.js` and
+ * `bin/build-visual-findings.mjs` check the same three.
+ */
+export const VIEWPORTS = {
     narrow: { width: 375, height: 812 },
     medium: { width: 768, height: 1024 },
     wide: { width: 1280, height: 900 },

@@ -34,7 +34,8 @@ final class DashboardPantherTest extends BasePantherTestCase
         // `getTitle()`, not the crawler: WebDriver reports the text of an element the page does
         // not display — `<title>` among them — as empty.
         static::assertStringContainsString('Dashboard', $this->client->getTitle());
-        static::assertGreaterThan(0, $crawler->filter('.sonata-bc')->count());
+        static::assertCount(1, $crawler->filter('header.main-header'));
+        static::assertCount(1, $crawler->filter('aside.main-sidebar'));
 
         $this->assertConsoleIsEmpty('The dashboard wrote to the browser console.');
     }

@@ -18,6 +18,10 @@
         background-color: var(--color-gray-100);
         color: var(--color-gray-700);
     }
+
+    @variant dark {
+        color: var(--color-gray-400);
+    }
 }
 
 @utility adm-btn-icon-round {
@@ -26,6 +30,11 @@
     border: 1px solid var(--color-gray-200);
     border-radius: 9999px;
     background-color: var(--color-white);
+
+    @variant dark {
+        border-color: var(--color-gray-800);
+        background-color: var(--color-gray-900);
+    }
 }
 
 @utility adm-btn-icon-edit {
@@ -50,17 +59,8 @@
         outline-offset: 2px;
     }
 
-    .dark .adm-btn-icon {
-        color: var(--color-gray-400);
-    }
-
     .dark .adm-btn-icon:hover {
         background-color: rgb(255 255 255 / 5%);
         color: var(--color-gray-200);
-    }
-
-    .dark .adm-btn-icon-round {
-        border-color: var(--color-gray-800);
-        background-color: var(--color-gray-900);
     }
 }

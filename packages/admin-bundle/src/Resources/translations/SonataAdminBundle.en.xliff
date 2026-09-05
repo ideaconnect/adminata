@@ -450,6 +450,10 @@
         <source>list.label__actions</source>
         <target>Actions</target>
       </trans-unit>
+      <trans-unit id="breadcrumb">
+        <source>breadcrumb</source>
+        <target>Breadcrumb</target>
+      </trans-unit>
       <trans-unit id="noscript_warning">
         <source>noscript_warning</source>
         <target>Javascript is disabled in your web browser. Some features will not work properly.</target>

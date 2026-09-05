@@ -41,6 +41,12 @@
     &:hover:not(:disabled) {
         background-color: var(--color-gray-50);
     }
+
+    @variant dark {
+        border-color: var(--color-gray-700);
+        background-color: var(--color-gray-800);
+        color: var(--color-gray-300);
+    }
 }
 
 @utility adm-btn-success {
@@ -77,6 +83,10 @@
         background-color: var(--color-gray-100);
         color: var(--color-gray-800);
     }
+
+    @variant dark {
+        color: var(--color-gray-400);
+    }
 }
 
 @utility adm-btn-sm {
@@ -102,18 +112,8 @@
         outline-offset: 2px;
     }
 
-    .dark .adm-btn-secondary {
-        border-color: var(--color-gray-700);
-        background-color: var(--color-gray-800);
-        color: var(--color-gray-300);
-    }
-
     .dark .adm-btn-secondary:hover:not(:disabled) {
         background-color: var(--color-gray-700);
-    }
-
-    .dark .adm-btn-ghost {
-        color: var(--color-gray-400);
     }
 
     .dark .adm-btn-ghost:hover:not(:disabled) {
