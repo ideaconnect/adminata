@@ -144,7 +144,7 @@ test-unit: ## adminata's unit suite
 	$(PHPUNIT) --testsuite adminata-unit
 .PHONY: test-unit
 
-test-functional: demo-db ## adminata's functional suite, BrowserKit and Panther
+test-functional: demo-db demo-assets ## adminata's functional suite, BrowserKit and Panther
 	@# The Panther half needs a browser. Either a geckodriver on this machine, or
 	@# `docker compose up -d selenium` plus PANTHER_SELENIUM_HOST=http://127.0.0.1:4444.
 	$(PHPUNIT) --testsuite adminata-functional
@@ -159,8 +159,7 @@ coverage: ## Test suite with a clover report (PHPUNIT_FLAGS passes extra options
 	$(PHPUNIT) $(PHPUNIT_FLAGS) --coverage-clover build/logs/clover.xml
 .PHONY: coverage
 
-demo: demo-db ## Serve the demo admin application on http://127.0.0.1:8000/admin (admin / admin)
-	bin/console assets:install tests/App/public --symlink
+demo: demo-db demo-assets ## Serve the demo admin application on http://127.0.0.1:8000/admin (admin / admin)
 	$(PHP) -S 127.0.0.1:8000 -t tests/App/public
 .PHONY: demo
 
@@ -170,15 +169,19 @@ demo-db: ## Create the demo database and load its fixtures
 	bin/console doctrine:fixtures:load --no-interaction
 .PHONY: demo-db
 
-test-visual: demo-db ## Playwright screenshots, axe and html-validate against the demo
+demo-assets: ## Link the bundles' built CSS, JavaScript and fonts into the demo's public directory
+	bin/console assets:install tests/App/public --symlink
+.PHONY: demo-assets
+
+test-visual: demo-db demo-assets ## Playwright screenshots, axe and html-validate against the demo
 	bin/visual.sh npx playwright test
 .PHONY: test-visual
 
-visual-update: demo-db ## Regenerate the committed screenshot baselines
+visual-update: demo-db demo-assets ## Regenerate the committed screenshot baselines
 	bin/visual.sh npx playwright test --update-snapshots
 .PHONY: visual-update
 
-visual-findings: demo-db ## Regenerate the accessibility and markup debt of the inherited templates
+visual-findings: demo-db demo-assets ## Regenerate the accessibility and markup debt of the inherited templates
 	bin/visual.sh node bin/build-visual-findings.mjs
 .PHONY: visual-findings
 

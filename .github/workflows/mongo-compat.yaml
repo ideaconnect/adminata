@@ -24,6 +24,19 @@ jobs:
 
         runs-on: ubuntu-latest
 
+        # Its "unit" suite is not offline: 31 of its 342 tests exercise ObjectAclManipulator
+        # against a real server through the ODM.
+        services:
+            mongo:
+                image: mongo:8
+                ports:
+                    - 27017:27017
+                options: >-
+                    --health-cmd "mongosh --quiet --eval 'db.runCommand({ping:1}).ok' | grep -q 1"
+                    --health-interval 5s
+                    --health-timeout 5s
+                    --health-retries 20
+
         steps:
             - name: Checkout adminata
               uses: actions/checkout@v6
