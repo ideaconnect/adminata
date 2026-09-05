@@ -28,6 +28,9 @@ const version = JSON.parse(readFileSync(new URL('package.json', import.meta.url)
  */
 export default defineConfig(({ mode }) => ({
     root,
+    // Relative URLs: the bundle is published under /bundles/sonataadmin/, and an application may
+    // publish it somewhere else again, so `url(./fonts/…)` is the only form that always resolves.
+    base: './',
     define: {
         __ADMINATA_VERSION__: JSON.stringify(version),
     },

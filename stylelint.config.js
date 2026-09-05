@@ -40,6 +40,27 @@ export default {
             { ignoreAtRules: ['apply', 'source', 'utility', 'variant', 'custom-variant'] },
         ],
         'import-notation': null,
+        // Tailwind pairs a size token with its line height as `--text-*--line-height`.
+        'custom-property-pattern': ['^[a-z][a-z0-9]*(-{1,2}[a-z0-9]+)*$'],
         'order/properties-alphabetical-order': null,
     },
+    overrides: [
+        {
+            /*
+             * The token block is TailAdmin's, copied verbatim so it can be diffed against the
+             * upstream template when that is updated. Rewriting `rgba(16, 24, 40, 0.1)` as
+             * `rgb(16 24 40 / 10%)` would be correct CSS and would destroy that.
+             */
+            files: ['assets/css/theme.css'],
+            rules: {
+                'alpha-value-notation': null,
+                'color-function-alias-notation': null,
+                'color-function-notation': null,
+                'color-hex-length': null,
+                'custom-property-empty-line-before': null,
+                'custom-property-pattern': null,
+                'value-keyword-case': null,
+            },
+        },
+    ],
 };

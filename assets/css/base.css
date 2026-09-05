@@ -1,0 +1,92 @@
+/*
+ * The base layer: what every adminata page starts from.
+ */
+
+@layer base {
+    /*
+     * Tailwind v4 changed the default border colour to `currentColor`. Restoring v3's grey keeps
+     * every `border` utility in the component layer meaning what its TailAdmin recipe meant.
+     */
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
+    }
+
+    .dark *,
+    .dark ::after,
+    .dark ::before,
+    .dark ::backdrop,
+    .dark ::file-selector-button {
+        border-color: var(--color-gray-800, currentcolor);
+    }
+
+    button:not(:disabled),
+    [role='button']:not(:disabled) {
+        cursor: pointer;
+    }
+
+    /*
+     * `color-scheme` is what makes the browser's own chrome follow the theme: scrollbars, form
+     * controls, and — the reason it matters here — the calendar and clock popups of the native
+     * date and time inputs adminata uses instead of a picker library.
+     */
+    :root {
+        color-scheme: light;
+    }
+
+    .dark {
+        color-scheme: dark;
+    }
+
+    html {
+        text-size-adjust: 100%;
+    }
+
+    body {
+        background-color: var(--color-gray-50);
+        color: var(--color-gray-700);
+        font-family: var(--font-outfit);
+        font-size: var(--text-theme-sm);
+        line-height: var(--text-theme-sm--line-height);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .dark body {
+        background-color: var(--color-gray-900);
+        color: var(--color-gray-400);
+    }
+}
+
+/*
+ * Density: the measurements the component layer reads instead of hard-coding them, so a compact
+ * mode is a matter of redefining eight values rather than rewriting the components.
+ */
+:root {
+    --adm-control-h: 2.75rem;
+    --adm-control-px: 1rem;
+    --adm-control-py: 0.625rem;
+    --adm-cell-px: 1rem;
+    --adm-cell-py: 0.75rem;
+    --adm-card-p: 1.5rem;
+    --adm-sidebar-w: 290px;
+    --adm-sidebar-collapsed-w: 90px;
+    --adm-header-h: 4rem;
+}
+
+html[data-density='compact'] {
+    --adm-control-h: 2.25rem;
+    --adm-control-px: 0.75rem;
+    --adm-control-py: 0.375rem;
+    --adm-cell-px: 0.75rem;
+    --adm-cell-py: 0.5rem;
+    --adm-card-p: 1rem;
+    --adm-header-h: 3.25rem;
+}
+
+/* Until app.js runs, `html.no-js` is on the document; it is removed there. */
+html.no-js [data-requires-js] {
+    display: none;
+}
