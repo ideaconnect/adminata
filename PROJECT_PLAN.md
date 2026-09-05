@@ -638,7 +638,7 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   - Accept: the ten page templates use `adm-*` components; dead templates deleted; nine `notice`
     overrides call `{{ parent() }}`.
 
-- [ ] **P5-05 · Bundle overrides (step 8)** · M · depends: P5-01
+- [x] **P5-05 · Bundle overrides (step 8)** · M · depends: P5-01
   - Accept: 16 `list__action*`, `create_button`, `list_enum`, `list_many_to_one`, `list__select`
     ported; `Association/base_list_inner_row.html.twig` deleted; `grep -rn "btn btn-\|label label-" templates/bundles` empty.
 
@@ -2220,6 +2220,20 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 
   Six dead templates deleted: `generic_create`, `recomat/confirm_archive`, `promo_code/upload` and
   the three `message/*`, none referenced from PHP or from another template.
+
+- 2026-09-05 — **P5-05 done.** Sixteen row-action templates, the create button and `list__select`
+  carry adminata's recipes. `adm-btn-icon` is the base; the four adminata knows by name — `edit`,
+  `show`, `delete`, `history` — take its variants, and `btn-action-*` stays on all of them so the
+  app's own eight (`approve`, `reject`, `cancel`, `retry`, `report`, `upload`, `start`, `finish`)
+  keep the hover colour `sonata-overrides.scss` gives them until P5-08 rewrites it.
+
+  Every one of the sixteen was **icon-only with its label in `title`**, which a screen reader may or
+  may not announce. Each now carries a visually hidden name taken from the title it already had —
+  fifteen templates, done by script because the shape was identical in all of them.
+
+  `Association/base_list_inner_row.html.twig` is deleted: it overrode a path Sonata never resolves,
+  so it had never rendered once.
+
 
 
 
