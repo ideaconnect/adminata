@@ -175,7 +175,8 @@ file that was distributed with this source code.
                                         {% block batch_javascript %}{% endblock %}
 
                                         {% block batch_actions %}
-                                            <label class="adm-checkbox-label" for="{{ admin.uniqid }}_all_elements">
+                                            {#- No `for`: the label wraps the input, which is the association. -#}
+                                            <label class="adm-checkbox-label">
                                                 <input type="checkbox" class="adm-checkbox" name="all_elements" id="{{ admin.uniqid }}_all_elements">
                                                 {{ 'all_elements'|trans({}, 'SonataAdminBundle') }}
                                                 ({{ admin.datagrid.pager.countResults() }})
@@ -331,15 +332,26 @@ file that was distributed with this source code.
                                 {# NEXT_MAJOR: Remove |default(filter.option('show_filter')) #}
                                 {% set filterDisplayed = filter.isActive() or filter.showFilter|default(filter.option('show_filter')) is same as (true) %}
                                 {% set filterCanBeDisplayed = filter.option('show_filter') is not same as(false) %}
-                                <div class="grid grid-cols-12 items-center gap-3 {% block sonata_list_filter_group_class %}{% endblock %}" id="filter-{{ admin.uniqid }}-{{ filter.name }}" {{ stimulus_target('sonata-filter', 'group') }} {% if not filterDisplayed %}hidden{% endif %}>
+                                {#- A range filter's value is two inputs, so its label cannot be a
+                                    `<label for>`: the id belongs to their container. It becomes the
+                                    name of a group instead, and each input carries its own
+                                    `aria-label` from the filter theme. -#}
+                                {% set valueField = form[filter.formName].children['value'] %}
+                                {% set valueIsCompound = valueField.children|length > 0 %}
+                                {% set filterLabelId = 'filter-' ~ admin.uniqid ~ '-' ~ filter.name ~ '-label' %}
+                                <div class="grid grid-cols-12 items-center gap-3 {% block sonata_list_filter_group_class %}{% endblock %}" id="filter-{{ admin.uniqid }}-{{ filter.name }}" {{ stimulus_target('sonata-filter', 'group') }}{% if valueIsCompound and filter.label is not same as(false) %} role="group" aria-labelledby="{{ filterLabelId }}"{% endif %} {% if not filterDisplayed %}hidden{% endif %}>
                                     {% if filter.label is not same as(false) %}
-                                        <label for="{{ form[filter.formName].children['value'].vars.id }}" class="adm-label col-span-12 mb-0 md:col-span-3">
+                                        {% if valueIsCompound %}
+                                            <span id="{{ filterLabelId }}" class="adm-label col-span-12 mb-0 md:col-span-3">
+                                        {% else %}
+                                            <label for="{{ valueField.vars.id }}" class="adm-label col-span-12 mb-0 md:col-span-3">
+                                        {% endif %}
                                             {% if filter.translationDomain is same as(false) %}
                                                 {{ filter.label }}
                                             {% else %}
                                                 {{ filter.label|trans(filter.option('label_translation_parameters', {}), filter.translationDomain ?? admin.translationDomain) }}
                                             {% endif %}
-                                        </label>
+                                        {{ valueIsCompound ? '</span>'|raw : '</label>'|raw }}
                                     {% endif %}
                                     {% set attr = form[filter.formName].children['type'].vars.attr|default({}) %}
                                     <div class="advanced-filter col-span-12 md:col-span-3" {{ stimulus_target('sonata-filter', 'advanced') }} {% if not field_value(form[filter.formName].children['type']) %}hidden{% endif %}>

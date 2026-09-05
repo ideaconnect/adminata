@@ -20,9 +20,7 @@
     "markup": {
         "product-list": [
             "input-missing-label",
-            "no-redundant-for",
             "no-redundant-role",
-            "valid-for",
             "wcag/h30"
         ],
         "product-create": [

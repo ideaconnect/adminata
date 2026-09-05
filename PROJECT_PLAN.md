@@ -473,7 +473,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `make lint`; admin functional list tests green; demo list renders; `HookContractTest`
     list group enabled.
 
-- [ ] **P3-02 · Filter theme** · M · depends: P3-01
+- [x] **P3-02 · Filter theme** · M · depends: P3-01
   - Read: PLAN/03 §B "filter_admin_fields" row; PLAN/06 §1 "Filter theme"; PLAN/01 F2.
   - Do: rewrite `Form/filter_admin_fields.html.twig` (native operator selects, TailAdmin inputs,
     `type=date` filters, additive `sonata_type_date_range_widget`, untouched pass-through of
@@ -1617,3 +1617,30 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2810 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
   `make assets-check`, `make test-visual` (**252 passed**).
+
+- 2026-09-05 — **P3-02 done.** `Form/filter_admin_fields.html.twig` puts adminata's recipes on
+  native controls, in place of the Bootstrap `form-control` and the `.checkbox`/`.radio` wrappers
+  upstream inherited from MopaBootstrapBundle. Date and date-time filters keep Symfony's HTML5
+  `single_text` widgets, which need no picker library and which the browser localises itself
+  (PLAN/01 F2). Every block **merges** into `attr` rather than replacing it, which is what lets a
+  `data-controller` an application put on a filter field survive — a ux-autocomplete `<select>`
+  inside the panel keeps working. The operator selects stay real `<select name="filter[…]">`,
+  because that is what `sonata-filter`'s `prepareSubmit` strips the empty ones from.
+
+  `sonata_type_date_range_widget` is the additive block PLAN/02 §5 names: a range is two inputs side
+  by side, where `form_div_layout` stacked them on separate rows and lost which was which.
+
+  Three markup findings went with it, and the third is the interesting one. A range filter's value
+  is *two* inputs, so the row's `<label for>` pointed at their container — `valid-for`. It is a
+  `<span>` naming a `role="group"` now, with each input carrying its own `aria-label` from the
+  filter theme, which is the grouping pattern rather than a label that labels nothing.
+
+  A Panther test drives the whole flow: open the dropdown, add the `sku` filter, watch the panel
+  appear, type, submit, get one row back, reset. Writing it turned up three things about driving a
+  real browser that BrowserKit never shows — an input in a hidden group is "not reachable by
+  keyboard", an element reference does not survive the navigation a submit causes, and neither does
+  Panther's crawler, which has to be taken again with `waitFor()`.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2811 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
+  `make assets-check`, `make test-visual` (252 passed).

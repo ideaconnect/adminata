@@ -208,6 +208,46 @@ final class DashboardPantherTest extends BasePantherTestCase
         $this->assertConsoleIsEmpty('The dialog wrote to the browser console.');
     }
 
+    /**
+     * The filter panel: a filter is added from the dropdown, the panel appears, the value submits,
+     * and reset puts everything back. `sonata-filter`'s `prepareSubmit` needs real
+     * `<select name="filter[…]">` elements to strip the empty ones, which is why the operator
+     * selects stayed native (PLAN/06 §1).
+     */
+    public function testAFilterCanBeAddedSubmittedAndReset(): void
+    {
+        $this->client->request('GET', $this->url('/admin/tests/app/product/list'));
+
+        static::assertFalse($this->filterPanelIsVisible(), 'The filter panel starts hidden.');
+
+        $this->client->findElement(WebDriverBy::cssSelector('.sonata-actions [aria-expanded]'))->click();
+        $this->client->findElement(WebDriverBy::cssSelector('.sonata-toggle-filter[data-filter$="-sku"]'))->click();
+
+        static::assertTrue($this->filterPanelIsVisible(), 'Adding a filter did not open the panel.');
+
+        // Scoped to the group that was just opened: every filter has a `[value]` input, and the
+        // ones belonging to hidden groups are not reachable. Waited for, because the group is
+        // revealed by `sonata-filter` after the click.
+        $this->client->waitForVisibility('[id$="-sku"] input[name$="[value]"]');
+        $this->client->findElement(WebDriverBy::cssSelector('[id$="-sku"] input[name$="[value]"]'))->sendKeys('SKU-0007');
+        $this->client->findElement(WebDriverBy::cssSelector('.sonata-filter-form button[type="submit"]'))->click();
+
+        // Submitting navigates; the crawler Panther is holding belongs to the page that just went.
+        $rows = $this->client->waitFor('table.sonata-ba-list')->filter('table.sonata-ba-list tbody tr');
+        static::assertCount(1, $rows);
+        static::assertStringContainsString('SKU-0007', $rows->text());
+
+        $this->client->request('GET', $this->url('/admin/tests/app/product/list?filters=reset'));
+
+        static::assertGreaterThan(1, $this->client->refreshCrawler()->filter('table.sonata-ba-list tbody tr')->count());
+        $this->assertConsoleIsEmpty('Filtering wrote to the browser console.');
+    }
+
+    private function filterPanelIsVisible(): bool
+    {
+        return $this->client->findElement(WebDriverBy::cssSelector('.sonata-filters-box'))->isDisplayed();
+    }
+
     private function focusIsInsideTheDialog(): bool
     {
         return 'inside' === $this->focusedElement();
