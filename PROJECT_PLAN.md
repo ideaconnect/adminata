@@ -433,7 +433,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     title, breadcrumb and the actions row; leave `Breadcrumb/*.html.twig` byte-identical.
   - Accept: `BreadcrumbsRuntimeTest` untouched and green; visual check in both themes.
 
-- [ ] **P2-09 · Dashboard, admin-list block, dashboard actions** · M · depends: P2-01
+- [x] **P2-09 · Dashboard, admin-list block, dashboard actions** · M · depends: P2-01
   - Read: PLAN/03 §A rows 7, 9, 10.
   - Do: `Core/dashboard.html.twig` (12-column grid, block `class` verbatim),
     `Block/block_admin_list.html.twig` (cards), `CRUD/dashboard__action.html.twig`,
@@ -1470,6 +1470,27 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   emits `<li class="active"><span>`, and adding the attribute would change markup two tests pin
   byte-for-byte. The last crumb being a `<span>` rather than a link is what tells a screen reader
   it is the page you are on; `aria-current` is on the sidebar's active link, where it applies.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2808 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
+  `make assets-check`, `make test-visual` (124 passed, 2 skipped).
+
+- 2026-09-05 — **P2-09 done.** The dashboard is a twelve-column grid where upstream had Bootstrap
+  rows; the block `class` is used verbatim, which is what an application configures in
+  `sonata_admin.dashboard.blocks` and whose default has been `md:col-span-4` since P0-10. The
+  `has_*` computation and both `sonata_block_render_event()` calls are upstream's, unchanged.
+  `md:col-span-{{ width }}` is composed at runtime and Tailwind's scanner cannot see it — the grid
+  classes have been in `assets/css/safelist.css` since P1-05 for exactly that (PLAN/01 C3).
+
+  `Block/block_admin_list.html.twig` is a card per group with a **list**, not a table: two columns
+  with no header were never tabular data, and a list collapses on a narrow screen without an
+  `overflow-x` wrapper. `dashboard__action_create` folds its subclasses into a `sonata-dropdown`
+  with the same complete menu roles as the add block. The `no-deprecated-attr` finding is gone with
+  the table — it was the `width="40%"` on its cell.
+
+  The content header is now **captured and rendered only when it has something in it**. The
+  dashboard has neither a breadcrumb nor a page title, and the wrapper still took its margin: a
+  stray gap above the content, of the kind nobody tracks down later.
 
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2808 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,

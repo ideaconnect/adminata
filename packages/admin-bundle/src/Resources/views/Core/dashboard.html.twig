@@ -9,6 +9,18 @@ file that was distributed with this source code.
 
 #}
 
+{#
+    The dashboard (PLAN/03 §A row 7).
+
+    A twelve-column grid where upstream had Bootstrap rows. The block `class` is used verbatim —
+    an application configures it in `sonata_admin.dashboard.blocks`, and its default is
+    `md:col-span-4` since P0-10. The `has_*` computation and both
+    `sonata_block_render_event()` calls are upstream's, unchanged.
+
+    `md:col-span-{{ width }}` is composed at runtime, which Tailwind's scanner cannot see; the
+    grid classes are in `assets/css/safelist.css` for exactly that reason (PLAN/01 C3).
+#}
+
 {% extends base_template %}
 
 {% block title %}{{ 'title_dashboard'|trans({}, 'SonataAdminBundle') }}{% endblock %}
@@ -53,7 +65,7 @@ file that was distributed with this source code.
     {{ sonata_block_render_event('sonata.admin.dashboard.top') }}
 
     {% if has_top %}
-        <div class="row">
+        <div class="grid grid-cols-12 gap-4 md:gap-6">
             {% for block in blocks.top %}
                 {% if block.roles|length == 0 or is_granted_affirmative(block.roles) %}
                     <div class="{{ block.class }}">
@@ -64,7 +76,7 @@ file that was distributed with this source code.
         </div>
     {% endif %}
 
-    <div class="row">
+    <div class="grid grid-cols-12 gap-4 md:gap-6">
         {% set width_left = 4 %}
         {% set width_right = 4 %}
         {% set width_center = 4 %}
@@ -82,7 +94,7 @@ file that was distributed with this source code.
 
         {# don't show left column if only center one is present #}
         {% if has_left or has_right %}
-        <div class="col-md-{{ width_left }}">
+        <div class="col-span-12 md:col-span-{{ width_left }}">
             {% for block in blocks.left %}
                 {% if block.roles|length == 0 or is_granted_affirmative(block.roles) %}
                     {{ sonata_block_render({ 'type': block.type, 'settings': block.settings}) }}
@@ -92,7 +104,7 @@ file that was distributed with this source code.
         {% endif %}
 
         {% if has_center %}
-            <div class="col-md-{{ width_center }}">
+            <div class="col-span-12 md:col-span-{{ width_center }}">
                 {% for block in blocks.center %}
                     {% if block.roles|length == 0 or is_granted_affirmative(block.roles) %}
                         {{ sonata_block_render({ 'type': block.type, 'settings': block.settings}) }}
@@ -103,7 +115,7 @@ file that was distributed with this source code.
 
         {# don't show right column if only center one is present #}
         {% if has_left or has_right %}
-         <div class="col-md-{{ width_right }}">
+         <div class="col-span-12 md:col-span-{{ width_right }}">
             {% for block in blocks.right %}
                 {% if block.roles|length == 0 or is_granted_affirmative(block.roles) %}
                     {{ sonata_block_render({ 'type': block.type, 'settings': block.settings}) }}
@@ -114,7 +126,7 @@ file that was distributed with this source code.
     </div>
 
     {% if has_bottom %}
-        <div class="row">
+        <div class="grid grid-cols-12 gap-4 md:gap-6">
             {% for block in blocks.bottom %}
                 {% if block.roles|length == 0 or is_granted_affirmative(block.roles) %}
                     <div class="{{ block.class }}">
