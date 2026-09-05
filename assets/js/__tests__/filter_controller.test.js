@@ -31,6 +31,7 @@ const markup = (defaults) => `
             <div id="status" data-sonata-filter-target="group">
                 <input name="filter[status][value]" value="">
             </div>
+            <button type="submit" data-sonata-filter-target="submitter">Filter</button>
         </form>
     </div>
 `;
@@ -59,6 +60,15 @@ describe('sonata-filter', () => {
         await settle();
 
         expect(document.querySelector('#name input').getAttribute('name')).toBe('filter[name][value]');
+    });
+
+    it('disables the submit button so the filters are not submitted twice', async () => {
+        await mount('sonata-filter', FilterController, markup({}));
+
+        form().dispatchEvent(new Event('submit'));
+        await settle();
+
+        expect(document.querySelector('[data-sonata-filter-target=submitter]').disabled).toBe(true);
     });
 
     it('clears the fields of a hidden group before submitting', async () => {
