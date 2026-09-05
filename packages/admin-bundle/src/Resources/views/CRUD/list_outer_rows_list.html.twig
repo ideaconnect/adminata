@@ -9,8 +9,39 @@ file that was distributed with this source code.
 
 #}
 
+{#
+    The rows of a list.
+
+    Each one carries the URL of the object's default action, which `sonata-row-link` follows when
+    the row is clicked. `list_row_link` turns the whole thing off for an application that would
+    rather rows did nothing.
+
+    The route is resolved the way the mosaic view has always resolved the link on a tile:
+
+      1. the route `default_admin_route` names — the same one the identifier cell links to, so a
+         row and its identifier never disagree;
+      2. failing that, the other of `show` and `edit`, which is what rescues the many admins that
+         register only one of the two;
+      3. failing that, nothing: no class, no URL, no pointer cursor, and a click does nothing.
+
+    `show` and `edit` are checked against the object rather than against the admin alone, because
+    that is what a per-object security handler expects — again as `base_list_field` does.
+#}
+
+{%- set row_link_enabled = sonata_config.getOption('list_row_link') -%}
+{%- set row_link_default = sonata_config.getOption('default_admin_route') -%}
+{%- set row_link_alternate = 'show' == row_link_default ? 'edit' : 'show' -%}
+
+{#- Built eagerly with `merge`, not with `filter`: `filter` yields an iterator, and one shared
+    iterator would be exhausted by the first row. -#}
+{%- set row_link_routes = row_link_enabled ? (admin.hasRoute(row_link_default) ? [row_link_default] : []) : [] -%}
+{%- set row_link_routes = row_link_enabled and admin.hasRoute(row_link_alternate) ? row_link_routes|merge([row_link_alternate]) : row_link_routes -%}
+
 {% for object in admin.datagrid.results %}
-    <tr>
+    {#- `filter`+`first` rather than a loop with a flag: a `{% set %}` inside a nested `for` does
+        not survive the loop, so the route has to come out of an expression. -#}
+    {%- set row_link_route = row_link_routes|filter(route => admin.hasAccess(route, route in ['show', 'edit'] ? object : null))|first -%}
+    <tr{% if row_link_route %} class="sonata-ba-list-row-link" data-sonata-row-link-url="{{ admin.generateObjectUrl(row_link_route, object) }}"{% endif %}>
         {% include get_admin_template('inner_list_row', admin.code) %}
     </tr>
 {% endfor %}

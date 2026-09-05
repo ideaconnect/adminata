@@ -118,6 +118,36 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
+     * Clicking a row opens the object, and clicking a control inside it does not.
+     *
+     * The demo's `default_admin_route` is the shipped `show`, so `/…/product/1/show` is where a
+     * row goes; the batch checkbox in the first cell is the control that has to keep its click.
+     */
+    public function testClickingARowOpensTheObject(): void
+    {
+        $this->client->request('GET', $this->url('/admin/tests/app/product/list'));
+
+        $box = $this->client->findElement(WebDriverBy::cssSelector('tbody input[name="idx[]"]'));
+        $box->click();
+
+        static::assertTrue($box->isSelected(), 'The batch checkbox lost its click to the row.');
+        static::assertStringContainsString(
+            '/admin/tests/app/product/list',
+            $this->client->getCurrentURL(),
+            'A click on the batch checkbox navigated away.'
+        );
+
+        $this->client->findElement(
+            WebDriverBy::cssSelector('tr.sonata-ba-list-row-link td.sonata-ba-list-field-string')
+        )->click();
+        $this->client->waitFor('.sonata-ba-show');
+
+        static::assertStringContainsString('/admin/tests/app/product/1/show', $this->client->getCurrentURL());
+
+        $this->assertConsoleIsEmpty('Opening a product from its row wrote to the browser console.');
+    }
+
+    /**
      * A group a visitor opened is still open on the next page: `sonata-menu` keeps the map in
      * `localStorage` and applies it over what the server rendered.
      */

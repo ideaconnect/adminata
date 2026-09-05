@@ -186,6 +186,12 @@
             "classes": [],
             "outlets": []
         },
+        "sonata-row-link": {
+            "targets": [],
+            "values": [],
+            "classes": [],
+            "outlets": []
+        },
         "sonata-sticky": {
             "targets": [
                 "action",

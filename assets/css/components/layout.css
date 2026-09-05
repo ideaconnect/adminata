@@ -8,10 +8,14 @@
     min-height: 100vh;
 }
 
+/*
+ * No `max-width`: an admin list is sixteen columns of data, and capping the column at 1536px on a
+ * wider monitor leaves the table scrolling inside a box with empty page beside it. TailAdmin's
+ * cap is written for dashboards, where a long measure hurts reading; here the width is the
+ * feature. The header is `width: 100%` and would have sat wider than the content it belongs to.
+ */
 @utility adm-content {
     padding: 1rem;
-    margin-inline: auto;
-    max-width: var(--breakpoint-2xl);
 
     @variant md {
         padding: 1.5rem;

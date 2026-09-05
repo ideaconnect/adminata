@@ -435,14 +435,14 @@ file that was distributed with this source code.
                                         <div class="sonata-ba-form">{{ _form|raw }}</div>
                                     {% endif %}
 
-                                    {% if _list_filters is not empty %}
+                                    {#- The filter panel and the table share one grid, so that the
+                                        `gap` puts air between them. Two sibling grids would each
+                                        space their own children and leave the filter card sitting
+                                        directly on the list card. Both blocks emit `col-span-12`
+                                        children, and a hidden filter panel takes no grid track. -#}
+                                    {% if _list_filters is not empty or _list_table is not empty %}
                                         <div class="grid grid-cols-12 gap-4 md:gap-6">
                                             {{ _list_filters|raw }}
-                                        </div>
-                                    {% endif %}
-
-                                    {% if _list_table is not empty %}
-                                        <div class="grid grid-cols-12 gap-4 md:gap-6">
                                             {{ _list_table|raw }}
                                         </div>
                                     {% endif %}

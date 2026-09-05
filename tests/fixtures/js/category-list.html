@@ -359,7 +359,6 @@
                                     
                                     
                                     
-                                    
                                                                             <div class="grid grid-cols-12 gap-4 md:gap-6">
                                             <div class="col-span-12 sonata-filters-box"
              id="filter-container-sfixture00000" data-controller="sonata-filter" data-sonata-filter-default-values-value="{&quot;_page&quot;:1,&quot;_per_page&quot;:25}" data-sonata-filter-sonata-filter-list-outlet="#filter-list-sfixture00000" >
@@ -368,7 +367,9 @@
                     <form
                         class="sonata-filter-form "
                         action="/admin/tests/app/category/list"
-                        method="GET"aria-label="Filters"
+                        method="GET"` here would strip the
+                            newline on both sides and glue `method="GET"` to the next attribute. #}
+                        aria-label="Filters"
                         data-sonata-filter-target="form"
                         data-action="submit->sonata-filter#prepareSubmit">
                         
@@ -538,10 +539,7 @@
                 </div>
             </div>
         </div>
-                                        </div>
-                                    
-                                                                            <div class="grid grid-cols-12 gap-4 md:gap-6">
-                                            <div class="col-span-12">
+                                            <div class="col-span-12 min-w-0">
                 
                     <form action="/admin/tests/app/category/batch?filter%5B_page%5D=1&amp;filter%5B_per_page%5D=25&amp;filter%5Bproducts%5D%5Bvalue%5D=1" method="POST"
                   data-controller="sonata-batch"
@@ -554,6 +552,7 @@
 
                 
                                                         <div class="adm-table-wrap">
+                    <div class="adm-table-scroll">
                                             <table class="adm-table sonata-ba-list">
                                                     <thead>
                                 <tr class="sonata-ba-list-field-header">
@@ -598,9 +597,10 @@
                                                                                                             </tr>
                             </thead>
                         
-                                                    <tbody>
+                        <tbody data-controller="sonata-row-link"
+                                   data-action="click->sonata-row-link#open auxclick->sonata-row-link#open">
                                 
-    <tr>
+<tr class="sonata-ba-list-row-link" data-sonata-row-link-url="/admin/tests/app/category/2/show">
         
             
 
@@ -665,7 +665,7 @@
 <td class="sonata-ba-list-field sonata-ba-list-field-actions" objectId="2">
         
                                         
-                    <div class="flex flex-wrap items-center gap-1">
+                    <div class="flex items-center gap-1">
                     
 
                     <a
@@ -705,6 +705,7 @@
                         
                                                                     </table>
                                         </div>
+                    </div>
                 
                 
             </div>

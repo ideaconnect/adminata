@@ -127,6 +127,13 @@ const MOUNTS = [
         selector: '[data-controller~="sonata-autocomplete"]',
         targets: ['input', 'listbox', 'status', 'hiddenInputs'],
     },
+    {
+        // The whole table: a bare `<tbody>` written into `document.body` is dropped by the parser.
+        identifier: 'sonata-row-link',
+        page: 'product-list',
+        selector: 'table.sonata-ba-list',
+        targets: [],
+    },
 ];
 
 /**

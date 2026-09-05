@@ -52,6 +52,21 @@
     align-items: center;
     gap: 0.5rem;
     padding-block: 2rem 1.75rem;
+
+    /*
+     * `title_logo` is whatever artwork an application configured, and the logo block's `h-8 w-auto`
+     * turns a wide mark into a wide element. The sidebar is `position: fixed`, so that does not
+     * merely overflow the rail: it grows the document and puts a horizontal scrollbar on every
+     * page. The cap is the rail's own width less its padding, and `overflow: hidden` catches
+     * whatever still does not fit — the collapsed rail, and a logo block an application replaced.
+     */
+    min-width: 0;
+    overflow: hidden;
+
+    & img {
+        max-width: calc(var(--adm-sidebar-w) - 2.5rem);
+        object-fit: contain;
+    }
 }
 
 @utility adm-sidebar-nav {

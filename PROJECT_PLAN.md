@@ -662,7 +662,8 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
     `sonata-overrides.scss` ≤ 160 lines; `.mt-10` renamed; FA family updated.
 
 - [x] **P5-09 · Admin classes, date formats, icons (steps 12–14)** · S · depends: P5-01
-  - Accept: `grep -rn "col-md-" src` empty; `grep -rn "'format' =>" src/Admin src/Form | grep -i "yyyy\|dd\." ` empty;
+  - Accept: `grep -rn "col-md-" src templates` empty — `templates` because P5-FIX-05 found four
+    call sites the `src`-only grep never looked at; `grep -rn "'format' =>" src/Admin src/Form | grep -i "yyyy\|dd\." ` empty;
     `grep -rn "clock-o" templates` empty.
 
 - [x] **P5-10 · JavaScript port (step 15)** · S · depends: P5-02
@@ -674,7 +675,152 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   - Do: run the Behat suite; add the BrowserKit and Panther scenarios (A1–A2, D1–D3, L1–L9, F1–F10,
     S1, X1, X2); every adminata defect becomes a `P5-FIX-nn` task here and is fixed in adminata
     (not worked around in the app).
-  - Accept: all scenarios green in light and dark; console empty; owner visual sign-off recorded in the status log.
+  - Accept: all scenarios green in light and dark; console empty; owner visual sign-off recorded in
+    the status log. **Everything automatable is green** (see the status log); the box stays unticked
+    until the owner says the panel is right, which is the one thing no test can supply.
+
+### Owner review of 2026-09-05
+
+Four defects reported against the migrated panel. Three were adminata's and are fixed there; the
+fourth was a port miss in the application, and P5-09's acceptance grep is widened so the class of
+mistake cannot recur.
+
+- [x] **P5-FIX-01 · The filter panel sits on the list card** · S
+  - `standard_layout.html.twig` put `list_filters` and `list_table` in two sibling
+    `grid grid-cols-12 gap-4 md:gap-6` wrappers. A `gap` spaces the children of one grid, not two
+    grids, so the filter card's bottom edge touched the list card's top edge.
+  - Do: one grid holding both. Both blocks already emit `col-span-12` children, and a hidden filter
+    panel takes no grid track, so a list without filters is unchanged.
+  - Accept: the two cards are one `gap` apart; the visual suite stays green.
+
+- [x] **P5-FIX-02 · Row actions do not read as buttons** · S
+  - `adm-btn-icon` has no resting background and no border. That is right for the navbar's icon
+    controls and wrong in a list, where a bare glyph in a table cell reads as content.
+  - Do: `.sonata-ba-list-field-actions .adm-btn-icon` gets a surface and an outline in
+    `components/list.css`, in light and dark. The selector is the cell class the PHP layer emits,
+    so an application's own action templates get it without naming an extra class; the utility's
+    own `:hover` still wins from the utilities layer.
+  - Accept: the actions column renders outlined buttons in both themes; the CSS contract holds.
+
+- [x] **P5-FIX-03 · A list row does not open its object** · M
+  - Do: new `sonata-row-link` controller, one per `<tbody>` and delegating, with the destination on
+    each `<tr>` as `data-sonata-row-link-url`. `list_outer_rows_list.html.twig` resolves the route
+    the way the mosaic view always has — `default_admin_route`, then the other of `show`/`edit`,
+    then nothing — and checks `hasRoute` and `hasAccess` per object. A click on a control, on a
+    cell that exists only to hold controls (batch, select, actions), or one that ends a text
+    selection is left alone; a middle or modified click opens a new tab. No `tabindex` and no
+    `role="link"`: the accessible name would be the whole row, and the same destination is already
+    one Tab away in the identifier cell and the action column.
+  - New option `sonata_admin.options.list_row_link`, default `true`.
+  - Accept: `sonata-row-link` in the registry, the contract and `fixtures.test.js`; twelve Vitest
+    cases; a Panther case that opens a product from its row and one that keeps the batch
+    checkbox's click; the config reference records the new node.
+
+- [x] **P5-FIX-04 · `method="GET"` glued to the next attribute** · S
+  - A `{#- … -#}` between two attributes of the filter form stripped the whitespace on both sides,
+    so the rendered tag read `method="GET"aria-label="Filters"`. Browsers recover from it and
+    html-validate did not flag it; it is still wrong.
+  - Accept: the only such comment in the seven packages is fixed; a scan finds no other.
+
+- [x] **P5-FIX-06 · A configured logo widens every page** · S
+  - The sidebar is `position: fixed` and the logo block sizes its `<img>` with `h-8 w-auto`, so a
+    wide mark scales to a wide element, overflows the rail and grows the document: the panel's own
+    White Label logo is 3445×800, which put a 2013px horizontal scrollbar on every screen.
+  - Do: `adm-sidebar-header` caps the image at the rail's width less its padding and clips what
+    still does not fit, so a logo block an application replaced is covered too.
+  - Accept: every reviewed page reports `scrollWidth == clientWidth` at 1440px.
+
+- [x] **P5-FIX-07 · A wide list scrolls the page, not the table** · M
+  - `adm-table-scroll` was declared, safelisted and never used: `base_list` and `base_show` put the
+    table straight into `adm-table-wrap`, whose `overflow: hidden` cannot scroll. Two further things
+    had to be true before the box could hold the table:
+    - the card is a grid item, and a grid item's `min-width: auto` will not shrink below its
+      content, so it grew with the table — `min-w-0` on it;
+    - `.sr-only` is `position: absolute` with no offsets, so each row action's label was positioned
+      against the *page*, at the table's full width, and gave the document a scrollbar of its own
+      even once the table was inside a scrolling box — `position: relative` on the scroll box makes
+      it their containing block, and its overflow then clips them.
+  - Accept: `/admin/app/clientuser/list` (1861px of columns in a 1102px card) scrolls inside its
+    card with `scrollWidth == clientWidth`; the same for four other wide lists.
+
+- [x] **P5-FIX-09 · Five row actions stacked into five lines** · S
+  - An automatic table layout shares the surplus width among columns in proportion to their
+    content, so on a sixteen-column list the action column got a fraction of the row and its
+    `flex-wrap` container stacked the buttons — 221px rows on the panel's device list, four of them
+    to a screen.
+  - Do: the batch, select and action columns take `width: 1%; white-space: nowrap`, and
+    `list__action` stops wrapping. Both only became safe once P5-FIX-07 gave the table a box of its
+    own to scroll in; before that a column that would not shrink widened the page.
+  - Accept: the same row is 61px and thirteen fit a screen; `scrollWidth == clientWidth`.
+
+- [x] **P5-FIX-12 · The content column is capped at 1536px** · S
+  - `adm-content` carried TailAdmin's `max-width: var(--breakpoint-2xl)` with `margin-inline: auto`.
+    That cap is written for dashboards, where a long measure hurts reading; an admin list is
+    sixteen columns of data, and on a wider monitor the table scrolled inside a box with empty page
+    beside it while `adm-header` — `width: 100%`, no cap — sat wider than the content it belongs to.
+  - Do: the cap is gone. The test viewports stop at 1280px, so no spec could have caught this.
+  - Accept: at 2560px the device list shows all sixteen columns and every row action on one line,
+    with `scrollWidth == clientWidth`.
+
+- [x] **P5-FIX-13 · (application) The language selector never opened** · S
+  - `layout/_language_dropdown.html.twig` was untouched Bootstrap 3: `dropdown`, `dropdown-toggle`,
+    `dropdown-menu-right` — classes with no CSS since P5-08 — and `data-toggle="dropdown"`, which is
+    jQuery's data API and has not existed since P5-10. It rendered as two bare icons that did
+    nothing.
+  - Do: adminata's recipe, the same one the add and user menus use — `adm-dropdown`,
+    `sonata-dropdown`, `adm-dropdown__menu`, Escape to close. `security/_language_nav.html.twig`
+    likewise: it was `navbar navbar-static-top` around `nav navbar-nav`.
+  - And it was invisible on the signed-out screens for a second reason: those templates replace
+    `sonata_wrapper`, and adminata nests `sonata_nav` *inside* it, so their `sonata_nav` override
+    could never render. The selector is drawn at the top of their own wrapper instead.
+  - Accept: the menu opens on the login screen and in the panel, lists both locales with their
+    flags, and choosing one sets `<html lang>`; the console stays empty.
+
+- [x] **P5-FIX-11 · The visual suite could run against the wrong application** · S
+  - `bin/visual.sh` started the demo only if nothing already answered on its port, and "answered"
+    meant any HTTP response. A `symfony serve` for the panel on 8000 was enough: the suite ran all
+    609 specs against it, `/admin/dashboard` answered by coincidence, every demo path 404'd, and
+    axe reported violations on the error pages. CI was never affected — nothing else listens there
+    — so this hid regressions on a developer's machine rather than reporting false ones in CI.
+  - Do: the probe fetches `/admin/tests/app/product/list` with the demo's credentials and looks for
+    `sonata-ba-list`; an occupied port and a demo that never comes up are both hard failures with
+    the fix in the message. The body is captured rather than piped into `grep -q`, which under
+    `pipefail` kills curl with SIGPIPE on a *match* and reports the success as a failure.
+  - Accept: with the panel on 8000, `make test-visual` stops with "Port 8000 is serving something
+    that is not the demo"; `ADMINATA_DEMO_PORT=8123 make test-visual` runs.
+
+- [x] **P5-FIX-05 · (application) Charts collapsed and narrow** · S
+  - `templates/admin/dashboard_stats.html.twig` still passed `col-md-6` and `col-md-12` to its
+    `chartBox` macro. Inside a `grid grid-cols-12` those name nothing, so each chart became a
+    one-twelfth-wide grid item. Its four rows were also four sibling grids, with the same missing
+    gap as P5-FIX-01.
+  - Do: one grid for the screen, `col-span-12 md:col-span-6` and `col-span-12` for the cards. Also
+    ported the thirteen `templates/crud/list__action_*.twig` still on `btn btn-action-icon`, and
+    dropped the five `templates/bundles/SonataAdminBundle/CRUD/list__action*` overrides that had
+    become stale copies of what adminata now ships better (they had lost `edit_link`, `view_link`
+    and `delete_link`); `list_action_button_content: icon` keeps those four icon-only.
+  - Accept: `grep -rn "col-md-\|btn-action-icon" templates src` empty.
+
+- [x] **P5-FIX-10 · (application) `default_admin_route: edit`** · S
+  - The shipped default is `show`, and a row click made that visible: nine of the panel's forty-six
+    admin classes define `configureShowFields()`, so a row on any of the other thirty-seven opened
+    a blank page. `edit` is the panel's real default action; adminata falls back to `show` for an
+    admin with no `edit` route, which is what the read-only ones need.
+  - Note: this also moves the identifier column's link, which points at the same route by design.
+    One line in `sonata_admin.yaml` reverses it.
+  - Accept: partner and recomat rows open `…/edit`; the support thread, which has no `edit` route
+    and does define show fields, opens `…/show`.
+
+- [x] **P5-FIX-08 · (application) Styling lost in the SCSS trim** · S
+  - Cutting `sonata-overrides.scss` from 659 lines to 314 took the promo list's virtual-status
+    column with it: the cell rendered blank. Restored as a full-height bar, positioned against the
+    cell rather than `height: 100%`, which a table cell of automatic height never resolves.
+  - Also: `php -S … public/index.php` sends every static file through PHP, which labels it
+    `text/html`, and a browser in standards mode then refuses the stylesheet — the panel renders
+    completely unstyled. `tests/adminata-router.php` is the review server's router; it serves an
+    existing file under `public/` with the right type and hands the rest to the front controller.
+  - Accept: a Playwright session signed in as a real administrator renders the panel styled in both
+    themes, with an empty console.
 
 - [ ] **P5-12 · `MIGRATION.md` and `UPGRADE-1.0.md`** · S · depends: P5-11
   - Accept: `MIGRATION.md` is the executed checklist with real hours; `UPGRADE-1.0.md` has U1–U9.
@@ -2335,3 +2481,102 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 
 
 
+
+- 2026-09-05 — **Owner review; P5-FIX-01 … P5-FIX-08 done.** Four defects reported, and finding
+  them meant signing in as the owner does. The first thing that turned up was not on the list:
+  `php -S 127.0.0.1:9077 -t public public/index.php` sends every static file through PHP, which
+  labels it `text/html`, and a browser in standards mode refuses a stylesheet served that way. The
+  review server needs `tests/adminata-router.php`, which types what it serves; everything below was
+  measured against that, and the first three of the four reported defects were real underneath it.
+
+  **The filter panel sat on the list card** because `standard_layout` put the two blocks in two
+  sibling grids, and a `gap` spaces the children of one grid, not two grids. One grid now holds
+  both, which is also how the four rows of the app's stats screen were fixed.
+
+  **Row actions did not read as buttons**: `adm-btn-icon` has no resting surface, which is right in
+  the navbar and wrong in a table cell, where a bare glyph reads as content. `.sonata-ba-list-field-actions
+  .adm-btn-icon` now has one — keyed on the cell class the PHP layer emits, so an application's own
+  action templates get it without naming anything extra. Thirteen of the app's did: they were still
+  on `btn btn-action-icon`, an AdminLTE recipe that no longer exists, so they had been rendering as
+  bare links. Five more overrides were stale copies of what adminata ships and are deleted.
+
+  **A row now opens its object.** `sonata-row-link` is one controller on the `<tbody>`, delegating,
+  with the destination on each `<tr>`; the route is `default_admin_route`, then the other of
+  `show`/`edit`, then nothing, checked with `hasRoute` and `hasAccess` per object. A click on a
+  control, on a cell that only holds controls, or one that ends a text selection is left alone. No
+  `tabindex` and no `role="link"`: the accessible name would be the whole row, and the destination
+  is already one Tab away. New option `list_row_link`, default `true`.
+
+  **The charts were an application port miss** — `col-md-6` and `col-md-12` passed to a macro inside
+  a `grid grid-cols-12`, which made each chart a twelfth of the width. P5-09's acceptance grep only
+  ever looked at `src`; it looks at `templates` now.
+
+  Two defects the owner had not named came out of measuring the pages. The White Label logo is
+  3445×800 and the logo block sizes it `h-8 w-auto`, so the fixed sidebar overflowed and **every
+  page had a 2013px horizontal scrollbar**. And `adm-table-scroll` — declared, safelisted, never
+  used — meant a list wider than its card scrolled the page rather than the table. Putting the table
+  inside it was not enough on its own: the card is a grid item, whose `min-width: auto` will not
+  shrink below its content, and every `sr-only` label in a row action is `position: absolute` with
+  no offsets, so it was positioned against the page at the table's full width. `min-w-0` on the card
+  and `position: relative` on the scroll box fix both.
+
+  Once the table had a box to scroll in, a third thing became fixable: an automatic table layout
+  had been squeezing the action column to a fraction of the row, and its wrapping container stacked
+  five icon buttons into five lines — **221px rows, four to a screen** on the device list. The
+  batch, select and action columns now take their content width and the actions do not wrap; the
+  same row is 61px and thirteen fit a screen.
+
+  One application decision came out of all this. `default_admin_route` ships as `show`, and nine of
+  the panel's forty-six admin classes define `configureShowFields()` — so a row click on the other
+  thirty-seven would have opened a blank page. The app sets `edit`; adminata falls back to `show`
+  for an admin with no `edit` route, which is what the read-only ones (the DRS ledger, the debug
+  requests) need. It also moves the identifier column's link, by design: they are the same route.
+
+  Verified in the browser as `SuperBartosz`: eighteen pages at 1440px in light and dark — lists,
+  a filtered list, an edit form with side groups, a show page, an empty list, the stats screen —
+  all with `scrollWidth == clientWidth` and an empty console; twenty-five linked rows on the
+  partner list, a row click reaching `/admin/app/partner/58/edit`, the actions cell not stealing
+  it, and the edit button still going to `/58/edit`.
+
+  The dashboard's charts size and draw correctly; the series were flat only because
+  `caution_transaction` was empty in the developer's database.
+
+  Gates: `make test` 2,867 (three errors are the upstream ORM Panther tests, which need the browser
+  and the demo server in the same network namespace and pass in CI); `make test-contract` 177 + 4;
+  `make test-js` 156; `make test-functional` 56; `make phpstan`, `make lint` clean. The app's Behat
+  suite is 330 passed / 36 failed, every failure the same missing `voucher_source` column — the
+  developer's database is behind `develop`, as recorded above.
+
+- 2026-09-05 — **Owner review, second round, against a fresh development database.** Two more
+  reports, both real, and the database made three earlier answers checkable.
+
+  **The list did not use the whole width** because `adm-content` carried TailAdmin's
+  `max-width: var(--breakpoint-2xl)` and `margin-inline: auto`. That cap is written for dashboards,
+  where a long measure hurts reading; an admin list is sixteen columns of data, and past 1536px the
+  table scrolled inside a box with empty page beside it while `adm-header` — `width: 100%`, no cap —
+  sat wider than the content it belongs to. The cap is gone. The visual suite's widest viewport is
+  1280px, so no spec could ever have seen it.
+
+  **The language selector never opened** because nobody had ported it: `dropdown`,
+  `dropdown-toggle`, `dropdown-menu-right`, and `data-toggle="dropdown"` — Bootstrap classes with
+  no CSS since P5-08 and jQuery's data API, which has not existed since P5-10. It rendered as two
+  bare icons. It also never appeared at all on the signed-out screens, for a second reason: those
+  templates replace `sonata_wrapper`, and adminata nests `sonata_nav` inside it, so the
+  `sonata_nav` override they carried could not render. Both are adminata's recipe now, and the
+  selector is drawn at the top of the login pages' own wrapper.
+
+  With real rows in the database three things that could not be exercised before were: the
+  dashboard charts draw thirty days of bars at full width; the DRS transaction accordion expands in
+  place (25 rows to 29, a nested table with its own headers) without navigating, and the row link
+  leaves its toggle alone; and the fourteen-column DRS list fits a 1920px screen with no scrollbar.
+
+  `haslo1` is not the password in a database restored from the development server, so
+  `tests/adminata-render.php` gives its **marked** account — and only that one — a known password,
+  which is how the browser signs in. `--cleanup` removes it; no real account is touched.
+
+  Gates, all green: `make test` 2,867 (the three errors are the upstream ORM Panther tests, which
+  need the browser and the demo server in one network namespace and pass in CI); `make test-js`
+  156; `make test-contract` 177 + 4; **`make test-visual` 609 passed, 0 failed**; `make phpstan`,
+  `make lint` and the CSS contract clean. Sixteen screenshot baselines were regenerated for the
+  three list pages the column-width and action-button work changed — exactly the sixteen that
+  failed, nothing else drifted.

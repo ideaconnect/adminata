@@ -41,16 +41,42 @@ cleanup() {
 }
 trap cleanup EXIT
 
-if ! curl --silent --output /dev/null --max-time 2 "${URL}/admin/dashboard"; then
+# `--user`, because the demo's firewall is in-memory http_basic and an anonymous request is a
+# redirect — which is still an answer, and would look like a server that is already up.
+#
+# The body is captured rather than piped into `grep -q`: under `pipefail` a quiet grep closes the
+# pipe on its first match, curl dies of SIGPIPE, and the pipeline reports failure for the one case
+# that was a success.
+demo_is_up() {
+    local body
+    body="$(curl --silent --max-time 10 --user admin:admin "${URL}/admin/tests/app/product/list" || true)"
+
+    [[ "$body" == *sonata-ba-list* ]]
+}
+
+if ! demo_is_up; then
+    if curl --silent --output /dev/null --max-time 2 "${URL}"; then
+        # Something else has the port. Running the suite against it would report an application
+        # adminata does not ship — every page a 404, and the findings ledger nonsense.
+        echo "Port ${PORT} is serving something that is not the demo." >&2
+        echo "Set ADMINATA_DEMO_PORT to a free port, or stop what is listening." >&2
+        exit 1
+    fi
+
     php -S "127.0.0.1:${PORT}" -t tests/App/public >/dev/null 2>&1 &
     server=$!
 
     for _ in $(seq 1 30); do
-        if curl --silent --output /dev/null --max-time 1 "${URL}/admin/dashboard"; then
+        if demo_is_up; then
             break
         fi
         sleep 0.5
     done
+
+    if ! demo_is_up; then
+        echo "The demo did not come up on ${URL}; run \`make demo-db demo-assets\` first." >&2
+        exit 1
+    fi
 fi
 
 if [ -n "${ADMINATA_PLAYWRIGHT_LOCAL:-}" ]; then

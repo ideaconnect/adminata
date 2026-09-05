@@ -128,6 +128,7 @@ final class RenderElementExtensionTest extends TestCase
             'javascripts' => [],
             'js_debug' => false,
             'list_action_button_content' => 'all',
+            'list_row_link' => true,
             'lock_protection' => false,
             'logo_content' => 'text',
             'mosaic_background' => 'bundles/sonataadmin/images/default_mosaic_image.png',

@@ -54,4 +54,57 @@
         display: block;
         overflow: visible;
     }
+
+    /*
+     * A row action is an icon and nothing else, and a bare glyph in a table cell reads as content
+     * rather than as a control. Inside the actions column — and only there, because the navbar's
+     * icon buttons are meant to be chromeless — `adm-btn-icon` gets the surface and outline that
+     * make it look like the button it is. The selector is the cell class Sonata's PHP layer emits,
+     * so an application's own action templates get it without naming an extra class.
+     *
+     * `@utility adm-btn-icon` declares no resting `background-color` and no `border`, so nothing
+     * here fights it, and its `:hover` still wins from the utilities layer — which is what should
+     * happen: hover is meant to change the surface.
+     */
+    .sonata-ba-list-field-actions .adm-btn-icon {
+        border: 1px solid var(--color-gray-200);
+        background-color: var(--color-white);
+    }
+
+    .sonata-ba-list-field-actions .adm-btn-icon:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    .dark .sonata-ba-list-field-actions .adm-btn-icon {
+        border-color: var(--color-gray-700);
+        background-color: rgb(255 255 255 / 3%);
+    }
+
+    /*
+     * The batch, select and action columns are as wide as their controls need and no wider. An
+     * automatic table layout shares the surplus among the columns in proportion to their content,
+     * which on a sixteen-column list leaves the action column a fraction of a row — and five
+     * icon buttons then stack into five lines, giving every row the height of the tallest cell.
+     * The table scrolls inside its own box, so a column that will not shrink costs a scrollbar,
+     * not a broken layout.
+     */
+    .adm-table th.sonata-ba-list-field-header-batch,
+    .adm-table td.sonata-ba-list-field-batch,
+    .adm-table th.sonata-ba-list-field-header-select,
+    .adm-table td.sonata-ba-list-field-select,
+    .adm-table th.sonata-ba-list-field-header-actions,
+    .adm-table td.sonata-ba-list-field-actions {
+        width: 1%;
+        white-space: nowrap;
+    }
+
+    /*
+     * A row that opens its object on click says so with the cursor. The class is only on rows the
+     * `sonata-row-link` controller has a destination for, so a row whose default action the
+     * administrator cannot reach keeps the default cursor and does nothing.
+     */
+    .adm-table tbody tr.sonata-ba-list-row-link {
+        cursor: pointer;
+    }
 }

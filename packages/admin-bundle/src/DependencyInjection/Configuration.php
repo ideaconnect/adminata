@@ -44,6 +44,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *     html5_validate: bool,
  *     js_debug: bool,
  *     list_action_button_content: 'text'|'icon'|'all',
+ *     list_row_link: bool,
  *     lock_protection: bool,
  *     logo_content: 'text'|'icon'|'all',
  *     mosaic_background: string,
@@ -371,6 +372,10 @@ final class Configuration implements ConfigurationInterface
                             ->values(['text', 'icon', 'all'])
                             ->defaultValue('all')
                             ->cannotBeEmpty()
+                        ->end()
+                        ->booleanNode('list_row_link')
+                            ->defaultTrue()
+                            ->info('Open the object when a list row is clicked, using the route named by default_admin_route')
                         ->end()
                         ->booleanNode('lock_protection')
                             ->defaultFalse()

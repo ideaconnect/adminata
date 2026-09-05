@@ -48,7 +48,10 @@ file that was distributed with this source code.
 {% set datagrid_has_results = admin.datagrid.results|length > 0 %}
 
 {% block list_table %}
-    <div class="col-span-12">
+    {#- `min-w-0`: a grid item's `min-width` is `auto`, which means "no narrower than my content",
+        and the content here is a table as wide as its columns need. Without it the item grows past
+        the grid and the page carries the scrollbar the table's own box was meant to. -#}
+    <div class="col-span-12 min-w-0">
         {% set batchactions = admin.batchactions %}
         {% set has_batch = admin.hasRoute('batch') and batchactions|length > 0 %}
 
@@ -66,8 +69,16 @@ file that was distributed with this source code.
                 {% block list_header %}{% endblock %}
 
                 {% if datagrid_has_results %}
-                    {# The table scrolls inside its own box; the page does not (PLAN/08 §8). #}
+                    {#
+                        The table scrolls inside its own box; the page does not (PLAN/08 §8).
+
+                        Two elements, because they want opposite things: the outer one clips to the
+                        rounded border, the inner one is what actually scrolls. A list wider than
+                        the card is normal — sixteen columns of an admin do not fit 1440px — and
+                        the page must not be what carries the scrollbar.
+                    #}
                     <div class="adm-table-wrap">
+                    <div class="adm-table-scroll">
                     {% block table %}
                         <table class="adm-table sonata-ba-list">
                         {% block table_header %}
@@ -128,7 +139,12 @@ file that was distributed with this source code.
                         {% endblock %}
 
                         {% block table_body %}
-                            <tbody>
+                            {#- One `sonata-row-link` for the whole body rather than one per row:
+                                the destination is on each `<tr>`, and the controller reads it off
+                                the row the click came from. `auxclick` is the middle button, which
+                                opens the object in a new tab the way it would on a link. -#}
+                            <tbody {{ stimulus_controller('sonata-row-link') }}
+                                   {{ stimulus_action('sonata-row-link', 'open', 'click')|stimulus_action('sonata-row-link', 'open', 'auxclick') }}>
                                 {% include get_admin_template('outer_list_rows_' ~ admin.getListMode(), admin.code) %}
                             </tbody>
                         {% endblock %}
@@ -137,6 +153,7 @@ file that was distributed with this source code.
                         {% endblock %}
                     </table>
                     {% endblock %}
+                    </div>
                     </div>
                 {% else %}
                     {% block no_result_content %}
@@ -322,7 +339,10 @@ file that was distributed with this source code.
                         action="{{ admin.generateUrl(action|default('list')) }}"
                         method="GET"
                         {#- Named rather than `role="form"`: the role on a `<form>` is redundant,
-                            and a landmark with no name is noise a screen reader has to step past. -#}
+                            and a landmark with no name is noise a screen reader has to step past.
+
+                            The closing tag keeps its whitespace: a `-#}` here would strip the
+                            newline on both sides and glue `method="GET"` to the next attribute. #}
                         aria-label="{{ 'link_filters'|trans({}, 'SonataAdminBundle') }}"
                         {{ stimulus_target('sonata-filter', 'form') }}
                         {{ stimulus_action('sonata-filter', 'prepareSubmit', 'submit') }}>

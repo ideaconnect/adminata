@@ -5,6 +5,7 @@
  */
 
 @utility adm-table-wrap {
+    position: relative;
     overflow: hidden;
     border: 1px solid var(--color-gray-200);
     border-radius: 0.75rem;
@@ -19,6 +20,15 @@
 @utility adm-table-scroll {
     max-width: 100%;
     overflow-x: auto;
+
+    /*
+     * A containing block, so that what the table positions absolutely is positioned against this
+     * box and clipped by it. Without it the nearest positioned ancestor is the page, and every
+     * `sr-only` label in a row action — `position: absolute` with no offsets, so it sits where it
+     * falls — lands at the table's full width and gives the *document* a horizontal scrollbar,
+     * which is the one thing the scrolling box exists to prevent.
+     */
+    position: relative;
 }
 
 @utility adm-table {

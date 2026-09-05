@@ -26,6 +26,7 @@ namespace Sonata\AdminBundle;
  *     javascripts: list<string>,
  *     js_debug: bool,
  *     list_action_button_content: 'text'|'icon'|'all',
+ *     list_row_link: bool,
  *     lock_protection: bool,
  *     logo_content: 'text'|'icon'|'all',
  *     mosaic_background: string,

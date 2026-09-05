@@ -12,9 +12,11 @@ file that was distributed with this source code.
 {% extends get_admin_template('base_list_field', admin.code) %}
 
 {% block field %}
-    {#- A row of buttons rather than a Bootstrap `btn-group`: the actions wrap on a narrow screen
-        instead of forcing the table wider. -#}
-    <div class="flex flex-wrap items-center gap-1">
+    {#- A row of buttons rather than a Bootstrap `btn-group`, and one that does not wrap: the
+        column is sized to its content in `components/list.css`, and a wrapping container's
+        minimum width is one button, which would stack them all into a column. The table scrolls
+        inside its own box, so the width this asks for costs a scrollbar and nothing else. -#}
+    <div class="flex items-center gap-1">
         {% for actions in field_description.option('actions') %}
             {% include actions.template %}
         {% endfor %}

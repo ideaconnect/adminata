@@ -93,6 +93,9 @@ sonata_admin:
         logo_content:         all # One of "text"; "icon"; "all"
         list_action_button_content: all # One of "text"; "icon"; "all"
 
+        # Open the object when a list row is clicked, using the route named by default_admin_route
+        list_row_link:        true
+
         # Enable locking when editing an object, if the corresponding object manager supports it.
         lock_protection:      false
 
