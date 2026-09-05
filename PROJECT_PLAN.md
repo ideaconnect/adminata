@@ -427,7 +427,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     toggle), `sonata-dismiss` controller, alert CSS; re-baseline twig-extensions tests.
   - Accept: twig suite green; demo shows a flash after saving; Vitest for dismiss.
 
-- [ ] **P2-08 · Breadcrumbs and page header** · S · depends: P2-01
+- [x] **P2-08 · Breadcrumbs and page header** · S · depends: P2-01
   - Read: PLAN/03 §A "Breadcrumb" row.
   - Do: layout `<ol>` styling with CSS chevrons, `aria-label`, `aria-current`; page header with
     title, breadcrumb and the actions row; leave `Breadcrumb/*.html.twig` byte-identical.
@@ -1457,3 +1457,20 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2808 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
   (**95**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).
+
+- 2026-09-05 — **P2-08 done.** The breadcrumb is a labelled `<nav>` around the frozen `<ol>`, with
+  chevrons drawn from two borders rather than a glyph — they follow `currentColor`, scale with the
+  text, need no icon font, and `[dir='rtl']` only has to turn them round. The page header groups
+  the breadcrumb, the title and the actions row. `Breadcrumb/breadcrumb.html.twig`,
+  `breadcrumb_title.html.twig`, `BreadcrumbsRuntimeTest` and `BreadcrumbsExtensionTest` are
+  untouched, as PLAN/02 §12 requires.
+
+  That freeze is also why the stylesheet now selects `.adm-breadcrumb .active` rather than
+  `[aria-current='page']`, which P1-05 had written and which never matched anything: the template
+  emits `<li class="active"><span>`, and adding the attribute would change markup two tests pin
+  byte-for-byte. The last crumb being a `<span>` rather than a link is what tells a screen reader
+  it is the page you are on; `aria-current` is on the sidebar's active link, where it applies.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2808 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
+  `make assets-check`, `make test-visual` (124 passed, 2 skipped).

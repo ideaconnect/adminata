@@ -322,7 +322,7 @@ file that was distributed with this source code.
                 <div class="content-wrapper">
                     {% block sonata_page_content %}
                         <div class="adm-content">
-                            <div class="content-header">
+                            <div class="content-header mb-6 flex flex-col gap-2">
                                 {% block sonata_breadcrumb %}
                                     {% if _breadcrumb is not empty or action is defined %}
                                         <nav aria-label="{{ 'breadcrumb'|trans({}, 'SonataAdminBundle') }}">
@@ -346,7 +346,7 @@ file that was distributed with this source code.
                                           or _actions is not empty
                                           or _list_filters_actions is not empty
                                          %}
-                                            <div class="adm-page-header" {{ stimulus_target('sonata-sticky', 'navbar') }}>
+                                            <div class="adm-page-header mb-0" {{ stimulus_target('sonata-sticky', 'navbar') }}>
                                                 {% block tab_menu_navbar_header %}
                                                     {% if _navbar_title is not empty %}
                                                         {#- `<h1>`: this is the page's own title,
