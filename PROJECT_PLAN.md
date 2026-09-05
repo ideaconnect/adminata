@@ -753,6 +753,55 @@ mistake cannot recur.
     own to scroll in; before that a column that would not shrink widened the page.
   - Accept: the same row is 61px and thirteen fit a screen; `scrollWidth == clientWidth`.
 
+- [x] **P5-FIX-14 · Dark dropdowns painted light text on a light background** · S
+  - `@custom-variant dark` is written `&:where(.dark, .dark *)` so that it adds no specificity —
+    which is what lets an application override adminata — and the cost is that a dark rule and the
+    light rule it must beat are an exact specificity tie, decided by **source order**.
+    `adm-dropdown__item` had its dark `&:hover` above the light one, so in dark mode a hovered
+    filter or menu row took the light `gray-100` background under `gray-300` text and vanished.
+  - Do: the dark block goes last, with the reason written beside it, and
+    `bin/check-css-contract.mjs` now reads the built stylesheet and fails when a `:where(.dark…)`
+    rule precedes a plain rule with the same selector. The check was run against the bug it was
+    written for and catches it.
+  - Accept: a hovered item computes `rgb(208 213 221)` on `rgba(255 255 255 / 0.05)`; the contract
+    check reports the violation when the ordering is put back.
+
+- [x] **P5-FIX-15 · Dropdown panels were 12rem wide and grew the wrong way** · S
+  - Two faults in `adm-dropdown__menu`. It is absolutely positioned and anchored with
+    `inset-inline-end: 0`, so it shrink-to-fits inside the width its containing block offers — and
+    that block is the 44px round button it hangs off, which pinned every panel to its `min-width`
+    floor: the add menu's six columns were squeezed into 192px and every label wrapped, 530px down
+    the page. And end-anchoring is right for the navbar, where the buttons are on the right, but
+    wrong for the filter list and the export menu, whose buttons sit on the left: those grew
+    leftwards, off the content and under the sidebar.
+  - Do: `width: max-content` with `max-width: min(92vw, 60rem)`, and a new
+    `adm-dropdown__menu-start` for the three left-anchored menus.
+  - Accept: the add panel is 960px wide and six columns; the filter list opens at its button's left
+    edge; neither reaches the sidebar.
+
+- [x] **P5-FIX-16 · (application) The language item was as wide as its menu** · S
+  - `.locale-menu { min-width: 190px }` survived from the Bootstrap markup, where it was on the
+    `<ul>`; the rewrite put the class on the `<li>` that wraps the toggle, so the navbar item
+    became 190px wide and pushed the user badge across the header. The class is on the menu now,
+    and the rest of that block — rows, hover, the active row — is deleted: adminata's
+    `adm-dropdown__menu ul > li > a` does all of it.
+  - Accept: the item is 44px, the same as the buttons beside it.
+
+- [x] **P5-FIX-17 · (application) TomSelect rendered inside the Tailwind field** · M
+  - The panel's autocompletes are `@symfony/ux-autocomplete`, which is TomSelect and is not
+    adminata's — adminata ships `sonata-autocomplete` and no select library. TomSelect copies the
+    select's classes onto its wrapper and then draws its own control inside it, so the field was
+    adminata's box with TomSelect's 3px-radius grey box crammed in: two borders, two carets, and
+    white-on-dark in the dark theme, because `tom-select.default.css` knows nothing about `.dark`.
+    The skin that used to hide this went with the SCSS trim.
+  - Do: a skin written against adminata's tokens — the wrapper keeps the field's look, everything
+    TomSelect draws inside it is transparent and takes the field's metrics, the panel is
+    adminata's dropdown card, and both have dark rules. `.input-active` and `.dropdown-active` are
+    matched at three classes, because that is what TomSelect uses to paint the control white the
+    moment it is focused.
+  - Accept: the control is 42px inside a 44px field, transparent, and follows the theme open and
+    closed, in both themes.
+
 - [x] **P5-FIX-12 · The content column is capped at 1536px** · S
   - `adm-content` carried TailAdmin's `max-width: var(--breakpoint-2xl)` with `margin-inline: auto`.
     That cap is written for dashboards, where a long measure hurts reading; an admin list is

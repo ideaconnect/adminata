@@ -28,7 +28,7 @@
             <i class="fas fa-angle-down" aria-hidden="true"></i>
         </button>
 
-        <ul class="adm-dropdown__menu" role="menu" hidden {{ stimulus_target('sonata-dropdown', 'menu') }}>
+        <ul class="adm-dropdown__menu adm-dropdown__menu-start" role="menu" hidden {{ stimulus_target('sonata-dropdown', 'menu') }}>
             {% for subclass in admin.subclasses|keys %}
                 <li role="none">
                     <a class="adm-dropdown__item" role="menuitem" href="{{ admin.generateUrl('create', {'subclass': subclass}) }}">

@@ -70,6 +70,7 @@
         ".adm-dropdown__divider",
         ".adm-dropdown__item",
         ".adm-dropdown__menu",
+        ".adm-dropdown__menu-start",
         ".adm-empty-layout",
         ".adm-error",
         ".adm-error-list",

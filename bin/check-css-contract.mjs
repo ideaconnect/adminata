@@ -61,6 +61,43 @@ for (const pattern of forbidden) {
     }
 }
 
+/*
+ * The dark variant is written `&:where(.dark, .dark *)` so that it adds no specificity, which is
+ * what keeps an application's own rule able to override adminata's. The cost is that a dark rule
+ * and the light rule it has to beat are an exact specificity tie, and **source order decides**: a
+ * `@variant dark` block written above the declaration it overrides is dead CSS.
+ *
+ * That is not a hypothetical — `adm-dropdown__item` shipped with its dark `:hover` above the light
+ * one, so every dropdown in dark mode painted a light background under light text. This reads the
+ * built stylesheet and fails when a dark rule appears before a plain rule with the same selector.
+ */
+const rules = [...css.matchAll(/([^{}]+)\{[^{}]*\}/g)].map(([, selector], index) => ({
+    selector: selector.trim(),
+    index,
+}));
+const lastPlain = new Map();
+
+for (const { selector, index } of rules) {
+    if (!selector.includes(':where(.dark')) {
+        lastPlain.set(selector, index);
+    }
+}
+
+for (const { selector, index } of rules) {
+    if (!selector.includes(':where(.dark')) {
+        continue;
+    }
+
+    const plain = selector.replaceAll(':where(.dark,.dark *)', '').replaceAll(':where(.dark, .dark *)', '');
+    const at = lastPlain.get(plain);
+
+    if (at !== undefined && at > index) {
+        failures.push(
+            `dark rule "${selector}" is written before "${plain}", which ties on specificity and therefore wins`,
+        );
+    }
+}
+
 /** @type {{selectors?: string[]}} */
 const contract = existsSync(contractFile) ? JSON.parse(readFileSync(contractFile, 'utf8')) : {};
 

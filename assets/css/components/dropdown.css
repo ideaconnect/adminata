@@ -12,6 +12,15 @@
     position: absolute;
     inset-inline-end: 0;
     z-index: var(--z-index-dropdown);
+
+    /*
+     * `max-content`, because an absolutely positioned box anchored to one edge shrink-to-fits
+     * inside the width its containing block offers — and that block is the 44px round button the
+     * menu hangs off. Without this the add panel's columns were squeezed into the 12rem floor and
+     * every label wrapped down the page.
+     */
+    width: max-content;
+    max-width: min(92vw, 60rem);
     min-width: 12rem;
     margin-top: 0.5rem;
     padding: 0.5rem;
@@ -26,14 +35,18 @@
     }
 }
 
-@utility adm-dropdown__item {
-    @variant dark {
-        &:hover {
-            background-color: rgb(255 255 255 / 5%);
-            color: var(--color-gray-300);
-        }
-    }
+/*
+ * Anchored to the start edge instead of the end. The navbar's menus hang off buttons on the right
+ * and grow leftwards, which is correct there; a menu whose button sits on the left of the page —
+ * the filter list, the export menu — would otherwise grow left too, off the content and under the
+ * sidebar.
+ */
+@utility adm-dropdown__menu-start {
+    inset-inline-start: 0;
+    inset-inline-end: auto;
+}
 
+@utility adm-dropdown__item {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -51,8 +64,19 @@
         background-color: var(--color-gray-100);
     }
 
+    /*
+     * The dark rules come last on purpose. `@custom-variant dark` is written with `:where()` so it
+     * adds no specificity, which means source order is all that separates it from the light rule
+     * it has to beat: a dark `&:hover` above the light one loses, and the menu then painted a
+     * light background under light text.
+     */
     @variant dark {
         color: var(--color-gray-400);
+
+        &:hover {
+            background-color: rgb(255 255 255 / 5%);
+            color: var(--color-gray-300);
+        }
     }
 
     &:focus-visible {
