@@ -1,7 +1,10 @@
 {#
 
-This file is part of the Sonata package.
+This file is part of the adminata package.
 
+(c) IDCT Bartosz Pachołek <bartosz@idct.tech>
+
+Forked from the Sonata Project
 (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
 
 For the full copyright and license information, please view the LICENSE
@@ -12,16 +15,16 @@ file that was distributed with this source code.
 {% if admin.hasAccess('create') and admin.hasRoute('create') %}
     {% if admin.subClasses is empty %}
         <li>
-            <a class="sonata-action-element" href="{{ admin.generateUrl('create') }}">
-                <i class="fas fa-plus-circle" aria-hidden="true"></i>
+            <a class="adm-btn adm-btn-secondary adm-btn-sm sonata-action-element" href="{{ admin.generateUrl('create') }}">
+                <i class="fas fa-circle-plus" aria-hidden="true"></i>
                 {{ 'link_action_create'|trans({}, 'SonataAdminBundle') }}
             </a>
         </li>
     {% else %}
         {% for subclass in admin.subclasses|keys %}
             <li>
-                <a class="sonata-action-element" href="{{ admin.generateUrl('create', {'subclass': subclass}) }}">
-                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                <a class="adm-btn adm-btn-secondary adm-btn-sm sonata-action-element" href="{{ admin.generateUrl('create', {'subclass': subclass}) }}">
+                    <i class="fas fa-circle-plus" aria-hidden="true"></i>
                     {{ 'link_action_create'|trans({}, 'SonataAdminBundle') }} {{ subclass|trans({}, admin.translationdomain) }}
                 </a>
             </li>
