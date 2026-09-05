@@ -78,8 +78,9 @@ then publish the assets:
 bin/console assets:install public
 ```
 
-Migrating an application that already runs Sonata Admin: [MIGRATION.md](MIGRATION.md) and
-[UPGRADE-1.0.md](UPGRADE-1.0.md) (written in phase 5).
+Migrating an application that already runs Sonata Admin: [UPGRADE-1.0.md](UPGRADE-1.0.md) for the
+generic notes, and [MIGRATION.md](MIGRATION.md) for the checklist as it was actually executed
+against a 46-admin production panel, with what each step turned out to involve.
 
 ## Theming
 

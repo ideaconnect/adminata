@@ -871,8 +871,16 @@ mistake cannot recur.
   - Accept: a Playwright session signed in as a real administrator renders the panel styled in both
     themes, with an empty console.
 
-- [ ] **P5-12 · `MIGRATION.md` and `UPGRADE-1.0.md`** · S · depends: P5-11
-  - Accept: `MIGRATION.md` is the executed checklist with real hours; `UPGRADE-1.0.md` has U1–U9.
+- [x] **P5-12 · `MIGRATION.md` and `UPGRADE-1.0.md`** · S · depends: P5-11
+  - Accept: `MIGRATION.md` is the executed checklist, measured from the thirteen commits on the
+    application's branch — 140 files, +2,188 −3,023 — with what each step turned out to involve
+    beside the estimate, the two options worth setting deliberately, and a §3 on what the migration
+    exposed that no gate could. The hours column is labelled as PLAN/10's estimate rather than
+    presented as a measurement, because this migration was not run by an engineer with a stopwatch
+    and saying otherwise would be a lie in a document people plan against.
+  - Accept: `UPGRADE-1.0.md` has U1–U9, checked against the code rather than the outline — the
+    `theme.mode` default is `system`, the deferred list is thirty-seven templates, and U8 carries
+    the zero-specificity `dark` ordering rule that P5-FIX-14 was.
 
 - [ ] **P5-MS · Milestone M5 push and `v1.0.0-rc1`** · S · depends: P5-12
   - Accept: `git tag v1.0.0-rc1` pushed; workflows green; status log updated.
@@ -2629,3 +2637,23 @@ mistake cannot recur.
   `make lint` and the CSS contract clean. Sixteen screenshot baselines were regenerated for the
   three list pages the column-width and action-button work changed — exactly the sixteen that
   failed, nothing else drifted.
+
+- 2026-09-05 — **P5-12 done.** `MIGRATION.md` is the checklist as executed, measured from the
+  thirteen commits on the application's branch rather than estimated: 140 files, +2,188 −3,023, with
+  a per-step **Actually** column beside PLAN/10's hours. The hours are labelled as that outline's
+  estimate and not as a measurement — this migration was not run by an engineer with a stopwatch,
+  and a document people plan against is the wrong place to imply otherwise. What is measured is the
+  size of each step and what it turned out to involve, which is the half an estimate usually gets
+  wrong.
+
+  Its §3 is the part worth keeping: step 16 was estimated at eight hours for running the suites, and
+  the suites were the easy part — Behat and PHPUnit both passed. Seventeen defects came from
+  *looking at the panel*, every one of which passed every automated gate. Row height, column width,
+  a dropdown that opens off the side of the screen, a control invisible in one theme: all valid HTML
+  with no accessibility violations. The section states the five habits that found them.
+
+  `UPGRADE-1.0.md` has U1–U9, written against the code rather than the outline: `theme.mode`
+  defaults to `system` (not `light`), the deferred list is thirty-seven templates and is enumerated
+  by area, U2 carries the two new nodes and the two existing ones worth revisiting, U4 warns that
+  `sonata_nav` is nested inside `sonata_wrapper` — which is what made the sign-in language selector
+  disappear — and U8 carries the zero-specificity `dark` ordering rule that P5-FIX-14 was.
