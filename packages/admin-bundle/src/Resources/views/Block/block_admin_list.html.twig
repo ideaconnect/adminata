@@ -26,7 +26,7 @@ file that was distributed with this source code.
         {% if display %}
             <div class="adm-card mb-4 md:mb-6">
                 <div class="adm-card-header">
-                    <h3 class="adm-card-title">
+                    <h2 class="adm-card-title">
                         {# NEXT_MAJOR: Remove the default null #}
                         {% if group.translation_domain|default(null) is same as(false) %}
                             {{ group.label }}
@@ -34,7 +34,7 @@ file that was distributed with this source code.
                             {# NEXT_MAJOR: Remove the fallback on group.label_catalogue #}
                             {{ group.label|trans({}, group.translation_domain|default(group.label_catalogue)) }}
                         {% endif %}
-                    </h3>
+                    </h2>
                 </div>
 
                 <div class="adm-card-body">

@@ -48,6 +48,25 @@
     }
 }
 
+/* Off-screen until it is focused, then pinned to the top-left corner. */
+@utility adm-skip-link {
+    position: absolute;
+    inset-inline-start: -9999px;
+    top: 0;
+    z-index: var(--z-index-skip-link);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-control);
+    background-color: var(--color-brand-600);
+    color: var(--color-white);
+    font-size: var(--text-theme-sm);
+    font-weight: 500;
+
+    &:focus {
+        inset-inline-start: 0.5rem;
+        top: 0.5rem;
+    }
+}
+
 @utility adm-overlay {
     position: fixed;
     inset: 0;

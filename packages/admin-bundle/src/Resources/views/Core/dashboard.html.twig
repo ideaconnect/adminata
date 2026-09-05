@@ -25,6 +25,9 @@ file that was distributed with this source code.
 
 {% block title %}{{ 'title_dashboard'|trans({}, 'SonataAdminBundle') }}{% endblock %}
 {% block breadcrumb %}{% endblock %}
+{#- The page's `<h1>`. Upstream gave the dashboard none, which left its cards' headings as the
+    first in the document. -#}
+{% block navbar_title %}{{ 'title_dashboard'|trans({}, 'SonataAdminBundle') }}{% endblock %}
 {% block content %}
 
     {% set has_left = false %}

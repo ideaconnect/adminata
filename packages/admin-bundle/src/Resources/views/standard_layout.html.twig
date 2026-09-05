@@ -89,7 +89,9 @@ file that was distributed with this source code.
             </script>
         {% endif %}
 
-        <title>
+        {#- Captured and collapsed: the block spans several lines and a `<title>` carrying the
+            newlines between them reads as sixty characters of nothing. -#}
+        {% set headTitle %}
         {% block sonata_head_title %}
             {{ 'Admin'|trans({}, 'SonataAdminBundle') }}
 
@@ -102,7 +104,8 @@ file that was distributed with this source code.
                 {% endif %}
             {% endif %}
         {% endblock %}
-        </title>
+        {% endset %}
+        <title>{{ headTitle|u.collapseWhitespace }}</title>
     </head>
     <body
             {% block body_attributes -%}
@@ -118,6 +121,13 @@ file that was distributed with this source code.
                 })|stimulus_controller('sonata-sticky') }}
             {%- endblock -%}
     >
+
+        {#
+            The first thing a keyboard reaches: everything before the content is the sidebar and
+            the header, which is a long way to tab past on every page (PLAN/08 §8). Visible only
+            while it has focus.
+        #}
+        <a class="adm-skip-link" href="#sonata-content">{{ 'skip_to_content'|trans({}, 'SonataAdminBundle') }}</a>
 
         {% block sonata_wrapper %}
             {% block sonata_left_side %}
@@ -319,7 +329,7 @@ file that was distributed with this source code.
                     {% endif %}
                 {% endblock sonata_header %}
 
-                <div class="content-wrapper">
+                <main class="content-wrapper" id="sonata-content">
                     {% block sonata_page_content %}
                         <div class="adm-content">
                             {#
@@ -440,7 +450,7 @@ file that was distributed with this source code.
                             </div>
                         </div>
                     {% endblock sonata_page_content %}
-                </div>
+                </main>
             </div>
         {% endblock sonata_wrapper %}
     </body>

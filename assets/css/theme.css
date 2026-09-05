@@ -184,6 +184,7 @@
     --z-index-sticky: 20;
     --z-index-dropdown: 30;
     --z-index-sidebar: 40;
+    --z-index-skip-link: 100000;
     --z-index-header: 50;
     --z-index-modal: 60;
     --z-index-popover: 70;

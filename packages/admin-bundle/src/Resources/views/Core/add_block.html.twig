@@ -34,7 +34,9 @@ file that was distributed with this source code.
 
 {% if groups|length > 0 %}
     <div class="adm-dropdown__menu dropdown-add" role="menu" hidden {{ stimulus_target('sonata-dropdown', 'menu') }}>
-        <div class="grid gap-4" style="grid-template-columns: repeat({{ columns|length }}, minmax(10rem, 1fr))">
+        {#- The column count is composed at runtime, so the `grid-cols-*` classes are in
+            `assets/css/safelist.css`; six is where a dropdown stops being a dropdown. -#}
+        <div class="grid gap-4 grid-cols-{{ min(columns|length, 6) }}">
             {% for column in columns %}
                 <ul role="none">
                     {% for group in column %}
