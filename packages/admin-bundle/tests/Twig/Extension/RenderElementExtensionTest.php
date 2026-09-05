@@ -1417,7 +1417,7 @@ final class RenderElementExtensionTest extends TestCase
                              data-sonata-readmore-less-text-value="Close">
                             <div class="sonata-readmore-content" data-sonata-readmore-target="content">A very long string</div>
                             <button type="button"
-                                    class="sonata-readmore-btn btn-link"
+                                    class="sonata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
                                     data-sonata-readmore-target="button"
                                     data-action="click->sonata-readmore#toggle"></button>
                         </div>
@@ -1439,7 +1439,7 @@ final class RenderElementExtensionTest extends TestCase
                              data-sonata-readmore-less-text-value="Less">
                             <div class="sonata-readmore-content" data-sonata-readmore-target="content">A very long string</div>
                             <button type="button"
-                                    class="sonata-readmore-btn btn-link"
+                                    class="sonata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
                                     data-sonata-readmore-target="button"
                                     data-action="click->sonata-readmore#toggle"></button>
                         </div>
@@ -2031,7 +2031,7 @@ final class RenderElementExtensionTest extends TestCase
                              data-sonata-readmore-less-text-value="Close">
                             <div class="sonata-readmore-content" data-sonata-readmore-target="content"> A very long string </div>
                             <button type="button"
-                                    class="sonata-readmore-btn btn-link"
+                                        class="sonata-readmore-btn btn-link"
                                     data-sonata-readmore-target="button"
                                     data-action="click->sonata-readmore#toggle"></button>
                         </div>
