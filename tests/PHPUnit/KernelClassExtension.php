@@ -25,6 +25,8 @@ use PHPUnit\Runner\Extension\Facade;
 use PHPUnit\Runner\Extension\ParameterCollection;
 use PHPUnit\TextUI\Configuration\Configuration;
 use Sonata\AdminBundle\Tests\App\AppKernel;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Points `KERNEL_CLASS` at the right test kernel for the test that is about to run.
@@ -52,6 +54,8 @@ final class KernelClassExtension implements Extension
 
     public function bootstrap(Configuration $configuration, Facade $facade, ParameterCollection $parameters): void
     {
+        self::clearKernelCaches();
+
         $facade->registerSubscriber(new class implements PreparationStartedSubscriber {
             public function notify(PreparationStarted $event): void
             {
@@ -85,5 +89,28 @@ final class KernelClassExtension implements Extension
 
         unset($_ENV['KERNEL_CLASS'], $_SERVER['KERNEL_CLASS']);
         putenv('KERNEL_CLASS');
+    }
+
+    /**
+     * Removes every test kernel's compiled container and template cache before the run.
+     *
+     * They live under the system temp directory and survive between runs, so a template or a
+     * service that stopped working can keep passing on a machine that has the old build — which is
+     * exactly how a 500 from the flash template reached `main` green.
+     */
+    private static function clearKernelCaches(): void
+    {
+        $environment = $_SERVER['APP_ENV'] ?? null;
+        $filesystem = new Filesystem();
+
+        foreach (array_unique(self::KERNELS) as $kernelClass) {
+            $kernel = new $kernelClass(
+                \is_string($environment) ? $environment : 'test',
+                (bool) ($_SERVER['APP_DEBUG'] ?? false)
+            );
+            \assert($kernel instanceof KernelInterface);
+
+            $filesystem->remove($kernel->getCacheDir());
+        }
     }
 }

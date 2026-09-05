@@ -22,6 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use Symfony\UX\StimulusBundle\StimulusBundle;
 
 final class AppKernel extends Kernel
 {
@@ -32,11 +33,20 @@ final class AppKernel extends Kernel
      */
     public function registerBundles(): array
     {
-        return [
+        $bundles = [
             new FrameworkBundle(),
             new TwigBundle(),
             new SonataTwigBundle(),
         ];
+
+        // The flash template calls `stimulus_controller()` and `stimulus_action()`: adminata is one
+        // package and its `composer.json` requires symfony/stimulus-bundle, so an application
+        // always has it. Guarded all the same, because upstream's twig-extensions did not.
+        if (class_exists(StimulusBundle::class)) {
+            $bundles[] = new StimulusBundle();
+        }
+
+        return $bundles;
     }
 
     public function getCacheDir(): string
