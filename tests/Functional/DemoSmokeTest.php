@@ -141,6 +141,14 @@ final class DemoSmokeTest extends WebTestCase
 
         $repository = self::entityManager($client)->getRepository(Category::class);
         static::assertNotNull($repository->findOneBy(['name' => 'Created by the smoke test']));
+
+        // The flash the redirect carries: `alert alert-success` is the contract (PLAN/02 §8),
+        // `adm-alert-success` the recipe that styles it.
+        $html = (string) $client->getResponse()->getContent();
+
+        static::assertStringContainsString('alert alert-success', $html);
+        static::assertStringContainsString('adm-alert-success', $html);
+        static::assertStringContainsString('data-controller="sonata-dismiss"', $html);
     }
 
     /**
