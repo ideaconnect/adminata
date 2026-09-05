@@ -11,3 +11,6 @@
 /.php-cs-fixer.packages.cache
 /.php-cs-fixer.adminata.cache
 /build/
+/tests/App/public/bundles/
+# Symfony 8 writes this IDE helper into the kernel's config dir on every debug-mode build.
+/tests/App/config/reference.php

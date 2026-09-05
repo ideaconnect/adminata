@@ -99,10 +99,15 @@ properties, or compile Tailwind themselves against adminata's templates. See
 
 ```bash
 composer install
+make services-up                  # the MySQL the suites and the demo run on
 make lint phpstan rector test     # PHP gates
 make lint-js test-js assets-build # JavaScript and CSS gates
-make demo                         # the demo admin application
+make demo                         # http://127.0.0.1:8000/admin — user "admin", password "admin"
 ```
+
+`make demo` serves `tests/App`, the application the seven packages are developed against: two
+admins over MySQL, deterministic fixtures, and the same pages the functional, Playwright and
+accessibility runs drive.
 
 Conventions and the contract every change must keep: [AGENTS.md](AGENTS.md) and
 [CONTRIBUTING.md](CONTRIBUTING.md).

@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Adminata\Tests\PHPUnit;
 
+use Adminata\Tests\Support\ConsoleRunner;
 use Adminata\Tests\Support\TestDatabase;
 use PHPUnit\Event\Code\TestMethod;
 use PHPUnit\Event\TestSuite\Loaded;
@@ -25,9 +26,6 @@ use PHPUnit\Runner\Extension\Facade;
 use PHPUnit\Runner\Extension\ParameterCollection;
 use PHPUnit\TextUI\Configuration\Configuration;
 use Sonata\DoctrineORMAdminBundle\Tests\App\AppKernel;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -45,8 +43,6 @@ use Symfony\Component\Filesystem\Filesystem;
 final class OrmDatabaseExtension implements Extension
 {
     public const string TEST_NAMESPACE = 'Sonata\\DoctrineORMAdminBundle\\Tests\\';
-
-    private const int MAX_HANDLER_RESTORES = 16;
 
     private static bool $prepared = false;
 
@@ -98,13 +94,6 @@ final class OrmDatabaseExtension implements Extension
 
     private static function loadApplicationFixtures(): void
     {
-        // Symfony's console installs error and exception handlers. PHPUnit compares the handler
-        // stack of every test against the one it started with, and the functional tests of the
-        // admin bundle call restore_exception_handler() in tearDown(); anything left behind here
-        // would make them "remove exception handlers other than their own", i.e. risky.
-        $exceptionHandler = self::currentExceptionHandler();
-        $errorHandler = self::currentErrorHandler();
-
         $environment = $_SERVER['APP_ENV'] ?? null;
 
         $kernel = new AppKernel(
@@ -114,11 +103,7 @@ final class OrmDatabaseExtension implements Extension
 
         new Filesystem()->remove([$kernel->getCacheDir()]);
 
-        $application = new Application($kernel);
-        $application->setCatchExceptions(false);
-        $application->setAutoExit(false);
-
-        $commands = [
+        ConsoleRunner::run($kernel, [
             ['command' => 'doctrine:schema:create'],
             ['command' => 'doctrine:fixtures:load', '--no-interaction' => true],
             [
@@ -126,41 +111,6 @@ final class OrmDatabaseExtension implements Extension
                 'target' => \dirname(__DIR__, 2).'/packages/doctrine-orm-admin-bundle/tests/App/public',
                 '--symlink' => true,
             ],
-        ];
-
-        foreach ($commands as $command) {
-            $application->run(new ArrayInput($command), new NullOutput());
-        }
-
-        $kernel->shutdown();
-
-        self::restoreHandlers($exceptionHandler, $errorHandler);
-    }
-
-    private static function currentExceptionHandler(): ?callable
-    {
-        $handler = set_exception_handler(null);
-        restore_exception_handler();
-
-        return $handler;
-    }
-
-    private static function currentErrorHandler(): ?callable
-    {
-        $handler = set_error_handler(null);
-        restore_error_handler();
-
-        return $handler;
-    }
-
-    private static function restoreHandlers(?callable $exceptionHandler, ?callable $errorHandler): void
-    {
-        for ($i = 0; $i < self::MAX_HANDLER_RESTORES && self::currentExceptionHandler() !== $exceptionHandler; ++$i) {
-            restore_exception_handler();
-        }
-
-        for ($i = 0; $i < self::MAX_HANDLER_RESTORES && self::currentErrorHandler() !== $errorHandler; ++$i) {
-            restore_error_handler();
-        }
+        ]);
     }
 }

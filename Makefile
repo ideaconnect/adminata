@@ -157,10 +157,16 @@ coverage: ## Test suite with a clover report (PHPUNIT_FLAGS passes extra options
 	$(PHPUNIT) $(PHPUNIT_FLAGS) --coverage-clover build/logs/clover.xml
 .PHONY: coverage
 
-demo: ## Serve the demo admin application
-	bin/console assets:install public --symlink
-	$(PHP) -S 127.0.0.1:8000 -t packages/admin-bundle/tests/App/public
+demo: demo-db ## Serve the demo admin application on http://127.0.0.1:8000/admin (admin / admin)
+	bin/console assets:install tests/App/public --symlink
+	$(PHP) -S 127.0.0.1:8000 -t tests/App/public
 .PHONY: demo
+
+demo-db: ## Create the demo database and load its fixtures
+	bin/console doctrine:database:create --if-not-exists
+	bin/console doctrine:schema:update --force --complete
+	bin/console doctrine:fixtures:load --no-interaction
+.PHONY: demo-db
 
 ## --- Front end ------------------------------------------------------------
 
