@@ -1,42 +1,26 @@
 {
     "axe": {
-        "dashboard:light": [
-            "aria-required-parent",
-            "list"
-        ],
-        "dashboard:dark": [
-            "aria-required-parent",
-            "list"
-        ],
         "product-list:light": [
             "aria-required-children",
-            "aria-required-parent",
             "label",
             "link-name",
-            "list",
             "listitem",
             "select-name"
         ],
         "product-list:dark": [
             "aria-required-children",
-            "aria-required-parent",
             "label",
             "link-name",
-            "list",
             "listitem",
             "select-name"
         ],
         "product-create:light": [
-            "aria-required-parent",
             "button-name",
-            "link-name",
-            "list"
+            "link-name"
         ],
         "product-create:dark": [
-            "aria-required-parent",
             "button-name",
-            "link-name",
-            "list"
+            "link-name"
         ]
     },
     "markup": {
@@ -44,6 +28,7 @@
             "heading-level",
             "long-title",
             "no-deprecated-attr",
+            "no-inline-style",
             "valid-id"
         ],
         "product-list": [

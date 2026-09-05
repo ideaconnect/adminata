@@ -407,7 +407,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     `tests/Menu/Integration/*`; demo subscriber injects a header.
   - Accept: admin menu tests green; `.sidebar-menu … a` selector still matches; Panther: group state persists.
 
-- [ ] **P2-05 · `sonata-dropdown`, user block, add block** · M · depends: P2-01
+- [x] **P2-05 · `sonata-dropdown`, user block, add block** · M · depends: P2-01
   - Read: PLAN/05 §3 row 3; PLAN/03 §A rows 5–6.
   - Do: controller (targets `toggle`, `menu`; click-outside, ESC, arrow keys, `aria-expanded`);
     `Core/user_block.html.twig` wrapper with initials avatar and `dropdown-user` list;
@@ -1381,3 +1381,33 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2806 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
   (**73**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).
+
+- 2026-09-05 — **P2-05 done.** `sonata-dropdown` replaces Bootstrap's `data-toggle="dropdown"`:
+  targets `toggle` and `menu`, click-outside, Escape closing and returning focus, and arrow keys
+  that open the panel on its first (or last) item and wrap around it. The panel is a plain `hidden`
+  element and the button carries `aria-expanded`, so the closed state is right in the HTML the
+  server sends. Nine Vitest cases (**82 JS tests**) and a Panther one that drives the add menu from
+  the keyboard.
+
+  `Core/add_block.html.twig` is a grid of columns rather than a mega-menu built by opening and
+  closing `<ul>`s inside one loop — which is why upstream also reversed the groups; batched, they
+  read in dashboard order again. And the **ARIA menu pattern is complete rather than half-applied**:
+  `role="menu"` on the panel, `role="none"` on the lists and items, `role="menuitem"` on the links,
+  and real arrow-key handling behind them. Upstream emitted `role="menuitem"` inside a plain `<ul>`,
+  which is exactly what axe reports as `aria-required-parent` — and with that fixed the **dashboard
+  now has no accessibility findings at all, in either theme**, and `aria-required-parent` and
+  `list` are gone from every page.
+
+  The user menu changed behaviour deliberately. Upstream hid it entirely when `user_block` was
+  empty, which is its default, so nobody saw a user menu until an application wrote one. The chrome
+  — the initials button, the name — is adminata's now and shows whoever is signed in; `user_block`
+  still fills the `<ul class="dropdown-user">` under it as `<li>` pass-through.
+
+  One thing jsdom cannot catch: a browser refuses to focus an element that is still `hidden`, and
+  Stimulus delivers `openValueChanged` on a microtask — so opening with the down arrow has to
+  `render()` before it focuses. Every Vitest case passed with the wrong order, because jsdom
+  focuses hidden elements happily. The Panther test is what holds it.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2807 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`
+  (**82**), `make assets-check`, `make test-visual` (124 passed, 2 skipped).

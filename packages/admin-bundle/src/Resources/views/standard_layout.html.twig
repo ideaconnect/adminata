@@ -247,10 +247,17 @@ file that was distributed with this source code.
 
                                         {% block sonata_top_nav_menu_add_block %}
                                             {% set addBlock = include(get_global_template('add_block')) %}
+                                            {#- The guard is upstream's: an application that
+                                                overrides `add_block` with an empty template hides
+                                                the button too. -#}
                                             {% if addBlock|trim is not empty %}
-                                                <li class="adm-dropdown" {{ stimulus_controller('sonata-dropdown') }}>
+                                                <li class="adm-dropdown"
+                                                    {{ stimulus_controller('sonata-dropdown') }}
+                                                    {{ stimulus_action('sonata-dropdown', 'closeAndFocus', 'keydown.esc')|stimulus_action('sonata-dropdown', 'navigate', 'keydown') }}
+                                                >
                                                     <button type="button" class="adm-btn-icon adm-btn-icon-round"
                                                             aria-expanded="false"
+                                                            aria-haspopup="menu"
                                                             aria-label="{{ 'link_add'|trans({}, 'SonataAdminBundle') }}"
                                                             {{ stimulus_target('sonata-dropdown', 'toggle') }}
                                                             {{ stimulus_action('sonata-dropdown', 'toggle', 'click') }}
@@ -264,22 +271,32 @@ file that was distributed with this source code.
 
                                         {% if app.user %}
                                             {% block sonata_top_nav_menu_user_block %}
+                                                {#- The chrome is adminata's and shows whoever is
+                                                    signed in; `user_block` fills the list under it.
+                                                    Upstream hid the whole menu when that template
+                                                    was empty, which is its default, so nobody saw
+                                                    a user menu until an application wrote one. -#}
                                                 {% set userBlock = include(get_global_template('user_block')) %}
-                                                {% if userBlock|trim is not empty %}
-                                                    <li class="adm-dropdown user-menu" {{ stimulus_controller('sonata-dropdown') }}>
-                                                        <button type="button" class="adm-btn-icon adm-btn-icon-round"
-                                                                aria-expanded="false"
-                                                                aria-label="{{ app.user.userIdentifier }}"
-                                                                {{ stimulus_target('sonata-dropdown', 'toggle') }}
-                                                                {{ stimulus_action('sonata-dropdown', 'toggle', 'click') }}
-                                                        >
-                                                            <i class="fas fa-user" aria-hidden="true"></i>
-                                                        </button>
-                                                        <ul class="adm-dropdown__menu dropdown-user" hidden {{ stimulus_target('sonata-dropdown', 'menu') }}>
+                                                {% set userName = app.user.userIdentifier %}
+                                                <li class="adm-dropdown user-menu"
+                                                    {{ stimulus_controller('sonata-dropdown') }}
+                                                    {{ stimulus_action('sonata-dropdown', 'closeAndFocus', 'keydown.esc')|stimulus_action('sonata-dropdown', 'navigate', 'keydown') }}
+                                                >
+                                                    <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                                                            aria-expanded="false"
+                                                            aria-label="{{ userName }}"
+                                                            {{ stimulus_target('sonata-dropdown', 'toggle') }}
+                                                            {{ stimulus_action('sonata-dropdown', 'toggle', 'click') }}
+                                                    >
+                                                        <span aria-hidden="true">{{ userName|slice(0, 2)|upper }}</span>
+                                                    </button>
+                                                    <div class="adm-dropdown__menu" hidden {{ stimulus_target('sonata-dropdown', 'menu') }}>
+                                                        <p class="px-3 py-2 text-theme-sm font-medium text-gray-700 dark:text-gray-300">{{ userName }}</p>
+                                                        <ul class="dropdown-user">
                                                             {{ userBlock|raw }}
                                                         </ul>
-                                                    </li>
-                                                {% endif %}
+                                                    </div>
+                                                </li>
                                             {% endblock %}
                                         {% endif %}
                                     </ul>

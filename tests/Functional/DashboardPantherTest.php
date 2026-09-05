@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace Adminata\Tests\Functional;
 
 use Adminata\Tests\App\EventListener\BrowserConsoleRecorderListener;
+use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverKeys;
 use PHPUnit\Framework\Attributes\Group;
 
 /**
@@ -143,6 +145,39 @@ final class DashboardPantherTest extends BasePantherTestCase
         static::assertSame('true', $this->groupState('Catalogue'), 'The open group was forgotten.');
 
         $this->client->executeScript('window.localStorage.removeItem("sonata_sidebar_open");');
+    }
+
+    /**
+     * The add menu is a disclosure a keyboard can reach and leave: the down arrow opens it on its
+     * first item, Escape closes it and gives the button its focus back.
+     */
+    public function testTheAddMenuIsUsableFromTheKeyboard(): void
+    {
+        $this->client->request('GET', $this->url('/admin/dashboard'));
+
+        $button = $this->client->findElement(WebDriverBy::cssSelector('.adm-dropdown [aria-haspopup="menu"]'));
+        $panel = $this->client->findElement(WebDriverBy::cssSelector('.dropdown-add'));
+
+        static::assertFalse($panel->isDisplayed());
+
+        $button->sendKeys(WebDriverKeys::ARROW_DOWN);
+
+        static::assertTrue($panel->isDisplayed());
+        static::assertSame('true', $button->getAttribute('aria-expanded'));
+        static::assertSame(
+            'menuitem',
+            $this->client->executeScript('return document.activeElement.getAttribute("role");')
+        );
+
+        $this->client->getKeyboard()->sendKeys(WebDriverKeys::ESCAPE);
+
+        static::assertFalse($panel->isDisplayed());
+        static::assertSame(
+            'true',
+            $this->client->executeScript('return String(document.activeElement === arguments[0]);', [$button])
+        );
+
+        $this->assertConsoleIsEmpty('The add menu wrote to the browser console.');
     }
 
     private function groupState(string $label): string
