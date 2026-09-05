@@ -441,7 +441,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     update `DashboardActionTest` and block tests.
   - Accept: tests green; Playwright dashboard baseline updated.
 
-- [ ] **P2-10 · Ajax and empty layouts, list-mode buttons, login-style pages** · S · depends: P2-01
+- [x] **P2-10 · Ajax and empty layouts, list-mode buttons, login-style pages** · S · depends: P2-01
   - Read: PLAN/03 §A rows 2–3; PLAN/01 T9.
   - Do: `ajax_layout.html.twig` (no `<html>`, keeps list hooks), `empty_layout.html.twig`, new
     `Core/list_mode_buttons.html.twig` (only when `show_mosaic_button`), `sonata_header` renders
@@ -1494,4 +1494,26 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2808 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
+  `make assets-check`, `make test-visual` (124 passed, 2 skipped).
+
+- 2026-09-05 — **P2-10 done.** `ajax_layout.html.twig` returns a fragment with no `<html>` and no
+  shell, keeping `sonata-list-table` and the list markup an application's own script parses out of
+  it — recomaty-panel's accordion does exactly that (appendix C §2). `empty_layout.html.twig`
+  replaces upstream's inline `<style>` with an `adm-empty-layout` body class, which is what a
+  Content-Security-Policy without `style-src 'unsafe-inline'` needs. And the list-mode switcher is
+  one file, `Core/list_mode_buttons.html.twig` (PLAN/03 §F): the two layouts each had their own
+  copy of the same eight lines, which is how they drifted apart. Three new translation ids for it.
+
+  The demo's login page moved onto the admin layout with `logo`, `sonata_nav` and
+  `sonata_left_side` emptied, the way recomaty-panel writes its login and password pages — so
+  PLAN/01 T9 is now exercised by a page rather than asserted in the abstract, and
+  `DemoSmokeTest` checks that it renders no header bar and no sidebar. It also checks that an
+  `X-Requested-With` list is a fragment.
+
+  `TemplatePathTest`'s count moved from 148 to 149, which is the new shared partial. The number is
+  a contract worth keeping — it is what catches a template added without a plan entry — so it
+  changes in the same commit as the file, with the reason next to it.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2810 tests, 2 skips**), `make test-contract`, `make lint-js`, `make lint-css`, `make test-js`,
   `make assets-check`, `make test-visual` (124 passed, 2 skipped).

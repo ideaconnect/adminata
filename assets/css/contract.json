@@ -64,6 +64,7 @@
         ".adm-dropdown__divider",
         ".adm-dropdown__item",
         ".adm-dropdown__menu",
+        ".adm-empty-layout",
         ".adm-error",
         ".adm-filters",
         ".adm-header",

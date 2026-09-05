@@ -152,6 +152,39 @@ final class DemoSmokeTest extends WebTestCase
     }
 
     /**
+     * An `X-Requested-With` request gets a fragment, not a page: no `<html>`, no shell, and the
+     * list markup an application's own script parses out of it (PLAN/03 §A row 2).
+     */
+    public function testAnXhrListIsAFragment(): void
+    {
+        $client = self::browser();
+        $client->request('GET', '/admin/tests/app/product/list', server: ['HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
+
+        static::assertResponseIsSuccessful();
+
+        $html = (string) $client->getResponse()->getContent();
+
+        static::assertStringNotContainsString('<html', $html);
+        static::assertStringNotContainsString('main-sidebar', $html);
+        static::assertStringContainsString('sonata-ba-list', $html);
+    }
+
+    /**
+     * A page that empties `logo` and `sonata_nav` gets no header bar at all (PLAN/01 T9). The
+     * demo's login page is written the way recomaty-panel writes its own.
+     */
+    public function testTheLoginPageHasNoHeaderBar(): void
+    {
+        $client = self::createClient();
+        $crawler = $client->request('GET', '/login');
+
+        static::assertResponseIsSuccessful();
+        static::assertCount(0, $crawler->filter('header.main-header'));
+        static::assertCount(0, $crawler->filter('aside.main-sidebar'));
+        static::assertCount(1, $crawler->filter('form input[name="_username"]'));
+    }
+
+    /**
      * The enum column reaches the list as an enum, not as its backing string: a list field that
      * calls `->value` on a string is a crash the type map is supposed to prevent.
      */
