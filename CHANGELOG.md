@@ -16,9 +16,12 @@ adminata's own tooling, and the PHP changes the Tailwind interface forces are in
 (foundations) is complete: the Tailwind and Stimulus build, the demo application, and every gate
 the template rewrites of M2 to M4 will be measured against.
 
-The templates themselves are still Sonata's Bootstrap ones. They render unstyled, because M1
-removed the CSS and JavaScript that used to style them and has not yet replaced them — that state
-is deliberate, written down, and asserted: see `tests/Contract/deferred-templates.txt`,
+Milestone M2 (shell) is complete: the layout, the sidebar, the header, the dashboard and the flash
+messages are adminata's own, and the pages they own — the dashboard, a login page, an empty layout,
+a dialog — have no accessibility and no markup findings in either theme.
+
+The list and the form are still Sonata's Bootstrap templates and render unstyled, which is
+deliberate, written down and asserted: see `tests/Contract/deferred-templates.txt`,
 `tests/Visual/support/findings.json` and the `legacy-ui` PHPUnit group.
 
 ### Added
@@ -51,9 +54,28 @@ is deliberate, written down, and asserted: see `tests/Contract/deferred-template
   rendered DOM; and a Panther harness that asserts an empty browser console.
 - A CI job that installs `idct/adminata` into `idct/sonata-admin-mongodb-bundle` and runs its
   suite, so owner directive 7 is checked on every pull request rather than remembered.
+- The TailAdmin shell: a fixed sidebar with collapsible groups, a sticky header with search, a
+  light/dark/system theme toggle that never flashes the wrong theme, a skip link, a `<main>`
+  landmark and a breadcrumb — plus the dashboard, its admin-list cards and the flash messages.
+- Seven new Stimulus controllers: `sonata-layout`, `sonata-menu`, `sonata-theme`,
+  `sonata-dropdown`, `sonata-modal`, `sonata-dismiss` and the shared list-mode partial they serve.
+  Dialogs are native `<dialog>`, so the focus trap and Escape are the browser's.
+- `Core/list_mode_buttons.html.twig`, shared by the standard and ajax layouts.
 
 ### Changed
 
+- `Menu/sonata_menu.html.twig`, `Core/{dashboard,add_block,user_block}.html.twig`,
+  `Block/block_admin_list.html.twig`, `CRUD/dashboard__action*.html.twig`, both layouts and
+  twig-extensions' `FlashMessage/render.html.twig` are rewritten. Every Twig block name, every
+  markup hook of the compatibility contract and the `<li>` pass-through of `user_block`,
+  `add_block` and `Button/*` are kept; `admin_lte_skin_class` and `bootlint` are gone.
+- The header's user menu shows who is signed in even when `user_block` is empty, which is its
+  default; upstream hid the menu entirely until an application wrote one.
+- Page actions render as a button row. The upstream heuristic that folded two or more into an
+  "Actions" dropdown by counting `</a>` in a captured string is gone.
+- Font Awesome is imported into a `vendor` cascade layer, so adminata's utilities win over it.
+- Block ids no longer contain the dot `uniqid('', true)` puts in: they reach the page as
+  `id="cms-block-…"`, where a dot makes a selector nobody can write without escaping it.
 - Date and time pickers exchange their value in the format a native HTML5 input uses, derived from
   `datepicker_options.display.components`. An explicit `format` is refused, the way Symfony's
   `DateType` refuses one when `html5` is enabled.
