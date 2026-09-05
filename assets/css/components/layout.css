@@ -81,10 +81,27 @@
         }
     }
 
+    /*
+     * A chevron drawn from two borders rather than a glyph: it follows `currentColor`, scales with
+     * the text and needs no icon font, and `[dir='rtl']` only has to turn it round.
+     */
     .adm-breadcrumb li + li::before {
-        content: '/';
+        content: '';
+        width: 0.375rem;
+        height: 0.375rem;
         margin-inline: 0.375rem;
-        color: var(--color-gray-400);
+        border-top: 1.5px solid var(--color-gray-400);
+        border-inline-end: 1.5px solid var(--color-gray-400);
+        transform: rotate(45deg);
+    }
+
+    [dir='rtl'] .adm-breadcrumb li + li::before {
+        transform: rotate(-135deg);
+    }
+
+    .adm-breadcrumb li {
+        display: flex;
+        align-items: center;
     }
 
     .adm-breadcrumb a {
@@ -96,7 +113,12 @@
         color: var(--color-gray-700);
     }
 
-    .adm-breadcrumb [aria-current='page'] {
+    /*
+     * `.active` and not `[aria-current='page']`: `Breadcrumb/breadcrumb.html.twig` is frozen
+     * byte-for-byte (PLAN/02 §12) and emits `<li class="active"><span>`. The last crumb is not a
+     * link, which is what tells a screen reader it is the page you are on.
+     */
+    .adm-breadcrumb .active {
         color: var(--color-gray-800);
         font-size: var(--text-theme-sm);
     }
@@ -111,7 +133,7 @@
         box-shadow: var(--shadow-theme-lg);
     }
 
-    .dark .adm-breadcrumb [aria-current='page'] {
+    .dark .adm-breadcrumb .active {
         color: rgb(255 255 255 / 90%);
     }
 
