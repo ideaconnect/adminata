@@ -1,0 +1,124 @@
+name: MongoDB fork
+
+on:
+    schedule:
+        - cron: '30 1 * * *'
+    push:
+        branches:
+            - main
+    pull_request:
+
+permissions:
+    contents: read
+
+env:
+    # idct/sonata-admin-mongodb-bundle is the reason adminata keeps Sonata's PHP API frozen
+    # (owner directive 7, PLAN/02 §1). It is installed against this checkout as a path
+    # repository, which is what an application does when it tries a fork.
+    FORK_REPOSITORY: ideaconnect/sonata-admin-mongodb-bundle
+    FORK_REF: 5.x
+
+jobs:
+    unit:
+        name: Its unit suite against this checkout
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout adminata
+              uses: actions/checkout@v6
+              with:
+                  path: adminata
+
+            - name: Checkout the MongoDB fork
+              uses: actions/checkout@v6
+              with:
+                  repository: ${{ env.FORK_REPOSITORY }}
+                  ref: ${{ env.FORK_REF }}
+                  path: fork
+
+            - name: Install PHP with extensions
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  coverage: none
+                  tools: composer:v2
+                  extensions: mongodb
+
+            - name: Point the fork at this checkout
+              working-directory: fork
+              run: |
+                  composer config repositories.adminata path ../adminata
+                  composer require idct/adminata:@dev --no-plugins --no-scripts --no-interaction --no-progress
+
+            # Not --strict: a path install pins `@dev`, and an unbound constraint is exactly what
+            # composer's strict mode objects to. The fork's own CI validates its manifest.
+            - name: Validate the fork's manifest
+              working-directory: fork
+              run: composer validate --no-check-lock
+
+            - name: Prove the replaced packages came from adminata
+              working-directory: fork
+              run: |
+                  test -f vendor/idct/adminata/composer.json
+                  ! test -d vendor/sonata-project/admin-bundle
+
+            - name: Its unit suite
+              working-directory: fork
+              run: vendor/bin/phpunit --testsuite unit
+
+    functional:
+        name: Its browser suite (informational)
+
+        # Informational until M4: the fork's scenarios click through association modals that
+        # adminata has not rewritten yet, and `ajaxSubmit` is gone for good (owner directive 5),
+        # so some of them cannot pass in their current form. Failures here are a report, not a gate.
+        continue-on-error: true
+
+        runs-on: ubuntu-latest
+
+        if: github.event_name == 'schedule'
+
+        services:
+            mongo:
+                image: mongo:8
+                ports:
+                    - 27017:27017
+                options: >-
+                    --health-cmd "mongosh --quiet --eval 'db.runCommand({ping:1}).ok' | grep -q 1"
+                    --health-interval 5s
+                    --health-timeout 5s
+                    --health-retries 20
+
+        steps:
+            - name: Checkout adminata
+              uses: actions/checkout@v6
+              with:
+                  path: adminata
+
+            - name: Checkout the MongoDB fork
+              uses: actions/checkout@v6
+              with:
+                  repository: ${{ env.FORK_REPOSITORY }}
+                  ref: ${{ env.FORK_REF }}
+                  path: fork
+
+            - name: Install PHP with extensions
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  coverage: none
+                  tools: composer:v2
+                  extensions: mongodb
+
+            - name: Point the fork at this checkout
+              working-directory: fork
+              run: |
+                  composer config repositories.adminata path ../adminata
+                  composer require idct/adminata:@dev --no-plugins --no-scripts --no-interaction --no-progress
+
+            # The runner's own Firefox and geckodriver, not a Selenium service: a service container
+            # cannot reach the runner's loopback, where Panther starts its web server.
+            - name: Its browser suite
+              working-directory: fork
+              run: vendor/bin/phpunit --testsuite functional

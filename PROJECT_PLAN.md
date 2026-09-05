@@ -346,7 +346,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     first test (dashboard loads, console empty); `make test-functional`.
   - Accept: `make test-functional` green locally (docker or geckodriver).
 
-- [ ] **P1-12 · `mongo-compat.yaml`** · M · depends: P1-09
+- [x] **P1-12 · `mongo-compat.yaml`** · M · depends: P1-09
   - Read: PLAN/08 §7; PLAN/02 §1 "MongoDB fork contract".
   - Do: PR job — check out `ideaconnect/sonata-admin-mongodb-bundle`, add a `path` repository to the
     adminata checkout, `composer require idct/adminata:@dev --no-plugins`, `composer validate`, run its
@@ -1154,3 +1154,26 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2802 tests, 2 skips**), `make test-contract`, `make test-functional`, `make lint-js`,
   `make test-js`, `make assets-check`.
+
+- 2026-09-05 — **P1-12 done.** `mongo-compat.yaml` has two jobs. The blocking one checks out
+  `ideaconnect/sonata-admin-mongodb-bundle@5.x`, points it at this checkout with a `path`
+  repository, `composer require idct/adminata:@dev`, validates the manifest, asserts that the
+  replaced packages really came from adminata (`vendor/idct/adminata` present,
+  `vendor/sonata-project/admin-bundle` absent) and runs its unit suite. Rehearsed locally against a
+  clone: **342 tests, 1031 assertions, green**, and `vendor/sonata-project/` does not exist at all —
+  every one of the fork's four Sonata requirements is satisfied by the `replace` block.
+
+  `composer validate` runs **without** `--strict`, because a path install pins `@dev` and an
+  unbound constraint is the one thing strict mode objects to; the fork's own CI validates its
+  manifest properly.
+
+  The nightly browser job is `continue-on-error: true`, and rehearsing it showed exactly why:
+  **5 of 9 pass, 4 error** with `ElementNotInteractableException: could not be scrolled into view`.
+  That is P1-02 landing — the Bootstrap CSS is gone, so an element Bootstrap used to position is
+  no longer where a click can reach it — on scenarios that click through association modals
+  adminata has not rewritten. M4 is where that job is expected to come back; until then it is a
+  report, not a gate.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2802 tests, 2 skips**), `make test-contract`, `make lint-js`, `make test-js`,
+  `make assets-check`.
