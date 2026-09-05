@@ -1,48 +1,65 @@
 {#
 
-This file is part of the Sonata package.
+This file is part of the adminata package.
 
+(c) IDCT Bartosz Pachołek <bartosz@idct.tech>
+
+Forked from the Sonata Project
 (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
 
 For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
 #}
+{#
+    Native date, time and datetime-local inputs (PLAN/06 §4).
 
-{% block sonata_type_datetime_picker_widget_html %}
-    <div
-        id="{{ id ~ '_controller' }}"
-        class="input-group date"
-        data-controller="datepicker"
-        data-datepicker-options-value="{{ datepicker_options|json_encode|escape('html_attr') }}"
-        {% if linked_to|default(false) %}data-datepicker-datepicker-outlet="#{{ linked_to ~ '_controller' }}"{% endif %}
-        data-td-target-input="nearest"
-        {% if datepicker_use_button %}data-td-target-toggle="nearest"{% endif %}
-    >
-        {% set attr = attr|merge({
-            'data-td-target': '#' ~ id ~ '_controller',
-        }) %}
+    Tempus Dominus is gone with jQuery and nothing replaced it: `BasePickerType` derives the wire
+    format from `datepicker_options.display.components`, and this template turns the same three
+    booleans into the input type the browser then owns. `seconds` becomes `step="1"`, and
+    `restrictions.minDate`/`maxDate` become `min`/`max` in the shape the type expects.
 
-        {{ block('datetime_widget') }}
-
-        {% if datepicker_use_button %}
-            <span
-                class="input-group-addon"
-                data-td-target="#{{ id ~ '_controller' }}"
-                data-td-toggle="datetimepicker"
-            >
-                <i class="fas {% if datepicker_options.display.viewMode is defined and datepicker_options.display.viewMode == 'clock' %}fa-clock{% else %}fa-calendar{% endif %}"></i>
-            </span>
-        {% endif %}
-    </div>
-{% endblock sonata_type_datetime_picker_widget_html %}
+    `datepicker_use_button` and `wrap_fields_with_addons` render nothing: the button opened a
+    JavaScript calendar and the addon was Bootstrap's `input-group`.
+#}
 
 {% block sonata_type_datetime_picker_widget %}
-    {% if wrap_fields_with_addons %}
-        <div class="input-group">
-            {{ block('sonata_type_datetime_picker_widget_html') }}
-        </div>
-    {% else %}
-        {{ block('sonata_type_datetime_picker_widget_html') }}
-    {% endif %}
+    {{- block('sonata_type_datetime_picker_widget_html') -}}
 {% endblock sonata_type_datetime_picker_widget %}
+
+{% block sonata_type_datetime_picker_widget_html %}
+    {#- `??` and not `|default()`: the default filter also replaces a value that is *empty*, and
+        `false` is empty — which is the one value each of these three carries. -#}
+    {%- set components = datepicker_options.display.components ?? {} -%}
+    {%- set with_calendar = (components.calendar ?? true) is not same as(false) -%}
+    {%- set with_clock = (components.clock ?? true) is not same as(false) -%}
+    {%- set with_seconds = (components.seconds ?? false) is same as(true) -%}
+
+    {%- set type = with_clock ? (with_calendar ? 'datetime-local' : 'time') : 'date' -%}
+    {%- set pattern = 'date' == type
+        ? 'Y-m-d'
+        : ('time' == type
+            ? (with_seconds ? 'H:i:s' : 'H:i')
+            : (with_seconds ? 'Y-m-d\\TH:i:s' : 'Y-m-d\\TH:i')) -%}
+
+    {%- if with_seconds and 'date' != type -%}
+        {%- set attr = attr|merge({step: '1'}) -%}
+    {%- endif -%}
+
+    {%- set restrictions = datepicker_options.restrictions|default({}) -%}
+    {%- if restrictions.minDate is defined -%}
+        {%- set attr = attr|merge({min: restrictions.minDate|date(pattern)}) -%}
+    {%- endif -%}
+    {%- if restrictions.maxDate is defined -%}
+        {%- set attr = attr|merge({max: restrictions.maxDate|date(pattern)}) -%}
+    {%- endif -%}
+
+    {#- The admin theme's `form_widget_simple` adds `adm-input`; a plain form outside it does not,
+        and a native picker still has to look like the rest of the page. The recipe is idempotent. -#}
+    {%- set attr = attr|merge({class: [
+        attr.class|default(''),
+        'adm-input' in attr.class|default('') ? '' : 'adm-input',
+    ]|filter(part => part is not empty)|join(' ')}) -%}
+
+    {{- block('form_widget_simple') -}}
+{% endblock sonata_type_datetime_picker_widget_html %}

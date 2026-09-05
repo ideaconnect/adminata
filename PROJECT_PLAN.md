@@ -562,7 +562,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     input recipe; re-dump JS fixtures; Vitest for `sonata-collection` on the new markup.
   - Accept: form suite green; Panther collection add/delete.
 
-- [ ] **P4-04 · Native date/time template (form-extensions)** · M · depends: P0-13, P4-01
+- [x] **P4-04 · Native date/time template (form-extensions)** · M · depends: P0-13, P4-01
   - Read: PLAN/06 §4; PLAN/03 §C "datepicker" row.
   - Do: rewrite `packages/form-extensions/src/Bridge/Symfony/Resources/views/Form/datepicker.html.twig`
     (`type` from components, `step`, `min`/`max`, `adm-input`); widget tests in the form suite; demo
@@ -1936,6 +1936,34 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2833 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
   `make test-js` (**124**), `make assets-check`, `make test-visual` (**372 passed**).
+
+- 2026-09-05 — **P4-04 done.** `datepicker.html.twig` renders `<input type="date">`,
+  `type="time"` or `type="datetime-local"` from the same three `display.components` booleans
+  `BasePickerType` derives the wire format from, with `step="1"` for seconds and `min`/`max` from
+  `restrictions.minDate`/`maxDate`, each shaped for the type it lands on. Tempus Dominus, the
+  `input-group` and the toggle button are gone; `datepicker_use_button` and
+  `wrap_fields_with_addons` now render nothing.
+
+  **`|default()` is not `??`.** `components.clock|default(true)` returned `true` for a picker that
+  had explicitly set `clock: false`, because the default filter replaces a value that is *empty* —
+  and `false` is empty. Every date picker was a `datetime-local`. The three reads use `??` now,
+  which only fills in an undefined value. Seven widget tests pin the mapping.
+
+  The recipe is applied by the picker template itself, so a plain form rendered outside a Sonata
+  theme still looks right; both `form_widget_simple` overrides skip `adm-input` when it is already
+  there, which is what keeps the class from appearing twice.
+
+  The demo gained a date field, a time-only field and a datetime field without seconds, plus the
+  two range picker types as filter field types. A Panther test round-trips `2026-09-04T10:15`,
+  `2026-09-05` and `07:30` through create and edit — and deletes the product it made, because a
+  browser test writes through the real server, outside the transaction the BrowserKit tests are
+  wrapped in, and every row count in the run depends on it.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2841 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
+  `make test-js` (**124**), `make assets-check`, `make test-visual` (**372 passed**),
+  `make test-functional` (**44**).
+
 
 
 

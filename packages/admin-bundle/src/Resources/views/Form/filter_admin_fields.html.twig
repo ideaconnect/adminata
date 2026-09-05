@@ -26,7 +26,11 @@ file that was distributed with this source code.
 
 {% block form_widget_simple %}
     {% set type = type|default('text') %}
-    {% set recipe = type in ['checkbox', 'radio', 'hidden', 'file'] ? '' : 'adm-input' %}
+    {#- Idempotent: `datepicker.html.twig` applies the recipe itself so that a plain form rendered
+        without a Sonata theme still gets it. -#}
+    {% set recipe = type in ['checkbox', 'radio', 'hidden', 'file'] or 'adm-input' in attr.class|default('')
+        ? ''
+        : 'adm-input' %}
     {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ recipe)|trim}) %}
     {{ parent() }}
 {% endblock form_widget_simple %}
