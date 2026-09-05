@@ -25,13 +25,22 @@ export async function mount(identifier, controller, html) {
     document.body.innerHTML = html;
 
     const application = new Application(document.documentElement);
+
+    // Stimulus swallows a controller error into `console.error`, where Node's inspector then
+    // trips over jsdom's DOM objects. A controller that throws should fail the test instead.
+    application.handleError = (error, message) => {
+        throw new Error(`${message}: ${error.message}`, { cause: error });
+    };
+
     application.register(identifier, controller);
     application.start();
 
     // Stimulus keeps a MutationObserver running; left alive it fires after the environment is
     // torn down, where the DOM globals no longer exist.
-    onTestFinished(() => {
-        application.stop();
+    onTestFinished(async () => {
+        // `stop()` is asynchronous; without awaiting it the observers outlive the test and touch
+        // a document jsdom has already torn down.
+        await application.stop();
         document.body.innerHTML = '';
     });
 

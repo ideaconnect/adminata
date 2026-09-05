@@ -956,7 +956,12 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   that no jQuery reaches the output.
 - 2026-09-05 — **P1-07 done.** `frontend.yaml` on Node 24 and 26: `npm ci`, the three linters, the
   jQuery gate, the Tailwind fixture, Vitest, a build, a diff of the committed output against it,
-  the CSS contract and the size budgets.
+  the CSS contract and the size budgets. Its first run found two things: Stimulus swallows a
+  controller error into `console.error`, where Node's inspector then trips over jsdom's DOM objects
+  — the helper now rethrows instead, which immediately exposed a **false positive**, a filter test
+  whose fixture was missing the `submitter` target the controller requires; and the jQuery grep has
+  to be scoped to `assets/` excluding the tests, because the inherited templates still reference
+  jQuery until M2 to M4 rewrite them.
 - 2026-09-04 — **P0-03 done.** `README.md`, `LICENSE`, `NOTICE`, `AGENTS.md`, `CONTRIBUTING.md`,
   `CHANGELOG.md`, `CHANGELOG-sonata.md`, `.editorconfig`, `.gitattributes`, `.symfony.bundle.yaml`.
   `MIGRATION.md` and `UPGRADE-1.0.md` were added as placeholders pointing at PLAN/10 so the README
