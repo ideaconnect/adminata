@@ -433,6 +433,60 @@ final class DemoSmokeTest extends WebTestCase
     }
 
     /**
+     * The widgets the product form does not have (appendix C §2 "Forms"): every one of them comes
+     * out with adminata's recipe *appended* to whatever the application asked for.
+     */
+    public function testTheFormWidgetsCarryTheirRecipesAndNothingElseChanges(): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', '/admin/tests/app/category/create');
+
+        static::assertResponseIsSuccessful();
+
+        foreach ([
+            'input[type="email"]' => 'adm-input',
+            'input[type="number"]' => 'adm-input',
+            'input[type="password"]' => 'adm-input',
+            'input[type="file"]' => 'adm-file',
+            'input[type="checkbox"]' => 'adm-checkbox',
+            'select' => 'adm-select',
+            'textarea' => 'adm-textarea',
+        ] as $selector => $recipe) {
+            $field = $crawler->filter($selector)->first();
+
+            static::assertGreaterThan(0, $field->count(), \sprintf('No %s on the category form.', $selector));
+            static::assertStringContainsString($recipe, (string) $field->attr('class'));
+        }
+
+        // A file field makes the form multipart, and a password field an administrator fills in is
+        // someone else's — so the browser must not offer their own.
+        static::assertCount(1, $crawler->filter('form[enctype="multipart/form-data"]'));
+        static::assertSame(
+            'new-password',
+            $crawler->filter('input[type="password"]')->attr('autocomplete')
+        );
+
+        // `help_html` is the one place the theme may not escape the help text.
+        static::assertCount(1, $crawler->filter('.sonata-ba-field-help strong'));
+
+        // And an attribute the application set is untouched.
+        static::assertCount(1, $crawler->filter('select[data-controller="app--visibility"]'));
+    }
+
+    /**
+     * The group `class` reaches the page verbatim, which is what an application's two-column form
+     * depends on.
+     */
+    public function testAFormGroupKeepsTheClassTheAdminGaveIt(): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', '/admin/tests/app/category/create');
+
+        static::assertCount(1, $crawler->filter('.col-span-12.xl\\:col-span-8 .adm-card'));
+        static::assertCount(1, $crawler->filter('.col-span-12.xl\\:col-span-4 .adm-card'));
+    }
+
+    /**
      * The enum column reaches the list as an enum, not as its backing string: a list field that
      * calls `->value` on a string is a crash the type map is supposed to prevent.
      */

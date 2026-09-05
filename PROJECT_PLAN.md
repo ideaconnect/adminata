@@ -603,13 +603,14 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     still include the deferred (marked) files.
   - Accept: ORM suite and `mongo-compat` PR job green; grep of the two ORM themes for `btn\|form-control\|col-md` empty.
 
-- [ ] **P4-10 · Demo form coverage, Panther, visual, contract completion** · M · depends: P4-04 … P4-09
+- [x] **P4-10 · Demo form coverage, Panther, visual, contract completion** · M · depends: P4-04 … P4-09
   - Read: PLAN/08 §2, §3, §6; appendix C §2 "Forms".
   - Do: demo admins with every form type of appendix C §2 (including collections with sub-forms and
     time-only pickers, ranges, autocomplete single/multiple, a `data-controller` pass-through select,
     `help_html`, `col-span-*` groups, lock protection, sticky forms); Panther flows; Playwright
     baselines for every 1.0 page × viewport × theme; axe no serious violations; `tests/Form` green;
-    `HookContractTest` all groups enabled; `BlockNameTest` (138 − 2 admin block names present).
+    `HookContractTest` all groups enabled; `BlockNameTest` (138 − 3 admin block names present:
+    `sonata_type_model_autocomplete_select2_options_js` goes with select2).
   - Accept: everything green.
 
 - [ ] **P4-MS · Milestone M4 push** · S · depends: P4-10
@@ -2058,6 +2059,33 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2856 tests, 2 skips**), `make test-contract` (**175 + 4**), `make lint-js`, `make lint-css`,
   `make test-js` (**124**), `make assets-check`, `make test-visual` (**525 passed**).
+
+- 2026-09-05 — **P4-10 done.** `CategoryAdmin` grew the widgets `ProductAdmin` has no use for —
+  email, url, number, choice, checkbox, password and file — in two `col-span-*` groups, with
+  `help_html` on one field and a `data-controller` an application would set on the choice. Between
+  the two admins the demo now renders every form type appendix C §2 lists except the app's own.
+  Two BrowserKit tests say what each widget must come out as, that a file field makes the form
+  multipart, that `help_html` is markup, that the group class reaches the page verbatim, and that
+  the attribute the admin set is untouched.
+
+  **`BlockNameTest`.** Every one of the 138 Twig block names appendix A took from upstream still
+  exists, and the three that do not are named and asserted gone: `admin_lte_skin_class` and
+  `bootlint` belong to AdminLTE and to a Bootstrap linter, and
+  `sonata_type_model_autocomplete_select2_options_js` configured select2. PLAN/02 §5 said "minus
+  two" and PLAN/03 §C said the third was removed; **the plan is corrected** to name all three.
+
+  Two defects the new widgets found. `form_div_layout` has no `file_widget` block — a file field is
+  `form_widget_simple` with `type=file` — so the override calling `parent()` was a 500 on any form
+  with an upload. And a password field an administrator fills in is someone else's, so the theme
+  now defaults `autocomplete="new-password"` where the application set nothing; html-validate
+  requires the attribute and the browser would otherwise offer the administrator's own password.
+
+  The visual walk is **609 checks over twelve pages**, and `findings.json` is still `{}`.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2860 tests, 2 skips**), `make test-contract` (**177 + 4**), `make lint-js`, `make lint-css`,
+  `make test-js` (**124**), `make assets-check`, `make test-visual` (**609 passed**).
+
 
 
 

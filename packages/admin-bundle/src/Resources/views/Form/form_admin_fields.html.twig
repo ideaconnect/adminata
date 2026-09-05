@@ -63,11 +63,21 @@ file that was distributed with this source code.
     {%- if errors|default([])|length > 0 and attr['aria-invalid'] is not defined %} aria-invalid="true"{% endif -%}
 {%- endblock widget_attributes %}
 
+{#
+    `form_div_layout` has no `file_widget`: a file field is `form_widget_simple` with `type=file`,
+    which is why the TailAdmin recipe for it is chosen here rather than in a block of its own.
+    `hidden` has nothing to style, and `checkbox` and `radio` reach this block only through a theme
+    that has not overridden them.
+#}
 {% block form_widget_simple %}
     {% set type = type|default('text') %}
-    {#- `hidden` has nothing to style and `file` has its own recipe; `checkbox` and `radio` reach
-        this block only through a theme that has not overridden them. -#}
-    {% if type not in ['file', 'hidden', 'checkbox', 'radio'] %}
+    {% if 'file' == type %}
+        {% set attr = attr|merge({'class': [
+            attr.class|default(''),
+            'adm-file',
+            widget_class|default(''),
+        ]|filter(part => part is not empty)|join(' ')}) %}
+    {% elseif type not in ['hidden', 'checkbox', 'radio'] %}
         {#- Idempotent: the date picker template applies the recipe itself, so that a plain form
             rendered without this theme still gets it. -#}
         {% set attr = attr|merge({'class': [
@@ -81,17 +91,16 @@ file that was distributed with this source code.
 {% endblock form_widget_simple %}
 
 {#
-    The TailAdmin file input: the browser's own control with its selector button restyled, which is
-    the only part of it CSS can reach.
+    A password field an administrator fills in is someone else's, so the browser must not offer the
+    administrator's own: `new-password` is the value that says so. An application that means
+    something else sets `attr.autocomplete` and this leaves it alone.
 #}
-{% block file_widget -%}
-    {%- set attr = attr|merge({'class': [
-        attr.class|default(''),
-        'adm-file',
-        widget_class|default(''),
-    ]|filter(part => part is not empty)|join(' ')}) -%}
+{% block password_widget -%}
+    {%- if attr.autocomplete is not defined -%}
+        {%- set attr = attr|merge({autocomplete: 'new-password'}) -%}
+    {%- endif -%}
     {{- parent() -}}
-{%- endblock file_widget %}
+{%- endblock password_widget %}
 
 {% block textarea_widget %}
     {% set attr = attr|merge({'class': [

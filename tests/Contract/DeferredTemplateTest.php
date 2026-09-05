@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace Adminata\Tests\Contract;
 
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
@@ -100,30 +99,5 @@ final class DeferredTemplateTest extends ContractTestCase
             array_map(trim(...), $lines),
             static fn (string $line): bool => '' !== $line && !str_starts_with($line, '#')
         ));
-    }
-
-    /**
-     * @return list<string>
-     */
-    private static function templates(): array
-    {
-        $root = self::root();
-        $found = [];
-
-        foreach (self::directories($root.'/packages/*/src/Resources/views') as $directory) {
-            $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS));
-
-            foreach ($iterator as $file) {
-                Assert::assertInstanceOf(\SplFileInfo::class, $file);
-
-                if ('twig' === $file->getExtension()) {
-                    $found[] = substr($file->getPathname(), \strlen($root) + 1);
-                }
-            }
-        }
-
-        sort($found);
-
-        return $found;
     }
 }

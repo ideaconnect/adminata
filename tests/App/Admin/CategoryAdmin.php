@@ -26,8 +26,15 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\DateTimeFilter;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
 use Sonata\Form\Type\BooleanType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
 /**
  * @phpstan-extends AbstractAdmin<Category>
@@ -70,10 +77,31 @@ final class CategoryAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->with('Category', ['class' => 'col-span-12'])
+            ->with('Category', ['class' => 'col-span-12 xl:col-span-8'])
                 ->add('name', TextType::class)
-                ->add('description', TextareaType::class, ['required' => false])
+                ->add('description', TextareaType::class, [
+                    'required' => false,
+                    // `help_html` renders the help as markup, which is the one place a template
+                    // may not escape it (PLAN/06 §1).
+                    'help' => 'Shown on the <strong>category page</strong>.',
+                    'help_html' => true,
+                ])
                 ->add('active', BooleanType::class, ['transform' => true])
+                ->add('highlighted', CheckboxType::class, ['required' => false])
+            ->end()
+            ->with('Contact', ['class' => 'col-span-12 xl:col-span-4'])
+                ->add('contactEmail', EmailType::class, ['required' => false])
+                ->add('homepage', UrlType::class, ['required' => false, 'default_protocol' => 'https'])
+                ->add('sortOrder', NumberType::class, ['html5' => true, 'scale' => 0])
+                ->add('visibility', ChoiceType::class, [
+                    'choices' => ['Everyone' => 'everyone', 'Staff only' => 'staff', 'Hidden' => 'hidden'],
+                    // Passed straight through: an application hangs its own controllers here.
+                    'attr' => ['data-controller' => 'app--visibility'],
+                ])
+            ->end()
+            ->with('Import', ['class' => 'col-span-12', 'description' => 'Nothing here is stored.'])
+                ->add('importToken', PasswordType::class, ['mapped' => false, 'required' => false])
+                ->add('importFile', FileType::class, ['mapped' => false, 'required' => false])
             ->end();
     }
 
@@ -84,6 +112,13 @@ final class CategoryAdmin extends AbstractAdmin
             ->add('name')
             ->add('description')
             ->add('active')
+            ->add('highlighted')
+            ->add('contactEmail', FieldDescriptionInterface::TYPE_EMAIL)
+            ->add('homepage', FieldDescriptionInterface::TYPE_URL)
+            ->add('sortOrder')
+            ->add('visibility', FieldDescriptionInterface::TYPE_CHOICE, [
+                'choices' => ['everyone' => 'Everyone', 'staff' => 'Staff only', 'hidden' => 'Hidden'],
+            ])
             ->add('createdAt');
     }
 }

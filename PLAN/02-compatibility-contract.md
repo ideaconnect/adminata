@@ -77,7 +77,9 @@ Twig extension aliases. Full admin list: `R/php-compat.md` §2.2.
 ## 5. Twig blocks
 
 - Kept: all 138 admin-bundle block names (appendix A) in every rewritten template, minus
-  `admin_lte_skin_class` and `bootlint`. The layout keeps the 12 captured child blocks
+  `admin_lte_skin_class`, `bootlint` and `sonata_type_model_autocomplete_select2_options_js` — the
+  first two belong to AdminLTE and to a Bootstrap linter, the third configured select2 (§C of
+  document 03). `BlockNameTest` asserts the list. The layout keeps the 12 captured child blocks
   (`_preview, _form, _show, _list_table, _list_filters, _tab_menu, _content, _title, _breadcrumb,
   _actions, _navbar_title, _list_filters_actions`).
 - Removed layout-scope variables: `_skin`, `_use_select2`, `_use_icheck`.
