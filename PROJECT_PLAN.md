@@ -1197,3 +1197,13 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   PHPUnit group, and a `continue-on-error` job. Every one of those is written so that **fixing it
   fails the build** until the record is updated in the same commit, which is what turns M2 to M4
   from a rewrite into a checklist that empties itself.
+- 2026-09-05 — **All seven workflows green on `main`** (run 33939346628 and siblings) after one CI
+  round that found two things the local environment could not. `make test-visual` never linked the
+  bundles' built CSS, JavaScript and fonts into the demo's public directory — locally it passed
+  only because an earlier `assets:install` had left the symlinks behind, so CI rendered an unstyled
+  page whose scroll width and height differ from the baselines ("expected 457px by 3727px,
+  received 531px by 2372px"). A new `demo-assets` target does it, and `demo`, `test-functional`,
+  `test-visual`, `visual-update` and `visual-findings` all depend on it. And the MongoDB fork's
+  "unit" suite is not offline: 31 of its 342 tests exercise `ObjectAclManipulator` against a real
+  server through the ODM, so the blocking job needed the Mongo service its nightly sibling already
+  had — it passed locally only because this machine has one on 27017.
