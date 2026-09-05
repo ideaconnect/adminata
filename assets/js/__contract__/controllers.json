@@ -98,6 +98,17 @@
             "classes": [],
             "outlets": []
         },
+        "sonata-modal": {
+            "targets": [
+                "dialog"
+            ],
+            "values": [
+                "closable",
+                "size"
+            ],
+            "classes": [],
+            "outlets": []
+        },
         "sonata-per-page": {
             "targets": [],
             "values": [],

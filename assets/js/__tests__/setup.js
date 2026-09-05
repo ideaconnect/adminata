@@ -42,3 +42,46 @@ class ResizeObserverStub {
 }
 
 globalThis.ResizeObserver = ResizeObserverStub;
+
+/*
+ * jsdom 30 knows the `<dialog>` element but implements none of its methods, so `showModal()` is
+ * simply missing. This is the smallest thing that behaves like the specification for what
+ * `sonata-modal` does with it: `open` reflects the attribute, `close()` fires `close`, and Escape
+ * is `cancel` followed by `close` unless the page prevents it. The top layer, the focus trap and
+ * the backdrop are the browser's, and the Panther test is what checks those.
+ */
+const dialog = globalThis.HTMLDialogElement?.prototype;
+
+if (dialog !== undefined && 'function' !== typeof dialog.showModal) {
+    Object.defineProperty(dialog, 'open', {
+        configurable: true,
+        get() {
+            return this.hasAttribute('open');
+        },
+        set(value) {
+            this.toggleAttribute('open', Boolean(value));
+        },
+    });
+
+    dialog.show = function show() {
+        this.setAttribute('open', '');
+    };
+
+    dialog.showModal = function showModal() {
+        this.setAttribute('open', '');
+    };
+
+    dialog.close = function close(returnValue) {
+        if (!this.hasAttribute('open')) {
+            return;
+        }
+
+        this.removeAttribute('open');
+
+        if (returnValue !== undefined) {
+            this.returnValue = returnValue;
+        }
+
+        this.dispatchEvent(new Event('close'));
+    };
+}
