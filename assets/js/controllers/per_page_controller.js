@@ -10,15 +10,15 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  reload() {
-    this.submitters.forEach((submitter) => {
-      submitter.disabled = true;
-    });
+    reload() {
+        this.submitters.forEach((submitter) => {
+            submitter.disabled = true;
+        });
 
-    window.top.location.href = this.element.options[this.element.selectedIndex].value;
-  }
+        window.top.location.href = this.element.options[this.element.selectedIndex].value;
+    }
 
-  get submitters() {
-    return document.querySelectorAll('input[type=submit], button[type=submit]');
-  }
+    get submitters() {
+        return document.querySelectorAll('input[type=submit], button[type=submit]');
+    }
 }
