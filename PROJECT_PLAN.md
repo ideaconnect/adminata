@@ -634,7 +634,7 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 - [x] **P5-03 · Login, password-reset layout, user block (step 5)** · M · depends: P5-02
   - Accept: login and reset pages render on the TailAdmin sign-in recipe; `user_block` links present.
 
-- [ ] **P5-04 · Page templates and `notice` includes (steps 6–7)** · M · depends: P5-02
+- [x] **P5-04 · Page templates and `notice` includes (steps 6–7)** · M · depends: P5-02
   - Accept: the ten page templates use `adm-*` components; dead templates deleted; nine `notice`
     overrides call `{{ parent() }}`.
 
@@ -2201,6 +2201,26 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
 
   `user_block` supplies list items only — adminata renders the dropdown panel around them — so its
   items are `adm-dropdown__item` and the rule between them is `adm-dropdown__divider`.
+
+- 2026-09-05 — **P5-04 done.** The nine `notice` overrides call `{{ parent() }}` rather than
+  including the flash template by hand, and the `@SonataCore/FlashMessage/render.html.twig`
+  fallback went with them — that path has not existed since Sonata 4, so the two-element include
+  list was resolving to its second element every time.
+
+  Ten page templates carry adminata's recipes: AdminLTE boxes are `adm-card`, the Bootstrap grid is
+  `grid grid-cols-12` with `col-span-*`, and buttons, inputs, tables, alerts and badges follow.
+  A scripted pass did the one-to-one class names and *reported what it could not decide*; the six
+  places it left — a `box-solid`, a `box {{ boxClass }}` assembled at render time, a `box-tools`
+  toolbar, two icon-only buttons — were done by hand.
+
+  The dashboard's three stat cards took their colour from a name (`box-success`) the macro pasted
+  into a class. They take the **whole utility** now (`border-t-success-500`), because Tailwind
+  generates what it can see in the source and a class assembled at render time is invisible to it —
+  the same trap adminata's own safelist exists for.
+
+  Six dead templates deleted: `generic_create`, `recomat/confirm_archive`, `promo_code/upload` and
+  the three `message/*`, none referenced from PHP or from another template.
+
 
 
 
