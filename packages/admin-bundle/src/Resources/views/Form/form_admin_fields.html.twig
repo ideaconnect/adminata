@@ -65,7 +65,9 @@ file that was distributed with this source code.
 
 {% block form_widget_simple %}
     {% set type = type|default('text') %}
-    {% if type != 'file' %}
+    {#- `hidden` has nothing to style and `file` has its own recipe; `checkbox` and `radio` reach
+        this block only through a theme that has not overridden them. -#}
+    {% if type not in ['file', 'hidden', 'checkbox', 'radio'] %}
         {#- Idempotent: the date picker template applies the recipe itself, so that a plain form
             rendered without this theme still gets it. -#}
         {% set attr = attr|merge({'class': [

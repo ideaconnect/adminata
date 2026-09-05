@@ -558,6 +558,10 @@
         <source>autocomplete_remove</source>
         <target>Remove</target>
       </trans-unit>
+      <trans-unit id="message_close">
+        <source>message_close</source>
+        <target>Close</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

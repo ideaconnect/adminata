@@ -1,10 +1,5 @@
 {
     "axe": {},
-    "markup": {
-        "product-create": [
-            "heading-level",
-            "no-redundant-role"
-        ]
-    },
+    "markup": {},
     "responsive": {}
 }

@@ -48,13 +48,13 @@ export default class extends Controller {
         wrapper.classList.add('action-sentinel');
         wrapper.style.height = `${this.actionTarget.offsetHeight}px`;
 
-        let hasIntersected = false;
+        /*
+         * Upstream ignored the observer's first callback, which is the one that fires as soon as
+         * the sentinel is observed — so a page that loads with the bar below the fold left it
+         * unpinned until something scrolled. That first callback *is* the initial state, and
+         * applying it is what makes the bar behave the same however the page was reached.
+         */
         const callback = ([entry]) => {
-            if (!hasIntersected) {
-                hasIntersected = true;
-                return;
-            }
-
             if (entry.isIntersecting) {
                 this.actionTarget.classList.remove('stuck');
             } else {

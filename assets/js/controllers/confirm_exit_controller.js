@@ -30,11 +30,19 @@ export default class extends Controller {
     }
 
     confirm(event) {
-        if (this.shouldConfirm) {
-            const message = Translation.trans('CONFIRM_EXIT');
-            event.returnValue = message;
-            return message;
+        if (!this.shouldConfirm) {
+            return undefined;
         }
+
+        const message = Translation.trans('CONFIRM_EXIT');
+
+        // `preventDefault()` is what the specification asks for and what Chrome has required
+        // since 119; `returnValue` is the legacy path other browsers still read. The message
+        // itself is ignored by every current browser, which shows its own wording.
+        event.preventDefault();
+        event.returnValue = message;
+
+        return message;
     }
 
     get shouldConfirm() {
