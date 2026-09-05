@@ -569,7 +569,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
     fields (date, datetime, time-only, ranges).
   - Accept: form suite green; Panther round trips `07:30` and `2026-09-04T10:15`.
 
-- [ ] **P4-05 · `sonata-autocomplete` form context (single and multiple)** · M · depends: P3-09, P4-01
+- [x] **P4-05 · `sonata-autocomplete` form context (single and multiple)** · M · depends: P3-09, P4-01
   - Read: PLAN/06 §3.
   - Do: chips for `multiple`, `name[]` hidden inputs, selection `<template>`, Backspace removal,
     `sonata_type_model_autocomplete_widget` block; Vitest; axe; Panther single and multiple.
@@ -1963,6 +1963,29 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   (**2841 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
   `make test-js` (**124**), `make assets-check`, `make test-visual` (**372 passed**),
   `make test-functional` (**44**).
+
+- 2026-09-05 — **P4-05 done.** The combobox works as a form field. The controller and the template
+  needed nothing: P3-09 built both contexts at once, and what this task added is the demo that
+  proves it — `ProductAdmin` now edits `category` through a single combobox and `tags` through a
+  multiple one, so the request carries the admin's `uniqid` and the field name instead of
+  `_context=filter`, and the action resolves the field description from the form rather than from
+  the datagrid.
+
+  A Panther test types three tags into the box, watches them become chips over `name[]` hidden
+  inputs, drops the last with Backspace, saves, and finds the selection rendered back — then
+  deletes the product it made. Playwright runs axe over the open listbox in the form context in
+  both themes, and asserts the chip's remove button is named after what it removes.
+
+  **The button recipes were failing contrast and nothing had rendered them yet.** The association
+  "add" button is the first `adm-btn-success` on any page: white on success-500 is 2.62:1. Danger
+  was 3.76:1 and warning 2.35:1. All three now sit two steps darker than the palette's headline
+  shade — success-700, error-600, warning-700 — which is 5.41:1, 4.83:1 and 5.43:1. P4-06 would
+  have hit the same wall with the `btn_*` bar.
+
+  Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
+  (**2842 tests, 2 skips**), `make test-contract` (**163 + 4**), `make lint-js`, `make lint-css`,
+  `make test-js` (**124**), `make assets-check`, `make test-visual` (**399 passed**).
+
 
 
 
