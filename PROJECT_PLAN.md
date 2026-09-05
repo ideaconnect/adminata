@@ -363,7 +363,7 @@ last task, which pushes `main` to `git@github.com:ideaconnect/adminata.git`.
   - Accept: `npm run test` green against dumped fixtures; a template change that breaks a
     controller fails the JavaScript suite.
 
-- [ ] **P1-MS · Milestone M1 push** · S · depends: P1-07, P1-08, P1-10, P1-11, P1-12
+- [x] **P1-MS · Milestone M1 push** · S · depends: P1-07, P1-08, P1-10, P1-11, P1-12
   - Accept: definition of done green; all workflows green on GitHub; status log updated.
 
 ---
@@ -1177,3 +1177,23 @@ become `P5-FIX-nn` tasks here. Step numbers refer to PLAN/10 §1.
   Definition of done green: `make lint`, `make phpstan`, `make rector`, `make test`
   (**2802 tests, 2 skips**), `make test-contract`, `make lint-js`, `make test-js`,
   `make assets-check`.
+
+- 2026-09-05 — **Milestone M1 complete.** Twelve of the thirteen M1 tasks are done; P1-13 depends
+  on P2-MS by design and stays open. Definition of done green: `make lint`, `make phpstan`,
+  `make rector`, `make test` (**2802 tests, 2 skips**), `make test-contract` (162 + 4),
+  `make test-functional` (15), `make test-visual` (**99**), `make lint-js`, `make test-js`,
+  `make assets-check`. `CHANGELOG.md` records the milestone. `main` pushed to
+  `ideaconnect/adminata`.
+
+  What M1 actually leaves behind is a set of gates, and the honest summary is that **the interface
+  is currently worse than upstream's and every bit of that is measured**. P1-02 removed the
+  Bootstrap CSS and JavaScript; the templates that used them are still Sonata's. So the demo
+  renders unstyled, six axe rules and nine to fifteen html-validate rules fire per page, the
+  product list throws `ReferenceError: jQuery is not defined`, six ORM browser tests carry
+  `#[Group('legacy-ui')]`, and four of the MongoDB fork's nine browser scenarios cannot click what
+  they need to. None of that is a surprise and none of it is silent: it is in
+  `tests/Contract/deferred-templates.txt` (36 templates), `tests/Visual/support/findings.json`
+  (6 accessibility and 3 markup entries), an exact assertion in `DashboardPantherTest`, an excluded
+  PHPUnit group, and a `continue-on-error` job. Every one of those is written so that **fixing it
+  fails the build** until the record is updated in the same commit, which is what turns M2 to M4
+  from a rewrite into a checklist that empties itself.
