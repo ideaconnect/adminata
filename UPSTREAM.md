@@ -42,15 +42,16 @@ the lot, and every exclusion list names these paths so a sync cannot bring them 
 |---|---|---|---|---|---|---|
 | `packages/admin-bundle` | `sonata-project/admin-bundle` | `Sonata\AdminBundle\` | 4.43.0 | `3fbcc80282d7438855482240109725b1d3bcef3a` | 2026-06-03 | `0572910` |
 | merged into `packages/admin-bundle` | `sonata-project/block-bundle` | `Sonata\AdminBundle\` | 5.4.0 | `6c7b38af2662ab81197fae2697f46bfa28db9384` | 2025-11-30 | `d47531c` |
-| `packages/doctrine-extensions` | `sonata-project/doctrine-extensions` | `Sonata\Doctrine\` | 2.6.0 | `1a7ce987cf1761e88fa55dc157e941b44bf11e42` | 2025-11-23 | `d46b331` |
+| merged into `packages/admin-bundle` | `sonata-project/doctrine-extensions` | `Sonata\AdminBundle\Doctrine\` | 2.6.0 | `1a7ce987cf1761e88fa55dc157e941b44bf11e42` | 2025-11-23 | `d46b331` |
 | `packages/doctrine-orm-admin-bundle` | `sonata-project/doctrine-orm-admin-bundle` | `Sonata\DoctrineORMAdminBundle\` | 4.21.0 | `214739047182fc85ab97ade350fdc461cb1d52cf` | 2026-01-05 | `622c9c2` |
 | merged into `packages/admin-bundle` | `sonata-project/exporter` | `Sonata\AdminBundle\Exporter\` | 3.4.0 | `ff9f0c116d8cdf08a05ac98a6eb8fb4cd94f73d0` | 2025-11-23 | `3d079ef` |
 | merged into `packages/admin-bundle` | `sonata-project/form-extensions` | `Sonata\AdminBundle\` | 2.7.0 | `f4f46206377a4eb4fcdef343698198bdca88c834` | 2025-11-23 | `bf26b6a` |
 | merged into `packages/admin-bundle` | `sonata-project/twig-extensions` | `Sonata\AdminBundle\` | 2.6.0 | `bbc173ad144d30f87e94f544cbec4ab8de1b4b20` | 2025-11-23 | `6fae8f1` |
 
-The `replace` block of the root `composer.json` must list exactly the three *package directory*
-names above at exactly these versions, and `conflict` must carry `sonata-project/block-bundle`,
-`sonata-project/exporter`, `sonata-project/form-extensions` and `sonata-project/twig-extensions`;
+The `replace` block of the root `composer.json` must list exactly the *package directory* names
+above at exactly these versions, and `conflict` must carry every merged tree —
+`sonata-project/block-bundle`, `sonata-project/doctrine-extensions`, `sonata-project/exporter`,
+`sonata-project/form-extensions` and `sonata-project/twig-extensions`;
 `bin/check-replace-versions.php` (P0-09) asserts that against this table, against
 `upstream/remotes.txt` and against `upstream/merged.txt`. It reads the **Upstream package** and
 **Tag** columns by name, so a merged row keeps its tag recorded while its first cell no longer
@@ -59,7 +60,7 @@ names a directory.
 ## Remotes
 
 `upstream/remotes.txt` holds the package → repository → tag mapping for all seven imported trees,
-the four merged ones included; `upstream/merged.txt` records which of them no longer have a
+the merged ones included; `upstream/merged.txt` records which of them no longer have a
 directory of their own and what they were merged into. Recreate the remotes in a fresh clone with:
 
 ```bash
@@ -85,8 +86,7 @@ owns them (PLAN/07 §10). They are created in P0-08 together with `upstream/diff
 |---|---|
 | `admin-bundle` | `src/Resources/views/**`, `src/Resources/public/**`, `assets/**`, `package*.json`, build and lint configs, `.github/**`, `Makefile`, `*.md`, `phpunit.xml.dist`, `rector.php`, `.php-cs-fixer.dist.php`, `phpstan*.neon`, the obsolete cookbook recipes, and the PLAN/01 P6 PHP files (merged by hand) |
 | `doctrine-orm-admin-bundle` | the views listed as rewritten or deferred in PLAN/03 §G |
-| `block-bundle`, `exporter`, `form-extensions`, `twig-extensions` | everything: they have no directory to sync into, so their lists are moot (see above) |
-| `doctrine-extensions` | tooling files only |
+| `block-bundle`, `doctrine-extensions`, `exporter`, `form-extensions`, `twig-extensions` | everything: they have no directory to sync into, so their lists are moot (see above) |
 
 Every list additionally excludes the dev-kit repo scaffolding named above.
 

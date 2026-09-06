@@ -21,6 +21,8 @@ use Sonata\AdminBundle\DependencyInjection\Compiler\AdminMakerCompilerPass;
 use Sonata\AdminBundle\DependencyInjection\Compiler\AdminSearchCompilerPass;
 use Sonata\AdminBundle\DependencyInjection\Compiler\BlockGlobalVariablesCompilerPass;
 use Sonata\AdminBundle\DependencyInjection\Compiler\BlockTweakCompilerPass;
+use Sonata\AdminBundle\DependencyInjection\Compiler\DoctrineAdapterCompilerPass;
+use Sonata\AdminBundle\DependencyInjection\Compiler\DoctrineMapperCompilerPass;
 use Sonata\AdminBundle\DependencyInjection\Compiler\ExporterCompilerPass;
 use Sonata\AdminBundle\DependencyInjection\Compiler\ExtensionCompilerPass;
 use Sonata\AdminBundle\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
@@ -70,5 +72,11 @@ final class SonataAdminBundle extends Bundle
         // The exporter stack's compiler pass, which hands "sonata.exporter.exporter" every service
         // tagged "sonata.exporter.writer".
         $container->addCompilerPass(new ExporterCompilerPass());
+
+        // The Doctrine stack's compiler passes. They drop the ORM adapter and the metadata mapper
+        // again when Doctrine ORM is not part of the container, which is what a panel running the
+        // MongoDB ODM alone looks like now that the ORM admin bundle ships separately.
+        $container->addCompilerPass(new DoctrineAdapterCompilerPass());
+        $container->addCompilerPass(new DoctrineMapperCompilerPass());
     }
 }

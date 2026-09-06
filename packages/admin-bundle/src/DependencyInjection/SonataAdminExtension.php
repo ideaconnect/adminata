@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\AdminBundle\DependencyInjection;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\AdminBundle\DependencyInjection\Compiler\AddAuditReadersCompilerPass;
 use Sonata\AdminBundle\DependencyInjection\Compiler\ModelManagerCompilerPass;
 use Sonata\AdminBundle\Model\AuditReaderInterface;
@@ -69,12 +70,18 @@ final class SonataAdminExtension extends Extension
         $loader->load('block.php');
         $loader->load('commands.php');
         $loader->load('core.php');
+        $loader->load('doctrine.php');
         $loader->load('event_listener.php');
         $loader->load('exporter.php');
         $loader->load('form_types.php');
         $loader->load('menu.php');
         $loader->load('route.php');
         $loader->load('twig.php');
+
+        if (interface_exists(EntityManagerInterface::class)) {
+            $loader->load('doctrine_orm.php');
+            $loader->load('doctrine_mapper_orm.php');
+        }
 
         if (isset($bundles['MakerBundle'])) {
             $loader->load('makers.php');

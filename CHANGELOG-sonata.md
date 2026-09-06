@@ -14,7 +14,7 @@ bundle's own. Their subtree histories are still reachable as `git log -- package
 |---|---|---|---|
 | `sonata-project/admin-bundle` | 4.43.0 | [packages/admin-bundle/CHANGELOG.md](packages/admin-bundle/CHANGELOG.md) | <https://github.com/sonata-project/SonataAdminBundle/releases> |
 | `sonata-project/block-bundle` | 5.4.0 | [packages/admin-bundle/CHANGELOG-block.md](packages/admin-bundle/CHANGELOG-block.md) | <https://github.com/sonata-project/SonataBlockBundle/releases> |
-| `sonata-project/doctrine-extensions` | 2.6.0 | [packages/doctrine-extensions/CHANGELOG.md](packages/doctrine-extensions/CHANGELOG.md) | <https://github.com/sonata-project/sonata-doctrine-extensions/releases> |
+| `sonata-project/doctrine-extensions` | 2.6.0 | [packages/admin-bundle/CHANGELOG-doctrine.md](packages/admin-bundle/CHANGELOG-doctrine.md) | <https://github.com/sonata-project/sonata-doctrine-extensions/releases> |
 | `sonata-project/doctrine-orm-admin-bundle` | 4.21.0 | [packages/doctrine-orm-admin-bundle/CHANGELOG.md](packages/doctrine-orm-admin-bundle/CHANGELOG.md) | <https://github.com/sonata-project/SonataDoctrineORMAdminBundle/releases> |
 | `sonata-project/exporter` | 3.4.0 | [packages/admin-bundle/CHANGELOG-exporter.md](packages/admin-bundle/CHANGELOG-exporter.md) | <https://github.com/sonata-project/exporter/releases> |
 | `sonata-project/form-extensions` | 2.7.0 | [packages/admin-bundle/CHANGELOG-form.md](packages/admin-bundle/CHANGELOG-form.md) | <https://github.com/sonata-project/form-extensions/releases> |

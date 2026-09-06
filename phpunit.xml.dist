@@ -22,7 +22,6 @@
             <directory>packages/admin-bundle/tests</directory>
         </testsuite>
         <testsuite name="doctrine">
-            <directory>packages/doctrine-extensions/tests</directory>
         </testsuite>
         <testsuite name="orm">
             <directory>packages/doctrine-orm-admin-bundle/tests</directory>
@@ -53,7 +52,6 @@
     <source ignoreSuppressionOfDeprecations="true">
         <include>
             <directory>packages/admin-bundle/src</directory>
-            <directory>packages/doctrine-extensions/src</directory>
             <directory>packages/doctrine-orm-admin-bundle/src</directory>
         </include>
     </source>

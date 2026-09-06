@@ -15,7 +15,6 @@ namespace Sonata\AdminBundle\Tests\App;
 
 use Knp\Bundle\MenuBundle\KnpMenuBundle;
 use Sonata\AdminBundle\SonataAdminBundle;
-use Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
@@ -39,7 +38,6 @@ final class AppKernel extends Kernel
             new SecurityBundle(),
             new KnpMenuBundle(),
             new StimulusBundle(),
-            new SonataDoctrineBundle(),
             new SonataAdminBundle(),
         ];
     }

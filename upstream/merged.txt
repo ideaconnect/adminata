@@ -8,6 +8,7 @@
 # still the version the merged sources sit at. Only the mechanical replay is gone — an upstream
 # release of a merged package is ported by hand into packages/<merged-into>/.
 block-bundle              admin-bundle
+doctrine-extensions       admin-bundle
 exporter                  admin-bundle
 form-extensions           admin-bundle
 twig-extensions           admin-bundle

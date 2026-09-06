@@ -1,0 +1,267 @@
+# Change Log
+
+> **adminata note.** This is `sonata-project/doctrine-extensions`'s own changelog, up to the
+> imported tag 2.6.0. The library was merged into this package directory on 2026-09-07 — its classes
+> are `Sonata\AdminBundle\Doctrine\` now and there is no `SonataDoctrineBundle` — so its changelog
+> sits beside the admin bundle's own rather than replacing it. adminata's changes are in the
+> repository's [CHANGELOG.md](../../CHANGELOG.md); the index of upstream histories is
+> [CHANGELOG-sonata.md](../../CHANGELOG-sonata.md). Everything below is upstream's, unedited.
+
+All notable changes to this project will be documented in this file.
+This project adheres to [Semantic Versioning](http://semver.org/).
+
+## [2.6.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/2.5.0...2.6.0) - 2025-11-23
+### Removed
+- [[#539](https://github.com/sonata-project/sonata-doctrine-extensions/pull/539)] Support for PHP 8.1 ([@dmaicher](https://github.com/dmaicher))
+
+## [2.5.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/2.4.1...2.5.0) - 2025-02-03
+### Added
+- [[#525](https://github.com/sonata-project/sonata-doctrine-extensions/pull/525)] Support for `doctrine/persistence` ^4.0 ([@dmaicher](https://github.com/dmaicher))
+
+## [2.4.1](https://github.com/sonata-project/sonata-doctrine-extensions/compare/2.4.0...2.4.1) - 2024-08-18
+### Changed
+- [[#514](https://github.com/sonata-project/sonata-doctrine-extensions/pull/514)] Load mapping earlier (priority 10) ([@core23](https://github.com/core23))
+
+### Fixed
+- [[#511](https://github.com/sonata-project/sonata-doctrine-extensions/pull/511)] Symfony 7.1 deprecation about `Symfony\Component\HttpKernel\DependencyInjection\Extension` usage ([@VincentLanglet](https://github.com/VincentLanglet))
+
+## [2.4.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/2.3.0...2.4.0) - 2024-02-21
+### Added
+- [[#494](https://github.com/sonata-project/sonata-doctrine-extensions/pull/494)] Compatibility with `doctrine/dbal` 4 and `doctrine/orm` 3 ([@dmaicher](https://github.com/dmaicher))
+
+## [2.3.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/2.2.0...2.3.0) - 2023-06-04
+### Fixed
+- [[#487](https://github.com/sonata-project/sonata-doctrine-extensions/pull/487)] Fixed Symfony 6.3 deprecation: `DoctrineORMMapper` is now registered as Doctrine event listener ([@dmaicher](https://github.com/dmaicher))
+
+## [2.2.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/2.1.0...2.2.0) - 2023-03-09
+### Removed
+- [[#463](https://github.com/sonata-project/sonata-doctrine-extensions/pull/463)] Drop support for `doctrine/persistence` ^2.0. ([@jordisala1991](https://github.com/jordisala1991))
+
+## [2.1.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/2.0.1...2.1.0) - 2022-12-31
+### Added
+- [[#443](https://github.com/sonata-project/sonata-doctrine-extensions/pull/443)] Added `TransactionalManagerInterface::class` interface. ([@eerison](https://github.com/eerison))
+
+## [2.0.1](https://github.com/sonata-project/sonata-doctrine-extensions/compare/2.0.0...2.0.1) - 2022-08-02
+### Fixed
+- [[#434](https://github.com/sonata-project/sonata-doctrine-extensions/pull/434)] Symfony 4.4 compatibility ([@VincentLanglet](https://github.com/VincentLanglet))
+
+## [2.0.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/2.0.0-alpha1...2.0.0) - 2022-07-28
+### Removed
+- [[#429](https://github.com/sonata-project/sonata-doctrine-extensions/pull/429)] EntityManagerMockFactoryTrait ([@VincentLanglet](https://github.com/VincentLanglet))
+
+## [2.0.0-alpha-1](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.x...2.0.0-alpha-1) - 2022-06-14
+### Changed
+- [[#423](https://github.com/sonata-project/sonata-doctrine-extensions/pull/423)] Visibility of BaseManager::getObjectManager to protected ([@VincentLanglet](https://github.com/VincentLanglet))
+
+### Removed
+- [[#416](https://github.com/sonata-project/sonata-doctrine-extensions/pull/416)] Support for doctrine/persistence 1 ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#416](https://github.com/sonata-project/sonata-doctrine-extensions/pull/416)] Support for php 7.4 ([@VincentLanglet](https://github.com/VincentLanglet))
+
+See UPGRADE-2.0.md for all the changes
+
+## [1.18.1](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.18.0...1.18.1) - 2022-09-01
+### Fixed
+- [[#448](https://github.com/sonata-project/sonata-doctrine-extensions/pull/448)] JsonType::convertToPHPValue and JsonType::convertToDatabaseValue can return null ([@dmitryuk](https://github.com/dmitryuk))
+
+## [1.18.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.17.0...1.18.0) - 2022-08-16
+### Added
+- [[#443](https://github.com/sonata-project/sonata-doctrine-extensions/pull/443)] Added `TransactionalManagerInterface::class` interface. ([@eerison](https://github.com/eerison))
+
+### Changed
+- [[#443](https://github.com/sonata-project/sonata-doctrine-extensions/pull/443)] Implements `TransactionalManagerInterface` in `BaseEntityManager` abstract class ([@eerison](https://github.com/eerison))
+
+### Removed
+- [[#424](https://github.com/sonata-project/sonata-doctrine-extensions/pull/424)] Support of Symfony 5.3 ([@franmomu](https://github.com/franmomu))
+
+## [1.17.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.16.0...1.17.0) - 2022-05-11
+### Added
+- [[#412](https://github.com/sonata-project/sonata-doctrine-extensions/pull/412)] Added support for `doctrine/persistence` 3 ([@franmomu](https://github.com/franmomu))
+
+### Deprecated
+- [[#412](https://github.com/sonata-project/sonata-doctrine-extensions/pull/412)] Deprecated passing an argument to `ClearableManagerInterface::clear()` ([@franmomu](https://github.com/franmomu))
+- [[#408](https://github.com/sonata-project/sonata-doctrine-extensions/pull/408)] ODM\PHPCR support ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#406](https://github.com/sonata-project/sonata-doctrine-extensions/pull/406)] Deprecated custom bundle file for flex recipe. ([@jordisala1991](https://github.com/jordisala1991))
+
+## [1.16.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.15.0...1.16.0) - 2021-12-04
+### Added
+- [[#376](https://github.com/sonata-project/sonata-doctrine-extensions/pull/376)] Added support for Symfony 6. ([@jordisala1991](https://github.com/jordisala1991))
+
+### Fixed
+- [[#374](https://github.com/sonata-project/sonata-doctrine-extensions/pull/374)] Deprecation on classes now rely on @deprecated annotation. ([@jordisala1991](https://github.com/jordisala1991))
+
+## [1.15.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.14.0...1.15.0) - 2021-11-06
+### Deprecated
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] Passing null to `DoctrineORMAdapter::getNormalizedIdentifier()` ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] Passing null to `DoctrineORMAdapter::getUrlSafeIdentifier()` ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] Passing null to `DoctrinePHPCRAdapter::getNormalizedIdentifier()` ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] Passing null to `DoctrinePHPCRAdapter::getUrlSafeIdentifier()` ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] `BaseDocumentManager::__get()` method ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] `BasePHPCRManager::__get()` method ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] `BaseEntityManager::__get()` method ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] `ManagerInterface::getTableName()` method ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] `ManagerInterface::getConnection()` method ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] `BaseManager::getTableName()` method ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] `BasePHPCRManager::getTableName()` method ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] `BasePHPCRManager::getConnection()` method ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] `BaseEntityManager::getConnection()` method ([@VincentLanglet](https://github.com/VincentLanglet))
+- [[#365](https://github.com/sonata-project/sonata-doctrine-extensions/pull/365)] `BaseDocumentManager::getConnection()` method ([@VincentLanglet](https://github.com/VincentLanglet))
+
+## [1.14.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.13.1...1.14.0) - 2021-10-05
+### Added
+- [[#363](https://github.com/sonata-project/sonata-doctrine-extensions/pull/363)] Added support for Doctrine DBAL 3. ([@jordisala1991](https://github.com/jordisala1991))
+
+## [1.13.1](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.13.0...1.13.1) - 2021-07-20
+### Fixed
+- [[#327](https://github.com/sonata-project/sonata-doctrine-extensions/pull/327)] `EntityManagerMockFactoryTrait`  mocks all the basic methods of `QueryBuilder` ([@VincentLanglet](https://github.com/VincentLanglet))
+
+## [1.13.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.12.0...1.13.0) - 2021-06-15
+### Added
+- [[#323](https://github.com/sonata-project/sonata-doctrine-extensions/pull/323)] Added `ClearableManagerInterface` to be able to clear the Manager in an easy way. ([@jordisala1991](https://github.com/jordisala1991))
+
+### Fixed
+- [[#298](https://github.com/sonata-project/sonata-doctrine-extensions/pull/298)] Dependency on a non-existent service "sonata.doctrine.adapter.doctrine_phpcr" ([@skydiablo](https://github.com/skydiablo))
+
+## [1.12.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.11.0...1.12.0) - 2021-03-11
+### Added
+- [[#303](https://github.com/sonata-project/sonata-doctrine-extensions/pull/303)] Add type hints to interfaces ([@core23](https://github.com/core23))
+- [[#288](https://github.com/sonata-project/sonata-doctrine-extensions/pull/288)] Support for PHP 8.x ([@franmomu](https://github.com/franmomu))
+
+### Fixed
+- [[#306](https://github.com/sonata-project/sonata-doctrine-extensions/pull/306)] Missing PHPStan type at `BaseManager::$class` property ([@franmomu](https://github.com/franmomu))
+
+## [1.11.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.10.1...1.11.0) - 2021-01-04
+### Added
+- [[#284](https://github.com/sonata-project/sonata-doctrine-extensions/pull/284)] Added PHP 8 support ([@VincentLanglet](https://github.com/VincentLanglet))
+
+## [1.10.1](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.10.0...1.10.1) - 2020-10-21
+### Fixed
+- [[#255](https://github.com/sonata-project/sonata-doctrine-extensions/pull/255)] Compatibility with PHPUnit 9 ([@jordisala1991](https://github.com/jordisala1991))
+
+## [1.10.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.9.1...1.10.0) - 2020-10-19
+### Removed
+- [[#240](https://github.com/sonata-project/sonata-doctrine-extensions/pull/240)] Remove support for `doctrine/mongodb-odm` <2.0 ([@franmomu](https://github.com/franmomu))
+
+## [1.9.1](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.9.0...1.9.1) - 2020-08-09
+### Fixed
+- [[#211](https://github.com/sonata-project/sonata-doctrine-extensions/pull/211)] Fixed conflict with class names. ([@franmomu](https://github.com/franmomu))
+
+## [1.9.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.8.0...1.9.0) - 2020-08-08
+### Added
+- [[#209](https://github.com/sonata-project/sonata-doctrine-extensions/pull/209)]
+  Added `Sonata\Exporter\Bridge\Symfony\SonataDoctrineSymfonyBundle` alias in
+order to fix Symfony Flex autodiscovery.
+([@phansys](https://github.com/phansys))
+
+## [1.8.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.7.0...1.8.0) - 2020-07-20
+### Added
+- [[#205](https://github.com/sonata-project/sonata-doctrine-extensions/pull/205)]
+  Added `Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle`.
+([@phansys](https://github.com/phansys))
+
+### Deprecated
+- [[#205](https://github.com/sonata-project/sonata-doctrine-extensions/pull/205)]
+  Deprecated `Sonata\Doctrine\Bridge\Symfony\Bundle\SonataDoctrineBundle` in
+favor of `Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle`.
+([@phansys](https://github.com/phansys))
+
+### Fixed
+- [[#184](https://github.com/sonata-project/sonata-doctrine-extensions/pull/184)]
+  Fix modifying entities (associations, discriminator columns and overrides)
+with DoctrineCollector ([@jordisala1991](https://github.com/jordisala1991))
+
+## [1.7.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.6.0...1.7.0) - 2020-07-02
+### Added
+- [[#203](https://github.com/sonata-project/sonata-doctrine-extensions/pull/203)]
+  Added support for `doctrine/persistence:^2.0`.
+([@phansys](https://github.com/phansys))
+
+### Fixed
+- [[#189](https://github.com/sonata-project/sonata-doctrine-extensions/pull/189)]
+  Fixed returning `void` from methods which are intended to return values;
+([@phansys](https://github.com/phansys))
+- [[#189](https://github.com/sonata-project/sonata-doctrine-extensions/pull/189)]
+  Fixed weak check at `ModelManager::getNormalizedIdentifier()`.
+([@phansys](https://github.com/phansys))
+
+### Removed
+- [[#202](https://github.com/sonata-project/sonata-doctrine-extensions/pull/202)] Removed support for php:7.1. ([@phansys](https://github.com/phansys))
+
+## [1.6.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.5.1...1.6.0) - 2020-03-23
+### Added
+- Added some explicit methods to `OptionsBuilder`
+
+### Deprecated
+- `OptionsBuilder::create` method
+
+### Fixed
+- Doctrine deprecation
+
+### Changed
+- Bump SF to 4.4
+
+## [1.5.1](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.5.0...1.5.1) - 2019-12-15
+### Fixed
+- Fix typo in class name
+- Restore argument in `EntityManagerMockFactory::create()`
+
+## [1.5.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.4.0...1.5.0) - 2019-12-15
+### Added
+- Add `EntityManagerMockFactoryTrait`
+
+## [1.4.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.3.1...1.4.0) - 2019-12-02
+### Changed
+- Remove the final modifier for the `getRepository` method
+
+### Deprecated
+- Passing a second argument to `BaseManager::findOneBy`
+
+## [1.3.1](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.3.0...1.3.1) - 2019-09-27
+### Fixed
+- Using with only PHPCR without ORM
+
+## [1.3.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.2.0...1.3.0) - 2019-04-29
+
+### Added
+- Added `DoctrineORMMapper` to manipulate doctrine entity relations
+
+### Deprecated
+- Deprecated `Sonata\Doctrine\Model\PageableManagerInterface`
+
+## [1.2.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.1.5...1.2.0) - 2019-03-08
+
+### Fixed
+- Adapters are not being injected on the adapter chain.
+- `sonata_urlsafeid` twig filter is working again
+
+### Deprecated
+- `Sonata\Doctrine\Types\JsonType`, in favor of `Doctrine\DBAL\Types\JsonType`
+
+## [1.1.5](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.1.4...1.1.5) - 2019-01-19
+
+### Fixed
+- crash when decoding null value as JSON
+
+## [1.1.4](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.1.3...1.1.4) - 2019-01-16
+
+### Fixed
+- invalid `doctrine_phpcr` config filename loading in SonataDoctrineExtension
+
+## [1.1.3](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.1.2...1.1.3) - 2018-12-16
+### Fixed
+- crash about type hinting issues with AdapterInterface
+
+## [1.1.2](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.1.1...1.1.2) - 2018-11-25
+### Removed
+- Removed `@mixin`s from classes
+
+## [1.1.1](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.1.0...1.1.1) - 2018-11-21
+### Fixed
+- Fix class namespace and services loading
+
+## [1.1.0](https://github.com/sonata-project/sonata-doctrine-extensions/compare/1.0.2...1.1.0) - 2018-10-02
+### Added
+
+- Added all doctrine stuff from `SonataCoreBundle`
+
+### Removed
+- support for old versions of php

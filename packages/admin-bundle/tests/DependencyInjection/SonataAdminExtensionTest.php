@@ -21,6 +21,9 @@ use Sonata\AdminBundle\DependencyInjection\Compiler\AddAuditReadersCompilerPass;
 use Sonata\AdminBundle\DependencyInjection\Compiler\ModelManagerCompilerPass;
 use Sonata\AdminBundle\DependencyInjection\Configuration;
 use Sonata\AdminBundle\DependencyInjection\SonataAdminExtension;
+use Sonata\AdminBundle\Doctrine\Adapter\AdapterChain;
+use Sonata\AdminBundle\Doctrine\Adapter\ORM\DoctrineORMAdapter;
+use Sonata\AdminBundle\Doctrine\Mapper\ORM\DoctrineORMMapper;
 use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 use Sonata\AdminBundle\Filter\Persister\FilterPersisterInterface;
 use Sonata\AdminBundle\Model\AuditManagerInterface;
@@ -91,6 +94,23 @@ final class SonataAdminExtensionTest extends AbstractExtensionTestCase
             'sonata.admin.admin_exporter',
             AdminExporter::class
         );
+    }
+
+    /**
+     * The Doctrine manager, adapter and mapper layer is part of this bundle too. It used to arrive
+     * with a SonataDoctrineBundle of its own, so these three services only existed when an
+     * application happened to register that bundle; now they are loaded here. The two ORM ones are
+     * behind an interface_exists() guard, because the ORM admin bundle ships separately and a panel
+     * running the MongoDB ODM alone need not have Doctrine ORM installed at all.
+     */
+    public function testLoadsTheDoctrineServiceDefinitions(): void
+    {
+        $this->container->setParameter('kernel.bundles', []);
+        $this->load();
+
+        self::assertContainerBuilderHasService('sonata.doctrine.model.adapter.chain', AdapterChain::class);
+        self::assertContainerBuilderHasService('sonata.doctrine.adapter.doctrine_orm', DoctrineORMAdapter::class);
+        self::assertContainerBuilderHasService('sonata.doctrine.mapper', DoctrineORMMapper::class);
     }
 
     public function testHasSecurityRoleParameters(): void

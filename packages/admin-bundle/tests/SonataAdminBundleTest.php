@@ -31,9 +31,9 @@ final class SonataAdminBundleTest extends TestCase
     {
         $containerBuilder = $this->createMock(ContainerBuilder::class);
 
-        // Eleven admin passes, the block stack's two, the Twig namespace aliases, and the
-        // exporter's writer pass.
-        $containerBuilder->expects(static::exactly(15))
+        // Eleven admin passes, the block stack's two, the Twig namespace aliases, the
+        // exporter's writer pass, and the Doctrine stack's two.
+        $containerBuilder->expects(static::exactly(17))
             ->method('addCompilerPass');
 
         $bundle = new SonataAdminBundle();

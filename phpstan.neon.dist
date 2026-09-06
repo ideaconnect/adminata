@@ -16,8 +16,6 @@ parameters:
     paths:
         - packages/admin-bundle/src
         - packages/admin-bundle/tests
-        - packages/doctrine-extensions/src
-        - packages/doctrine-extensions/tests
         - packages/doctrine-orm-admin-bundle/src
         - packages/doctrine-orm-admin-bundle/tests
         - tests

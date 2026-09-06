@@ -19,7 +19,6 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
 use Knp\Bundle\MenuBundle\KnpMenuBundle;
 use Sonata\AdminBundle\SonataAdminBundle;
-use Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle;
 use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -44,7 +43,6 @@ final class AppKernel extends Kernel
             new KnpMenuBundle(),
             new SecurityBundle(),
             new SonataAdminBundle(),
-            new SonataDoctrineBundle(),
             new SonataDoctrineORMAdminBundle(),
             new TwigBundle(),
             new DoctrineFixturesBundle(),

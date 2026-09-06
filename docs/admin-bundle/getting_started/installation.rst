@@ -59,16 +59,16 @@ line in ``bundles.php`` file of your project::
         Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
         Knp\Bundle\MenuBundle\KnpMenuBundle::class => ['all' => true],
         Sonata\AdminBundle\SonataAdminBundle::class => ['all' => true],
-        Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle::class => ['all' => true],
         Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
     ];
 
-``SonataAdminBundle`` is one line, not five: the blocks, the form types, the Twig helpers and the
-exporter are part of it, so there is no ``SonataBlockBundle``, ``SonataFormBundle``,
-``SonataTwigBundle`` or ``SonataExporterBundle`` to register. What they contribute — the
-``sonata_block``, ``sonata_form``, ``sonata_twig`` and ``sonata_exporter`` configuration roots, the
-``sonata.block.*``, ``sonata.form.*``, ``sonata.twig.*`` and ``sonata.exporter.*`` services, and
-the block and flash-message Twig functions — the admin bundle registers itself. See
+``SonataAdminBundle`` is one line, not six: the blocks, the Doctrine managers, the form types,
+the Twig helpers and the exporter are part of it, so there is no ``SonataBlockBundle``,
+``SonataDoctrineBundle``, ``SonataFormBundle``, ``SonataTwigBundle`` or ``SonataExporterBundle``
+to register. What they contribute — the ``sonata_block``, ``sonata_form``, ``sonata_twig`` and
+``sonata_exporter`` configuration roots, the ``sonata.block.*``, ``sonata.form.*``,
+``sonata.twig.*`` and ``sonata.exporter.*`` services, the Doctrine manager, adapter and mapper
+services, and the block and flash-message Twig functions — the admin bundle registers itself. See
 :doc:`/admin-bundle/reference/block_configuration`,
 :doc:`/admin-bundle/reference/form_configuration`,
 :doc:`/admin-bundle/reference/twig_configuration` and

@@ -24,14 +24,14 @@ keep working unchanged. The exceptions are `block-bundle`, `exporter`, `form-ext
 | Upstream package | Version | Directory | Namespace | Bundle class |
 |---|---|---|---|---|
 | `sonata-project/admin-bundle` | 4.43.0 | [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\` | `SonataAdminBundle` |
-| `sonata-project/doctrine-extensions` | 2.6.0 | [packages/doctrine-extensions](packages/doctrine-extensions) | `Sonata\Doctrine\` | `SonataDoctrineBundle` |
 | `sonata-project/doctrine-orm-admin-bundle` | 4.21.0 | [packages/doctrine-orm-admin-bundle](packages/doctrine-orm-admin-bundle) | `Sonata\DoctrineORMAdminBundle\` | `SonataDoctrineORMAdminBundle` |
 
-Four more packages were forked and are **not** replaced — they are part of the admin bundle:
+Five more packages were forked and are **not** replaced — they are part of the admin bundle:
 
 | Upstream package | Version | Where it lives now | Namespace | Bundle class |
 |---|---|---|---|---|
 | `sonata-project/block-bundle` | 5.4.0 | inside [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\` | none — `SonataAdminBundle` registers it |
+| `sonata-project/doctrine-extensions` | 2.6.0 | inside [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\Doctrine\` | none — `SonataAdminBundle` registers it |
 | `sonata-project/exporter` | 3.4.0 | inside [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\Exporter\` | none — `SonataAdminBundle` registers it |
 | `sonata-project/form-extensions` | 2.7.0 | inside [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\` | none — `SonataAdminBundle` registers it |
 | `sonata-project/twig-extensions` | 2.6.0 | inside [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\` | none — `SonataAdminBundle` registers it |
@@ -185,15 +185,15 @@ composer require idct/adminata
 Register the bundles in `config/bundles.php`:
 
 ```php
-Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle::class => ['all' => true],
 Sonata\AdminBundle\SonataAdminBundle::class => ['all' => true],
 Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle::class => ['all' => true],
 ```
 
-Three lines, not seven: there is no `SonataBlockBundle`, `SonataExporterBundle`, `SonataFormBundle`
-or `SonataTwigBundle` to register — `SonataAdminBundle` brings the block, form, Twig-helper and
-exporter services and the `sonata_block`, `sonata_form`, `sonata_twig` and `sonata_exporter`
-configuration roots with it. Then publish the assets:
+Two lines, not seven: there is no `SonataBlockBundle`, `SonataDoctrineBundle`,
+`SonataExporterBundle`, `SonataFormBundle` or `SonataTwigBundle` to register — `SonataAdminBundle`
+brings the block, Doctrine, form, Twig-helper and exporter services and the `sonata_block`,
+`sonata_form`, `sonata_twig` and `sonata_exporter` configuration roots with it. Then publish the
+assets:
 
 ```bash
 bin/console assets:install public

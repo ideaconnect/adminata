@@ -21,7 +21,6 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
 use Knp\Bundle\MenuBundle\KnpMenuBundle;
 use Sonata\AdminBundle\SonataAdminBundle;
-use Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle;
 use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
@@ -59,7 +58,6 @@ final class Kernel extends BaseKernel
             new KnpMenuBundle(),
             new DoctrineBundle(),
             new DoctrineFixturesBundle(),
-            new SonataDoctrineBundle(),
             new SonataAdminBundle(),
             new SonataDoctrineORMAdminBundle(),
         ];

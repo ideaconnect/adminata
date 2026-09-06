@@ -126,13 +126,13 @@
     },
     "replace": {
         "sonata-project/admin-bundle": "4.43.0",
-        "sonata-project/doctrine-extensions": "2.6.0",
         "sonata-project/doctrine-orm-admin-bundle": "4.21.0"
     },
     "conflict": {
         "doctrine/mongodb-odm": "<2.4",
         "phpoffice/phpspreadsheet": "<1.23",
         "sonata-project/block-bundle": "*",
+        "sonata-project/doctrine-extensions": "*",
         "sonata-project/entity-audit-bundle": ">=2.0",
         "sonata-project/exporter": "*",
         "sonata-project/form-extensions": "*",
@@ -149,17 +149,14 @@
     "autoload": {
         "psr-4": {
             "Sonata\\AdminBundle\\": "packages/admin-bundle/src/",
-            "Sonata\\DoctrineORMAdminBundle\\": "packages/doctrine-orm-admin-bundle/src/",
-            "Sonata\\Doctrine\\": "packages/doctrine-extensions/src/",
-            "Sonata\\Doctrine\\Bridge\\Symfony\\": "packages/doctrine-extensions/src/Bridge/Symfony/"
+            "Sonata\\DoctrineORMAdminBundle\\": "packages/doctrine-orm-admin-bundle/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Adminata\\Tests\\": "tests/",
             "Sonata\\AdminBundle\\Tests\\": "packages/admin-bundle/tests/",
-            "Sonata\\DoctrineORMAdminBundle\\Tests\\": "packages/doctrine-orm-admin-bundle/tests/",
-            "Sonata\\Doctrine\\Tests\\": "packages/doctrine-extensions/tests/"
+            "Sonata\\DoctrineORMAdminBundle\\Tests\\": "packages/doctrine-orm-admin-bundle/tests/"
         }
     },
     "config": {

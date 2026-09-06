@@ -43,8 +43,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
         __DIR__.'/packages/admin-bundle/src',
         __DIR__.'/packages/admin-bundle/tests',
-        __DIR__.'/packages/doctrine-extensions/src',
-        __DIR__.'/packages/doctrine-extensions/tests',
         __DIR__.'/packages/doctrine-orm-admin-bundle/src',
         __DIR__.'/packages/doctrine-orm-admin-bundle/tests',
         __DIR__.'/tests',

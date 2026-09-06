@@ -47,8 +47,10 @@ use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
  * application's existing `sonata_exporter.yaml`, `sonata_form.yaml` and `sonata_twig.yaml` keep
  * configuring the same trees.
  *
- * `sonata_doctrine` has no reference: doctrine-extensions declares no `Configuration` class, so
- * its root takes no options at all.
+ * There is no `sonata_doctrine` root any more. The tree it used to name took no options at all --
+ * doctrine-extensions never declared a `Configuration` class -- so when that package was merged in,
+ * its services moved to `SonataAdminExtension` rather than to a registered extension that would
+ * only have added an empty configuration key.
  */
 final class ConfigContractTest extends TestCase
 {
