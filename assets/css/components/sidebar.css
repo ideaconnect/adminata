@@ -205,7 +205,12 @@
      */
     &[data-sliding] {
         overflow: hidden;
-        transition: height 200ms ease-out;
+
+        /*
+         * AdminLTE's tree slid at 500 ms with jQuery's swing, and that is the motion the owner
+         * remembers: at 200 ms ease-out the same slide read as an instant toggle.
+         */
+        transition: height 500ms ease-in-out;
     }
 
     /* Someone who asked for less motion gets the old instant toggle. */
