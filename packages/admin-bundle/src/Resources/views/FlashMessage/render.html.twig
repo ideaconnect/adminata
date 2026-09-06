@@ -1,0 +1,87 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{#
+    Flash messages (PLAN/03 §A, PLAN/01 T3).
+
+    `alert alert-{type}` stays on every message: the type is PHP-emitted by `FlashManager`, an
+    application's CSS selects on it, and it is part of the contract (PLAN/02 §8). So are the
+    `read-more-*` classes. What changed is everything around them — TailAdmin's alert recipe, a
+    dismiss button driven by `sonata-dismiss` instead of Bootstrap's `data-dismiss`, and a
+    read-more toggle that is still nothing but a checkbox and a sibling selector.
+#}
+
+{% set collapse = collapse|default(1) %}
+
+{#- `danger` is the one that interrupts a screen reader; the rest wait their turn. -#}
+{% set recipes = {
+    success: 'adm-alert-success',
+    danger: 'adm-alert-error',
+    warning: 'adm-alert-warning',
+    info: 'adm-alert-info',
+} %}
+
+{% for type in sonata_flashmessages_types() %}
+    {% set messages = sonata_flashmessages_get(type) %}
+    {% set status = sonata_flashmessages_class(type, 'default') %}
+    {% set recipe = recipes[status]|default('') %}
+    {% set role = 'danger' == status ? 'alert' : 'status' %}
+
+    {% if messages|length > collapse and collapse > 0 %}
+        <div class="adm-alert {{ recipe }} alert alert-{{ status }} mb-4"
+             role="{{ role }}"
+             {{ stimulus_controller('sonata-dismiss') }}
+        >
+            <input type="checkbox" class="adm-alert__more read-more-state" id="toggle-more-{{ loop.index }}">
+
+            <div class="adm-alert__body read-more-wrap">
+                {% for message in messages %}
+                    {% if loop.index > collapse %}
+                        <span class="read-more-target">{{ message|raw }}</span>
+                    {% else %}
+                        {{ message|raw }}
+                    {% endif %}
+                {% endfor %}
+
+                <label for="toggle-more-{{ loop.index }}" class="adm-alert__more-label read-more-trigger">
+                    <span class="adm-alert__more-more more">{{ 'more'|trans({}, 'SonataAdminBundle') }}</span>
+                    <span class="adm-alert__more-less less">{{ 'less'|trans({}, 'SonataAdminBundle') }}</span>
+                    <span class="adm-badge">{{ messages|length }}</span>
+                </label>
+            </div>
+
+            <button type="button"
+                    class="adm-alert__dismiss close"
+                    aria-label="{{ 'message_close'|trans({}, 'SonataAdminBundle') }}"
+                    {{ stimulus_action('sonata-dismiss', 'dismiss', 'click') }}
+            >
+                <i class="fas fa-xmark" aria-hidden="true"></i>
+            </button>
+        </div>
+    {% elseif messages|length > 0 %}
+        {% for message in messages %}
+            <div class="adm-alert {{ recipe }} alert alert-{{ status }} mb-4"
+                 role="{{ role }}"
+                 {{ stimulus_controller('sonata-dismiss') }}
+            >
+                <div class="adm-alert__body">{{ message|raw }}</div>
+
+                <button type="button"
+                        class="adm-alert__dismiss close"
+                        aria-label="{{ 'message_close'|trans({}, 'SonataAdminBundle') }}"
+                        {{ stimulus_action('sonata-dismiss', 'dismiss', 'click') }}
+                >
+                    <i class="fas fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endfor %}

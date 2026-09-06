@@ -16,7 +16,7 @@ Here's one way to do it:
       use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
       use Sonata\AdminBundle\Exporter\DataSourceInterface;
       use Sonata\DoctrineORMAdminBundle\Exporter\DataSource;
-      use Sonata\Exporter\Source\DoctrineORMQuerySourceIterator;
+      use Sonata\AdminBundle\Exporter\Source\DoctrineORMQuerySourceIterator;
 
       class DecoratingDataSource implements DataSourceInterface
       {

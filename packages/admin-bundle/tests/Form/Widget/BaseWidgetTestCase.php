@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\AdminBundle\Tests\Form\Widget;
 
+use Sonata\AdminBundle\Test\AbstractWidgetTestCase;
 use Sonata\AdminBundle\Tests\Fixtures\StubTranslator;
-use Sonata\Form\Test\AbstractWidgetTestCase;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;

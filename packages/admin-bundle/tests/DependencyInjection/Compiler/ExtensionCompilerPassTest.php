@@ -25,6 +25,7 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\DependencyInjection\Admin\TaggedAdminInterface;
 use Sonata\AdminBundle\DependencyInjection\Compiler\ExtensionCompilerPass;
 use Sonata\AdminBundle\DependencyInjection\SonataAdminExtension;
+use Sonata\AdminBundle\DependencyInjection\SonataExporterExtension;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -393,6 +394,10 @@ final class ExtensionCompilerPassTest extends TestCase
         ]);
         $container->setParameter('kernel.cache_dir', '/tmp');
         $container->setParameter('kernel.debug', true);
+
+        // SonataAdminExtension wires "sonata.admin.admin_exporter" onto
+        // "sonata.exporter.exporter", which the bundle's exporter extension defines.
+        new SonataExporterExtension()->load([], $container);
 
         // Add dependencies for SonataAdminBundle (these services will never get called so dummy classes will do)
         $container

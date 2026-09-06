@@ -44,8 +44,8 @@ Block events help you customize your templates. Available events are :
 - ``sonata.admin.show.top``
 - ``sonata.admin.show.bottom``
 
-If you want more information about block events, you should check the
-`"Event" section of block bundle documentation <https://docs.sonata-project.org/projects/SonataBlockBundle/en/3.x/reference/events>`_.
+If you want more information about block events, you should check
+:doc:`block_events`.
 
 BatchActionEvent
 ^^^^^^^^^^^^^^^^

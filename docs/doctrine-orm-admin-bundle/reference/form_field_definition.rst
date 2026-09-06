@@ -167,7 +167,7 @@ The following example shows the ``CollectionType`` in action::
 
     use Sonata\AdminBundle\Admin\AbstractAdmin;
     use Sonata\AdminBundle\Form\FormMapper;
-    use Sonata\Form\Type\CollectionType;
+    use Sonata\AdminBundle\Form\Type\CollectionType;
 
     final class GalleryAdmin extends AbstractAdmin
     {

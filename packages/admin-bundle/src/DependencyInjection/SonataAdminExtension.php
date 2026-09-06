@@ -70,6 +70,7 @@ final class SonataAdminExtension extends Extension
         $loader->load('commands.php');
         $loader->load('core.php');
         $loader->load('event_listener.php');
+        $loader->load('exporter.php');
         $loader->load('form_types.php');
         $loader->load('menu.php');
         $loader->load('route.php');
@@ -77,10 +78,6 @@ final class SonataAdminExtension extends Extension
 
         if (isset($bundles['MakerBundle'])) {
             $loader->load('makers.php');
-        }
-
-        if (isset($bundles['SonataExporterBundle'])) {
-            $loader->load('exporter.php');
         }
 
         $configuration = $this->getConfiguration($configs, $container);

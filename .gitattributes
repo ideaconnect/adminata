@@ -49,3 +49,7 @@
 # excluded it are gone too; the LICENSE is the one thing here that ships.
 /packages/*/tests export-ignore
 /packages/*/CHANGELOG.md export-ignore
+# The changelogs of block-bundle, exporter, form-extensions and twig-extensions came along when
+# those trees were merged into admin-bundle and had to be renamed to avoid colliding with admin's
+# own; the glob above no longer catches them.
+/packages/*/CHANGELOG-*.md export-ignore

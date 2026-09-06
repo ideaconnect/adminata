@@ -238,6 +238,14 @@
         <source>label_type_no</source>
         <target>no</target>
       </trans-unit>
+      <trans-unit id="date_range_start">
+        <source>date_range_start</source>
+        <target>From</target>
+      </trans-unit>
+      <trans-unit id="date_range_end">
+        <source>date_range_end</source>
+        <target>To</target>
+      </trans-unit>
       <trans-unit id="label_type_contains">
         <source>label_type_contains</source>
         <target>contains</target>
@@ -561,6 +569,94 @@
       <trans-unit id="message_close">
         <source>message_close</source>
         <target>Close</target>
+      </trans-unit>
+      <trans-unit id="more">
+        <source>more</source>
+        <target>more</target>
+      </trans-unit>
+      <trans-unit id="less">
+        <source>less</source>
+        <target>less</target>
+      </trans-unit>
+      <trans-unit id="sonata.block.service.container">
+        <source>sonata.block.service.container</source>
+        <target>Container</target>
+      </trans-unit>
+      <trans-unit id="sonata.block.service.text">
+        <source>sonata.block.service.text</source>
+        <target>Simple text</target>
+      </trans-unit>
+      <trans-unit id="sonata.block.service.rss">
+        <source>sonata.block.service.rss</source>
+        <target>RSS feed</target>
+      </trans-unit>
+      <trans-unit id="sonata.block.service.menu">
+        <source>sonata.block.service.menu</source>
+        <target>Menu</target>
+      </trans-unit>
+      <trans-unit id="sonata.block.service.template">
+        <source>sonata.block.service.template</source>
+        <target>Template</target>
+      </trans-unit>
+      <trans-unit id="form.label_template">
+        <source>form.label_template</source>
+        <target>Template</target>
+      </trans-unit>
+      <trans-unit id="form.label_content">
+        <source>form.label_content</source>
+        <target>Content</target>
+      </trans-unit>
+      <trans-unit id="form.label_url">
+        <source>form.label_url</source>
+        <target>URL</target>
+      </trans-unit>
+      <trans-unit id="form.label_title">
+        <source>form.label_title</source>
+        <target>Title</target>
+      </trans-unit>
+      <trans-unit id="form.label_code">
+        <source>form.label_code</source>
+        <target>Code</target>
+      </trans-unit>
+      <trans-unit id="form.label_layout">
+        <source>form.label_layout</source>
+        <target>Layout</target>
+      </trans-unit>
+      <trans-unit id="form.label_class">
+        <source>form.label_class</source>
+        <target>CSS Class</target>
+      </trans-unit>
+      <trans-unit id="form.label_menu_name">
+        <source>form.label_menu_name</source>
+        <target>Menu</target>
+      </trans-unit>
+      <trans-unit id="form.label_safe_labels">
+        <source>form.label_safe_labels</source>
+        <target>Safe labels</target>
+      </trans-unit>
+      <trans-unit id="form.label_current_class">
+        <source>form.label_current_class</source>
+        <target>Current CSS Class</target>
+      </trans-unit>
+      <trans-unit id="form.label_first_class">
+        <source>form.label_first_class</source>
+        <target>First CSS Class</target>
+      </trans-unit>
+      <trans-unit id="form.label_last_class">
+        <source>form.label_last_class</source>
+        <target>Last CSS Class</target>
+      </trans-unit>
+      <trans-unit id="form.label_menu_template">
+        <source>form.label_menu_template</source>
+        <target>Menu Template</target>
+      </trans-unit>
+      <trans-unit id="form.label_translation_domain">
+        <source>form.label_translation_domain</source>
+        <target>Translation domain</target>
+      </trans-unit>
+      <trans-unit id="form.label_icon">
+        <source>form.label_icon</source>
+        <target>Icon</target>
       </trans-unit>
     </body>
   </file>

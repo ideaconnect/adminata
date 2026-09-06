@@ -43,18 +43,10 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
         __DIR__.'/packages/admin-bundle/src',
         __DIR__.'/packages/admin-bundle/tests',
-        __DIR__.'/packages/block-bundle/src',
-        __DIR__.'/packages/block-bundle/tests',
         __DIR__.'/packages/doctrine-extensions/src',
         __DIR__.'/packages/doctrine-extensions/tests',
         __DIR__.'/packages/doctrine-orm-admin-bundle/src',
         __DIR__.'/packages/doctrine-orm-admin-bundle/tests',
-        __DIR__.'/packages/exporter/src',
-        __DIR__.'/packages/exporter/tests',
-        __DIR__.'/packages/form-extensions/src',
-        __DIR__.'/packages/form-extensions/tests',
-        __DIR__.'/packages/twig-extensions/src',
-        __DIR__.'/packages/twig-extensions/tests',
         __DIR__.'/tests',
     ]);
 
@@ -76,7 +68,7 @@ return static function (RectorConfig $rectorConfig): void {
         RemoveNeverUsedMockPropertyRector::class,
 
         // Mock-to-stub rewrites that change what the inherited suites actually assert. Each was
-        // caught by a failing test after a first run over the seven packages:
+        // caught by a failing test after a first run over the forked packages:
         //   * InlineStubPropertyToCreateStubMethodCallRector inlines a mock held in a property
         //     into every use, so `assertSame($this->admin, $event->getAdmin())` ends up comparing
         //     two freshly created stubs (ConfigureEventTest, ConfigureQueryEventTest,

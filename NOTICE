@@ -11,12 +11,12 @@ Copyright (c) 2010 Thomas Rabaix and the Sonata Project contributors
 | Package | Version forked | Directory |
 |---|---|---|
 | sonata-project/admin-bundle | 4.43.0 | packages/admin-bundle |
-| sonata-project/block-bundle | 5.4.0 | packages/block-bundle |
+| sonata-project/block-bundle | 5.4.0 | merged into packages/admin-bundle |
 | sonata-project/doctrine-extensions | 2.6.0 | packages/doctrine-extensions |
 | sonata-project/doctrine-orm-admin-bundle | 4.21.0 | packages/doctrine-orm-admin-bundle |
-| sonata-project/exporter | 3.4.0 | packages/exporter |
-| sonata-project/form-extensions | 2.7.0 | packages/form-extensions |
-| sonata-project/twig-extensions | 2.6.0 | packages/twig-extensions |
+| sonata-project/exporter | 3.4.0 | merged into packages/admin-bundle |
+| sonata-project/form-extensions | 2.7.0 | merged into packages/admin-bundle |
+| sonata-project/twig-extensions | 2.6.0 | merged into packages/admin-bundle |
 
 Their PHP sources keep the upstream file headers. See UPSTREAM.md for the exact
 commits and the sync process.

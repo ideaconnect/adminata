@@ -1,5 +1,8 @@
-# Paths adminata owns in packages/block-bundle: the templates listed as rewritten or deferred
-# in PLAN/03 §G.
+# block-bundle was merged into packages/admin-bundle (upstream/merged.txt) and no longer has a
+# directory of its own, so upstream/sync.sh refuses it. This list is kept because upstream/diff.sh
+# still needs one to split its report, and because it records which of the upstream paths adminata
+# had already taken over: the templates listed as rewritten or deferred in PLAN/03 §G. The paths are
+# still written relative to the old package root.
 src/Resources/views/Block/block_core_rss.html.twig
 src/Resources/views/Block/block_side_menu_template.html.twig
 .github/**

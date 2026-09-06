@@ -20,7 +20,6 @@ use Sonata\AdminBundle\Form\Extension\Field\Type\FormTypeFieldExtension;
 use Sonata\AdminBundle\Form\Extension\Field\Type\MopaCompatibilityTypeFieldExtension;
 use Sonata\AdminBundle\Form\Type\AdminType;
 use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
-use Sonata\AdminBundle\Form\Type\CollectionType;
 use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
 use Sonata\AdminBundle\Form\Type\Filter\DateRangeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateTimeRangeType;
@@ -33,6 +32,7 @@ use Sonata\AdminBundle\Form\Type\ModelHiddenType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Form\Type\ModelReferenceType;
 use Sonata\AdminBundle\Form\Type\ModelType;
+use Sonata\AdminBundle\Form\Type\NativeCollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType as SymfonyChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 
@@ -63,7 +63,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('sonata.admin.form.type.model_autocomplete', ModelAutocompleteType::class)
             ->tag('form.type', ['alias' => 'sonata_type_model_autocomplete'])
 
-        ->set('sonata.admin.form.type.collection', CollectionType::class)
+        ->set('sonata.admin.form.type.collection', NativeCollectionType::class)
             ->tag('form.type', ['alias' => 'sonata_type_native_collection'])
 
         ->set('sonata.admin.doctrine_orm.form.type.choice_field_mask', ChoiceFieldMaskType::class)

@@ -264,8 +264,9 @@ Like the names say, one if for standard calls, the other one for AJAX.
 The subfolders include Twig files for specific sections of ``SonataAdminBundle``:
 
 Block:
-  ``SonataBlockBundle`` block views. By default there is only one, which
-  displays all the mapped classes on the dashboard
+  Block views (see :doc:`block_configuration`): ``block_base``, which every block
+  extends, the admin list that displays all the mapped classes on the dashboard, and
+  the templates of the provided blocks
 Button:
   Buttons such as ``Add new`` or ``Delete`` that you can see across several
   CRUD actions

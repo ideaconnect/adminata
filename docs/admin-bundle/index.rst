@@ -1,8 +1,10 @@
 Admin Bundle
 ============
 
-The core of adminata: the ``Admin`` classes, the CRUD controller, the datagrid, and the templates
-that render all of it.
+The core of adminata: the ``Admin`` classes, the CRUD controller, the datagrid, the form types and
+their validator, the flash-message and status Twig helpers, the blocks the dashboard is built from,
+the exporter the export menu streams a result set through, and the templates that render all of
+it.
 
 Storage is a separate package. The Doctrine ORM integration ships **with** adminata and is
 documented under :doc:`/doctrine-orm-admin-bundle/index`; MongoDB is
@@ -44,7 +46,6 @@ which is maintained against adminata but installed separately.
    reference/action_delete
    reference/action_export
    reference/saving_hooks
-   reference/form_types
    reference/field_types
    reference/batch_actions
    reference/console
@@ -65,6 +66,54 @@ which is maintained against adminata but installed separately.
    reference/events
    reference/advanced_configuration
    reference/preview_mode
+
+.. toctree::
+   :caption: Forms
+   :name: admin-bundle-forms
+   :maxdepth: 1
+   :numbered:
+
+   reference/form_types
+   reference/form_configuration
+   reference/form_inline_validation
+   reference/form_testing
+
+.. toctree::
+   :caption: Twig helpers
+   :name: admin-bundle-twig-helpers
+   :maxdepth: 1
+   :numbered:
+
+   reference/twig_configuration
+   reference/twig_status_helper
+   reference/twig_flash_messages
+
+.. toctree::
+   :caption: Blocks
+   :name: admin-bundle-blocks
+   :maxdepth: 1
+   :numbered:
+
+   reference/block_configuration
+   reference/block_twig_helpers
+   reference/block_provided_blocks
+   reference/block_your_first_block
+   reference/block_profiler
+   reference/block_exceptions
+   reference/block_advanced_usage
+   reference/block_events
+   reference/block_testing
+
+.. toctree::
+   :caption: Exporter
+   :name: admin-bundle-exporter
+   :maxdepth: 1
+   :numbered:
+
+   reference/exporter_introduction
+   reference/exporter_sources
+   reference/exporter_outputs
+   reference/exporter_configuration
 
 .. toctree::
    :caption: Cookbook
@@ -91,3 +140,4 @@ which is maintained against adminata but installed separately.
    cookbook/recipe_persisting_filters
    cookbook/recipe_workflow_integration
    cookbook/recipe_sonata_admin_without_user_bundle
+   cookbook/recipe_rapid_prototyping

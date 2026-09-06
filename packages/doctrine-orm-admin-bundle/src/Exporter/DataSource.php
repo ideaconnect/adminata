@@ -16,8 +16,8 @@ namespace Sonata\DoctrineORMAdminBundle\Exporter;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface as BaseProxyQueryInterface;
 use Sonata\AdminBundle\Exporter\DataSourceInterface;
+use Sonata\AdminBundle\Exporter\Source\DoctrineORMQuerySourceIterator;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\Exporter\Source\DoctrineORMQuerySourceIterator;
 
 final class DataSource implements DataSourceInterface
 {

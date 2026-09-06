@@ -13,28 +13,75 @@ declare(strict_types=1);
 
 namespace Sonata\AdminBundle\Form\Type;
 
+use Sonata\AdminBundle\Form\EventListener\ResizeFormListener;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType as SymfonyCollectionType;
-use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * This type wrap native `collection` form type and render `add` and `delete`
- * buttons in standard Symfony` collection form type.
- *
- * @author Andrej Hudec <pulzarraider@gmail.com>
- */
 final class CollectionType extends AbstractType
 {
-    /**
-     * @phpstan-return class-string<FormTypeInterface>
-     */
-    public function getParent(): string
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        return SymfonyCollectionType::class;
+        $builder->addEventSubscriber(new ResizeFormListener(
+            $options['type'],
+            $options['type_options'],
+            $options['modifiable'],
+            $options['pre_bind_data_callback']
+        ));
+    }
+
+    public function buildView(FormView $view, FormInterface $form, array $options): void
+    {
+        $view->vars['btn_add'] = $options['btn_add'];
+
+        // NEXT_MAJOR: Remove the btn_catalogue usage.
+        $view->vars['btn_translation_domain'] =
+            'SonataAdminBundle' !== $options['btn_translation_domain']
+                ? $options['btn_translation_domain']
+                : $options['btn_catalogue'];
+        $view->vars['btn_catalogue'] = $options['btn_catalogue'];
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'modifiable' => false,
+            'type' => TextType::class,
+            'type_options' => [],
+            'pre_bind_data_callback' => null,
+            'btn_add' => 'link_add',
+            'btn_catalogue' => 'SonataAdminBundle', // NEXT_MAJOR: Remove this option.
+            'btn_translation_domain' => 'SonataAdminBundle',
+        ]);
+
+        $resolver->setDeprecated(
+            'btn_catalogue',
+            'sonata-project/form-extensions',
+            '2.1',
+            static function (Options $options, mixed $value): string {
+                if ('SonataAdminBundle' !== $value) {
+                    return 'Passing a value to option "btn_catalogue" is deprecated! Use "btn_translation_domain" instead!';
+                }
+
+                return '';
+            },
+        ); // NEXT_MAJOR: Remove this deprecation notice.
+
+        $resolver->setAllowedTypes('modifiable', 'bool');
+        $resolver->setAllowedTypes('type', 'string');
+        $resolver->setAllowedTypes('type_options', 'array');
+        $resolver->setAllowedTypes('pre_bind_data_callback', ['null', 'callable']);
+        $resolver->setAllowedTypes('btn_add', ['null', 'bool', 'string']);
+        $resolver->setAllowedTypes('btn_catalogue', ['null', 'bool', 'string']);
+        $resolver->setAllowedTypes('btn_translation_domain', ['null', 'bool', 'string']);
     }
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_native_collection';
+        return 'sonata_type_collection';
     }
 }

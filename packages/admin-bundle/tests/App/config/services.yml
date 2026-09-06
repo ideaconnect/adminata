@@ -11,6 +11,9 @@ services:
         resource: ../Controller
         tags: [controller.service_arguments]
 
+    Sonata\AdminBundle\Tests\App\Block\DemoBlockService:
+        tags: [sonata.block]
+
     sonata.admin.manager.test:
         class: Sonata\AdminBundle\Tests\App\Model\ModelManager
         arguments:

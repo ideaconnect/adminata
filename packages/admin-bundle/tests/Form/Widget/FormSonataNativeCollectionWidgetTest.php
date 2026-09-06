@@ -15,7 +15,7 @@ namespace Sonata\AdminBundle\Tests\Form\Widget;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\AdminBundle\Form\Extension\Field\Type\FormTypeFieldExtension;
-use Sonata\AdminBundle\Form\Type\CollectionType;
+use Sonata\AdminBundle\Form\Type\NativeCollectionType;
 use Sonata\AdminBundle\Tests\Fixtures\TestExtension;
 use Symfony\Component\Form\FormExtensionInterface;
 use Symfony\Component\Form\FormTypeGuesserInterface;
@@ -80,6 +80,6 @@ final class FormSonataNativeCollectionWidgetTest extends BaseWidgetTestCase
      */
     protected function getChoiceClass(): string
     {
-        return CollectionType::class;
+        return NativeCollectionType::class;
     }
 }

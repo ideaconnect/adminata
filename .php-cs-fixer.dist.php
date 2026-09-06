@@ -15,9 +15,9 @@ declare(strict_types=1);
  */
 
 /*
- * The seven forked packages. Their files keep the upstream Sonata header so that upstream
- * diffs still apply; adminata's own PHP is covered by `.php-cs-fixer.adminata.php`, which
- * carries the combined header. `make lint` runs both.
+ * The forked packages. Their files keep the upstream Sonata header so that upstream diffs still
+ * apply; adminata's own PHP is covered by `.php-cs-fixer.adminata.php`, which carries the
+ * combined header. `make lint` runs both.
  */
 
 $header = <<<'HEADER'
@@ -38,7 +38,10 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('Resources/public')
     ->exclude('assets')
     ->exclude('docs')
-    ->exclude('var');
+    ->exclude('var')
+    // Symfony writes this into a test application's config directory when its kernel boots. It is
+    // generated, gitignored, and not ours to format.
+    ->notPath('App/config/reference.php');
 
 $config = new PhpCsFixer\Config();
 $config

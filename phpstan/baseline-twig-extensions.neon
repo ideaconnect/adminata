@@ -1,4 +1,0 @@
-# Imported from twig-extensions's upstream phpstan-baseline.neon at the tag in UPSTREAM.md,
-# with the paths rewritten for the adminata layout.
-parameters:
-    ignoreErrors:

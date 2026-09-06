@@ -2,7 +2,39 @@
 
 ## Goal
 
-Ship `idct/adminata` 1.0.0: the Sonata Admin PHP stack (seven packages, unchanged in API) with its
+> **Amendment, 2026-09-06 (owner directive; [01](01-architecture-decisions.md) P10–P12).**
+> `block-bundle` is merged into `admin-bundle`: six package directories, six `replace` entries and
+> one `conflict`. The block classes are `Sonata\AdminBundle\` and `SonataBlockBundle` is deleted —
+> the one PHP API this fork deliberately breaks. The `sonata_block` config root, the service ids,
+> the Twig functions, `@SonataBlock` and the translation domain are unchanged.
+>
+> **Amendment, 2026-09-06, later the same day (01 P13).** The `SonataBlockBundle` translation
+> domain is retired too: the block strings are units of `SonataAdminBundle`, and the name
+> `SonataBlockBundle` describes nothing that exists. Refined the same day: every block template
+> default inside adminata says `@SonataAdmin/…`, and `@SonataBlock` is a compatibility alias for
+> templates outside adminata.
+>
+> **Amendment, 2026-09-06, third of the day (owner directive; 01 P14).** `form-extensions` and
+> `twig-extensions` are merged into `admin-bundle` the same way, whole: *"it is the main
+> functionality of the admin-bundle; we want to ship it always integrally."* Four package
+> directories, four `replace` entries and three `conflict`s. `Sonata\Form\` and `Sonata\Twig\`
+> are `Sonata\AdminBundle\`, `SonataFormBundle` and `SonataTwigBundle` are deleted as classes and
+> as translation domains, and `Sonata\AdminBundle\Form\Type\CollectionType` is renamed
+> `NativeCollectionType` so that form-extensions' `CollectionType` keeps the plain name. The
+> `sonata_form` and `sonata_twig` config roots, the service ids, the Twig functions and
+> `@SonataForm`/`@SonataTwig` are unchanged.
+
+> **Amendment, 2026-09-07 (owner directive; 01 P15).** `exporter` is merged into `admin-bundle` the
+> same way: *"i consider exporter also an integral part, no point of making it a separate lib,
+> integrate it into admin-bundle."* Three package directories, three `replace` entries and four
+> `conflict`s. `Sonata\Exporter\` is `Sonata\AdminBundle\Exporter\` and `SonataExporterBundle` is
+> deleted, so an application's `bundles.php` loses a fourth line. The `sonata_exporter` config
+> root, the `sonata.exporter.*` service ids, the `sonata.exporter.writer` tag and the writer
+> parameters are unchanged, and there is no translation domain or Twig namespace to move: the
+> exporter ships neither.
+
+Ship `idct/adminata` 1.0.0: the Sonata Admin PHP stack (seven packages, unchanged in API except the
+block namespace — see the amendment above) with its
 Twig templates, CSS and JavaScript replaced by a Tailwind CSS v4 / TailAdmin user interface (light
 and dark mode, collapsible sidebar, cards, modern forms), in one repository and one Composer
 package. The first release supports everything the production app recomaty-panel uses; the
@@ -13,33 +45,43 @@ remaining Sonata features are ported when first needed. The owner's separate
 
 The PHP surface that persistence bundles, admin classes and configuration touch stays identical:
 
-- Composer identity via `replace` of the seven packages at their latest versions
-  (`sonata-project/admin-bundle` 4.43.0, `block-bundle` 5.4.0, `doctrine-extensions` 2.6.0,
-  `doctrine-orm-admin-bundle` 4.21.0, `exporter` 3.4.0, `form-extensions` 2.7.0, `twig-extensions`
-  2.6.0), so `idct/sonata-admin-mongodb-bundle` v5.2.2 (`admin-bundle ^4.39`, `exporter ^3.0`,
-  `form-extensions ^2.0`) resolves.
-- The seven PHP namespaces, the seven bundle classes (`SonataAdminBundle`, `SonataBlockBundle`,
-  `SonataDoctrineBundle`, `SonataDoctrineORMAdminBundle`, `SonataExporterBundle`, `SonataFormBundle`,
-  `SonataTwigBundle`), the seven config roots, the Twig namespaces (`@SonataAdmin`, `@SonataBlock`,
-  `@SonataForm`, `@SonataTwig`, `@SonataDoctrineORMAdmin`), all 121 admin-bundle service ids, the 8
-  `sonata_admin_*` routes and their JSON contracts, the translation domains, all 148 template file
-  paths and the 39 template registry keys.
+- Composer identity via `replace` of three of the seven packages at their latest versions
+  (`sonata-project/admin-bundle` 4.43.0, `doctrine-extensions` 2.6.0,
+  `doctrine-orm-admin-bundle` 4.21.0), so `idct/sonata-admin-mongodb-bundle`
+  v5.2.2 (`admin-bundle ^4.39`, `exporter ^3.0`, `form-extensions ^2.0`) resolves — the
+  `exporter` and `form-extensions` requirements through the `conflict`-and-port route rather than
+  through `replace`. The other four, `block-bundle` 5.4.0, `form-extensions` 2.7.0,
+  `twig-extensions` 2.6.0 and `exporter` 3.4.0, are **merged into `admin-bundle`** and carry
+  `conflict` entries instead (01 P10, P11, P14 — amendments of 2026-09-06 — and P15, 2026-09-07).
+- Three PHP namespaces, three bundle classes (`SonataAdminBundle`,
+  `SonataDoctrineBundle`, `SonataDoctrineORMAdminBundle`), the seven config
+  roots — `sonata_block`, `sonata_form`, `sonata_twig` and `sonata_exporter` included, all four
+  registered by `SonataAdminBundle` — the Twig namespaces (`@SonataAdmin`, `@SonataBlock`,
+  `@SonataForm`, `@SonataTwig`, `@SonataDoctrineORMAdmin`, the middle three as aliases of
+  admin-bundle's views), all 121 admin-bundle service ids and the
+  `sonata.block.*`, `sonata.form.*` and `sonata.twig.*` ones, the 8
+  `sonata_admin_*` routes and their JSON contracts, the translation domains that are left, all 148
+  template file paths and the 39 template registry keys.
 
 What is **not** preserved: Bootstrap and AdminLTE class names, AdminLTE skins, jQuery and every
 jQuery plugin (including the `ajaxSubmit` feature of association widgets), iCheck, select2,
 x-editable, Tempus Dominus, the `options.skin`, `use_select2`, `use_icheck` and `use_bootlint`
 config nodes, and the `window.Admin` facade. An app that relied on those ports its overrides once
-(document 10).
+(document 10). Since 2026-09-06, the `Sonata\BlockBundle\` namespace, the `SonataBlockBundle`
+class and the `SonataBlockBundle` translation domain are not preserved either — the one deliberate
+PHP break (01 P10, P13); `bundles.php` loses that line and nothing else.
 
 ## Approach in one paragraph
 
 Import the seven upstream repositories at their latest tags into `packages/<name>/` with
 `git subtree` (history kept), autoload them from one `composer.json`, and sync PHP fixes from
-upstream monthly. Change PHP only where the UI forces it (config nodes, grid/box default strings,
+upstream monthly. (`block-bundle`, `form-extensions` and `twig-extensions` were later folded into
+`packages/admin-bundle` — 01 P10 and P14 — leaving four directories and three trees that are ported
+by hand.) Change PHP only where the UI forces it (config nodes, grid/box default strings,
 asset defaults, a theme cookie, HTML5 date formats in form-extensions). Rewrite the 98 admin-bundle
 templates recomaty-panel renders plus the flash-message and date-picker templates of
 twig-extensions and form-extensions, group by group, in the TailAdmin visual language; copy the
-12 Bootstrap-free templates of block-bundle and the ORM bundle unchanged; leave the 37 templates
+12 Bootstrap-free templates of the block sources and the ORM bundle unchanged; leave the 37 templates
 the app never renders as inherited files with a tracked TODO. Replace the JavaScript with 17
 Stimulus controllers written in plain DOM code, no jQuery, no third-party widgets except the `qs`
 query-string parser; modals are native `<dialog>`; date and time fields are native HTML5 inputs;
@@ -91,4 +133,6 @@ About 11 weeks (document 09).
 ## Owner decisions still open
 
 Listed in document 11 §2 (seven bundle classes versus one, package layout, font, dark-mode
-default, action-bar layout, Node line, PHP floor). None blocks phase 0.
+default, action-bar layout, Node line, PHP floor). None blocks phase 0. The first of them was
+answered twice: seven bundle classes in 2026-09-04, then six on 2026-09-06 when the block bundle was
+folded into the admin bundle (01 P10).

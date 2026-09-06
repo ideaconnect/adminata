@@ -15,7 +15,7 @@ namespace Sonata\AdminBundle\Tests\App\Exporter;
 
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Exporter\DataSourceInterface;
-use Sonata\Exporter\Source\ArraySourceIterator;
+use Sonata\AdminBundle\Exporter\Source\ArraySourceIterator;
 
 final class DataSource implements DataSourceInterface
 {

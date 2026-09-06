@@ -17,8 +17,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Bridge\Exporter\AdminExporter;
-use Sonata\Exporter\Exporter;
-use Sonata\Exporter\Writer\TypedWriterInterface;
+use Sonata\AdminBundle\Exporter\Exporter;
+use Sonata\AdminBundle\Exporter\Writer\TypedWriterInterface;
 
 final class AdminExporterTest extends TestCase
 {

@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * Every template path adminata promises resolves (PLAN/02 §4).
  *
  * Three sources feed this. The template registry's defaults, which an application overrides by
- * key. Every `@Sonata…/….html.twig` string in the seven packages' PHP, which is what the builders
+ * key. Every `@Sonata…/….html.twig` string in the forked packages' PHP, which is what the builders
  * and field descriptions hand to Twig. And the paths `idct/sonata-admin-mongodb-bundle` hard-codes
  * — its `ListBuilder` names `@SonataAdmin/CRUD/list__action.html.twig` and
  * `list__action_%s.html.twig` directly, so renaming one of those breaks the fork silently.
@@ -35,17 +35,31 @@ use PHPUnit\Framework\Attributes\DataProvider;
 final class TemplatePathTest extends ContractTestCase
 {
     /**
-     * Twig namespace => the package directory whose `Resources/views` it points at.
+     * Twig namespace => the package directory whose `src/Resources/views` it points at.
+     *
+     * Four of the five share one directory. Adminata's own defaults all say `@SonataAdmin`;
+     * `SonataBlockExtension`, `SonataFormExtension` and `SonataTwigExtension` each prepend a
+     * `twig.paths` entry aliasing their namespace to that same directory, for templates outside
+     * adminata that still address the pre-merge spellings.
      *
      * @var array<string, string>
      */
     private const array NAMESPACES = [
         'SonataAdmin' => 'admin-bundle',
-        'SonataBlock' => 'block-bundle',
+        'SonataBlock' => 'admin-bundle',
         'SonataDoctrineORMAdmin' => 'doctrine-orm-admin-bundle',
-        'SonataForm' => 'form-extensions/src/Bridge/Symfony',
-        'SonataTwig' => 'twig-extensions/src/Bridge/Symfony',
+        'SonataForm' => 'admin-bundle',
+        'SonataTwig' => 'admin-bundle',
     ];
+
+    /**
+     * The namespaces that are aliases onto `admin-bundle`'s view directory rather than a bundle's
+     * own name. A shipped file may not address any of them: see
+     * `testNothingShippedAddressesAnAliasNamespace()`.
+     *
+     * @var list<string>
+     */
+    private const array ALIAS_NAMESPACES = ['SonataBlock', 'SonataForm', 'SonataTwig'];
 
     /**
      * What the MongoDB fork asks for by name. Its `ListBuilder` builds the second from a field
@@ -117,22 +131,60 @@ final class TemplatePathTest extends ContractTestCase
     {
         foreach (self::NAMESPACES as $namespace => $package) {
             static::assertDirectoryExists(
-                \sprintf('%s/packages/%s/Resources/views', self::root(), self::viewsBase($package)),
+                \sprintf('%s/packages/%s/src/Resources/views', self::root(), $package),
                 \sprintf('The @%s namespace has no view directory.', $namespace)
             );
         }
     }
 
     /**
+     * @return iterable<string, array{string}>
+     */
+    public static function provideNothingShippedAddressesAnAliasNamespaceCases(): iterable
+    {
+        foreach (self::ALIAS_NAMESPACES as $namespace) {
+            yield '@'.$namespace => [$namespace];
+        }
+    }
+
+    /**
+     * Adminata addresses every template it ships as `@SonataAdmin/…`, which is what makes it
+     * overridable under `templates/bundles/SonataAdminBundle/` like any other bundle template.
+     * `@SonataBlock`, `@SonataForm` and `@SonataTwig` are plain `twig.paths` aliases onto the same
+     * directory, with no override directory of their own, kept for templates outside adminata that
+     * still address the pre-merge spellings; a shipped file that used one would bypass an
+     * application's override in silence.
+     */
+    #[DataProvider('provideNothingShippedAddressesAnAliasNamespaceCases')]
+    public function testNothingShippedAddressesAnAliasNamespace(string $namespace): void
+    {
+        $offenders = [];
+
+        foreach (self::shippedSources() as $file) {
+            if (str_contains((string) file_get_contents($file), '@'.$namespace.'/')) {
+                $offenders[] = substr($file, \strlen(self::root()) + 1);
+            }
+        }
+
+        static::assertSame([], $offenders, \sprintf(
+            'Shipped code addresses @%s/ instead of @SonataAdmin/.',
+            $namespace
+        ));
+    }
+
+    /**
      * A rewritten template keeps its file name (PLAN/02 §4), so the count only moves when a
      * template is genuinely added or removed.
+     *
+     * Counted per view directory rather than per namespace, because four of the five namespaces
+     * share one and it must not be counted four times.
      */
     public function testTheNumberOfTemplatesIsWhatThePlanCounts(): void
     {
         $found = 0;
 
-        foreach (self::NAMESPACES as $package) {
-            $directory = \sprintf('%s/packages/%s/Resources/views', self::root(), self::viewsBase($package));
+        foreach (array_unique(self::NAMESPACES) as $package) {
+            $directory = \sprintf('%s/packages/%s/src/Resources/views', self::root(), $package);
             $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($directory, \FilesystemIterator::SKIP_DOTS));
 
             foreach ($iterator as $file) {
@@ -148,7 +200,31 @@ final class TemplatePathTest extends ContractTestCase
         // for — `standard_layout` and `ajax_layout` had the same switcher twice, which is how they
         // drifted apart — plus `Form/Type/sonata_type_model_list.html.twig`, the unported
         // `ModelListType` widget P4-03 lifted out of the form theme.
-        static::assertSame(150, $found, 'The seven packages ship 150 templates.');
+        static::assertSame(150, $found, 'The forked packages ship 150 templates.');
+    }
+
+    /**
+     * Every PHP file and Twig template the packages ship.
+     *
+     * @return iterable<string>
+     */
+    private static function shippedSources(): iterable
+    {
+        $sources = glob(self::root().'/packages/*/src', \GLOB_ONLYDIR);
+
+        if (false === $sources) {
+            return;
+        }
+
+        foreach ($sources as $src) {
+            $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \FilesystemIterator::SKIP_DOTS));
+
+            foreach ($files as $file) {
+                if (\in_array($file->getExtension(), ['php', 'twig'], true)) {
+                    yield $file->getPathname();
+                }
+            }
+        }
     }
 
     /**
@@ -205,12 +281,6 @@ final class TemplatePathTest extends ContractTestCase
 
         static::assertArrayHasKey($matches[1], self::NAMESPACES, \sprintf('Unknown Twig namespace @%s.', $matches[1]));
 
-        return \sprintf('%s/packages/%s/Resources/views/%s', self::root(), self::viewsBase(self::NAMESPACES[$matches[1]]), $matches[2]);
-    }
-
-    /** The two bridged packages keep their views under `src/Bridge/Symfony`, the rest under `src`. */
-    private static function viewsBase(string $package): string
-    {
-        return str_contains($package, '/') ? $package : $package.'/src';
+        return \sprintf('%s/packages/%s/src/Resources/views/%s', self::root(), self::NAMESPACES[$matches[1]], $matches[2]);
     }
 }

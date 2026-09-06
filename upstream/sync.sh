@@ -9,6 +9,9 @@
 #
 # Afterwards: `make cs-fix rector-fix phpstan test`, one commit "Sync <package> <to-tag>", then a
 # commit bumping the `replace` entry in composer.json and the row in UPSTREAM.md.
+#
+# Packages listed in upstream/merged.txt have no directory of their own any more and are refused
+# here; their upstream releases are ported by hand into the package they were merged into.
 
 set -euo pipefail
 
@@ -22,6 +25,7 @@ to=$2
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 remote="upstream-$package"
 remotes_file="$root/upstream/remotes.txt"
+merged_file="$root/upstream/merged.txt"
 exclude_file="$root/upstream/exclude/$package.txt"
 
 from=$(grep -v '^#' "$remotes_file" | awk -v p="$package" '$1 == p { print $3 }')
@@ -30,6 +34,25 @@ url=$(grep -v '^#' "$remotes_file" | awk -v p="$package" '$1 == p { print $2 }')
 if [ -z "$from" ] || [ -z "$url" ]; then
     echo "unknown package $package (not in upstream/remotes.txt)" >&2
     exit 66
+fi
+
+# A merged tree has no packages/<package>/ to apply a patch to. `git apply --directory=` would
+# happily create one, resurrecting a source tree that was deliberately folded into another package,
+# so refuse before anything is fetched or written.
+merged_into=$(grep -v '^#' "$merged_file" | awk -v p="$package" '$1 == p { print $2 }')
+
+if [ -n "$merged_into" ]; then
+    cat >&2 <<ERR
+$package was merged into packages/$merged_into and no longer has a directory of its own, so an
+upstream release cannot be replayed onto it mechanically.
+
+Report what changed and port it by hand into packages/$merged_into:
+  upstream/diff.sh $package $from $to
+
+Then bump the row in upstream/remotes.txt and in UPSTREAM.md by hand — a merged package has no
+\`replace\` entry to bump. See upstream/merged.txt.
+ERR
+    exit 67
 fi
 
 if [ "$from" = "$to" ]; then

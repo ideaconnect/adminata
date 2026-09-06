@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\DoctrineORMAdminBundle\Filter;
 
-use Sonata\Form\Type\DateTimeRangeType;
+use Sonata\AdminBundle\Form\Type\DateTimeRangeType;
 
 final class DateTimeRangeFilter extends AbstractDateFilter
 {

@@ -20,11 +20,36 @@ Tests for deferred templates (history, ACL, association widgets) keep asserting 
 markup until those templates are ported.
 
 The suites of the six other packages are imported with them (`packages/<name>/tests`) and run as
-separate PHPUnit suites: block-bundle, doctrine-extensions, exporter and the ORM bundle unchanged;
+separate PHPUnit suites: doctrine-extensions, exporter and the ORM bundle unchanged;
+block-bundle's too, but since the merge of 2026-09-06 (01 P10) they live in
+`packages/admin-bundle/tests/` under `Sonata\AdminBundle\Tests\` and run inside the `admin`
+suite — with the names that would have collided disambiguated (`BlockConfigurationTest`,
+`BlockTweakCompilerPassTest`, `BlockGlobalVariablesTest`, ~~`BlockFunctionalTest`, `tests/BlockApp/`~~
+— since 01 P13 the block test application is admin-bundle's own `tests/App`, and the block render
+test is `Functional/Controller/BlockDemoControllerTest` beside the other functional tests);
 twig-extensions' flash-message tests re-baselined to the rewritten template; form-extensions' type
 tests updated for the derived HTML5 formats (P6 f), its widget tests rewritten for the native
 inputs, and its Vitest suite (`datepicker_controller.test.js`, `setup.test.js`) deleted with the
 controller.
+
+**Amended, 2026-09-06 (01 P14).** Those last two suites moved as well, on the same terms:
+form-extensions' `Bridge/Symfony/*WidgetTest` are `packages/admin-bundle/tests/Form/Widget/`, its
+type tests `tests/Form/Type/`, its validator tests `tests/Validator/`, and the two DI
+`ConfigurationTest`s are disambiguated as `FormConfigurationTest` and `TwigConfigurationTest`
+beside admin's own; twig-extensions' runtime tests are `tests/Twig/`, its test application
+`tests/TwigApp/`, and its functional test `tests/Functional/TwigFunctionalTest.php`.
+form-extensions' duplicate `Foo` entity fixture is dropped in favour of admin's
+`tests/Fixtures/Bundle/Entity/Foo.php`, and `SonataFormBundle`/`SonataTwigBundle` come out of the
+three test kernels.
+
+**Amended, 2026-09-07 (01 P15).** The exporter's suite moved on the same terms and for the same
+reason: `packages/admin-bundle/tests/Exporter/{ExporterTest,HandlerTest,Source/*,Writer/*}` under
+`Sonata\AdminBundle\Tests\`, inside the `admin` suite, with the three DI tests beside admin's own
+as `tests/DependencyInjection/{ExporterConfigurationTest,SonataExporterExtensionTest}` and
+`tests/DependencyInjection/Compiler/ExporterCompilerPassTest` — the last move also settling a PSR-4
+warning the file had carried upstream, where the class declared a `…\Compiler\` namespace from one
+directory up. `SonataExporterBundle` comes out of the test kernels. So `doctrine-extensions` and
+the ORM bundle are the only suites still imported under a package directory of their own.
 
 ## 2. Demo / test application (Doctrine ORM + MySQL + fixtures)
 

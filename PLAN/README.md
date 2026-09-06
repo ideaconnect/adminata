@@ -6,9 +6,25 @@ package ship the seven Sonata packages the first release needs (`admin-bundle`, 
 `doctrine-extensions`, `doctrine-orm-admin-bundle`, `exporter`, `form-extensions`,
 `twig-extensions`), copied one-to-one except for their Bootstrap templates. The PHP layer stays
 Sonata's and the package installs in place of the originals (Composer `replace`), so the owner's
-`idct/sonata-admin-mongodb-bundle` keeps working unchanged.
+`idct/sonata-admin-mongodb-bundle` keeps working unchanged. Since 2026-09-06, four of them are not
+directories at all: `block-bundle`, `form-extensions` and `twig-extensions` were merged into
+`packages/admin-bundle`, and `exporter` followed on 2026-09-07 — see *Amendments after v3* below.
 
 Repository: `git@github.com:ideaconnect/adminata.git` (branch `main`; pushed after each milestone).
+
+## Amendments after v3
+
+The plan documents are not rewritten when a decision changes: the affected rows are marked
+superseded and the new decision is added with its id, so what was actually decided at the time stays
+readable. The amendments so far:
+
+| Date | Directive | Where |
+|---|---|---|
+| 2026-09-06 | **`block-bundle` is merged into `admin-bundle`.** Block is not usable independently of admin in this fork, so it is not worth a bundle of its own. Breaking `Sonata\BlockBundle\` is explicitly allowed; the config root, service ids, Twig functions, `@SonataBlock` and the translation domain are kept | [01](01-architecture-decisions.md) P10–P12 (superseding P1, P2, P3, P7 in part); [02 §1](02-compatibility-contract.md); [07 §§1–4, 10, 11](07-packaging-and-project-setup.md); [00](00-executive-summary.md); [03 §G](03-template-migration-map.md); [08 §1](08-testing-and-qa.md); [10 §§2–3](10-migration-guide-outline.md); [appendix B §2](appendix-B-inventory.md) |
+| 2026-09-06 | **`SonataBlockBundle` is not to be used any more; it is integrated into `admin-bundle`.** The block translation domain is `SonataAdminBundle`'s, the block test application is admin-bundle's `tests/App`, and the block documentation is part of the admin bundle's | [01](01-architecture-decisions.md) P13 (superseding P10 in part); [02 §11](02-compatibility-contract.md); [08 §1](08-testing-and-qa.md); [10 §3](10-migration-guide-outline.md); [12 §2](12-docs-plan.md) |
+| 2026-09-06 | **Follow-through on the directive above, after a review: the block template defaults say `@SonataAdmin/…`.** The block services, `sonata_block.templates.*`, the profiler and the exception renderers default to `@SonataAdmin/Block/…`, so a block template is overridden in `templates/bundles/SonataAdminBundle/Block/` like any other admin template; `@SonataBlock` is kept as a compatibility alias for templates outside adminata | [01](01-architecture-decisions.md) P13 (refined); [02 §4](02-compatibility-contract.md); [03 §G](03-template-migration-map.md); [00](00-executive-summary.md) |
+| 2026-09-06 | **"form-extensions and twig-extensions should be merged into admin-bundle same, it is the main functionality of the admin-bundle; we want to ship it always integrally."** Both trees are merged whole, on the P10 + P13 pattern: classes, translation domains, test applications and documentation in one step, with `SonataFormBundle` and `SonataTwigBundle` left describing nothing. The config roots, service ids, Twig functions and `@SonataForm`/`@SonataTwig` are kept. `Sonata\AdminBundle\Form\Type\CollectionType` is renamed `NativeCollectionType` so form-extensions' own keeps the plain name | [01](01-architecture-decisions.md) P14 (superseding P1, P2, P3, P7 further); [02 §§1, 4, 11, 12](02-compatibility-contract.md); [07 §§1–4, 10](07-packaging-and-project-setup.md); [00](00-executive-summary.md); [03 §G](03-template-migration-map.md); [06 §4](06-forms-datepicker-security.md); [08 §1](08-testing-and-qa.md); [10 §3](10-migration-guide-outline.md); [12 §2](12-docs-plan.md); [appendix B §2](appendix-B-inventory.md) |
+| 2026-09-07 | **"i consider exporter also an integral part, no point of making it a separate lib, integrate it into admin-bundle."** The tree is merged whole, on the P14 pattern, and it is the plainest of the four: the exporter ships no templates and no translations, so there is no Twig namespace to alias and no translation domain to merge — only classes, DI wiring, tests and a documentation tree. `Sonata\Exporter\` is `Sonata\AdminBundle\Exporter\`, beside the `DataSourceInterface` that was already there, and `SonataExporterBundle` is deleted. The `sonata_exporter` config root, the `sonata.exporter.*` ids, the `sonata.exporter.writer` tag and the writer parameters are kept | [01](01-architecture-decisions.md) P15 (superseding P1, P2, P3, P7 once more); [02 §1](02-compatibility-contract.md); [07 §§1–3, 5, 6, 10](07-packaging-and-project-setup.md); [00](00-executive-summary.md); [08 §1](08-testing-and-qa.md); [10 §3](10-migration-guide-outline.md); [12 §2](12-docs-plan.md); [appendix B §2](appendix-B-inventory.md) |
 
 ## Owner directives (2026-09-04)
 
@@ -29,7 +45,9 @@ git commit) was revised under these directives:
 6. **Seven Sonata packages in one project.** No SonataUserBundle. `admin-bundle`, `block-bundle`,
    `doctrine-extensions`, `doctrine-orm-admin-bundle`, `exporter`, `form-extensions` and
    `twig-extensions` are shipped by adminata itself, copied one-to-one; their Bootstrap templates
-   are adapted to Tailwind.
+   are adapted to Tailwind. (Amended 2026-09-06 and 2026-09-07: still seven forked trees, but three
+   directories — `block-bundle`, `form-extensions`, `twig-extensions` and `exporter` live inside
+   `admin-bundle`.)
 7. **`idct/sonata-admin-mongodb-bundle` must keep working** against adminata.
 8. **Git**: the project lives in `ideaconnect/adminata`; changes are pushed after milestones.
 9. **MySQL, MariaDB and Percona only (2026-09-04).** 1.0 supports no other database; SQLite is
@@ -63,7 +81,7 @@ git commit) was revised under these directives:
 | Alias | Meaning |
 |---|---|
 | `S/` | `sonata-project/admin-bundle` 4.43.0 source tree (vendored copy: `MDB/vendor/sonata-project/admin-bundle`); in adminata: `packages/admin-bundle/` |
-| `ORM/`, `FE/`, `BB/`, `TW/`, `EX/`, `DE/` | `doctrine-orm-admin-bundle` 4.21.0, `form-extensions` 2.7.0, `block-bundle` 5.4.0, `twig-extensions` 2.6.0, `exporter` 3.4.0, `doctrine-extensions` 2.6.0 (vendored under `APP/vendor/sonata-project/`); in adminata: `packages/<name>/` |
+| `ORM/`, `FE/`, `BB/`, `TW/`, `EX/`, `DE/` | `doctrine-orm-admin-bundle` 4.21.0, `form-extensions` 2.7.0, `block-bundle` 5.4.0, `twig-extensions` 2.6.0, `exporter` 3.4.0, `doctrine-extensions` 2.6.0 (vendored under `APP/vendor/sonata-project/`); in adminata: `packages/<name>/`, except `BB/`, `FE/` and `TW/`, which are inside `packages/admin-bundle/` |
 | `T/` | TailAdmin free HTML/Alpine template v2.3.0 (`TailAdmin/tailadmin-free-tailwind-dashboard-template`, `main`) |
 | `TR/`, `TN/` | TailAdmin free React and Next.js templates (component references) |
 | `MDB/` | `/home/bartosz/dev/idct/sonata-admin-mongodb-bundle` (the owner's hard fork, v5.2.2; stays a separate package) |

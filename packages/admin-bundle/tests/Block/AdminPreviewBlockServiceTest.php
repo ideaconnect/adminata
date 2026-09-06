@@ -19,7 +19,7 @@ use Sonata\AdminBundle\Block\AdminPreviewBlockService;
 use Sonata\AdminBundle\Datagrid\DatagridInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
-use Sonata\BlockBundle\Test\BlockServiceTestCase;
+use Sonata\AdminBundle\Test\BlockServiceTestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Twig\Environment;
 

@@ -79,9 +79,13 @@ final class SonataAdminExtensionTest extends AbstractExtensionTestCase
         self::assertContainerBuilderNotHasService('sonata.admin.lock.extension');
     }
 
-    public function testLoadsExporterServiceDefinitionWhenExporterBundleIsRegistered(): void
+    /**
+     * The exporter is part of this bundle, so the bridge to it is wired unconditionally: no
+     * separate bundle has to be registered for "sonata.admin.admin_exporter" to exist.
+     */
+    public function testLoadsTheAdminExporterServiceDefinition(): void
     {
-        $this->container->setParameter('kernel.bundles', ['SonataExporterBundle' => 'whatever']);
+        $this->container->setParameter('kernel.bundles', []);
         $this->load();
         self::assertContainerBuilderHasService(
             'sonata.admin.admin_exporter',

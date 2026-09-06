@@ -202,7 +202,7 @@ Reorder fields
 --------------
 
 Sometime you want to reorder the fields added from Extension.
-Methods that pass **Sonata\AdminBundle\Admin\AdminInterface\MapperInterface** or **Sonata\BlockBundle\Form\Mapper\FormMapper** as parameter you can use ``reorder`` method
+Methods that pass **Sonata\AdminBundle\Admin\AdminInterface\MapperInterface** or **Sonata\AdminBundle\Form\BlockFormMapperInterface** as parameter you can use ``reorder`` method
 
 In case you want to reorder the fields :ref:`Groups and Tabs`, you can do like this:
 

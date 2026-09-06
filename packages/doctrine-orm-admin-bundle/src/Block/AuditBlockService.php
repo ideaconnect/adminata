@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Sonata\DoctrineORMAdminBundle\Block;
 
 use SimpleThings\EntityAudit\AuditReader;
-use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Block\Service\AbstractBlockService;
+use Sonata\AdminBundle\Block\BlockContextInterface;
+use Sonata\AdminBundle\Block\Service\AbstractBlockService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;

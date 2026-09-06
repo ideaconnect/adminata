@@ -1,5 +1,11 @@
-# adminata upstream remotes — one line per forked package.
+# adminata upstream remotes — one line per imported upstream tree. Seven trees were imported; three
+# of them are package directories under packages/ that composer.json `replace`s. The other four —
+# block-bundle, exporter, form-extensions and twig-extensions — were merged into
+# packages/admin-bundle and keep their rows here because their subtree histories and their remotes
+# are still part of this repository: see upstream/merged.txt.
 # Format: <package-dir>  <git-url>  <imported-tag>
+# Exactly three whitespace-separated columns — upstream/diff.sh, upstream/sync.sh,
+# bin/check-replace-versions.php and .github/workflows/upstream-watch.yaml all parse them positionally.
 # Used by upstream/diff.sh and upstream/sync.sh, and by P0-01 to (re-)create the remotes:
 #   while read -r name url tag; do git remote add "upstream-$name" "$url"; done < upstream/remotes.txt
 admin-bundle              https://github.com/sonata-project/SonataAdminBundle.git            4.43.0

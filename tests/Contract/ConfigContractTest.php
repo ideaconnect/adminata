@@ -18,12 +18,12 @@ namespace Adminata\Tests\Contract;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\DependencyInjection\BlockConfiguration;
 use Sonata\AdminBundle\DependencyInjection\Configuration as AdminConfiguration;
-use Sonata\BlockBundle\DependencyInjection\Configuration as BlockConfiguration;
+use Sonata\AdminBundle\DependencyInjection\ExporterConfiguration;
+use Sonata\AdminBundle\DependencyInjection\FormConfiguration;
+use Sonata\AdminBundle\DependencyInjection\TwigConfiguration;
 use Sonata\DoctrineORMAdminBundle\DependencyInjection\Configuration as OrmConfiguration;
-use Sonata\Exporter\Bridge\Symfony\DependencyInjection\Configuration as ExporterConfiguration;
-use Sonata\Form\Bridge\Symfony\DependencyInjection\Configuration as FormConfiguration;
-use Sonata\Twig\Bridge\Symfony\DependencyInjection\Configuration as TwigConfiguration;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
 
@@ -38,7 +38,14 @@ use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
  * The baseline was taken after the P0-10 changes, which are the intended differences from upstream
  * (the four removed AdminLTE options, the asset defaults and the new `theme` node). It dumps the
  * `Configuration` classes directly rather than booting a kernel, so no test application has to
- * register all seven bundles for this to run.
+ * register the bundles for this to run.
+ *
+ * Five of the six roots belong to admin-bundle: `sonata_admin` from `Configuration`, and
+ * `sonata_block`, `sonata_exporter`, `sonata_form` and `sonata_twig` from the
+ * `BlockConfiguration`, `ExporterConfiguration`, `FormConfiguration` and `TwigConfiguration`
+ * classes beside it. Five aliases, one bundle — the aliases are part of the contract, so an
+ * application's existing `sonata_exporter.yaml`, `sonata_form.yaml` and `sonata_twig.yaml` keep
+ * configuring the same trees.
  *
  * `sonata_doctrine` has no reference: doctrine-extensions declares no `Configuration` class, so
  * its root takes no options at all.

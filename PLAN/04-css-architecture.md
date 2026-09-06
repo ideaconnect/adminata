@@ -36,7 +36,7 @@ assets/css/
 ```css
 @import "tailwindcss";
 @import "./adminata.css";
-@source "../../packages";               /* all seven packages: views and the PHP defaults */
+@source "../../packages";               /* every package directory: views and the PHP defaults */
 @source not "../../packages/*/tests";
 @source not "../../packages/*/docs";
 @source "../js";

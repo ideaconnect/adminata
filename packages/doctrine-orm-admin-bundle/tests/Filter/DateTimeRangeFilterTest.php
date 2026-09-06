@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace Sonata\DoctrineORMAdminBundle\Tests\Filter;
 
 use Sonata\AdminBundle\Filter\Model\FilterData;
+use Sonata\AdminBundle\Form\Type\DateTimeRangeType;
 use Sonata\AdminBundle\Form\Type\Operator\DateRangeOperatorType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\DateTimeRangeFilter;
-use Sonata\Form\Type\DateTimeRangeType;
 
 /**
  * @author Marko Kunic <kunicmarko20@gmail.com>

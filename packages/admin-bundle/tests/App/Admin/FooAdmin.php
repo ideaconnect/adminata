@@ -19,14 +19,14 @@ use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\CollectionType;
+use Sonata\AdminBundle\Form\Type\ImmutableArrayType;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Form\Type\NativeCollectionType;
 use Sonata\AdminBundle\Form\Type\TemplateType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Tests\App\Model\Bar;
 use Sonata\AdminBundle\Tests\App\Model\Foo;
 use Sonata\AdminBundle\Tests\Fixtures\Controller\BatchOtherController;
-use Sonata\Form\Type\ImmutableArrayType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Count;
@@ -99,7 +99,7 @@ class FooAdmin extends AbstractAdmin
             )
             ->add(
                 'collection',
-                CollectionType::class,
+                NativeCollectionType::class,
                 [
                     'error_bubbling' => false,
                     'constraints' => [

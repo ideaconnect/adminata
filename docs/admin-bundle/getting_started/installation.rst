@@ -10,9 +10,15 @@ Download the Bundle
 
     composer require idct/adminata
 
-adminata ``replace``\ s the seven ``sonata-project/*`` packages at exact versions, so this one
-requirement is the whole install — you do not add ``sonata-project/admin-bundle`` beside it, and
-Composer will refuse if you try.
+adminata ``replace``\ s three ``sonata-project/*`` packages at exact versions and ``conflict``\ s
+with four more — ``block-bundle``, ``exporter``, ``form-extensions`` and ``twig-extensions`` —
+because blocks, the exporter, the form types and the Twig helpers are part of the admin bundle
+(:doc:`/admin-bundle/reference/block_configuration`,
+:doc:`/admin-bundle/reference/exporter_configuration`,
+:doc:`/admin-bundle/reference/form_configuration`,
+:doc:`/admin-bundle/reference/twig_configuration`). So this one requirement is the whole
+install — you do not add ``sonata-project/admin-bundle`` beside it, and Composer will refuse if
+you try.
 
 .. note::
 
@@ -51,21 +57,31 @@ line in ``bundles.php`` file of your project::
     return [
         // ...
         Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
-        Sonata\BlockBundle\SonataBlockBundle::class => ['all' => true],
         Knp\Bundle\MenuBundle\KnpMenuBundle::class => ['all' => true],
         Sonata\AdminBundle\SonataAdminBundle::class => ['all' => true],
         Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle::class => ['all' => true],
-        Sonata\Form\Bridge\Symfony\SonataFormBundle::class => ['all' => true],
-        Sonata\Twig\Bridge\Symfony\SonataTwigBundle::class => ['all' => true],
         Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
     ];
+
+``SonataAdminBundle`` is one line, not five: the blocks, the form types, the Twig helpers and the
+exporter are part of it, so there is no ``SonataBlockBundle``, ``SonataFormBundle``,
+``SonataTwigBundle`` or ``SonataExporterBundle`` to register. What they contribute — the
+``sonata_block``, ``sonata_form``, ``sonata_twig`` and ``sonata_exporter`` configuration roots, the
+``sonata.block.*``, ``sonata.form.*``, ``sonata.twig.*`` and ``sonata.exporter.*`` services, and
+the block and flash-message Twig functions — the admin bundle registers itself. See
+:doc:`/admin-bundle/reference/block_configuration`,
+:doc:`/admin-bundle/reference/form_configuration`,
+:doc:`/admin-bundle/reference/twig_configuration` and
+:doc:`/admin-bundle/reference/exporter_configuration`.
 
 Configure the Installed Bundles
 -------------------------------
 
 Now all needed bundles are downloaded and registered, you have to add some
-configuration. The admin interface is using SonataBlockBundle to put everything
-in blocks. You have to tell the block bundle about the existence of the admin block:
+configuration. The admin interface uses *blocks* to put everything on the dashboard.
+Blocks are part of ``SonataAdminBundle`` — there is no block bundle to register — and
+they have a configuration root of their own, ``sonata_block``. You have to tell it
+about the existence of the admin block:
 
 .. code-block:: yaml
 
@@ -80,8 +96,9 @@ in blocks. You have to tell the block bundle about the existence of the admin bl
 .. note::
 
     Don't worry too much if, at this point, you don't yet understand fully
-    what a block is. The SonataBlockBundle is a useful tool, but it's not vital
-    that you understand it in order to use the admin bundle.
+    what a block is. Blocks are a useful tool, but it's not vital that you
+    understand them in order to use the admin bundle.
+    :doc:`/admin-bundle/reference/block_configuration` has the whole story.
 
 Enable the "translator" service
 -------------------------------

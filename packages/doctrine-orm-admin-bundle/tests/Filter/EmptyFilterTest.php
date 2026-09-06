@@ -15,9 +15,9 @@ namespace Sonata\DoctrineORMAdminBundle\Tests\Filter;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use Sonata\AdminBundle\Filter\Model\FilterData;
+use Sonata\AdminBundle\Form\Type\BooleanType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\DoctrineORMAdminBundle\Filter\EmptyFilter;
-use Sonata\Form\Type\BooleanType;
 
 final class EmptyFilterTest extends FilterTestCase
 {

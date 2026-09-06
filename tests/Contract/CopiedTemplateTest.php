@@ -104,7 +104,7 @@ final class CopiedTemplateTest extends ContractTestCase
             'block_exception_debug',
             'block_no_page_available',
         ] as $block) {
-            $templates[] = \sprintf('packages/block-bundle/src/Resources/views/Block/%s.html.twig', $block);
+            $templates[] = \sprintf('packages/admin-bundle/src/Resources/views/Block/%s.html.twig', $block);
         }
 
         // `Profiler/block.html.twig` is deliberately not here: it renders inside Symfony's web

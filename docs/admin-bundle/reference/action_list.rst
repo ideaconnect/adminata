@@ -529,7 +529,7 @@ Available types are represented through classes which can be found `here`_.
 Types like ``equal`` and ``boolean`` use constants to assign a choice of
 ``type`` to an ``integer`` for its ``value``::
 
-    namespace Sonata\Form\Type;
+    namespace Sonata\AdminBundle\Form\Type;
 
     final class EqualType extends AbstractType
     {
@@ -542,8 +542,8 @@ The integers are then passed in the URL of the list action e.g.:
 
 This is an example using these constants for an ``boolean`` type::
 
-    use Sonata\Form\Type\EqualType;
-    use Sonata\Form\Type\BooleanType;
+    use Sonata\AdminBundle\Form\Type\EqualType;
+    use Sonata\AdminBundle\Form\Type\BooleanType;
 
     final class UserAdmin extends Sonata\UserBundle\Admin\Model\UserAdmin
     {
@@ -560,7 +560,7 @@ Please note that setting a ``false`` value on a the ``boolean`` type
 will not work since the type expects an integer of  ``2`` as ``value``
 as defined in the class constants::
 
-    namespace Sonata\Form\Type;
+    namespace Sonata\AdminBundle\Form\Type;
 
     final class BooleanType extends AbstractType
     {
@@ -634,7 +634,7 @@ You can also get the filter type which can be helpful to change the operator
 type of your condition(s)::
 
     use Sonata\AdminBundle\Filter\Model\FilterData;
-    use Sonata\Form\Type\EqualType;
+    use Sonata\AdminBundle\Form\Type\EqualType;
 
     final class UserAdmin extends Sonata\UserBundle\Admin\Model\UserAdmin
     {
@@ -839,7 +839,7 @@ Combine this with configuring a custom template and you'll have a list column fu
     }
 
 .. _`SonataDoctrineORMAdminBundle Documentation`: https://docs.sonata-project.org/projects/SonataDoctrineORMAdminBundle/en/4.x/reference/list_field_definition/
-.. _`here`: https://github.com/sonata-project/form-extensions/tree/1.x/src/Type
+.. _`here`: https://github.com/ideaconnect/adminata/tree/main/packages/admin-bundle/src/Form/Type/Operator
 
 Advance Usage
 -------------

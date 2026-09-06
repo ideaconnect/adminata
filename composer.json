@@ -126,50 +126,40 @@
     },
     "replace": {
         "sonata-project/admin-bundle": "4.43.0",
-        "sonata-project/block-bundle": "5.4.0",
         "sonata-project/doctrine-extensions": "2.6.0",
-        "sonata-project/doctrine-orm-admin-bundle": "4.21.0",
-        "sonata-project/exporter": "3.4.0",
-        "sonata-project/form-extensions": "2.7.0",
-        "sonata-project/twig-extensions": "2.6.0"
+        "sonata-project/doctrine-orm-admin-bundle": "4.21.0"
     },
     "conflict": {
         "doctrine/mongodb-odm": "<2.4",
         "phpoffice/phpspreadsheet": "<1.23",
+        "sonata-project/block-bundle": "*",
         "sonata-project/entity-audit-bundle": ">=2.0",
+        "sonata-project/exporter": "*",
+        "sonata-project/form-extensions": "*",
+        "sonata-project/twig-extensions": "*",
         "symfony/security-acl": "<3.1 || >=4.0"
     },
     "suggest": {
         "doctrine/mongodb-odm": "To use the MongoDB ODM document manager and exporter source",
         "idct/sonata-admin-mongodb-bundle": "To manage MongoDB ODM documents with Sonata admins",
-        "phpoffice/phpspreadsheet": "To export data as XLS or XLSX",
+        "phpoffice/phpspreadsheet": "To export data as XLSX; the XLS writer needs no library",
         "sonata-project/entity-audit-bundle": "To enable the entity history pages (post-1.0)",
         "twig/extra-bundle": "Auto configures the Twig Intl extension"
     },
     "autoload": {
         "psr-4": {
             "Sonata\\AdminBundle\\": "packages/admin-bundle/src/",
-            "Sonata\\BlockBundle\\": "packages/block-bundle/src/",
             "Sonata\\DoctrineORMAdminBundle\\": "packages/doctrine-orm-admin-bundle/src/",
             "Sonata\\Doctrine\\": "packages/doctrine-extensions/src/",
-            "Sonata\\Doctrine\\Bridge\\Symfony\\": "packages/doctrine-extensions/src/Bridge/Symfony/",
-            "Sonata\\Exporter\\": "packages/exporter/src/",
-            "Sonata\\Exporter\\Bridge\\Symfony\\": "packages/exporter/src/Bridge/Symfony/",
-            "Sonata\\Form\\": "packages/form-extensions/src/",
-            "Sonata\\Twig\\": "packages/twig-extensions/src/",
-            "Sonata\\Twig\\Bridge\\Symfony\\": "packages/twig-extensions/src/Bridge/Symfony/"
+            "Sonata\\Doctrine\\Bridge\\Symfony\\": "packages/doctrine-extensions/src/Bridge/Symfony/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Adminata\\Tests\\": "tests/",
             "Sonata\\AdminBundle\\Tests\\": "packages/admin-bundle/tests/",
-            "Sonata\\BlockBundle\\Tests\\": "packages/block-bundle/tests/",
             "Sonata\\DoctrineORMAdminBundle\\Tests\\": "packages/doctrine-orm-admin-bundle/tests/",
-            "Sonata\\Doctrine\\Tests\\": "packages/doctrine-extensions/tests/",
-            "Sonata\\Exporter\\Tests\\": "packages/exporter/tests/",
-            "Sonata\\Form\\Tests\\": "packages/form-extensions/tests/",
-            "Sonata\\Twig\\Tests\\": "packages/twig-extensions/tests/"
+            "Sonata\\Doctrine\\Tests\\": "packages/doctrine-extensions/tests/"
         }
     },
     "config": {

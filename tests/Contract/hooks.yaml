@@ -1,11 +1,13 @@
 # The markup hooks adminata promises (PLAN/02 §8).
 #
 # These are the names the PHP layer emits, an application's CSS and JavaScript select on, and the
-# functional tests of the seven packages assert. Styling hangs off them; they are not styling. A
+# functional tests of the forked packages assert. Styling hangs off them; they are not styling. A
 # rewritten template may change every Tailwind utility around them, but dropping one of these is a
 # major release.
 #
-# Each group names the templates that must between them carry every hook. `enabled: false` marks a
+# Each group names the templates that must between them carry every hook, relative to
+# `packages/<package>/src/Resources/views/`. `package:` names that directory and defaults to
+# `admin-bundle`, which is where every group's templates currently live. `enabled: false` marks a
 # group whose templates milestones M2 to M4 still have to rewrite — the task that rewrites them
 # turns it on.
 
@@ -123,7 +125,6 @@ show:
 flash:
     enabled: true
     milestone: M2
-    package: twig-extensions
     templates:
         - FlashMessage/render.html.twig
     hooks:

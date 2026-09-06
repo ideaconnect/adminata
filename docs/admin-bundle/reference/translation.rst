@@ -11,6 +11,10 @@ There are two main translation domains in an Admin class:
 Ideally the ``messages`` domain should be changed to avoid any issues with
 other Admin classes.
 
+The block strings — the ``sonata.block.service.*`` names and the ``form.label_*``
+labels of the editable blocks — are in ``SonataAdminBundle`` too
+(:doc:`block_configuration`).
+
 You can configure the translation domain for the Admin class by injecting the value through the container:
 
 .. code-block:: xml

@@ -8,6 +8,19 @@ Form Types
     ``ModelAutocompleteType``, which was rewritten as an ARIA 1.2 combobox, or ``ModelType`` for a
     native select. See :doc:`/porting-status`.
 
+.. note::
+
+    **Two collection types, and the short name changed hands.**
+    ``Sonata\AdminBundle\Form\Type\CollectionType`` (block prefix ``sonata_type_collection``) is
+    the one the storage layer renders as an association collection; it was
+    ``Sonata\Form\Type\CollectionType`` in Sonata.
+    ``Sonata\AdminBundle\Form\Type\NativeCollectionType`` (block prefix
+    ``sonata_type_native_collection``) wraps Symfony's own collection type with add and delete
+    buttons; it was ``Sonata\AdminBundle\Form\Type\CollectionType`` in Sonata. Both are below,
+    and updating an import without reading which is which silently changes the widget that renders.
+    The table is in `UPGRADE-1.0.md
+    <https://github.com/ideaconnect/adminata/blob/main/UPGRADE-1.0.md>`_ §U1.
+
 
 Admin related form types
 ------------------------
@@ -612,10 +625,10 @@ The available options (which can be passed as a third parameter to ``FormMapper:
   corresponding button. You can also specify a custom translation domain
   for these labels, which defaults to ``SonataAdminBundle``.
 
-Sonata\\Form\\Type\\CollectionType
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sonata\\AdminBundle\\Form\\Type\\CollectionType
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The ``Sonata\Form\Type\CollectionType`` is meant to handle creation and editing of model
+The ``Sonata\AdminBundle\Form\Type\CollectionType`` is meant to handle creation and editing of model
 collections. Rows can be added and deleted, and your model abstraction layer may
 allow you to edit fields inline. You can use ``type_options`` to pass values
 to the underlying forms::
@@ -624,7 +637,7 @@ to the underlying forms::
 
     use Sonata\AdminBundle\Form\FormMapper;
     use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\Form\Type\CollectionType;
+    use Sonata\AdminBundle\Form\Type\CollectionType;
     use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
     final class ProductAdmin extends AbstractAdmin
@@ -663,10 +676,15 @@ The available options (which can be passed as a third parameter to ``FormMapper:
   corresponding button. You can also specify a custom translation domain
   for this label, which defaults to ``SonataAdminBundle``.
 
-.. tip::
+``type`` and ``type_options``:
+  The form type each row is built from, and the options handed to it.
 
-    A jQuery event is fired after a row has been added (``sonata-admin-append-form-element``).
-    You can listen to this event to trigger custom JavaScript (eg: add a calendar widget to a newly added date field)
+``modifiable``:
+  ``true`` lets rows be added and removed; the default is ``false``.
+
+``pre_bind_data_callback``:
+  A callable run during ``FormEvent::PRE_SUBMIT`` to build the data the row forms are given from
+  the value retrieved. Use this when the forms have to be built from the submitted data.
 
 .. tip::
 
@@ -684,8 +702,8 @@ The available options (which can be passed as a third parameter to ``FormMapper:
     In order to delete rows, you must set the DELETE permission.
     For more infos about permissions, check the :doc:`security` page.
 
-Sonata\\AdminBundle\\Form\\Type\\CollectionType
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sonata\\AdminBundle\\Form\\Type\\NativeCollectionType
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 This bundle handle the native Symfony ``collection`` form type by adding:
 
@@ -694,21 +712,265 @@ This bundle handle the native Symfony ``collection`` form type by adding:
 
 .. tip::
 
-    A jQuery event is fired after a row has been added (``sonata-admin-append-form-element``).
-    You can listen to this event to trigger custom JavaScript (eg: add a calendar widget to a newly added date field)
+    The widget is the ``sonata-collection`` Stimulus controller, and it dispatches **native**
+    ``CustomEvent``\ s on the collection element — there is no jQuery involved. Adding a row
+    dispatches ``sonata-admin-append-form-element``, kept for compatibility, and
+    ``sonata-collection-item-added``, which is the name to use; both carry the new row as
+    ``event.detail.item``. Deleting one dispatches ``sonata-collection-item-deleted`` before the
+    row is removed, with the same ``detail``, and ``sonata-collection-item-deleted-successful``
+    after.
 
-.. tip::
+    .. code-block:: javascript
 
-    A jQuery event is fired after a row has been added (``sonata-collection-item-added``)
-    or before deleted (``sonata-collection-item-deleted``).
-    A jQuery event is fired after a row has been deleted successfully (``sonata-collection-item-deleted-successful``)
-    You can listen to these events to trigger custom JavaScript.
+        document.addEventListener('sonata-collection-item-added', (event) => {
+            // event.detail.item is the row that was just inserted
+        });
 
 .. warning::
 
     If you are using the ``sonata.admin.security.handler.role``, you must set, at least, the CREATE permission to the Admin of the relation, to be able to add more rows to the collection.
     In order to delete rows, you must set the DELETE permission.
     For more infos about permissions, check the :doc:`security` page.
+
+Standalone form types
+---------------------
+
+These types take neither an admin nor a ``FieldDescription``: they are plain Symfony form types,
+registered as ``sonata.form.type.*`` services and tagged ``form.type``, so they work in any form
+(:doc:`form_configuration`).
+
+
+ImmutableArrayType
+^^^^^^^^^^^^^^^^^^
+
+The ``Immutable Array`` allows you to edit an array property by defining a type per key.
+
+The type has a ``keys`` parameter which contains the definition for each key.
+A definition is either a ``FormBuilder`` instance or an array with 3 options:
+
+* key name,
+* type: a type name or a ``FormType`` instance,
+* related type parameters: please refer to the related form documentation.
+
+Let's say a ``Page`` has options property with some fixed key-value pairs.
+Each value has a different type: `integer`, `url`, or `string` for instance::
+
+    // src/Entity/Page.php
+
+    class Page
+    {
+        protected $options = [
+            'ttl' => 1,
+            'redirect' => '',
+        ];
+
+        public function setOptions(array $options): void
+        {
+            $this->options = $options;
+        }
+
+        public function getOptions(): array
+        {
+            return $this->options;
+        }
+    }
+
+Now, the property can be edited by setting a type for each type::
+
+    // src/Admin/PageAdmin.php
+
+    use Sonata\AdminBundle\Form\Type\ImmutableArrayType;
+
+    final class PageAdmin extends AbstractAdmin
+    {
+        protected function configureFormFields(FormMapper $form): void
+        {
+            $form
+                ->add('options', ImmutableArrayType::class, [
+                    'keys' => [
+                        ['ttl', 'text', ['required' => false]],
+                        ['redirect', 'url', ['required' => true]],
+                    ]
+                ]);
+        }
+    }
+
+
+BooleanType
+^^^^^^^^^^^
+
+The ``boolean`` type is a specialized ``ChoiceType``, where the list of choices is locked to *yes* and *no*.
+
+Note that for backward compatibility reasons, it will set your value to *1* for *yes* and to *2* for *no*.
+If you want to map to a boolean value, just set the option ``transform`` to true. For instance, you need to do so when mapping to a doctrine boolean.
+
+
+BaseStatusType
+^^^^^^^^^^^^^^
+
+``BaseStatusType`` renders a choice of status read from a static method of your model class. It is
+**abstract**, and deliberately so: a form type is identified by its class name, so a status type
+needs a class of its own before it can be registered.
+
+Let's say you have a ``Delivery::getStatusList()`` method which returns a list of status::
+
+    // src/Entity/Delivery.php
+
+    class Delivery
+    {
+        public static function getStatusList(): array
+        {
+            return [
+                self::STATUS_OPEN      => 'status_open',
+                self::STATUS_PENDING   => 'status_pending',
+                self::STATUS_VALIDATED => 'status_validated',
+                self::STATUS_CANCELLED => 'status_cancelled',
+                self::STATUS_ERROR     => 'status_error',
+                self::STATUS_STOPPED   => 'status_stopped',
+            ];
+        }
+    }
+
+Extend the base type with an empty class, so it has a unique FQCN::
+
+    // src/Form/Type/DeliveryStatusType.php
+
+    use Sonata\AdminBundle\Form\Type\BaseStatusType;
+
+    final class DeliveryStatusType extends BaseStatusType
+    {
+    }
+
+The three constructor arguments are the class, the static getter and the block prefix, so declare
+it as a service:
+
+.. code-block:: yaml
+
+    services:
+        App\Form\Type\DeliveryStatusType:
+            arguments:
+                - 'App\Entity\Delivery'
+                - 'getStatusList'
+                - 'sonata_delivery_status'
+            tags:
+                - { name: form.type }
+
+The getter is checked when the options are resolved: a missing method is a ``RuntimeException``
+naming the class and the method, not an empty select. The type can now be used::
+
+    // src/Admin/DeliveryAdmin.php
+
+    use App\Form\Type\DeliveryStatusType;
+
+    final class DeliveryAdmin extends AbstractAdmin
+    {
+        protected function configureFormFields(FormMapper $form): void
+        {
+            $form
+                ->add('deliveryStatus', DeliveryStatusType::class)
+                // ...
+            ;
+        }
+    }
+
+DatePickerType / DateTimePickerType
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+These types render **native HTML5 inputs** — ``<input type="date">``, ``<input type="time">`` and
+``<input type="datetime-local">``. adminata ships no date-picker library: Tempus Dominus is gone,
+and with it ``bundles/sonataform/*``. The calendar a visitor sees is the browser's, which means it
+is the one their operating system has taught them, it is localised for them, and it works on a
+phone.
+
+In your form, use the type as before::
+
+    // src/Admin/PageAdmin.php
+
+    use Sonata\AdminBundle\Form\Type\DatePickerType;
+    use Sonata\AdminBundle\Form\Type\DateTimePickerType;
+
+    final class PageAdmin extends AbstractAdmin
+    {
+        protected function configureFormFields(FormMapper $form): void
+        {
+            $form
+                ->add('publicationDateStart', DateTimePickerType::class)
+
+                // or DatePickerType if you do not need the time
+                ->add('publicationDateStart', DatePickerType::class);
+        }
+    }
+
+Which input you get
+~~~~~~~~~~~~~~~~~~~
+
+``datepicker_options.display.components`` still decides, and it is now the *only* thing that does:
+
+=========================================  ==============================
+``display.components``                     Rendered input
+=========================================  ==============================
+default                                    ``datetime-local``
+``calendar: false``                        ``time``
+``clock: false``                           ``date``
+``seconds: true``                          ``datetime-local`` with seconds
+=========================================  ==============================
+
+``DatePickerType`` sets ``clock: false`` for you, so it renders a ``date`` input without any
+configuration.
+
+.. warning::
+
+    ``format`` is **no longer configurable** and passing one throws. A native input exchanges its
+    value in a fixed wire format — ``yyyy-MM-dd``, ``HH:mm``, ``yyyy-MM-dd'T'HH:mm`` — and a custom
+    ``format`` would silently stop the value round-tripping. This is the same rule Symfony applies
+    to ``DateType`` with ``html5: true``; the exception message names the components it saw.
+
+    Delete the ``format`` options you have. What a visitor *sees* is their own locale's, chosen by
+    the browser, and is not yours to set.
+
+Options that no longer do anything
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The rest of ``datepicker_options`` described Tempus Dominus and is accepted but inert:
+``useCurrent``, ``sideBySide``, ``calendarWeeks``, ``viewMode``, ``datepicker_use_button`` and the
+other display options. They are not rejected, so an application upgrading does not have to strip
+them in the same commit — but they render nothing.
+
+``min``, ``max`` and ``step`` are the native equivalents, and they are passed through ``attr``::
+
+    ->add('publishedAt', DatePickerType::class, [
+        'attr' => ['min' => '2020-01-01', 'max' => '2030-12-31'],
+    ])
+
+There is no controller to register: the widget is markup.
+
+
+DateRangePickerType / DateTimeRangePickerType
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Those types extend the basic range form field types
+(``Sonata\AdminBundle\Form\Type\DateRangeType`` and
+``Sonata\AdminBundle\Form\Type\DateTimeRangeType``).
+
+You can use them if you need datetime picker in datetime range filters.
+
+Example with ``Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter`` filter::
+
+    // src/Admin/PostAdmin.php
+
+    use Sonata\AdminBundle\Form\Type\DateRangeType;
+    use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
+
+    final class PostAdmin extends AbstractAdmin
+    {
+        protected function configureDatagridFilters(DatagridMapper $datagrid): void
+        {
+            $datagrid
+                ->add('createdAt', DateRangeFilter::class, [
+                    'field_type' => DateRangeType::class,
+                ]);
+        }
+    }
 
 .. _form_types_fielddescription_options:
 

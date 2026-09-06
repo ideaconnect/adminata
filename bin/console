@@ -16,8 +16,9 @@ declare(strict_types=1);
  */
 
 /*
- * Boots adminata's demo application (tests/App), which registers all seven bundles the way an
- * application does. `make demo` serves the same kernel.
+ * Boots adminata's demo application (tests/App), which registers the four Sonata bundles the way an
+ * application does; SonataAdminBundle carries the `sonata_block`, `sonata_form` and `sonata_twig`
+ * roots. `make demo` serves the same kernel.
  */
 
 use Adminata\Tests\App\Kernel;

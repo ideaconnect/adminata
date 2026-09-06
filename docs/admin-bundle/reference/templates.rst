@@ -153,6 +153,14 @@ You can specify your templates in the config file:
     Notice that this is a global change, meaning it will affect all model mappings
     automatically, both for ``Admin`` mappings defined by you and by other bundles.
 
+.. note::
+
+    The block templates — ``list_block`` and ``search_result_block`` above, and the ones the block
+    services themselves default to — are ``@SonataAdmin/Block/…`` like every other path here, and
+    are overridden the same way, under ``templates/bundles/SonataAdminBundle/Block/``.
+    ``@SonataBlock/…`` is a compatibility alias of the same directory for templates outside
+    adminata; see :doc:`block_configuration`.
+
 If you wish, you can specify custom templates on a per ``Admin`` mapping
 basis. Internally, the ``CRUDController`` fetches this information from the
 ``TemplateRegistry`` class instance that belongs with the ``Admin``, so you

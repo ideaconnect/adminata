@@ -14,7 +14,7 @@
 | R08 | Large one-time Rector/CS diffs across seven packages make upstream cherry-picks conflict | medium | one mechanical commit per package; `git apply -3 --directory`; P6 files merged by hand | 07 §10 |
 | R09 | MongoDB fork's Panther suite fails until association widgets exist, and its modal scenarios assume AJAX submission that is gone for good | medium | unit suite in PR CI from phase 1; Panther nightly informational; the fork's scenarios are adapted to the non-AJAX flow when the widgets are ported (first backlog item) | 08 §7, 09 |
 | R10 | Sonata's tests pin Bootstrap markup (452 render expectations, form layout XPath, flash tests) | medium | envelope frozen; deliberate re-baselining | 08 §1 |
-| R11 | Flex's convention-based bundle auto-registration for a `symfony-bundle` package with seven PSR-4 roots may register the wrong class or none in new apps | low | existing apps keep `bundles.php`; new apps register the seven classes by hand; verify in §3 | 07 §11 |
+| R11 | Flex's convention-based bundle auto-registration for a `symfony-bundle` package with several PSR-4 roots may register the wrong class or none in new apps | low | existing apps keep `bundles.php`; new apps register the six classes by hand (01 P10 removed the seventh); verify in §3 | 07 §11 |
 | R12 | Dark mode regressions in app templates (hard-coded light colours) | low | tokens with `dark:` variants during the cell-template port; X1 scenario | 10 §1 step 10 |
 | R13 | Two Stimulus applications; a `sonata-*` identifier registered twice | low | rule R2; guard in the app's Behat suite | 05 §5 |
 | R14 | App classes named like Tailwind utilities (`mt-10`, `hidden`) change meaning once the app compiles Tailwind | low | rename `.mt-10`; `hidden` is fine once `col-md-*` is gone | 10 §1 step 11 |
@@ -29,6 +29,10 @@
    (recommended; `bundles.php` and YAML of existing apps unchanged, MongoDB fork untouched) or
    merge into a single `AdminataBundle` with one config root (touches every app's `bundles.php`
    and five YAML files, and the fork's DI assumptions).
+   **Answered:** seven on 2026-09-04; then **six** on 2026-09-06, when `SonataBlockBundle` was
+   deleted and its extension moved into `SonataAdminBundle` (01 P10). The middle path won — one
+   bundle class fewer, but every config root, service id and Twig name kept, so an app loses one
+   `bundles.php` line and no YAML at all.
 2. **Package layout**: `packages/<upstream-name>/{src,tests,docs}` mirroring the upstream trees
    (recommended; trivial `git subtree`/`git apply --directory` syncs) or a flattened `src/<Namespace>/`.
 3. **Import history**: full history for all seven (recommended) or `--squash` for the small ones.
@@ -49,7 +53,7 @@
 |---|---|
 | Tailwind 4.3 semantics T1–T11 | phase 1 fixture with pinned `tailwindcss` |
 | Seven-way `replace` resolution together with `idct/sonata-admin-mongodb-bundle` and a plain ORM app | phase 0 scratch app (`ReplaceTest`) |
-| Flex behaviour for a `symfony-bundle` package with seven PSR-4 roots (auto-registration, `unconfigure` of the six recipes with `--no-plugins`) | phase 0 scratch app; recipe file lists confirmed from the app's `symfony.lock` on 2026-09-04 |
+| Flex behaviour for a `symfony-bundle` package with several PSR-4 roots (auto-registration, `unconfigure` of the six recipes with `--no-plugins`) | phase 0 scratch app; recipe file lists confirmed from the app's `symfony.lock` on 2026-09-04 |
 | `git subtree add` of seven upstream histories: repository size and clone time | phase 0, before pushing |
 | Vite 8 IIFE output with fixed names and CSS extraction into `app.css` | phase 1 spike |
 | Stimulus 3.2.2 behaviour with two applications on one page (R1–R3) | already read in source; re-run the fixture in phase 1 |

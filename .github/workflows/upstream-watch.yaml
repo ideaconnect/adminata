@@ -37,9 +37,18 @@ jobs:
                           continue
                       fi
 
+                      # A tree in upstream/merged.txt has no packages/<name>/ of its own, so
+                      # `make upstream-sync` refuses it and the issue has to ask for a hand port.
+                      merged_into=$(grep -v '^#' upstream/merged.txt | awk -v p="$name" '$1 == p { print $2 }')
+
                       echo "$name: $tag -> $latest"
                       {
-                          echo "\`packages/$name\` is at \`$tag\`; upstream released \`$latest\`."
+                          if [ -n "$merged_into" ]; then
+                              echo "\`$name\` was merged into \`packages/$merged_into\` and has no directory of"
+                              echo "its own. Its sources sit at \`$tag\`; upstream released \`$latest\`."
+                          else
+                              echo "\`packages/$name\` is at \`$tag\`; upstream released \`$latest\`."
+                          fi
                           echo
                           echo 'Report:'
                           echo
@@ -47,7 +56,13 @@ jobs:
                           upstream/diff.sh "$name" "$tag" "$latest" 2>&1 || true
                           echo '```'
                           echo
-                          echo "Apply with \`make upstream-sync PKG=$name TO=$latest\` (see UPSTREAM.md)."
+                          if [ -n "$merged_into" ]; then
+                              echo "\`make upstream-sync PKG=$name\` refuses a merged tree. Port the changes by hand"
+                              echo "into \`packages/$merged_into\`, then bump the row in \`upstream/remotes.txt\` and in"
+                              echo "UPSTREAM.md — there is no \`replace\` entry to bump (see upstream/merged.txt)."
+                          else
+                              echo "Apply with \`make upstream-sync PKG=$name TO=$latest\` (see UPSTREAM.md)."
+                          fi
                       } > body.md
 
                       title="Sync $name to $latest"

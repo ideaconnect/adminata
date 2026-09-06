@@ -1,7 +1,9 @@
 # adminata — development tasks.
 #
-# The seven forked packages and adminata's own code are linted, analysed and tested from this one
-# file. `make help` lists the targets. Tests need the MySQL of docker-compose.yml: `make services-up`.
+# The three package directories (seven forked trees: block-bundle, exporter, form-extensions and
+# twig-extensions live inside admin-bundle) and adminata's own code are linted, analysed and
+# tested from this one file. `make help` lists the targets. Tests need the MySQL of
+# docker-compose.yml: `make services-up`.
 
 .DEFAULT_GOAL := help
 

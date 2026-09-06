@@ -6,14 +6,14 @@ This document will cover the Export action and related configuration options.
 Basic configuration
 -------------------
 
-If you have registered the ``SonataExporterBundle`` bundle, you can benefit
-from a lot of flexibility:
+The exporter is part of the admin bundle — there is no bundle to register for it
+(:doc:`exporter_introduction`) — and it gives you a lot of flexibility:
 
-* You can configure default exporters globally.
-* You can add custom exporters, also globally.
+* You can configure the default export formats globally.
+* You can add writers of your own, also globally.
 * You can configure every default writer.
 
-See `the exporter bundle documentation`_ for more information.
+All three are :doc:`exporter_configuration`.
 
 Routes
 ------
@@ -83,7 +83,7 @@ Customizing the query used to fetch the results
 -----------------------------------------------
 
 If you want to customize the query used to fetch the results for a specific admin,
-you can override the ``DataSourceInterface`` class::
+you can override the ``Sonata\AdminBundle\Exporter\DataSourceInterface`` implementation::
 
     final class DataSource implements DataSourceInterface
     {
@@ -94,5 +94,3 @@ you can override the ``DataSourceInterface`` class::
     }
 
 And then you can override the datasource set to the admin class.
-
-.. _`the exporter bundle documentation`: https://docs.sonata-project.org/projects/exporter/en/2.x/

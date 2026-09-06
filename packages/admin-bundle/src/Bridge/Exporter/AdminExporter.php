@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Sonata\AdminBundle\Bridge\Exporter;
 
 use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\Exporter\ExporterInterface;
+use Sonata\AdminBundle\Exporter\ExporterInterface;
 
 /**
  * @author Grégoire Paris <postmaster@greg0ire.fr>

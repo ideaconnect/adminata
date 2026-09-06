@@ -21,12 +21,8 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
 use Knp\Bundle\MenuBundle\KnpMenuBundle;
 use Sonata\AdminBundle\SonataAdminBundle;
-use Sonata\BlockBundle\SonataBlockBundle;
 use Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle;
 use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
-use Sonata\Exporter\Bridge\Symfony\SonataExporterBundle;
-use Sonata\Form\Bridge\Symfony\SonataFormBundle;
-use Sonata\Twig\Bridge\Symfony\SonataTwigBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
@@ -64,10 +60,6 @@ final class Kernel extends BaseKernel
             new DoctrineBundle(),
             new DoctrineFixturesBundle(),
             new SonataDoctrineBundle(),
-            new SonataBlockBundle(),
-            new SonataTwigBundle(),
-            new SonataFormBundle(),
-            new SonataExporterBundle(),
             new SonataAdminBundle(),
             new SonataDoctrineORMAdminBundle(),
         ];

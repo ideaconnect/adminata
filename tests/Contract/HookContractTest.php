@@ -24,7 +24,7 @@ use Symfony\Component\Yaml\Yaml;
  *
  * This is the test that gives the M2 to M4 rewrites their safety net: a template may change every
  * Tailwind utility it carries, but if it drops `sonata-ba-list-field` or `objectId`, an
- * application's CSS, an application's JavaScript, or the seven packages' own functional tests stop
+ * application's CSS, an application's JavaScript, or the forked packages' own functional tests stop
  * working — silently, because nothing else looks at a class name.
  *
  * The check is a static scan of the template sources rather than of rendered output: a hook inside
@@ -104,10 +104,6 @@ final class HookContractTest extends ContractTestCase
 
     private static function templateFile(string $package, string $template): string
     {
-        $base = \in_array($package, ['form-extensions', 'twig-extensions'], true)
-            ? $package.'/src/Bridge/Symfony'
-            : $package.'/src';
-
-        return \sprintf('%s/packages/%s/Resources/views/%s', self::root(), $base, $template);
+        return \sprintf('%s/packages/%s/src/Resources/views/%s', self::root(), $package, $template);
     }
 }

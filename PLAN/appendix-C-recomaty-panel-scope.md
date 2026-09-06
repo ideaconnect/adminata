@@ -55,13 +55,18 @@ Bootstrap/AdminLTE class occurrences across `templates/`: `callout` 316, `btn` 7
 `progress` 6, `well` 4, `modal` 4. All become `.adm-*` classes or utilities in the port (document
 10 §1 steps 4–10).
 
+**Amendment, 2026-09-06 (01 P14).** Of the 14 `CollectionType` usages in the Forms row above, six
+are the admin bundle's own type and are `NativeCollectionType` since the merge — the rest are
+Symfony's `CollectionType`, which is unaffected. The `BooleanType`, `Date*PickerType` and
+`Date*RangePickerType` counts are the same types under `Sonata\AdminBundle\Form\Type\`.
+
 ## 4. Template scope derived from §2
 
 Across the seven packages adminata ships (148 templates): 100 rewritten in 1.0 (the 98
 admin-bundle files below plus form-extensions' `Form/datepicker.html.twig` and twig-extensions'
-`FlashMessage/render.html.twig`), 12 copied unchanged (ten Bootstrap-free block-bundle templates
+`FlashMessage/render.html.twig`, both inside `packages/admin-bundle` since 01 P14), 12 copied unchanged (ten Bootstrap-free block templates
 and the two ORM form themes), 36 deferred (the 33 admin-bundle files below plus the ORM
-`block_audit` and block-bundle's `block_core_rss` and `block_side_menu_template`); document 03 §G.
+`block_audit` and the block `block_core_rss` and `block_side_menu_template`); document 03 §G.
 
 **Admin-bundle templates rewritten in 1.0 (98 files, 4,739 Twig lines):** `standard_layout`, `ajax_layout`,
 `empty_layout`; `Menu/sonata_menu`; `Core/{add_block,dashboard,user_block}`; `Breadcrumb/*` (2);

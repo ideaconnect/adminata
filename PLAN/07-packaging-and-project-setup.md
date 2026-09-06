@@ -1,7 +1,28 @@
 # 07 — Packaging, versions, repository, git workflow, quality gates, CI, licensing, upstream sync
 
-Source: `R/packaging.md` (options scoring, empirical Composer and Flex checks). Decisions P1–P9,
+Source: `R/packaging.md` (options scoring, empirical Composer and Flex checks). Decisions P1–P12,
 J11, J13 apply.
+
+**Amendment, 2026-09-06 (01 P10–P12).** `packages/block-bundle` was merged into
+`packages/admin-bundle` and deleted. Everywhere below that says "seven packages" or "`replace` × 7",
+read **six package directories, `replace` × 6, plus one `conflict`** on
+`sonata-project/block-bundle`; the block sources are `Sonata\AdminBundle\` and there is no
+`SonataBlockBundle` bundle class. §§1, 2, 3, 4 and 10 are annotated below where the difference is
+load-bearing.
+
+**Second amendment, 2026-09-06 (01 P14).** `packages/form-extensions` and
+`packages/twig-extensions` went the same way, so the reading above becomes **four package
+directories, `replace` × 4, plus three `conflict`s** on `sonata-project/block-bundle`,
+`sonata-project/form-extensions` and `sonata-project/twig-extensions`; those sources are
+`Sonata\AdminBundle\` too and there is no `SonataFormBundle` or `SonataTwigBundle` bundle class.
+The same sections carry the difference.
+
+**Third amendment, 2026-09-07 (01 P15).** `packages/exporter` went the same way, so the reading
+becomes **three package directories, `replace` × 3, plus four `conflict`s** on
+`sonata-project/block-bundle`, `sonata-project/exporter`, `sonata-project/form-extensions` and
+`sonata-project/twig-extensions`; the exporter's sources are `Sonata\AdminBundle\Exporter\` and
+there is no `SonataExporterBundle` bundle class. The same sections carry the difference, and §6
+gains one: the `exporter` PHPUnit suite is part of `admin`.
 
 ## 1. Packaging (summary)
 
@@ -9,6 +30,12 @@ One repository and one Composer package, `idct/adminata`, containing the seven S
 copied one-to-one under `packages/<upstream-name>/` and replacing them on Packagist terms
 (`replace` × 7 at exact upstream versions). Overlay and new-namespace options stay rejected (P8).
 The MongoDB fork stays a separate package and resolves against adminata through `replace`.
+
+**Amended (P10, P11, P14, P15):** three directories, `replace` × 3. `block-bundle`,
+`form-extensions`, `twig-extensions` and `exporter` are merged into `admin-bundle` and carry
+`conflict` entries instead of `replace` ones; `upstream/merged.txt` records all four and
+`bin/check-replace-versions.php` asserts the three replaced trees and the four merged trees against
+`UPSTREAM.md` and `upstream/remotes.txt`.
 
 Composer facts (2.9.7, seven scenarios in `R/packaging.md` §0.6): an exact `replace` version
 satisfies caret constraints of dependants; `self.version` does not; a range resolves but lies;
@@ -33,12 +60,12 @@ files; Dependabot bumps weekly.
 | Package | Latest | Released | Role |
 |---|---|---|---|
 | `sonata-project/admin-bundle` | 4.43.0 | 2026-06-03 | `packages/admin-bundle`, replaced |
-| `sonata-project/block-bundle` | 5.4.0 | 2025-11-30 | `packages/block-bundle`, replaced |
+| `sonata-project/block-bundle` | 5.4.0 | 2025-11-30 | ~~`packages/block-bundle`, replaced~~ → merged into `packages/admin-bundle`, **conflicted** (P10, P11) |
 | `sonata-project/doctrine-extensions` | 2.6.0 | 2025-11-23 | `packages/doctrine-extensions`, replaced |
 | `sonata-project/doctrine-orm-admin-bundle` | 4.21.0 | 2026-01-05 | `packages/doctrine-orm-admin-bundle`, replaced |
-| `sonata-project/exporter` | 3.4.0 | 2025-11-23 | `packages/exporter`, replaced |
-| `sonata-project/form-extensions` | 2.7.0 | 2025-11-23 | `packages/form-extensions`, replaced |
-| `sonata-project/twig-extensions` | 2.6.0 | 2025-11-23 | `packages/twig-extensions`, replaced |
+| `sonata-project/exporter` | 3.4.0 | 2025-11-23 | ~~`packages/exporter`, replaced~~ → merged into `packages/admin-bundle`, **conflicted** (P15) |
+| `sonata-project/form-extensions` | 2.7.0 | 2025-11-23 | ~~`packages/form-extensions`, replaced~~ → merged into `packages/admin-bundle`, **conflicted** (P14) |
+| `sonata-project/twig-extensions` | 2.6.0 | 2025-11-23 | ~~`packages/twig-extensions`, replaced~~ → merged into `packages/admin-bundle`, **conflicted** (P14) |
 | `idct/sonata-admin-mongodb-bundle` | v5.2.2 | — | external; requires `admin-bundle ^4.39`, `exporter ^3.0`, `form-extensions ^2.0` |
 | `symfony/framework-bundle` | v8.1.6 | 2026-08-30 | CI target with 7.4 LTS |
 | `symfony/stimulus-bundle` | v3.4.0 | 2026-07-25 | Twig helpers |
@@ -86,16 +113,14 @@ A CI job (`versions-watch`, weekly) lists newer releases of every entry above an
   },
   "require-dev": { "doctrine/doctrine-fixtures-bundle": "^4.0", "dama/doctrine-test-bundle": "^8.6", "symfony/panther": "^2.4", "phpunit/phpunit": "^13.3", "phpstan/*": "^2.2", "rector/rector": "^2.6", "friendsofphp/php-cs-fixer": "^3.95", "infection/infection": "^0.35", "phpoffice/phpspreadsheet": "^5.0" },
   "replace": {
-    "sonata-project/admin-bundle": "4.43.0", "sonata-project/block-bundle": "5.4.0",
-    "sonata-project/doctrine-extensions": "2.6.0", "sonata-project/doctrine-orm-admin-bundle": "4.21.0",
-    "sonata-project/exporter": "3.4.0", "sonata-project/form-extensions": "2.7.0", "sonata-project/twig-extensions": "2.6.0"
+    "sonata-project/admin-bundle": "4.43.0",
+    "sonata-project/doctrine-extensions": "2.6.0", "sonata-project/doctrine-orm-admin-bundle": "4.21.0"
   },
-  "conflict": { "symfony/security-acl": "<3.1 || >=4.0", "doctrine/mongodb-odm": "<2.4", "phpoffice/phpspreadsheet": "<1.23", "sonata-project/entity-audit-bundle": ">=2.0" },
+  "conflict": { "sonata-project/block-bundle": "*", "sonata-project/exporter": "*", "sonata-project/form-extensions": "*", "sonata-project/twig-extensions": "*", "symfony/security-acl": "<3.1 || >=4.0", "doctrine/mongodb-odm": "<2.4", "phpoffice/phpspreadsheet": "<1.23", "sonata-project/entity-audit-bundle": ">=2.0" },
   "suggest": { "idct/sonata-admin-mongodb-bundle": "MongoDB ODM admins", "phpoffice/phpspreadsheet": "XLS/XLSX export", "twig/extra-bundle": "Intl", "sonata-project/entity-audit-bundle": "history pages (post-1.0)" },
   "autoload": { "psr-4": {
-    "Sonata\\AdminBundle\\": "packages/admin-bundle/src/", "Sonata\\BlockBundle\\": "packages/block-bundle/src/",
-    "Sonata\\Doctrine\\": "packages/doctrine-extensions/src/", "Sonata\\DoctrineORMAdminBundle\\": "packages/doctrine-orm-admin-bundle/src/",
-    "Sonata\\Exporter\\": "packages/exporter/src/", "Sonata\\Form\\": "packages/form-extensions/src/", "Sonata\\Twig\\": "packages/twig-extensions/src/"
+    "Sonata\\AdminBundle\\": "packages/admin-bundle/src/",
+    "Sonata\\Doctrine\\": "packages/doctrine-extensions/src/", "Sonata\\DoctrineORMAdminBundle\\": "packages/doctrine-orm-admin-bundle/src/"
   } },
   "autoload-dev": { "psr-4": { "Sonata\\AdminBundle\\Tests\\": "packages/admin-bundle/tests/", "…one per package…": "", "Adminata\\Tests\\": "tests/" } },
   "extra": { "branch-alias": { "dev-main": "1.x-dev" } },
@@ -111,7 +136,11 @@ seven imported suites all have to run (`dama/doctrine-test-bundle`, `doctrine/mo
 `symfony/maker-bundle`, `sonata-project/entity-audit-bundle`, `phpoffice/phpspreadsheet` … are each
 exercised by tests). The `conflict` block keeps the upstream guards that survive the raised floors
 and drops those the floors make redundant (`knplabs/knp-menu-bundle <3.0`,
-`doctrine/doctrine-bundle <2.7`, `doctrine/orm <2.16`, `sonata-project/block-bundle <4.2`);
+`doctrine/doctrine-bundle <2.7`, `doctrine/orm <2.16`); upstream's own
+`sonata-project/block-bundle <4.2` guard is replaced by an all-versions `conflict` (P11), since
+adminata ships that API under a different namespace and the two stacks cannot coexist, and
+`form-extensions` and `twig-extensions` gain the same all-versions `conflict` for the same reason
+when they are merged in (P14), and `exporter` when it is (P15);
 upstream's `symfony/security-acl: "<3.1 >=4.0"` is an unsatisfiable conjunction and becomes a
 disjunction. Decisions: floors as P4; no `provide` (the ORM bundle's virtual
 `sonata-project/admin-bundle-persistency-layer` is dropped so a persistence bundle installed
@@ -124,18 +153,20 @@ alongside can provide it); author roster regenerated from the full clones; CI jo
 adminata/                                  git@github.com:ideaconnect/adminata.git, branch main
 ├── PLAN/                                  # this plan
 ├── packages/                              # upstream trees, imported with git subtree (history kept)
-│   ├── admin-bundle/{src,tests,docs}          Sonata\AdminBundle\      (views rewritten; public/ = build output)
-│   ├── block-bundle/{src,tests,docs}          Sonata\BlockBundle\
-│   ├── doctrine-extensions/{src,tests,docs}   Sonata\Doctrine\
-│   ├── doctrine-orm-admin-bundle/{src,tests,docs}  Sonata\DoctrineORMAdminBundle\
-│   ├── exporter/{src,tests,docs}              Sonata\Exporter\
-│   ├── form-extensions/{src,tests,docs}       Sonata\Form\             (assets/ and public/ deleted; datepicker view rewritten)
-│   └── twig-extensions/{src,tests,docs}       Sonata\Twig\             (public/css deleted; flash view rewritten)
+│   ├── admin-bundle/{src,tests}               Sonata\AdminBundle\      (views rewritten; public/ = build output;
+│   │                                                                    block-bundle merged in — P10;
+│   │                                                                    form-extensions and twig-extensions merged
+│   │                                                                    in — P14: their assets/ and public/ deleted,
+│   │                                                                    datepicker and flash views rewritten;
+│   │                                                                    exporter merged in — P15, under
+│   │                                                                    Sonata\AdminBundle\Exporter\)
+│   ├── doctrine-extensions/{src,tests}        Sonata\Doctrine\
+│   └── doctrine-orm-admin-bundle/{src,tests}  Sonata\DoctrineORMAdminBundle\
 ├── assets/{css,js,images}/                # adminata's UI sources (documents 04, 05)
 ├── tests/{App,Contract,Visual,Compat}/    # adminata-level suites (document 08)
 ├── docs/                                  # single Sphinx site (document 12)
 ├── bin/console
-├── upstream/{remotes.txt,exclude/<name>.txt,diff.sh,sync.sh}
+├── upstream/{remotes.txt,merged.txt,exclude/<name>.txt,diff.sh,sync.sh}
 ├── AGENTS.md CHANGELOG.md CHANGELOG-sonata.md CONTRIBUTING.md LICENSE NOTICE README.md
 ├── MIGRATION.md UPGRADE-1.0.md UPSTREAM.md
 ├── composer.json package.json package-lock.json vite.config.js vitest.config.js eslint.config.js prettier.config.js stylelint.config.js playwright.config.js
@@ -166,7 +197,7 @@ path rewriting in the sync script and buys nothing for Composer, which sees one 
 
 | Gate | Setting |
 |---|---|
-| PHPUnit 13 | one `phpunit.xml.dist`; suites `admin`, `block`, `doctrine`, `orm`, `exporter`, `form`, `twig` (imported upstream suites), `adminata-unit`, `adminata-functional`, `adminata-contract`; `failOnWarning/Risky`; Panther `ServerExtension` |
+| PHPUnit 13 | one `phpunit.xml.dist`; suites `admin`, `block`, `doctrine`, `orm`, `exporter`, `form`, `twig` (imported upstream suites — the `block`, `form`, `twig` and `exporter` ones are part of `admin` since P10, P14 and P15), `adminata-unit`, `adminata-functional`, `adminata-contract`; `failOnWarning/Risky`; Panther `ServerExtension` |
 | PHPStan 2.2 | level 8 + bleedingEdge + strict + symfony + phpunit extensions over `packages/*/src` and `tests`; per-package baselines imported from upstream and trimmed; no `@phpstan-ignore` in new code; both Symfony lines |
 | Rector 2.6 | `UP_TO_PHP_84`, PHPUnit 13 sets, code-quality sets; one mechanical commit per package so upstream cherry-picks rebase cleanly |
 | PHP-CS-Fixer 3.95 | fork's rule set, Sonata header kept |
@@ -228,11 +259,13 @@ package), `NOTICE`, Sphinx docs (document 12).
 2. `upstream/exclude/<name>.txt`: for `admin-bundle` — `src/Resources/views/**`,
    `src/Resources/public/**`, `assets/**`, `package*.json`, build/lint configs, `.github/**`,
    `Makefile`, `*.md`, `phpunit.xml.dist`, `rector.php`, `.php-cs-fixer.dist.php`, `phpstan*.neon`,
-   the obsolete cookbook recipes, and the P6 PHP files (merged by hand); for `form-extensions` —
-   `assets/**`, `src/Bridge/Symfony/Resources/{views,public}/**`, `BasePickerType.php`; for
-   `twig-extensions` — `src/Bridge/Symfony/Resources/{views,public}/**`; for `block-bundle` and
+   the obsolete cookbook recipes, and the P6 PHP files (merged by hand); for
    `doctrine-orm-admin-bundle` — the views listed as deferred/rewritten in document 03 §G; for the
-   rest — tooling files only.
+   rest — tooling files only. `block-bundle`, `form-extensions`, `twig-extensions` and `exporter`
+   no longer have effective lists: there is no directory to sync into (P12, P14, P15), and an
+   `admin-bundle` sync cannot reach their files either, because upstream `admin-bundle` has no such
+   paths — the moved views are under `src/Resources/views/**`, which that list already excludes.
+   Their exclusion files are kept as a record of what adminata owned in each tree.
 3. `upstream/diff.sh PKG FROM TO`: PHP-side diff stat, separate "UI changes to re-implement" diff for
    views/assets, changelog section between tags → pasted into the sync issue.
 4. `upstream/sync.sh PKG TO`: `git diff FROM TO -- <included paths> | git apply -3 --directory=packages/PKG`,
@@ -241,11 +274,16 @@ package), `NOTICE`, Sphinx docs (document 12).
 5. Template changes re-implemented by hand with a CHANGELOG line "Ported upstream <pkg>#NNNN".
 6. Policy: sync every upstream minor within one adminata minor; never merge admin-bundle 5.x before
    adminata 2.0; carry upstream deprecations as-is.
+7. **`block-bundle` is the exception (P12).** Steps 1 and 3 still work — the subtree history and the
+   remote are still here, and `upstream/diff.sh` still reads. Step 4 does not: `git apply
+   --directory=packages/block-bundle` has no directory to land in. Each hunk is translated by hand
+   into `packages/admin-bundle/` through the class map in `CHANGELOG.md`, and the release is
+   recorded in `UPSTREAM.md`'s **Tag** column and in `CHANGELOG-sonata.md` like any other sync.
 
 ## 11. Symfony Flex
 
-New app: `composer require idct/adminata`, then register the seven bundle classes in `bundles.php`
-by hand (Flex's convention-based auto-registration is not relied upon for a multi-bundle package;
+New app: `composer require idct/adminata`, then register the six bundle classes in `bundles.php`
+by hand (there is no `SonataBlockBundle` — P10) (Flex's convention-based auto-registration is not relied upon for a multi-bundle package;
 verify in document 11 §3) and copy the documented `sonata_admin.yaml`, `sonata_block.yaml`,
 `routes/sonata_admin.yaml`. Existing app: document 10 §1 (the `--no-plugins` path). A contrib
 recipe for `idct/adminata` is post-1.0.

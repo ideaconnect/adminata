@@ -16,9 +16,8 @@ namespace Sonata\AdminBundle\Form;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Builder\FormContractorInterface;
 use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\Type\CollectionType;
+use Sonata\AdminBundle\Form\Type\NativeCollectionType;
 use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
-use Sonata\BlockBundle\Form\Mapper\FormMapper as BlockFormMapper;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType as SymfonyCollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;
@@ -33,7 +32,7 @@ use Symfony\Component\Form\FormTypeInterface;
  * @phpstan-template T of object
  * @phpstan-extends BaseGroupedMapper<T>
  */
-final class FormMapper extends BaseGroupedMapper implements BlockFormMapper
+final class FormMapper extends BaseGroupedMapper implements BlockFormMapperInterface
 {
     /**
      * @param AdminInterface<object> $admin
@@ -80,7 +79,7 @@ final class FormMapper extends BaseGroupedMapper implements BlockFormMapper
         }
 
         if (SymfonyCollectionType::class === $type) {
-            $type = CollectionType::class;
+            $type = NativeCollectionType::class;
         }
 
         // We're accessing form fields with the name added to the group.

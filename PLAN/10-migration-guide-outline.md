@@ -9,7 +9,7 @@ below is a real edit in the app; the total is about 45 hours for an engineer who
 | Step | Edit | Hours |
 |---|---|---|
 | 0 | commit everything; `git checkout -b adminata` | — |
-| 1 | `composer require idct/adminata --no-plugins --no-scripts` (until adminata is published, a path repository: `composer config repositories.adminata path ../../idct/adminata` then `composer require idct/adminata:@dev`), then `composer remove --no-plugins --no-scripts sonata-project/admin-bundle sonata-project/doctrine-orm-admin-bundle` (the seven real packages are replaced; the two explicit requires become redundant), `composer install`; delete the seven `sonata-project/*` entries from `symfony.lock` by hand (Flex bookkeeping; with `--no-plugins` their `unconfigure` never ran, so `config/packages/sonata_{admin,block,form}.yaml`, `config/routes/sonata_admin.yaml` and `bundles.php` are untouched — `git diff -- config/` must be empty); `bin/console cache:clear && bin/console assets:install public`; `bundles.php` keeps its seven Sonata bundle classes plus the MongoDB one | 0.5 |
+| 1 | `composer require idct/adminata --no-plugins --no-scripts` (until adminata is published, a path repository: `composer config repositories.adminata path ../../idct/adminata` then `composer require idct/adminata:@dev`), then `composer remove --no-plugins --no-scripts sonata-project/admin-bundle sonata-project/doctrine-orm-admin-bundle` (the seven real packages are replaced; the two explicit requires become redundant), `composer install`; delete the seven `sonata-project/*` entries from `symfony.lock` by hand (Flex bookkeeping; with `--no-plugins` their `unconfigure` never ran, so `config/packages/sonata_{admin,block,form}.yaml` and `config/routes/sonata_admin.yaml` are untouched — `git diff -- config/packages config/routes` must be empty); `bin/console cache:clear && bin/console assets:install public`; `bundles.php` keeps its Sonata bundle classes plus the MongoDB one, minus `SonataBlockBundle`, which the merge of 2026-09-06 deleted (01 P10) | 0.5 |
 | 2 | `config/packages/sonata_admin.yaml`: delete `options.use_select2`; optional `theme: { mode: system }`; `assets.remove_stylesheets: [bundles/sonataadmin/app.css]` once the app compiles Tailwind (step 11) | 0.5 |
 | 3 | `config/packages/twig.yaml`: unchanged (`@SonataForm/Form/datepicker.html.twig` still exists and now renders native inputs); optionally add `@SonataAdmin/Form/form_admin_fields.html.twig` so the plain Symfony forms on admin pages share the admin look | 0.2 |
 | 4 | Layout override `templates/layout/standard_layout_override.html.twig`: delete the `admin_lte_skin_class`, `javascripts`, `sonata_javascript_config`, `sonata_javascript_pool` blocks (a dead skin class and dead moment/select2 branches); **port** `logo` rather than deleting it — it is not a verbatim upstream copy, it renders the signed-in administrator's White Label, and deleting it would cost every branded customer their mark; drop the Font Awesome CDN link; replace the Flowbite alert embed in `sonata_page_content_header` with an `adm-alert` div; rewrite the `#universal-modal` in `sonata_wrapper` as a `<dialog class="adm-dialog" {{ stimulus_controller('sonata-modal') }}>` | 2 |
@@ -29,7 +29,8 @@ below is a real edit in the app; the total is about 45 hours for an engineer who
 
 ## 2. What the app keeps unchanged
 
-`bundles.php`; admin classes and their `configure*` methods; `config/services/admin/*.yaml` tags
+`bundles.php` **except one line** — `SonataBlockBundle` goes, since the merge of 2026-09-06
+(01 P10); admin classes and their `configure*` methods; `config/services/admin/*.yaml` tags
 and calls (`setTemplate`, `setFormTheme`, `setListActions`); `sonata_doctrine_orm_admin.templates.types`;
 `sonata_block.yaml`, `sonata_form.yaml`, `twig.yaml`; custom controllers and routes;
 `SidebarMenuSubscriber` (its `sidebar-section-header` items render as TailAdmin group titles);
@@ -42,12 +43,12 @@ controllers; ux-autocomplete fields and filters; Dropzone; `csrf.yaml` stateless
 
 | § | Topic |
 |---|---|
-| U1 | Install: `composer require idct/adminata --no-plugins --no-scripts`, remove explicit `sonata-project/*` requires, clean `symfony.lock`, `composer install`, `cache:clear`, `assets:install`; `bundles.php` unchanged |
+| U1 | Install: `composer require idct/adminata --no-plugins --no-scripts`, remove explicit `sonata-project/*` requires (including `block-bundle`, `exporter`, `form-extensions` and `twig-extensions`, which adminata now `conflict`s with), clean `symfony.lock`, `composer install`, `cache:clear`, `assets:install`; `bundles.php` loses its `SonataBlockBundle`, `SonataFormBundle`, `SonataTwigBundle` and `SonataExporterBundle` lines and nothing else, and the `Sonata\BlockBundle\` → `Sonata\AdminBundle\` (01 P10), `Sonata\Form\`/`Sonata\Twig\` → `Sonata\AdminBundle\` (01 P14) and `Sonata\Exporter\` → `Sonata\AdminBundle\Exporter\` (01 P15) class maps apply to any of those classes the app names — **including the `CollectionType` ↔ `NativeCollectionType` swap, the one break that compiles**; strings the app overrides move from `translations/Sonata{Block,Form,Twig}Bundle.<locale>.xliff` into `translations/SonataAdminBundle.<locale>.xliff`, ids unchanged (01 P13, P14) |
 | U2 | Removed config nodes (`options.skin`, `use_select2`, `use_icheck`, `use_bootlint`); changed defaults (asset lists, `dashboard.blocks[].class`, group `class`, `box_class`); `sonata_form` picker `format` fixed by the type |
 | U3 | Markup vocabulary: Bootstrap/AdminLTE classes are gone; `.adm-*` components; compile Tailwind yourself for arbitrary utilities (document 04 §7) |
 | U4 | Layout overrides: blocks kept (document 02 §5), `admin_lte_skin_class` and `_skin` gone, `notice` → `{{ parent() }}` |
 | U5 | JavaScript: no jQuery, no `window.Admin`; `window.sonataApplication` only; controllers and events (document 05); modals are `<dialog>` + `sonata-modal`; no AJAX form submission anywhere |
-| U6 | Forms: native selects; native date/time inputs (`bundles/sonataform/*` gone; `datepicker_options.display.components` still honoured; `format` no longer configurable) |
+| U6 | Forms: native selects; native date/time inputs (`bundles/sonataform/*` gone; `datepicker_options.display.components` still honoured; `format` no longer configurable); the form types are `Sonata\AdminBundle\Form\Type\` and the `CollectionType` swap is in U1 |
 | U7 | Icons: Font Awesome 7 Free, no v4/v5 shims; rename v4-only names |
 | U8 | Dark mode: `html.dark` is stamped; add `dark:` variants to hard-coded colours |
 | U9 | Not yet ported templates (document 03 §E, §G) still render their Bootstrap markup unstyled; open an issue when you need one |

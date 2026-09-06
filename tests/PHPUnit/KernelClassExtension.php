@@ -33,7 +33,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * The seven forked packages each had their own `phpunit.xml.dist` setting a single
  * `KERNEL_CLASS` environment variable. adminata runs all of their suites from one
- * configuration file, and four of them ship a different test kernel, so the variable
+ * configuration file, and two of them ship a different test kernel, so the variable
  * has to follow the test class instead of being global. Doing it here keeps the
  * inherited test classes byte-identical, which is what upstream syncs need.
  */
@@ -47,9 +47,7 @@ final class KernelClassExtension implements Extension
     private const array KERNELS = [
         'Adminata\\Tests\\' => Kernel::class,
         'Sonata\\AdminBundle\\Tests\\' => AppKernel::class,
-        'Sonata\\BlockBundle\\Tests\\' => \Sonata\BlockBundle\Tests\App\AppKernel::class,
         'Sonata\\DoctrineORMAdminBundle\\Tests\\' => \Sonata\DoctrineORMAdminBundle\Tests\App\AppKernel::class,
-        'Sonata\\Twig\\Tests\\' => \Sonata\Twig\Tests\App\AppKernel::class,
     ];
 
     public function bootstrap(Configuration $configuration, Facade $facade, ParameterCollection $parameters): void
@@ -75,20 +73,28 @@ final class KernelClassExtension implements Extension
      */
     public static function selectKernelFor(string $testClass): void
     {
+        $selected = null;
+        $matched = '';
+
         foreach (self::KERNELS as $prefix => $kernelClass) {
-            if (!str_starts_with($testClass, $prefix)) {
+            if (!str_starts_with($testClass, $prefix) || \strlen($prefix) <= \strlen($matched)) {
                 continue;
             }
 
-            $_ENV['KERNEL_CLASS'] = $kernelClass;
-            $_SERVER['KERNEL_CLASS'] = $kernelClass;
-            putenv('KERNEL_CLASS='.$kernelClass);
+            $selected = $kernelClass;
+            $matched = $prefix;
+        }
+
+        if (null === $selected) {
+            unset($_ENV['KERNEL_CLASS'], $_SERVER['KERNEL_CLASS']);
+            putenv('KERNEL_CLASS');
 
             return;
         }
 
-        unset($_ENV['KERNEL_CLASS'], $_SERVER['KERNEL_CLASS']);
-        putenv('KERNEL_CLASS');
+        $_ENV['KERNEL_CLASS'] = $selected;
+        $_SERVER['KERNEL_CLASS'] = $selected;
+        putenv('KERNEL_CLASS='.$selected);
     }
 
     /**

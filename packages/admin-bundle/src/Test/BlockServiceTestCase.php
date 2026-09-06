@@ -1,0 +1,90 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the Sonata Project package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Sonata\AdminBundle\Test;
+
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Block\BlockContextInterface;
+use Sonata\AdminBundle\Block\BlockContextManager;
+use Sonata\AdminBundle\Block\BlockContextManagerInterface;
+use Sonata\AdminBundle\Block\BlockLoaderInterface;
+use Sonata\AdminBundle\Block\BlockServiceManagerInterface;
+use Sonata\AdminBundle\Block\Service\BlockServiceInterface;
+use Sonata\AdminBundle\Model\BlockInterface;
+use Twig\Environment;
+
+/**
+ * Abstract test class for block service tests.
+ *
+ * @author Sullivan Senechal <soullivaneuh@gmail.com>
+ */
+abstract class BlockServiceTestCase extends TestCase
+{
+    /**
+     * @var MockObject&BlockServiceManagerInterface
+     */
+    protected $blockServiceManager;
+
+    /**
+     * @var BlockContextManagerInterface
+     */
+    protected $blockContextManager;
+
+    /**
+     * @var MockObject&Environment
+     */
+    protected $twig;
+
+    /**
+     * @var MockObject&BlockInterface
+     */
+    protected $block;
+
+    protected function setUp(): void
+    {
+        $this->blockServiceManager = $this->createMock(BlockServiceManagerInterface::class);
+        $this->blockContextManager = new BlockContextManager($this->createMock(BlockLoaderInterface::class), $this->blockServiceManager);
+        $this->twig = $this->createMock(Environment::class);
+        $this->block = $this->createMock(BlockInterface::class);
+    }
+
+    /**
+     * Create a mocked block service.
+     */
+    protected function getBlockContext(BlockServiceInterface $blockService): BlockContextInterface
+    {
+        $this->blockServiceManager->expects(static::once())->method('get')->willReturn($blockService);
+        $this->block->expects(static::once())->method('getSettings')->willReturn([]);
+
+        return $this->blockContextManager->get($this->block);
+    }
+
+    /**
+     * Asserts that the block settings have the expected values.
+     *
+     * @param array<string, mixed> $expected Expected settings
+     */
+    protected function assertSettings(array $expected, BlockContextInterface $blockContext): void
+    {
+        $completeExpectedOptions = $expected + [
+            'attr' => [],
+        ];
+
+        ksort($completeExpectedOptions);
+        $blockSettings = $blockContext->getSettings();
+        ksort($blockSettings);
+
+        static::assertSame($completeExpectedOptions, $blockSettings);
+    }
+}

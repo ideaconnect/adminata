@@ -11,6 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+use Sonata\AdminBundle\Tests\App\Controller\BlockDemoController;
+use Sonata\AdminBundle\Tests\App\Controller\FlashMessageDemoController;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return static function (RoutingConfigurator $routes): void {
@@ -19,4 +21,10 @@ return static function (RoutingConfigurator $routes): void {
 
     $routes->import('.', 'sonata_admin')
         ->prefix('/admin');
+
+    $routes->add('blocks', '/blocks')
+        ->controller(BlockDemoController::class);
+
+    $routes->add('flash', '/flash')
+        ->controller(FlashMessageDemoController::class);
 };

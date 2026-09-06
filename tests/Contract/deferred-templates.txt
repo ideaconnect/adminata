@@ -54,6 +54,6 @@ packages/admin-bundle/src/Resources/views/Block/block_stats.html.twig
 packages/admin-bundle/src/Resources/views/Helper/short-object-description.html.twig
 
 # The other packages (PLAN/03 §G).
-packages/block-bundle/src/Resources/views/Block/block_core_rss.html.twig
-packages/block-bundle/src/Resources/views/Block/block_side_menu_template.html.twig
+packages/admin-bundle/src/Resources/views/Block/block_core_rss.html.twig
+packages/admin-bundle/src/Resources/views/Block/block_side_menu_template.html.twig
 packages/doctrine-orm-admin-bundle/src/Resources/views/Block/block_audit.html.twig

@@ -21,14 +21,16 @@ what it turned out to involve, which is the part an estimate usually gets wrong.
 --no-scripts`. Uninstalling the `sonata-project/*` packages otherwise makes Symfony Flex run their
 recipes' `unconfigure`, which deletes `config/packages/sonata_admin.yaml`,
 `config/packages/sonata_block.yaml`, `config/packages/sonata_form.yaml`,
-`config/routes/sonata_admin.yaml` and `src/Admin/.gitignore` without a hash check.
+`config/routes/sonata_admin.yaml` and `src/Admin/.gitignore` without a hash check. Those
+configuration roots all survive the merges of steps 17 to 19 — it is the recipe that deletes the
+files, not adminata.
 
 ## 1. The procedure
 
 | Step | Edit | Est. | Actually |
 |---|---|---|---|
 | 0 | Commit everything; `git checkout -b adminata`. | — | — |
-| 1 | `composer config repositories.adminata path ../../idct/adminata` and `composer require idct/adminata:@dev --no-plugins --no-scripts` (a path repository until adminata is on Packagist), then `composer remove --no-plugins --no-scripts sonata-project/admin-bundle sonata-project/doctrine-orm-admin-bundle`; delete the seven `sonata-project/*` entries from `symfony.lock` by hand; `bin/console cache:clear && bin/console assets:install public`. | 0.5 | 6 files. `git diff -- config/` was empty as promised, and `bundles.php` kept its seven Sonata bundle classes plus the MongoDB one — the `replace` really is transparent to the container. |
+| 1 | `composer config repositories.adminata path ../../idct/adminata` and `composer require idct/adminata:@dev --no-plugins --no-scripts` (a path repository until adminata is on Packagist), then `composer remove --no-plugins --no-scripts sonata-project/admin-bundle sonata-project/doctrine-orm-admin-bundle`; delete the seven `sonata-project/*` entries from `symfony.lock` by hand; `bin/console cache:clear && bin/console assets:install public`. | 0.5 | 6 files. `git diff -- config/` was empty as promised, and `bundles.php` kept its seven Sonata bundle classes plus the MongoDB one — the `replace` really is transparent to the container. Later amended by steps 17 to 19, which take four of those seven lines out. |
 | 2 | `config/packages/sonata_admin.yaml`: delete `options.use_select2`; add `theme: { mode: system }`; `assets.remove_stylesheets: [bundles/sonataadmin/app.css]` once step 11 lands. | 0.5 | Two further options wanted setting once the panel was on screen — see the note under the table. |
 | 3 | `config/packages/twig.yaml`: add `@SonataAdmin/Form/form_admin_fields.html.twig` so the plain Symfony forms on admin pages share the admin look. | 0.2 | As written. |
 | 4 | Layout override: delete the `admin_lte_skin_class`, `javascripts`, `sonata_javascript_config` and `sonata_javascript_pool` blocks; **port** `logo` rather than deleting it; drop the Font Awesome CDN link; the universal modal becomes a native `<dialog>` with `sonata-modal`. | 2 | 1 file, +42 −70. Porting `logo` matters: it renders the signed-in administrator's White Label, and deleting it would cost every branded customer their mark. |
@@ -44,6 +46,9 @@ recipes' `unconfigure`, which deletes `config/packages/sonata_admin.yaml`,
 | 14 | `fa fa-clock-o` → `fa fa-clock`. | 0.3 | One template; 75 of 76 icon names resolve unchanged in Font Awesome 7 Free. |
 | 15 | JavaScript: three files off jQuery — `dialog.showModal()`, a `hidden` toggle, `fetch` + `insertAdjacentHTML`; delete the jQuery and jquery-ui dependencies and `.addExternals({ jquery: 'jQuery' })`. | 2 | 7 files, +140 −114. `npm ls jquery` is empty. |
 | 16 | Run the suites; add the browser scenarios; fix what breaks, in adminata rather than around it. | 8 | This is where the estimate is most wrong, and not because of the tests. See §3. |
+| 17 | Delete the `Sonata\BlockBundle\SonataBlockBundle::class` line from `config/bundles.php`. | — | Not in the original run: adminata merged `block-bundle` into `admin-bundle` on 2026-09-06, after this migration was executed. One line, and nothing a human edits besides: `git diff -- config/bundles.php config/packages config/routes` is that deletion alone. `config/packages/sonata_block.yaml` and the `sonata_block:` key at the end of `sonata_admin.yaml` both kept working untouched, because `sonata_block` is still its own configuration root — `SonataAdminBundle` registers its extension now. The panel does commit Symfony's auto-generated `config/reference.php`, and that regenerated on the next container build (+41 −44): the `SonataBlockConfig` type and the root `sonata_block?:` key moved to the end, past every bundle's, and the key left the three `when@<env>` maps. No configuration meaning changed. The panel names no block class of its own, so the namespace map in [UPGRADE-1.0.md](UPGRADE-1.0.md) §U1 cost it nothing; an application that writes its own block services pays there instead. Nor did the block strings' move into the `SonataAdminBundle` translation domain cost it anything: the panel has no `translations/SonataBlockBundle.*.xliff` and no template that names that domain. |
+| 18 | Delete the `Sonata\Form\Bridge\Symfony\SonataFormBundle::class` and `Sonata\Twig\Bridge\Symfony\SonataTwigBundle::class` lines from `config/bundles.php`; move the `Sonata\Form\` imports to `Sonata\AdminBundle\Form\Type\`; rename the six admin classes' `CollectionType` to `NativeCollectionType`. | — | Not in the original run either: `form-extensions` and `twig-extensions` were merged into `admin-bundle` on 2026-09-06, the same day as step 17. 23 files under `src/`, +40 −40 — nine `BooleanType`, five `DateTimePickerType`, three `DateRangePickerType`, two each of `DatePickerType` and `DateTimeRangePickerType`, and **six `CollectionType` → `NativeCollectionType`**. That last one is the only edit here that is not a pure import rewrite, and it is the one to do first and on its own: `use Sonata\AdminBundle\Form\Type\CollectionType;` still compiles after the merge and renders the *other* widget ([UPGRADE-1.0.md](UPGRADE-1.0.md) §U1). `config/packages/twig.yaml` lost its `@SonataForm/Form/datepicker.html.twig` entry, because `SonataFormExtension` prepends `@SonataAdmin/Form/datepicker.html.twig` itself, and that spelling is the one `templates/bundles/SonataAdminBundle/` can override. The panel has no `translations/SonataFormBundle.*.xliff` or `SonataTwigBundle.*.xliff` and no template naming either domain, so that half cost it nothing; one docblock referencing `@SonataTwig/FlashMessage/render.html.twig` was corrected to `@SonataAdmin/…`. Applied together with step 17, `config/reference.php` regenerated once for all three merges: +55 −64. |
+| 19 | Delete the `Sonata\Exporter\Bridge\Symfony\SonataExporterBundle::class` line from `config/bundles.php`. | — | Not in the original run either: `exporter` was merged into `admin-bundle` on 2026-09-07, the day after steps 17 and 18. One line, and nothing else a human edits: the panel names no exporter class of its own — no writer, no source iterator, no `ExporterInterface` type hint — so the namespace map in [UPGRADE-1.0.md](UPGRADE-1.0.md) §U1 cost it nothing, and it has no `config/packages/sonata_exporter.yaml` to keep either. An application that writes its own writer pays in imports instead, and keeps its `sonata.exporter.writer` tag. Symfony's generated `config/reference.php` regenerates once more on the next container build, the `SonataExporterConfig` type and the root `sonata_exporter?:` key moving past every bundle's and out of the three `when@<env>` maps, exactly as `sonata_block` did in step 17. |
 | | **Total** | **≈45** | |
 
 Two configuration options were set only once the panel was on screen, and both are worth deciding
@@ -60,13 +65,18 @@ deliberately rather than inheriting:
 
 Verified against the branch, not assumed:
 
-`bundles.php`; every admin class and its `configure*` methods; `config/services/admin/*.yaml` tags
+every admin class and its `configure*` methods; `config/services/admin/*.yaml` tags
 and calls (`setTemplate`, `setFormTheme`, `setListActions`); `sonata_doctrine_orm_admin.templates.types`;
 `sonata_block.yaml`, `sonata_form.yaml`; custom controllers and routes; `SidebarMenuSubscriber`;
 `BaseAdmin` summaries; the second Stimulus application and its own controllers; the
 `@symfony/ux-autocomplete` fields and filters; Dropzone; `csrf.yaml` stateless tokens;
 `lock_protection`; `use_stickyforms`; flash keys; every `admin_app_*` route name; and the
 `idct/sonata-admin-mongodb-bundle` dependency with its `DebugRequestAdmin`.
+
+`bundles.php` was on that list until steps 17 to 19 above took four lines out of it — the block,
+form, Twig and exporter bundles. Every other line, including the MongoDB one, is still what it was.
+The `sonata_block.yaml` and `sonata_form.yaml` in the list above are unchanged by those steps: the
+configuration roots outlived the bundle classes.
 
 ## 3. What the migration exposed
 
@@ -101,6 +111,7 @@ fixed there rather than worked around in the application — which is the rule t
 ## 4. When you think you are done
 
 1. `grep -rn "col-md-\|btn-action-icon\|data-toggle=\|label label-\|form-control" templates src` — empty.
+   So is `grep -rn 'Sonata\\BlockBundle' src templates config tests`.
 2. `npm ls jquery` — empty.
 3. Open every kind of page — list, filtered list, create, edit, show, delete, dashboard, login — in
    **both themes**, at the width of the monitor the panel is actually used on, and check that

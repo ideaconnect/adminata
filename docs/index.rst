@@ -2,8 +2,15 @@ adminata
 ========
 
 adminata is a hard fork of seven Sonata packages with a Tailwind CSS v4 interface. It ``replace``\ s
-those packages at exact versions, so an application's admin classes, services and routes carry over
-untouched; what changes is the markup, the JavaScript and the form widgets.
+three of them at exact versions, so an application's admin classes, services and routes carry over
+untouched; what changes is the markup, the JavaScript and the form widgets. The other four —
+``block-bundle``, ``exporter``, ``form-extensions`` and ``twig-extensions`` — are part of the admin
+bundle here: blocks, form types, the Twig helpers and the exporter are ``Sonata\AdminBundle\``
+classes and there is no ``SonataBlockBundle``, ``SonataFormBundle``, ``SonataTwigBundle`` or
+``SonataExporterBundle`` (see :doc:`admin-bundle/reference/block_configuration`,
+:doc:`admin-bundle/reference/form_configuration`,
+:doc:`admin-bundle/reference/twig_configuration` and
+:doc:`admin-bundle/reference/exporter_configuration`).
 
 There is **no compatibility layer**. Bootstrap and AdminLTE class names are gone, so is jQuery, and
 nothing is aliased or shimmed to soften that. If you are coming from Sonata Admin 4.43, read
@@ -35,12 +42,8 @@ nothing is aliased or shimmed to soften that. If you are coming from Sonata Admi
     admin-bundle/index
 
 .. toctree::
-    :caption: The other packages
+    :caption: The storage bundle
     :name: packages
     :maxdepth: 2
 
     doctrine-orm-admin-bundle/index
-    block-bundle/index
-    form-extensions/index
-    twig-extensions/index
-    exporter/index

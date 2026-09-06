@@ -1117,6 +1117,193 @@ mistake cannot recur.
     byte-for-byte the package it was; nothing newly untracked; composer validate, php-cs-fixer,
     yamllint, phpstan, lint, contract and the full suite green.
 
+### The block bundle, merged (owner directive of 2026-09-06)
+
+- [x] **P6-05 · Merge `block-bundle` into `admin-bundle`** · L · depends: P6-01
+  - Owner directive of 2026-09-06: `block-bundle` is not usable independently of `admin-bundle` in
+    this fork — blocks *are* the dashboard, and the `sonata_block_render_event` hooks an
+    application hangs its own markup on, and nothing renders them without the admin bundle — so it
+    does not earn a bundle of its own. Breaking `Sonata\BlockBundle\` is explicitly allowed:
+    adminata does not have to be a drop-in for `sonata-project/block-bundle`.
+  - Read: PLAN/01 P10, P11, P12 (and the "superseded in part" annotations on P1, P2, P3);
+    PLAN/02 §1; UPSTREAM.md.
+  - Do: move `packages/block-bundle/{src,tests}` into `packages/admin-bundle/` under
+    `Sonata\AdminBundle\` — 91 source files and 37 test files, among them 13 Twig templates and 13
+    translation catalogues — into the directories admin-bundle already has (`Block\`, `Command\`,
+    `DependencyInjection\`, `Event\`, `Exception\` and `Exception\Block\{Filter,Renderer,Strategy}\`,
+    `Form\Type\`, `Menu\`, `Meta\`, `Model\`, `Profiler\`, `Templating\`, `Test\`,
+    `Twig\Extension\`, `Util\`), with no `Block\` umbrella namespace. Rename the six short names
+    admin already owned: `BlockConfiguration`, `BlockGlobalVariablesCompilerPass`,
+    `BlockTweakCompilerPass`, `BlockGlobalVariables`, `Templating\BlockHelper`,
+    `Form\BlockFormMapperInterface`. Delete `SonataBlockBundle`; `SonataAdminBundle::build()`
+    registers `SonataBlockExtension` and the two block compiler passes itself. `composer.json`:
+    `replace` × 6, and `sonata-project/block-bundle` moves to `conflict` at `"*"`. Record the merge
+    in `upstream/merged.txt` and everywhere the layout is described in prose — `UPSTREAM.md`,
+    `CHANGELOG.md`, `CHANGELOG-sonata.md`, `NOTICE`, `README.md`, `UPGRADE-1.0.md`, `MIGRATION.md`,
+    `AGENTS.md`, `Makefile`, `docs/` and this file.
+  - Unchanged on purpose, so that no `.yaml`, no template and no catalogue in an application has to
+    move: every `sonata.block.*` service id; the five `sonata_block_*` Twig functions; the
+    `@SonataBlock` Twig namespace, now a `twig.paths` alias of admin-bundle's view directory that
+    `SonataBlockExtension::prepend()` declares; the `SonataBlockBundle` translation domain (retired
+    by P6-06); and `sonata_block` as its own configuration root in its own
+    `config/packages/sonata_block.yaml`.
+  - Deliver: no `packages/block-bundle/` (its subtree history stays); no `Sonata\BlockBundle\`
+    anywhere in the tree; the class map in CHANGELOG.md and UPGRADE-1.0.md §U1; `upstream/merged.txt`.
+  - Accept: `composer validate` clean and `bin/check-replace-versions.php` green against
+    `UPSTREAM.md`, `upstream/remotes.txt` and `upstream/merged.txt`; **2871 tests green** (the three
+    Selenium-environment errors on this machine are the pre-existing ones); phpstan, php-cs-fixer,
+    `lint:twig` and rector clean; `make docs` builds with warnings as errors; in the reference
+    application `git diff -- config/bundles.php config/packages config/routes` is exactly the one
+    deleted `SonataBlockBundle` line.
+
+- [x] **P6-06 · Retire the name `SonataBlockBundle`** · M · depends: P6-05
+  - Owner review of P6-05, 2026-09-06: "we should not use SonataBlockBundle anymore, it should be
+    integrated into admin-bundle." The class was gone; the name still did work in three places,
+    each of them describing blocks as a bundle of their own.
+  - Read: PLAN/01 P13 (and the clause of P10 it supersedes); PLAN/02 §11; PLAN/08 §1; PLAN/12 §2.
+  - Do: merge the `SonataBlockBundle` translation domain into `SonataAdminBundle` — the eight
+    `SonataBlockBundle.<locale>.xliff` catalogues removed, their twenty units appended to
+    `SonataAdminBundle.<locale>.xliff`, every block service's `translation_domain` default set to
+    `SonataAdminBundle`. Fold `packages/admin-bundle/tests/BlockApp` into admin-bundle's
+    `tests/App`, the block render test among the functional tests. Fold `docs/block-bundle/` into
+    `docs/admin-bundle/` — `reference/block_*.rst` under a *Blocks* caption, the rapid-prototyping
+    recipe in the cookbook, the installation page rewritten as `block_configuration.rst` — and
+    repoint every cross-reference. Rewrite every sentence that promised the domain unchanged:
+    `CHANGELOG.md`, `UPGRADE-1.0.md`, `README.md`, `AGENTS.md`, `UPSTREAM.md`, `MIGRATION.md`,
+    `docs/upgrading.rst`, PLAN/00, 01, 02, 08, 10, 12 and PLAN/README.
+  - Kept on purpose, because they name things and not a bundle: the `sonata_block` root and
+    `SonataBlockExtension` (Symfony derives the alias from the class name, as `sonata_admin` from
+    `SonataAdminExtension`), `@SonataBlock`, `sonata.block.*` and the `sonata_block_*` Twig
+    functions; `upstream/merged.txt`, the block rows of `upstream/remotes.txt` and of the watch
+    workflow, and `CHANGELOG-block.md` below its banner, which keep the eye on upstream releases.
+  - Refined the same day, after a review against the test application: every template default
+    inside adminata says `@SonataAdmin/…` — the five block services' `template` settings,
+    `sonata_block.templates.block_base`/`block_container`, `sonata_block.profiler.template`, the two
+    exception renderers — and `@SonataBlock` is kept only as a compatibility alias for templates
+    outside adminata. The alias is a plain `twig.paths` entry with no `templates/bundles/`
+    directory, so `templates/bundles/SonataAdminBundle/Block/block_core_text.html.twig` overrode
+    nothing while `Block/block_admin_list.html.twig`, addressed as `@SonataAdmin`, did; now every
+    block template is overridden like any other admin template, `@!SonataAdmin/Block/…` reaching
+    the shipped one, and `BlockDemoControllerTest` proves it on the text block.
+  - Deliver: `grep -rn SonataBlockBundle` over `packages/`, `tests/` and `docs/` finds only the
+    inherited `CHANGELOG-block.md`, `BlockConfiguration`'s upstream deprecation text and sentences
+    saying the thing does not exist; the breaking change recorded under *Changed* and *Removed* in
+    `CHANGELOG.md` and as a section of UPGRADE-1.0.md §U1.
+  - Accept: the full suite, phpstan, php-cs-fixer, rector, `lint:twig` and `make docs` green;
+    `TranslationContractTest` green over the merged catalogues; the reference application, which
+    has no block catalogue and names no block domain, unaffected.
+
+- [x] **P6-07 · Merge `form-extensions` and `twig-extensions` into `admin-bundle`** · L · depends: P6-06
+  - Owner directive of 2026-09-06: "form-extensions and twig-extensions should be merged into
+    admin-bundle same, it is the main functionality of the admin-bundle; we want to ship it always
+    integrally." The form types are what `FormMapper` builds every admin form out of and the flash
+    messages are on every admin page; neither is usable without the admin bundle in this fork, so
+    neither earns a bundle of its own — the P6-05 reasoning, applied to the two trees the admin
+    bundle leans on hardest. Done P6-06's way from the start: the whole name goes in one task.
+  - Read: PLAN/01 P14 (and the further "superseded in part" annotations on P1, P2, P3, P7);
+    PLAN/02 §§1, 4, 11, 12; PLAN/06 §4; PLAN/08 §1; PLAN/12 §2; UPSTREAM.md.
+  - Do: move `packages/{form,twig}-extensions/{src,tests}` into `packages/admin-bundle/` under
+    `Sonata\AdminBundle\` — `Form\Type\`, `Form\DataTransformer\`, `Form\EventListener\`, new
+    top-level `Validator\`, `FlashMessage\` and `Status\`, `Test\`, `Twig\`, `Twig\Extension\`,
+    `Twig\Node\`, `Twig\TokenParser\` — disambiguating the two DI `Configuration` classes as
+    `FormConfiguration` and `TwigConfiguration`, and **renaming
+    `Sonata\AdminBundle\Form\Type\CollectionType` to `NativeCollectionType`** so that
+    form-extensions' `CollectionType` keeps the plain name. Delete `SonataFormBundle` and
+    `SonataTwigBundle`; `SonataAdminBundle::build()` registers `SonataFormExtension` and
+    `SonataTwigExtension` itself. Rename the DI service files flat (`form_ext_types.php`,
+    `form_validator.php`, `twig_flash.php`, `twig_ext.php`). Merge the `SonataFormBundle` (27
+    catalogues) and `SonataTwigBundle` (7) translation domains into `SonataAdminBundle` — eight
+    units, ids unchanged. Fold the two test applications into `packages/admin-bundle/tests/`
+    (`tests/TwigApp`, `Functional/TwigFunctionalTest.php`, `Form/{Type,Widget}/`, `Validator/`,
+    `Twig/`) and drop form-extensions' duplicate `Foo` fixture in favour of admin's.
+    `composer.json`: `replace` × 4, and both package names move to `conflict` at `"*"`. Record the
+    merge in `upstream/merged.txt` and everywhere the layout is described in prose — `UPSTREAM.md`,
+    `CHANGELOG.md`, `CHANGELOG-sonata.md`, `NOTICE`, `README.md`, `UPGRADE-1.0.md`, `MIGRATION.md`,
+    `AGENTS.md`, `Makefile`, `docs/` and this file.
+  - Docs: fold `docs/{form,twig}-extensions/` into the admin bundle's, the way P6-06 folded
+    `docs/block-bundle/` — a *Forms* caption (`reference/form_types`, moved out of the Reference
+    Guide because it now documents every `Sonata\AdminBundle\Form\Type\*` there is, plus
+    `form_configuration`, `form_inline_validation`, `form_testing`) and a *Twig helpers* caption
+    (`twig_configuration`, `twig_status_helper`, `twig_flash_messages`); the two installation pages
+    rewritten as `form_configuration.rst` and `twig_configuration.rst`; form-extensions' own
+    `form_types.rst` **merged into** the admin bundle's page rather than moved beside it, since two
+    pages titled *Form Types* both documenting a `Sonata\AdminBundle\Form\Type\CollectionType` would
+    have reproduced the rename's own trap; images to `docs/admin-bundle/images/`.
+  - Unchanged on purpose, so that no `.yaml`, no template and no catalogue in an application has to
+    move: every `sonata.form.*` and `sonata.twig.*` service id; the three `sonata_flashmessages_*`
+    Twig functions, the `sonata_status_class` filter and the `sonata.status.renderer` tag; the
+    `@SonataForm` and `@SonataTwig` Twig namespaces, now `twig.paths` aliases of admin-bundle's view
+    directory that the two extensions' `prepend()` declare; both block prefixes
+    (`sonata_type_collection`, `sonata_type_native_collection`); and `sonata_form` and `sonata_twig`
+    as their own configuration roots in their own `config/packages/*.yaml`.
+  - Deliver: no `packages/{form,twig}-extensions/` (their subtree histories stay); no
+    `Sonata\Form\` or `Sonata\Twig\` anywhere in the tree; the class map and the `CollectionType`
+    table in CHANGELOG.md and UPGRADE-1.0.md §U1; `upstream/merged.txt` carrying all three merged
+    trees.
+  - Accept: `composer validate` clean and `bin/check-replace-versions.php` green against
+    `UPSTREAM.md`, `upstream/remotes.txt` and `upstream/merged.txt`; the full suite green
+    (`ErrorElementTest` in particular, which now runs against admin's `Foo` fixture); phpstan,
+    php-cs-fixer, `lint:twig` and rector clean; `make docs` builds with warnings as errors; in the
+    reference application `git diff -- config/bundles.php config/packages config/routes` is the two
+    deleted bundle lines plus the `twig.form_themes` entry that `SonataFormExtension` now prepends
+    itself, and its six `CollectionType` fields are `NativeCollectionType`.
+
+### The exporter, merged (owner directive of 2026-09-07)
+
+- [x] **P6-08 · Merge `exporter` into `admin-bundle`** · L · depends: P6-07
+  - Owner directive of 2026-09-07: "i consider exporter also an integral part, no point of making
+    it a separate lib, integrate it into admin-bundle." Every list page's export goes through it,
+    the `AdminExporter` bridge and the storage layers' `DataSource` classes are already
+    admin-bundle code, and nothing in this fork exports without the admin bundle — the P6-05 and
+    P6-07 reasoning a fourth time. Done P6-07's way: the whole tree in one task.
+  - Read: PLAN/01 P15 (and the further "superseded in part" annotations on P1, P2, P3, P7);
+    PLAN/02 §1; PLAN/07 §§1–3, 5, 6, 10; PLAN/08 §1; PLAN/12 §2; UPSTREAM.md.
+  - Do: move `packages/exporter/{src,tests}` into `packages/admin-bundle/` under
+    `Sonata\AdminBundle\Exporter\` — the admin bundle already had that directory
+    (`DataSourceInterface`), so the tree folds under it whole rather than spreading:
+    `Exporter`, `ExporterInterface` and `Handler` at its root, `Source\` (14 iterators),
+    `Writer\` (10 writers, the CSV stream filter, `WriterInterface` and `TypedWriterInterface`)
+    and `Exception\` (4), all keeping their short names. The DI classes go beside the admin
+    bundle's own as `ExporterConfiguration` (admin owns `Configuration`, so
+    `SonataExporterExtension` names the
+    class explicitly), `SonataExporterExtension` and
+    `DependencyInjection\Compiler\ExporterCompilerPass`. Delete `SonataExporterBundle`;
+    `SonataAdminBundle::build()` registers `SonataExporterExtension` and the writer compiler pass
+    itself. Rename the DI service file `exporter_services.php`, because the admin bundle already
+    ships an `exporter.php` wiring `sonata.admin.admin_exporter` and the `AdminExporter` bridge.
+    `composer.json`: `replace` × 3, and `sonata-project/exporter` moves to `conflict` at `"*"`.
+    Record the merge in `upstream/merged.txt` and everywhere the layout is described in prose —
+    `UPSTREAM.md`, `CHANGELOG.md`, `CHANGELOG-sonata.md`, `NOTICE`, `README.md`, `UPGRADE-1.0.md`,
+    `MIGRATION.md`, `AGENTS.md`, `Makefile`, `docs/` and this file.
+  - Tests: `packages/admin-bundle/tests/Exporter/**` under `Sonata\AdminBundle\Tests\`, in the
+    `admin` suite, with the three DI tests as
+    `tests/DependencyInjection/{ExporterConfigurationTest,SonataExporterExtensionTest}.php` and
+    `tests/DependencyInjection/Compiler/ExporterCompilerPassTest.php` — that last move also
+    settling a PSR-4 warning the file carried upstream, where the class declared a `…\Compiler\`
+    namespace from one directory up. `SonataExporterBundle` comes out of the test kernels;
+    `CHANGELOG-exporter.md` keeps the inherited history.
+  - Docs: fold `docs/exporter/` into the admin bundle's, the way P6-06 and P6-07 folded the other
+    three — an *Exporter* caption with `reference/exporter_introduction`, `exporter_sources`,
+    `exporter_outputs` and `exporter_configuration`, the last being the old `symfony.rst` rewritten
+    as configuration *inside* the admin bundle. The installation page is **not** moved: it
+    described installing a separate library, so what survives of it — the PhpSpreadsheet
+    requirement of the `xlsx` writer — is a section of `exporter_configuration.rst`. No images and
+    no translation or Twig-namespace work: the exporter ships neither. `action_export.rst` links to
+    the new pages instead of the upstream exporter site.
+  - Unchanged on purpose, so that no `.yaml` in an application has to move: `sonata_exporter` as
+    its own configuration root in its own `config/packages/sonata_exporter.yaml`; every
+    `sonata.exporter.*` service id, the public `sonata.exporter.exporter` and its `Exporter` and
+    `ExporterInterface` class aliases included; the `sonata.exporter.writer` tag; and the
+    `sonata.exporter.writer.<format>.<setting>` container parameters.
+  - Deliver: no `packages/exporter/` (its subtree history stays); no `Sonata\Exporter\` anywhere
+    in the tree; the class map in CHANGELOG.md and UPGRADE-1.0.md §U1; `upstream/merged.txt`
+    carrying all four merged trees.
+  - Accept: `composer validate` clean and `bin/check-replace-versions.php` green against
+    `UPSTREAM.md`, `upstream/remotes.txt` and `upstream/merged.txt`; the full suite green; phpstan,
+    php-cs-fixer, `lint:twig` and rector clean; `make docs` builds with warnings as errors; in the
+    reference application `git diff -- config/bundles.php config/packages config/routes` is exactly
+    the one deleted `SonataExporterBundle` line.
+
 ## Backlog (unscheduled; each becomes tasks when first needed — PLAN/09 backlog)
 
 - [ ] **B-01** Association widgets without AJAX submission (11 templates, `sonata-association`, `sonata-tabs`), then the MongoDB fork's Panther scenarios adapted.
@@ -2985,3 +3172,211 @@ mistake cannot recur.
   restored from anywhere; the domain stays admin-editable and a row still wins for its key.
 
   `make test-visual` 1,311, `make test-js` 158, `make test-functional` 56, CSS contract 117.
+
+- 2026-09-06 — **P6-05 done: `block-bundle` is inside `admin-bundle`.** An owner directive, and the
+  argument for it is short: nothing in this fork renders a block without the admin bundle. Blocks
+  *are* the dashboard, and they are the `sonata_block_render_event` hooks an application hangs its
+  own markup on. A package that only ever ships with another package is not a package; it is a
+  directory with a `composer.json` on it. Seven package directories are six.
+
+  91 source files and 37 test files moved into the directories admin-bundle already had, under
+  `Sonata\AdminBundle\`, with no `Block\` umbrella namespace to hide behind — the rule was that a
+  block class lands where an admin class of the same kind lands. Six short names collided and were
+  disambiguated (`BlockConfiguration`, `BlockGlobalVariablesCompilerPass`, `BlockTweakCompilerPass`,
+  `BlockGlobalVariables`, `Templating\BlockHelper`, `Form\BlockFormMapperInterface`);
+  `SonataBlockBundle` is deleted, and `SonataAdminBundle::build()` registers `SonataBlockExtension`
+  and the two block compiler passes itself. Extensions registered from a bundle's `build()` are
+  collected before the container merges configuration, which is why a root can survive the bundle
+  that used to own it.
+
+  **What did not move is the point.** Every `sonata.block.*` service id, the five `sonata_block_*`
+  Twig functions, the `@SonataBlock` Twig namespace — a `twig.paths` alias of admin-bundle's views
+  now, prepended by the extension — and the `SonataBlockBundle` translation domain (retired by
+  P6-06, below) are unchanged, and `sonata_block` is still its own configuration root in its own
+  file. So the break is PHP class names and nothing else: no `.yaml`, no template, no catalogue in
+  an application changes. In the reference panel the whole migration is one deleted line of
+  `bundles.php` — `git diff -- config/bundles.php config/packages config/routes` is that line alone.
+  Symfony's auto-generated `config/reference.php` also moves (+41 −44), because `sonata_block` is no
+  longer contributed by an entry in `bundles.php`; UPGRADE-1.0.md §U1 used to promise "that one
+  deleted line and nothing else" over all of `config/`, which was false as soon as a regenerated
+  file was in the diff, and now names the files a human edits.
+
+  `composer.json` `replace`s six packages and **`conflict`s** with `sonata-project/block-bundle` at
+  `"*"`. A `replace` would claim to provide `Sonata\BlockBundle\`, which adminata does not ship;
+  the `conflict` says the true thing.
+
+  The cost, written down now rather than discovered at the first sync (PLAN/01 P12): there is no
+  `packages/block-bundle/` for `git apply --directory` to land a diff in, so `upstream/sync.sh`
+  cannot replay an upstream block release. `upstream/diff.sh` still reports one, the subtree history
+  and the remote stay, and `upstream/merged.txt` records why — but every future upstream
+  `block-bundle` change is ported by hand through the class map. That is the one mechanical path
+  this project has given up.
+
+  Toolchain: composer validate clean, **2871 tests green** (the three Selenium-environment errors on
+  this machine are the pre-existing ones), phpstan, php-cs-fixer, `lint:twig` and rector clean,
+  `make docs` green with warnings as errors.
+
+  The prose caught up in a second pass, which is worth recording because it is the failure mode of a
+  merge this size: `AGENTS.md` — the file every agent reads first — still said "hard fork of seven
+  packages", "`replace`s all seven", "the seven forked trees" and "no eighth bundle class", and its
+  contract section still froze a namespace the merge had just deleted. So did the `Makefile` header,
+  `docs/conf.py`, `docs/admin-bundle/getting_started/installation.rst` and the whole of
+  `docs/block-bundle/`, whose installation page told the reader to register bundle classes that do
+  not exist. Code and CHANGELOG were updated in the merge itself; the normative and reference prose
+  was not, and a stale instruction file is worse than none.
+
+- 2026-09-06 — **P6-06 done: the name `SonataBlockBundle` is retired.** The owner's review of
+  P6-05 set the principle — *we should not use SonataBlockBundle anymore, it should be integrated
+  into admin-bundle* — and it turned out the class had been the easy part. The name was still
+  load-bearing in three places: a translation domain an application could override (eight
+  catalogues shipped under it), a test application of its own (`tests/BlockApp`), and a
+  documentation tree of its own (`docs/block-bundle/`, listed beside the admin bundle's as though it
+  were still a package). Each of them said "bundle" to a reader who had just been told there was
+  none.
+
+  So the twenty block ids — five `sonata.block.service.*` names and fifteen `form.label_*` labels —
+  are units of `SonataAdminBundle.<locale>.xliff` now, and the block services' `translation_domain`
+  defaults say so; `tests/BlockApp` is admin-bundle's `tests/App`, with the render test
+  (`Functional/Controller/BlockDemoControllerTest`) beside the other functional tests; and the block
+  pages are `docs/admin-bundle/reference/block_*.rst` under a *Blocks* caption of the admin
+  bundle's index, the rapid-prototyping page a cookbook recipe, and the old installation page
+  rewritten as `block_configuration.rst` — enabling and configuring blocks inside the admin bundle,
+  with the `sonata_block` tree, rather than telling the reader what to install. Flat `block_*`
+  pages rather than a `blocks/` subdirectory: the admin reference is one flat directory of topic
+  pages grouped by captions, and a lone subdirectory with a toctree of its own would have added a
+  level nothing else in it has.
+
+  This one is **breaking** where P6-05 was not: an application that overrides a block string in
+  `translations/SonataBlockBundle.<locale>.xliff`, or names that domain in a template, edits it.
+  The ids are unchanged, only the domain; the reference panel has neither. Recorded in
+  `CHANGELOG.md` and UPGRADE-1.0.md §U1, and PLAN/01 P13 supersedes the clause of P10 that had
+  kept the domain.
+
+  What keeps the name on purpose, because it names a thing rather than a bundle: the `sonata_block`
+  root and `SonataBlockExtension` (Symfony derives the alias from the class name, exactly as
+  `sonata_admin` comes from `SonataAdminExtension`), the `@SonataBlock` Twig namespace, the
+  `sonata.block.*` ids and the `sonata_block_*` functions; and the upstream bookkeeping —
+  `upstream/merged.txt`, the block row of `upstream/remotes.txt`, the watch workflow and
+  `CHANGELOG-block.md` — which is how a release of the upstream bundle is noticed and hand-ported.
+
+  Refined the same day, after a reviewer showed `templates/bundles/SonataAdminBundle/Block/`
+  overriding the admin-list block and not the text block: every template default inside adminata
+  now says `@SonataAdmin/…` (the block services, `sonata_block.templates.*`, the profiler, the
+  exception renderers), because `@SonataBlock` is a plain `twig.paths` alias with no override
+  directory of its own, and it stays only as a compatibility alias for templates outside adminata.
+  So the block templates are overridden like every other admin template — `BlockDemoControllerTest`
+  asserts it on the text block through the test application's `@!SonataAdmin` override — and
+  UPGRADE-1.0.md §U1 now says "move `templates/bundles/SonataBlockBundle/` to
+  `templates/bundles/SonataAdminBundle/Block/`" rather than "point `sonata_block.templates.block_base`
+  elsewhere".
+
+- 2026-09-06 — **P6-07 done: `form-extensions` and `twig-extensions` are inside `admin-bundle`.**
+  The third owner directive of the day, and the plainest: *"form-extensions and twig-extensions
+  should be merged into admin-bundle same, it is the main functionality of the admin-bundle; we
+  want to ship it always integrally."* Seven package directories became four. It was done P6-06's
+  way rather than P6-05's — classes, translation domains, test applications and documentation in
+  one task — because P6-05 had to be followed by P6-06 to finish the job, and there was no reason
+  to repeat that.
+
+  The classes went into the directories admin-bundle already had, with two new top-level ones for
+  what had no home (`Validator\`, `FlashMessage\`, plus a one-interface `Status\`), and three names
+  had to be settled where admin already owned the short one: the two DI `Configuration` classes are
+  `FormConfiguration` and `TwigConfiguration`, and — the one that matters to an application —
+  **`Sonata\AdminBundle\Form\Type\CollectionType` is now `NativeCollectionType`**, because
+  form-extensions' `CollectionType` is the one an admin class reaches for far more often and keeps
+  the plain name. Both types are alive, both block prefixes are unchanged
+  (`sonata_type_native_collection`, `sonata_type_collection`), and that is exactly what makes the
+  swap dangerous: `use Sonata\AdminBundle\Form\Type\CollectionType;` still compiles after the
+  merge, the field still builds, and the page renders the other widget. It is written up as a table
+  in CHANGELOG.md, in UPGRADE-1.0.md §U1 with the order to do the two renames in, and as a note at
+  the top of `docs/admin-bundle/reference/form_types.rst`; the reference panel's six fields were
+  renamed first and its `Sonata\Form\` imports moved second.
+
+  Breaking, like P6-06 and unlike P6-05: `SonataFormBundle` (27 catalogues) and `SonataTwigBundle`
+  (7) are gone as translation domains, their eight units — `link_add`, `label_type_yes`,
+  `label_type_no`, `date_range_start`, `date_range_end`, `message_close`, `more`, `less` — units of
+  `SonataAdminBundle` with their ids unchanged. An application that overrode one of them, or named
+  either domain in a template, edits it; the reference panel has neither.
+
+  What keeps the name on purpose, because it names a thing rather than a bundle: the `sonata_form`
+  and `sonata_twig` roots and their extension classes (Symfony derives the alias from the class
+  name), `@SonataForm` and `@SonataTwig` as compatibility aliases of admin-bundle's views, the
+  `sonata.form.*` and `sonata.twig.*` ids, the `sonata_flashmessages_*` functions, the
+  `sonata_status_class` filter and the `sonata.status.renderer` tag. Adminata's own defaults say
+  `@SonataAdmin/…` from the start — `SonataFormExtension` prepends
+  `@SonataAdmin/Form/datepicker.html.twig` to `twig.form_themes`, and the layout includes
+  `@SonataAdmin/FlashMessage/render.html.twig` — so both templates are overridden in
+  `templates/bundles/SonataAdminBundle/` like every other admin template, which is the lesson
+  P6-06's refinement had to be reopened to learn.
+
+  On the documentation side the two trees became a *Forms* caption and a *Twig helpers* caption of
+  the admin bundle's index, flat `form_*.rst` and `twig_*.rst` beside `block_*.rst`. One page was
+  **merged** rather than moved: form-extensions' `form_types.rst` went into the admin bundle's page
+  of the same name, because after the merge both documented `Sonata\AdminBundle\Form\Type\*` and
+  both had a `CollectionType` section — two pages titled *Form Types* disagreeing about which class
+  that is would have been the site's own version of the trap. Verifying the merged page against
+  `packages/admin-bundle/src` also caught two sections of inherited upstream text describing types
+  this fork does not have: `TranslatableChoiceType`, which form-extensions 2.7.0 does not ship at
+  all, is dropped, and `StatusType` is rewritten around the abstract `BaseStatusType` that does
+  exist. `make docs` builds with warnings as errors.
+
+- 2026-09-07 — **P6-08 done: `exporter` is inside `admin-bundle`.** The fourth owner directive of
+  the series, and the shortest: *"i consider exporter also an integral part, no point of making it
+  a separate lib, integrate it into admin-bundle."* Seven package directories became three. Nothing
+  in this fork exports without the admin bundle — every export URL is an admin route, the
+  `AdminExporter` bridge and the storage layers' `DataSource` classes were already admin-bundle
+  code, and `Sonata\AdminBundle\Exporter\DataSourceInterface` was already the seam between the
+  two — so the library was one half of a thing this repository ships whole.
+
+  That existing `Exporter\` directory decided the shape. Where P6-05 and P6-07 spread their
+  classes into the directories admin-bundle already had, this tree folded under
+  `Sonata\AdminBundle\Exporter\` intact: `Exporter`, `ExporterInterface` and `Handler` at its
+  root, the fourteen `Source\` iterators, the ten `Writer\` writers with their two interfaces and
+  the CSV stream filter beside them, and the four `Exception\` classes, every short name
+  unchanged. Only the Symfony bridge had to be placed: `ExporterConfiguration` (admin already owns
+  `Configuration`, so `SonataExporterExtension::getConfiguration()` names its class rather than
+  letting Symfony resolve the wrong one), `SonataExporterExtension`, and `ExporterCompilerPass` in
+  `DependencyInjection\Compiler\` — which also settled a PSR-4 warning the file had carried
+  upstream, where the class declared a `…\Compiler\` namespace while sitting a directory above
+  it. The DI service file is `exporter_services.php`, because the admin bundle already ships an
+  `exporter.php`, and the two are different things: one wires the writers and
+  `sonata.exporter.exporter`, the other `sonata.admin.admin_exporter` and the `AdminExporter`
+  bridge.
+
+  This is the quiet merge. The exporter ships no templates and no translations, so there was no
+  Twig namespace to keep as a compatibility alias and no translation domain to merge — the two
+  pieces of work that made P6-06 necessary after P6-05, and that P6-07 had to do in one step. What
+  is kept is what names things rather than a bundle: `sonata_exporter` as its own configuration
+  root and `SonataExporterExtension` (Symfony derives the alias from the class name), the
+  `sonata.exporter.*` ids with the public `sonata.exporter.exporter` and its two class aliases, the
+  `sonata.exporter.writer` tag a writer of an application carries, and the
+  `sonata.exporter.writer.<format>.<setting>` parameters. So an application's edit is one deleted
+  `bundles.php` line, plus the imports of any writer, source iterator or `ExporterInterface`
+  type hint it names — the classes it actually touches, which is why UPGRADE-1.0.md §U1 gives them
+  a table of their own. The reference panel names none of them: for it this is the line and
+  nothing else.
+
+  On the documentation side `docs/exporter/` became an *Exporter* caption of the admin bundle's
+  index, flat `exporter_*.rst` beside `block_*`, `form_*` and `twig_*`. Four pages out of five: the
+  installation page was **not** moved, because it told the reader to `composer require
+  sonata-project/exporter`, which is now a `conflict`; what survives of it is a section of
+  `exporter_configuration.rst` — the PhpSpreadsheet requirement the `xlsx` writer has, which is a
+  real fact about an optional format rather than an installation step. `symfony.rst` became that
+  configuration page, the way each earlier fold turned an installation page into a
+  `*_configuration.rst`. Verifying the moved pages against `packages/admin-bundle/src/Exporter/`
+  caught inherited upstream text again: the sources page listed *XLSX* among the formats data can
+  be read **from**, and there is no XLSX source iterator — `XmlExcelSourceIterator` reads the Excel
+  XML format and XLSX exists only as a writer — while the outputs page and `symfony.rst` both named
+  the writer interfaces `Exporter\Writer\…`, a namespace that never existed in this fork. The
+  pages now list the classes that are actually under `packages/admin-bundle/src/Exporter/`, one row
+  each, and the site's last link to `docs.sonata-project.org/projects/exporter` is gone from
+  `action_export.rst`.
+
+  Two stale sentences from the earlier folds surfaced while checking cross-references and were
+  fixed with this one: `docs/admin-bundle/getting_started/installation.rst` still said adminata
+  `replace`s six packages and conflicts with one, and still called `SonataAdminBundle` "one line,
+  not four". They are three and four now. `make docs` builds with warnings as errors, and every
+  page touched was scanned for the defect the form-extensions fold introduced — a section
+  underline with no title line above it, which docutils reads as a transition, so `sphinx -W` stays
+  silent while the heading, its anchor and its TOC entry disappear. None found, in the new pages or
+  anywhere else in `docs/`, and the built HTML contains no `<hr class="docutils" />`.

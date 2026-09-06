@@ -28,9 +28,10 @@ this in your admin configuration:
 Blocks
 ------
 
-The Dashboard is actually built using ``Blocks`` from ``SonataBlockBundle``. You
-can learn more about this bundle and how to build your own Blocks on the
-`SonataBlock documentation page`_.
+The Dashboard is actually built using ``Blocks``, and they are part of this bundle:
+:doc:`block_configuration` is how a block is enabled and configured,
+:doc:`block_your_first_block` is how to write one, and :doc:`block_provided_blocks`
+lists the ones that ship.
 
 The ``Admin`` list block
 ------------------------
@@ -247,7 +248,6 @@ suit this scenario.
 In this example, you would have two ``admin_list`` blocks on your dashboard, each
 of them containing the respectively configured groups.
 
-.. _`SonataBlock documentation page`: https://docs.sonata-project.org/projects/SonataBlockBundle/en/3.x/
 
 Statistic Block
 ^^^^^^^^^^^^^^^

@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Sonata\AdminBundle\Tests\Form\Type\Filter;
 
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use Sonata\AdminBundle\Form\Type\DateTimeRangeType as FormDateTimeRangeType;
 use Sonata\AdminBundle\Form\Type\Filter\DateTimeRangeType;
 use Sonata\AdminBundle\Form\Type\Operator\DateRangeOperatorType;
-use Sonata\Form\Type\DateTimeRangeType as FormDateTimeRangeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**

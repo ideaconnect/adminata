@@ -7,19 +7,57 @@ packages' own tests and the inherited JavaScript actually touch (`R/php-compat.m
 compatibility layer for hypothetical users: anything not listed may change. Each item becomes an
 executable test in phase 1 (document 08 §4).
 
+**Amendment, 2026-09-06 (01 P10).** The block bundle is merged into the admin bundle, and its PHP
+namespace is the one item this contract gives up: `Sonata\BlockBundle\*` is now
+`Sonata\AdminBundle\*` and `SonataBlockBundle` no longer exists. Everything else about blocks that
+this document lists — the `sonata_block` config root, the `sonata.block.*` service ids, the five
+`sonata_block_*` Twig functions, the `@SonataBlock` Twig namespace, the twelve block template paths
+~~and the `SonataBlockBundle` translation domain~~ — is unchanged and still under contract. The rows
+below are annotated where they are affected rather than rewritten.
+
+**Amendment, 2026-09-06, later the same day (01 P13).** The `SonataBlockBundle` translation domain
+is given up as well: the block strings are units of `SonataAdminBundle` (§11). The config root, the
+service ids, the Twig functions, `@SonataBlock` and the template paths stay under contract.
+
+**Amendment, 2026-09-06, third of the day (01 P14).** `form-extensions` and `twig-extensions` are
+merged into the admin bundle on the same terms, and this contract gives up two more PHP namespaces
+and two more translation domains: `Sonata\Form\*` and `Sonata\Twig\*` are `Sonata\AdminBundle\*`,
+`SonataFormBundle` and `SonataTwigBundle` no longer exist as classes or as domains, and their eight
+units are `SonataAdminBundle`'s (§11). Everything else those two trees contribute stays under
+contract: the `sonata_form` and `sonata_twig` config roots, the `sonata.form.*` and `sonata.twig.*`
+service ids, the three `sonata_flashmessages_*` Twig functions, the `sonata_status_class` filter,
+the `sonata.status.renderer` tag, the `@SonataForm` and `@SonataTwig` Twig namespaces and the two
+template paths. **One name is not preserved even though it survives:**
+`Sonata\AdminBundle\Form\Type\CollectionType` is now form-extensions' collection type, and the
+admin bundle's own is `NativeCollectionType` — the block prefixes `sonata_type_collection` and
+`sonata_type_native_collection` are unchanged, so templates and Twig block overrides are not
+affected, but a PHP import is. The rows below are annotated where they are affected rather than
+rewritten.
+
 ## 1. Package identity
 
-One Composer package, `idct/adminata`, replaces seven:
+**Amendment, 2026-09-07 (01 P15).** The exporter is merged into the admin bundle on the same terms,
+and this contract gives up a fourth PHP namespace: `Sonata\Exporter\*` is
+`Sonata\AdminBundle\Exporter\*` and `SonataExporterBundle` no longer exists. Everything else the
+exporter contributes stays under contract — the `sonata_exporter` config root, the
+`sonata.exporter.*` service ids, the `sonata.exporter.writer` tag and the
+`sonata.exporter.writer.<format>.<setting>` parameters — and there is nothing else to give up: the
+exporter ships no templates, no Twig namespace and no translation domain. The admin bundle's own
+`Sonata\AdminBundle\Exporter\DataSourceInterface` — `Sonata\AdminBundle\` from the start, and
+what `sonata.admin.data_source.%s` resolves to — does not move. The rows below are annotated where
+they are affected rather than rewritten.
+
+One Composer package, `idct/adminata`, replaces three and merges four:
 
 | Upstream package | Version replaced | PHP namespace(s) | Bundle class | Config root | Twig namespace |
 |---|---|---|---|---|---|
 | `sonata-project/admin-bundle` | 4.43.0 | `Sonata\AdminBundle\` | `Sonata\AdminBundle\SonataAdminBundle` | `sonata_admin` | `@SonataAdmin` |
-| `sonata-project/block-bundle` | 5.4.0 | `Sonata\BlockBundle\` | `Sonata\BlockBundle\SonataBlockBundle` | `sonata_block` | `@SonataBlock` |
+| `sonata-project/block-bundle` | 5.4.0, **merged, not replaced** (01 P10) | ~~`Sonata\BlockBundle\`~~ → `Sonata\AdminBundle\` | ~~`Sonata\BlockBundle\SonataBlockBundle`~~ → none; `SonataAdminBundle` registers `SonataBlockExtension` | `sonata_block` (kept) | `@SonataBlock` (kept, as an alias of admin-bundle's views) |
 | `sonata-project/doctrine-extensions` | 2.6.0 | `Sonata\Doctrine\` (+ `Bridge\Symfony`) | `Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle` | `sonata_doctrine` | — |
 | `sonata-project/doctrine-orm-admin-bundle` | 4.21.0 | `Sonata\DoctrineORMAdminBundle\` | `Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle` | `sonata_doctrine_orm_admin` | `@SonataDoctrineORMAdmin` |
-| `sonata-project/exporter` | 3.4.0 | `Sonata\Exporter\` (+ `Bridge\Symfony`) | `Sonata\Exporter\Bridge\Symfony\SonataExporterBundle` | `sonata_exporter` | — |
-| `sonata-project/form-extensions` | 2.7.0 | `Sonata\Form\` | `Sonata\Form\Bridge\Symfony\SonataFormBundle` | `sonata_form` | `@SonataForm` |
-| `sonata-project/twig-extensions` | 2.6.0 | `Sonata\Twig\` (+ `Bridge\Symfony`) | `Sonata\Twig\Bridge\Symfony\SonataTwigBundle` | `sonata_twig` | `@SonataTwig` |
+| `sonata-project/exporter` | 3.4.0, **merged, not replaced** (01 P15) | ~~`Sonata\Exporter\` (+ `Bridge\Symfony`)~~ → `Sonata\AdminBundle\Exporter\` | ~~`Sonata\Exporter\Bridge\Symfony\SonataExporterBundle`~~ → none; `SonataAdminBundle` registers `SonataExporterExtension` | `sonata_exporter` | — |
+| `sonata-project/form-extensions` | 2.7.0, **merged, not replaced** (01 P14) | ~~`Sonata\Form\`~~ → `Sonata\AdminBundle\` | ~~`Sonata\Form\Bridge\Symfony\SonataFormBundle`~~ → none; `SonataAdminBundle` registers `SonataFormExtension` | `sonata_form` (kept) | `@SonataForm` (kept, as an alias of admin-bundle's views) |
+| `sonata-project/twig-extensions` | 2.6.0, **merged, not replaced** (01 P14) | ~~`Sonata\Twig\` (+ `Bridge\Symfony`)~~ → `Sonata\AdminBundle\` | ~~`Sonata\Twig\Bridge\Symfony\SonataTwigBundle`~~ → none; `SonataAdminBundle` registers `SonataTwigExtension` | `sonata_twig` (kept) | `@SonataTwig` (kept, as an alias of admin-bundle's views) |
 
 Consequences kept: `templates/bundles/SonataAdminBundle/` (and the other bundles') override
 directories, `public/bundles/sonataadmin/`, the `sonata.admin` tag attributes, the
@@ -27,11 +65,22 @@ directories, `public/bundles/sonataadmin/`, the `sonata.admin` tag attributes, t
 `sonata.admin.field_description_factory.%s`, `sonata.admin.builder.%s_{form,show,list,datagrid}`),
 the 11 admin compiler passes in order, the `sonata_admin` asset package, and the routing resource
 `@SonataAdminBundle/Resources/config/routing/sonata_admin.php`. `bundles.php` of an existing app
-does not change.
+loses exactly four lines — `SonataBlockBundle` (01 P10), `SonataFormBundle` and `SonataTwigBundle`
+(01 P14) and `SonataExporterBundle` (01 P15); every other line is unchanged.
 
 **MongoDB fork contract.** `idct/sonata-admin-mongodb-bundle` v5.2.2 requires
 `sonata-project/admin-bundle ^4.39`, `exporter ^3.0`, `form-extensions ^2.0` (and `block-bundle
-^5.0` in dev); imports `Sonata\AdminBundle\` (62 files), `Sonata\Form\` (4), `Sonata\Exporter\` (1);
+^5.0` in dev — which adminata now `conflict`s with, so that dev requirement has to go before the
+fork's suite can run against adminata; it imports no block class, so nothing else there changes);
+adminata also `conflict`s with `form-extensions`, so that `^2.0` require goes the same way (01 P14),
+and the fork's four `Sonata\Form\` imports — `BooleanType` twice, `DateRangeType` and
+`DateTimeRangeType` in its filters — become `Sonata\AdminBundle\Form\Type\`, as does the
+`CollectionType` in its test application; and with `exporter` conflicted too (01 P15) its `^3.0`
+require goes as well, its one `Sonata\Exporter\` import — `Source\DoctrineODMQuerySourceIterator`
+in `src/Exporter/DataSource.php` — becoming `Sonata\AdminBundle\Exporter\Source\`, beside the
+`Sonata\AdminBundle\Exporter\DataSourceInterface` that file already implements: every one of those
+kept its short name, so they are namespace edits and not behaviour changes; imports
+`Sonata\AdminBundle\` (62 files), `Sonata\Form\` (4), `Sonata\Exporter\` (1);
 its two form themes extend `@SonataAdmin/Form/form_admin_fields.html.twig` and
 `@SonataAdmin/Form/filter_admin_fields.html.twig` and include
 `@SonataAdmin/CRUD/Association/edit_{many_to_one,many_to_many,one_to_many}.html.twig`; its
@@ -55,23 +104,38 @@ Twig extension aliases. Full admin list: `R/php-compat.md` §2.2.
 | `sonata_admin.assets.stylesheets` default | `bundles/sonataadmin/app.css`, `bundles/sonataadmin/fontawesome.css` |
 | `sonata_admin.assets.javascripts` default | `bundles/sonataadmin/app.js` (rendered with `defer`) |
 | new `sonata_admin.theme` node | `mode` (`light\|dark\|system`, default `system`), `logo_dark`, `logo_icon` — a node under the admin root, not an eighth bundle |
-| `sonata_block`, `sonata_doctrine`, `sonata_doctrine_orm_admin`, `sonata_exporter`, `sonata_form`, `sonata_twig` | unchanged trees and defaults (`sonata_form` keeps `form_type`; `sonata_doctrine_orm_admin.templates.types.*` keeps overriding `LIST_TEMPLATES`/`SHOW_TEMPLATES` entries) |
+| `sonata_block`, `sonata_doctrine`, `sonata_doctrine_orm_admin`, `sonata_exporter`, `sonata_form`, `sonata_twig` | unchanged trees and defaults (`sonata_form` keeps `form_type`; `sonata_doctrine_orm_admin.templates.types.*` keeps overriding `LIST_TEMPLATES`/`SHOW_TEMPLATES` entries). `sonata_block` stays a root of its own and is registered by `SonataAdminBundle`, so `config/packages/sonata_block.yaml` is unchanged (01 P10) |
 
 ## 4. Template registry keys and file paths
 
 - 39 scalar keys (`user_block … button_show`) plus `form_theme[]`, `filter_theme[]`, defaults
   unchanged (`@SonataAdmin/...` paths).
 - `TemplateRegistryInterface::SHOW_TEMPLATES` (21) and `LIST_TEMPLATES` (22): same keys, same paths.
-- All **148 template files** of the seven packages keep their path: admin-bundle 131, block-bundle
-  12, ORM 3 (`Block/block_audit`, `Form/form_admin_fields`, `Form/filter_admin_fields`),
+- All **148 template files** of the seven packages keep their `@Sonata*/…` path: admin-bundle 131,
+  block-bundle 12, ORM 3 (`Block/block_audit`, `Form/form_admin_fields`, `Form/filter_admin_fields`),
   form-extensions 1 (`Form/datepicker`), twig-extensions 1 (`FlashMessage/render`). PHP hard-codes
   91 `@SonataAdmin/…` paths; the ORM bundle and the MongoDB fork hard-code `list__action*`;
-  block-bundle's `sonata_block.templates.block_base` default and `@SonataBlock/Profiler/block.html.twig`
-  are referenced by admin-bundle and the profiler.
+  block-bundle's `sonata_block.templates.block_base` default and its profiler template are
+  referenced by admin-bundle and the profiler. The twelve block files moved on disk into
+  `packages/admin-bundle/src/Resources/views/` (01 P10) — none of them collided with an admin-bundle
+  name — and `SonataBlockExtension::prepend()` registers `@SonataBlock` as a Twig namespace over that
+  directory, so every `@SonataBlock/…` path above still resolves. Every default *inside* adminata,
+  though, says `@SonataAdmin/…` (01 P13, refined): the block services' `template` settings,
+  `sonata_block.templates.block_base`/`block_container`, `sonata_block.profiler.template` and the
+  exception renderers. The alias is a plain `twig.paths` entry with no `templates/bundles/`
+  directory, so a default addressed through it is never overridden there; addressed as
+  `@SonataAdmin/Block/…` it is, like every other admin template. **The one thing that does not
+  carry over is `templates/bundles/SonataBlockBundle/`**: Symfony builds those override paths from
+  registered bundles, and there is no `SonataBlockBundle` any more. Nothing in the repository, the
+  demo or the app has such a directory, so nothing is broken today; an application that has one
+  moves its files to `templates/bundles/SonataAdminBundle/Block/`, where the shipped defaults pick
+  them up, or points `sonata_block.templates.*` at its own template.
 - The app's `list__action_[ACTION].html.twig` naming convention for custom actions (11 custom
   overrides) and `get_admin_template('base_list_field', admin.code)` keep working.
-- `SonataFormBundle` keeps prepending `@SonataForm/Form/datepicker.html.twig` to `twig.form_themes`
-  (now a native-input theme); `bundles/sonataform/*` public assets no longer exist.
+- ~~`SonataFormBundle`~~ **`SonataFormExtension`** (01 P14) keeps prepending the datepicker theme to
+  `twig.form_themes` (now a native-input theme), as `@SonataAdmin/Form/datepicker.html.twig` so that
+  `templates/bundles/SonataAdminBundle/` can override it; `@SonataForm/Form/datepicker.html.twig`
+  is the same file through the kept alias. `bundles/sonataform/*` public assets no longer exist.
 - `outer_list_rows_tree` keeps its (dangling) default; nothing renders it.
 
 ## 5. Twig blocks
@@ -86,7 +150,8 @@ Twig extension aliases. Full admin list: `R/php-compat.md` §2.2.
 - Additive: `sonata_overlay`, `sonata_header_search`, `sonata_top_nav_menu_dark_mode`,
   `sonata_sidebar_section_header`, `list_after_table`, `sonata_script_attributes`,
   `sonata_type_date_range_widget`.
-- Other packages: block-bundle's `block` block set and `sonata_block_render_event` hooks unchanged;
+- Other packages: block-bundle's `block` block set and `sonata_block_render_event` hooks unchanged
+  (the templates moved directory but not path — §4);
   form-extensions' `sonata_type_datetime_picker_widget(_html)` block names unchanged (content
   rewritten); twig-extensions' flash template keeps its `sonata_flashmessages_types()` loop and the
   `alert alert-{type}` marker classes (PHP-emitted type map); ORM's `sonata_admin_orm_*_widget`,
@@ -112,7 +177,9 @@ Unchanged PHP across the packages: admin-bundle's `render_breadcrumbs`,
 `render_list_element`, `render_view_element`, `render_view_element_compare`,
 `render_relation_element`, `sonata_urlsafeid`, `parse_icon`, `sonata_xeditable_type`,
 `sonata_xeditable_choices`, global `sonata_config`, controller globals `admin`, `base_template`;
-block-bundle's `sonata_block_render`, `sonata_block_render_event`, `sonata_block_include_stylesheets/javascripts`;
+block-bundle's `sonata_block_render`, `sonata_block_render_event`, `sonata_block_exists`,
+`sonata_block_include_stylesheets/javascripts` and the `sonata_block` global (the class behind it is
+`Sonata\AdminBundle\Twig\BlockGlobalVariables` now — 01 P10 — but the Twig-side name is unchanged);
 twig-extensions' `sonata_flashmessages_get`, `sonata_flashmessages_types`, `sonata_status_class`,
 `sonata_template_deprecate`, `sonata_template_box`; form-extensions' form types and options.
 Adminata's templates stop calling the two `canonicalize_*` functions.
@@ -193,9 +260,18 @@ templates).
 
 ## 11. Translations
 
-Admin-bundle's `SonataAdminBundle` domain (126 ids, 34 locales), block-bundle's `SonataBlockBundle`,
-form-extensions' `SonataFormBundle` and the ORM bundle's catalogues unchanged; new UI strings get new
-ids in the `SonataAdminBundle` domain. `sonata.admin.translation_extractor` keeps working.
+Admin-bundle's `SonataAdminBundle` domain (126 ids, 34 locales), ~~block-bundle's `SonataBlockBundle`
+domain (its catalogues moved into `packages/admin-bundle/src/Resources/translations/`, keeping the
+domain name — 01 P10)~~ — **amended (01 P13):** the twenty block ids (`sonata.block.service.*`,
+`form.label_*`) are units of the `SonataAdminBundle` catalogues and there is no `SonataBlockBundle`
+domain, so an application's `translations/SonataBlockBundle.<locale>.xliff` moves into
+`translations/SonataAdminBundle.<locale>.xliff`; ~~form-extensions' `SonataFormBundle`~~ —
+**amended (01 P14):** the `SonataFormBundle` (27 catalogues) and `SonataTwigBundle` (7) domains go
+the same way, their eight units (`link_add`, `label_type_yes`, `label_type_no`, `date_range_start`,
+`date_range_end`, `message_close`, `more`, `less`) becoming `SonataAdminBundle`'s with their ids
+unchanged — the ORM bundle's catalogues unchanged; new UI strings get new ids in the
+`SonataAdminBundle` domain.
+`sonata.admin.translation_extractor` keeps working.
 
 ## 12. Inherited tests that pin markup
 
@@ -207,8 +283,8 @@ ids in the `SonataAdminBundle` domain. `sonata.admin.translation_extractor` keep
 | admin `tests/Menu/Integration/*`, `TabMenuTest` | Expectations updated; `active` kept |
 | admin `tests/Functional/Controller/*` (stub ModelManager) | Reused; hooks in §8 kept |
 | admin `tests/DependencyInjection/*`, `FormMapperTest`, `ShowMapperTest`, `ConfigurationTest` | Updated for P6 (removed nodes, new defaults) |
-| form-extensions picker type and widget tests | Updated for P6 (f) and the native template |
-| twig-extensions flash tests, block-bundle, exporter, doctrine-extensions, ORM tests | Reused; flash expectations re-baselined |
+| form-extensions picker type and widget tests | Updated for P6 (f) and the native template. Moved into `packages/admin-bundle/tests/Form/{Type,Widget}/` and `tests/Validator/` under `Sonata\AdminBundle\Tests\` (01 P14) |
+| twig-extensions flash tests, block-bundle, exporter, doctrine-extensions, ORM tests | Reused; flash expectations re-baselined. The block suite moved into `packages/admin-bundle/tests/` under `Sonata\AdminBundle\Tests\` and runs in the `admin` testsuite (01 P10); the twig-extensions runtime, application and functional tests moved the same way (01 P14). The exporter suite moved into `packages/admin-bundle/tests/Exporter/` and `tests/DependencyInjection/` under `Sonata\AdminBundle\Tests\` and runs in the `admin` testsuite (01 P15). |
 | `MDB/tests/Unit/*` (PR CI) and `MDB/tests/Functional/*` (Panther, nightly) | Unit green from phase 1; functional post-1.0 |
 
 ## 13. Enforcement

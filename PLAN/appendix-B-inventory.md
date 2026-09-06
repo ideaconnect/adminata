@@ -6,7 +6,7 @@
 |---|---|
 | Release | 4.43.0, 2026-06-03 (5.x branch last merge 2026-06-04; views/assets byte-identical; 3 PHP files differ) |
 | Floors | `php ^8.2`, Symfony `^6.4 \|\| ^7.3 \|\| ^8.0`, `twig ^3.15`, `symfony/stimulus-bundle ^2.22 \|\| ^3.0` |
-| Sonata deps | `block-bundle ^5.0`, `doctrine-extensions ^2.0`, `exporter ^3.1.1`, `form-extensions ^2.0`, `twig-extensions ^2.0` |
+| Sonata deps | `block-bundle ^5.0` (merged into this package, 01 P10), `doctrine-extensions ^2.0`, `exporter ^3.1.1` (merged into this package too, 01 P15), `form-extensions ^2.0` and `twig-extensions ^2.0` (merged into this package too, 01 P14) |
 | PHP | 242 files, 27,892 lines; 163 `final class`, 51 interfaces, 12 abstract classes |
 | Templates | 131 files, 7,238 lines; 138 unique block names; 89 `@SonataAdmin/…` cross references in 61 templates |
 | Config | 39 template keys + `form_theme`/`filter_theme`; 121 service ids; 8 routes; 34 XLIFF locales (126 ids) |
@@ -46,17 +46,23 @@
 
 ## 2. The six other Sonata packages shipped by adminata (latest releases, verified 2026-09-04)
 
+Two of them are still package directories of their own. The other four — `block-bundle`
+(01 P10), `form-extensions` and `twig-extensions` (01 P14) on 2026-09-06, and `exporter` (01 P15)
+on 2026-09-07 — were merged into `packages/admin-bundle` and their rows below are annotated
+accordingly; the releases they sit at, 5.4.0, 2.7.0, 2.6.0 and 3.4.0, are unchanged.
+
 | Package | Version | Namespace / bundle class | Config root | Templates | Assets | Notes |
 |---|---|---|---|---|---|---|
-| `block-bundle` | 5.4.0 (2025-11-30) | `Sonata\BlockBundle\` / `SonataBlockBundle` | `sonata_block` | 12 (`Block/*` 11, `Profiler/block`); 2 with Bootstrap (`block_core_rss`, `block_side_menu_template`) | none | requires `form-extensions`; `templates.block_base` extended by admin blocks |
+| `block-bundle` | 5.4.0 (2025-11-30) | ~~`Sonata\BlockBundle\` / `SonataBlockBundle`~~ → `Sonata\AdminBundle\`, no bundle class (01 P10, 2026-09-06) | `sonata_block` (kept) | 12 (`Block/*` 11, `Profiler/block`); 2 with Bootstrap (`block_core_rss`, `block_side_menu_template`) — moved into admin-bundle's views, paths unchanged | none | requires `form-extensions`; `templates.block_base` extended by admin blocks. **Merged into `packages/admin-bundle`**: no directory, no `replace`, a `conflict` instead |
 | `doctrine-extensions` | 2.6.0 (2025-11-23) | `Sonata\Doctrine\` (+ `Bridge\Symfony`) / `SonataDoctrineBundle` | `sonata_doctrine` | none | none | `doctrine/dbal`, `doctrine/persistence` |
 | `doctrine-orm-admin-bundle` | 4.21.0 (2026-01-05) | `Sonata\DoctrineORMAdminBundle\` / `SonataDoctrineORMAdminBundle` | `sonata_doctrine_orm_admin` | 3 (`Block/block_audit` with Bootstrap; two form themes without) | none | requires `doctrine/orm ^3.3`, `doctrine-bundle`, `admin-bundle ^4.39.0` |
-| `exporter` | 3.4.0 (2025-11-23) | `Sonata\Exporter\` (+ `Bridge\Symfony`) / `SonataExporterBundle` | `sonata_exporter` | none | none | suggests `phpoffice/phpspreadsheet` |
-| `form-extensions` | 2.7.0 (2025-11-23) | `Sonata\Form\` / `SonataFormBundle` | `sonata_form` | 1 (`Form/datepicker`, Bootstrap + Tempus Dominus) | `assets/js` (Stimulus `datepicker` controller + tests), `assets/scss`, 4 public files (`app.js` 122 KB, `app.css` 46 KB) — all deleted | `BasePickerType`, `DateRangeType`, `BooleanType`, `CollectionType`, … |
-| `twig-extensions` | 2.6.0 (2025-11-23) | `Sonata\Twig\` (+ `Bridge\Symfony`) / `SonataTwigBundle` | `sonata_twig` | 1 (`FlashMessage/render`, Bootstrap) | `public/css/flashmessage.css` — deleted | flash types map, `sonata_template_box`, deprecation helpers |
+| `exporter` | 3.4.0 (2025-11-23) | ~~`Sonata\Exporter\` (+ `Bridge\Symfony`) / `SonataExporterBundle`~~ → `Sonata\AdminBundle\Exporter\`, no bundle class (01 P15, 2026-09-07) | `sonata_exporter` (kept) | none | none | suggests `phpoffice/phpspreadsheet`; no templates and no translations, so the merge moved classes, DI wiring, tests and docs and nothing else |
+| `form-extensions` | 2.7.0 (2025-11-23) | ~~`Sonata\Form\` / `SonataFormBundle`~~ → `Sonata\AdminBundle\`, no bundle class (01 P14, 2026-09-06) | `sonata_form` (kept) | 1 (`Form/datepicker`, Bootstrap + Tempus Dominus) — moved into admin-bundle's views as `@SonataAdmin/Form/datepicker.html.twig`, `@SonataForm` kept as an alias | `assets/js` (Stimulus `datepicker` controller + tests), `assets/scss`, 4 public files (`app.js` 122 KB, `app.css` 46 KB) — all deleted | `BasePickerType`, `DateRangeType`, `BooleanType`, `CollectionType`, … **Merged into `packages/admin-bundle`**: no directory, no `replace`, a `conflict` instead; its `CollectionType` took the plain name and admin's own became `NativeCollectionType` |
+| `twig-extensions` | 2.6.0 (2025-11-23) | ~~`Sonata\Twig\` (+ `Bridge\Symfony`) / `SonataTwigBundle`~~ → `Sonata\AdminBundle\`, no bundle class (01 P14, 2026-09-06) | `sonata_twig` (kept) | 1 (`FlashMessage/render`, Bootstrap) — moved into admin-bundle's views as `@SonataAdmin/FlashMessage/render.html.twig`, `@SonataTwig` kept as an alias | `public/css/flashmessage.css` — deleted | flash types map, `sonata_template_box`, deprecation helpers. **Merged into `packages/admin-bundle`**: no directory, no `replace`, a `conflict` instead |
 
 None of the six ships tests in the Composer dist; their `tests/` and `docs/` trees come from the
-upstream tags at import (document 07 §10). `idct/sonata-admin-mongodb-bundle` v5.2.2 stays external
+upstream tags at import (document 07 §10) — for the four merged trees, under
+`packages/admin-bundle/tests/` and inside `docs/admin-bundle/`. `idct/sonata-admin-mongodb-bundle` v5.2.2 stays external
 (`php ^8.4`, `admin-bundle ^4.39`, `exporter ^3.0`, `form-extensions ^2.0`).
 
 ## 3. TailAdmin free edition v2.3.0 (2026-04-28)

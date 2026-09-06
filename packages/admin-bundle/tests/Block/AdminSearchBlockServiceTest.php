@@ -22,7 +22,7 @@ use Sonata\AdminBundle\Datagrid\PagerInterface;
 use Sonata\AdminBundle\Search\SearchableFilterInterface;
 use Sonata\AdminBundle\Search\SearchHandler;
 use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
-use Sonata\BlockBundle\Test\BlockServiceTestCase;
+use Sonata\AdminBundle\Test\BlockServiceTestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Response;
 

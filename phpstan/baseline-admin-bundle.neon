@@ -1,5 +1,12 @@
 # Imported from admin-bundle's upstream phpstan-baseline.neon at the tag in UPSTREAM.md,
-# with the paths rewritten for the adminata layout.
+# with the paths rewritten for the adminata layout. The baselines of the four trees merged into
+# packages/admin-bundle were folded in here (upstream/merged.txt), because every path they name is
+# now a path under packages/admin-bundle and a baseline file that matches nothing is a baseline file
+# PHPStan reports as unmatched:
+#   * block-bundle's and exporter's only entry was the PHPUnit assertion rule below, byte for byte,
+#     and three copies of one ignore would leave two of them unmatched;
+#   * form-extensions contributed the InlineConstraint entry at the end;
+#   * twig-extensions's baseline was empty.
 parameters:
     ignoreErrors:
         - # Disallow VariableMethodCallRule and VariablePropertyFetchRule
@@ -11,3 +18,9 @@ parameters:
         - # The phpstan-param is less precise than the psalm-param https://github.com/phpstan/phpstan/issues/4703
             message: '#^Parameter \#1 \$value of method Sonata\\AdminBundle\\Form\\DataTransformer\\ModelsToArrayTransformer\<T of object\>\:\:reverseTransform\(\) expects array\<int\|string\>\|null, array\<mixed, array\<string\>\|int\|string\> given\.$#'
             path: ../packages/admin-bundle/src/Form/DataTransformer/ModelToIdPropertyTransformer.php
+        - # `InlineConstraint::__sleep()` returns [] for closure-based constraints, so
+          # unserialize() leaves the promoted properties uninitialised even though they declare a
+          # default. PHPStan models them as always set, so it reports the `?? null` guards as
+          # unnecessary; removing them makes `testClosureSerialization` fatal.
+            message: '#^Coalesce operator \?\? is unnecessary because the left side is always set and the right side is null\.$#'
+            path: ../packages/admin-bundle/src/Validator/Constraints/InlineConstraint.php

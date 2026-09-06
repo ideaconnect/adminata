@@ -16,8 +16,8 @@ namespace Sonata\DoctrineORMAdminBundle\Tests\App\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\CollectionType;
 use Sonata\DoctrineORMAdminBundle\Tests\App\Entity\Mother;
-use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

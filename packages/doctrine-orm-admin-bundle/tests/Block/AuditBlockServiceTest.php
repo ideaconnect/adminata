@@ -16,9 +16,9 @@ namespace Sonata\DoctrineORMAdminBundle\Tests\Block;
 use PHPUnit\Framework\MockObject\MockObject;
 use SimpleThings\EntityAudit\AuditReader as SimpleThingsAuditReader;
 use SimpleThings\EntityAudit\Revision;
-use Sonata\BlockBundle\Block\BlockContextInterface;
-use Sonata\BlockBundle\Model\Block;
-use Sonata\BlockBundle\Test\BlockServiceTestCase;
+use Sonata\AdminBundle\Block\BlockContextInterface;
+use Sonata\AdminBundle\Model\Block;
+use Sonata\AdminBundle\Test\BlockServiceTestCase;
 use Sonata\DoctrineORMAdminBundle\Block\AuditBlockService;
 
 /**

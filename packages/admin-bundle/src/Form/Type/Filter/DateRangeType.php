@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\AdminBundle\Form\Type\Filter;
 
+use Sonata\AdminBundle\Form\Type\DateRangeType as FormDateRangeType;
 use Sonata\AdminBundle\Form\Type\Operator\DateRangeOperatorType;
-use Sonata\Form\Type\DateRangeType as FormDateRangeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

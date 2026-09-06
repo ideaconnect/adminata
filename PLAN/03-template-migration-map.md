@@ -9,7 +9,7 @@ byte-identical. Element-level tables with file:line evidence live in `R/layout-n
 
 Scope (appendix C §4): of the 148 templates in the seven packages, 100 are rewritten in 1.0 (98
 admin-bundle templates, 4,739 Twig lines, plus form-extensions' datepicker theme and
-twig-extensions' flash template), 12 are copied unchanged (block-bundle and ORM templates without
+twig-extensions' flash template), 12 are copied unchanged (block and ORM templates without
 Bootstrap markup) and 37 are deferred (§E, §G).
 
 ## A. Layouts, navigation, dashboard (phase 2)
@@ -105,3 +105,17 @@ been ported (the file keeps a `{# adminata: not yet ported #}` marker).
 | block-bundle | `Block/block_base.html.twig` (extended by admin blocks), `block_container`, `block_template`, `block_core_text`, `block_core_menu`, `block_core_action`, `block_exception`, `block_exception_debug`, `block_no_page_available`, `Profiler/block.html.twig` | no | copied unchanged (10) |
 | block-bundle | `Block/block_core_rss.html.twig`, `Block/block_side_menu_template.html.twig` | yes | deferred |
 
+The twelve block files live in `packages/admin-bundle/src/Resources/views/` since the merge of
+2026-09-06 (01 P10). Their `@SonataBlock/…` paths are unchanged — the namespace is an alias of that
+directory now — so every row above still reads the same from a template's point of view. adminata's
+own defaults address them as `@SonataAdmin/Block/…` since the refinement of the same day (01 P13),
+so that `templates/bundles/SonataAdminBundle/Block/` overrides them; `@SonataBlock/…` is the
+compatibility spelling for templates outside adminata.
+
+The datepicker and flash templates joined them there on the same day (01 P14):
+`Form/datepicker.html.twig` and `FlashMessage/render.html.twig` are
+`packages/admin-bundle/src/Resources/views/`, addressed as `@SonataAdmin/Form/datepicker.html.twig`
+and `@SonataAdmin/FlashMessage/render.html.twig` by adminata's own defaults, with `@SonataForm` and
+`@SonataTwig` kept as compatibility aliases of that directory. The rows above still read the same
+from a template's point of view, and both files are now overridden in
+`templates/bundles/SonataAdminBundle/` like any other admin template.

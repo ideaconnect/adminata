@@ -15,7 +15,7 @@ namespace Sonata\AdminBundle\Tests\Block;
 
 use Sonata\AdminBundle\Admin\Pool;
 use Sonata\AdminBundle\Block\AdminStatsBlockService;
-use Sonata\BlockBundle\Test\BlockServiceTestCase;
+use Sonata\AdminBundle\Test\BlockServiceTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 /**

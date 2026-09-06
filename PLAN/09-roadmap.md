@@ -55,7 +55,7 @@ the empty shell; MongoDB fork unit suite green; **milestone push**.
 
 Templates of document 03 §A: `standard_layout`, `ajax_layout`, `empty_layout`, sidebar menu with
 section headers, add block, user block, dashboard + admin-list block + dashboard actions,
-breadcrumb wrapper, twig-extensions' flash template rewritten in place, block-bundle's `block_base`
+breadcrumb wrapper, twig-extensions' flash template rewritten in place, the block `block_base`
 verified, `Core/list_mode_buttons`; controllers `sonata-layout`, `sonata-menu`, `sonata-dropdown`,
 `sonata-modal`, `sonata-theme`, `sonata-dismiss`; login-style page support (`sonata_header`
 collapse). Functional `MenuTest`, `DashboardActionTest`, `BreadcrumbsRuntimeTest`, twig-extensions
@@ -108,7 +108,7 @@ announcement. **Milestone push and tag.**
    this unblocks the MongoDB fork's Panther suite once its scenarios are adapted to the new flow.
 2. `sonata-datepicker` progressive enhancement (`vanilla-calendar-pro`).
 3. History and compare pages; ACL pages; preview; subclass selection; mosaic; global search;
-   tab menu / child admins; the four admin dashboard blocks and block-bundle's RSS/side-menu
+   tab menu / child admins; the four admin dashboard blocks and the block RSS/side-menu
    templates; `sonata-editable`; `sonata-treeview`; `sonata-choice-field-mask`; sortable
    collections (SortableJS).
 4. Optional select enhancement (`sonata-select`, Tom Select 2.6.2).

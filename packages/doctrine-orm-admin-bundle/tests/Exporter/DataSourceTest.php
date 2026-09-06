@@ -18,9 +18,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use PHPUnit\Framework\TestCase;
+use Sonata\AdminBundle\Exporter\Source\DoctrineORMQuerySourceIterator;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Exporter\DataSource;
-use Sonata\Exporter\Source\DoctrineORMQuerySourceIterator;
 
 final class DataSourceTest extends TestCase
 {

@@ -99,22 +99,24 @@ Facts (form-extensions 2.7.0): `BasePickerType` sets `widget: single_text`, `htm
 DatePickerType`. Sonata's own date filters use Symfony `DateType`/`DateTimeType` with `single_text`
 and HTML5 on, so they are native already.
 
-Plan (form-extensions is part of adminata now, so both the PHP type and its template change in place):
+Plan (form-extensions is part of adminata now, so both the PHP type and its template change in place; since 01 P14 both live in `packages/admin-bundle/`):
 
-- `packages/form-extensions/src/Type/BasePickerType.php` (P6 f): `html5: true` semantics — the wire
+- `packages/admin-bundle/src/Form/Type/BasePickerType.php` (P6 f; `packages/form-extensions/src/Type/` before 01 P14): `html5: true` semantics — the wire
   `format` is derived from `datepicker_options.display.components` (`yyyy-MM-dd` when `clock` is
   false, `HH:mm` or `HH:mm:ss` when `calendar` is false, `yyyy-MM-dd'T'HH:mm[:ss]` otherwise); a
   different `format` throws like Symfony's `DateType` with `html5: true`; the `localization.format`
   view variable and `JavaScriptFormatConverter` are removed. `DateRangePickerType`/
   `DateTimeRangePickerType` inherit the behaviour. `SonataFormExtension` stops registering
   `bundles/sonataform/app.{js,css}`.
-- `packages/form-extensions/src/Bridge/Symfony/Resources/views/Form/datepicker.html.twig` rewritten:
+- `packages/admin-bundle/src/Resources/views/Form/datepicker.html.twig` rewritten:
   `sonata_type_datetime_picker_widget(_html)` emit `type="time"` when `calendar` is false,
   `type="date"` when `clock` is false, otherwise `type="datetime-local"`; `step="1"` when
   `seconds`; `min`/`max` from `restrictions.minDate/maxDate`; `value` verbatim; class `adm-input`;
-  `color-scheme` from `base.css` makes the native pickers dark in dark mode. `SonataFormBundle`
-  keeps prepending this theme globally, so admin forms and the app's plain forms both get it and
-  the app's `twig.form_themes` entry stays valid.
+  `color-scheme` from `base.css` makes the native pickers dark in dark mode. `SonataFormExtension`
+  keeps prepending this theme globally — as `@SonataAdmin/Form/datepicker.html.twig` since 01 P14,
+  the spelling `templates/bundles/SonataAdminBundle/` can override — so admin forms and the app's
+  plain forms both get it, and an app that listed `@SonataForm/Form/datepicker.html.twig` in its own
+  `twig.form_themes` can simply drop the line.
 - Requirement on the app: **delete** the `format` options of its twelve picker usages
   (appendix C §2); nothing else.
 - form-extensions' `assets/` (Tempus Dominus Stimulus controller, SCSS) and
