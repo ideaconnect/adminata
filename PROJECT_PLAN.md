@@ -1044,24 +1044,31 @@ mistake cannot recur.
     `style="…color|background"` in `templates/` outside `email/`, `report.html.twig`,
     `testRunOutput` and the data-driven swatch; the scan `ok` on every page in both themes.
 
-- [x] **P5-FIX-25 · The sidebar: the rail snapped shut, root items touched, section headers hugged the item above** · S
-  - Three findings of the owner's in the panel's sidebar. (1) AdminLTE's sidebar slid between its
-    widths; adminata's drawer slid but its rail snapped. `adm-sidebar` now transitions `width` as
-    well as `transform` and `.adm-main` the margin it keeps clear, 200 ms ease-out, both off under
-    `prefers-reduced-motion`; nothing moves on page load because the server seeds `data-sidebar`
-    from the cookie. Labels are one line, ellipsised — AdminLTE's `white-space: nowrap` — so a row
-    does not jump in height while the rail widens. (2) The root `<ul class="sidebar-menu">` was a
-    plain block, so top-level items touched; it now also carries `adm-menu`, TailAdmin's
-    `flex flex-col gap-4`. (3) `adm-menu-group-title` had `margin-bottom: 1rem` and nothing above,
-    so a header sat 8 px under the previous label and 24 px over the next; the margin is gone and
-    the list's gap spaces it equally on both sides.
-  - Measured on the panel: collapse 290→238→172→136→99→90 px and expand back in 200 ms with the
-    content margin in step and the row height steady; every header 16 px above and 16 px below.
-    The section close-and-open slide was measured too (212→157→87→49→20→0) and was already right —
-    the "slider" the owner meant was the rail.
-  - Fixtures re-dumped (`make js-fixtures`), screenshot baselines regenerated (`make
-    visual-update`); test-js 158, contract, lint, stylelint, CSS contract 118; test-functional
-    green on the re-run.
+- [x] **P5-FIX-25 · The sidebar: the menu slide read as instant, root items touched, section headers were not centred** · S
+  - Three findings of the owner's in the panel's sidebar, and a first reading of them that was
+    wrong. (1) "Menu entries collapse and expand instantly": the section slide from P5-FIX-20
+    was there — measured 212→0 px — but at 200 ms ease-out it read as a toggle. AdminLTE's tree
+    slid at 500 ms with jQuery's swing, and that is the motion the owner remembers, so it is
+    500 ms ease-in-out now. The first reading took "slider" for the rail, which snapped between
+    its two widths while the drawer slid; that is fixed as well — `adm-sidebar` transitions
+    `width`, `.adm-main` the margin it keeps clear, 200 ms ease-out, both off under
+    `prefers-reduced-motion`, nothing moving on page load because the server seeds `data-sidebar`
+    from the cookie — and labels are one line, ellipsised, so a row does not jump while the rail
+    widens. (2) The root `<ul class="sidebar-menu">` was a plain block, so top-level items
+    touched; it now also carries `adm-menu`, TailAdmin's `flex flex-col gap-4`, and
+    `adm-menu-group-title` lost the one-sided `margin-bottom` that put a header 8 px under one
+    label and 24 px over the next. (3) "Centred" meant across the rail: the panel's own AdminLTE
+    theme had `text-align: center`, bold and letter-spaced, on its section headers, and P5-FIX-22
+    deleted that theme with the rest. Restored in the panel's stylesheet
+    (`.sidebar-section-header .adm-menu-group-title`); adminata's default stays TailAdmin's
+    left-aligned title.
+  - Verified on the owner's own server (`localhost:8000`, a fresh browser): headers
+    `text-align: center`, 16 px above and below; the slide 212→204→172→118→59→0 px over 500 ms;
+    the rail 290→90 px with the content margin in step. If the owner's browser still shows an
+    instant toggle, `matchMedia('(prefers-reduced-motion: reduce)').matches` is the thing to
+    check: both slides honour it, jQuery's did not.
+  - Fixtures re-dumped, the two wide dashboard baselines regenerated; test-js 158,
+    test-functional 56, contract, lint, stylelint, Prettier, CSS contract 118, size budgets.
 
 ### Hardening against the defect class the gates missed
 

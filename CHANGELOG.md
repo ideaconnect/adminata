@@ -38,8 +38,9 @@ executed is [MIGRATION.md](MIGRATION.md). Its §3 is the part worth reading: the
 gate. Eight more came out of the owner's later reviews and the sweep for hard-coded
 colours that followed. All twenty-five are recorded as `P5-FIX-nn` in
 [PROJECT_PLAN.md](PROJECT_PLAN.md); fifteen were adminata's and are fixed here. The last of them
-is the sidebar: the rail slides between its widths as the drawer already did, the menu's root list
-is TailAdmin's gapped column (`adm-menu`), and a section header sits centred in that gap.
+is the sidebar: its sections slide at AdminLTE's 500 ms rather than a 200 ms that read as a toggle,
+the rail slides between its widths as the drawer already did, the menu's root list is TailAdmin's
+gapped column (`adm-menu`), and a group title sits evenly in that gap.
 
 Milestone M6 begins with the documentation: `docs/` is one Sphinx site built from the six packages'
 trees plus adminata's own pages, and `make docs` builds it with warnings as errors.
