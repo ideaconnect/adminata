@@ -43,14 +43,9 @@
 /vite.config.js export-ignore
 /vitest.config.js export-ignore
 /Makefile export-ignore
+# A forked package is a directory of this one, not a repository: it carries its sources, its tests,
+# the upstream LICENSE (attribution) and the upstream CHANGELOG (the inherited history that
+# CHANGELOG-sonata.md links). Everything else the dev-kit generated is gone, so the rules that
+# excluded it are gone too; the LICENSE is the one thing here that ships.
 /packages/*/tests export-ignore
-/packages/*/Makefile export-ignore
-/packages/*/CONTRIBUTING.md export-ignore
-/packages/*/README.md export-ignore
-/packages/*/UPGRADE-*.md export-ignore
-/packages/*/bin export-ignore
-/packages/*/phpstan-baseline.neon export-ignore
-/packages/*/phpstan-console-application.php export-ignore
-/packages/*/phpstan.neon.dist export-ignore
-/packages/*/phpunit.xml.dist export-ignore
-/packages/*/rector.php export-ignore
+/packages/*/CHANGELOG.md export-ignore

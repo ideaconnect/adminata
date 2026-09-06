@@ -168,6 +168,11 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Removed
 
+- The upstream repo scaffolding under `packages/*/`: `Makefile`, `bin/console`, `README.md`,
+  `CONTRIBUTING.md`, `UPGRADE-*.md` and the seven dev-kit dotfiles, 83 files in all. A forked
+  package is a directory of this repository, so one root governs them; what the per-package
+  `.gitignore` and `.gitattributes` actually did moved into the root ones. The upstream
+  `LICENSE` and `CHANGELOG.md` stay. The Composer archive is unchanged, 1040 files either way.
 - `sonata_admin.options.skin`, `use_select2`, `use_icheck` and `use_bootlint`. They are removed, not
   deprecated: leaving them in `sonata_admin.yaml` is a container build error.
 - `Sonata\Form\Date\JavaScriptFormatConverter`, form-extensions' `assets/` and its published

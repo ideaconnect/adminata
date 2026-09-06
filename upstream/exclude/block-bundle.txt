@@ -11,3 +11,13 @@ rector.php
 phpstan.neon.dist
 phpstan-baseline.neon
 composer.json
+
+# Repo scaffolding: a package here is a directory, not a repository, so it carries none of
+# this and a sync must not bring it back.
+bin/console
+.editorconfig
+.yamllint
+.gitattributes
+.gitignore
+.readthedocs.yaml
+.symfony.bundle.yaml

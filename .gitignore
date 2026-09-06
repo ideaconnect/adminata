@@ -17,3 +17,9 @@
 /tests/App/public/bundles/
 # Symfony 8 writes this IDE helper into the kernel's config dir on every debug-mode build.
 /tests/App/config/reference.php
+
+# The same two, for the forked packages' own test applications. Their upstream `.gitignore` files
+# went with the rest of the per-package repo scaffolding, so the rules live here now.
+/packages/*/build/
+/packages/*/tests/App/public/bundles/
+/packages/*/tests/App/config/reference.php

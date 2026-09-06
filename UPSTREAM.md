@@ -9,6 +9,14 @@ installing `idct/adminata` satisfies any dependant that requires them — includ
 Each package was imported with `git subtree add`, so its full upstream history is part of this
 repository and `upstream/sync.sh` can replay later upstream diffs onto `packages/<name>/`.
 
+A package directory is a directory of this repository, not a repository of its own: it holds `src/`,
+`tests/`, the upstream `LICENSE` (attribution, and the one file of the four that ships in the
+Composer archive) and the upstream `CHANGELOG.md` (the inherited history CHANGELOG-sonata.md links).
+The dev-kit scaffolding each fork arrived with — `Makefile`, `bin/console`, `README.md`,
+`CONTRIBUTING.md`, `UPGRADE-*.md`, `.editorconfig`, `.yamllint`, `.gitattributes`, `.gitignore`,
+`.php-cs-fixer.dist.php`, `.readthedocs.yaml`, `.symfony.bundle.yaml` — is gone: one root governs
+the lot, and every exclusion list names these paths so a sync cannot bring them back.
+
 ## Imported versions
 
 | Package directory | Upstream package | Namespace | Tag | Upstream commit | Released | Import commit |
@@ -55,6 +63,8 @@ owns them (PLAN/07 §10). They are created in P0-08 together with `upstream/diff
 | `twig-extensions` | `src/Bridge/Symfony/Resources/{views,public}/**` |
 | `block-bundle`, `doctrine-orm-admin-bundle` | the views listed as rewritten or deferred in PLAN/03 §G |
 | `doctrine-extensions`, `exporter` | tooling files only |
+
+Every list additionally excludes the dev-kit repo scaffolding named above.
 
 ## Sync process
 
