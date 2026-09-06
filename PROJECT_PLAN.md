@@ -1006,6 +1006,14 @@ mistake cannot recur.
     The panel's own `npx vitest run` fails identically before and after — it has no Vitest config
     and crawls into adminata's suites without jsdom — and is not a signal.
 
+- [x] **P5-FIX-23 · (application) The operator preview was a white strip in dark mode** · S
+  - `operators-id-toggle` draws the operator's name and logo under the identifier input and painted
+    it with inline styles — `#f7f7f7` on `#e1e1e1` — which no theme can reach. The controller now
+    only shows and hides; `.operator-preview` in the panel's SCSS carries the look on adminata's
+    tokens with a dark block.
+  - Accept: computed `rgba(255,255,255,.03)` on `gray-700` in dark, `gray-50` on `gray-200` in light,
+    no inline style on the element.
+
 ### Hardening against the defect class the gates missed
 
 - [x] **P6-03 · A hygiene suite for what no standard covers** · M · depends: P6-01
