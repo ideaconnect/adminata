@@ -35,8 +35,9 @@ Milestone M5 (migration and acceptance) is complete: a 46-admin production panel
 adminata on a branch, in thirteen commits — 140 files, +2,188 / −3,023 — and the checklist as
 executed is [MIGRATION.md](MIGRATION.md). Its §3 is the part worth reading: the suites passed, and
 **seventeen defects came from looking at the panel**, every one of which had passed every automated
-gate. Two more came out of the owner's later review. All nineteen are recorded as `P5-FIX-nn` in
-[PROJECT_PLAN.md](PROJECT_PLAN.md); twelve were adminata's and are fixed here.
+gate. Seven more came out of the owner's later reviews and the sweep for hard-coded
+colours that followed. All twenty-four are recorded as `P5-FIX-nn` in
+[PROJECT_PLAN.md](PROJECT_PLAN.md); fourteen were adminata's and are fixed here.
 
 Milestone M6 begins with the documentation: `docs/` is one Sphinx site built from the six packages'
 trees plus adminata's own pages, and `make docs` builds it with warnings as errors.

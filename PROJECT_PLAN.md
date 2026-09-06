@@ -1014,6 +1014,36 @@ mistake cannot recur.
   - Accept: computed `rgba(255,255,255,.03)` on `gray-700` in dark, `gray-50` on `gray-200` in light,
     no inline style on the element.
 
+- [x] **P5-FIX-24 · (application) Hard-coded light colours in the panel's own controllers, cells and stylesheets** · M
+  - The sweep P5-FIX-23 called for. What painted itself with literal colours no theme can reach:
+    the dashboard charts (a literal blue; now `--color-brand-500` read off the document and
+    tinted), the location map's canvas and geocoder status line (`.location-map__*` on the
+    tokens), the test-run status cells (`TestRunStatusEnum::tone()` → `adm-badge-*`;
+    `iconColor()`/`backgroundColor()` stay for the standalone HTML report), the sixteen
+    per-material hues of `exactMaterial` (`.material-icon--<case>` with a dark set two steps
+    lighter — steel, PP and the widget hues vanished on the dark ground), the transaction items
+    drawer and the operator support strip (literal slate and grey → tokens with dark rules),
+    `.login-box-hint`'s `#666`, the login clip's white frame, the accent swatch's black outline.
+  - Found on the way: `recomatMap`'s icon carried two `class` attributes, so its colour class never
+    applied (fixed; the template has no user anywhere in the panel — the owner's call whether it
+    goes); Bootstrap's `dl-horizontal` on the Pocket RVM reject page; dead AdminLTE classes on the
+    login, reset, user-menu and logo markup (`login-page`, `login-box*`, `user-header`, `logo`);
+    comments and a docblock still describing AdminLTE markup or a stylesheet that no longer exists.
+  - Left alone on purpose: `testRunOutput`'s console block reads in both themes, the token e-mail
+    needs inline colours for mail clients, `accentColor`'s swatch is the object's own colour,
+    `report.html.twig` is a standalone page with its own stylesheet, `.virtual-status` and
+    `image-preview.css` are saturated or black by design.
+  - The panel compiles Tailwind itself (`assets/styles/admin.css`, the `tailwind.rst` recipe), so
+    a utility its templates use is in its own `public/build/app.css`; a check against adminata's
+    `app.css` alone is the wrong stylesheet and reports false alarms.
+  - Verification: a throwaway DOM scan lists every class token in a rendered page that no loaded
+    stylesheet has a rule for, minus adminata's ledgered hooks — clean on fourteen panel pages;
+    computed-colour probes for what sits below the fold or off to the right; light and dark
+    screenshots of every touched page; Twig lint; `TestRunStatusEnumTest::testEveryCaseHasATone`.
+  - Accept: no `#rrggbb` in `assets/controllers/*.js` beyond the chart's fallback; no
+    `style="…color|background"` in `templates/` outside `email/`, `report.html.twig`,
+    `testRunOutput` and the data-driven swatch; the scan `ok` on every page in both themes.
+
 ### Hardening against the defect class the gates missed
 
 - [x] **P6-03 · A hygiene suite for what no standard covers** · M · depends: P6-01
