@@ -14,7 +14,20 @@
     padding-inline: 1.25rem;
     border-inline-end: 1px solid var(--color-gray-200);
     background-color: var(--color-white);
-    transition: transform 200ms ease-out;
+
+    /*
+     * The drawer slides in and out, and the rail slides between its two widths — the way
+     * AdminLTE's sidebar did and TailAdmin's does. `.adm-main` follows with its own transition on
+     * the margin it keeps clear. Nothing moves on page load: the server seeds `data-sidebar` from
+     * the cookie, so the first style the browser computes is already the final one.
+     */
+    transition: transform 200ms ease-out, width 200ms ease-out;
+
+    @media (prefers-reduced-motion: reduce) {
+        .adm-shell & {
+            transition: none;
+        }
+    }
 
     @variant dark {
         border-inline-end-color: var(--color-gray-800);
@@ -76,6 +89,17 @@
     padding-bottom: 1.5rem;
 }
 
+/*
+ * The menu's root list: TailAdmin's `flex flex-col gap-4`. The gap is what spaces the top-level
+ * items, and it is also what sets a section header off from the items on either side of it, by the
+ * same amount above and below — the header carries no margin of its own.
+ */
+@utility adm-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 @utility adm-menu-group-title {
     /* The collapsed rail shows icons only. */
     @media (width >= 1024px) {
@@ -83,8 +107,6 @@
             display: none;
         }
     }
-
-    margin-bottom: 1rem;
 
     /*
      * gray-500 on white and gray-400 on the dark ground, not TailAdmin's gray-400 for both:
@@ -247,6 +269,19 @@
 
     .menu-item[aria-expanded='true'] .menu-item-arrow {
         transform: rotate(180deg);
+    }
+
+    /*
+     * One line per label, ellipsised rather than wrapped, as AdminLTE's sidebar links were. It also
+     * keeps the rows still while the rail slides open: the label is back the moment the rail starts
+     * to widen, and one that wrapped inside the narrow rail would make its row jump in height.
+     */
+    .menu-item-text {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     /* The collapsed rail shows icons only. */

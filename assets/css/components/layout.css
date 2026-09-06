@@ -108,10 +108,19 @@
     @media (width >= 1024px) {
         .adm-main {
             margin-inline-start: var(--adm-sidebar-w);
+
+            /* Keeps pace with the rail's width transition (sidebar.css). */
+            transition: margin-inline-start 200ms ease-out;
         }
 
         .adm-shell[data-sidebar='collapsed'] .adm-main {
             margin-inline-start: var(--adm-sidebar-collapsed-w);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .adm-main {
+            transition: none;
         }
     }
 

@@ -26,7 +26,7 @@ file that was distributed with this source code.
 
 {% block root %}
     {%- set listAttributes = item.childrenAttributes|merge({
-        'class': ('sidebar-menu '~item.childrenAttribute('class'))|trim,
+        'class': ('adm-menu sidebar-menu '~item.childrenAttribute('class'))|trim,
     }) -%}
     {%- set request = item.extra('request') ?: app.request -%}
     <nav aria-label="{{ 'sidebar_navigation'|trans({}, 'SonataAdminBundle') }}" {{ stimulus_controller('sonata-menu') }}>
