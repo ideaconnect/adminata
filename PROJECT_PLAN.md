@@ -1044,6 +1044,25 @@ mistake cannot recur.
     `style="…color|background"` in `templates/` outside `email/`, `report.html.twig`,
     `testRunOutput` and the data-driven swatch; the scan `ok` on every page in both themes.
 
+- [x] **P5-FIX-25 · The sidebar: the rail snapped shut, root items touched, section headers hugged the item above** · S
+  - Three findings of the owner's in the panel's sidebar. (1) AdminLTE's sidebar slid between its
+    widths; adminata's drawer slid but its rail snapped. `adm-sidebar` now transitions `width` as
+    well as `transform` and `.adm-main` the margin it keeps clear, 200 ms ease-out, both off under
+    `prefers-reduced-motion`; nothing moves on page load because the server seeds `data-sidebar`
+    from the cookie. Labels are one line, ellipsised — AdminLTE's `white-space: nowrap` — so a row
+    does not jump in height while the rail widens. (2) The root `<ul class="sidebar-menu">` was a
+    plain block, so top-level items touched; it now also carries `adm-menu`, TailAdmin's
+    `flex flex-col gap-4`. (3) `adm-menu-group-title` had `margin-bottom: 1rem` and nothing above,
+    so a header sat 8 px under the previous label and 24 px over the next; the margin is gone and
+    the list's gap spaces it equally on both sides.
+  - Measured on the panel: collapse 290→238→172→136→99→90 px and expand back in 200 ms with the
+    content margin in step and the row height steady; every header 16 px above and 16 px below.
+    The section close-and-open slide was measured too (212→157→87→49→20→0) and was already right —
+    the "slider" the owner meant was the rail.
+  - Fixtures re-dumped (`make js-fixtures`), screenshot baselines regenerated (`make
+    visual-update`); test-js 158, contract, lint, stylelint, CSS contract 118; test-functional
+    green on the re-run.
+
 ### Hardening against the defect class the gates missed
 
 - [x] **P6-03 · A hygiene suite for what no standard covers** · M · depends: P6-01
