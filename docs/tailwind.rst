@@ -21,6 +21,7 @@ The entry file
     @source "../../vendor/idct/adminata/src";
     @source "../../vendor/idct/adminata/assets/js";
     @source "../../vendor/idct/adminata-doctrine-orm-admin-bundle/src/Resources/views";
+    @source "../../vendor/idct/sonata-admin-mongodb-bundle/src/Resources/views";
     @source "../../templates";
     @source "../../src/Admin";
     @source "../../src/Form";
