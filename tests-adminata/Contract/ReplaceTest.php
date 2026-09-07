@@ -22,12 +22,13 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 /**
- * adminata `replace`s three packages at once (PLAN/02 §13). These tests prove that the result still
- * resolves: on its own, next to `idct/sonata-admin-mongodb-bundle`, and — when the application is
- * available — for the migration recomaty-panel will run in phase 5.
+ * adminata `replace`s `sonata-project/admin-bundle` and `conflict`s with the five trees merged into
+ * it (PLAN/02 §13). These tests prove that the result still resolves: on its own, next to the two
+ * storage layers, and — when the application is available — for the migration recomaty-panel will
+ * run in phase 5.
  *
- * They hit Packagist, so they are in the `network` group and are skipped without an explicit
- * `--group network`.
+ * They hit Packagist and GitHub, so they are in the `network` group and are skipped without an
+ * explicit `--group network`.
  */
 #[Group('network')]
 final class ReplaceTest extends TestCase
@@ -62,13 +63,12 @@ final class ReplaceTest extends TestCase
         $this->assertComposerUpdateSucceeds();
     }
 
-    public function testAdminataResolvesTogetherWithTheMongoDbFork(): void
+    public function testAdminataResolvesTogetherWithTheStorageLayers(): void
     {
-        $this->skipUntilTheForkIsReleasedAgainstAdminata();
-
         $this->writeProject([
             'idct/adminata' => '@dev',
-            'idct/sonata-admin-mongodb-bundle' => '^5.2',
+            'idct/adminata-doctrine-orm-admin-bundle' => '^1.0',
+            'idct/sonata-admin-mongodb-bundle' => '^6.0',
             'doctrine/doctrine-bundle' => '^3.0',
             'doctrine/mongodb-odm-bundle' => '^5.0',
             'symfony/framework-bundle' => '^8.1',
@@ -84,11 +84,10 @@ final class ReplaceTest extends TestCase
      */
     public function testNoSonataPackageIsInstalledAlongsideAdminata(): void
     {
-        $this->skipUntilTheForkIsReleasedAgainstAdminata();
-
         $this->writeProject([
             'idct/adminata' => '@dev',
-            'idct/sonata-admin-mongodb-bundle' => '^5.2',
+            'idct/adminata-doctrine-orm-admin-bundle' => '^1.0',
+            'idct/sonata-admin-mongodb-bundle' => '^6.0',
             'symfony/framework-bundle' => '^8.1',
         ]);
 
@@ -135,30 +134,6 @@ final class ReplaceTest extends TestCase
     }
 
     /**
-     * The MongoDB fork's published tags (up to v5.2.2) and its committed `5.x` still
-     * `require: sonata-project/exporter ^3.0` and `sonata-project/form-extensions ^2.0`. Both used
-     * to be satisfied by adminata's `replace`; since those trees were merged into admin-bundle
-     * adminata `conflict`s with them instead, so Composer cannot put the two together until the
-     * fork is released with `idct/adminata` in place of its three sonata-project requirements.
-     *
-     * The fork's fix is written and waiting in its working tree. Set ADMINATA_FORK_RELEASED=1 once
-     * the tag is published: the two tests below then run again, and must pass.
-     */
-    private function skipUntilTheForkIsReleasedAgainstAdminata(): void
-    {
-        if ('1' === getenv('ADMINATA_FORK_RELEASED')) {
-            return;
-        }
-
-        static::markTestSkipped(
-            'Needs an idct/sonata-admin-mongodb-bundle release requiring idct/adminata instead of '
-            .'sonata-project/exporter and sonata-project/form-extensions; every published tag still '
-            .'requires both, which adminata now conflicts with. Set ADMINATA_FORK_RELEASED=1 when '
-            .'the tag lands.'
-        );
-    }
-
-    /**
      * @param array<string, string> $require
      * @param array<string, mixed>  $manifest
      */
@@ -174,6 +149,11 @@ final class ReplaceTest extends TestCase
                     'url' => \dirname(__DIR__, 2),
                     'options' => ['symlink' => true],
                 ],
+                // Neither adminata nor the ORM storage layer is on Packagist yet, and the ODM one's
+                // 6.0 may not have propagated there; name the repositories so this proves what the
+                // packages say rather than what Packagist happens to have indexed.
+                ['type' => 'vcs', 'url' => 'https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle.git'],
+                ['type' => 'vcs', 'url' => 'https://github.com/ideaconnect/sonata-admin-mongodb-bundle.git'],
             ],
             'minimum-stability' => 'dev',
             'prefer-stable' => true,

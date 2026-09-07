@@ -45,14 +45,14 @@ remaining Sonata features are ported when first needed. The owner's separate
 
 The PHP surface that persistence bundles, admin classes and configuration touch stays identical:
 
-- Composer identity via `replace` of three of the seven packages at their latest versions
-  (`sonata-project/admin-bundle` 4.43.0, `doctrine-extensions` 2.6.0,
-  `doctrine-orm-admin-bundle` 4.21.0), so `idct/sonata-admin-mongodb-bundle`
-  v5.2.2 (`admin-bundle ^4.39`, `exporter ^3.0`, `form-extensions ^2.0`) resolves — the
-  `exporter` and `form-extensions` requirements through the `conflict`-and-port route rather than
-  through `replace`. The other four, `block-bundle` 5.4.0, `form-extensions` 2.7.0,
-  `twig-extensions` 2.6.0 and `exporter` 3.4.0, are **merged into `admin-bundle`** and carry
-  `conflict` entries instead (01 P10, P11, P14 — amendments of 2026-09-06 — and P15, 2026-09-07).
+- Composer identity via `replace` of `sonata-project/admin-bundle` 4.43.0. Five of the other six —
+  `block-bundle` 5.4.0, `doctrine-extensions` 2.6.0, `exporter` 3.4.0, `form-extensions` 2.7.0 and
+  `twig-extensions` 2.6.0 — are **merged into it** and carry `conflict` entries instead (01 P10,
+  P11, P14 of 2026-09-06, P15 and P16 of 2026-09-07). The seventh,
+  `doctrine-orm-admin-bundle` 4.21.0, is a package of its own,
+  `idct/adminata-doctrine-orm-admin-bundle` (01 P17). `idct/sonata-admin-mongodb-bundle` v6.0.0
+  is built against adminata and resolves beside it; its 5.x line, which required the merged
+  packages, is not installable beside adminata and is not meant to be.
 - Three PHP namespaces, three bundle classes (`SonataAdminBundle`,
   `SonataDoctrineBundle`, `SonataDoctrineORMAdminBundle`), the seven config
   roots — `sonata_block`, `sonata_form`, `sonata_twig` and `sonata_exporter` included, all four

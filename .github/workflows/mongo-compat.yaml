@@ -15,8 +15,12 @@ env:
     # idct/sonata-admin-mongodb-bundle is the reason adminata keeps Sonata's PHP API frozen
     # (owner directive 7, PLAN/02 §1). It is installed against this checkout as a path
     # repository, which is what an application does when it tries a fork.
+    #
+    # 6.x is the line built against adminata; 5.x is the last one built against
+    # sonata-project/admin-bundle and adminata cannot satisfy it — it conflicts with the packages
+    # that line requires, because their sources are inside the admin bundle now.
     FORK_REPOSITORY: ideaconnect/sonata-admin-mongodb-bundle
-    FORK_REF: 5.x
+    FORK_REF: 6.x
 
 jobs:
     unit:
@@ -58,126 +62,14 @@ jobs:
                   tools: composer:v2
                   extensions: mongodb
 
+            # The fork's own composer.json already carries a path repository at ../adminata for a
+            # checkout sitting beside it, which is exactly this layout, and a vcs one behind it.
+            # Overriding the path here makes the job independent of that ordering.
             - name: Point the fork at this checkout
               working-directory: fork
               run: |
                   composer config repositories.adminata path ../adminata
-                  # adminata ships the block, exporter, form and twig stacks itself (all four
-                  # trees were merged into the admin bundle) and therefore conflicts with the
-                  # four sonata-project packages. The fork is the root package here, so its own
-                  # require and require-dev are installed and those conflicts would make the
-                  # install unsolvable. Drop the entries in the checkout; the fork drops them for
-                  # real when it moves to adminata. That settles the install alone; its test kernel
-                  # still registers the bundles, which the next step deals with. `|| true` keeps
-                  # these lines quiet the day the fork's manifest drops them. twig-extensions is
-                  # not listed: the fork never required it directly, it arrived through the others.
-                  composer remove --dev sonata-project/block-bundle --no-update --no-interaction || true
-                  composer remove sonata-project/exporter --no-update --no-interaction || true
-                  composer remove sonata-project/form-extensions --no-update --no-interaction || true
                   composer require idct/adminata:@dev --no-plugins --no-scripts --no-interaction --no-progress
-
-            # Temporary shim, the other half of the `composer remove` above. The fork's test kernel
-            # still registers Sonata\BlockBundle\SonataBlockBundle,
-            # Sonata\Form\Bridge\Symfony\SonataFormBundle and Sonata\Twig\Bridge\Symfony\SonataTwigBundle,
-            # and none of those three classes exists: block-bundle, form-extensions and
-            # twig-extensions were merged into the admin bundle, and SonataAdminBundle::build()
-            # registers the "sonata_block", "sonata_form" and "sonata_twig" extensions itself now.
-            # The fork's phpunit bootstrap boots that kernel (tests/bootstrap.php ->
-            # tests/custom_bootstrap.php) before the first test, so a leftover registration does not
-            # fail a test, it ends the run:
-            #     Error in bootstrap script: Class "Sonata\BlockBundle\SonataBlockBundle" not found
-            # Installing the real packages instead would not help: their bundles and ours would each
-            # register an extension aliased "sonata_block", "sonata_form" or "sonata_twig", and
-            # Symfony refuses two of one alias.
-            # The fix belongs in the fork, as one commit on its 5.x: drop the three imports and the
-            # three `new …Bundle(),` entries from tests/App/AppKernel.php::registerBundles(). That
-            # same commit has to repoint the fork's own `Sonata\Form\Type\…` imports (BooleanType,
-            # DateRangeType, DateTimeRangeType, CollectionType) at `Sonata\AdminBundle\Form\Type\…`,
-            # and src/Exporter/DataSource.php's `Sonata\Exporter\Source\DoctrineODMQuerySourceIterator`
-            # at `Sonata\AdminBundle\Exporter\Source\…`; this step cannot do that, so until it lands
-            # the unit suite below reports it.
-            # This step fails when it cannot find every one of those lines, so it cannot rot into a
-            # silent no-op once the commit lands: delete it then, together with the `composer
-            # remove` lines above.
-            - name: Stop the fork's test kernel registering the merged bundles
-              working-directory: fork
-              run: |
-                  set -euo pipefail
-
-                  kernel=tests/App/AppKernel.php
-                  lines=(
-                      'use Sonata\BlockBundle\SonataBlockBundle;'
-                      '            new SonataBlockBundle(),'
-                      'use Sonata\Form\Bridge\Symfony\SonataFormBundle;'
-                      '            new SonataFormBundle(),'
-                      'use Sonata\Twig\Bridge\Symfony\SonataTwigBundle;'
-                      '            new SonataTwigBundle(),'
-                  )
-
-                  filter=()
-
-                  for line in "${lines[@]}"; do
-                      if ! grep -qxF -- "$line" "$kernel"; then
-                          echo "::error file=$kernel::this checkout has no line [$line]. If the" \
-                               "fork has stopped registering the merged bundles, delete this step" \
-                               "and the composer remove lines above it."
-                          exit 1
-                      fi
-
-                      filter+=(-e "$line")
-                  done
-
-                  grep -vxF "${filter[@]}" -- "$kernel" > "$kernel.shimmed"
-                  mv "$kernel.shimmed" "$kernel"
-
-                  # `use Sonata\BlockBundle\Cache\HttpCacheHandler;` is left alone on purpose:
-                  # configureContainer() guards a config file with class_exists() on it, and that
-                  # guard has been false since block-bundle 5.0 dropped the class. An import PHP
-                  # never resolves costs nothing, while deleting only the import would repoint the
-                  # guard at the test namespace. It is spelled Sonata\BlockBundle\…, so the check
-                  # below — which looks for the bundle class names — does not see it.
-                  if grep -n 'SonataBlockBundle\|SonataFormBundle\|SonataTwigBundle' "$kernel"; then
-                      echo "::error file=$kernel::the shim left a merged-bundle reference."
-                      exit 1
-                  fi
-
-                  php -l "$kernel"
-
-            # The other half of the same shim. The fork's own sources still import the merged
-            # namespaces — src/Exporter/DataSource.php names Sonata\Exporter\Source\… and the four
-            # src/Filter/*.php name Sonata\Form\Type\… — and those classes live under
-            # Sonata\AdminBundle\ now. Without this the unit suite below dies on the first filter or
-            # DataSource test, which would make this job a known-red gate rather than a check.
-            # Repointing them here keeps the gate meaningful: it still catches a genuine API break in
-            # adminata, because everything except the namespace is the fork's real code.
-            # Same commit, same deletion: when the fork repoints these itself the greps find nothing
-            # and this step fails loudly rather than passing over an empty edit.
-            - name: Repoint the fork's imports at the merged namespaces
-              working-directory: fork
-              run: |
-                  set -euo pipefail
-
-                  before=$(grep -rlE 'Sonata\\(Exporter|Form)\\' src tests | sort)
-
-                  if [ -z "$before" ]; then
-                      echo "::error::no file under src/ or tests/ imports Sonata\\Exporter\\ or" \
-                           "Sonata\\Form\\ any more. If the fork has repointed them itself, delete" \
-                           "this step and the shim above it."
-                      exit 1
-                  fi
-
-                  echo "repointing:"; echo "$before" | sed 's/^/  /'
-
-                  # shellcheck disable=SC2086
-                  sed -i -e 's#Sonata\\Exporter\\#Sonata\\AdminBundle\\Exporter\\#g' \
-                         -e 's#Sonata\\Form\\Type\\#Sonata\\AdminBundle\\Form\\Type\\#g' $before
-
-                  if grep -rnE 'Sonata\\(Exporter|Form)\\' src tests; then
-                      echo "::error::the shim left an unmerged namespace behind."
-                      exit 1
-                  fi
-
-                  echo "$before" | xargs -r -n1 php -l > /dev/null
 
             # Not --strict: a path install pins `@dev`, and an unbound constraint is exactly what
             # composer's strict mode objects to. The fork's own CI validates its manifest.
@@ -196,13 +88,12 @@ jobs:
               run: vendor/bin/phpunit --testsuite unit
 
     functional:
-        name: Its browser suite (informational)
+        name: Its browser suite
 
-        # Informational until M4: the fork's scenarios click through association modals that
-        # adminata has not rewritten yet, and `ajaxSubmit` is gone for good (owner directive 5),
-        # so some of them cannot pass in their current form. Failures here are a report, not a gate.
-        continue-on-error: true
-
+        # A real gate since the fork's 6.0. It used to be informational because its scenarios
+        # clicked through association modals adminata has not rewritten; the fork marks those
+        # `legacy-ui` and excludes them itself now, so what is left here is expected to pass. This
+        # job runs nightly, not on pull requests, so a browser flake reports rather than blocks.
         runs-on: ubuntu-latest
 
         if: github.event_name == 'schedule'
@@ -239,126 +130,14 @@ jobs:
                   tools: composer:v2
                   extensions: mongodb
 
+            # The fork's own composer.json already carries a path repository at ../adminata for a
+            # checkout sitting beside it, which is exactly this layout, and a vcs one behind it.
+            # Overriding the path here makes the job independent of that ordering.
             - name: Point the fork at this checkout
               working-directory: fork
               run: |
                   composer config repositories.adminata path ../adminata
-                  # adminata ships the block, exporter, form and twig stacks itself (all four
-                  # trees were merged into the admin bundle) and therefore conflicts with the
-                  # four sonata-project packages. The fork is the root package here, so its own
-                  # require and require-dev are installed and those conflicts would make the
-                  # install unsolvable. Drop the entries in the checkout; the fork drops them for
-                  # real when it moves to adminata. That settles the install alone; its test kernel
-                  # still registers the bundles, which the next step deals with. `|| true` keeps
-                  # these lines quiet the day the fork's manifest drops them. twig-extensions is
-                  # not listed: the fork never required it directly, it arrived through the others.
-                  composer remove --dev sonata-project/block-bundle --no-update --no-interaction || true
-                  composer remove sonata-project/exporter --no-update --no-interaction || true
-                  composer remove sonata-project/form-extensions --no-update --no-interaction || true
                   composer require idct/adminata:@dev --no-plugins --no-scripts --no-interaction --no-progress
-
-            # Temporary shim, the other half of the `composer remove` above. The fork's test kernel
-            # still registers Sonata\BlockBundle\SonataBlockBundle,
-            # Sonata\Form\Bridge\Symfony\SonataFormBundle and Sonata\Twig\Bridge\Symfony\SonataTwigBundle,
-            # and none of those three classes exists: block-bundle, form-extensions and
-            # twig-extensions were merged into the admin bundle, and SonataAdminBundle::build()
-            # registers the "sonata_block", "sonata_form" and "sonata_twig" extensions itself now.
-            # The fork's phpunit bootstrap boots that kernel (tests/bootstrap.php ->
-            # tests/custom_bootstrap.php) before the first test, so a leftover registration does not
-            # fail a test, it ends the run:
-            #     Error in bootstrap script: Class "Sonata\BlockBundle\SonataBlockBundle" not found
-            # Installing the real packages instead would not help: their bundles and ours would each
-            # register an extension aliased "sonata_block", "sonata_form" or "sonata_twig", and
-            # Symfony refuses two of one alias.
-            # The fix belongs in the fork, as one commit on its 5.x: drop the three imports and the
-            # three `new …Bundle(),` entries from tests/App/AppKernel.php::registerBundles(). That
-            # same commit has to repoint the fork's own `Sonata\Form\Type\…` imports (BooleanType,
-            # DateRangeType, DateTimeRangeType, CollectionType) at `Sonata\AdminBundle\Form\Type\…`,
-            # and src/Exporter/DataSource.php's `Sonata\Exporter\Source\DoctrineODMQuerySourceIterator`
-            # at `Sonata\AdminBundle\Exporter\Source\…`; this step cannot do that, so until it lands
-            # the unit suite below reports it.
-            # This step fails when it cannot find every one of those lines, so it cannot rot into a
-            # silent no-op once the commit lands: delete it then, together with the `composer
-            # remove` lines above.
-            - name: Stop the fork's test kernel registering the merged bundles
-              working-directory: fork
-              run: |
-                  set -euo pipefail
-
-                  kernel=tests/App/AppKernel.php
-                  lines=(
-                      'use Sonata\BlockBundle\SonataBlockBundle;'
-                      '            new SonataBlockBundle(),'
-                      'use Sonata\Form\Bridge\Symfony\SonataFormBundle;'
-                      '            new SonataFormBundle(),'
-                      'use Sonata\Twig\Bridge\Symfony\SonataTwigBundle;'
-                      '            new SonataTwigBundle(),'
-                  )
-
-                  filter=()
-
-                  for line in "${lines[@]}"; do
-                      if ! grep -qxF -- "$line" "$kernel"; then
-                          echo "::error file=$kernel::this checkout has no line [$line]. If the" \
-                               "fork has stopped registering the merged bundles, delete this step" \
-                               "and the composer remove lines above it."
-                          exit 1
-                      fi
-
-                      filter+=(-e "$line")
-                  done
-
-                  grep -vxF "${filter[@]}" -- "$kernel" > "$kernel.shimmed"
-                  mv "$kernel.shimmed" "$kernel"
-
-                  # `use Sonata\BlockBundle\Cache\HttpCacheHandler;` is left alone on purpose:
-                  # configureContainer() guards a config file with class_exists() on it, and that
-                  # guard has been false since block-bundle 5.0 dropped the class. An import PHP
-                  # never resolves costs nothing, while deleting only the import would repoint the
-                  # guard at the test namespace. It is spelled Sonata\BlockBundle\…, so the check
-                  # below — which looks for the bundle class names — does not see it.
-                  if grep -n 'SonataBlockBundle\|SonataFormBundle\|SonataTwigBundle' "$kernel"; then
-                      echo "::error file=$kernel::the shim left a merged-bundle reference."
-                      exit 1
-                  fi
-
-                  php -l "$kernel"
-
-            # The other half of the same shim. The fork's own sources still import the merged
-            # namespaces — src/Exporter/DataSource.php names Sonata\Exporter\Source\… and the four
-            # src/Filter/*.php name Sonata\Form\Type\… — and those classes live under
-            # Sonata\AdminBundle\ now. Without this the unit suite below dies on the first filter or
-            # DataSource test, which would make this job a known-red gate rather than a check.
-            # Repointing them here keeps the gate meaningful: it still catches a genuine API break in
-            # adminata, because everything except the namespace is the fork's real code.
-            # Same commit, same deletion: when the fork repoints these itself the greps find nothing
-            # and this step fails loudly rather than passing over an empty edit.
-            - name: Repoint the fork's imports at the merged namespaces
-              working-directory: fork
-              run: |
-                  set -euo pipefail
-
-                  before=$(grep -rlE 'Sonata\\(Exporter|Form)\\' src tests | sort)
-
-                  if [ -z "$before" ]; then
-                      echo "::error::no file under src/ or tests/ imports Sonata\\Exporter\\ or" \
-                           "Sonata\\Form\\ any more. If the fork has repointed them itself, delete" \
-                           "this step and the shim above it."
-                      exit 1
-                  fi
-
-                  echo "repointing:"; echo "$before" | sed 's/^/  /'
-
-                  # shellcheck disable=SC2086
-                  sed -i -e 's#Sonata\\Exporter\\#Sonata\\AdminBundle\\Exporter\\#g' \
-                         -e 's#Sonata\\Form\\Type\\#Sonata\\AdminBundle\\Form\\Type\\#g' $before
-
-                  if grep -rnE 'Sonata\\(Exporter|Form)\\' src tests; then
-                      echo "::error::the shim left an unmerged namespace behind."
-                      exit 1
-                  fi
-
-                  echo "$before" | xargs -r -n1 php -l > /dev/null
 
             # The runner's own Firefox and geckodriver, not a Selenium service: a service container
             # cannot reach the runner's loopback, where Panther starts its web server.

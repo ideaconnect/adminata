@@ -68,24 +68,26 @@ the 11 admin compiler passes in order, the `sonata_admin` asset package, and the
 loses exactly four lines — `SonataBlockBundle` (01 P10), `SonataFormBundle` and `SonataTwigBundle`
 (01 P14) and `SonataExporterBundle` (01 P15); every other line is unchanged.
 
-**MongoDB fork contract.** `idct/sonata-admin-mongodb-bundle` v5.2.2 requires
-`sonata-project/admin-bundle ^4.39`, `exporter ^3.0`, `form-extensions ^2.0` (and `block-bundle
-^5.0` in dev — which adminata now `conflict`s with, so that dev requirement has to go before the
-fork's suite can run against adminata; it imports no block class, so nothing else there changes);
-adminata also `conflict`s with `form-extensions`, so that `^2.0` require goes the same way (01 P14),
-and the fork's four `Sonata\Form\` imports — `BooleanType` twice, `DateRangeType` and
-`DateTimeRangeType` in its filters — become `Sonata\AdminBundle\Form\Type\`, as does the
-`CollectionType` in its test application; and with `exporter` conflicted too (01 P15) its `^3.0`
-require goes as well, its one `Sonata\Exporter\` import — `Source\DoctrineODMQuerySourceIterator`
-in `src/Exporter/DataSource.php` — becoming `Sonata\AdminBundle\Exporter\Source\`, beside the
-`Sonata\AdminBundle\Exporter\DataSourceInterface` that file already implements: every one of those
-kept its short name, so they are namespace edits and not behaviour changes; imports
-`Sonata\AdminBundle\` (62 files), `Sonata\Form\` (4), `Sonata\Exporter\` (1);
-its two form themes extend `@SonataAdmin/Form/form_admin_fields.html.twig` and
-`@SonataAdmin/Form/filter_admin_fields.html.twig` and include
-`@SonataAdmin/CRUD/Association/edit_{many_to_one,many_to_many,one_to_many}.html.twig`; its
-`ListBuilder` hard-codes `@SonataAdmin/CRUD/list__action.html.twig` and `list__action_%s.html.twig`.
-All of these resolve against adminata.
+**MongoDB fork contract.** Settled: `idct/sonata-admin-mongodb-bundle` **v6.0.0** (2026-09-07) is
+built against `idct/adminata ^1.0@dev` and requires no `sonata-project` package at all. What that
+release had to change is exactly what this contract predicted — its four `Sonata\Form\` imports
+(`BooleanType` twice, `DateRangeType` and `DateTimeRangeType` in its filters) became
+`Sonata\AdminBundle\Form\Type\`, as did the `CollectionType` in its test application; its one
+`Sonata\Exporter\` import, `Source\DoctrineODMQuerySourceIterator` in `src/Exporter/DataSource.php`,
+became `Sonata\AdminBundle\Exporter\Source\`, beside the
+`Sonata\AdminBundle\Exporter\DataSourceInterface` that file already implements; and its test
+kernel stopped registering `SonataBlockBundle`, `SonataFormBundle`, `SonataTwigBundle` and
+`SonataDoctrineBundle`. Every one of those classes kept its short name, so they are namespace edits
+and not behaviour changes. Its 5.x line stays on `sonata-project/admin-bundle ^4.39` and is not
+installable beside adminata, which is what the `conflict` entries say.
+
+The rest of the surface is unchanged and still resolves against adminata: it imports
+`Sonata\AdminBundle\` in 62 files; its two form themes extend
+`@SonataAdmin/Form/form_admin_fields.html.twig` and `@SonataAdmin/Form/filter_admin_fields.html.twig`
+and include `@SonataAdmin/CRUD/Association/edit_{many_to_one,many_to_many,one_to_many}.html.twig`;
+its `ListBuilder` hard-codes `@SonataAdmin/CRUD/list__action.html.twig` and
+`list__action_%s.html.twig`. `.github/workflows/mongo-compat.yaml` installs its `6.x` against this
+checkout nightly and runs both its suites as gates.
 
 ## 2. Service ids and parameters
 
