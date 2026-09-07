@@ -735,5 +735,26 @@
                         </div>
                                     </main>
             </div>
+                    <dialog class="adm-dialog"
+        id="sonata-dialog"
+        aria-labelledby="sonata-dialog-title"
+        data-controller="sonata-modal"
+        data-sonata-modal-target="dialog">
+    <div class="adm-dialog__header">
+        <h2 class="adm-card-title" id="sonata-dialog-title">Details</h2>
+        <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                aria-label="Close"
+                data-action="click->sonata-modal#close">
+            <i class="fas fa-xmark" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="adm-dialog__body"></div>
+    <div class="adm-dialog__footer">
+        <button type="button" class="adm-btn adm-btn-secondary" data-action="click->sonata-modal#close">
+            Close
+        </button>
+    </div>
+</dialog>
+
             </body>
 </html>

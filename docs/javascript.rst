@@ -69,6 +69,11 @@ removing one is a major release.
 ``sonata-modal``
     targets ``dialog``; values ``closable``, ``size``
 
+``sonata-modal-trigger``
+    values ``content``, ``size``, ``target``, ``text``, ``title``
+
+    Fills a dialog and opens it, from anywhere on the page.
+
 ``sonata-per-page``
     No targets, values, classes or outlets.
 
@@ -94,22 +99,68 @@ removing one is a major release.
 Modals are ``<dialog>``
 -----------------------
 
-adminata ships no modal library. ``sonata-modal`` opens and closes a native ``<dialog>``; the top
-layer, the focus trap, the backdrop and the Escape key are the browser's.
+adminata ships no modal library. A modal is a native ``<dialog>``; the top layer, the focus trap,
+the backdrop and the Escape key are the browser's, and ``sonata-modal`` on the element decides the
+rest — its size, whether the backdrop closes it, and telling the page it opened.
+
+Every page carries one, ready to be filled: the layout's ``sonata-dialog``. To show something in
+it, put ``sonata-modal-trigger`` on a button and say what it should show:
 
 .. code-block:: html+twig
 
-    <dialog class="adm-dialog adm-dialog-lg"
+    <button type="button" class="adm-btn adm-btn-secondary" aria-haspopup="dialog"
+            {{ stimulus_controller('sonata-modal-trigger', {
+                title: 'Note #' ~ object.id,
+                text: object.note,
+                size: 'lg',
+            }) }}
+            {{ stimulus_action('sonata-modal-trigger', 'open', 'click') }}>
+        Show
+    </button>
+
+A ``<button>``, not a link: it opens something on this page rather than going somewhere, a
+screen reader says so, and Space activates it as Enter does. An icon-only button needs an
+``aria-label`` — the trigger's ``title`` names the dialog, not the button.
+
+``text`` is set as text and renders exactly as written — nothing in it becomes markup, which is
+what user-entered content needs. For something formatted, render it on the page and name it:
+
+.. code-block:: html+twig
+
+    <template id="note-{{ object.id }}">{{ object.note|nl2br }}</template>
+
+    <button type="button" class="adm-btn adm-btn-secondary" aria-haspopup="dialog"
+            {{ stimulus_controller('sonata-modal-trigger', {title: 'Note #' ~ object.id, content: 'note-' ~ object.id}) }}
+            {{ stimulus_action('sonata-modal-trigger', 'open', 'click') }}>
+        Show
+    </button>
+
+``content`` copies that element's markup into the dialog's body; a ``<template>`` keeps it out of
+the page until then, a hidden ``<div>`` works too. ``size`` (``sm``, ``md``, ``lg``, ``list``)
+lasts for that opening; the dialog goes back to its own size when it closes. A trigger without a
+``title`` leaves the dialog the heading it was rendered with — *Details*, in the layout's.
+
+The shared dialog is what the ``sonata_dialog`` block of the layout renders. Override the block to
+change its markup, or to leave it out. A dialog of your own works the same way — give it
+``sonata-modal``, label it with ``aria-labelledby`` (that is how the trigger finds its title) and
+name it in the trigger's ``target``:
+
+.. code-block:: html+twig
+
+    <dialog class="adm-dialog"
             id="my-dialog"
             aria-labelledby="my-dialog-title"
-            {{ stimulus_controller('sonata-modal') }}>
+            {{ stimulus_controller('sonata-modal') }}
+            {{ stimulus_target('sonata-modal', 'dialog') }}>
         <div class="adm-dialog__header">
             <h2 id="my-dialog-title" class="adm-card-title">…</h2>
         </div>
         <div class="adm-dialog__body">…</div>
     </dialog>
 
-Open it from anywhere with ``document.getElementById('my-dialog').showModal()``.
+The ``dialog`` target goes on the element as well as the controller: without it ``sonata-modal`` has
+nothing to drive, and ``showModal()`` from your own script would open a dialog whose close buttons
+and backdrop do nothing.
 
 Clicking a list row
 -------------------

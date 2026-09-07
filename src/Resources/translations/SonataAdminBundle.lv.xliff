@@ -94,6 +94,10 @@
         <source>title_show</source>
         <target>Parādīt "%name%"</target>
       </trans-unit>
+      <trans-unit id="title_details">
+        <source>title_details</source>
+        <target>Detaļas</target>
+      </trans-unit>
       <trans-unit id="title_dashboard">
         <source>title_dashboard</source>
         <target>Informācijas panelis</target>

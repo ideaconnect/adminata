@@ -22,6 +22,7 @@ import FilterListController from './controllers/filter_list_controller.js';
 import LayoutController from './controllers/layout_controller.js';
 import MenuController from './controllers/menu_controller.js';
 import ModalController from './controllers/modal_controller.js';
+import ModalTriggerController from './controllers/modal_trigger_controller.js';
 import PerPageController from './controllers/per_page_controller.js';
 import ReadmoreController from './controllers/readmore_controller.js';
 import RevisionController from './controllers/revision_controller.js';
@@ -51,6 +52,7 @@ export const controllers = {
     'sonata-layout': LayoutController,
     'sonata-menu': MenuController,
     'sonata-modal': ModalController,
+    'sonata-modal-trigger': ModalTriggerController,
     'sonata-per-page': PerPageController,
     'sonata-readmore': ReadmoreController,
     'sonata-revision': RevisionController,

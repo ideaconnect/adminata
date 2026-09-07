@@ -79,6 +79,16 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
   and Symfony `^7.4 || ^8.0`. Neither this package nor the storage layers are on Packagist yet, so
   it names the repositories they install from: a `path` one for a checkout beside it and a `vcs`
   one behind it.
+- A shared dialog on every page, and a controller to open it from anywhere. The layout's
+  `sonata_dialog` block renders `Core/dialog.html.twig`, one native `<dialog id="sonata-dialog">`
+  driven by `sonata-modal`; `sonata-modal-trigger`, on any link or button, fills its title and
+  body — `text` as text, or `content` copied from an element on the page — and hands the opening
+  to the `sonata-modal` instance, so the size, the backdrop and the close buttons stay that
+  controller's. Before this, `sonata-modal` could only be opened from inside its own dialog's
+  markup, and the docs told an application to call `showModal()` itself; the panel had written
+  forty lines and a layout-override dialog to do exactly this, with `innerHTML` from a data
+  attribute. `size` on a trigger lasts for that opening. See
+  [docs/javascript.rst](docs/javascript.rst).
 - An npm-facing `assets/package.json`, `@idct/adminata`, and the `symfony-ux` keyword on the
   Composer package. Symfony Flex links the package into an application's `package.json` as
   `"@idct/adminata": "file:vendor/idct/adminata/assets"` on every `composer update`, exactly as it

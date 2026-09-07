@@ -1,0 +1,31 @@
+{#
+    The layout's shared dialog: one native `<dialog>` every page carries, closed and out of the
+    accessibility tree until something opens it. `sonata-modal-trigger`, on any link or button, fills
+    its title and body and opens it; `sonata-modal` on it does the rest — the size, the backdrop, the
+    close buttons, and `sonata-modal:opened` / `sonata-modal:closed` for the page.
+
+    The heading is a real one at rest — a heading with nothing in it is a markup error and, once the
+    dialog is open, an unnamed dialog — and a trigger that names no title leaves it.
+
+    Override the `sonata_dialog` block of the layout to change it, or to leave it out.
+#}
+<dialog class="adm-dialog"
+        id="sonata-dialog"
+        aria-labelledby="sonata-dialog-title"
+        {{ stimulus_controller('sonata-modal') }}
+        {{ stimulus_target('sonata-modal', 'dialog') }}>
+    <div class="adm-dialog__header">
+        <h2 class="adm-card-title" id="sonata-dialog-title">{{ 'title_details'|trans({}, 'SonataAdminBundle') }}</h2>
+        <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                aria-label="{{ 'message_close'|trans({}, 'SonataAdminBundle') }}"
+                {{ stimulus_action('sonata-modal', 'close', 'click') }}>
+            <i class="fas fa-xmark" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="adm-dialog__body"></div>
+    <div class="adm-dialog__footer">
+        <button type="button" class="adm-btn adm-btn-secondary" {{ stimulus_action('sonata-modal', 'close', 'click') }}>
+            {{ 'message_close'|trans({}, 'SonataAdminBundle') }}
+        </button>
+    </div>
+</dialog>

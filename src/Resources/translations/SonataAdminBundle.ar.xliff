@@ -94,6 +94,10 @@
         <source>title_show</source>
         <target>"%name%" عرض</target>
       </trans-unit>
+      <trans-unit id="title_details">
+        <source>title_details</source>
+        <target>التفاصيل</target>
+      </trans-unit>
       <trans-unit id="title_dashboard">
         <source>title_dashboard</source>
         <target>لوحة المشرف</target>

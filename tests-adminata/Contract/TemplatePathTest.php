@@ -200,10 +200,10 @@ final class TemplatePathTest extends ContractTestCase
         // 148 at import (PLAN/00), plus `Core/list_mode_buttons.html.twig`, which PLAN/03 §F asks
         // for — `standard_layout` and `ajax_layout` had the same switcher twice, which is how they
         // drifted apart — plus `Form/Type/sonata_type_model_list.html.twig`, the unported
-        // `ModelListType` widget P4-03 lifted out of the form theme. Three of those 150 are the
-        // ORM storage layer's, which is a package of its own since PLAN/01 P17 and is counted here
-        // through its installed copy.
-        static::assertSame(150, $found, 'The admin bundle and the ORM storage layer ship 150 templates.');
+        // `ModelListType` widget P4-03 lifted out of the form theme, plus `Core/dialog.html.twig`,
+        // the layout's shared dialog. Three of those 151 are the ORM storage layer's, which is a
+        // package of its own since PLAN/01 P17 and is counted here through its installed copy.
+        static::assertSame(151, $found, 'The admin bundle and the ORM storage layer ship 151 templates.');
     }
 
     /**

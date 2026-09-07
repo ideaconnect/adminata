@@ -336,6 +336,26 @@
                 </button>
             </div>
         </dialog>
+    </div>
+
+        <div class="adm-card mt-6">
+        <div class="adm-card-body flex flex-wrap gap-3">
+            <template id="demo-note">
+                <p><strong>Formatted</strong> content, copied from a <code>&lt;template&gt;</code> on the page.</p>
+            </template>
+            <button type="button" class="adm-btn adm-btn-secondary" id="open-shared-text" aria-haspopup="dialog"
+                    data-controller="sonata-modal-trigger" data-sonata-modal-trigger-title-value="A note" data-sonata-modal-trigger-text-value="Plain text, exactly as written: &lt;b&gt;not markup&lt;/b&gt;."
+                    data-action="click->sonata-modal-trigger#open"
+            >
+                Open the shared dialog with text
+            </button>
+            <button type="button" class="adm-btn adm-btn-secondary" id="open-shared-content" aria-haspopup="dialog"
+                    data-controller="sonata-modal-trigger" data-sonata-modal-trigger-title-value="A formatted note" data-sonata-modal-trigger-content-value="demo-note" data-sonata-modal-trigger-size-value="lg"
+                    data-action="click->sonata-modal-trigger#open"
+            >
+                Open it with formatted content
+            </button>
+        </div>
     </div></div>
                                     
                                     
@@ -343,5 +363,26 @@
                         </div>
                                     </main>
             </div>
+                    <dialog class="adm-dialog"
+        id="sonata-dialog"
+        aria-labelledby="sonata-dialog-title"
+        data-controller="sonata-modal"
+        data-sonata-modal-target="dialog">
+    <div class="adm-dialog__header">
+        <h2 class="adm-card-title" id="sonata-dialog-title">Details</h2>
+        <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                aria-label="Close"
+                data-action="click->sonata-modal#close">
+            <i class="fas fa-xmark" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="adm-dialog__body"></div>
+    <div class="adm-dialog__footer">
+        <button type="button" class="adm-btn adm-btn-secondary" data-action="click->sonata-modal#close">
+            Close
+        </button>
+    </div>
+</dialog>
+
             </body>
 </html>

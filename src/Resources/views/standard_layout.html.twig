@@ -453,5 +453,11 @@ file that was distributed with this source code.
                 </main>
             </div>
         {% endblock sonata_wrapper %}
+
+        {#- The shared dialog sits outside `sonata_wrapper` on purpose: an application that
+            overrides the wrapper keeps it, and one that wants none overrides this block. -#}
+        {% block sonata_dialog %}
+            {{ include('@SonataAdmin/Core/dialog.html.twig') }}
+        {% endblock sonata_dialog %}
     </body>
 </html>

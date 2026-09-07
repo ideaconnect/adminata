@@ -42,4 +42,29 @@
             </div>
         </dialog>
     </div>
+
+    {# The layout's shared dialog, opened from anywhere: what an application's list cell or show
+       page writes when it has a note to show and no dialog of its own. #}
+    <div class="adm-card mt-6">
+        <div class="adm-card-body flex flex-wrap gap-3">
+            <template id="demo-note">
+                <p><strong>Formatted</strong> content, copied from a <code>&lt;template&gt;</code> on the page.</p>
+            </template>
+            <button type="button" class="adm-btn adm-btn-secondary" id="open-shared-text" aria-haspopup="dialog"
+                    {{ stimulus_controller('sonata-modal-trigger', {
+                        title: 'A note',
+                        text: 'Plain text, exactly as written: <b>not markup</b>.',
+                    }) }}
+                    {{ stimulus_action('sonata-modal-trigger', 'open', 'click') }}
+            >
+                Open the shared dialog with text
+            </button>
+            <button type="button" class="adm-btn adm-btn-secondary" id="open-shared-content" aria-haspopup="dialog"
+                    {{ stimulus_controller('sonata-modal-trigger', {title: 'A formatted note', content: 'demo-note', size: 'lg'}) }}
+                    {{ stimulus_action('sonata-modal-trigger', 'open', 'click') }}
+            >
+                Open it with formatted content
+            </button>
+        </div>
+    </div>
 {% endblock %}

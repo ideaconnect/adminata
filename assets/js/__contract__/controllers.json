@@ -159,6 +159,18 @@
             "classes": [],
             "outlets": []
         },
+        "sonata-modal-trigger": {
+            "targets": [],
+            "values": [
+                "content",
+                "size",
+                "target",
+                "text",
+                "title"
+            ],
+            "classes": [],
+            "outlets": []
+        },
         "sonata-per-page": {
             "targets": [],
             "values": [],

@@ -94,6 +94,10 @@
         <source>title_show</source>
         <target>Zobrazit "%name%"</target>
       </trans-unit>
+      <trans-unit id="title_details">
+        <source>title_details</source>
+        <target>Podrobnosti</target>
+      </trans-unit>
       <trans-unit id="title_dashboard">
         <source>title_dashboard</source>
         <target>Administrační panel</target>
