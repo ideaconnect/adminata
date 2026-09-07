@@ -20,7 +20,7 @@
 /** Overridden when the browsers run in a container and the demo is served by the host. */
 export const BASE_URL = process.env.ADMINATA_DEMO_URL ?? 'http://127.0.0.1:8000';
 
-/** The demo's firewall is in-memory http_basic (tests/App/config/packages.yaml). */
+/** The demo's firewall is in-memory http_basic (tests-adminata/App/config/packages.yaml). */
 export const CREDENTIALS = { username: 'admin', password: 'admin' };
 
 /**

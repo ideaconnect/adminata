@@ -22,7 +22,7 @@ const page = (trigger, dialog = '') => `
         ${trigger}
         <dialog id="sonata-dialog" aria-labelledby="sonata-dialog-title"
                 data-controller="sonata-modal" data-sonata-modal-target="dialog">
-            <div class="adm-dialog__header"><h2 id="sonata-dialog-title">Old title</h2></div>
+            <div class="adm-dialog__header"><h1 id="sonata-dialog-title">Old title</h1></div>
             <div class="adm-dialog__body"><p>Old body</p></div>
         </dialog>
         ${dialog}

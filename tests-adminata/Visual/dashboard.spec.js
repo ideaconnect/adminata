@@ -40,7 +40,7 @@ for (const { name, path } of PAGES) {
                     knownFindings('responsive', `${name}@${testInfo.project.name}`).includes(
                         'horizontal-overflow',
                     ),
-                    'The page still scrolls sideways at this width — see tests/Visual/support/findings.json.',
+                    'The page still scrolls sideways at this width — see tests-adminata/Visual/support/findings.json.',
                 );
 
                 await useTheme(page, theme);

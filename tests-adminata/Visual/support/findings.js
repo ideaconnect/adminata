@@ -49,7 +49,7 @@ export function assertKnownFindings(expect, kind, key, found) {
 
     expect(
         unique,
-        `${kind} findings for "${key}" changed. Update tests/Visual/support/findings.json in the ` +
+        `${kind} findings for "${key}" changed. Update tests-adminata/Visual/support/findings.json in the ` +
             'same commit: add nothing without a reason, and strike every entry a rewrite fixes ' +
             '(PLAN/08 §8).',
     ).toEqual([...known].sort());
