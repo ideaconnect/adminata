@@ -458,3 +458,8 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
   recipes for bootlint, iCheck, jQuery UI and select2.
 
 [Unreleased]: https://github.com/ideaconnect/adminata/commits/main
+
+### Fixed
+
+- The mobile drawer opened underneath the sticky header: the sidebar's z-index sat below the header's on the desktop ladder, so on a phone the header's burger covered the drawer's logo block and the scrim never dimmed the header. While open, the drawer now takes the modal level and the scrim the step below it.
+

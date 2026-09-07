@@ -76,6 +76,15 @@
     inset: 0;
     z-index: var(--z-index-overlay);
     background-color: rgb(16 24 40 / 50%);
+
+    /*
+     * Behind the open mobile drawer it has to cover the sticky header too, or the header stays
+     * bright and tappable beside a drawer that is meant to be modal — one step under the drawer,
+     * which sits at the modal level while open (sidebar.css).
+     */
+    .adm-shell[data-sidebar-mobile='open'] & {
+        z-index: calc(var(--z-index-modal) - 1);
+    }
 }
 
 @utility adm-page-header {

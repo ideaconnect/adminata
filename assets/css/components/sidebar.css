@@ -50,8 +50,17 @@
             transform: translateX(100%);
         }
 
+        /*
+         * Open, the drawer is a modal layer. On the desktop ladder the sticky header outranks the
+         * sidebar so that a header dropdown never vanishes behind the rail; on a phone the drawer
+         * slides over the content *and* the header, and at 40 under 50 the header's own burger sat
+         * on top of the drawer's logo block. So the open drawer takes the modal level and the
+         * scrim the step below it (layout.css), above the header: nothing of the page shows
+         * through, and a tap outside the drawer lands on the scrim, which closes it.
+         */
         .adm-shell[data-sidebar-mobile='open'] & {
             transform: translateX(0);
+            z-index: var(--z-index-modal);
         }
     }
 
