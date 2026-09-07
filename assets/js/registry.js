@@ -25,6 +25,7 @@ import ModalController from './controllers/modal_controller.js';
 import ModalTriggerController from './controllers/modal_trigger_controller.js';
 import PerPageController from './controllers/per_page_controller.js';
 import ReadmoreController from './controllers/readmore_controller.js';
+import RevealController from './controllers/reveal_controller.js';
 import RevisionController from './controllers/revision_controller.js';
 import RowLinkController from './controllers/row_link_controller.js';
 import StickyController from './controllers/sticky_controller.js';
@@ -55,6 +56,7 @@ export const controllers = {
     'sonata-modal-trigger': ModalTriggerController,
     'sonata-per-page': PerPageController,
     'sonata-readmore': ReadmoreController,
+    'sonata-reveal': RevealController,
     'sonata-revision': RevisionController,
     'sonata-row-link': RowLinkController,
     'sonata-sticky': StickyController,

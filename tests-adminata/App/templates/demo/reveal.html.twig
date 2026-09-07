@@ -1,0 +1,43 @@
+{#
+    A page of the demo application on the admin layout: a control that reveals a section through
+    `sonata-reveal`. Nothing here is adminata's own markup: it is what an application writes — the
+    same three attributes an admin class puts in a field's `attr`, and the group's class as the hook.
+    The section starts with the `hidden` class for the state the saved value asks for; the controller
+    takes over from it on connect.
+#}
+
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block navbar_title %}Reveal{% endblock %}
+
+{% block content %}
+    <form class="grid grid-cols-12 gap-4 md:gap-6">
+        <div class="adm-card col-span-12">
+            <div class="adm-card-body">
+                <div class="adm-form-row">
+                    <label class="adm-label" for="demo-uses-map">Uses geolocation?</label>
+                    <select id="demo-uses-map" class="adm-select"
+                            {{ stimulus_controller('sonata-reveal', {target: '#demo-geolocation', when: '1'}) }}
+                    >
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="adm-card col-span-12 hidden" id="demo-geolocation">
+            <div class="adm-card-header"><h2 class="adm-card-title">Geolocation</h2></div>
+            <div class="adm-card-body">
+                <div class="adm-form-row">
+                    <label class="adm-label" for="demo-coordinates">Coordinates</label>
+                    <input class="adm-input" id="demo-coordinates" type="text" placeholder="52.2297 21.0122">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-span-12">
+            <button type="submit" class="adm-btn adm-btn-primary">Save</button>
+        </div>
+    </form>
+{% endblock %}

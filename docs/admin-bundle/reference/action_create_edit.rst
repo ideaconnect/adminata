@@ -114,6 +114,9 @@ options for the group itself.
   value is set to ``col-span-12``.
 - ``fields``: The fields in your form group (you should NOT override this
   unless you know what you're doing).
+- ``class``: the class of the group's wrapper — its grid span, and any hook of your own. A
+  group that one field's value should show or hide carries a hook here and the field carries
+  ``sonata-reveal``: see :doc:`/javascript`.
 - ``box_class``: The class for your form group box in the admin; by default,
   the value is set to ``box box-primary``.
 - ``description``: A text shown at the top of the form group.

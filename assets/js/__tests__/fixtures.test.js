@@ -74,6 +74,12 @@ const MOUNTS = [
         targets: [],
     },
     {
+        identifier: 'sonata-reveal',
+        page: 'reveal',
+        selector: '#demo-uses-map',
+        targets: [],
+    },
+    {
         identifier: 'sonata-batch',
         page: 'product-list',
         selector: 'form[action*="batch"]',

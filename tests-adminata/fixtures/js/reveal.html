@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="no-js" data-theme="system">
+    <head>
+                    <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <meta name="sonata-config" content='{"CONFIRM_EXIT":true,"USE_STICKYFORMS":true,"DEBUG":false}'
+        >
+        <meta name="sonata-translations" content='{"CONFIRM_EXIT":"You have unsaved changes."}'
+        >
+
+                                    <link rel="stylesheet" href="/bundles/sonataadmin/fontawesome.css?v=fixture">
+                            <link rel="stylesheet" href="/bundles/sonataadmin/app.css?v=fixture">
+                    
+                                
+                                                <script src="/bundles/sonataadmin/app.js?v=fixture" defer ></script>
+                                    
+                
+                            <script >
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    document.documentElement.classList.add('dark');
+                }
+            </script>
+                <title>Admin</title>
+    </head>
+    <body
+            class="adm-shell"
+                data-sidebar="expanded"
+                data-sidebar-mobile="closed"
+                data-controller="sonata-layout sonata-sticky" data-sonata-layout-collapsed-value="false" data-sonata-layout-mobile-open-value="false" data-sonata-layout-header-menu-open-value="false" data-sonata-layout-breakpoint-value="1024" data-sonata-layout-cookie-name-value="sonata_sidebar_hide">
+
+                <a class="adm-skip-link" href="#sonata-content">Skip to the content</a>
+
+                                    <aside class="adm-sidebar main-sidebar" data-sonata-layout-target="sidebar">
+                    <div class="adm-sidebar-header">
+                                                    <a class="logo flex items-center gap-3" href="/admin/dashboard">
+                                                                    <img class="h-8 w-auto" src="/bundles/sonataadmin/images/logo_title.png" alt="adminata demo">
+                                                                                                    <span class="menu-item-text text-lg font-semibold text-gray-800 dark:text-white/90">adminata demo</span>
+                                                            </a>
+                                            </div>
+
+                    <div class="adm-sidebar-nav no-scrollbar">
+                                                                                
+                                                                                         <nav aria-label="Sections" data-controller="sonata-menu">
+                <ul class="adm-menu sidebar-menu">
+            <li class="sidebar-section-header"><div class="adm-menu-group-title">Shop</div></li>
+    <li><button type="button"
+            class="menu-item menu-item-inactive"
+            aria-expanded="false"
+                        data-sonata-menu-target="toggle"
+            data-action="click->sonata-menu#toggle"
+    ><i class="fa-solid fa-box"></i><span class="menu-item-text">Catalogue</span>
+        <i class="fas fa-angle-down menu-item-arrow ms-auto" aria-hidden="true"></i>
+    </button>
+        <ul class="menu-dropdown menu_level_1">
+            <li><a href="/admin/tests/app/product/list"
+       class="menu-dropdown-item menu-dropdown-item-inactive"
+           ><span class="menu-item-text">Products</span>
+    </a>
+</li>
+    <li><a href="/admin/tests/app/productvariant/list"
+       class="menu-dropdown-item menu-dropdown-item-inactive"
+           ><span class="menu-item-text">Variants</span>
+    </a>
+</li>
+
+    </ul>
+</li>
+    <li><button type="button"
+            class="menu-item menu-item-inactive"
+            aria-expanded="false"
+                        data-sonata-menu-target="toggle"
+            data-action="click->sonata-menu#toggle"
+    ><i class="fa-solid fa-tags"></i><span class="menu-item-text">Taxonomy</span>
+        <i class="fas fa-angle-down menu-item-arrow ms-auto" aria-hidden="true"></i>
+    </button>
+        <ul class="menu-dropdown menu_level_1">
+            <li><a href="/admin/tests/app/category/list"
+       class="menu-dropdown-item menu-dropdown-item-inactive"
+           ><span class="menu-item-text">Categories</span>
+    </a>
+</li>
+    <li><a href="/admin/tests/app/tag/list"
+       class="menu-dropdown-item menu-dropdown-item-inactive"
+           ><span class="menu-item-text">Tags</span>
+    </a>
+</li>
+
+    </ul>
+</li>
+    <li><a href="/admin/dashboard"
+       class="menu-item menu-item-inactive"
+           ><i class="fa-solid fa-gear"></i><span class="menu-item-text">Settings</span>
+    </a>
+</li>
+
+    </ul>
+</nav>
+
+                                                                                                                                                                                                                            </div>
+                </aside>
+            
+                                        <div class="adm-overlay lg:hidden" hidden
+                     data-sonata-layout-target="overlay"
+                     data-action="click->sonata-layout#closeSidebar"
+                ></div>
+            
+            <div class="adm-main" data-sonata-layout-target="content">
+                                                        
+                                            <header class="adm-header main-header" data-sonata-sticky-target="topNavbar">
+                                                            <noscript>
+                                    <div class="noscript-warning adm-alert adm-alert-warning">
+                                        Javascript is disabled in your web browser. Some features will not work properly.
+                                    </div>
+                                </noscript>
+                            
+                                                                                    <button type="button" class="sidebar-toggle adm-btn-icon adm-btn-icon-round lg:hidden"
+                                        title="Toggle Navigation"
+                                        aria-label="Toggle Navigation"
+                                        aria-expanded="false"
+                                        data-sonata-layout-target="toggle"
+                                        data-action="click->sonata-layout#toggleSidebar"
+                                >
+                                    <i class="fas fa-bars" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="sidebar-toggle adm-btn-icon adm-btn-icon-round hidden lg:inline-flex"
+                                        title="Toggle Navigation"
+                                        aria-label="Toggle Navigation"
+                                        aria-expanded="true"
+                                        data-sonata-layout-target="collapseOnly"
+                                        data-action="click->sonata-layout#toggleCollapsed"
+                                >
+                                    <i class="fas fa-bars" aria-hidden="true"></i>
+                                </button>
+
+                                                                                                                                            <form action="/admin/search" method="GET" role="search" class="hidden lg:block">
+                                            <label class="sr-only" for="sonata-search-input">Search</label>
+                                            <input type="search" id="sonata-search-input" name="q"
+                                                   value=""
+                                                   class="adm-input xl:w-[430px]"
+                                                   placeholder="Search">
+                                                                                        <button type="submit" class="sr-only">Search</button>
+                                        </form>
+                                                                    
+                                                                    <ul class="ms-auto flex items-center gap-2">
+                                                                                    <li>
+                                                <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                                                        data-controller="sonata-theme" data-sonata-theme-theme-value="system" data-sonata-theme-cookie-name-value="sonata_theme" data-sonata-theme-labels-value="{&quot;light&quot;:&quot;Switch to the light theme&quot;,&quot;dark&quot;:&quot;Switch to the dark theme&quot;,&quot;system&quot;:&quot;Follow the system theme&quot;}"
+                                                        data-action="click->sonata-theme#cycle"
+                                                >
+                                                                                                        <i class="fas fa-moon hidden dark:inline-block" aria-hidden="true"></i>
+                                                    <i class="fas fa-sun inline-block dark:hidden" aria-hidden="true"></i>
+                                                </button>
+                                            </li>
+                                        
+                                                                                                                                    <li class="adm-dropdown"
+                                                    data-controller="sonata-dropdown"
+                                                    data-action="keydown.esc->sonata-dropdown#closeAndFocus keydown->sonata-dropdown#navigate"
+                                                >
+                                                    <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                                                            aria-expanded="false"
+                                                            aria-haspopup="menu"
+                                                            aria-label="Add new"
+                                                            data-sonata-dropdown-target="toggle"
+                                                            data-action="click->sonata-dropdown#toggle"
+                                                    >
+                                                        <i class="fas fa-plus" aria-hidden="true"></i>
+                                                    </button>
+                                                    
+
+
+    <div class="adm-dropdown__menu dropdown-add" role="menu" hidden data-sonata-dropdown-target="menu"><div class="grid gap-4 grid-cols-1">
+                            <ul role="none">
+                                            <li role="none">
+                            <p class="flex items-center gap-2 px-3 py-2 text-theme-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                <i class="fa-solid fa-box"></i>
+                                                                                                                                        Catalogue
+                                                            </p>
+
+                            <ul role="none">
+                                                                                                                                                        <li role="none">
+                                                <a class="adm-dropdown__item" role="menuitem" href="/admin/tests/app/product/create">
+                                                                                                            Products
+                                                                                                    </a>
+                                            </li>
+                                                                                                                                                                                                            </ul>
+                        </li>
+                                            <li role="none">
+                            <p class="flex items-center gap-2 px-3 py-2 text-theme-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                <i class="fa-solid fa-tags"></i>
+                                                                                                                                        Taxonomy
+                                                            </p>
+
+                            <ul role="none">
+                                                                                                                                                        <li role="none">
+                                                <a class="adm-dropdown__item" role="menuitem" href="/admin/tests/app/category/create">
+                                                                                                            Categories
+                                                                                                    </a>
+                                            </li>
+                                                                                                                                                                                                                                    <li role="none">
+                                                <a class="adm-dropdown__item" role="menuitem" href="/admin/tests/app/tag/create">
+                                                                                                            Tags
+                                                                                                    </a>
+                                            </li>
+                                                                                                                                        </ul>
+                        </li>
+                                    </ul>
+                    </div>
+    </div>
+
+                                                </li>
+                                                                                    
+                                                                                                                                                                                    <li class="adm-dropdown user-menu"
+                                                    data-controller="sonata-dropdown"
+                                                    data-action="keydown.esc->sonata-dropdown#closeAndFocus keydown->sonata-dropdown#navigate"
+                                                >
+                                                    <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                                                            aria-expanded="false"
+                                                            aria-label="admin"
+                                                            data-sonata-dropdown-target="toggle"
+                                                            data-action="click->sonata-dropdown#toggle"
+                                                    >
+                                                        <span aria-hidden="true">AD</span>
+                                                    </button>
+                                                    <div class="adm-dropdown__menu" hidden data-sonata-dropdown-target="menu">
+                                                        <p class="px-3 py-2 text-theme-sm font-medium text-gray-700 dark:text-gray-300">admin</p>
+                                                        <ul class="dropdown-user">
+                                                            
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                                                                                        </ul>
+                                                                            
+                        </header>
+                                    
+                <main class="content-wrapper" id="sonata-content">
+                                            <div class="adm-content">
+                                                        
+                                                            <div class="content-header mb-6 flex flex-col gap-2">                                                                                                    
+                                                                                                                                                        <div class="adm-page-header mb-0" data-sonata-sticky-target="navbar">
+                                                                                                    <h1 class="adm-page-title">Reveal</h1>
+                                                                                                    
+                                                <div class="flex flex-wrap items-center gap-2">
+                                                    
+                                                    
+
+
+                                                                                                                                                                                                                    
+                                                                                                    </div>
+                                            </div>
+                                                                                                                                        </div>
+                            
+                            <div class="content">
+                                
+                                                                            
+
+
+                
+                    
+                    
+                                        
+                                    
+                                                                            <div class="sonata-ba-content"><form class="grid grid-cols-12 gap-4 md:gap-6">
+        <div class="adm-card col-span-12">
+            <div class="adm-card-body">
+                <div class="adm-form-row">
+                    <label class="adm-label" for="demo-uses-map">Uses geolocation?</label>
+                    <select id="demo-uses-map" class="adm-select"
+                            data-controller="sonata-reveal" data-sonata-reveal-target-value="#demo-geolocation" data-sonata-reveal-when-value="1"
+                    >
+                        <option value="0" selected>No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="adm-card col-span-12 hidden" id="demo-geolocation">
+            <div class="adm-card-header"><h2 class="adm-card-title">Geolocation</h2></div>
+            <div class="adm-card-body">
+                <div class="adm-form-row">
+                    <label class="adm-label" for="demo-coordinates">Coordinates</label>
+                    <input class="adm-input" id="demo-coordinates" type="text" placeholder="52.2297 21.0122">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-span-12">
+            <button type="submit" class="adm-btn adm-btn-primary">Save</button>
+        </div>
+    </form></div>
+                                    
+                                    
+                                                                                                </div>
+                        </div>
+                                    </main>
+            </div>
+                    <dialog class="adm-dialog"
+        id="sonata-dialog"
+        aria-labelledby="sonata-dialog-title"
+        data-controller="sonata-modal"
+        data-sonata-modal-target="dialog">
+    <div class="adm-dialog__header">
+        <h2 class="adm-card-title" id="sonata-dialog-title">Details</h2>
+        <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                aria-label="Close"
+                data-action="click->sonata-modal#close">
+            <i class="fas fa-xmark" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="adm-dialog__body"></div>
+    <div class="adm-dialog__footer">
+        <button type="button" class="adm-btn adm-btn-secondary" data-action="click->sonata-modal#close">
+            Close
+        </button>
+    </div>
+</dialog>
+
+            </body>
+</html>

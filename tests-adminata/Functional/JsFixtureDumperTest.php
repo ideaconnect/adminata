@@ -54,6 +54,8 @@ final class JsFixtureDumperTest extends WebTestCase
         'category-list' => '/admin/tests/app/category/list?filter%5Bproducts%5D%5Bvalue%5D=1',
         // sonata-modal
         'dialog' => '/admin/demo/dialog',
+        // sonata-reveal
+        'reveal' => '/admin/demo/reveal',
     ];
 
     private string $timezone = 'UTC';

@@ -190,6 +190,15 @@
             "classes": [],
             "outlets": []
         },
+        "sonata-reveal": {
+            "targets": [],
+            "values": [
+                "target",
+                "when"
+            ],
+            "classes": [],
+            "outlets": []
+        },
         "sonata-revision": {
             "targets": [
                 "preview"

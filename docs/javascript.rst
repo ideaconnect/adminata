@@ -82,6 +82,12 @@ removing one is a major release.
 ``sonata-readmore``
     targets ``button``, ``content``; values ``collapsedHeight``, ``lessText``, ``moreText``
 
+``sonata-reveal``
+    values ``target``, ``when``
+
+    Sits on a control; shows the elements ``target`` selects while the control has a ``when``
+    value, hides them otherwise.
+
 ``sonata-revision``
     targets ``preview``
 
@@ -161,6 +167,48 @@ name it in the trigger's ``target``:
 The ``dialog`` target goes on the element as well as the controller: without it ``sonata-modal`` has
 nothing to drive, and ``showModal()`` from your own script would open a dialog whose close buttons
 and backdrop do nothing.
+
+A value that reveals a section
+------------------------------
+
+A form where one answer decides whether the next group applies — "uses geolocation?", then the
+coordinates — is ``sonata-reveal`` on the control that answers. ``target`` selects what it
+reveals, ``when`` is the value that does; on connect it puts the section in the state the saved
+value asks for, and every ``change`` after that keeps it there.
+
+In an admin class it is three attributes on the control, and the group's own ``class`` is the
+hook. Render the group with the ``hidden`` class for the state it should start in, so the page
+does not flash it before the controller connects; the controller drops that class when it takes
+over and uses the ``hidden`` attribute from then on:
+
+.. code-block:: php
+
+    $form
+        ->with('General')
+            ->add('locationAware', BooleanType::class, [
+                'attr' => [
+                    'data-controller' => 'sonata-reveal',
+                    'data-sonata-reveal-target-value' => '.section-geolocation',
+                    'data-sonata-reveal-when-value' => '1',
+                ],
+            ])
+        ->end()
+        ->with('Geolocation', ['class' => 'section-geolocation col-span-12'.($subject->isLocationAware() ? '' : ' hidden')])
+            ->add('location', TextType::class)
+        ->end();
+
+``when`` takes one value, or a JSON list of them — ``'["1","2"]'`` — which is what the Stimulus
+helper writes when it is handed a PHP array:
+``$this->stimulus->createStimulusAttributes()->addController('sonata-reveal', ['target' => '…', 'when' => ['1', '2']])->toArray()``.
+The control can be a ``<select>`` — a multiple one counts each selected value — a checkbox, or the
+wrapper of a radio group.
+
+``target`` is resolved from the nearest ancestor that holds both the control and a match, not from
+the page. That is what lets the group's class be the hook inside a collection, where every row
+renders the same group with the same class: each row's control finds its own row's section.
+
+A hidden field is still a field. It submits, and a ``required`` one still blocks the form; keep
+the constraint on the master, or on the server, where it sees the whole picture.
 
 Clicking a list row
 -------------------

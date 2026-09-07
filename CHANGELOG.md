@@ -79,6 +79,12 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
   and Symfony `^7.4 || ^8.0`. Neither this package nor the storage layers are on Packagist yet, so
   it names the repositories they install from: a `path` one for a checkout beside it and a `vcs`
   one behind it.
+- `sonata-reveal`: a control whose value shows or hides other parts of the form. It sits on the
+  `<select>`, checkbox or radio group, names what it reveals with a selector and the value or
+  values that reveal it, applies on connect so a saved value starts its section in the right
+  state, and hides with the `hidden` attribute — taking over from a `hidden` class the server
+  rendered to stop the section flashing. The panel had written this too, as a document-level
+  `change` listener keyed on class names of its own. See [docs/javascript.rst](docs/javascript.rst).
 - A shared dialog on every page, and a controller to open it from anywhere. The layout's
   `sonata_dialog` block renders `Core/dialog.html.twig`, one native `<dialog id="sonata-dialog">`
   driven by `sonata-modal`; `sonata-modal-trigger`, on any link or button, fills its title and
