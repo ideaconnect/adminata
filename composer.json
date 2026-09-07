@@ -151,7 +151,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../adminata-doctrine-orm-admin-bundle",
+            "url": "../{adminata-doctrine-orm-admin-bundle}",
             "options": {
                 "symlink": true
             }

@@ -18,6 +18,11 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
+            # idct/adminata-doctrine-orm-admin-bundle is a dev dependency installed from a VCS repository
+            # when no checkout sits beside this one, which is the case here; Composer resolves it through
+            # the GitHub API, and unauthenticated calls share a per-runner hourly budget. The built-in
+            # token lifts the limit and needs no secret.
+            COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ github.token }}"}}'
             SYMFONY_REQUIRE: ${{ matrix.symfony-require }}
 
         # Static analysis has to hold on both supported Symfony lines: their type signatures
@@ -57,6 +62,11 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
+            # idct/adminata-doctrine-orm-admin-bundle is a dev dependency installed from a VCS repository
+            # when no checkout sits beside this one, which is the case here; Composer resolves it through
+            # the GitHub API, and unauthenticated calls share a per-runner hourly budget. The built-in
+            # token lifts the limit and needs no secret.
+            COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ github.token }}"}}'
             SYMFONY_REQUIRE: ${{ matrix.symfony-require }}
 
         strategy:
