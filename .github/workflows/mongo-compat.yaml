@@ -39,12 +39,12 @@ jobs:
 
         steps:
             - name: Checkout adminata
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: adminata
 
             - name: Checkout the MongoDB fork
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: ${{ env.FORK_REPOSITORY }}
                   ref: ${{ env.FORK_REF }}
@@ -220,12 +220,12 @@ jobs:
 
         steps:
             - name: Checkout adminata
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   path: adminata
 
             - name: Checkout the MongoDB fork
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
               with:
                   repository: ${{ env.FORK_REPOSITORY }}
                   ref: ${{ env.FORK_REF }}
