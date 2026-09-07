@@ -12,7 +12,7 @@
 
 import { defineConfig, devices } from '@playwright/test';
 
-import { BASE_URL, CREDENTIALS } from './tests/Visual/support/demo.js';
+import { BASE_URL, CREDENTIALS } from './tests-adminata/Visual/support/demo.js';
 
 /**
  * Visual regression, accessibility and markup checks against the demo application (PLAN/08 §3).
@@ -20,7 +20,7 @@ import { BASE_URL, CREDENTIALS } from './tests/Visual/support/demo.js';
  * Screenshots are pixels, so they are only comparable when the browser, the fonts and the
  * compositor are the same. `make test-visual` therefore runs this inside
  * `mcr.microsoft.com/playwright:v1.63.0-noble`, the image the `visual` workflow uses, with the
- * demo served from the host — the committed baselines under `tests/Visual/__snapshots__` come
+ * demo served from the host — the committed baselines under `tests-adminata/Visual/__snapshots__` come
  * from that image and nowhere else. Running `npx playwright test` on the host works and is useful
  * while writing a spec, but its screenshots will not match.
  */
@@ -60,9 +60,9 @@ const projects = Object.entries(BROWSERS).flatMap(([browser, device]) =>
 );
 
 export default defineConfig({
-    testDir: './tests/Visual',
-    snapshotDir: './tests/Visual/__snapshots__',
-    outputDir: './tests/Visual/test-results',
+    testDir: './tests-adminata/Visual',
+    snapshotDir: './tests-adminata/Visual/__snapshots__',
+    outputDir: './tests-adminata/Visual/test-results',
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: 0,
@@ -88,7 +88,7 @@ export default defineConfig({
     },
     projects,
     webServer: {
-        command: 'php -S 127.0.0.1:8000 -t tests/App/public',
+        command: 'php -S 127.0.0.1:8000 -t tests-adminata/App/public',
         // 401 counts as ready: every page behind /admin is authenticated.
         url: `${BASE_URL}/admin/dashboard`,
         reuseExistingServer: true,

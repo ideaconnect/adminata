@@ -30,13 +30,11 @@ use Symfony\Component\Panther\PantherTestCase;
  * geckodriver. `PANTHER_FIREFOX_PORT` moves the spawned geckodriver off the default 4444 when
  * something else on the machine already listens there.
  *
- * The application is served by {@see DemoServer} rather than by Panther, because Panther manages
- * one web server per process and the doctrine-orm-admin-bundle suite has already claimed it.
- * `startWebServer()` returns as soon as it finds a manager, before it ever looks at
- * `external_base_uri`, so once that suite has run the option is silently ignored and Panther's
- * base URI still points at its application — which is why every request here goes through
- * {@see url()} and is absolute. The reverse cannot happen: phpunit.xml.dist declares `orm` before
- * `adminata-functional`, so that suite always claims the web server first.
+ * The application is served by {@see DemoServer} rather than by Panther. Panther manages one web
+ * server per process, and while the doctrine-orm-admin-bundle suite lived in this repository it
+ * claimed that server first; the suite has a repository of its own now, but every request here
+ * still goes through {@see url()} and is absolute, which costs nothing and keeps these tests
+ * indifferent to whatever else a process has started.
  */
 abstract class BasePantherTestCase extends PantherTestCase
 {
@@ -96,11 +94,15 @@ abstract class BasePantherTestCase extends PantherTestCase
 
         $port = self::stringFromServer('PANTHER_FIREFOX_PORT');
 
+        // No `capabilities` on this route. Panther applies them with setCapability(), which
+        // replaces the whole `moz:firefoxOptions` it has just built — `--headless` included — so
+        // Firefox would try to open a window on a runner that has no display and exit at once.
+        // The one thing adminata wanted from it, `ui.prefersReducedMotion`, Panther 2.4 sets by
+        // itself; the Selenium route below still needs it spelled out.
         $this->client = self::$session = static::createPantherClient(
             ['browser' => PantherTestCase::FIREFOX] + $options,
             [],
-            ['capabilities' => ['moz:firefoxOptions' => self::firefoxOptions()]]
-            + (null !== $port ? ['port' => (int) $port] : []),
+            null !== $port ? ['port' => (int) $port] : [],
         );
 
         $this->signIn();

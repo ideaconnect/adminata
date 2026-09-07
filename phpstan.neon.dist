@@ -26,8 +26,8 @@ parameters:
             # the kernel that produced it happened to register, and analysing it fails as soon as
             # one of those bundles is not installed. `.php-cs-fixer.dist.php` and
             # `.php-cs-fixer.adminata.php` skip it for the same reason.
-            - tests/App/config/reference.php
-            - tests-adminata/App/config/reference.php
+            - tests/App/config/reference.php (?)
+            - tests-adminata/App/config/reference.php (?)
     treatPhpDocTypesAsCertain: false
     checkInternalClassCaseSensitivity: true
     checkMissingVarTagTypehint: true

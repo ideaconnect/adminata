@@ -21,11 +21,9 @@ use Symfony\Component\Process\Process;
 /**
  * The demo application, served by PHP's built-in server for the browser suites.
  *
- * Panther starts a web server of its own, but only one per process, and the
- * doctrine-orm-admin-bundle suite has already claimed it for its own application
- * (`PANTHER_WEB_SERVER_DIR` in phpunit.xml.dist). adminata's Panther tests therefore run against
- * this server and hand Panther its address as `external_base_uri`, which makes it skip starting
- * one.
+ * Panther starts a web server of its own, but only one per process, and it binds the loopback
+ * interface. adminata's Panther tests run against this server instead and hand Panther its
+ * address as `external_base_uri`, which makes it skip starting one.
  *
  * The server binds every interface: a Selenium in a container has to reach it, and it can only do
  * that through the host gateway.
@@ -52,10 +50,9 @@ final class DemoServer
             return;
         }
 
-        // Panther's own web server defaults to 9080 and the doctrine-orm-admin-bundle suite has
-        // one running by the time these tests start; a port that answers is not proof that *this*
-        // application is the one answering, and the failure it produces otherwise — an empty list
-        // and a missing console recorder — says nothing about the cause.
+        // A port that answers is not proof that *this* application is the one answering, and the
+        // failure it produces otherwise — an empty list and a missing console recorder — says
+        // nothing about the cause.
         if (self::accepts()) {
             throw new \RuntimeException(\sprintf(
                 'Port %d is already in use, so the demo cannot be served there. Set '

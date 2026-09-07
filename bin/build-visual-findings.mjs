@@ -11,7 +11,7 @@
  */
 
 /**
- * Regenerates `tests/Visual/support/findings.json` — the accessibility and markup debt of the
+ * Regenerates `tests-adminata/Visual/support/findings.json` — the accessibility and markup debt of the
  * inherited interface that `accessibility.spec.js` and `markup.spec.js` assert against.
  *
  * Run it through `make visual-findings`, which starts the demo and runs this in the same
@@ -235,5 +235,5 @@ console.log(
     `Wrote ${Object.keys(findings.axe).length} accessibility, ${Object.keys(findings.markup).length} markup, ` +
         `${Object.keys(findings.responsive).length} responsive and ` +
         `${Object.keys(findings['hygiene-unstyled']).length + Object.keys(findings['hygiene-translations']).length + Object.keys(findings['hygiene-borders']).length} ` +
-        'hygiene entries to tests/Visual/support/findings.json.',
+        'hygiene entries to tests-adminata/Visual/support/findings.json.',
 );

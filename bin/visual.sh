@@ -13,7 +13,7 @@
 # Runs a Playwright command against the demo application.
 #
 # The browsers run inside mcr.microsoft.com/playwright:$PLAYWRIGHT_VERSION-noble, the image the
-# `visual` workflow uses, because the committed screenshots under tests/Visual/__snapshots__ are
+# `visual` workflow uses, because the committed screenshots under tests-adminata/Visual/__snapshots__ are
 # pixels: the same page rendered by the same browser version with different fonts is a different
 # image. The demo itself is served by the host's PHP, which the container reaches over the host
 # network.
@@ -63,7 +63,7 @@ if ! demo_is_up; then
         exit 1
     fi
 
-    php -S "127.0.0.1:${PORT}" -t tests/App/public >/dev/null 2>&1 &
+    php -S "127.0.0.1:${PORT}" -t tests-adminata/App/public >/dev/null 2>&1 &
     server=$!
 
     for _ in $(seq 1 30); do
