@@ -1,16 +1,23 @@
 adminata
 ========
 
-adminata is a hard fork of seven Sonata packages with a Tailwind CSS v4 interface. It ``replace``\ s
-three of them at exact versions, so an application's admin classes, services and routes carry over
-untouched; what changes is the markup, the JavaScript and the form widgets. The other four —
-``block-bundle``, ``exporter``, ``form-extensions`` and ``twig-extensions`` — are part of the admin
-bundle here: blocks, form types, the Twig helpers and the exporter are ``Sonata\AdminBundle\``
-classes and there is no ``SonataBlockBundle``, ``SonataFormBundle``, ``SonataTwigBundle`` or
-``SonataExporterBundle`` (see :doc:`admin-bundle/reference/block_configuration`,
+adminata is a hard fork of seven Sonata packages with a Tailwind CSS v4 interface. This site
+documents the admin bundle, which is six of them: it ``replace``\ s ``sonata-project/admin-bundle``
+at an exact version, so an application's admin classes, services and routes carry over untouched —
+what changes is the markup, the JavaScript and the form widgets — and ``block-bundle``,
+``doctrine-extensions``, ``exporter``, ``form-extensions`` and ``twig-extensions`` are part of it:
+blocks, Doctrine managers, form types, the Twig helpers and the exporter are
+``Sonata\AdminBundle\`` classes and there is no ``SonataBlockBundle``, ``SonataDoctrineBundle``,
+``SonataFormBundle``, ``SonataTwigBundle`` or ``SonataExporterBundle`` (see
+:doc:`admin-bundle/reference/block_configuration`,
 :doc:`admin-bundle/reference/form_configuration`,
 :doc:`admin-bundle/reference/twig_configuration` and
 :doc:`admin-bundle/reference/exporter_configuration`).
+
+The seventh, the Doctrine ORM storage layer, is a package of its own:
+`idct/adminata-doctrine-orm-admin-bundle <https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle>`_,
+which carries its own documentation. So is the MongoDB ODM one,
+`idct/sonata-admin-mongodb-bundle <https://github.com/ideaconnect/sonata-admin-mongodb-bundle>`_.
 
 There is **no compatibility layer**. Bootstrap and AdminLTE class names are gone, so is jQuery, and
 nothing is aliased or shimmed to soften that. If you are coming from Sonata Admin 4.43, read
@@ -40,10 +47,3 @@ nothing is aliased or shimmed to soften that. If you are coming from Sonata Admi
     :maxdepth: 2
 
     admin-bundle/index
-
-.. toctree::
-    :caption: The storage bundle
-    :name: packages
-    :maxdepth: 2
-
-    doctrine-orm-admin-bundle/index

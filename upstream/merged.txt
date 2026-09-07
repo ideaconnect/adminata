@@ -1,12 +1,15 @@
-# Forked trees that no longer have a packages/<name>/ directory: their sources were merged into
-# another package directory, so `upstream/sync.sh` cannot replay an upstream release onto them and
-# composer.json no longer `replace`s them.
-# Format: <package-dir>  <merged-into>
+# Forked trees whose sources were merged into another tree, so `upstream/sync.sh` cannot replay an
+# upstream release onto them and composer.json no longer `replace`s them — it `conflict`s with them
+# instead, because adminata provides those APIs under its own namespace.
+# Format: <tree>  <merged-into>
+#
+# `admin-bundle` is the repository itself: src/ and tests/. So every row below means "this upstream
+# package's sources are part of the admin bundle now".
 #
 # The row stays in upstream/remotes.txt: the subtree history and the upstream remote are still part
 # of this repository, `upstream/diff.sh` still reports what changed upstream, and the imported tag is
 # still the version the merged sources sit at. Only the mechanical replay is gone — an upstream
-# release of a merged package is ported by hand into packages/<merged-into>/.
+# release of a merged package is ported by hand.
 block-bundle              admin-bundle
 doctrine-extensions       admin-bundle
 exporter                  admin-bundle

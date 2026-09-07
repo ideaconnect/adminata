@@ -839,7 +839,7 @@ Combine this with configuring a custom template and you'll have a list column fu
     }
 
 .. _`SonataDoctrineORMAdminBundle Documentation`: https://docs.sonata-project.org/projects/SonataDoctrineORMAdminBundle/en/4.x/reference/list_field_definition/
-.. _`here`: https://github.com/ideaconnect/adminata/tree/main/packages/admin-bundle/src/Form/Type/Operator
+.. _`here`: https://github.com/ideaconnect/adminata/tree/main/src/Form/Type/Operator
 
 Advance Usage
 -------------

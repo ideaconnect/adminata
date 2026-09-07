@@ -5,13 +5,15 @@ their Twig templates, CSS and JavaScript replaced by a [Tailwind CSS](https://ta
 [TailAdmin](https://tailadmin.com) user interface: light and dark mode, a collapsible sidebar,
 cards, and modern forms. **No Bootstrap, no AdminLTE, no jQuery.**
 
-One repository, one Composer package. It installs *in place of* the Sonata packages through
-Composer's `replace`, so admin classes, configuration and persistence bundles — including
+One repository, one Composer package, one bundle. It installs *in place of*
+`sonata-project/admin-bundle` through Composer's `replace`, so admin classes, configuration and
+persistence bundles — including
 [`idct/sonata-admin-mongodb-bundle`](https://github.com/ideaconnect/sonata-admin-mongodb-bundle) —
-keep working unchanged. The exceptions are `block-bundle`, `exporter`, `form-extensions` and
-`twig-extensions`, whose sources now live inside adminata's admin bundle under the
-`Sonata\AdminBundle\` namespace: see
-[What lives inside the admin bundle](#what-lives-inside-the-admin-bundle) below.
+keep working unchanged. `block-bundle`, `doctrine-extensions`, `exporter`, `form-extensions` and
+`twig-extensions` are inside this bundle under the `Sonata\AdminBundle\` namespace rather than
+packages of their own: see
+[What lives inside the admin bundle](#what-lives-inside-the-admin-bundle) below. The storage layers
+are the other way round — one package per backend, installed alongside this one.
 
 > **Status: 1.0 is written and unreleased.** Every milestone of
 > [PROJECT_PLAN.md](PROJECT_PLAN.md) is implemented and green, and a 46-admin production panel runs
@@ -21,31 +23,44 @@ keep working unchanged. The exceptions are `block-bundle`, `exporter`, `form-ext
 
 ## Packages replaced
 
-| Upstream package | Version | Directory | Namespace | Bundle class |
-|---|---|---|---|---|
-| `sonata-project/admin-bundle` | 4.43.0 | [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\` | `SonataAdminBundle` |
-| `sonata-project/doctrine-orm-admin-bundle` | 4.21.0 | [packages/doctrine-orm-admin-bundle](packages/doctrine-orm-admin-bundle) | `Sonata\DoctrineORMAdminBundle\` | `SonataDoctrineORMAdminBundle` |
+This repository is one Composer package and one bundle. Its sources are [src](src) and its suite is
+[tests](tests) — the same layout upstream uses, which is what lets an upstream diff apply here with
+no directory prefix. It replaces one package:
 
-Five more packages were forked and are **not** replaced — they are part of the admin bundle:
+| Upstream package | Version | Namespace | Bundle class |
+|---|---|---|---|
+| `sonata-project/admin-bundle` | 4.43.0 | `Sonata\AdminBundle\` | `SonataAdminBundle` |
 
-| Upstream package | Version | Where it lives now | Namespace | Bundle class |
-|---|---|---|---|---|
-| `sonata-project/block-bundle` | 5.4.0 | inside [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\` | none — `SonataAdminBundle` registers it |
-| `sonata-project/doctrine-extensions` | 2.6.0 | inside [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\Doctrine\` | none — `SonataAdminBundle` registers it |
-| `sonata-project/exporter` | 3.4.0 | inside [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\Exporter\` | none — `SonataAdminBundle` registers it |
-| `sonata-project/form-extensions` | 2.7.0 | inside [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\` | none — `SonataAdminBundle` registers it |
-| `sonata-project/twig-extensions` | 2.6.0 | inside [packages/admin-bundle](packages/admin-bundle) | `Sonata\AdminBundle\` | none — `SonataAdminBundle` registers it |
+Five more were forked and are **not** replaced — they are part of that bundle, so `composer.json`
+`conflict`s with them instead:
+
+| Upstream package | Version | Namespace here | Bundle class |
+|---|---|---|---|
+| `sonata-project/block-bundle` | 5.4.0 | `Sonata\AdminBundle\` | none — `SonataAdminBundle` registers it |
+| `sonata-project/doctrine-extensions` | 2.6.0 | `Sonata\AdminBundle\Doctrine\` | none — `SonataAdminBundle` registers it |
+| `sonata-project/exporter` | 3.4.0 | `Sonata\AdminBundle\Exporter\` | none — `SonataAdminBundle` registers it |
+| `sonata-project/form-extensions` | 2.7.0 | `Sonata\AdminBundle\Form\` | none — `SonataAdminBundle` registers it |
+| `sonata-project/twig-extensions` | 2.6.0 | `Sonata\AdminBundle\Twig\` | none — `SonataAdminBundle` registers it |
+
+The seventh is a storage layer and ships separately, because a panel needs one of them and not the
+others:
+
+| Backend | Package | Replaces |
+|---|---|---|
+| Doctrine ORM | [`idct/adminata-doctrine-orm-admin-bundle`](https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle) | `sonata-project/doctrine-orm-admin-bundle` 4.21.0 |
+| Doctrine MongoDB ODM | [`idct/sonata-admin-mongodb-bundle`](https://github.com/ideaconnect/sonata-admin-mongodb-bundle) | `sonata-project/doctrine-mongodb-admin-bundle` |
 
 `SonataUserBundle`, the PHPCR admin bundle and every other Sonata package are out of scope.
 Exact imported commits and the upstream sync process: [UPSTREAM.md](UPSTREAM.md).
 
 ## What lives inside the admin bundle
 
-Four of the seven forked trees are not packages of their own here. Blocks are the admin dashboard
+Five of the seven forked trees are not packages of their own here. Blocks are the admin dashboard
 and the way `sonata_block_render_event` puts an application's markup on an admin page; the form
 types are what `FormMapper` builds every admin form out of; the flash-message manager and the
 status helper are what the admin layout renders on every page; the exporter is what every list
-page's export menu streams its result set through. Nothing in this fork uses any of them without
+page's export menu streams its result set through; the Doctrine manager, adapter and mapper layer
+is what every admin's storage sits on. Nothing in this fork uses any of them without
 the admin bundle, and adminata ships that functionality integrally, so none of them is a bundle of
 its own.
 
@@ -179,8 +194,21 @@ PHP `^8.4`, Symfony `^7.4 || ^8.0`, Twig `^3.28`.
 ## Installation
 
 ```bash
-composer require idct/adminata
+composer require idct/adminata idct/adminata-doctrine-orm-admin-bundle
 ```
+
+Neither is on Packagist yet, so add the repositories they install from first — a `path` one for a
+checkout beside your project, or the `vcs` ones:
+
+```json
+"repositories": [
+    { "type": "vcs", "url": "https://github.com/ideaconnect/adminata.git" },
+    { "type": "vcs", "url": "https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle.git" }
+]
+```
+
+For MongoDB, take [`idct/sonata-admin-mongodb-bundle`](https://github.com/ideaconnect/sonata-admin-mongodb-bundle)
+instead of, or alongside, the ORM package.
 
 Register the bundles in `config/bundles.php`:
 

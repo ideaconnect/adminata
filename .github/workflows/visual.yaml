@@ -59,7 +59,7 @@ jobs:
 
             # bin/visual.sh serves the demo with the host's PHP and drives it from
             # mcr.microsoft.com/playwright, the image that produced the committed baselines under
-            # tests/Visual/__snapshots__. Those are pixels: run them anywhere else and the fonts
+            # tests-adminata/Visual/__snapshots__. Those are pixels: run them anywhere else and the fonts
             # alone make every one of them differ, so this job and `make test-visual` have to be
             # the same command. Changing the image means regenerating every baseline.
             - name: Screenshots, accessibility and markup
@@ -72,6 +72,6 @@ jobs:
                   name: playwright-report
                   path: |
                       playwright-report/
-                      tests/Visual/test-results/
+                      tests-adminata/Visual/test-results/
                   retention-days: 7
                   if-no-files-found: ignore

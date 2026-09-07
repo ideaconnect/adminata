@@ -8,15 +8,17 @@ This product is a hard fork and bundles or derives from the following works.
 Copyright (c) 2010 Thomas Rabaix and the Sonata Project contributors
 <https://sonata-project.org>
 
-| Package | Version forked | Directory |
+| Package | Version forked | Where it lives |
 |---|---|---|
-| sonata-project/admin-bundle | 4.43.0 | packages/admin-bundle |
-| sonata-project/block-bundle | 5.4.0 | merged into packages/admin-bundle |
-| sonata-project/doctrine-extensions | 2.6.0 | merged into packages/admin-bundle |
-| sonata-project/doctrine-orm-admin-bundle | 4.21.0 | packages/doctrine-orm-admin-bundle |
-| sonata-project/exporter | 3.4.0 | merged into packages/admin-bundle |
-| sonata-project/form-extensions | 2.7.0 | merged into packages/admin-bundle |
-| sonata-project/twig-extensions | 2.6.0 | merged into packages/admin-bundle |
+| sonata-project/admin-bundle | 4.43.0 | src/ and tests/ — this bundle |
+| sonata-project/block-bundle | 5.4.0 | merged into this bundle |
+| sonata-project/doctrine-extensions | 2.6.0 | merged into this bundle |
+| sonata-project/exporter | 3.4.0 | merged into this bundle |
+| sonata-project/form-extensions | 2.7.0 | merged into this bundle |
+| sonata-project/twig-extensions | 2.6.0 | merged into this bundle |
+
+sonata-project/doctrine-orm-admin-bundle 4.21.0 was forked here too and split out on 2026-09-07
+into idct/adminata-doctrine-orm-admin-bundle, which carries its own NOTICE.
 
 Their PHP sources keep the upstream file headers. See UPSTREAM.md for the exact
 commits and the sync process.
@@ -43,7 +45,7 @@ comment naming the source.
 | Outfit Variable (@fontsource-variable/outfit) | 5.3.0 | SIL Open Font License 1.1 — Copyright (c) Smartsheet Inc. |
 
 The compiled assets committed under
-`packages/admin-bundle/src/Resources/public/` contain the Stimulus, qs, Tailwind,
+`src/Resources/public/` contain the Stimulus, qs, Tailwind,
 Font Awesome and Outfit works listed above.
 
 ## Not bundled

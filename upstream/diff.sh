@@ -4,7 +4,7 @@
 # upstream/sync.sh can apply mechanically and the user-interface part adminata re-implements by
 # hand. Paste the output into the sync issue.
 #
-# This reads the upstream refs only, so it also works for the packages in upstream/merged.txt, whose
+# This reads the upstream refs only, so it also works for the trees in upstream/merged.txt, whose
 # sources were folded into another package directory. For those, nothing is applied mechanically —
 # the report is the whole tool — and the banner below says so.
 #
@@ -58,7 +58,7 @@ echo "### $package $from → $to"
 echo
 
 if [ -n "$merged_into" ]; then
-    echo "> \`$package\` was merged into \`packages/$merged_into\` and has no directory of its own."
+    echo "> \`$package\` was merged into \`$merged_into\` and has no tree of its own."
     echo "> \`upstream/sync.sh\` refuses it: everything below is ported by hand, and the split into"
     echo "> \"applies mechanically\" and \"owned by adminata\" is only a hint about where to look."
     echo

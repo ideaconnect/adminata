@@ -31,21 +31,16 @@ use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\LevelSetList;
 
 /*
- * The rule set of idct/sonata-admin-mongodb-bundle, tracking adminata's PHP 8.4 floor. Rector 2.6
- * no longer ships versioned PHPUnit sets (PHPUNIT_100 … PHPUNIT_120); PHPUNIT_CODE_QUALITY plus
- * the composer-based set cover the same ground against the installed PHPUnit 13.
- *
- * Run it one package at a time so the mechanical diffs stay separate and upstream cherry-picks
- * still rebase: `make rector-fix` does that.
+ * adminata's rule set, tracking its PHP 8.4 floor. Rector 2.6 no longer ships versioned PHPUnit
+ * sets (PHPUNIT_100 … PHPUNIT_120); PHPUNIT_CODE_QUALITY plus the composer-based set cover the
+ * same ground against the installed PHPUnit 13.
  */
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
-        __DIR__.'/packages/admin-bundle/src',
-        __DIR__.'/packages/admin-bundle/tests',
-        __DIR__.'/packages/doctrine-orm-admin-bundle/src',
-        __DIR__.'/packages/doctrine-orm-admin-bundle/tests',
+        __DIR__.'/src',
         __DIR__.'/tests',
+        __DIR__.'/tests-adminata',
     ]);
 
     $rectorConfig->sets([
@@ -92,7 +87,7 @@ return static function (RectorConfig $rectorConfig): void {
         // `$object ??= $adminObject;` cannot carry the `@phpstan-var T` that says which admin
         // produced the object, so keep the explicit `if` in this one method.
         IfToNullCoalescingAssignRector::class => [
-            __DIR__.'/packages/admin-bundle/src/Controller/CRUDController.php',
+            __DIR__.'/src/Controller/CRUDController.php',
         ],
     ]);
 };

@@ -1,4 +1,4 @@
-# exporter was merged into packages/admin-bundle (upstream/merged.txt) and no longer has a
+# exporter was merged into the admin bundle (upstream/merged.txt) and no longer has a
 # directory of its own, so upstream/sync.sh refuses it. This list is kept because upstream/diff.sh
 # still needs one to split its report, and because it records which of the upstream paths adminata
 # had already taken over: the three source-iterator tests that were written against SQLite and now

@@ -20,12 +20,12 @@ declare(strict_types=1);
  * `replace` block of composer.json, the table in UPSTREAM.md, and the tag column of
  * upstream/remotes.txt. A sync that updates one and forgets the others fails here.
  *
- * Seven upstream trees were imported and upstream/remotes.txt has a row for each. Three of them are
- * package directories under packages/ that composer.json `replace`s. The other four are listed in
- * upstream/merged.txt: their sources were merged into another package directory, so they have no
- * directory, no `replace` entry and — because adminata now provides those APIs under a different
- * namespace — a `conflict` entry instead. Their tags are still recorded, in remotes.txt and
- * UPSTREAM.md, because that is the upstream release the merged sources sit at.
+ * upstream/remotes.txt has a row per upstream tree that is still part of this repository. One of
+ * them, `admin-bundle`, is the repository itself — src/ and tests/ — and composer.json `replace`s
+ * it. The rest are listed in upstream/merged.txt: their sources were merged into the admin bundle,
+ * so they have no tree, no `replace` entry and — because adminata now provides those APIs under a
+ * different namespace — a `conflict` entry instead. Their tags are still recorded, in remotes.txt
+ * and UPSTREAM.md, because that is the upstream release the merged sources sit at.
  */
 
 $root = dirname(__DIR__);
@@ -63,7 +63,7 @@ $columns = static function (string $contents): array {
     return $rows;
 };
 
-/** @var array<string, string> $tagsFromRemotes package directory => imported tag */
+/** @var array<string, string> $tagsFromRemotes upstream tree => imported tag */
 $tagsFromRemotes = [];
 
 foreach ($columns($remotes) as $row) {
@@ -76,7 +76,7 @@ foreach ($columns($remotes) as $row) {
     $tagsFromRemotes[$row[0]] = $row[2];
 }
 
-/** @var array<string, string> $mergedInto package directory => the directory it was merged into */
+/** @var array<string, string> $mergedInto upstream tree => the tree it was merged into */
 $mergedInto = [];
 
 foreach ($columns($merged) as $row) {
@@ -92,7 +92,7 @@ foreach ($columns($merged) as $row) {
 /*
  * The tag each upstream package is recorded at in UPSTREAM.md's version table, read by column name
  * rather than by position so that prose changes to the other columns cannot silently break this.
- * A merged tree keeps its row there — only its "Package directory" cell no longer names a directory.
+ * A merged tree keeps its row there — only its "Where it lives" cell no longer names a tree.
  */
 /** @var array<string, string> $tagsFromUpstream composer package name => tag */
 $tagsFromUpstream = [];
@@ -142,6 +142,10 @@ if ([] === $replace) {
     $errors[] = 'composer.json has no "replace" block.';
 }
 
+// The one tree that is not merged is the repository itself, so "does it still exist" is a
+// question about src/ at the root rather than about a directory named after the package.
+$treeExists = static fn (string $tree): bool => 'admin-bundle' === $tree && is_dir($root.'/src');
+
 foreach ($tagsFromRemotes as $directory => $tag) {
     $package = 'sonata-project/'.$directory;
     $isMerged = isset($mergedInto[$directory]);
@@ -160,7 +164,7 @@ foreach ($tagsFromRemotes as $directory => $tag) {
 
         if (isset($replace[$package])) {
             $errors[] = sprintf(
-                '%s: merged into packages/%s, so composer.json must not replace it.',
+                '%s: merged into %s, so composer.json must not replace it.',
                 $package,
                 $target
             );
@@ -168,24 +172,15 @@ foreach ($tagsFromRemotes as $directory => $tag) {
 
         if (!isset($conflict[$package])) {
             $errors[] = sprintf(
-                '%s: merged into packages/%s, so composer.json must conflict with it — adminata '
+                '%s: merged into %s, so composer.json must conflict with it — adminata '
                     .'provides that API under its own namespace and the two stacks cannot coexist.',
                 $package,
                 $target
             );
         }
 
-        if (is_dir($root.'/packages/'.$directory)) {
-            $errors[] = sprintf(
-                '%s: upstream/merged.txt says it was merged into packages/%s, but packages/%s still exists.',
-                $package,
-                $target,
-                $directory
-            );
-        }
-
-        if (!is_dir($root.'/packages/'.$target.'/src')) {
-            $errors[] = sprintf('%s: was merged into packages/%s, which does not exist.', $package, $target);
+        if (!$treeExists($target)) {
+            $errors[] = sprintf('%s: was merged into %s, which does not exist.', $package, $target);
         }
 
         continue;
@@ -193,8 +188,9 @@ foreach ($tagsFromRemotes as $directory => $tag) {
 
     if (!isset($replace[$package])) {
         $errors[] = sprintf(
-            'packages/%s is in upstream/remotes.txt but composer.json does not replace %s. '
-                .'A tree that is no longer replaced belongs in upstream/merged.txt.',
+            '%s is in upstream/remotes.txt but composer.json does not replace %s. '
+                .'A tree that is no longer replaced belongs in upstream/merged.txt, or, if it moved '
+                .'to a repository of its own, in neither file.',
             $directory,
             $package
         );
@@ -215,17 +211,16 @@ foreach ($tagsFromRemotes as $directory => $tag) {
     }
 
     $pattern = sprintf(
-        '/\|\s*`packages\/%s`\s*\|\s*`%s`\s*\|/',
-        preg_quote($directory, '/'),
+        '/\|\s*`src\/` \+ `tests\/`\s*\|\s*`%s`\s*\|/',
         preg_quote($package, '/')
     );
 
     if (1 !== preg_match($pattern, $upstream)) {
-        $errors[] = sprintf('%s: UPSTREAM.md does not list it against packages/%s.', $package, $directory);
+        $errors[] = sprintf('%s: UPSTREAM.md does not list it against `src/` + `tests/`.', $package);
     }
 
-    if (!is_dir($root.'/packages/'.$directory.'/src')) {
-        $errors[] = sprintf('%s: packages/%s/src does not exist.', $package, $directory);
+    if (!$treeExists($directory)) {
+        $errors[] = sprintf('%s: its tree does not exist.', $package);
     }
 }
 
@@ -235,7 +230,7 @@ foreach ($replace as $package => $version) {
     $directory = substr($package, strrpos($package, '/') + 1);
 
     if (!isset($tagsFromRemotes[$directory])) {
-        $errors[] = sprintf('%s: no row in upstream/remotes.txt for packages/%s.', $package, $directory);
+        $errors[] = sprintf('%s: no row in upstream/remotes.txt for %s.', $package, $directory);
     }
 }
 
@@ -265,7 +260,7 @@ printf(
         count($mergedInto),
         1 === count($mergedInto) ? '' : 's',
         implode(', ', array_map(
-            static fn (string $from, string $to): string => $from.' → packages/'.$to,
+            static fn (string $from, string $to): string => $from.' → '.$to,
             array_keys($mergedInto),
             array_values($mergedInto)
         ))

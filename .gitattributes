@@ -8,7 +8,7 @@
 
 # Everything below is excluded from the Composer dist archive.
 # `assets/` is deliberately NOT excluded: applications import `assets/css/adminata.css`
-# and add `@source` globs over `packages/` to compile Tailwind themselves.
+# and add `@source` globs over `src/` to compile Tailwind themselves.
 /.editorconfig export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
@@ -39,17 +39,11 @@
 /rector.php export-ignore
 /stylelint.config.js export-ignore
 /tests export-ignore
+/tests-adminata export-ignore
 /upstream export-ignore
 /vite.config.js export-ignore
 /vitest.config.js export-ignore
 /Makefile export-ignore
-# A forked package is a directory of this one, not a repository: it carries its sources, its tests,
-# the upstream LICENSE (attribution) and the upstream CHANGELOG (the inherited history that
-# CHANGELOG-sonata.md links). Everything else the dev-kit generated is gone, so the rules that
-# excluded it are gone too; the LICENSE is the one thing here that ships.
-/packages/*/tests export-ignore
-/packages/*/CHANGELOG.md export-ignore
-# The changelogs of block-bundle, exporter, form-extensions and twig-extensions came along when
-# those trees were merged into admin-bundle and had to be renamed to avoid colliding with admin's
-# own; the glob above no longer catches them.
-/packages/*/CHANGELOG-*.md export-ignore
+# The inherited upstream histories that CHANGELOG-sonata.md links. They are provenance, not
+# something an installed package needs.
+/changelog export-ignore

@@ -1,9 +1,12 @@
-# adminata upstream remotes — one line per imported upstream tree. Seven trees were imported; three
-# of them are package directories under packages/ that composer.json `replace`s. The other four —
-# block-bundle, exporter, form-extensions and twig-extensions — were merged into
-# packages/admin-bundle and keep their rows here because their subtree histories and their remotes
+# adminata upstream remotes — one line per imported upstream tree that is still part of this
+# repository. `admin-bundle` is the repository itself: its sources are src/ and its suite is tests/.
+# The other five — block-bundle, doctrine-extensions, exporter, form-extensions and twig-extensions
+# — were merged into it and keep their rows here because their subtree histories and their remotes
 # are still part of this repository: see upstream/merged.txt.
-# Format: <package-dir>  <git-url>  <imported-tag>
+#
+# doctrine-orm-admin-bundle was imported here too and was split out again on 2026-09-07 into
+# ideaconnect/adminata-doctrine-orm-admin-bundle, which records its own provenance. It has no row.
+# Format: <tree>  <git-url>  <imported-tag>
 # Exactly three whitespace-separated columns — upstream/diff.sh, upstream/sync.sh,
 # bin/check-replace-versions.php and .github/workflows/upstream-watch.yaml all parse them positionally.
 # Used by upstream/diff.sh and upstream/sync.sh, and by P0-01 to (re-)create the remotes:
@@ -11,7 +14,6 @@
 admin-bundle              https://github.com/sonata-project/SonataAdminBundle.git            4.43.0
 block-bundle              https://github.com/sonata-project/SonataBlockBundle.git            5.4.0
 doctrine-extensions       https://github.com/sonata-project/sonata-doctrine-extensions.git   2.6.0
-doctrine-orm-admin-bundle https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git 4.21.0
 exporter                  https://github.com/sonata-project/exporter.git                     3.4.0
 form-extensions           https://github.com/sonata-project/form-extensions.git              2.7.0
 twig-extensions           https://github.com/sonata-project/twig-extensions.git              2.6.0

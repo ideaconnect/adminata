@@ -1,6 +1,6 @@
 {
     "name": "idct/adminata",
-    "description": "Sonata Admin, re-skinned: the Sonata Admin PHP stack (admin, block, doctrine, ORM admin, exporter, form and twig extensions) with a Tailwind CSS v4 / TailAdmin user interface. Installs in place of the sonata-project packages.",
+    "description": "Sonata Admin, re-skinned: the Sonata Admin PHP stack (admin, block, doctrine, exporter, form and twig extensions) with a Tailwind CSS v4 / TailAdmin user interface. Installs in place of the sonata-project packages.",
     "license": "MIT",
     "type": "symfony-bundle",
     "keywords": [
@@ -90,6 +90,7 @@
         "doctrine/mongodb-odm": "^2.17",
         "ergebnis/composer-normalize": "^2.52",
         "friendsofphp/php-cs-fixer": "^3.95",
+        "idct/adminata-doctrine-orm-admin-bundle": "^1.0@dev",
         "infection/infection": "^0.35",
         "matthiasnoback/symfony-config-test": "^6.2",
         "matthiasnoback/symfony-dependency-injection-test": "^6.3",
@@ -125,8 +126,7 @@
         "symfony/yaml": "^7.4 || ^8.0"
     },
     "replace": {
-        "sonata-project/admin-bundle": "4.43.0",
-        "sonata-project/doctrine-orm-admin-bundle": "4.21.0"
+        "sonata-project/admin-bundle": "4.43.0"
     },
     "conflict": {
         "doctrine/mongodb-odm": "<2.4",
@@ -141,22 +141,36 @@
     },
     "suggest": {
         "doctrine/mongodb-odm": "To use the MongoDB ODM document manager and exporter source",
+        "idct/adminata-doctrine-orm-admin-bundle": "To manage Doctrine ORM entities with Sonata admins",
         "idct/sonata-admin-mongodb-bundle": "To manage MongoDB ODM documents with Sonata admins",
         "phpoffice/phpspreadsheet": "To export data as XLSX; the XLS writer needs no library",
         "sonata-project/entity-audit-bundle": "To enable the entity history pages (post-1.0)",
         "twig/extra-bundle": "Auto configures the Twig Intl extension"
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../adminata-doctrine-orm-admin-bundle",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle.git"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Sonata\\AdminBundle\\": "packages/admin-bundle/src/",
-            "Sonata\\DoctrineORMAdminBundle\\": "packages/doctrine-orm-admin-bundle/src/"
+            "Sonata\\AdminBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Adminata\\Tests\\": "tests/",
-            "Sonata\\AdminBundle\\Tests\\": "packages/admin-bundle/tests/",
-            "Sonata\\DoctrineORMAdminBundle\\Tests\\": "packages/doctrine-orm-admin-bundle/tests/"
+            "Adminata\\Tests\\": "tests-adminata/",
+            "Sonata\\AdminBundle\\Tests\\": "tests/"
         }
     },
     "config": {
@@ -185,6 +199,6 @@
         "test:phpstan": "phpstan analyse --memory-limit=1G",
         "test:phpunit": "phpunit",
         "test:rector": "rector process --dry-run",
-        "test:twig": "bin/console lint:twig packages tests"
+        "test:twig": "bin/console lint:twig src tests tests-adminata"
     }
 }

@@ -19,7 +19,7 @@ import { readdirSync, rmSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const published = fileURLToPath(new URL('../packages/admin-bundle/src/Resources/public', import.meta.url));
+const published = fileURLToPath(new URL('../src/Resources/public', import.meta.url));
 
 const generated = ['app.js', 'app.css', 'fontawesome.css', 'entrypoints.json', 'manifest.json', 'fonts'];
 

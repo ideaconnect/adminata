@@ -63,7 +63,7 @@ jobs:
               run: |
                   composer config repositories.adminata path ../adminata
                   # adminata ships the block, exporter, form and twig stacks itself (all four
-                  # trees were merged into packages/admin-bundle) and therefore conflicts with the
+                  # trees were merged into the admin bundle) and therefore conflicts with the
                   # four sonata-project packages. The fork is the root package here, so its own
                   # require and require-dev are installed and those conflicts would make the
                   # install unsolvable. Drop the entries in the checkout; the fork drops them for
@@ -80,7 +80,7 @@ jobs:
             # still registers Sonata\BlockBundle\SonataBlockBundle,
             # Sonata\Form\Bridge\Symfony\SonataFormBundle and Sonata\Twig\Bridge\Symfony\SonataTwigBundle,
             # and none of those three classes exists: block-bundle, form-extensions and
-            # twig-extensions were merged into packages/admin-bundle, and SonataAdminBundle::build()
+            # twig-extensions were merged into the admin bundle, and SonataAdminBundle::build()
             # registers the "sonata_block", "sonata_form" and "sonata_twig" extensions itself now.
             # The fork's phpunit bootstrap boots that kernel (tests/bootstrap.php ->
             # tests/custom_bootstrap.php) before the first test, so a leftover registration does not
@@ -244,7 +244,7 @@ jobs:
               run: |
                   composer config repositories.adminata path ../adminata
                   # adminata ships the block, exporter, form and twig stacks itself (all four
-                  # trees were merged into packages/admin-bundle) and therefore conflicts with the
+                  # trees were merged into the admin bundle) and therefore conflicts with the
                   # four sonata-project packages. The fork is the root package here, so its own
                   # require and require-dev are installed and those conflicts would make the
                   # install unsolvable. Drop the entries in the checkout; the fork drops them for
@@ -261,7 +261,7 @@ jobs:
             # still registers Sonata\BlockBundle\SonataBlockBundle,
             # Sonata\Form\Bridge\Symfony\SonataFormBundle and Sonata\Twig\Bridge\Symfony\SonataTwigBundle,
             # and none of those three classes exists: block-bundle, form-extensions and
-            # twig-extensions were merged into packages/admin-bundle, and SonataAdminBundle::build()
+            # twig-extensions were merged into the admin bundle, and SonataAdminBundle::build()
             # registers the "sonata_block", "sonata_form" and "sonata_twig" extensions itself now.
             # The fork's phpunit bootstrap boots that kernel (tests/bootstrap.php ->
             # tests/custom_bootstrap.php) before the first test, so a leftover registration does not

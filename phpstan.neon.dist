@@ -1,12 +1,11 @@
-# PHPStan for the whole repository: the three forked package directories and adminata's own PHP.
-# Each package's upstream baseline is imported under phpstan/, with its paths rewritten.
-# block-bundle, exporter, form-extensions and twig-extensions have no baseline of their own: their
-# trees now live in packages/admin-bundle, so what their upstream baselines contributed is in
-# phpstan/baseline-admin-bundle.neon. doctrine-extensions ships no upstream baseline at all.
+# PHPStan for the whole repository: the admin bundle under src/, its suite under tests/, and
+# adminata's own PHP under tests-adminata/. The admin bundle's upstream baseline is imported under
+# phpstan/, with its paths rewritten. block-bundle, doctrine-extensions, exporter, form-extensions
+# and twig-extensions have no baseline of their own: their trees are part of this bundle, so what
+# their upstream baselines contributed is in phpstan/baseline-admin-bundle.neon.
 
 includes:
     - phpstan/baseline-admin-bundle.neon
-    - phpstan/baseline-doctrine-orm-admin-bundle.neon
     - vendor/phpstan/phpstan/conf/bleedingEdge.neon
 
 parameters:
@@ -14,23 +13,21 @@ parameters:
     symfony:
         consoleApplicationLoader: ./phpstan-console-application.php
     paths:
-        - packages/admin-bundle/src
-        - packages/admin-bundle/tests
-        - packages/doctrine-orm-admin-bundle/src
-        - packages/doctrine-orm-admin-bundle/tests
+        - src
         - tests
+        - tests-adminata
     scanFiles:
         - vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php
     excludePaths:
         analyseAndScan:
-            - packages/admin-bundle/src/Resources/skeleton/**
+            - src/Resources/skeleton/**
             # Symfony writes this IDE helper into a test application's config directory on every
             # debug-mode build. It is generated and gitignored, it names config classes for bundles
             # the kernel that produced it happened to register, and analysing it fails as soon as
             # one of those bundles is not installed. `.php-cs-fixer.dist.php` and
             # `.php-cs-fixer.adminata.php` skip it for the same reason.
             - tests/App/config/reference.php
-            - packages/*/tests/App/config/reference.php
+            - tests-adminata/App/config/reference.php
     treatPhpDocTypesAsCertain: false
     checkInternalClassCaseSensitivity: true
     checkMissingVarTagTypehint: true

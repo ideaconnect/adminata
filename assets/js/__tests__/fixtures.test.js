@@ -22,7 +22,7 @@ import { mountFixture } from './helpers.js';
  * the identifier, the targets, the actions and the values. Nothing in PHP looks at
  * `data-sonata-batch-target`, so a rewrite that renames one breaks the controller silently. The
  * behaviour suites beside this one use markup written for the case they exercise; this one uses
- * `tests/fixtures/js/*.html`, dumped from the demo by `JsFixtureDumperTest`, and asserts that each
+ * `tests-adminata/fixtures/js/*.html`, dumped from the demo by `JsFixtureDumperTest`, and asserts that each
  * controller finds what it reaches for.
  *
  * `make js-fixtures` re-dumps them.

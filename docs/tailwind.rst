@@ -18,9 +18,9 @@ The entry file
     @import "tailwindcss";
     @import "../../vendor/idct/adminata/assets/css/adminata.css";
 
-    @source "../../vendor/idct/adminata/packages";
-    @source not "../../vendor/idct/adminata/packages/*/tests";
+    @source "../../vendor/idct/adminata/src";
     @source "../../vendor/idct/adminata/assets/js";
+    @source "../../vendor/idct/adminata-doctrine-orm-admin-bundle/src/Resources/views";
     @source "../../templates";
     @source "../../src/Admin";
     @source "../../src/Form";

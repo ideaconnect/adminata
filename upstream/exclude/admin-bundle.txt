@@ -1,4 +1,6 @@
-# Paths adminata owns in packages/admin-bundle: never taken from an upstream diff.
+# Paths adminata owns in the admin bundle, which is this repository: never taken from an
+# upstream diff. Upstream's src/ and tests/ are this repository's src/ and tests/, so these
+# globs need no directory prefix.
 # One glob per line, matched by `git diff -- ':(exclude)<glob>'` in upstream/sync.sh.
 src/Resources/views/**
 src/Resources/public/**
@@ -23,10 +25,9 @@ phpstan.neon.dist
 phpstan-baseline.neon
 phpstan-console-application.php
 composer.json
-docs/cookbook/recipe_bootlint.rst
-docs/cookbook/recipe_icheck.rst
-docs/cookbook/recipe_jquery_ui.rst
-docs/cookbook/recipe_select2.rst
+# adminata's documentation tree is docs/admin-bundle/, restructured around the merged stacks,
+# so upstream's docs/ cannot be applied into it mechanically. Port doc changes by hand.
+docs/**
 # PLAN/01 P6: merged by hand.
 src/DependencyInjection/Configuration.php
 src/DependencyInjection/SonataAdminExtension.php
@@ -34,8 +35,7 @@ src/Mapper/BaseGroupedMapper.php
 src/Admin/AbstractAdmin.php
 src/SonataConfiguration.php
 
-# Repo scaffolding: a package here is a directory, not a repository, so it carries none of
-# this and a sync must not bring it back.
+# Repo scaffolding adminata has its own version of; a sync must not bring upstream's back.
 bin/console
 .editorconfig
 .yamllint

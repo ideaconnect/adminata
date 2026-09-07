@@ -16,7 +16,7 @@ import globals from 'globals';
 
 export default [
     {
-        ignores: ['node_modules/**', 'packages/**', 'vendor/**', 'var/**', 'build/**', 'PLAN/**'],
+        ignores: ['node_modules/**', 'src/**', 'tests/**', 'vendor/**', 'var/**', 'build/**', 'PLAN/**'],
     },
     js.configs.recommended,
     prettier,
@@ -55,7 +55,7 @@ export default [
     },
     {
         // The browser suites run under Node: Playwright loads them, not a page.
-        files: ['tests/Visual/**/*.js'],
+        files: ['tests-adminata/Visual/**/*.js'],
         languageOptions: {
             globals: { ...globals.browser, ...globals.node },
         },

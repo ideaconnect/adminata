@@ -14,7 +14,7 @@ PHPSTAN ?= vendor/bin/phpstan
 RECTOR ?= vendor/bin/rector
 CS_FIXER ?= vendor/bin/php-cs-fixer
 CS_CONFIGS ?= .php-cs-fixer.dist.php .php-cs-fixer.adminata.php
-LINT_PATHS ?= packages tests
+LINT_PATHS ?= src tests tests-adminata
 
 help: ## List the targets
 	@grep -hE '^[a-zA-Z0-9_-]+:.*?## ' $(MAKEFILE_LIST) \
@@ -166,7 +166,7 @@ js-fixtures: demo-db ## Re-dump the HTML the JavaScript suites mount their contr
 .PHONY: js-fixtures
 
 demo: demo-db demo-assets ## Serve the demo admin application on http://127.0.0.1:8000/admin (admin / admin)
-	$(PHP) -S 127.0.0.1:8000 -t tests/App/public
+	$(PHP) -S 127.0.0.1:8000 -t tests-adminata/App/public
 .PHONY: demo
 
 demo-db: ## Recreate the demo database and load its fixtures
@@ -182,7 +182,7 @@ demo-db: ## Recreate the demo database and load its fixtures
 .PHONY: demo-db
 
 demo-assets: ## Link the bundles' built CSS, JavaScript and fonts into the demo's public directory
-	bin/console assets:install tests/App/public --symlink
+	bin/console assets:install tests-adminata/App/public --symlink
 .PHONY: demo-assets
 
 test-visual: demo-db demo-assets ## Playwright screenshots, axe and html-validate against the demo
@@ -214,7 +214,7 @@ assets-build: ## Build the stylesheets and the JavaScript into the admin bundle
 .PHONY: assets-build
 
 assets-check: assets-build ## The build is fresh, contract-clean, within budget and jQuery-free
-	git diff --no-patch --exit-code -- packages/admin-bundle/src/Resources/public \
+	git diff --no-patch --exit-code -- src/Resources/public \
 		assets/css/safelist.css assets/css/contract.json assets/js/__contract__/controllers.json
 	npm run css:contract
 	npm run size

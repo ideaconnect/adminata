@@ -1,6 +1,6 @@
 /*
  * adminata's stylesheet: Tailwind CSS v4 with the TailAdmin design tokens and the `.adm-*`
- * component layer. Compiled to packages/admin-bundle/src/Resources/public/app.css.
+ * component layer. Compiled to src/Resources/public/app.css.
  *
  * The component layer and the safelist join adminata.css in P1-05.
  */
@@ -13,9 +13,16 @@
 @import 'tailwindcss' source(none);
 @import './adminata.css';
 
-/* Every template and script of the seven packages, and adminata's own JavaScript. */
-@source '../../packages';
-@source not '../../packages/*/tests';
-@source not '../../packages/*/docs';
+/*
+ * Every template and script this bundle ships, and adminata's own JavaScript.
+ *
+ * The storage layers are packages of their own and are deliberately *not* scanned: this file is
+ * the source of a build artifact that is committed and checked (`make assets-check`), so what it
+ * produces must not depend on which optional packages happen to be installed. Their templates use
+ * `.adm-*` components and the utilities this bundle's own templates already pull in, which the
+ * safelist and these sources cover — adding them changes the output by not one byte, and that is
+ * asserted rather than assumed: see PLAN/04.
+ */
+@source '../../src';
 @source '../js';
 @source not '../js/**/*.test.js';

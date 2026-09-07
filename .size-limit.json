@@ -1,19 +1,19 @@
 [
     {
         "name": "app.js",
-        "path": "packages/admin-bundle/src/Resources/public/app.js",
+        "path": "src/Resources/public/app.js",
         "limit": "100 kB",
         "brotli": false
     },
     {
         "name": "app.css",
-        "path": "packages/admin-bundle/src/Resources/public/app.css",
+        "path": "src/Resources/public/app.css",
         "limit": "120 kB",
         "brotli": false
     },
     {
         "name": "fontawesome.css",
-        "path": "packages/admin-bundle/src/Resources/public/fontawesome.css",
+        "path": "src/Resources/public/fontawesome.css",
         "limit": "95 kB",
         "brotli": false
     }

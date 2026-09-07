@@ -1,0 +1,59 @@
+# The templates adminata inherits unchanged until the feature that renders them is first needed
+# (PLAN/03 §E). Each carries a `{# adminata: not yet ported #}` marker, and
+# Adminata\Tests\Contract\DeferredTemplateTest checks that this list, the markers and the files
+# on disk agree. Porting one means rewriting it, removing its marker and removing it from here.
+
+# Association edit flows — redesigned without AJAX submission when first needed (PLAN/01 S5, J9).
+src/Resources/views/CRUD/Association/edit_many_script.html.twig
+src/Resources/views/CRUD/Association/edit_many_to_many.html.twig
+src/Resources/views/CRUD/Association/edit_many_to_one.html.twig
+src/Resources/views/CRUD/Association/edit_modal.html.twig
+src/Resources/views/CRUD/Association/edit_one_script.html.twig
+src/Resources/views/CRUD/Association/edit_one_to_many.html.twig
+src/Resources/views/CRUD/Association/edit_one_to_many_inline_table.html.twig
+src/Resources/views/CRUD/Association/edit_one_to_many_inline_tabs.html.twig
+src/Resources/views/CRUD/Association/edit_one_to_many_sortable_script_table.html.twig
+src/Resources/views/CRUD/Association/edit_one_to_many_sortable_script_tabs.html.twig
+src/Resources/views/CRUD/Association/edit_one_to_one.html.twig
+
+# The `ModelListType` widget, which drives those flows.
+src/Resources/views/Form/Type/sonata_type_model_list.html.twig
+
+# History and compare — first admin with an audit reader.
+src/Resources/views/CRUD/base_history.html.twig
+src/Resources/views/CRUD/base_show_compare.html.twig
+src/Resources/views/CRUD/history.html.twig
+src/Resources/views/CRUD/history_revision_timestamp.html.twig
+src/Resources/views/CRUD/show_compare.html.twig
+
+# ACL — `security.handler: acl`.
+src/Resources/views/CRUD/acl.html.twig
+src/Resources/views/CRUD/base_acl.html.twig
+src/Resources/views/CRUD/base_acl_macro.html.twig
+
+# Other CRUD pages — preview, subclasses, tree and mosaic list modes, custom controller actions.
+src/Resources/views/CRUD/action.html.twig
+src/Resources/views/CRUD/base_list_flat_field.html.twig
+src/Resources/views/CRUD/base_list_flat_inner_row.html.twig
+src/Resources/views/CRUD/list_outer_rows_mosaic.html.twig
+src/Resources/views/CRUD/preview.html.twig
+src/Resources/views/CRUD/select_subclass.html.twig
+src/Resources/views/CRUD/tree.html.twig
+
+# Global search and tab menu — `search: true`; child admins or `configureTabMenu()`.
+src/Resources/views/Core/search.html.twig
+src/Resources/views/Core/tab_menu_template.html.twig
+
+# Dashboard blocks — first use of the block type.
+src/Resources/views/Block/block_admin_preview.html.twig
+src/Resources/views/Block/block_rss_dashboard.html.twig
+src/Resources/views/Block/block_search_result.html.twig
+src/Resources/views/Block/block_stats.html.twig
+
+# Helper — association flows.
+src/Resources/views/Helper/short-object-description.html.twig
+
+# The other packages (PLAN/03 §G).
+src/Resources/views/Block/block_core_rss.html.twig
+src/Resources/views/Block/block_side_menu_template.html.twig
+vendor/idct/adminata-doctrine-orm-admin-bundle/src/Resources/views/Block/block_audit.html.twig

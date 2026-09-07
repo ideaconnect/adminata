@@ -23,11 +23,11 @@ const pages = new Map();
 /**
  * A piece of what the demo application actually renders.
  *
- * `tests/fixtures/js/*.html` is dumped from the demo by `JsFixtureDumperTest` (PLAN/05 §9), so a
+ * `tests-adminata/fixtures/js/*.html` is dumped from the demo by `JsFixtureDumperTest` (PLAN/05 §9), so a
  * template that renames a target or drops an action fails here rather than in a browser. Re-dump
  * with `make js-fixtures`.
  *
- * @param {string} page file name under `tests/fixtures/js`, without the extension
+ * @param {string} page file name under `tests-adminata/fixtures/js`, without the extension
  * @param {string} selector what to take out of it
  * @returns {string} the outer HTML of the first match
  */
@@ -88,7 +88,7 @@ function parse(page) {
         pages.set(
             page,
             new DOMParser().parseFromString(
-                readFileSync(`tests/fixtures/js/${page}.html`, 'utf8'),
+                readFileSync(`tests-adminata/fixtures/js/${page}.html`, 'utf8'),
                 'text/html',
             ),
         );

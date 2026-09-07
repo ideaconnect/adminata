@@ -6,10 +6,12 @@ their validator, the flash-message and status Twig helpers, the blocks the dashb
 the exporter the export menu streams a result set through, and the templates that render all of
 it.
 
-Storage is a separate package. The Doctrine ORM integration ships **with** adminata and is
-documented under :doc:`/doctrine-orm-admin-bundle/index`; MongoDB is
-`idct/sonata-admin-mongodb-bundle <https://github.com/ideaconnect/sonata-admin-mongodb-bundle>`_,
-which is maintained against adminata but installed separately.
+Storage is a separate package, one per backend and both installed alongside this one: Doctrine
+ORM is
+`idct/adminata-doctrine-orm-admin-bundle <https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle>`_
+and MongoDB is
+`idct/sonata-admin-mongodb-bundle <https://github.com/ideaconnect/sonata-admin-mongodb-bundle>`_.
+Each carries its own documentation.
 
 .. note::
 

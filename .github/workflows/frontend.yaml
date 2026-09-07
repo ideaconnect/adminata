@@ -64,7 +64,7 @@ jobs:
             - name: The committed build output matches a fresh build
               run: >-
                   git diff --exit-code --
-                  packages/admin-bundle/src/Resources/public
+                  src/Resources/public
                   assets/css/safelist.css
                   assets/css/contract.json
                   assets/js/__contract__/controllers.json

@@ -1,4 +1,4 @@
-# block-bundle was merged into packages/admin-bundle (upstream/merged.txt) and no longer has a
+# block-bundle was merged into the admin bundle (upstream/merged.txt) and no longer has a
 # directory of its own, so upstream/sync.sh refuses it. This list is kept because upstream/diff.sh
 # still needs one to split its report, and because it records which of the upstream paths adminata
 # had already taken over: the templates listed as rewritten or deferred in PLAN/03 §G. The paths are

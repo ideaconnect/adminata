@@ -15,9 +15,9 @@ declare(strict_types=1);
  */
 
 /*
- * The forked packages. Their files keep the upstream Sonata header so that upstream diffs still
- * apply; adminata's own PHP is covered by `.php-cs-fixer.adminata.php`, which carries the
- * combined header. `make lint` runs both.
+ * The forked sources and their suite. Their files keep the upstream Sonata header so that upstream
+ * diffs still apply; adminata's own PHP is covered by `.php-cs-fixer.adminata.php`, which carries
+ * the combined header. `make lint` runs both.
  */
 
 $header = <<<'HEADER'
@@ -32,7 +32,7 @@ $header = <<<'HEADER'
 $rules = (require __DIR__.'/.php-cs-fixer.rules.php')($header);
 
 $finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__.'/packages')
+    ->in([__DIR__.'/src', __DIR__.'/tests'])
     ->exclude('node_modules')
     ->exclude('Resources/skeleton')
     ->exclude('Resources/public')
@@ -49,7 +49,7 @@ $config
     ->setRiskyAllowed(true)
     ->setRules($rules)
     ->setUsingCache(true)
-    ->setCacheFile(__DIR__.'/.php-cs-fixer.packages.cache')
+    ->setCacheFile(__DIR__.'/.php-cs-fixer.forked.cache')
     // The composer.json floor is PHP 8.4 while this machine and CI also run 8.5; say so
     // explicitly instead of printing the unsupported-PHP-version warning on every run.
     ->setUnsupportedPhpVersionAllowed(true)

@@ -34,7 +34,7 @@ $header = <<<'HEADER'
 $rules = (require __DIR__.'/.php-cs-fixer.rules.php')($header);
 
 // `bin/` appears with P0-08 (bin/console and the check scripts).
-$paths = array_values(array_filter([__DIR__.'/bin', __DIR__.'/tests'], is_dir(...)));
+$paths = array_values(array_filter([__DIR__.'/bin', __DIR__.'/tests-adminata'], is_dir(...)));
 
 $finder = PhpCsFixer\Finder::create()
     ->in($paths)

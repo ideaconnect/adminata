@@ -5,21 +5,18 @@
 /.php-cs-fixer.cache
 /composer.lock
 /package-lock.json.bak
-/tests/Visual/__diff__/
-/tests/Visual/test-results/
+/tests-adminata/Visual/__diff__/
+/tests-adminata/Visual/test-results/
 /playwright-report/
 /blob-report/
 /.playwright-cache/
 .DS_Store
-/.php-cs-fixer.packages.cache
+/.php-cs-fixer.forked.cache
 /.php-cs-fixer.adminata.cache
 /build/
+# The demo application adminata's own suites drive, and the admin bundle's own test kernel.
+# Symfony 8 writes reference.php into a kernel's config dir on every debug-mode build.
+/tests-adminata/App/public/bundles/
+/tests-adminata/App/config/reference.php
 /tests/App/public/bundles/
-# Symfony 8 writes this IDE helper into the kernel's config dir on every debug-mode build.
 /tests/App/config/reference.php
-
-# The same two, for the forked packages' own test applications. Their upstream `.gitignore` files
-# went with the rest of the per-package repo scaffolding, so the rules live here now.
-/packages/*/build/
-/packages/*/tests/App/public/bundles/
-/packages/*/tests/App/config/reference.php

@@ -37,7 +37,7 @@ describe('the Stimulus contract', () => {
     });
 
     it('ships every promised identifier in the built bundle', () => {
-        const bundle = readFileSync('packages/admin-bundle/src/Resources/public/app.js', 'utf8');
+        const bundle = readFileSync('src/Resources/public/app.js', 'utf8');
 
         for (const identifier of Object.keys(contract.controllers)) {
             expect(bundle, `${identifier} is missing from the built app.js`).toContain(identifier);
@@ -45,7 +45,7 @@ describe('the Stimulus contract', () => {
     });
 
     it('ships no jQuery in the built bundle', () => {
-        const bundle = readFileSync('packages/admin-bundle/src/Resources/public/app.js', 'utf8');
+        const bundle = readFileSync('src/Resources/public/app.js', 'utf8');
 
         expect(bundle).not.toMatch(/\bjQuery\b/);
     });

@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 #
-# Applies the PHP-side changes of one upstream release onto packages/<package>/, skipping every
-# path adminata owns (upstream/exclude/<package>.txt). What it cannot apply lands in .rej files
-# for you to resolve; the user-interface changes it skipped are re-implemented by hand.
+# Applies the PHP-side changes of one upstream release onto this repository, skipping every path
+# adminata owns (upstream/exclude/<package>.txt). What it cannot apply lands in .rej files for you
+# to resolve; the user-interface changes it skipped are re-implemented by hand.
+#
+# Only `admin-bundle` can be synced, and it is the repository itself: upstream's src/ and tests/
+# are this repository's src/ and tests/, so the diff applies with no directory prefix.
 #
 #   upstream/sync.sh <package> <to-tag>
 #   upstream/sync.sh twig-extensions 2.7.0
@@ -10,8 +13,8 @@
 # Afterwards: `make cs-fix rector-fix phpstan test`, one commit "Sync <package> <to-tag>", then a
 # commit bumping the `replace` entry in composer.json and the row in UPSTREAM.md.
 #
-# Packages listed in upstream/merged.txt have no directory of their own any more and are refused
-# here; their upstream releases are ported by hand into the package they were merged into.
+# Trees listed in upstream/merged.txt are part of the admin bundle now and are refused here; their
+# upstream releases are ported by hand.
 
 set -euo pipefail
 
@@ -36,17 +39,17 @@ if [ -z "$from" ] || [ -z "$url" ]; then
     exit 66
 fi
 
-# A merged tree has no packages/<package>/ to apply a patch to. `git apply --directory=` would
-# happily create one, resurrecting a source tree that was deliberately folded into another package,
-# so refuse before anything is fetched or written.
+# A merged tree has no tree of its own to apply a patch to; applying it at the root would
+# resurrect sources that were deliberately folded into the admin bundle under other names, so
+# refuse before anything is fetched or written.
 merged_into=$(grep -v '^#' "$merged_file" | awk -v p="$package" '$1 == p { print $2 }')
 
 if [ -n "$merged_into" ]; then
     cat >&2 <<ERR
-$package was merged into packages/$merged_into and no longer has a directory of its own, so an
-upstream release cannot be replayed onto it mechanically.
+$package was merged into $merged_into and no longer has a tree of its own, so an upstream release
+cannot be replayed onto it mechanically.
 
-Report what changed and port it by hand into packages/$merged_into:
+Report what changed and port it by hand:
   upstream/diff.sh $package $from $to
 
 Then bump the row in upstream/remotes.txt and in UPSTREAM.md by hand — a merged package has no
@@ -86,7 +89,7 @@ git -C "$root" diff "$range" -- . "${owned[@]}" > "$patch"
 if [ ! -s "$patch" ]; then
     echo "nothing to apply for $package $from → $to outside the paths adminata owns"
 else
-    git -C "$root" apply -3 --directory="packages/$package" "$patch"
+    git -C "$root" apply -3 "$patch"
 fi
 
 sed -i "s|^\\($package[[:space:]]\\+$url[[:space:]]\\+\\)$from\$|\\1$to|" "$remotes_file"

@@ -26,10 +26,10 @@ import AxeBuilder from '@axe-core/playwright';
 import { chromium } from '@playwright/test';
 
 import { VIEWPORTS } from '../playwright.config.js';
-import { BASE_URL, CREDENTIALS, PAGES, THEMES } from '../tests/Visual/support/demo.js';
-import { validate } from '../tests/Visual/support/html.js';
+import { BASE_URL, CREDENTIALS, PAGES, THEMES } from '../tests-adminata/Visual/support/demo.js';
+import { validate } from '../tests-adminata/Visual/support/html.js';
 
-const OUTPUT = new URL('../tests/Visual/support/findings.json', import.meta.url);
+const OUTPUT = new URL('../tests-adminata/Visual/support/findings.json', import.meta.url);
 
 const browser = await chromium.launch();
 const context = await browser.newContext({

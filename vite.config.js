@@ -17,7 +17,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
-const outDir = 'packages/admin-bundle/src/Resources/public';
+const outDir = 'src/Resources/public';
 const version = JSON.parse(readFileSync(new URL('package.json', import.meta.url), 'utf8')).version;
 
 /*

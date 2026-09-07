@@ -9,15 +9,19 @@ Project-specific instructions for any AI coding agent (or human contributor) wor
 ## 1. What this project is
 
 adminata is a **hard fork** of seven `sonata-project` packages, shipped as one Composer package
-`idct/adminata` that `replace`s three of them. The other four — `block-bundle`, `exporter`,
-`form-extensions` and `twig-extensions` — are **part of `packages/admin-bundle`** (owner directives
-of 2026-09-06 and 2026-09-07; PLAN/01 P10, P13, P14 and P15): their classes are
-`Sonata\AdminBundle\` (the exporter's under `Sonata\AdminBundle\Exporter\`), the strings the
-first three shipped are in the `SonataAdminBundle` translation domain and the exporter shipped
-none, there is no `SonataBlockBundle`, `SonataExporterBundle`, `SonataFormBundle` or
-`SonataTwigBundle` — no class, no domain — and `composer.json` `conflict`s with all four instead
-of replacing them. The PHP layer stays Sonata's; the Twig templates, CSS and JavaScript are
-replaced with a Tailwind CSS v4 / TailAdmin user interface.
+`idct/adminata` that `replace`s `sonata-project/admin-bundle`. Five more — `block-bundle`,
+`doctrine-extensions`, `exporter`, `form-extensions` and `twig-extensions` — are **part of that
+bundle** (owner directives of 2026-09-06 and 2026-09-07; PLAN/01 P10, P13, P14, P15 and P16): their
+classes are `Sonata\AdminBundle\` (the exporter's under `Sonata\AdminBundle\Exporter\`,
+doctrine-extensions' under `Sonata\AdminBundle\Doctrine\`), the strings three of them shipped are
+in the `SonataAdminBundle` translation domain and the other two shipped none, there is no
+`SonataBlockBundle`, `SonataDoctrineBundle`, `SonataExporterBundle`, `SonataFormBundle` or
+`SonataTwigBundle` — no class, no domain — and `composer.json` `conflict`s with all five instead of
+replacing them. The seventh, `doctrine-orm-admin-bundle`, is a **repository of its own** since
+2026-09-07 (PLAN/01 P17): `ideaconnect/adminata-doctrine-orm-admin-bundle`, a dev dependency here
+because the demo application and adminata's own suites are built on Doctrine ORM. The PHP layer
+stays Sonata's; the Twig templates, CSS and JavaScript are replaced with a Tailwind CSS v4 /
+TailAdmin user interface.
 
 It is not an overlay, not a theme bundle and not a compatibility layer. There is no
 `sonata-project/*` package installed alongside it — installing adminata makes those packages
@@ -62,24 +66,31 @@ at every milestone.
 ## 3. Layout
 
 ```
-packages/<upstream-name>/{src,tests}        the three forked trees, imported with `git subtree`
+src/                                        the bundle — `Sonata\AdminBundle\`
+tests/                                      its suite — `Sonata\AdminBundle\Tests\`
 assets/{css,js,images}                      adminata's own UI sources (built by Vite)
-packages/admin-bundle/src/Resources/public  committed build output (bundles/sonataadmin/)
-tests/{App,Unit,Functional,Contract,Visual} adminata-level suites and the demo application
+src/Resources/public                        committed build output (bundles/sonataadmin/)
+tests-adminata/{App,Unit,Functional,…}      adminata-level suites and the demo application,
+                                            `Adminata\Tests\`
+changelog/                                  the inherited upstream histories
 upstream/                                   remotes, merge record, exclusion lists, diff/sync
 docs/                                       one Sphinx site (`make docs`)
 PLAN/                                       the design; PROJECT_PLAN.md the task list
 ```
 
-Three upstream namespaces map onto `packages/*/src` from the root `composer.json` — four PSR-4
-entries, because `doctrine-extensions` registers its `Bridge\Symfony\` sub-namespace as well. The
-other four — `Sonata\BlockBundle\`, `Sonata\Exporter\`, `Sonata\Form\` and `Sonata\Twig\` — are
-gone: those sources are `Sonata\AdminBundle\` inside `packages/admin-bundle` (the exporter's
-under `Sonata\AdminBundle\Exporter\`, beside the `DataSourceInterface` that was already there),
-so there is no `packages/block-bundle/`, `packages/exporter/`, `packages/form-extensions/` or
-`packages/twig-extensions/` — only their subtree histories. Their DI service files are renamed flat
-inside the admin bundle (`block_*.php`, `form_ext_types.php`, `form_validator.php`,
-`twig_flash.php`, `twig_ext.php`, `exporter_services.php` — the last one because admin's own
+`src/` and `tests/` are upstream's own layout, which is the point: `upstream/sync.sh` applies an
+upstream diff here with no `--directory` prefix at all. Hence the second test root — the bundle's
+suite is `tests/`, and adminata's own suites keep a directory beside it rather than a namespace
+nested inside one, which would make every optimised autoload dump warn.
+
+One PSR-4 entry maps `Sonata\AdminBundle\` onto `src/`. The five merged namespaces —
+`Sonata\BlockBundle\`, `Sonata\Doctrine\`, `Sonata\Exporter\`, `Sonata\Form\` and
+`Sonata\Twig\` — are gone: those sources are `Sonata\AdminBundle\` (the exporter's under
+`Sonata\AdminBundle\Exporter\`, beside the `DataSourceInterface` that was already there;
+doctrine-extensions' under `Sonata\AdminBundle\Doctrine\`), and only their subtree histories
+remain. Their DI service files are renamed flat inside the bundle (`block_*.php`,
+`form_ext_types.php`, `form_validator.php`, `twig_flash.php`, `twig_ext.php`,
+`exporter_services.php`, `doctrine*.php` — `exporter_services.php` because admin's own
 `exporter.php` wires the `AdminExporter` bridge) so they cannot collide with admin's own. There is
 one `composer.json`, one `phpunit.xml.dist`, one PHPStan, Rector and CS-Fixer configuration for the
 whole repository — the per-package ones were deleted at import.
@@ -196,12 +207,11 @@ Paths adminata owns are listed in `upstream/exclude/<name>.txt` and are never ta
 upstream UI changes are re-implemented by hand with a CHANGELOG line "Ported upstream `<pkg>`#NNNN".
 Never merge `admin-bundle` 5.x before adminata 2.0.
 
-`block-bundle`, `exporter`, `form-extensions` and `twig-extensions` are the exceptions, recorded in
-`upstream/merged.txt`: `make upstream-diff PKG=block-bundle` still reports, but there is no
-`packages/block-bundle/`, `packages/exporter/`, `packages/form-extensions/` or
-`packages/twig-extensions/` for `git apply --directory` to land the diff in, so
-`make upstream-sync` has nowhere to apply. **Every upstream change to those four is ported by
-hand** into `packages/admin-bundle/` through the class maps in CHANGELOG.md.
+The five trees in `upstream/merged.txt` are the exceptions: `make upstream-diff PKG=block-bundle`
+still reports, but they have no tree of their own for a diff to land in, so `make upstream-sync`
+refuses them. **Every upstream change to those five is ported by hand** through the class maps in
+CHANGELOG.md. `doctrine-orm-admin-bundle` is not adminata's to sync at all any more — it has its
+own repository, its own `UPSTREAM.md` and its own remote.
 
 ---
 

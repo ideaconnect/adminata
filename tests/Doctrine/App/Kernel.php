@@ -1,0 +1,122 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the Sonata Project package.
+ *
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Sonata\AdminBundle\Tests\Doctrine\App;
+
+use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\CacheCompatibilityPass;
+use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Sonata\AdminBundle\DependencyInjection\Compiler\DoctrineAdapterCompilerPass;
+use Sonata\AdminBundle\DependencyInjection\Compiler\DoctrineMapperCompilerPass;
+use Sonata\AdminBundle\SonataAdminBundle;
+use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+
+final class Kernel extends BaseKernel
+{
+    use MicroKernelTrait;
+
+    public function registerBundles(): iterable
+    {
+        return [
+            new DoctrineBundle(),
+            new FrameworkBundle(),
+        ];
+    }
+
+    /**
+     * The Doctrine layer no longer has a bundle of its own: SonataAdminBundle registers these two
+     * passes and SonataAdminExtension loads the three service files. Booting the whole admin bundle
+     * to reach them would drag Twig, Security and KnpMenu into a kernel that only exercises the
+     * Doctrine mapper, so this application wires that slice by hand instead. That
+     * SonataAdminExtension really does load the services is asserted in SonataAdminExtensionTest.
+     */
+    public function build(ContainerBuilder $container): void
+    {
+        $container->addCompilerPass(new DoctrineAdapterCompilerPass());
+        $container->addCompilerPass(new DoctrineMapperCompilerPass());
+    }
+
+    public function getCacheDir(): string
+    {
+        return $this->getBaseDir().'cache';
+    }
+
+    public function getLogDir(): string
+    {
+        return $this->getBaseDir().'log';
+    }
+
+    public function getProjectDir(): string
+    {
+        return __DIR__;
+    }
+
+    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
+    {
+        $config = \dirname((string) new \ReflectionClass(SonataAdminBundle::class)->getFileName()).'/Resources/config';
+
+        $loader->load($config.'/doctrine.php');
+        $loader->load($config.'/doctrine_orm.php');
+        $loader->load($config.'/doctrine_mapper_orm.php');
+
+        $container->loadFromExtension('framework', [
+            'http_method_override' => true,
+            'test' => true,
+            'router' => ['utf8' => true],
+            'secret' => 'secret',
+        ]);
+
+        $container->loadFromExtension('doctrine', [
+            'dbal' => ['url' => $_SERVER['ADMINATA_TEST_DATABASE_URL'] ?? 'mysql://root:adminata@127.0.0.1:7010/adminata_test?serverVersion=8.4.0&charset=utf8mb4'],
+            'orm' => [
+                'controller_resolver' => [
+                    'auto_mapping' => false,
+                ],
+                'mappings' => [
+                    'Entity' => [
+                        'type' => 'attribute',
+                        'dir' => '%kernel.project_dir%/Entity',
+                        'prefix' => 'Sonata\AdminBundle\Tests\Doctrine\App\Entity',
+                        'is_bundle' => false,
+                    ],
+                ],
+            ],
+        ]);
+
+        if (class_exists(CacheCompatibilityPass::class)) {
+            // doctrine-bundle v2
+            $container->loadFromExtension('doctrine', [
+                'dbal' => [
+                    'use_savepoints' => true,
+                ],
+                'orm' => [
+                    'auto_generate_proxy_classes' => true,
+                    'report_fields_where_declared' => true,
+                ],
+            ]);
+        }
+    }
+
+    protected function configureRoutes(RoutingConfigurator $routes): void
+    {
+    }
+
+    private function getBaseDir(): string
+    {
+        return sys_get_temp_dir().'/sonata-admin-bundle-doctrine/var/';
+    }
+}

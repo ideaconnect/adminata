@@ -120,5 +120,5 @@ jobs:
               run: npm run check:jquery
 
             # The source scan moved into `bin/check-no-jquery.mjs` above, so `make lint-js` runs
-            # exactly what CI runs. The inherited templates under `packages/*/src/Resources/views`
+            # exactly what CI runs. The inherited templates under `src/Resources/views`
             # still reference jQuery; milestones M2 to M4 replace them.
