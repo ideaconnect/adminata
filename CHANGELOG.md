@@ -66,16 +66,32 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
-- Hard fork of seven `sonata-project` packages into one Composer package `idct/adminata`, imported
-  with `git subtree` at `admin-bundle` 4.43.0, `block-bundle` 5.4.0, `doctrine-extensions` 2.6.0,
-  `doctrine-orm-admin-bundle` 4.21.0, `exporter` 3.4.0, `form-extensions` 2.7.0 and
-  `twig-extensions` 2.6.0 (see [UPSTREAM.md](UPSTREAM.md)). Three of them are package directories;
-  `block-bundle`, `exporter`, `form-extensions` and `twig-extensions` were merged into
-  `packages/admin-bundle` — see *Changed*.
-- Root `composer.json` replacing those three package names at their exact versions and conflicting
-  with `sonata-project/block-bundle`, `sonata-project/exporter`,
-  `sonata-project/form-extensions` and `sonata-project/twig-extensions`, with the union of their
-  requirements on PHP `^8.4` and Symfony `^7.4 || ^8.0`.
+- Hard fork of seven `sonata-project` packages, imported with `git subtree` at `admin-bundle`
+  4.43.0, `block-bundle` 5.4.0, `doctrine-extensions` 2.6.0, `doctrine-orm-admin-bundle` 4.21.0,
+  `exporter` 3.4.0, `form-extensions` 2.7.0 and `twig-extensions` 2.6.0 (see
+  [UPSTREAM.md](UPSTREAM.md)). This repository is one Composer package, `idct/adminata`, and one
+  bundle: `admin-bundle` is `src/` and `tests/`, and `block-bundle`, `doctrine-extensions`,
+  `exporter`, `form-extensions` and `twig-extensions` were merged into it — see *Changed*. The
+  seventh, `doctrine-orm-admin-bundle`, is a package of its own,
+  [`idct/adminata-doctrine-orm-admin-bundle`](https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle).
+- Root `composer.json` replacing `sonata-project/admin-bundle` at its exact version and
+  conflicting with the five merged packages, with the union of their requirements on PHP `^8.4`
+  and Symfony `^7.4 || ^8.0`. Neither this package nor the storage layers are on Packagist yet, so
+  it names the repositories they install from: a `path` one for a checkout beside it and a `vcs`
+  one behind it.
+- An npm-facing `assets/package.json`, `@idct/adminata`, and the `symfony-ux` keyword on the
+  Composer package. Symfony Flex links the package into an application's `package.json` as
+  `"@idct/adminata": "file:vendor/idct/adminata/assets"` on every `composer update`, exactly as it
+  does for the Symfony UX packages, and adds `tailwindcss` beside it as the peer dependency the
+  file declares. The package's `style` field points at `assets/css/tailwind.css`, so an
+  application that compiles Tailwind itself starts its stylesheet with the one line
+  `@import "@idct/adminata";` and adds only its own `@source` list. That entry carries Tailwind
+  with automatic source detection **off**, adminata's tokens, base layer and components, and the
+  `@source` list for adminata's own templates and controllers and for the storage layers' views —
+  so an application never names a directory of adminata's again. It also means a class an
+  application used from a directory it never listed, and that Tailwind's automatic detection
+  happened to find, is not in the output any more; list the directory. See
+  [docs/tailwind.rst](docs/tailwind.rst).
 - `sonata_admin.theme` with `mode` (`light`, `dark` or `system`), `logo_dark` and `logo_icon`, and
   the Twig functions `sonata_theme()` and `sonata_html_dir()`. The mode is resolved server-side
   from the `sonata_theme` cookie so a page never paints the wrong theme first.
@@ -337,6 +353,42 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 - Row actions have a resting surface inside the actions column: a bare glyph in a table cell reads
   as content rather than as a control.
 - Filters and the list share one grid, so the `gap` puts air between them.
+- **`sonata-project/doctrine-extensions` is merged into the admin bundle.** Twenty-one classes
+  with no configuration, no templates, no translations and no consumer outside this fork's own
+  test kernels, folded under a new `Doctrine\` directory rather than spread — because
+  `Sonata\Doctrine\Model\ManagerInterface` is a Doctrine object manager and
+  `Sonata\AdminBundle\Model\ModelManagerInterface` is an admin storage layer, and one directory
+  for both would read as one abstraction:
+
+  | Was | Is |
+  |---|---|
+  | `Sonata\Doctrine\{Adapter,Document,Entity,Exception,Mapper,Model}\*` | `Sonata\AdminBundle\Doctrine\*` |
+  | `Sonata\Doctrine\Bridge\Symfony\DependencyInjection\Compiler\AdapterCompilerPass` | `Sonata\AdminBundle\DependencyInjection\Compiler\DoctrineAdapterCompilerPass` |
+  | `Sonata\Doctrine\Bridge\Symfony\DependencyInjection\Compiler\MapperCompilerPass` | `Sonata\AdminBundle\DependencyInjection\Compiler\DoctrineMapperCompilerPass` |
+
+  `SonataDoctrineExtension` is deleted rather than re-registered, the one departure from the
+  four earlier merges: `sonata_doctrine` never had a `Configuration` class and took no options,
+  so registering it would only have named a configuration root nothing can go in.
+  `SonataAdminExtension` loads the three service files instead, and the ORM half keeps its
+  `interface_exists()` guard — a panel running the MongoDB ODM alone need not have Doctrine ORM
+  installed. `sonata.doctrine.model.adapter.chain`, `sonata.doctrine.adapter.doctrine_orm` and
+  `sonata.doctrine.mapper` are unchanged.
+- **`sonata-project/doctrine-orm-admin-bundle` is a package of its own**,
+  `idct/adminata-doctrine-orm-admin-bundle`, split out with `git subtree split` so its history
+  went along whole. A storage layer is the one part of this stack that is genuinely optional — a
+  panel picks Doctrine ORM, or the MongoDB ODM, or writes its own — and shipping it inside
+  `idct/adminata` made every panel install it. Its namespace, bundle class,
+  `sonata_doctrine_orm_admin` root, service ids and template paths are unchanged, and it still
+  replaces `sonata-project/doctrine-orm-admin-bundle` at 4.21.0: an application swaps one
+  `composer require` line for another and edits nothing else. It is a dev dependency here, because
+  the demo application and the suites that drive it are built on Doctrine ORM.
+- **`packages/` is gone.** With one forked tree left, `packages/admin-bundle/{src,tests}` are
+  `{src,tests}` at the root — upstream's own layout, so `upstream/sync.sh` applies an upstream
+  diff with no `--directory` prefix at all. adminata's own repository-level suites are under
+  `tests-adminata/`, the inherited upstream changelogs under `changelog/<upstream-package>.md`.
+  The rebuilt stylesheet lost three utilities — `fixed`, `relative`, `sticky` — that no template
+  used: the old `@source "../../packages"` glob was scanning the inherited changelogs, and Tailwind
+  was harvesting English prose as class names.
 
 ### Removed
 
@@ -376,6 +428,12 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
   package is a directory of this repository, so one root governs them; what the per-package
   `.gitignore` and `.gitattributes` actually did moved into the root ones. The upstream
   `LICENSE` and `CHANGELOG.md` stay. The Composer archive is unchanged, 1040 files either way.
+- `Sonata\Doctrine\Bridge\Symfony\SonataDoctrineBundle`. There is no Doctrine bundle class to
+  register: the fifth and last merged line goes out of `config/bundles.php`, and registering this
+  stack is two lines — `SonataAdminBundle` and the storage layer's.
+- `packages/doctrine-extensions/` and `packages/doctrine-orm-admin-bundle/`, and then `packages/`
+  itself — see *Changed*. `upstream/remotes.txt` loses the ORM row: that package records its own
+  provenance in its own repository now.
 - `sonata_admin.options.skin`, `use_select2`, `use_icheck` and `use_bootlint`. They are removed, not
   deprecated: leaving them in `sonata_admin.yaml` is a container build error.
 - `Sonata\Form\Date\JavaScriptFormatConverter`, form-extensions' `assets/` and its published

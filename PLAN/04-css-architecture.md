@@ -113,28 +113,47 @@ form-extensions' `assets/scss/app.scss` (Tempus Dominus theme) and twig-extensio
 
 ## 7. Per-app recipe (recomaty-panel: Webpack Encore + `@tailwindcss/postcss`)
 
+adminata ships an npm-facing `assets/package.json` (P19). Its `style` field points at
+`assets/css/tailwind.css`, and its `composer.json` carries the `symfony-ux` keyword, which is what
+makes Symfony Flex's `PackageJsonSynchronizer` add `"@idct/adminata": "file:vendor/idct/adminata/assets"`
+to the application's `package.json` on every `composer update` — and `tailwindcss` beside it, as
+the peer dependency that file declares. The application's entry is therefore one import and its
+own sources:
+
 ```css
 /* assets/styles/admin.css */
-@import "tailwindcss";
-@import "../../vendor/idct/adminata/assets/css/adminata.css";
-@source "../../vendor/idct/adminata/packages";
-@source not "../../vendor/idct/adminata/packages/*/tests";
-@source "../../vendor/idct/adminata/assets/js";
+@import "@idct/adminata";
 @source "../../templates";
 @source "../../src/Admin";
+@source "../../src/Form";
+@source "../js";
 :root { --color-brand-500: #0ea5e9; } /* optional re-theme */
 ```
+
+`tailwind.css` is `app.css` — the engine with `source(none)`, `adminata.css`, and the `@source`
+list for `src/` and `assets/js` — plus `@source` lines for the two storage layers' views, which are
+installed beside adminata under `vendor/` and are skipped silently when they are not. Three facts
+this rests on, each verified against tailwindcss 4.3.3 on 2026-09-07 (the probe is recorded in
+P19): a `@source` inside an imported file is honoured and resolves relative to that file — through
+symlinks, to the real path, so a `path` repository behaves like a `vendor/` install; `source(none)`
+on the engine import inside an imported file still lets the entry's own `@source` lines through;
+and a bare `@import "@scope/name"` resolves through `node_modules` via the package's `style` field.
+The application must not import `"tailwindcss"` itself: a second engine import does not fail, it
+emits the preflight twice.
 
 ```yaml
 sonata_admin:
     assets:
         remove_stylesheets: [bundles/sonataadmin/app.css]
-        extra_stylesheets: [{ path: 'build/admin.css', package_name: null }]
+        extra_stylesheets: [build/admin.css]
 ```
 
-Encore: `.enablePostCssLoader()` with `@tailwindcss/postcss` 4.3.3 in `postcss.config.mjs`; the
-app's Sass files that fight AdminLTE are deleted (document 10). Other toolchains (AssetMapper +
-`symfonycasts/tailwind-bundle` 1.0.0, Vite) are documented post-1.0.
+Encore: `.enablePostCssLoader()` with `@tailwindcss/postcss` 4.3.3 in `postcss.config.mjs`, both
+the application's to install — they are the toolchain's half. The app's Sass files that fight
+AdminLTE are deleted (document 10). Other toolchains (AssetMapper + `symfonycasts/tailwind-bundle`
+1.0.0, Vite) are documented post-1.0. The entry file, the PostCSS config, the Encore line and the
+YAML are the four edits Flex would make from a recipe; adminata has no recipe repository yet, and
+without one Flex's auto-generated recipe registers the bundle and nothing else.
 
 ## 8. Icons, fonts, budget
 

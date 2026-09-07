@@ -1,0 +1,17 @@
+{
+    "name": "@idct/adminata",
+    "description": "adminata's Tailwind entry and Stimulus controller source. Symfony Flex links this directory into an application's node_modules; the application's stylesheet then starts with @import '@idct/adminata'.",
+    "version": "1.0.0-dev",
+    "license": "MIT",
+    "private": true,
+    "type": "module",
+    "keywords": [
+        "symfony-ux",
+        "tailwindcss"
+    ],
+    "homepage": "https://github.com/ideaconnect/adminata",
+    "style": "./css/tailwind.css",
+    "peerDependencies": {
+        "tailwindcss": "^4.3"
+    }
+}

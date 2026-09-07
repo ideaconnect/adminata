@@ -1,0 +1,22 @@
+/*
+ * The entry an application imports when it compiles Tailwind itself (PLAN/04 §7):
+ *
+ *     @import '@idct/adminata';
+ *
+ * Symfony Flex links this package's assets/ directory into node_modules as @idct/adminata, and the
+ * `style` field of assets/package.json points at this file, so that one line is the whole import.
+ *
+ * It is app.css — the engine with automatic detection off, adminata's tokens, base layer and
+ * components, and the @source list for adminata's own templates and controllers — plus the
+ * templates the storage layers bring. Those are packages of their own, installed beside this one
+ * under vendor/, and Tailwind resolves a @source relative to the file that declares it, so the
+ * application never learns where any of them live. A path that is not there — a panel without
+ * MongoDB, say — is skipped without a word, which is how Tailwind treats every @source.
+ *
+ * What the application adds after the import is the one thing that is its own: a @source list
+ * for its templates and for the PHP that puts class names in options.
+ */
+@import './app.css';
+
+@source '../../../adminata-doctrine-orm-admin-bundle/src/Resources/views';
+@source '../../../sonata-admin-mongodb-bundle/src/Resources/views';

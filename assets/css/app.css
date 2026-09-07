@@ -16,12 +16,13 @@
 /*
  * Every template and script this bundle ships, and adminata's own JavaScript.
  *
- * The storage layers are packages of their own and are deliberately *not* scanned: this file is
- * the source of a build artifact that is committed and checked (`make assets-check`), so what it
- * produces must not depend on which optional packages happen to be installed. Their templates use
- * `.adm-*` components and the utilities this bundle's own templates already pull in, which the
+ * The storage layers are packages of their own and are deliberately *not* scanned here: this file
+ * is the source of a build artifact that is committed and checked (`make assets-check`), so what
+ * it produces must not depend on which optional packages happen to be installed. Their templates
+ * use `.adm-*` components and the utilities this bundle's own templates already pull in, which the
  * safelist and these sources cover — adding them changes the output by not one byte, and that is
- * asserted rather than assumed: see PLAN/04.
+ * asserted rather than assumed: see PLAN/04. tailwind.css, the entry an application imports, adds
+ * them on top of this file, because an application does install them.
  */
 @source '../../src';
 @source '../js';
