@@ -153,6 +153,7 @@
                 "dialog"
             ],
             "values": [
+                "backdrop",
                 "closable",
                 "size"
             ],
@@ -174,6 +175,18 @@
         "sonata-per-page": {
             "targets": [],
             "values": [],
+            "classes": [],
+            "outlets": []
+        },
+        "sonata-question": {
+            "targets": [],
+            "values": [
+                "cancel",
+                "confirm",
+                "target",
+                "text",
+                "title"
+            ],
             "classes": [],
             "outlets": []
         },

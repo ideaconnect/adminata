@@ -19,7 +19,10 @@ const SIZES = { sm: 'adm-dialog-sm', md: '', lg: 'adm-dialog-lg', list: 'adm-dia
  *
  * The browser's top layer gives the focus trap, the Escape key and the backdrop for nothing, which
  * is why adminata ships no modal library (PLAN/01 J7). What is left is the part the platform does
- * not decide: which size, whether clicking the backdrop closes it, and telling the page it opened.
+ * not decide: which size, whether Escape closes it (`closable`), whether a click on the backdrop
+ * does (`backdrop`), and telling the page it opened. The two are separate values because a
+ * question the page is waiting on wants exactly one of them: Escape is a deliberate key and
+ * cancels, while a stray click outside the dialog is not an answer.
  *
  * Applications may use it on their own dialogs — that is the point of putting it in the registry
  * rather than wiring it into one template.
@@ -35,6 +38,7 @@ export default class extends Controller {
     static values = {
         size: { type: String, default: 'md' },
         closable: { type: Boolean, default: true },
+        backdrop: { type: Boolean, default: true },
     };
 
     connect() {
@@ -56,7 +60,9 @@ export default class extends Controller {
             }
         };
         this.onBackdropClick = (event) => {
-            if (this.closableValue && event.target === this.dialog) {
+            // A dialog that is not closable ignores the backdrop as it ignores Escape; a closable
+            // one may still be told to ignore the backdrop alone.
+            if (this.closableValue && this.backdropValue && event.target === this.dialog) {
                 this.dialog.close();
             }
         };

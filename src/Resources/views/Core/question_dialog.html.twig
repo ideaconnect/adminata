@@ -1,0 +1,39 @@
+{#
+    The layout's question dialog: the one `sonata-question` asks in, closed and out of the
+    accessibility tree until an action needs a yes. The controller fills the heading, the question
+    and the two labels from its own values and puts them back when the dialog closes; `sonata-modal`
+    on it gives the size, the backdrop and Escape, as on the shared dialog beside it.
+
+    Not closable through the backdrop: a question the page is waiting on should be answered with one
+    of its buttons, and a stray click outside it is not an answer. Escape still cancels — that is a
+    deliberate key.
+
+    The heading is an `<h1>` for the reason the shared dialog's is: an open modal is its own
+    document. Override the `sonata_dialog` block of the layout to change it, or to leave it out.
+#}
+<dialog class="adm-dialog adm-dialog-sm"
+        id="sonata-question-dialog"
+        aria-labelledby="sonata-question-dialog-title"
+        {{ stimulus_controller('sonata-modal', {size: 'sm', backdrop: false}) }}
+        {{ stimulus_target('sonata-modal', 'dialog') }}>
+    <div class="adm-dialog__header">
+        <h1 class="adm-card-title" id="sonata-question-dialog-title">{{ 'confirm_msg'|trans({}, 'SonataAdminBundle') }}</h1>
+        <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                aria-label="{{ 'message_close'|trans({}, 'SonataAdminBundle') }}"
+                {{ stimulus_action('sonata-modal', 'close', 'click') }}>
+            <i class="fas fa-xmark" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="adm-dialog__body">
+        <p data-sonata-question-text></p>
+    </div>
+    <div class="adm-dialog__footer">
+        <button type="button" class="adm-btn adm-btn-secondary" data-sonata-question-cancel
+                {{ stimulus_action('sonata-modal', 'close', 'click') }}>
+            {{ 'question_cancel'|trans({}, 'SonataAdminBundle') }}
+        </button>
+        <button type="button" class="adm-btn adm-btn-primary" data-sonata-question-confirm>
+            {{ 'question_confirm'|trans({}, 'SonataAdminBundle') }}
+        </button>
+    </div>
+</dialog>

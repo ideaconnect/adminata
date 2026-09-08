@@ -666,6 +666,14 @@
         <source>form.label_icon</source>
         <target>Ikon</target>
       </trans-unit>
+      <trans-unit id="question_cancel">
+        <source>question_cancel</source>
+        <target>Mégse</target>
+      </trans-unit>
+      <trans-unit id="question_confirm">
+        <source>question_confirm</source>
+        <target>Megerősítés</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

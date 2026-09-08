@@ -674,6 +674,14 @@
         <source>form.label_icon</source>
         <target>أيقونة</target>
       </trans-unit>
+      <trans-unit id="question_cancel">
+        <source>question_cancel</source>
+        <target>إلغاء</target>
+      </trans-unit>
+      <trans-unit id="question_confirm">
+        <source>question_confirm</source>
+        <target>تأكيد</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

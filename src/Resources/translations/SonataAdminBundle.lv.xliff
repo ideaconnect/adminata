@@ -664,6 +664,14 @@
         <source>form.label_icon</source>
         <target state="needs-translation">Icon</target>
       </trans-unit>
+      <trans-unit id="question_cancel">
+        <source>question_cancel</source>
+        <target>Atcelt</target>
+      </trans-unit>
+      <trans-unit id="question_confirm">
+        <source>question_confirm</source>
+        <target>Apstiprināt</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

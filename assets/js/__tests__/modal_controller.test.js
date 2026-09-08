@@ -129,6 +129,25 @@ describe('sonata-modal', () => {
         expect(cancel.defaultPrevented).toBe(true);
     });
 
+    it('keeps the backdrop inert when told to, while Escape still closes', async () => {
+        const { element } = await mount(
+            'sonata-modal',
+            ModalController,
+            dialog('data-sonata-modal-backdrop-value="false"'),
+        );
+
+        element.querySelector('#open').click();
+        await settle();
+
+        const target = element.querySelector('dialog');
+        target.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        expect(target.open).toBe(true);
+
+        const cancel = new Event('cancel', { cancelable: true });
+        target.dispatchEvent(cancel);
+        expect(cancel.defaultPrevented).toBe(false);
+    });
+
     it('runs on a page whose dialog is missing', async () => {
         const { element } = await mount(
             'sonata-modal',

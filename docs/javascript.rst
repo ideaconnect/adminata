@@ -67,7 +67,7 @@ removing one is a major release.
     targets ``toggle``; values ``storageKey``
 
 ``sonata-modal``
-    targets ``dialog``; values ``closable``, ``size``
+    targets ``dialog``; values ``backdrop``, ``closable``, ``size``
 
 ``sonata-modal-trigger``
     values ``content``, ``size``, ``target``, ``text``, ``title``
@@ -78,6 +78,12 @@ removing one is a major release.
     No targets, values, classes or outlets.
 
     Navigates to the URL of the chosen option.
+
+``sonata-question``
+    values ``cancel``, ``confirm``, ``target``, ``text``, ``title``
+
+    Asks in the layout's question dialog before a button, a form or a link acts; dispatches
+    ``sonata-question:confirmed`` (cancelable) and ``sonata-question:cancelled``.
 
 ``sonata-readmore``
     targets ``button``, ``content``; values ``collapsedHeight``, ``lessText``, ``moreText``
@@ -107,7 +113,8 @@ Modals are ``<dialog>``
 
 adminata ships no modal library. A modal is a native ``<dialog>``; the top layer, the focus trap,
 the backdrop and the Escape key are the browser's, and ``sonata-modal`` on the element decides the
-rest — its size, whether the backdrop closes it, and telling the page it opened.
+rest — its size, whether Escape closes it (``closable``), whether a click on the backdrop does
+(``backdrop``), and telling the page it opened.
 
 Every page carries one, ready to be filled: the layout's ``sonata-dialog``. To show something in
 it, put ``sonata-modal-trigger`` on a button and say what it should show:
@@ -167,6 +174,45 @@ name it in the trigger's ``target``:
 The ``dialog`` target goes on the element as well as the controller: without it ``sonata-modal`` has
 nothing to drive, and ``showModal()`` from your own script would open a dialog whose close buttons
 and backdrop do nothing.
+
+Asking before acting
+--------------------
+
+A row action that archives, a form that deletes, a link that cannot be undone: the page should
+ask first, in its own dialog rather than the browser's ``confirm()`` box. Every page carries the
+layout's question dialog beside the shared one; ``sonata-question`` on the thing that acts fills it
+and opens it, and the action goes ahead only on a yes:
+
+.. code-block:: html+twig
+
+    <form method="post" action="{{ admin.generateObjectUrl('archive', object) }}">
+        <input type="hidden" name="_sonata_csrf_token" value="{{ csrf_token('sonata.archive') }}">
+        <button type="submit" class="adm-btn adm-btn-danger" aria-haspopup="dialog"
+                {{ stimulus_controller('sonata-question', {
+                    title: 'Archive the device?',
+                    text: 'It stops accepting transactions. Nothing is deleted.',
+                    confirm: 'Archive',
+                }) }}
+                {{ stimulus_action('sonata-question', 'ask', 'click') }}>
+            Archive
+        </button>
+    </form>
+
+The controller sits on a submit ``<button>``, on a ``<form>`` (``submit->sonata-question#ask``) or
+on a link. ``text`` is the question, set as text; ``title``, ``confirm`` and ``cancel`` replace the
+dialog's heading and button labels for that question and are put back afterwards. Once confirmed,
+a button's form is submitted with the button as its submitter — its ``name``, ``value`` and
+``formaction`` count — a form is submitted, a link is followed.
+
+Two events go out on the element. ``sonata-question:confirmed`` is cancelable: a controller of the
+application's own listens for it, calls ``preventDefault()`` and does the work itself — a row action
+that has to build its form on ``document.body``, say. ``sonata-question:cancelled`` says the dialog
+closed any other way — the cancel button, the close button, Escape — and nothing happened. The
+backdrop does not close it: a question the page is waiting on is answered with a button.
+
+``target`` names another dialog to ask in. It needs ``sonata-modal``, an ``aria-labelledby`` for its
+heading, and the ``data-sonata-question-text``, ``data-sonata-question-confirm`` and
+``data-sonata-question-cancel`` hooks the layout's ``Core/question_dialog.html.twig`` carries.
 
 A value that reveals a section
 ------------------------------

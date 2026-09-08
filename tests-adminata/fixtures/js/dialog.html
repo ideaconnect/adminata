@@ -356,6 +356,18 @@
                 Open it with formatted content
             </button>
         </div>
+    </div>
+
+        <div class="adm-card mt-6">
+        <form class="adm-card-body" method="get" action="/admin/demo/dialog">
+            <input type="hidden" name="asked" value="1">
+            <button type="submit" class="adm-btn adm-btn-secondary" id="ask-question" aria-haspopup="dialog"
+                    data-controller="sonata-question" data-sonata-question-title-value="Reload the page?" data-sonata-question-text-value="The flashes will show again. Nothing else happens." data-sonata-question-confirm-value="Reload"
+                    data-action="click->sonata-question#ask"
+            >
+                Ask before submitting
+            </button>
+        </form>
     </div></div>
                                     
                                     
@@ -380,6 +392,33 @@
     <div class="adm-dialog__footer">
         <button type="button" class="adm-btn adm-btn-secondary" data-action="click->sonata-modal#close">
             Close
+        </button>
+    </div>
+</dialog>
+
+            <dialog class="adm-dialog adm-dialog-sm"
+        id="sonata-question-dialog"
+        aria-labelledby="sonata-question-dialog-title"
+        data-controller="sonata-modal" data-sonata-modal-size-value="sm" data-sonata-modal-backdrop-value="false"
+        data-sonata-modal-target="dialog">
+    <div class="adm-dialog__header">
+        <h1 class="adm-card-title" id="sonata-question-dialog-title">Are you sure ?</h1>
+        <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                aria-label="Close"
+                data-action="click->sonata-modal#close">
+            <i class="fas fa-xmark" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="adm-dialog__body">
+        <p data-sonata-question-text></p>
+    </div>
+    <div class="adm-dialog__footer">
+        <button type="button" class="adm-btn adm-btn-secondary" data-sonata-question-cancel
+                data-action="click->sonata-modal#close">
+            Cancel
+        </button>
+        <button type="button" class="adm-btn adm-btn-primary" data-sonata-question-confirm>
+            Confirm
         </button>
     </div>
 </dialog>

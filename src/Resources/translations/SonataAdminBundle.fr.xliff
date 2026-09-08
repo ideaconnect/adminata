@@ -662,6 +662,14 @@
         <source>form.label_icon</source>
         <target>Icône</target>
       </trans-unit>
+      <trans-unit id="question_cancel">
+        <source>question_cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+      <trans-unit id="question_confirm">
+        <source>question_confirm</source>
+        <target>Confirmer</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -177,6 +177,15 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 - A guard in `bin/check-css-contract.mjs` against the ordering trap the `dark` variant's
   zero specificity creates: a `:where(.dark…)` rule written before the plain rule it must override
   is dead CSS, and now fails the build.
+- A question dialog: `sonata-question` on a submit button, a form or a link asks in the layout's
+  new `sonata-question-dialog` (rendered by the `sonata_dialog` block beside the shared dialog,
+  `Core/question_dialog.html.twig`) before the action goes ahead, in place of `window.confirm()`.
+  The form is submitted with the button as its submitter, or the link followed, once the person
+  confirms; `sonata-question:confirmed` is cancelable so an application's own controller can take
+  over, and `sonata-question:cancelled` says the dialog closed any other way. Two catalogue keys,
+  `question_cancel` and `question_confirm`, in every locale. `sonata-modal` gains a `backdrop`
+  value beside `closable`, so a dialog can keep Escape while ignoring a click outside it — which
+  is what the question dialog does.
 
 ### Changed
 

@@ -952,6 +952,20 @@ mistake cannot recur.
     acceptance is the owner's sign-off, and the Packagist submission is an owner action. Cutting a
     release candidate is a claim that the acceptance run passed; that claim is the owner's.
 
+- [x] **P6-03 · A question dialog (`sonata-question`)** · S · depends: P5-MS
+  - Owner directive of 2026-09-08, raised while a customer-facing page of the reference panel
+    replaced a `window.confirm()` with a dialog of its own: a generic "ask before acting" belongs
+    in adminata, not in an application.
+  - Do: `sonata-question` (values `text`, `title`, `confirm`, `cancel`, `target`; action `ask`;
+    events `confirmed` — cancelable — and `cancelled`), `Core/question_dialog.html.twig` rendered
+    by the `sonata_dialog` block, the `question_cancel` / `question_confirm` keys in every
+    catalogue, a demo usage on `/admin/demo/dialog`, the Vitest suite, the contract snapshot, the
+    JavaScript page of the docs.
+  - Accept: `make test-js`, `make lint-js`, `make assets-check`, `make lint-twig`, `make lint-xliff`
+    and `make test-contract` green; the fixture suite mounts it on the re-dumped dialog page.
+  - Not done here: the reference panel's `row-action` controller and its two `onsubmit` confirms
+    still call `window.confirm()`; they adopt this once the panel takes the release that carries it.
+
 - [ ] **P6-MS · Milestone M6 push** · S · depends: P6-02
 
 ---
@@ -3380,3 +3394,7 @@ mistake cannot recur.
   underline with no title line above it, which docutils reads as a transition, so `sphinx -W` stays
   silent while the heading, its anchor and its TOC entry disappear. None found, in the new pages or
   anywhere else in `docs/`, and the built HTML contains no `<hr class="docutils" />`.
+- 2026-09-08 — **P6-03 done.** `sonata-question` asks in the layout's new question dialog before
+  a button, a form or a link acts — the replacement for `window.confirm()` the owner asked for
+  when a customer page of the reference panel needed one. Contract snapshot regenerated, two
+  catalogue keys in all 35 locales, demo usage and fixture mount added.

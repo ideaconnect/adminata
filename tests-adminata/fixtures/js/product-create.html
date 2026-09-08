@@ -756,5 +756,32 @@
     </div>
 </dialog>
 
+            <dialog class="adm-dialog adm-dialog-sm"
+        id="sonata-question-dialog"
+        aria-labelledby="sonata-question-dialog-title"
+        data-controller="sonata-modal" data-sonata-modal-size-value="sm" data-sonata-modal-backdrop-value="false"
+        data-sonata-modal-target="dialog">
+    <div class="adm-dialog__header">
+        <h1 class="adm-card-title" id="sonata-question-dialog-title">Are you sure ?</h1>
+        <button type="button" class="adm-btn-icon adm-btn-icon-round"
+                aria-label="Close"
+                data-action="click->sonata-modal#close">
+            <i class="fas fa-xmark" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="adm-dialog__body">
+        <p data-sonata-question-text></p>
+    </div>
+    <div class="adm-dialog__footer">
+        <button type="button" class="adm-btn adm-btn-secondary" data-sonata-question-cancel
+                data-action="click->sonata-modal#close">
+            Cancel
+        </button>
+        <button type="button" class="adm-btn adm-btn-primary" data-sonata-question-confirm>
+            Confirm
+        </button>
+    </div>
+</dialog>
+
             </body>
 </html>

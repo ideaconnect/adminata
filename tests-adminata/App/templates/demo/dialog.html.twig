@@ -67,4 +67,22 @@
             </button>
         </div>
     </div>
+
+    {# The layout's question dialog: what an application's row action or form writes in place of
+       a `window.confirm()`. The form goes out only once the question is answered with yes. #}
+    <div class="adm-card mt-6">
+        <form class="adm-card-body" method="get" action="{{ path('demo_dialog') }}">
+            <input type="hidden" name="asked" value="1">
+            <button type="submit" class="adm-btn adm-btn-secondary" id="ask-question" aria-haspopup="dialog"
+                    {{ stimulus_controller('sonata-question', {
+                        title: 'Reload the page?',
+                        text: 'The flashes will show again. Nothing else happens.',
+                        confirm: 'Reload',
+                    }) }}
+                    {{ stimulus_action('sonata-question', 'ask', 'click') }}
+            >
+                Ask before submitting
+            </button>
+        </form>
+    </div>
 {% endblock %}

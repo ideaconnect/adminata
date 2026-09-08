@@ -68,6 +68,12 @@ const MOUNTS = [
         targets: ['dialog'],
     },
     {
+        identifier: 'sonata-question',
+        page: 'dialog',
+        selector: '[data-controller~="sonata-question"]',
+        targets: [],
+    },
+    {
         identifier: 'sonata-modal-trigger',
         page: 'dialog',
         selector: '#open-shared-content',
