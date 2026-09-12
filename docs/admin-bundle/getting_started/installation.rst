@@ -41,11 +41,9 @@ storage bundles. The official storage bundles are:
 * `AdminataDoctrineORMBundle`_ (integrates the Doctrine ORM);
 * `AdminataDoctrineMongoDBBundle`_ (integrates the Doctrine MongoDB ODM);
 
-Each is a package of its own. The ORM one, ``idct/adminata-doctrine-orm-admin-bundle`` ``^2.0``,
-is not on Packagist yet: add a ``vcs`` repository for
-``https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle.git`` before requiring it. The
-MongoDB one, ``idct/adminata-admin-mongodb-bundle`` ``^7.0``, is on Packagist and is installed the
-usual way.
+Each is a package of its own on Packagist, installed the usual way: the ORM one is
+``idct/adminata-doctrine-orm-admin-bundle`` ``^2.0``, the MongoDB one
+``idct/adminata-admin-mongodb-bundle`` ``^7.0``.
 
 .. note::
 

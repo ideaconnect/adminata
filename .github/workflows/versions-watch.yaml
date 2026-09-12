@@ -11,8 +11,8 @@ permissions:
 
 jobs:
     versions-watch:
-        # idct/adminata-doctrine-orm-admin-bundle is a dev dependency installed from a VCS repository
-        # when no checkout sits beside this one, which is the case here; Composer resolves it through
+        # idct/adminata-doctrine-orm-admin-bundle is a dev dependency installed from Packagist when
+        # no checkout sits beside this one, which is the case here; its archive is fetched through
         # the GitHub API, and unauthenticated calls share a per-runner hourly budget. The built-in
         # token lifts the limit and needs no secret.
         env:

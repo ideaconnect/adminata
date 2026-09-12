@@ -126,19 +126,12 @@ PHP `^8.4`, Symfony `^7.4 || ^8.0`, Twig `^3.28`.
 composer require idct/adminata:dev-main idct/adminata-doctrine-orm-admin-bundle
 ```
 
-`idct/adminata` comes from Packagist, where `dev-main` is its only version until 1.0 is tagged —
-naming that constraint is what lets a project with `minimum-stability: stable` take it. The ORM
-layer is not on Packagist yet, so add the repository it installs from first — a `path` one for a
-checkout beside your project, or the `vcs` one:
-
-```json
-"repositories": [
-    { "type": "vcs", "url": "https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle.git" }
-]
-```
+Both come from Packagist. `dev-main` is adminata's only version there until 1.0 is tagged, and
+naming that constraint is what lets a project with `minimum-stability: stable` take it; the
+storage layers are tagged and need no constraint of their own.
 
 For MongoDB, take [`idct/adminata-admin-mongodb-bundle`](https://packagist.org/packages/idct/adminata-admin-mongodb-bundle)
-(`^7.0`, on Packagist) instead of, or alongside, the ORM package.
+instead of, or alongside, the ORM package.
 
 Register the bundles in `config/bundles.php`:
 

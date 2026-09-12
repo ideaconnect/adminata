@@ -152,10 +152,6 @@
             "options": {
                 "symlink": true
             }
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle.git"
         }
     ],
     "minimum-stability": "dev",
