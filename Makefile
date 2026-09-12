@@ -33,8 +33,12 @@ services-down: ## Stop it again
 
 ## --- Lint -----------------------------------------------------------------
 
-lint: lint-php lint-composer lint-yaml lint-xml lint-xliff lint-symfony ## Every non-PHPStan static check
+lint: lint-php lint-composer lint-yaml lint-xml lint-xliff lint-symfony check-names ## Every non-PHPStan static check
 .PHONY: lint
+
+check-names: ## Nothing may still carry a Sonata name outside history and the upgrade documents (PLAN/v2 N20)
+	php upstream/rename/apply.php --check .
+.PHONY: check-names
 
 lint-php: ## php-cs-fixer, both configurations
 	@for config in $(CS_CONFIGS); do \
@@ -249,6 +253,10 @@ upstream-diff: ## What changed upstream: make upstream-diff PKG=admin-bundle FRO
 	upstream/diff.sh $(PKG) $(FROM) $(TO)
 .PHONY: upstream-diff
 
-upstream-sync: ## Apply an upstream release: make upstream-sync PKG=admin-bundle TO=4.44.0
+upstream-sync: ## Apply an upstream release, translated to this repository's names: make upstream-sync PKG=admin-bundle TO=4.44.0
 	upstream/sync.sh $(PKG) $(TO)
 .PHONY: upstream-sync
+
+upstream-rehearse: ## Rehearse a sync in a scratch worktree and print what it would do: make upstream-rehearse PKG=admin-bundle TO=4.44.0
+	upstream/rehearse-sync.sh $(PKG) $(TO)
+.PHONY: upstream-rehearse

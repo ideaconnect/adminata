@@ -23,8 +23,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * Every template path adminata promises resolves (PLAN/02 §4).
  *
  * Three sources feed this. The template registry's defaults, which an application overrides by
- * key. Every `@Sonata…/….html.twig` string in the forked packages' PHP, which is what the builders
- * and field descriptions hand to Twig. And the paths `idct/sonata-admin-mongodb-bundle` hard-codes
+ * key. Every `@Adminata…/….html.twig` string in the bundle's PHP, which is what the builders and
+ * field descriptions hand to Twig. And the paths `idct/adminata-admin-mongodb-bundle` hard-codes
  * — its `ListBuilder` names `@Adminata/CRUD/list__action.html.twig` and
  * `list__action_%s.html.twig` directly, so renaming one of those breaks the fork silently.
  *
@@ -37,30 +37,34 @@ final class TemplatePathTest extends ContractTestCase
     /**
      * Twig namespace => the view directory it points at, relative to the repository root.
      *
-     * Four of the five share this bundle's. Adminata's own defaults all say `@Adminata`;
-     * `AdminataBlockExtension`, `AdminataFormExtension` and `AdminataTwigExtension` each prepend a
-     * `twig.paths` entry aliasing their namespace to that same directory, for templates outside
-     * adminata that still address the pre-merge spellings. The fifth belongs to the ORM storage
-     * layer, which ships as a package of its own and is read from its installed copy.
+     * Two, and no aliases: `@Adminata` is what the bundle's name derives, and every default inside
+     * adminata says it — the three pre-merge spellings 1.0 kept as aliases went with the rename
+     * (PLAN/v2 N8). The second belongs to the ORM storage layer, which ships as a package of its
+     * own and is read from its installed copy.
      *
      * @var array<string, string>
      */
     private const array NAMESPACES = [
         'Adminata' => 'src/Resources/views',
-        'AdminataBlock' => 'src/Resources/views',
-        'AdminataDoctrineORMAdmin' => self::ORM_VIEWS,
-        'AdminataForm' => 'src/Resources/views',
-        'AdminataTwig' => 'src/Resources/views',
+        'AdminataDoctrineORM' => self::ORM_VIEWS,
     ];
 
     /**
-     * The namespaces that are aliases onto `admin-bundle`'s view directory rather than a bundle's
-     * own name. A shipped file may not address any of them: see
-     * `testNothingShippedAddressesAnAliasNamespace()`.
+     * The Twig namespaces a shipped file may address: this bundle's, the two storage layers', and
+     * the optional integrations with packages adminata does not ship. Anything else is either a
+     * retired alias or a typo, and both bypass an application's override in silence.
      *
      * @var list<string>
      */
-    private const array ALIAS_NAMESPACES = ['AdminataBlock', 'AdminataForm', 'AdminataTwig'];
+    private const array ADDRESSABLE_NAMESPACES = [
+        'Adminata',
+        'AdminataDoctrineORM',
+        'AdminataDoctrineMongoDB',
+        'SonataIntl',
+        'SonataPage',
+        'SonataSeo',
+        'SonataUser',
+    ];
 
     /**
      * What the MongoDB fork asks for by name. Its `ListBuilder` builds the second from a field
@@ -123,7 +127,7 @@ final class TemplatePathTest extends ContractTestCase
     public function testAPathTheMongoDbForkHardCodesResolves(string $template): void
     {
         static::assertFileExists(self::resolve($template), \sprintf(
-            '%s is hard-coded in idct/sonata-admin-mongodb-bundle; renaming it breaks that package.',
+            '%s is hard-coded in idct/adminata-admin-mongodb-bundle; renaming it breaks that package.',
             $template
         ));
     }
@@ -139,46 +143,35 @@ final class TemplatePathTest extends ContractTestCase
     }
 
     /**
-     * @return iterable<string, array{string}>
-     */
-    public static function provideNothingShippedAddressesAnAliasNamespaceCases(): iterable
-    {
-        foreach (self::ALIAS_NAMESPACES as $namespace) {
-            yield '@'.$namespace => [$namespace];
-        }
-    }
-
-    /**
      * Adminata addresses every template it ships as `@Adminata/…`, which is what makes it
-     * overridable under `templates/bundles/AdminataBundle/` like any other bundle template.
-     * `@Adminata`, `@Adminata` and `@Adminata` are plain `twig.paths` aliases onto the same
-     * directory, with no override directory of their own, kept for templates outside adminata that
-     * still address the pre-merge spellings; a shipped file that used one would bypass an
-     * application's override in silence.
+     * overridable under `templates/bundles/AdminataBundle/` like any other bundle template. A
+     * shipped file that addressed a retired alias, or a namespace nothing registers, would bypass
+     * an application's override in silence — or fail to render at all.
      */
-    #[DataProvider('provideNothingShippedAddressesAnAliasNamespaceCases')]
-    public function testNothingShippedAddressesAnAliasNamespace(string $namespace): void
+    public function testShippedCodeAddressesOnlyTheNamespacesThatExist(): void
     {
         $offenders = [];
 
         foreach (self::shippedSources() as $file) {
-            if (str_contains((string) file_get_contents($file), '@'.$namespace.'/')) {
-                $offenders[] = substr($file, \strlen(self::root()) + 1);
+            // Only the family this contract is about: Symfony's own `@Twig` and `@WebProfiler`,
+            // and the `@My` of a documentation sample, are not adminata's to judge.
+            preg_match_all('#@!?((?:Adminata|Sonata)[A-Za-z]*)/#', (string) file_get_contents($file), $matches);
+
+            foreach (array_unique($matches[1]) as $namespace) {
+                if (!\in_array($namespace, self::ADDRESSABLE_NAMESPACES, true)) {
+                    $offenders[] = \sprintf('%s addresses @%s/', substr($file, \strlen(self::root()) + 1), $namespace);
+                }
             }
         }
 
-        static::assertSame([], $offenders, \sprintf(
-            'Shipped code addresses @%s/ instead of @Adminata/.',
-            $namespace
-        ));
+        static::assertSame([], $offenders, 'Shipped code addresses a Twig namespace that is not @Adminata/, a storage layer\'s or an optional integration\'s.');
     }
 
     /**
      * A rewritten template keeps its file name (PLAN/02 §4), so the count only moves when a
      * template is genuinely added or removed.
      *
-     * Counted per view directory rather than per namespace, because four of the five namespaces
-     * share one and it must not be counted four times.
+     * Counted per view directory, which is one per namespace since the rename.
      */
     public function testTheNumberOfTemplatesIsWhatThePlanCounts(): void
     {
@@ -249,15 +242,15 @@ final class TemplatePathTest extends ContractTestCase
                 }
 
                 preg_match_all(
-                    '#@(Sonata[A-Za-z]+)/([A-Za-z0-9_/.-]+\.html\.twig)#',
+                    '#@(Adminata[A-Za-z]*)/([A-Za-z0-9_/.-]+\.html\.twig)#',
                     (string) file_get_contents($file->getPathname()),
                     $matches
                 );
 
                 foreach ($matches[0] as $index => $template) {
-                    // Only the five namespaces adminata owns; `@SonataIntl`, `@SonataPage`,
-                    // `@SonataSeo` and `@SonataUser` are optional integrations with packages
-                    // adminata does not ship.
+                    // Only the namespaces that resolve here: the MongoDB layer's is read from
+                    // nothing, and `@SonataIntl`, `@SonataPage`, `@SonataSeo` and `@SonataUser`
+                    // are optional integrations with packages adminata does not ship.
                     if (!isset(self::NAMESPACES[$matches[1][$index]])) {
                         continue;
                     }
@@ -279,8 +272,8 @@ final class TemplatePathTest extends ContractTestCase
 
     private static function resolve(string $template): string
     {
-        if (1 !== preg_match('#^@(Sonata[A-Za-z]+)/(.+)$#', $template, $matches)) {
-            throw new \InvalidArgumentException(\sprintf('"%s" is not a @SonataXxx/path.html.twig reference.', $template));
+        if (1 !== preg_match('#^@(Adminata[A-Za-z]*)/(.+)$#', $template, $matches)) {
+            throw new \InvalidArgumentException(\sprintf('"%s" is not a @Adminata…/path.html.twig reference.', $template));
         }
 
         static::assertArrayHasKey($matches[1], self::NAMESPACES, \sprintf('Unknown Twig namespace @%s.', $matches[1]));

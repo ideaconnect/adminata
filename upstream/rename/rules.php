@@ -33,8 +33,9 @@ declare(strict_types=1);
 
 $ns = static fn (string $from, string $to): array => [
     'scope' => 'all',
-    // preg_quote doubles every backslash; each doubled one becomes a group matching the run.
-    'pattern' => str_replace('\\\\', '(\\\\+)', preg_quote($from, '~')).'(?![A-Za-z0-9_])',
+    // preg_quote doubles every backslash; each doubled one becomes a group matching the run —
+    // or the backslash's URL encoding, which a functional test's query string carries.
+    'pattern' => str_replace('\\\\', '(\\\\+|%5C)', preg_quote($from, '~')).'(?![A-Za-z0-9_])',
     'replacement' => str_replace('\\', '${1}', $to),
 ];
 
@@ -109,7 +110,7 @@ return [
     // The default of `security.role_admin` and the roles the docs derive from example admin codes;
     // on an application a ROLE_* is data, never rewritten (UPGRADE.md §6.3).
     ['scope' => 'tree', 'pattern' => '\bROLE_SONATA_', 'replacement' => 'ROLE_ADMINATA_'],
-    // The routes cache directory and the base route pattern of an example admin code.
-    ['scope' => 'tree', 'pattern' => '/sonata/', 'replacement' => '/adminata/'],
+    // The routes cache directory.
+    ['scope' => 'tree', 'pattern' => "'/sonata/admin'", 'replacement' => "'/adminata/admin'"],
     ['scope' => 'tree', 'pattern' => '(?<![A-Za-z0-9_])sonata(?=[A-Z])', 'replacement' => 'adminata'],
 ];

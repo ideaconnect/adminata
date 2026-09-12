@@ -343,12 +343,12 @@ final class AdminTest extends TestCase
         // @phpstan-ignore-next-line
         yield [
             'Application\Sonata\NewsBundle\Entity\Post',
-            '/adminata/news/post',
+            '/sonata/news/post',
         ];
         // @phpstan-ignore-next-line
         yield [
             'Application\Sonata\NewsBundle\Document\Post',
-            '/adminata/news/post',
+            '/sonata/news/post',
         ];
         // @phpstan-ignore-next-line
         yield [
@@ -502,12 +502,12 @@ final class AdminTest extends TestCase
         // @phpstan-ignore-next-line
         yield [
             'Application\Sonata\NewsBundle\Entity\Post',
-            'admin_adminata_news_post',
+            'admin_sonata_news_post',
         ];
         // @phpstan-ignore-next-line
         yield [
             'Application\Sonata\NewsBundle\Document\Post',
-            'admin_adminata_news_post',
+            'admin_sonata_news_post',
         ];
         // @phpstan-ignore-next-line
         yield [

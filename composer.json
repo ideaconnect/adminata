@@ -1,13 +1,12 @@
 {
     "name": "idct/adminata",
-    "description": "Sonata Admin, re-skinned: the Sonata Admin PHP stack (admin, block, doctrine, exporter, form and twig extensions) with a Tailwind CSS v4 / TailAdmin user interface. Installs in place of the sonata-project packages.",
+    "description": "An admin bundle for Symfony with a Tailwind CSS v4 / TailAdmin user interface, under the IDCT\\Adminata namespace: a hard fork of the Sonata Admin stack (admin, block, doctrine, exporter, form and twig extensions), which it conflicts with.",
     "license": "MIT",
     "type": "symfony-bundle",
     "keywords": [
         "admin",
         "admin-generator",
         "bundle",
-        "sonata",
         "symfony",
         "symfony-ux",
         "tailadmin",
@@ -91,7 +90,7 @@
         "doctrine/mongodb-odm": "^2.17",
         "ergebnis/composer-normalize": "^2.52",
         "friendsofphp/php-cs-fixer": "^3.95",
-        "idct/adminata-doctrine-orm-admin-bundle": "^1.0@dev",
+        "idct/adminata-doctrine-orm-admin-bundle": "dev-rename/idct",
         "infection/infection": "^0.35",
         "matthiasnoback/symfony-config-test": "^6.2",
         "matthiasnoback/symfony-dependency-injection-test": "^6.3",
@@ -126,12 +125,10 @@
         "symfony/var-exporter": "^7.4 || ^8.0",
         "symfony/yaml": "^7.4 || ^8.0"
     },
-    "replace": {
-        "sonata-project/admin-bundle": "4.43.0"
-    },
     "conflict": {
         "doctrine/mongodb-odm": "<2.4",
         "phpoffice/phpspreadsheet": "<1.23",
+        "sonata-project/admin-bundle": "*",
         "sonata-project/block-bundle": "*",
         "sonata-project/doctrine-extensions": "*",
         "sonata-project/entity-audit-bundle": ">=2.0",
@@ -142,8 +139,8 @@
     },
     "suggest": {
         "doctrine/mongodb-odm": "To use the MongoDB ODM document manager and exporter source",
-        "idct/adminata-doctrine-orm-admin-bundle": "To manage Doctrine ORM entities with Sonata admins",
-        "idct/sonata-admin-mongodb-bundle": "To manage MongoDB ODM documents with Sonata admins",
+        "idct/adminata-admin-mongodb-bundle": "To manage MongoDB ODM documents with adminata",
+        "idct/adminata-doctrine-orm-admin-bundle": "To manage Doctrine ORM entities with adminata",
         "phpoffice/phpspreadsheet": "To export data as XLSX; the XLS writer needs no library",
         "sonata-project/entity-audit-bundle": "To enable the entity history pages (post-1.0)",
         "twig/extra-bundle": "Auto configures the Twig Intl extension"
@@ -172,8 +169,14 @@
         "psr-4": {
             "Adminata\\Tests\\": "tests-adminata/",
             "IDCT\\Adminata\\Tests\\": "tests/"
-        }
+        },
+        "classmap": [
+            "upstream/rename/Engine.php"
+        ]
     },
+    "bin": [
+        "bin/adminata-rename"
+    ],
     "config": {
         "allow-plugins": {
             "ergebnis/composer-normalize": true,

@@ -94,7 +94,9 @@ describe('adminata-modal-trigger', () => {
     it('lends the dialog its size for that opening only', async () => {
         const { element, dialog } = await mountPage(
             page(
-                trigger('data-adminata-modal-trigger-text-value="x" data-adminata-modal-trigger-size-value="lg"'),
+                trigger(
+                    'data-adminata-modal-trigger-text-value="x" data-adminata-modal-trigger-size-value="lg"',
+                ),
             ),
         );
 
@@ -152,7 +154,10 @@ describe('adminata-modal-trigger', () => {
         const { application, element } = await mountPage(
             page(trigger('data-adminata-modal-trigger-target-value="nowhere"')),
         );
-        const controller = application.getControllerForElementAndIdentifier(element, 'adminata-modal-trigger');
+        const controller = application.getControllerForElementAndIdentifier(
+            element,
+            'adminata-modal-trigger',
+        );
 
         expect(() => controller.open()).toThrow('there is no <dialog id="nowhere">');
 

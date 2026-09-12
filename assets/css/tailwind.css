@@ -19,4 +19,4 @@
 @import './app.css';
 
 @source '../../../adminata-doctrine-orm-admin-bundle/src/Resources/views';
-@source '../../../sonata-admin-mongodb-bundle/src/Resources/views';
+@source '../../../adminata-admin-mongodb-bundle/src/Resources/views';

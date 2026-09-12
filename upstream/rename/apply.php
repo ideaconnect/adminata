@@ -47,7 +47,7 @@ function main(array $argv): int
     $dryRun = false;
     $as = 'stdin.txt';
 
-    for ($i = 0; $i < \count($args); ++$i) {
+    for ($i = 0; $i < count($args); ++$i) {
         switch ($args[$i]) {
             case '--tree':
             case '--app':
@@ -82,7 +82,7 @@ function main(array $argv): int
                     break;
                 }
 
-                fwrite(\STDERR, \sprintf("unknown argument %s\n", $args[$i]));
+                fwrite(\STDERR, sprintf("unknown argument %s\n", $args[$i]));
 
                 return 64;
         }
@@ -121,7 +121,7 @@ function realTarget(?string $target): string
     $real = null === $target ? false : realpath($target);
 
     if (false === $real || !is_dir($real)) {
-        fwrite(\STDERR, \sprintf("not a directory: %s\n", $target ?? '(none)'));
+        fwrite(\STDERR, sprintf("not a directory: %s\n", $target ?? '(none)'));
 
         exit(66);
     }
@@ -137,7 +137,7 @@ function listFiles(string $root): array
     $files = [];
 
     if (isGit($root)) {
-        $output = shell_exec(\sprintf('cd %s && git ls-files -z --cached --others --exclude-standard', escapeshellarg($root)));
+        $output = shell_exec(sprintf('cd %s && git ls-files -z --cached --others --exclude-standard', escapeshellarg($root)));
 
         foreach (explode("\0", (string) $output) as $path) {
             if ('' !== $path && is_file($root.'/'.$path)) {
@@ -147,12 +147,12 @@ function listFiles(string $root): array
     } else {
         $iterator = new RecursiveIteratorIterator(new RecursiveCallbackFilterIterator(
             new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS),
-            static fn (SplFileInfo $file): bool => !\in_array($file->getFilename(), ['.git', 'vendor', 'node_modules', 'var'], true),
+            static fn (SplFileInfo $file): bool => !in_array($file->getFilename(), ['.git', 'vendor', 'node_modules', 'var'], true),
         ));
 
         foreach ($iterator as $file) {
             if ($file instanceof SplFileInfo && $file->isFile()) {
-                $files[] = substr($file->getPathname(), \strlen($root) + 1);
+                $files[] = substr($file->getPathname(), strlen($root) + 1);
             }
         }
     }
@@ -164,7 +164,7 @@ function listFiles(string $root): array
 
 function isGit(string $root): bool
 {
-    exec(\sprintf('cd %s && git rev-parse --is-inside-work-tree 2>/dev/null', escapeshellarg($root)), $output, $code);
+    exec(sprintf('cd %s && git rev-parse --is-inside-work-tree 2>/dev/null', escapeshellarg($root)), $output, $code);
 
     return 0 === $code;
 }
@@ -252,7 +252,7 @@ function check(Engine $engine, string $root): int
         $newPath = $engine->rewritePath($path);
 
         if ($newPath !== $path) {
-            $paths[] = \sprintf('R %s -> %s', $path, $newPath);
+            $paths[] = sprintf('R %s -> %s', $path, $newPath);
         }
     }
 
@@ -267,7 +267,7 @@ function check(Engine $engine, string $root): int
     }
 
     printReport($report);
-    printf("check-names: %d lines in %d files, %d paths\n", array_sum(array_map(count(...), $report)), \count($report), \count($paths));
+    printf("check-names: %d lines in %d files, %d paths\n", array_sum(array_map(count(...), $report)), count($report), count($paths));
 
     return 1;
 }
@@ -286,14 +286,14 @@ function printReport(array $report): void
 
 function move(string $root, string $from, string $to, bool $git): void
 {
-    $directory = \dirname($root.'/'.$to);
+    $directory = dirname($root.'/'.$to);
 
     if (!is_dir($directory) && !mkdir($directory, 0o777, true) && !is_dir($directory)) {
-        throw new RuntimeException(\sprintf('Cannot create %s', $directory));
+        throw new RuntimeException(sprintf('Cannot create %s', $directory));
     }
 
     if ($git) {
-        exec(\sprintf('cd %s && git mv -k %s %s', escapeshellarg($root), escapeshellarg($from), escapeshellarg($to)), $output, $code);
+        exec(sprintf('cd %s && git mv -k %s %s', escapeshellarg($root), escapeshellarg($from), escapeshellarg($to)), $output, $code);
 
         if (0 === $code) {
             return;
@@ -301,8 +301,8 @@ function move(string $root, string $from, string $to, bool $git): void
     }
 
     if (!rename($root.'/'.$from, $root.'/'.$to)) {
-        throw new RuntimeException(\sprintf('Cannot move %s to %s', $from, $to));
+        throw new RuntimeException(sprintf('Cannot move %s to %s', $from, $to));
     }
 }
 
-exit(main($argv));
+exit(main($_SERVER['argv'] ?? []));

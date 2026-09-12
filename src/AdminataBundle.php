@@ -32,7 +32,6 @@ use IDCT\Adminata\DependencyInjection\Compiler\ExtensionCompilerPass;
 use IDCT\Adminata\DependencyInjection\Compiler\GlobalVariablesCompilerPass;
 use IDCT\Adminata\DependencyInjection\Compiler\ModelManagerCompilerPass;
 use IDCT\Adminata\DependencyInjection\Compiler\ObjectAclManipulatorCompilerPass;
-use IDCT\Adminata\DependencyInjection\Compiler\TwigNamespaceAliasCompilerPass;
 use IDCT\Adminata\DependencyInjection\Compiler\TwigStringExtensionCompilerPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -65,7 +64,6 @@ final class AdminataBundle extends Bundle
         $container->addCompilerPass(new AdminAddInitializeCallCompilerPass(), PassConfig::TYPE_BEFORE_REMOVING, -100);
 
         // The block stack's compiler passes.
-        $container->addCompilerPass(new TwigNamespaceAliasCompilerPass());
         $container->addCompilerPass(new BlockTweakCompilerPass());
         $container->addCompilerPass(new BlockGlobalVariablesCompilerPass());
 

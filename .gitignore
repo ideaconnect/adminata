@@ -13,6 +13,7 @@
 .DS_Store
 /.php-cs-fixer.forked.cache
 /.php-cs-fixer.adminata.cache
+/.php-cs-fixer.packages.cache
 /build/
 # The demo application adminata's own suites drive, and the admin bundle's own test kernel.
 # Symfony 8 writes reference.php into a kernel's config dir on every debug-mode build.

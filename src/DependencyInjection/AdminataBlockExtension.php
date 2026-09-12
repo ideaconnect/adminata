@@ -93,7 +93,7 @@ final class AdminataBlockExtension extends Extension
 
     public function getNamespace(): string
     {
-        return 'http://sonata-project.com/schema/dic/block';
+        return 'https://idct.tech/schema/dic/adminata_block';
     }
 
     /**

@@ -16,6 +16,7 @@ parameters:
         - src
         - tests
         - tests-adminata
+        - upstream/rename
     scanFiles:
         - vendor/symfony/dependency-injection/Loader/Configurator/ContainerConfigurator.php
     excludePaths:

@@ -393,7 +393,10 @@ describe('adminata-autocomplete', () => {
             );
             const { chips } = parts(element);
 
-            expect([...chips.children].map((chip) => chip.dataset.adminataAutocompleteId)).toEqual(['1', '2']);
+            expect([...chips.children].map((chip) => chip.dataset.adminataAutocompleteId)).toEqual([
+                '1',
+                '2',
+            ]);
             expect(chips.children[0].querySelector('[data-label]').textContent).toBe('Product 01');
             expect(chips.children[0].querySelector('[data-remove]').getAttribute('aria-label')).toBe(
                 'Remove Product 01',

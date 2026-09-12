@@ -142,13 +142,7 @@ final class Engine
      */
     public function isSkipped(string $path): bool
     {
-        foreach ($this->skip as $glob) {
-            if (fnmatch($glob, $path) || (!str_contains($glob, '/') && fnmatch($glob, basename($path)))) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($this->skip, static fn ($glob) => fnmatch($glob, $path) || (!str_contains($glob, '/') && fnmatch($glob, basename($path))));
     }
 
     /**
@@ -338,13 +332,7 @@ final class Engine
             return true;
         }
 
-        foreach ($globs as $glob) {
-            if (fnmatch($glob, $name)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($globs, static fn ($glob) => fnmatch($glob, $name));
     }
 
     /**
@@ -380,7 +368,11 @@ final class Engine
         $compiled = [];
 
         foreach ($families as $family => $tokens) {
-            uksort($tokens, static fn (string $a, string $b): int => \strlen($b) <=> \strlen($a) ?: strcmp($a, $b));
+            uksort($tokens, static function (string $a, string $b): int {
+                $byLength = \strlen($b) <=> \strlen($a);
+
+                return 0 !== $byLength ? $byLength : strcmp($a, $b);
+            });
 
             $exact = [];
             $prefix = [];

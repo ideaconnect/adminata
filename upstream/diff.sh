@@ -75,3 +75,20 @@ echo
 echo "#### Commits"
 echo
 git -C "$root" log --oneline --no-merges "$range"
+
+# The diff in this repository's names, for the parts that are ported by hand: every upstream
+# hunk read through upstream/rename/apply.php, so that a class or a service id reads the way it
+# is spelled here (PLAN/v2 N16). A merged tree's whole diff goes through it, an admin-bundle
+# release only the owned part; the rest sync.sh merges itself.
+if [ "${TRANSLATED:-1}" = "1" ]; then
+    echo
+    echo "#### The owned part, translated to this repository's names"
+    echo
+    echo '```diff'
+    if [ -n "$merged_into" ]; then
+        git -C "$root" diff "$range" | php "$root/upstream/rename/apply.php" --stdin --as "src/x.php"
+    else
+        git -C "$root" diff "$range" -- "${owned[@]/:(exclude,glob)/}" | php "$root/upstream/rename/apply.php" --stdin --as "src/x.php" || true
+    fi
+    echo '```'
+fi

@@ -232,7 +232,7 @@ final class AdminataExtension extends Extension
 
     public function getNamespace(): string
     {
-        return 'https://sonata-project.org/schema/dic/admin';
+        return 'https://idct.tech/schema/dic/adminata';
     }
 
     /**

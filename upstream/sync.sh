@@ -1,20 +1,25 @@
 #!/usr/bin/env bash
 #
 # Applies the PHP-side changes of one upstream release onto this repository, skipping every path
-# adminata owns (upstream/exclude/<package>.txt). What it cannot apply lands in .rej files for you
-# to resolve; the user-interface changes it skipped are re-implemented by hand.
+# adminata owns (upstream/exclude/<package>.txt). Upstream speaks the Sonata names and this
+# repository does not (PLAN/v2 N16), so nothing is applied as a patch: for every file the release
+# touched, both upstream versions are translated through upstream/rename/apply.php — base (the
+# tag we sit at) and head (the tag we move to) — normalised by php-cs-fixer so that the rename's
+# reordering of the imports does not conflict on every file, and merged three-way onto ours with
+# `git merge-file`. Conflict markers are left for the hand; the user-interface changes the
+# exclusion list skipped are re-implemented by hand.
 #
 # Only `admin-bundle` can be synced, and it is the repository itself: upstream's src/ and tests/
-# are this repository's src/ and tests/, so the diff applies with no directory prefix.
+# are this repository's src/ and tests/, so paths need no directory prefix — only the rename.
 #
 #   upstream/sync.sh <package> <to-tag>
-#   upstream/sync.sh twig-extensions 2.7.0
+#   upstream/sync.sh admin-bundle 4.44.0
 #
-# Afterwards: `make cs-fix rector-fix phpstan test`, one commit "Sync <package> <to-tag>", then a
-# commit bumping the `replace` entry in composer.json and the row in UPSTREAM.md.
+# Afterwards: `make cs-fix rector-fix phpstan test check-names`, one commit "Sync <package>
+# <to-tag>", then a commit bumping the row in upstream/remotes.txt and UPSTREAM.md.
 #
 # Trees listed in upstream/merged.txt are part of the admin bundle now and are refused here; their
-# upstream releases are ported by hand.
+# upstream releases are ported by hand, through the same translation (upstream/diff.sh).
 
 set -euo pipefail
 
@@ -81,28 +86,80 @@ while read -r line; do
 done < "$exclude_file"
 
 range="refs/upstream/$package/$from..refs/upstream/$package/$to"
-patch=$(mktemp)
-trap 'rm -f "$patch"' EXIT
+engine="$root/upstream/rename/apply.php"
+fixer="$root/vendor/bin/php-cs-fixer"
+work=$(mktemp -d)
+trap 'rm -rf "$work"' EXIT
 
-git -C "$root" diff "$range" -- . "${owned[@]}" > "$patch"
+# Translates one upstream blob into this repository's names and formatting, into $work.
+translate() { # <ref> <upstream path> <our path> <output file>
+    if git -C "$root" cat-file -e "$1:$2" 2>/dev/null; then
+        git -C "$root" show "$1:$2" | php "$engine" --stdin --as "$3" > "$4"
+        case "$3" in
+            *.php)
+                cp "$4" "$work/fix.php"
+                "$fixer" fix --quiet --config="$root/.php-cs-fixer.dist.php" --allow-risky=yes "$work/fix.php" > /dev/null 2>&1 || true
+                cp "$work/fix.php" "$4"
+                ;;
+        esac
+    else
+        : > "$4"
+    fi
+}
 
-if [ ! -s "$patch" ]; then
+applied=0
+conflicts=0
+while IFS=$'\t' read -r status upstream_path rest; do
+    [ -z "$status" ] && continue
+    case "$status" in
+        R*) new_upstream_path=$rest ;;
+        *) new_upstream_path=$upstream_path ;;
+    esac
+    ours=$(php "$engine" --path "$upstream_path")
+    theirs=$(php "$engine" --path "$new_upstream_path")
+
+    case "$status" in
+        D)
+            git -C "$root" rm --quiet -- "$ours" 2>/dev/null || true
+            ;;
+        A)
+            mkdir -p "$root/$(dirname "$theirs")"
+            translate "refs/upstream/$package/$to" "$new_upstream_path" "$theirs" "$root/$theirs"
+            git -C "$root" add -- "$theirs"
+            ;;
+        *)
+            if [ "$ours" != "$theirs" ] && [ -f "$root/$ours" ]; then
+                git -C "$root" mv -- "$ours" "$theirs"
+            fi
+            translate "refs/upstream/$package/$from" "$upstream_path" "$theirs" "$work/base"
+            translate "refs/upstream/$package/$to" "$new_upstream_path" "$theirs" "$work/head"
+            if [ ! -f "$root/$theirs" ]; then
+                cp "$work/head" "$root/$theirs"
+                git -C "$root" add -- "$theirs"
+            elif ! git merge-file -L ours -L "upstream $from" -L "upstream $to" "$root/$theirs" "$work/base" "$work/head"; then
+                conflicts=$((conflicts + 1))
+                echo "conflict: $theirs"
+            fi
+            ;;
+    esac
+    applied=$((applied + 1))
+done < <(git -C "$root" diff --name-status -M "$range" -- . "${owned[@]}")
+
+if [ "$applied" -eq 0 ]; then
     echo "nothing to apply for $package $from → $to outside the paths adminata owns"
-else
-    git -C "$root" apply -3 "$patch"
 fi
 
 sed -i "s|^\\($package[[:space:]]\\+$url[[:space:]]\\+\\)$from\$|\\1$to|" "$remotes_file"
 
 cat <<MSG
 
-Applied $package $from → $to.
+Applied $package $from → $to: $applied files, $conflicts with conflict markers.
 
 Next:
-  1. resolve any *.rej / conflict markers
+  1. resolve the conflict markers, if any
   2. re-implement the user-interface changes: upstream/diff.sh $package $from $to
-  3. make cs-fix rector-fix phpstan test
+  3. make cs-fix rector-fix phpstan test check-names
   4. commit "Sync $package $to"
-  5. bump the \`replace\` entry in composer.json and the row in UPSTREAM.md, and add a
-     CHANGELOG.md line for anything ported by hand
+  5. bump the row in UPSTREAM.md (upstream/remotes.txt is done), and add a CHANGELOG.md line for
+     anything ported by hand
 MSG

@@ -238,7 +238,7 @@ final class ExtensionCompilerPassTest extends TestCase
 
         static::assertTrue($container->hasDefinition('adminata_post_admin'));
         static::assertTrue($container->hasDefinition('adminata_article_admin'));
-        static::assertTrue($container->hasDefinition('sonata_news_admin'));
+        static::assertTrue($container->hasDefinition('adminata_news_admin'));
         static::assertTrue($container->hasDefinition('adminata_super_admin'));
         static::assertTrue($container->hasDefinition('adminata_timestampable_admin'));
         static::assertTrue($container->hasDefinition('adminata_publishable_admin'));
@@ -279,7 +279,7 @@ final class ExtensionCompilerPassTest extends TestCase
         static::assertSame($orderExtension, $extensions[6]);
         static::assertSame($globalExtension, $extensions[7]);
 
-        $def = $container->get('sonata_news_admin');
+        $def = $container->get('adminata_news_admin');
         static::assertInstanceOf(AdminInterface::class, $def);
 
         $extensions = $def->getExtensions();
@@ -454,7 +454,7 @@ final class ExtensionCompilerPassTest extends TestCase
             ->setClass(MockAdmin::class)
             ->addTag(TaggedAdminInterface::ADMIN_TAG, ['model_class' => Post::class]);
         $container
-            ->register('sonata_news_admin')
+            ->register('adminata_news_admin')
             ->setPublic(true)
             ->setClass(MockAdmin::class)
             ->addTag(TaggedAdminInterface::ADMIN_TAG, ['model_class' => News::class]);
@@ -535,7 +535,7 @@ final class ExtensionCompilerPassTest extends TestCase
             ->setPublic(true)
             ->setClass($extensionClass)
             ->addTag('adminata.admin.extension', ['global' => false])
-            ->addTag('adminata.admin.extension', ['target' => 'sonata_news_admin', 'priority' => 10])
+            ->addTag('adminata.admin.extension', ['target' => 'adminata_news_admin', 'priority' => 10])
             ->addTag('adminata.admin.extension', ['target' => 'adminata_article_admin'])
             ->addTag('adminata.admin.extension', ['implements' => Publishable::class])
             ->addTag('adminata.admin.extension', ['admin_uses' => TimestampableTrait::class]);

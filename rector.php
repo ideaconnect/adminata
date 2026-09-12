@@ -41,6 +41,7 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__.'/src',
         __DIR__.'/tests',
         __DIR__.'/tests-adminata',
+        __DIR__.'/upstream/rename',
     ]);
 
     $rectorConfig->sets([

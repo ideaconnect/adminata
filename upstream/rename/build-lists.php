@@ -59,7 +59,12 @@ function contents(array $directories): iterable
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS));
 
         foreach ($iterator as $file) {
-            if (!$file instanceof SplFileInfo || !$file->isFile() || \in_array($file->getExtension(), ['png', 'gif', 'jpg', 'woff2', 'ico'], true)) {
+            if (!$file instanceof SplFileInfo || !$file->isFile() || in_array($file->getExtension(), ['png', 'gif', 'jpg', 'woff2', 'ico'], true)) {
+                continue;
+            }
+
+            // The Tailwind emission fixture invents names to prove semantics; none of them is ours.
+            if (str_contains($file->getPathname(), '/__fixture__/')) {
                 continue;
             }
 
@@ -84,7 +89,7 @@ function hide(string $text, array $phrases): string
     return $text;
 }
 
-$roots = array_slice($argv, 1);
+$roots = array_slice($_SERVER['argv'] ?? [], 1);
 
 if ([] === $roots) {
     fwrite(\STDERR, "usage: build-lists.php <adminata-root> [<orm-root>] [<odm-root>] > known.txt\n");

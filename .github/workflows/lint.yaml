@@ -68,8 +68,8 @@ jobs:
             - name: Lint composer.json
               run: make lint-composer
 
-            - name: Check that replace, UPSTREAM.md and upstream/remotes.txt agree
-              run: php bin/check-replace-versions.php
+            - name: Check that conflict, UPSTREAM.md and upstream/remotes.txt agree
+              run: php bin/check-upstream-versions.php
 
     yaml-files:
         name: YAML files

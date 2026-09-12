@@ -33,7 +33,7 @@ final class AdminataBundleTest extends TestCase
 
         // Eleven admin passes, the block stack's two, the Twig namespace aliases, the
         // exporter's writer pass, and the Doctrine stack's two.
-        $containerBuilder->expects(static::exactly(17))
+        $containerBuilder->expects(static::exactly(16))
             ->method('addCompilerPass');
 
         $bundle = new AdminataBundle();

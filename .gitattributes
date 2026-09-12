@@ -22,7 +22,7 @@
 /PROJECT_PLAN.md export-ignore
 /bin/build-css-safelist.mjs export-ignore
 /bin/check-css-contract.mjs export-ignore
-/bin/check-replace-versions.php export-ignore
+/bin/check-upstream-versions.php export-ignore
 /bin/console export-ignore
 /bin/tailwind-fixture.mjs export-ignore
 /docker-compose.yml export-ignore
@@ -40,7 +40,16 @@
 /stylelint.config.js export-ignore
 /tests export-ignore
 /tests-adminata export-ignore
-/upstream export-ignore
+# upstream/rename/ ships: it is the engine an application runs as vendor/bin/adminata-rename
+# (UPGRADE.md §10). The rest of upstream/ is sync tooling, kept out of the archive file by file,
+# because an export-ignore on the directory could not be undone for the child.
+/upstream/diff.sh export-ignore
+/upstream/sync.sh export-ignore
+/upstream/rehearse-sync.sh export-ignore
+/upstream/exclude export-ignore
+/upstream/remotes.txt export-ignore
+/upstream/merged.txt export-ignore
+/upstream/rename/README.md export-ignore
 /vite.config.js export-ignore
 /vitest.config.js export-ignore
 /Makefile export-ignore

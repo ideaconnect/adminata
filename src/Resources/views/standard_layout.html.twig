@@ -330,7 +330,7 @@ file that was distributed with this source code.
                 {% endblock adminata_header %}
 
                 <main class="content-wrapper" id="adminata-content">
-                    {% block sonata_page_content %}
+                    {% block adminata_page_content %}
                         <div class="adm-content">
                             {#
                                 Captured rather than rendered in place: with neither a
@@ -355,8 +355,8 @@ file that was distributed with this source code.
                                     {% endif %}
                                 {% endblock adminata_breadcrumb %}
 
-                                {% block sonata_page_content_header %}
-                                    {% block sonata_page_content_nav %}
+                                {% block adminata_page_content_header %}
+                                    {% block adminata_page_content_nav %}
                                         {% if _navbar_title is not empty
                                           or _tab_menu is not empty
                                           or _actions is not empty
@@ -404,8 +404,8 @@ file that was distributed with this source code.
                                                 </div>
                                             </div>
                                         {% endif %}
-                                    {% endblock sonata_page_content_nav %}
-                                {% endblock sonata_page_content_header %}
+                                    {% endblock adminata_page_content_nav %}
+                                {% endblock adminata_page_content_header %}
                             {% endset %}
 
                             {% if contentHeader|trim is not empty %}
@@ -449,7 +449,7 @@ file that was distributed with this source code.
                                 {% endblock adminata_content %}
                             </div>
                         </div>
-                    {% endblock sonata_page_content %}
+                    {% endblock adminata_page_content %}
                 </main>
             </div>
         {% endblock adminata_wrapper %}

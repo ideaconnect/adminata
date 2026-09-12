@@ -12,15 +12,15 @@ permissions:
     contents: read
 
 env:
-    # idct/sonata-admin-mongodb-bundle is the reason adminata keeps Sonata's PHP API frozen
-    # (owner directive 7, PLAN/02 §1). It is installed against this checkout as a path
-    # repository, which is what an application does when it tries a fork.
+    # idct/adminata-admin-mongodb-bundle is the MongoDB storage layer built on adminata (owner
+    # directive 7). It is installed against this checkout as a path repository, which is what an
+    # application does when it tries a fork.
     #
-    # 6.x is the line built against adminata; 5.x is the last one built against
-    # sonata-project/admin-bundle and adminata cannot satisfy it — it conflicts with the packages
-    # that line requires, because their sources are inside the admin bundle now.
-    FORK_REPOSITORY: ideaconnect/sonata-admin-mongodb-bundle
-    FORK_REF: 6.x
+    # 7.x is the line built on adminata's IDCT\Adminata names; 6.x was built on the Sonata-named
+    # adminata and 5.x on sonata-project/admin-bundle itself, and neither resolves against this
+    # checkout any more.
+    FORK_REPOSITORY: ideaconnect/adminata-admin-mongodb-bundle
+    FORK_REF: 7.x
 
 jobs:
     unit:
@@ -83,7 +83,7 @@ jobs:
               working-directory: fork
               run: composer validate --no-check-lock
 
-            - name: Prove the replaced packages came from adminata
+            - name: Prove that no sonata-project package came along
               working-directory: fork
               run: |
                   test -f vendor/idct/adminata/composer.json

@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace Adminata\Tests\Contract;
 
+use Adminata\Rename\Engine;
+
 /**
  * Every Twig block name the admin bundle shipped at 4.43.0 still exists (PLAN/02 §5, appendix A).
  *
@@ -24,7 +26,9 @@ namespace Adminata\Tests\Contract;
  * why removals are a major release. Additions are free.
  *
  * The names come from appendix A, generated from upstream, rather than from a list maintained here:
- * the appendix is what the plan promises and this asserts the promise.
+ * the appendix is what the plan promises and this asserts the promise. The appendix spells them
+ * the way 4.43.0 did; since the rename (PLAN/v2 N8) each is promised under the name the engine
+ * gives it — `adminata_wrapper` for the 4.43.0 spelling — so the list is read through the engine.
  */
 final class BlockNameTest extends ContractTestCase
 {
@@ -83,6 +87,7 @@ final class BlockNameTest extends ContractTestCase
         }
 
         $names = [];
+        $engine = Engine::fromDirectory(self::root().'/upstream/rename', Engine::MODE_TREE);
 
         preg_match_all('/^- `[^`]+`: (.*)$/m', $appendix, $lines);
 
@@ -94,7 +99,7 @@ final class BlockNameTest extends ContractTestCase
             }
 
             foreach ($words as $name) {
-                $names[$name] = true;
+                $names[$engine->translate($name)] = true;
             }
         }
 

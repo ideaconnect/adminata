@@ -17,15 +17,16 @@ declare(strict_types=1);
 
 /*
  * Asserts that the places that record which upstream version each forked tree sits at agree: the
- * `replace` block of composer.json, the table in UPSTREAM.md, and the tag column of
+ * `conflict` block of composer.json, the table in UPSTREAM.md, and the tag column of
  * upstream/remotes.txt. A sync that updates one and forgets the others fails here.
  *
  * upstream/remotes.txt has a row per upstream tree that is still part of this repository. One of
- * them, `admin-bundle`, is the repository itself — src/ and tests/ — and composer.json `replace`s
- * it. The rest are listed in upstream/merged.txt: their sources were merged into the admin bundle,
- * so they have no tree, no `replace` entry and — because adminata now provides those APIs under a
- * different namespace — a `conflict` entry instead. Their tags are still recorded, in remotes.txt
- * and UPSTREAM.md, because that is the upstream release the merged sources sit at.
+ * them, `admin-bundle`, is the repository itself — src/ and tests/. The rest are listed in
+ * upstream/merged.txt: their sources were merged into the admin bundle. Since the rename to
+ * IDCT\Adminata (PLAN/v2 N15) adminata provides every one of those APIs under its own names, so
+ * composer.json `conflict`s with all six upstream packages and `replace`s none. Their tags are
+ * still recorded, in remotes.txt and UPSTREAM.md, because that is the upstream release the forked
+ * sources sit at, and the release an upstream diff is taken from.
  */
 
 $root = dirname(__DIR__);
@@ -33,10 +34,12 @@ $errors = [];
 
 $composer = json_decode((string) file_get_contents($root.'/composer.json'), true, 512, \JSON_THROW_ON_ERROR);
 assert(is_array($composer));
-$replace = $composer['replace'] ?? [];
-assert(is_array($replace));
 $conflict = $composer['conflict'] ?? [];
 assert(is_array($conflict));
+
+if (isset($composer['replace'])) {
+    $errors[] = 'composer.json has a "replace" block: adminata provides nothing under a sonata-project name any more (PLAN/v2 N15).';
+}
 
 $upstream = (string) file_get_contents($root.'/UPSTREAM.md');
 $remotes = (string) file_get_contents($root.'/upstream/remotes.txt');
@@ -138,10 +141,6 @@ if ([] === $tagsFromUpstream) {
     $errors[] = 'UPSTREAM.md: no version table with "Upstream package" and "Tag" columns.';
 }
 
-if ([] === $replace) {
-    $errors[] = 'composer.json has no "replace" block.';
-}
-
 // The one tree that is not merged is the repository itself, so "does it still exist" is a
 // question about src/ at the root rather than about a directory named after the package.
 $treeExists = static fn (string $tree): bool => 'admin-bundle' === $tree && is_dir($root.'/src');
@@ -159,25 +158,16 @@ foreach ($tagsFromRemotes as $directory => $tag) {
         );
     }
 
+    if (!isset($conflict[$package]) || '*' !== $conflict[$package]) {
+        $errors[] = sprintf(
+            '%s: composer.json must conflict with it at "*" — adminata provides that API under '
+                .'its own names and the two stacks cannot coexist.',
+            $package
+        );
+    }
+
     if ($isMerged) {
         $target = $mergedInto[$directory];
-
-        if (isset($replace[$package])) {
-            $errors[] = sprintf(
-                '%s: merged into %s, so composer.json must not replace it.',
-                $package,
-                $target
-            );
-        }
-
-        if (!isset($conflict[$package])) {
-            $errors[] = sprintf(
-                '%s: merged into %s, so composer.json must conflict with it — adminata '
-                    .'provides that API under its own namespace and the two stacks cannot coexist.',
-                $package,
-                $target
-            );
-        }
 
         if (!$treeExists($target)) {
             $errors[] = sprintf('%s: was merged into %s, which does not exist.', $package, $target);
@@ -186,83 +176,40 @@ foreach ($tagsFromRemotes as $directory => $tag) {
         continue;
     }
 
-    if (!isset($replace[$package])) {
+    if (!$treeExists($directory)) {
         $errors[] = sprintf(
-            '%s is in upstream/remotes.txt but composer.json does not replace %s. '
-                .'A tree that is no longer replaced belongs in upstream/merged.txt, or, if it moved '
-                .'to a repository of its own, in neither file.',
-            $directory,
-            $package
+            '%s is in upstream/remotes.txt but has no tree: a tree that was merged belongs in '
+                .'upstream/merged.txt, and one that moved to a repository of its own in neither file.',
+            $directory
         );
+    }
+}
 
+foreach ($conflict as $package => $constraint) {
+    if (!is_string($package) || !str_starts_with($package, 'sonata-project/')) {
         continue;
     }
 
-    $version = $replace[$package];
-    assert(is_string($version));
+    $directory = substr($package, strlen('sonata-project/'));
 
-    if ($version !== $tag) {
-        $errors[] = sprintf(
-            '%s: composer.json replaces %s but upstream/remotes.txt records %s.',
-            $package,
-            $version,
-            $tag
-        );
+    if ('entity-audit-bundle' === $directory) {
+        continue; // a third party's package, not forked; the constraint is its own business
     }
-
-    $pattern = sprintf(
-        '/\|\s*`src\/` \+ `tests\/`\s*\|\s*`%s`\s*\|/',
-        preg_quote($package, '/')
-    );
-
-    if (1 !== preg_match($pattern, $upstream)) {
-        $errors[] = sprintf('%s: UPSTREAM.md does not list it against `src/` + `tests/`.', $package);
-    }
-
-    if (!$treeExists($directory)) {
-        $errors[] = sprintf('%s: its tree does not exist.', $package);
-    }
-}
-
-foreach ($replace as $package => $version) {
-    assert(is_string($package));
-
-    $directory = substr($package, strrpos($package, '/') + 1);
 
     if (!isset($tagsFromRemotes[$directory])) {
-        $errors[] = sprintf('%s: no row in upstream/remotes.txt for %s.', $package, $directory);
-    }
-}
-
-foreach ($mergedInto as $directory => $target) {
-    if (!isset($tagsFromRemotes[$directory])) {
         $errors[] = sprintf(
-            'upstream/merged.txt lists %s but upstream/remotes.txt has no row for it; the remote and '
-                .'the imported history are what make its merged sources traceable.',
-            $directory
+            'composer.json conflicts with %s, which upstream/remotes.txt does not list.',
+            $package
         );
     }
 }
 
 if ([] !== $errors) {
     foreach ($errors as $error) {
-        fwrite(\STDERR, 'error: '.$error."\n");
+        fwrite(\STDERR, $error."\n");
     }
 
     exit(1);
 }
 
-printf(
-    "replace, UPSTREAM.md and upstream/remotes.txt agree on all %d replaced packages%s.\n",
-    count($replace),
-    [] === $mergedInto ? '' : sprintf(
-        ', and on the %d merged tree%s (%s)',
-        count($mergedInto),
-        1 === count($mergedInto) ? '' : 's',
-        implode(', ', array_map(
-            static fn (string $from, string $to): string => $from.' → '.$to,
-            array_keys($mergedInto),
-            array_values($mergedInto)
-        ))
-    )
-);
+echo "conflict, UPSTREAM.md and upstream/remotes.txt agree.\n";

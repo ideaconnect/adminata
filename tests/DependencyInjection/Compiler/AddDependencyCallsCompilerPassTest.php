@@ -130,7 +130,7 @@ final class AddDependencyCallsCompilerPassTest extends AbstractCompilerPassTestC
         self::assertContainerBuilderHasService('adminata.admin.pool');
         self::assertContainerBuilderHasService('adminata_post_admin');
         self::assertContainerBuilderHasService('adminata_article_admin');
-        self::assertContainerBuilderHasService('sonata_news_admin');
+        self::assertContainerBuilderHasService('adminata_news_admin');
 
         $poolDefinition = $this->container->findDefinition('adminata.admin.pool');
         $adminServiceIds = $poolDefinition->getArgument(1);
@@ -142,7 +142,7 @@ final class AddDependencyCallsCompilerPassTest extends AbstractCompilerPassTestC
 
         static::assertContains('adminata_post_admin', $adminServiceIds);
         static::assertContains('adminata_article_admin', $adminServiceIds);
-        static::assertContains('sonata_news_admin', $adminServiceIds);
+        static::assertContains('adminata_news_admin', $adminServiceIds);
 
         static::assertArrayHasKey('adminata_group_one', $adminGroups);
         static::assertArrayHasKey('label', $adminGroups['adminata_group_one']);
@@ -173,34 +173,34 @@ final class AddDependencyCallsCompilerPassTest extends AbstractCompilerPassTestC
         static::assertArrayHasKey(ArticleEntity::class, $adminClasses);
         static::assertContains('adminata_article_admin', $adminClasses[ArticleEntity::class]);
         static::assertArrayHasKey(NewsEntity::class, $adminClasses);
-        static::assertContains('sonata_news_admin', $adminClasses[NewsEntity::class]);
+        static::assertContains('adminata_news_admin', $adminClasses[NewsEntity::class]);
 
         self::assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'sonata_news_admin',
+            'adminata_news_admin',
             'setRouteBuilder',
             ['adminata.admin.route.path_info']
         );
 
         self::assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'sonata_news_admin',
+            'adminata_news_admin',
             'setPagerType',
             ['simple']
         );
 
         self::assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'sonata_news_admin',
+            'adminata_news_admin',
             'setFormTheme',
             [['some_form_template.twig']]
         );
 
         self::assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'sonata_news_admin',
+            'adminata_news_admin',
             'setFilterTheme',
             [['some_filter_template.twig']]
         );
 
         self::assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'sonata_news_admin',
+            'adminata_news_admin',
             'setModelManager',
             [new Reference('my.model.manager')]
         );
@@ -791,7 +791,7 @@ final class AddDependencyCallsCompilerPassTest extends AbstractCompilerPassTestC
 
         // Add admin definition's
         $this->container
-            ->register('sonata_news_admin')
+            ->register('adminata_news_admin')
             ->setPublic(true)
             ->setClass(CustomAdmin::class)
             ->addTag(TaggedAdminInterface::ADMIN_TAG, ['model_class' => NewsEntity::class, 'controller' => 'adminata.admin.controller.crud', 'group' => 'adminata_group_two', 'label' => '5 Entry', 'manager_type' => 'orm'])

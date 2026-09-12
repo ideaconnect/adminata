@@ -22,22 +22,22 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 /**
- * adminata `replace`s `sonata-project/admin-bundle` and `conflict`s with the five trees merged into
- * it (PLAN/02 §13). These tests prove that the result still resolves: on its own, next to the two
- * storage layers, and — when the application is available — for the migration recomaty-panel will
- * run in phase 5.
+ * adminata `conflict`s with the six `sonata-project` packages it forked and `replace`s none of them
+ * (PLAN/v2 N15): it provides those APIs under its own names, so an installation cannot hold both.
+ * These tests prove that the result still resolves — on its own, next to the two storage layers,
+ * and, when the application is available, for recomaty-panel's manifest — and that nothing pulls
+ * a `sonata-project` package back in.
  *
- * They hit Packagist and GitHub, so they are in the `network` group and are skipped without an
- * explicit `--group network`.
+ * The resolution tests hit Packagist and GitHub, so they are in the `network` group and are
+ * skipped without an explicit `--group network`; the manifest test runs everywhere.
  */
-#[Group('network')]
-final class ReplaceTest extends TestCase
+final class ConflictTest extends TestCase
 {
     private string $workspace = '';
 
     protected function setUp(): void
     {
-        $workspace = tempnam(sys_get_temp_dir(), 'adminata-replace-');
+        $workspace = tempnam(sys_get_temp_dir(), 'adminata-conflict-');
         static::assertIsString($workspace);
 
         unlink($workspace);
@@ -53,6 +53,34 @@ final class ReplaceTest extends TestCase
         }
     }
 
+    /**
+     * Offline: the manifest itself. No `replace`, a `*` conflict with each of the six forked
+     * packages, and no `sonata-project` requirement anywhere but the third-party audit bundle.
+     */
+    public function testTheManifestConflictsAndDoesNotReplace(): void
+    {
+        $manifest = json_decode((string) file_get_contents(\dirname(__DIR__, 2).'/composer.json'), true, 512, \JSON_THROW_ON_ERROR);
+        static::assertIsArray($manifest);
+        static::assertArrayNotHasKey('replace', $manifest);
+        static::assertIsArray($manifest['conflict'] ?? null);
+
+        foreach (['admin-bundle', 'block-bundle', 'doctrine-extensions', 'exporter', 'form-extensions', 'twig-extensions'] as $package) {
+            static::assertSame('*', $manifest['conflict']['sonata-project/'.$package] ?? null, $package);
+        }
+
+        foreach (['require', 'require-dev'] as $section) {
+            static::assertIsArray($manifest[$section] ?? null);
+
+            foreach (array_keys($manifest[$section]) as $package) {
+                static::assertTrue(
+                    !\is_string($package) || !str_starts_with($package, 'sonata-project/') || 'sonata-project/entity-audit-bundle' === $package,
+                    \sprintf('%s requires %s.', $section, $package)
+                );
+            }
+        }
+    }
+
+    #[Group('network')]
     public function testAdminataResolvesOnItsOwn(): void
     {
         $this->writeProject([
@@ -63,12 +91,13 @@ final class ReplaceTest extends TestCase
         $this->assertComposerUpdateSucceeds();
     }
 
+    #[Group('network')]
     public function testAdminataResolvesTogetherWithTheStorageLayers(): void
     {
         $this->writeProject([
             'idct/adminata' => '@dev',
-            'idct/adminata-doctrine-orm-admin-bundle' => '^1.0',
-            'idct/sonata-admin-mongodb-bundle' => '^6.0',
+            'idct/adminata-doctrine-orm-admin-bundle' => '^2.0@dev',
+            'idct/adminata-admin-mongodb-bundle' => '^7.0@dev',
             'doctrine/doctrine-bundle' => '^3.0',
             'doctrine/mongodb-odm-bundle' => '^5.0',
             'symfony/framework-bundle' => '^8.1',
@@ -78,16 +107,17 @@ final class ReplaceTest extends TestCase
     }
 
     /**
-     * The requirement of PLAN/02 §1: nothing may pull a real `sonata-project` package back in
-     * next to adminata, because Composer would then have to choose between two providers of the
-     * same names.
+     * The requirement of PLAN/02 §1, sharpened by PLAN/v2 N15: nothing may pull a real
+     * `sonata-project` package in next to adminata — not by `replace` any more, which is gone,
+     * but by `conflict`, which refuses the install outright.
      */
-    public function testNoAdminataPackageIsInstalledAlongsideAdminata(): void
+    #[Group('network')]
+    public function testNoUpstreamPackageIsInstalledAlongsideAdminata(): void
     {
         $this->writeProject([
             'idct/adminata' => '@dev',
-            'idct/adminata-doctrine-orm-admin-bundle' => '^1.0',
-            'idct/sonata-admin-mongodb-bundle' => '^6.0',
+            'idct/adminata-doctrine-orm-admin-bundle' => '^2.0@dev',
+            'idct/adminata-admin-mongodb-bundle' => '^7.0@dev',
             'symfony/framework-bundle' => '^8.1',
         ]);
 
@@ -103,11 +133,12 @@ final class ReplaceTest extends TestCase
     }
 
     /**
-     * The first step of PLAN/10 §1, dry-run against the real application: install adminata, then
-     * drop the two explicit `sonata-project` requirements the `replace` makes redundant.
+     * The first step of UPGRADE.md §2, dry-run against the real application: install adminata,
+     * then drop every explicit `sonata-project` requirement, which the `conflict`s refuse.
      *
      * Point `ADMINATA_APP_DIR` at a checkout of the application to run it.
      */
+    #[Group('network')]
     public function testTheApplicationsComposerJsonStillResolves(): void
     {
         $application = $_SERVER['ADMINATA_APP_DIR'] ?? null;
@@ -140,7 +171,7 @@ final class ReplaceTest extends TestCase
     private function writeProject(array $require, array $manifest = []): void
     {
         $manifest = array_merge($manifest, [
-            'name' => 'adminata/replace-test',
+            'name' => 'adminata/conflict-test',
             'type' => 'project',
             'require' => $require,
             'repositories' => [
@@ -149,11 +180,10 @@ final class ReplaceTest extends TestCase
                     'url' => \dirname(__DIR__, 2),
                     'options' => ['symlink' => true],
                 ],
-                // Neither adminata nor the ORM storage layer is on Packagist yet, and the ODM one's
-                // 6.0 may not have propagated there; name the repositories so this proves what the
-                // packages say rather than what Packagist happens to have indexed.
+                // None of the three is on Packagist under these names yet; name the repositories
+                // so this proves what the packages say rather than what Packagist has indexed.
                 ['type' => 'vcs', 'url' => 'https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle.git'],
-                ['type' => 'vcs', 'url' => 'https://github.com/ideaconnect/sonata-admin-mongodb-bundle.git'],
+                ['type' => 'vcs', 'url' => 'https://github.com/ideaconnect/adminata-admin-mongodb-bundle.git'],
             ],
             'minimum-stability' => 'dev',
             'prefer-stable' => true,

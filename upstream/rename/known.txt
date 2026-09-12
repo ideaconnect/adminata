@@ -643,7 +643,6 @@ hyphen	sonata-modal-trigger-size-value	exact
 hyphen	sonata-modal-trigger-target-value	exact
 hyphen	sonata-modal-trigger-text-value	exact
 hyphen	sonata-modal-trigger-title-value	exact
-hyphen	sonata-overrides	exact
 hyphen	sonata-per-page	prefix
 hyphen	sonata-preview-form-container	exact
 hyphen	sonata-question	prefix
