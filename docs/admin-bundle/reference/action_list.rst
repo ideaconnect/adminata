@@ -823,8 +823,8 @@ query and displayed::
 
 
 Lastly, you can also define your list fields as ``virtual``.
-This way, Sonata's FieldDescription will always return a value of null, as documented here:
-https://docs.sonata-project.org/projects/AdminataBundle/en/4.x/cookbook/recipe_virtual_field/
+This way, the FieldDescription will always return a value of null, as documented in
+:doc:`/admin-bundle/cookbook/recipe_virtual_field`.
 
 Combine this with configuring a custom template and you'll have a list column fully customizable in what it eventually renders. ::
 
@@ -838,7 +838,6 @@ Combine this with configuring a custom template and you'll have a list column fu
         ]);
     }
 
-.. _`AdminataDoctrineORMBundle Documentation`: https://docs.sonata-project.org/projects/AdminataDoctrineORMBundle/en/4.x/reference/list_field_definition/
 .. _`here`: https://github.com/ideaconnect/adminata/tree/main/src/Form/Type/Operator
 
 Advance Usage

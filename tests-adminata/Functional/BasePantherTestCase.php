@@ -25,7 +25,7 @@ use Symfony\Component\Panther\PantherTestCase;
 /**
  * A real browser against the demo application (PLAN/08 §3).
  *
- * Same switch as idct/sonata-admin-mongodb-bundle: with `PANTHER_SELENIUM_HOST` set, talk to a
+ * Same switch as idct/adminata-admin-mongodb-bundle: with `PANTHER_SELENIUM_HOST` set, talk to a
  * running Selenium — `docker compose up -d selenium` starts one — instead of spawning a local
  * geckodriver. `PANTHER_FIREFOX_PORT` moves the spawned geckodriver off the default 4444 when
  * something else on the machine already listens there.

@@ -10,7 +10,7 @@ Storage is a separate package, one per backend and both installed alongside this
 ORM is
 `idct/adminata-doctrine-orm-admin-bundle <https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle>`_
 and MongoDB is
-`idct/sonata-admin-mongodb-bundle <https://github.com/ideaconnect/sonata-admin-mongodb-bundle>`_.
+`idct/adminata-admin-mongodb-bundle <https://github.com/ideaconnect/adminata-admin-mongodb-bundle>`_.
 Each carries its own documentation.
 
 .. note::

@@ -1090,6 +1090,6 @@ Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType
 .. _`Symfony field types`: https://symfony.com/doc/5.4/reference/forms/types.html
 .. _`Symfony choice Field Type docs`: https://symfony.com/doc/5.4/reference/forms/types.html#choice-fields
 .. _`Symfony PropertyPath`: https://github.com/symfony/property-access/blob/5.4/PropertyPath.php
-.. _`ORM`: https://docs.sonata-project.org/projects/AdminataDoctrineORMBundle/en/4.x/reference/form_field_definition/
-.. _`MongoDB`: https://docs.sonata-project.org/projects/AdminataDoctrineMongoDBBundle/en/4.x/reference/form_field_definition/
+.. _`ORM`: https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle/blob/main/docs/reference/form_field_definition.rst
+.. _`MongoDB`: https://github.com/ideaconnect/adminata-admin-mongodb-bundle/blob/7.x/docs/reference/form_field_definition.rst
 .. _`Symfony form options`: https://symfony.com/doc/5.4/reference/forms/types/form.html

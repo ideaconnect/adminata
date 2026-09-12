@@ -199,5 +199,5 @@ provided admin functionality for the admin bundle yet. Fortunately, you'll
 learn how to do this in the :doc:`next chapter <creating_an_admin>`.
 
 .. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
-.. _AdminataDoctrineORMBundle: https://docs.sonata-project.org/projects/AdminataDoctrineORMBundle/en/4.x/
-.. _AdminataDoctrineMongoDBBundle: https://docs.sonata-project.org/projects/AdminataDoctrineMongoDBBundle/en/4.x/
+.. _AdminataDoctrineORMBundle: https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle
+.. _AdminataDoctrineMongoDBBundle: https://github.com/ideaconnect/adminata-admin-mongodb-bundle
