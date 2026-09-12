@@ -126,3 +126,33 @@ fixed there rather than worked around in the application — which is the rule t
    `document.documentElement.scrollWidth === document.documentElement.clientWidth` on each.
 4. Open every dropdown and every enhanced control and hover the rows.
 5. Read the browser console. It should be empty.
+
+## 5. Round 2 — adminata's own names (2026-09-12)
+
+The second pass the same panel made, from the Sonata-named adminata of round 1 to the
+`IDCT\Adminata\` names, on a branch `adminata-idct` off `develop`, in two commits totalling
+243 files, +1,381 / −1,353 lines. Every figure is measured from that branch.
+
+| Step | Edit | Actually |
+|---|---|---|
+| `composer.json` | `idct/adminata` stays `dev-main` (the lock moves to the commit of the rename); the ORM layer `^1.0` → `^2.0`; `idct/sonata-admin-mongodb-bundle ^6.0` → `idct/adminata-admin-mongodb-bundle ^7.0`, from a third `vcs` repository | 3 constraints, 1 repository, `composer update` of the three. No Flex recipe is involved, so no `--no-plugins` dance this time; `symfony.lock` gains the renamed package's entry |
+| The rename | `vendor/bin/adminata-rename --app --dry-run .`, read in full; `--app .` | 225 files rewritten, 19 paths moved — `bundles.php` (3 lines), the four configuration files and their roots, the routes file (`@AdminataBundle/…/adminata.php`, loader type `adminata`), `templates/bundles/SonataAdminBundle/` → `AdminataBundle/` (16 files), 74 PHP files' imports, 41 `@Adminata/` paths, 44 `adminata.admin` tags, the form types, ~80 hook usages in the stylesheet and templates, the controllers, `_adminata_csrf_token` |
+| What the tool reported and left | the panel's own names: 30 admin service ids `sonata.admin.<domain>.<name>` (73 `ROLE_SONATA_ADMIN_*` derive from them — `security.yaml`, code, migrations, the users table), the `ROLE_SONATA_*` names themselves, 12 CSRF intentions, the `sonata_admin_edit_own_password` route, `sonata-action-btn`, `sonata-overrides.scss` | kept, every one; zero database changes |
+| By hand | a unit test that read the configuration root through the option's spelling (`$config['sonata_admin']` had become `['adminata_admin']`; the root is `['adminata']`); the agent notes; `docs/INSTALL.md` | 3 files |
+| Verification | `composer test:unit`, `composer test:static`, `lint:container`, `npm run build`; the review server in both themes: dashboard, three lists with hook overrides, an edit form; `review-classes.mjs` | 3,001 tests, PHPStan clean, no unstyled token |
+
+What round 2 exposed:
+
+- **The dry run is the review.** Its report of "left to you" lines was the complete list of the
+  panel's own names, and reading it settled every decision before a file changed. The one hand
+  edit the tool could not make was a root/option ambiguity in PHP that no regular expression can
+  decide (`$config['sonata_admin']` is the root in a test that parses YAML, the option
+  everywhere else).
+- **`security.role_admin` is worth checking once.** adminata's default moved to
+  `ROLE_ADMINATA_ADMIN`; this panel sets the node explicitly, so nothing changed, but a panel that
+  inherited the old default has `ROLE_SONATA_ADMIN` in its users table and must either set the
+  node or migrate the role (UPGRADE.md §6.3).
+- **A package rename needs the repository's default branch on the new name.** Composer reads a
+  `vcs` repository's package name from its default branch and ignores branches that say
+  otherwise, so `idct/adminata-admin-mongodb-bundle` was invisible until `7.x` became the default
+  branch of the renamed repository.

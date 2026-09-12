@@ -88,6 +88,11 @@ numbered from 06 on; nothing here presumes what they are.
 
 ## Status
 
+- 2026-09-12, evening: **executed.** adminata `main` at `e76bd3fb9` (the mechanical pass is
+  `f141c1105`, the last Sonata-named commit `d76c4818f`); ORM layer v2.0.0; MongoDB layer v7.0.0 as
+  `idct/adminata-admin-mongodb-bundle`; recomaty-panel PR #492 (`adminata-idct`) awaiting the
+  owner's merge. What differed from the plan is in PROJECT_PLAN.md milestone M7.
+
 - 2026-09-12: plan written from a measured inventory (appendix A), reviewed once against the
   tree (review log above).
 - 2026-09-12, later: **OQ2 answered by the owner** — the repository is

@@ -1358,11 +1358,11 @@ the panel's own ids). The tasks are PLAN/v2/05's; their Read/Do/Deliver/Accept l
 - [x] **R2-03 · UPGRADE.md, UPGRADE-1.0.md, MIGRATION.md, CHANGELOG.md**.
 - [x] **R2-04 · AGENTS.md** — rewritten; directive 8 is the gate.
 - [x] **R2-05 · CI and metadata** — `mongo-compat.yaml` on `7.x`, PR template, `.gitattributes`.
-- [ ] **R1/R2-MS · Milestone push**.
-- [x] **R3-01..03 · ORM layer** — branch `rename/idct`, v2.0.0.
-- [ ] **R4-01..04 · MongoDB layer** — branch `7.x`, package `idct/adminata-admin-mongodb-bundle`, v7.0.0.
-- [ ] **R5-01..03 · recomaty-panel round 2**.
-- [ ] **R6 · Bookkeeping** — stale tag, memory, status.
+- [x] **R1/R2-MS · Milestone push** — `main` fast-forwarded to the rename on 2026-09-12 (`945e1e172`), every workflow green including Visual and the MongoDB job; `require-dev` on the ORM layer moved to `^2.0` in `e76bd3fb9`.
+- [x] **R3-01..04 · ORM layer** — two mechanical commits, the hand commit, CI green through `rename/idct`, merged fast-forward, **v2.0.0** tagged (`20926ff`).
+- [x] **R4-01..04 · MongoDB layer** — the owner renamed the repository to `ideaconnect/adminata-admin-mongodb-bundle` (OQ2); `6.x` follows the URLs and keeps its package name for Packagist; `7.x` (now the default branch, which Composer needs to see the new package name) carries the rename as `idct/adminata-admin-mongodb-bundle`, **v7.0.0** tagged (`c4619b5`). The Packagist submission of the new name and the abandonment of the old are the owner's.
+- [x] **R5-01..02 · recomaty-panel round 2** — branch `adminata-idct` off `develop`, PR #492: the engine's `--app` pass (225 files, 19 paths), the panel's own ids and roles kept, 3,001 unit tests green, review server checked in both themes. MIGRATION.md §5 has the figures. Merging deploys to the dev server and is the owner's call (R5-03).
+- [x] **R6 · Bookkeeping** — `v1.0.0-rc1` deleted on origin (OQ4); MIGRATION.md round 2; this milestone; the maintainer's memory notes. The GitHub repository description and the Packagist steps are the owner's (R6-02).
 
 ## Backlog (unscheduled; each becomes tasks when first needed — PLAN/09 backlog)
 
@@ -1392,6 +1392,14 @@ the panel's own ids). The tasks are PLAN/v2/05's; their Read/Do/Deliver/Accept l
 
 ## Status log
 
+- 2026-09-12 — **Milestone M7 pushed.** The IDCT rename (PLAN/v2) executed in one day under the
+  owner's instruction to decide the open questions alone: the engine (`upstream/rename/`), the
+  mechanical pass (`f141c1105`), the fixer pass, the hand work, the documents; `main` at
+  `e76bd3fb9`, every workflow green. ORM layer 2.0.0 and MongoDB layer 7.0.0 (as
+  `idct/adminata-admin-mongodb-bundle`) tagged; recomaty-panel PR #492 open. Deviations from
+  PLAN/v2 recorded in M7 above: the rule and allow files are PHP, not text; the rules were refined
+  during the hand pass; the panel's own ids are kept (OQ5); the sync rehearsal against a real
+  upstream release is owed to the first sync.
 - 2026-09-04 — Plan v3 committed and pushed (`8430fae`); PROJECT_PLAN.md created; no task started.
 - 2026-09-04 — **P0-01 done.** Seven upstream packages imported with `git subtree add` at the PLAN/07
   §2 tags (full history, no `--squash`: `.git` is 65 MB against the 300 MB threshold).
