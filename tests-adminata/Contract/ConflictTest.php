@@ -180,7 +180,7 @@ final class ConflictTest extends TestCase
                     'url' => \dirname(__DIR__, 2),
                     'options' => ['symlink' => true],
                 ],
-                // None of the three is on Packagist under these names yet; name the repositories
+                // The ORM layer is not on Packagist yet, and the MongoDB layer is named here too,
                 // so this proves what the packages say rather than what Packagist has indexed.
                 ['type' => 'vcs', 'url' => 'https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle.git'],
                 ['type' => 'vcs', 'url' => 'https://github.com/ideaconnect/adminata-admin-mongodb-bundle.git'],

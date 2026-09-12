@@ -16,8 +16,8 @@ inside this bundle rather than packages of their own. The storage layers are the
 > **Status: 1.0 is written and unreleased.** Every milestone of
 > [PROJECT_PLAN.md](PROJECT_PLAN.md) is implemented and green, and a 46-admin production panel runs
 > on it — see [MIGRATION.md](MIGRATION.md). What is left is the release itself: the tag waits on the
-> acceptance sign-off, so `idct/adminata` is not on Packagist yet and installs from a VCS or path
-> repository. [PLAN/README.md](PLAN/README.md) is the design it implements, and
+> acceptance sign-off, so [`idct/adminata`](https://packagist.org/packages/idct/adminata) is on
+> Packagist as `dev-main` only. [PLAN/README.md](PLAN/README.md) is the design it implements, and
 > [PLAN/v2/README.md](PLAN/v2/README.md) the rename that gave it its own name.
 
 ## Origins
@@ -123,21 +123,22 @@ PHP `^8.4`, Symfony `^7.4 || ^8.0`, Twig `^3.28`.
 ## Installation
 
 ```bash
-composer require idct/adminata idct/adminata-doctrine-orm-admin-bundle
+composer require idct/adminata:dev-main idct/adminata-doctrine-orm-admin-bundle
 ```
 
-Neither is on Packagist yet, so add the repositories they install from first — a `path` one for a
-checkout beside your project, or the `vcs` ones:
+`idct/adminata` comes from Packagist, where `dev-main` is its only version until 1.0 is tagged —
+naming that constraint is what lets a project with `minimum-stability: stable` take it. The ORM
+layer is not on Packagist yet, so add the repository it installs from first — a `path` one for a
+checkout beside your project, or the `vcs` one:
 
 ```json
 "repositories": [
-    { "type": "vcs", "url": "https://github.com/ideaconnect/adminata.git" },
     { "type": "vcs", "url": "https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle.git" }
 ]
 ```
 
-For MongoDB, take [`idct/adminata-admin-mongodb-bundle`](https://github.com/ideaconnect/adminata-admin-mongodb-bundle)
-instead of, or alongside, the ORM package.
+For MongoDB, take [`idct/adminata-admin-mongodb-bundle`](https://packagist.org/packages/idct/adminata-admin-mongodb-bundle)
+(`^7.0`, on Packagist) instead of, or alongside, the ORM package.
 
 Register the bundles in `config/bundles.php`:
 

@@ -40,15 +40,17 @@ Two things to know before anything else:
 
 ## 2. Composer
 
-Edit `composer.json`, then update the three packages together. adminata is not on Packagist
-yet, so its repositories stay in `repositories` (`vcs`, or `path` for a checkout beside your
-project); the lock file must be resolved from GitHub, never from a `path` dist.
+Edit `composer.json`, then update the three packages together. `idct/adminata` and the MongoDB
+layer are on Packagist now, so the `vcs` entries that named them can leave `repositories`
+(`composer config --unset repositories.<name>`); the ORM layer's stays until that package is
+published too. A `path` entry for a checkout beside your project is fine for development, but the
+lock file must be resolved from Packagist or GitHub, never from a `path` dist.
 
 | Package | Before | After |
 |---|---|---|
-| `idct/adminata` | `dev-main` | `dev-main` (the rename is on `main`; adminata is untagged until its first release) |
+| `idct/adminata` | `dev-main` | `dev-main`, from Packagist (the rename is on `main`; adminata is untagged until its first release) |
 | `idct/adminata-doctrine-orm-admin-bundle` | `^1.0` | `^2.0` |
-| MongoDB ODM layer | `idct/sonata-admin-mongodb-bundle` `^6.0` | `idct/adminata-admin-mongodb-bundle` `^7.0` — the renamed package, from the repository of the same name |
+| MongoDB ODM layer | `idct/sonata-admin-mongodb-bundle` `^6.0` | `idct/adminata-admin-mongodb-bundle` `^7.0` — the renamed package, on Packagist |
 
 ```console
 $ composer remove --no-update idct/sonata-admin-mongodb-bundle          # MongoDB applications only

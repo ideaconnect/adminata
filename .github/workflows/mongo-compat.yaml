@@ -69,7 +69,7 @@ jobs:
                   extensions: mongodb
 
             # The fork's own composer.json already carries a path repository at ../adminata for a
-            # checkout sitting beside it, which is exactly this layout, and a vcs one behind it.
+            # checkout sitting beside it, which is exactly this layout, with Packagist behind it.
             # Overriding the path here makes the job independent of that ordering.
             - name: Point the fork at this checkout
               working-directory: fork
@@ -143,7 +143,7 @@ jobs:
                   extensions: mongodb
 
             # The fork's own composer.json already carries a path repository at ../adminata for a
-            # checkout sitting beside it, which is exactly this layout, and a vcs one behind it.
+            # checkout sitting beside it, which is exactly this layout, with Packagist behind it.
             # Overriding the path here makes the job independent of that ordering.
             - name: Point the fork at this checkout
               working-directory: fork

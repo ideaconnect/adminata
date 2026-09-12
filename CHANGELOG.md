@@ -62,6 +62,8 @@ import reordering and the hand work.
   (`IDCT\Adminata\DoctrineORM\`, `AdminataDoctrineORMBundle`, `adminata_doctrine_orm`) and
   `idct/adminata-admin-mongodb-bundle` 7.0 (`IDCT\Adminata\DoctrineMongoDB\`,
   `AdminataDoctrineMongoDBBundle`, `adminata_doctrine_mongodb`).
+- `idct/adminata` is on Packagist, `dev-main` only until the first tag, and so is
+  `idct/adminata-admin-mongodb-bundle`; a `vcs` repository is needed for the ORM layer alone.
 
 The map, and the tool that applies it to an application: [UPGRADE.md](UPGRADE.md).
 

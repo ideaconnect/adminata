@@ -107,9 +107,8 @@ The entry file, the PostCSS config, the Encore line and the YAML above are four 
 cannot make for you. Flex writes files into a project only from a recipe, and a recipe is served
 by a recipe repository — ``symfony/recipes`` for the packages Symfony curates, or a private
 endpoint a project points ``extra.symfony.endpoint`` at. Without one, all Flex does for a bundle
-is register it in ``config/bundles.php``, and that it does. adminata is not on Packagist and has
-no recipe repository yet; when it has one, these four edits are exactly what the recipe will
-make.
+is register it in ``config/bundles.php``, and that it does. adminata has no recipe repository
+yet; when it has one, these four edits are exactly what the recipe will make.
 
 AssetMapper and Vite
 --------------------

@@ -30,8 +30,10 @@ There is **no compatibility layer** in either: nothing is aliased, shimmed or ke
 The short version
 -----------------
 
-#. **Composer.** ``composer require idct/adminata idct/adminata-doctrine-orm-admin-bundle
-   --no-plugins --no-scripts``, then ``composer remove --no-plugins --no-scripts`` every
+#. **Composer.** ``composer require idct/adminata:dev-main
+   idct/adminata-doctrine-orm-admin-bundle --no-plugins --no-scripts`` — adminata from Packagist,
+   the ORM layer from its ``vcs`` repository until it is published too — then
+   ``composer remove --no-plugins --no-scripts`` every
    ``sonata-project/*`` package you require, then ``composer install``. The flags are not
    optional: uninstalling the ``sonata-project/*`` packages otherwise makes Symfony Flex run their
    recipes' ``unconfigure``, which deletes your ``config/packages/sonata_*.yaml`` and

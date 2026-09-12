@@ -8,7 +8,10 @@ Download the Bundle
 
 .. code-block:: bash
 
-    composer require idct/adminata
+    composer require idct/adminata:dev-main
+
+``dev-main`` is the only version on Packagist until 1.0 is tagged, and naming it is what lets a
+project with ``minimum-stability: stable`` take it.
 
 adminata ``conflict``\ s with the six ``sonata-project/*`` packages it forked — ``admin-bundle``,
 ``block-bundle``, ``doctrine-extensions``, ``exporter``, ``form-extensions`` and
@@ -38,9 +41,11 @@ storage bundles. The official storage bundles are:
 * `AdminataDoctrineORMBundle`_ (integrates the Doctrine ORM);
 * `AdminataDoctrineMongoDBBundle`_ (integrates the Doctrine MongoDB ODM);
 
-The ORM one is part of adminata and is already installed. The MongoDB one is **not** part of
-adminata: ``idct/sonata-admin-mongodb-bundle`` is a separate package that works against adminata,
-and is installed the usual way.
+Each is a package of its own. The ORM one, ``idct/adminata-doctrine-orm-admin-bundle`` ``^2.0``,
+is not on Packagist yet: add a ``vcs`` repository for
+``https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle.git`` before requiring it. The
+MongoDB one, ``idct/adminata-admin-mongodb-bundle`` ``^7.0``, is on Packagist and is installed the
+usual way.
 
 .. note::
 
