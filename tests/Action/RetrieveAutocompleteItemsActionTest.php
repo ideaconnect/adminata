@@ -133,7 +133,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
         $request = new Request([
             '_sonata_admin' => 'foo.admin',
             'field' => 'barField',
-            'q' => 'sonata',
+            'q' => 'adminata',
         ], [], [], [], [], ['REQUEST_METHOD' => Request::METHOD_GET, 'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
 
         $this->configureFormConfig('barField');
@@ -158,7 +158,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
         $request = new Request([
             '_sonata_admin' => 'foo.admin',
             'field' => 'barField',
-            'q' => 'sonata',
+            'q' => 'adminata',
         ], [], [], [], [], ['REQUEST_METHOD' => Request::METHOD_GET, 'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
 
         $this->configureFormConfigComplexPropertyArray('barField');
@@ -202,7 +202,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
         $request = new Request([
             '_sonata_admin' => 'foo.admin',
             'field' => 'barField',
-            'q' => 'sonata',
+            'q' => 'adminata',
         ], [], [], [], [], ['REQUEST_METHOD' => Request::METHOD_GET, 'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
 
         $this->configureFormConfigComplexProperty('barField');

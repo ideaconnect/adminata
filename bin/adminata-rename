@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the adminata package.
+ *
+ * (c) IDCT Bartosz Pachołek <bartosz@idct.tech>
+ *
+ * Forked from the Sonata Project
+ * (c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/*
+ * `vendor/bin/adminata-rename`: the rename engine, for an application (UPGRADE.md §10).
+ *
+ *   vendor/bin/adminata-rename --app --dry-run .    what it would change, and the names it leaves to you
+ *   vendor/bin/adminata-rename --app .              make the change
+ *   vendor/bin/adminata-rename --check --app .      nothing of adminata's left
+ */
+
+$arguments = array_map(escapeshellarg(...), \array_slice($argv, 1));
+
+passthru(\sprintf('%s %s %s', escapeshellarg(\PHP_BINARY), escapeshellarg(__DIR__.'/../upstream/rename/apply.php'), implode(' ', $arguments)), $code);
+
+exit($code);
