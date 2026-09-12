@@ -10,6 +10,79 @@ Changes inherited from the forked Sonata packages are listed separately in
 
 ## [Unreleased]
 
+### Changed — the IDCT identity (2026-09-12, PLAN/v2)
+
+adminata no longer answers to any Sonata name. Everything up to commit `d76c4818f` speaks the
+Sonata names; nothing after it does. The mechanical pass is `f141c1105` — the output of
+`upstream/rename/apply.php --tree .` on its parent, 1130 files and 75 paths — followed by the
+import reordering and the hand work.
+
+- The PHP namespace is `IDCT\Adminata\` (tests `IDCT\Adminata\Tests\`), the bundle class
+  `IDCT\Adminata\AdminataBundle`, the container extensions `AdminataExtension`,
+  `AdminataBlockExtension`, `AdminataFormExtension`, `AdminataTwigExtension` and
+  `AdminataExporterExtension` with the configuration roots `adminata`, `adminata_block`,
+  `adminata_form`, `adminata_twig` and `adminata_exporter`; `SonataConfiguration` is
+  `AdminataConfiguration`, the Twig extension and runtime `AdminataExtension` and
+  `AdminataRuntime`, the exporter exception `AdminataExporterException`.
+- Every service id, parameter, tag and event takes `adminata.` for `sonata.`; the flash types
+  are `adminata_flash_{success,error,info}`; the default of `security.role_admin` is
+  `ROLE_ADMINATA_ADMIN`.
+- The routes are `adminata_dashboard`, `adminata_search`, `adminata_redirect`,
+  `adminata_retrieve_form_element`, `adminata_append_form_element`,
+  `adminata_short_object_information`, `adminata_set_object_field_value` and
+  `adminata_retrieve_autocomplete_items` (files `routing/adminata.{xml,php}`); the request
+  attributes `_adminata_admin`, `_adminata_name`, `_adminata_csrf_token`; the console commands
+  `adminata:list`, `adminata:explain`, `adminata:setup-acl`, `adminata:generate-object-acl`,
+  `debug:adminata:block` and `make:adminata:admin`.
+- One Twig namespace, `@Adminata`. The three aliases 1.0 kept for the merged trees
+  (`@SonataBlock`, `@SonataForm`, `@SonataTwig`) and the compiler pass that registered them are
+  gone. The Twig functions are `adminata_block_*`, `adminata_flashmessages_*`, `adminata_theme`,
+  `adminata_html_dir` and `get_adminata_dashboard_groups_with_creatable_admins`, the filter
+  `adminata_status_class`, the globals `adminata_config` and `adminata_admin`, and every block
+  name that carried the prefix is `adminata_*` (`sonata_admin_content` is `adminata_content`).
+- The form type prefixes are `adminata_type_*` and `adminata_block_service_choice`; the options
+  and view variables `adminata_admin`, `adminata_admin_enabled`, `adminata_admin_code`,
+  `adminata_admin_translation_domain`, `adminata_field_description` and
+  `adminata_deprecation_mute`.
+- The translation domain is `AdminataBundle` (35 catalogues renamed); the six ids that carried
+  the name are `adminata_administration` and `adminata.block.service.*`.
+- The markup hooks are `adminata-*`, with the `ba` of the old `sonata-ba-*` family dropped
+  (`adminata-list-field`, `adminata-form`, `adminata-content`, …); the element ids
+  `adminata-content`, `adminata-dialog`, `adminata-question-dialog`, `adminata-search-input`.
+- The Stimulus identifiers are `adminata-<name>` for all 21 controllers, with the data attributes
+  and dispatched events Stimulus derives from them; the global is `window.adminataApplication`.
+- The cookies are `adminata_theme` and `adminata_sidebar_hide`, the menu's localStorage key
+  `adminata_sidebar_open`, the KnpMenu alias `adminata_sidebar`, the asset package and route
+  loader type `adminata`, and the published asset path `public/bundles/adminata/`.
+- `composer.json` no longer `replace`s `sonata-project/admin-bundle`; it `conflict`s with all six
+  packages it forked. The `sonata` keyword is gone; `bin/adminata-rename` ships. The XML
+  configuration namespaces are `https://idct.tech/schema/dic/adminata` and
+  `https://idct.tech/schema/dic/adminata_block`.
+- The storage layers follow: `idct/adminata-doctrine-orm-admin-bundle` 2.0
+  (`IDCT\Adminata\DoctrineORM\`, `AdminataDoctrineORMBundle`, `adminata_doctrine_orm`) and
+  `idct/adminata-admin-mongodb-bundle` 7.0 (`IDCT\Adminata\DoctrineMongoDB\`,
+  `AdminataDoctrineMongoDBBundle`, `adminata_doctrine_mongodb`).
+
+The map, and the tool that applies it to an application: [UPGRADE.md](UPGRADE.md).
+
+### Added — the rename engine and its gate
+
+- `upstream/rename/`: the ordered rule file, the allow-list of what stays (the attribution, the
+  other Sonata bundles' names, the history and upgrade documents), the generated list of every
+  name adminata and the storage layers own, and the engine that applies them to a tree, to an
+  application (only the known names; the application's own are reported), to standard input for
+  the upstream sync, and in `--check` mode as `make check-names`, which is part of `make lint`.
+- `upstream/sync.sh` merges an upstream release three-way through the engine instead of applying
+  it as a patch; `upstream/rehearse-sync.sh` dries that run in a scratch worktree;
+  `upstream/diff.sh` prints the owned part translated.
+- `NamespaceContractTest`, `ConflictTest` (was `ReplaceTest`) and `EngineTest`.
+
+### Kept
+
+- The git history, the upstream copyright headers on every inherited file, `LICENSE`, `NOTICE`,
+  `UPSTREAM.md`, `CHANGELOG-sonata.md` and `changelog/`; the Sonata authors in `composer.json`;
+  the README's new *Origins* section says what adminata owes the Sonata Project.
+
 adminata is pre-1.0 and under construction; [PROJECT_PLAN.md](PROJECT_PLAN.md) tracks what is done.
 Milestone M0 (bootstrap) is complete: the seven packages are imported, replaced or merged, and
 green under adminata's own tooling, and the PHP changes the Tailwind interface forces are in.

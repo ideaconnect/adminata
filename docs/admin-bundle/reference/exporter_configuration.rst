@@ -28,13 +28,14 @@ What the exporter has of its own:
 
 .. note::
 
-    Coming from Sonata? The ``IDCT\Adminata\Exporter\`` classes are ``IDCT\Adminata\Exporter\``
-    here — the map is in `UPGRADE-1.0.md
-    <https://github.com/ideaconnect/adminata/blob/main/UPGRADE-1.0.md>`_ §U1 — and there is no
-    ``SonataExporterBundle`` to register in ``bundles.php``: an application's ``bundles.php``
-    loses that line and nothing else. Service ids, the tag and
-    ``config/packages/adminata_exporter.yaml`` need no edit. adminata **conflicts** with
-    ``sonata-project/exporter``: the two cannot be installed together. See :doc:`/upgrading`.
+    Coming from Sonata? The classes of ``sonata-project/exporter`` are
+    ``IDCT\Adminata\Exporter\`` here — the map and the tool that applies it are in `UPGRADE.md
+    <https://github.com/ideaconnect/adminata/blob/main/UPGRADE.md>`_ — and there is no
+    ``SonataExporterBundle`` to register in ``bundles.php``. The configuration root is
+    ``adminata_exporter`` in ``config/packages/adminata_exporter.yaml``, the service ids
+    ``adminata.exporter.*`` and the tag ``adminata.exporter.writer``. adminata **conflicts**
+    with ``sonata-project/exporter``: the two cannot be installed together. See
+    :doc:`/upgrading`.
 
 XLSX needs one more package
 ---------------------------

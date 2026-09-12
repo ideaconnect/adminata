@@ -1,5 +1,13 @@
 # Migrating an application from Sonata Admin to adminata
 
+> **Two rounds.** Round 1 below is the migration as it was executed in September 2026, from
+> `sonata-project/admin-bundle` 4.43 to adminata **under the Sonata names** it still carried then
+> — every identifier in it (`Sonata\AdminBundle\`, `@SonataAdmin`, `sonata_admin`, `sonata-ba-*`)
+> is the name of the time. Since 2026-09-12 adminata's names are its own, and round 2, at the
+> bottom, is the second pass the same panel made to reach them. An application starting today
+> does both in one go: [UPGRADE.md](UPGRADE.md) has the map and the tool.
+
+
 The checklist below is the one that was **executed**, once, against
 [recomaty-panel](https://github.com/ideaconnect) — a Symfony 7 admin of 46 admin classes, 55 cell
 templates and a second Stimulus application — on a branch called `adminata`, in thirteen commits

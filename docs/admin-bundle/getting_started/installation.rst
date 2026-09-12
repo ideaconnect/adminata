@@ -10,9 +10,10 @@ Download the Bundle
 
     composer require idct/adminata
 
-adminata ``replace``\ s three ``sonata-project/*`` packages at exact versions and ``conflict``\ s
-with four more — ``block-bundle``, ``exporter``, ``form-extensions`` and ``twig-extensions`` —
-because blocks, the exporter, the form types and the Twig helpers are part of the admin bundle
+adminata ``conflict``\ s with the six ``sonata-project/*`` packages it forked — ``admin-bundle``,
+``block-bundle``, ``doctrine-extensions``, ``exporter``, ``form-extensions`` and
+``twig-extensions`` — because it provides their behaviour under its own names, and blocks, the
+Doctrine managers, the exporter, the form types and the Twig helpers are part of the admin bundle
 (:doc:`/admin-bundle/reference/block_configuration`,
 :doc:`/admin-bundle/reference/exporter_configuration`,
 :doc:`/admin-bundle/reference/form_configuration`,

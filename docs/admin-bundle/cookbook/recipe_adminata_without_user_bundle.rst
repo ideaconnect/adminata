@@ -282,7 +282,7 @@ Setup firewall in ``security.yaml``
         role_hierarchy:
             ROLE_ADMIN:       [ROLE_USER, ROLE_ADMINATA_ADMIN]
             ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
-            SONATA:
+            ADMINATA:
                 - ROLE_ADMINATA_PAGE_ADMIN_PAGE_EDIT
 
         encoders:

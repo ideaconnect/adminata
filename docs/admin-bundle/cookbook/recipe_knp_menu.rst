@@ -76,7 +76,7 @@ group roles will be checked.
                             label:        Article
                     roles: ['ROLE_ADMIN', 'ROLE_ADMINATA_ADMIN']
 
-You can also override the template of knp_menu used by sonata. The default
+You can also override the template of knp_menu used by adminata. The default
 one is `@Adminata/Menu/adminata_menu.html.twig`:
 
 .. code-block:: yaml
@@ -87,13 +87,13 @@ one is `@Adminata/Menu/adminata_menu.html.twig`:
         templates:
             knp_menu_template: '@ApplicationAdmin/Menu/custom_knp_menu.html.twig'
 
-Now you have a menu group which contains a link to a sonata admin via its id, to your blog and to a specific article.
+Now you have a menu group which contains a link to an admin via its id, to your blog and to a specific article.
 
 Using a menu provider
 ---------------------
 
 As seen above, the main way to declare your menu is by declaring items
-in your sonata admin config file. In some cases you may have to create a
+in your adminata config file. In some cases you may have to create a
 more complex menu depending on your business logic. This is possible by
 using a menu provider to populate a whole menu group. This is done with
 the ``provider`` config value.
@@ -115,7 +115,7 @@ With KnpMenuBundle you can create a custom menu by using a builder class
 or by declaring it as a service. Please see the `Knp documentation`_ for
 further information.
 
-In sonata, whatever the implementation you choose, you only have to provide
+In adminata, whatever the implementation you choose, you only have to provide
 the menu alias to the provider config key:
 
 * If you are using a builder class, your menu alias should be something like ``MyBundle:MyMenuProvider:getMyMenu``.

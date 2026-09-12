@@ -12,14 +12,14 @@ Form Types
 
     **Two collection types, and the short name changed hands.**
     ``IDCT\Adminata\Form\Type\CollectionType`` (block prefix ``adminata_type_collection``) is
-    the one the storage layer renders as an association collection; it was
-    ``IDCT\Adminata\Form\Type\CollectionType`` in Sonata.
+    the one the storage layer renders as an association collection; it is form-extensions'
+    collection type, which carried the short name in its own package.
     ``IDCT\Adminata\Form\Type\NativeCollectionType`` (block prefix
     ``adminata_type_native_collection``) wraps Symfony's own collection type with add and delete
-    buttons; it was ``IDCT\Adminata\Form\Type\CollectionType`` in Sonata. Both are below,
-    and updating an import without reading which is which silently changes the widget that renders.
-    The table is in `UPGRADE-1.0.md
-    <https://github.com/ideaconnect/adminata/blob/main/UPGRADE-1.0.md>`_ §U1.
+    buttons; it is the admin bundle's own, which carried the short name in *its* package. Both are
+    below, and updating an import without reading which is which silently changes the widget that
+    renders. The table is in `UPGRADE.md
+    <https://github.com/ideaconnect/adminata/blob/main/UPGRADE.md>`_ §6.2.
 
 
 Admin related form types
@@ -878,7 +878,7 @@ DatePickerType / DateTimePickerType
 
 These types render **native HTML5 inputs** — ``<input type="date">``, ``<input type="time">`` and
 ``<input type="datetime-local">``. adminata ships no date-picker library: Tempus Dominus is gone,
-and with it ``bundles/sonataform/*``. The calendar a visitor sees is the browser's, which means it
+and with it the stylesheet and script that upstream's form-extensions published. The calendar a visitor sees is the browser's, which means it
 is the one their operating system has taught them, it is localised for them, and it works on a
 phone.
 

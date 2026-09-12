@@ -116,7 +116,7 @@ as a new object. Finally we set a flash message indicating success and redirect 
 
 .. tip::
 
-    If you want to render something here you can create new template anywhere, extend sonata layout
+    If you want to render something here you can create new template anywhere, extend the adminata layout
     and use ``adminata_content`` block.
 
     .. code-block:: html+twig

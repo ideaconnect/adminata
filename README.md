@@ -1,54 +1,69 @@
 # adminata
 
-**Sonata Admin, re-skinned.** adminata is a **hard fork** of seven `sonata-project` packages with
-their Twig templates, CSS and JavaScript replaced by a [Tailwind CSS](https://tailwindcss.com) v4 /
-[TailAdmin](https://tailadmin.com) user interface: light and dark mode, a collapsible sidebar,
-cards, and modern forms. **No Bootstrap, no AdminLTE, no jQuery.**
+**An admin bundle for Symfony with a Tailwind CSS v4 / TailAdmin user interface.** adminata is a
+**hard fork** of the Sonata Admin stack — seven `sonata-project` packages — with their Twig
+templates, CSS and JavaScript replaced by a [Tailwind CSS](https://tailwindcss.com) v4 /
+[TailAdmin](https://tailadmin.com) interface: light and dark mode, a collapsible sidebar, cards,
+and modern forms. **No Bootstrap, no AdminLTE, no jQuery.** Its code lives under the
+`IDCT\Adminata\` namespace and nothing in its API carries the Sonata name.
 
-One repository, one Composer package, one bundle. It installs *in place of*
-`sonata-project/admin-bundle` through Composer's `replace`, so admin classes, configuration and
-persistence bundles — including
-[`idct/sonata-admin-mongodb-bundle`](https://github.com/ideaconnect/sonata-admin-mongodb-bundle) —
-keep working unchanged. `block-bundle`, `doctrine-extensions`, `exporter`, `form-extensions` and
-`twig-extensions` are inside this bundle under the `IDCT\Adminata\` namespace rather than
-packages of their own: see
-[What lives inside the admin bundle](#what-lives-inside-the-admin-bundle) below. The storage layers
-are the other way round — one package per backend, installed alongside this one.
+One repository, one Composer package, one bundle: `IDCT\Adminata\AdminataBundle`. Admin classes,
+mappers, the datagrid, routing, security and the exporter are the Sonata design under new names;
+`block-bundle`, `doctrine-extensions`, `exporter`, `form-extensions` and `twig-extensions` are
+inside this bundle rather than packages of their own. The storage layers are the other way round
+— one package per backend, installed alongside this one.
 
 > **Status: 1.0 is written and unreleased.** Every milestone of
 > [PROJECT_PLAN.md](PROJECT_PLAN.md) is implemented and green, and a 46-admin production panel runs
 > on it — see [MIGRATION.md](MIGRATION.md). What is left is the release itself: the tag waits on the
 > acceptance sign-off, so `idct/adminata` is not on Packagist yet and installs from a VCS or path
-> repository. [PLAN/README.md](PLAN/README.md) is the design it implements.
+> repository. [PLAN/README.md](PLAN/README.md) is the design it implements, and
+> [PLAN/v2/README.md](PLAN/v2/README.md) the rename that gave it its own name.
 
-## Packages replaced
+## Origins
+
+adminata began on 2026-09-04 as a hard fork of the Sonata Admin stack. Seven `sonata-project`
+packages — `admin-bundle` 4.43.0, `block-bundle` 5.4.0, `doctrine-extensions` 2.6.0,
+`doctrine-orm-admin-bundle` 4.21.0, `exporter` 3.4.0, `form-extensions` 2.7.0 and
+`twig-extensions` 2.6.0 — were imported with their full git history, and their PHP design is the
+foundation of everything here: the admin classes, the mappers, the datagrid, the routing, the
+security handlers and the exporter are their work under new names. Their sources keep the
+upstream copyright headers.
+
+Since 2026-09-12 the code lives under the `IDCT\Adminata\` namespace and nothing in the API
+carries the Sonata name any more. The debt does. We are grateful to Thomas Rabaix, to the Sonata
+Project and to its contributors for the years of work since 2010 that made this project possible —
+and for the MIT licence that let it happen. The original lives on at
+<https://sonata-project.org>; bugs in it belong there, and fixes to the PHP we share still flow
+from there through the process in [UPSTREAM.md](UPSTREAM.md).
+
+What was forked from where, at which commit, and what has been synced since:
+[UPSTREAM.md](UPSTREAM.md), [NOTICE](NOTICE), [CHANGELOG-sonata.md](CHANGELOG-sonata.md) and the
+inherited changelogs under [changelog/](changelog/).
+
+## Packages forked
 
 This repository is one Composer package and one bundle. Its sources are [src](src) and its suite is
-[tests](tests) — the same layout upstream uses, which is what lets an upstream diff apply here with
-no directory prefix. It replaces one package:
+[tests](tests) — the same layout upstream uses, which is what lets an upstream diff be translated
+and merged here with no directory prefix. It **conflicts** with every package it forked: adminata
+provides those APIs under its own names, so an installation cannot hold both.
 
-| Upstream package | Version | Namespace | Bundle class |
-|---|---|---|---|
-| `sonata-project/admin-bundle` | 4.43.0 | `IDCT\Adminata\` | `AdminataBundle` |
-
-Five more were forked and are **not** replaced — they are part of that bundle, so `composer.json`
-`conflict`s with them instead:
-
-| Upstream package | Version | Namespace here | Bundle class |
-|---|---|---|---|
-| `sonata-project/block-bundle` | 5.4.0 | `IDCT\Adminata\` | none — `AdminataBundle` registers it |
-| `sonata-project/doctrine-extensions` | 2.6.0 | `IDCT\Adminata\Doctrine\` | none — `AdminataBundle` registers it |
-| `sonata-project/exporter` | 3.4.0 | `IDCT\Adminata\Exporter\` | none — `AdminataBundle` registers it |
-| `sonata-project/form-extensions` | 2.7.0 | `IDCT\Adminata\Form\` | none — `AdminataBundle` registers it |
-| `sonata-project/twig-extensions` | 2.6.0 | `IDCT\Adminata\Twig\` | none — `AdminataBundle` registers it |
+| Upstream package | Version | Here |
+|---|---|---|
+| `sonata-project/admin-bundle` | 4.43.0 | `IDCT\Adminata\` — the bundle |
+| `sonata-project/block-bundle` | 5.4.0 | `IDCT\Adminata\Block\`, `Model\`, … — `AdminataBundle` registers the `adminata_block` root |
+| `sonata-project/doctrine-extensions` | 2.6.0 | `IDCT\Adminata\Doctrine\` |
+| `sonata-project/exporter` | 3.4.0 | `IDCT\Adminata\Exporter\` — the `adminata_exporter` root |
+| `sonata-project/form-extensions` | 2.7.0 | `IDCT\Adminata\Form\`, `Validator\` — the `adminata_form` root |
+| `sonata-project/twig-extensions` | 2.6.0 | `IDCT\Adminata\Twig\`, `FlashMessage\`, `Status\` — the `adminata_twig` root |
 
 The seventh is a storage layer and ships separately, because a panel needs one of them and not the
 others:
 
-| Backend | Package | Replaces |
+| Backend | Package | Forked from |
 |---|---|---|
-| Doctrine ORM | [`idct/adminata-doctrine-orm-admin-bundle`](https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle) | `sonata-project/doctrine-orm-admin-bundle` 4.21.0 |
-| Doctrine MongoDB ODM | [`idct/sonata-admin-mongodb-bundle`](https://github.com/ideaconnect/sonata-admin-mongodb-bundle) | `sonata-project/doctrine-mongodb-admin-bundle` |
+| Doctrine ORM | [`idct/adminata-doctrine-orm-admin-bundle`](https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle) 2.x — `IDCT\Adminata\DoctrineORM\` | `sonata-project/doctrine-orm-admin-bundle` 4.21.0 |
+| Doctrine MongoDB ODM | [`idct/adminata-admin-mongodb-bundle`](https://github.com/ideaconnect/adminata-admin-mongodb-bundle) 7.x — `IDCT\Adminata\DoctrineMongoDB\` | `sonata-project/doctrine-mongodb-admin-bundle` |
 
 `SonataUserBundle`, the PHPCR admin bundle and every other Sonata package are out of scope.
 Exact imported commits and the upstream sync process: [UPSTREAM.md](UPSTREAM.md).
@@ -60,132 +75,46 @@ and the way `adminata_block_render_event` puts an application's markup on an adm
 types are what `FormMapper` builds every admin form out of; the flash-message manager and the
 status helper are what the admin layout renders on every page; the exporter is what every list
 page's export menu streams its result set through; the Doctrine manager, adapter and mapper layer
-is what every admin's storage sits on. Nothing in this fork uses any of them without
-the admin bundle, and adminata ships that functionality integrally, so none of them is a bundle of
-its own.
+is what every admin's storage sits on. Nothing in this fork uses any of them without the admin
+bundle, and adminata ships that functionality integrally, so none of them is a bundle of its own:
+there is no block, doctrine, exporter, form or twig bundle class to register, and `AdminataBundle`
+brings the `adminata_block`, `adminata_form`, `adminata_twig` and `adminata_exporter`
+configuration roots, their services and their Twig functions with it.
 
-### Blocks
+Two `CollectionType`s exist, and the wrong import compiles and renders the other widget:
+`IDCT\Adminata\Form\Type\CollectionType` is form-extensions' (`adminata_type_collection`), and the
+admin bundle's own is `NativeCollectionType` (`adminata_type_native_collection`).
 
-What that means:
+## The names
 
-- The classes are `IDCT\Adminata\` (`Block\`, `Exception\`, `Model\`, `Twig\`, `Util\` …),
-  not `IDCT\Adminata\`. **This is a breaking change** for an application that names those
-  classes; the map is in [CHANGELOG.md](CHANGELOG.md).
-- There is no `SonataBlockBundle` class and no line for it in `bundles.php`. `AdminataBundle`
-  registers the `adminata_block` extension itself.
-- `adminata_block:` is still its own configuration root, in its own
-  `config/packages/adminata_block.yaml` — unchanged, including the `adminata.admin.block.admin_list`
-  context an admin panel needs.
-- Every service id (`adminata.block.*`) and Twig function (`adminata_block_render`,
-  `adminata_block_render_event`, `adminata_block_exists`, `adminata_block_include_javascripts`,
-  `adminata_block_include_stylesheets`) is unchanged.
-- The block templates are `@Adminata/Block/…`, and that is what every default inside adminata
-  says — the block services' `template` settings, `adminata_block.templates.*`, the profiler, the
-  exception renderers — so a block template is overridden like any other admin template, in
-  `templates/bundles/AdminataBundle/Block/`, with `@!Adminata/Block/…` reaching the shipped
-  file. `@Adminata/…` still resolves, as a compatibility alias of the same directory for
-  templates outside adminata; `templates/bundles/SonataBlockBundle/` is read by nothing.
-- The block strings are in the `AdminataBundle` translation domain, with the admin bundle's own;
-  there is no `SonataBlockBundle` domain. **Breaking** for an application that overrides them in
-  `translations/SonataBlockBundle.<locale>.xliff`: the units move to
-  `translations/AdminataBundle.<locale>.xliff`, ids unchanged ([UPGRADE-1.0.md](UPGRADE-1.0.md)
-  §U1).
-- adminata **conflicts** with `sonata-project/block-bundle` instead of replacing it: it provides
-  that API under a different namespace, so the two cannot be installed side by side.
+Everything an application touches is adminata's own name, derived from the bundle class where
+Symfony derives it and prefixed `adminata` everywhere else:
 
-### Form types and Twig helpers
+| Kind | Name |
+|---|---|
+| Namespace, bundle class | `IDCT\Adminata\`, `IDCT\Adminata\AdminataBundle` |
+| Configuration roots | `adminata`, `adminata_block`, `adminata_form`, `adminata_twig`, `adminata_exporter`; `adminata_doctrine_orm`, `adminata_doctrine_mongodb` for the storage layers |
+| Service ids, tags, parameters, events | `adminata.admin.pool`, `adminata.admin` (the tag every admin carries), `adminata.block.*`, `adminata.exporter.*`, `adminata.admin.event.*` |
+| Routes, console | `adminata_dashboard`, `adminata_search`, …; `adminata:list`, `adminata:explain`, `adminata:setup-acl`, `adminata:generate-object-acl`, `debug:adminata:block`, `make:adminata:admin` |
+| Twig | `@Adminata/…` (override in `templates/bundles/AdminataBundle/`), `@AdminataDoctrineORM/…`, `@AdminataDoctrineMongoDB/…`; `adminata_block_render`, `adminata_flashmessages_get`, `adminata_status_class`, …; globals `adminata_config`, `adminata_admin`; blocks `adminata_wrapper`, `adminata_content`, … |
+| Form types | `adminata_type_model`, `adminata_type_collection`, … |
+| Translations | domain `AdminataBundle` |
+| Markup and JavaScript | hooks `adminata-list-field`, `adminata-actions`, …; controllers `adminata-modal`, `adminata-autocomplete`, …; `window.adminataApplication` |
+| Cookies, assets | `adminata_theme`, `adminata_sidebar_hide`; `public/bundles/adminata/` |
 
-The same, for `form-extensions` and `twig-extensions` (owner directive, 2026-09-06 — they are the
-admin bundle's main functionality, and adminata ships it integrally):
+An application's own names — the id it gives an admin service, a route, a CSS class — are its
+own; adminata never owned them and does not rename them. Coming from Sonata Admin, or from
+adminata before the rename: [UPGRADE.md](UPGRADE.md) has the whole map and the tool that applies
+it, `vendor/bin/adminata-rename`.
 
-- The classes are `IDCT\Adminata\` — `Form\Type\`, `Form\DataTransformer\`,
-  `Form\EventListener\`, `Validator\`, `Test\`, `FlashMessage\`, `Status\`, `Twig\` — not
-  `IDCT\Adminata\Form\` or `IDCT\Adminata\Twig\`. **This is a breaking change** for an application that names
-  those classes; the map is in [CHANGELOG.md](CHANGELOG.md).
-- **Two `CollectionType`s exchanged names**, which is the one change that breaks silently:
-  `IDCT\Adminata\Form\Type\CollectionType` (`adminata_type_native_collection`) is now
-  `NativeCollectionType`, and `IDCT\Adminata\Form\Type\CollectionType` (`adminata_type_collection`) took the
-  short name. The same import renders the other widget. Table and order of operations:
-  [UPGRADE-1.0.md](UPGRADE-1.0.md) §U1.
-- There is no `SonataFormBundle` and no `SonataTwigBundle` class, and no line for either in
-  `bundles.php`. `AdminataBundle` registers `AdminataFormExtension` and `AdminataTwigExtension`
-  itself.
-- `adminata_form:` and `adminata_twig:` are still their own configuration roots, in their own
-  `config/packages/adminata_{form,twig}.yaml` — unchanged.
-- Every service id (`adminata.form.*`, `adminata.twig.*`), Twig function (`adminata_flashmessages_get`,
-  `adminata_flashmessages_types`, `adminata_flashmessages_class`), filter (`adminata_status_class`) and
-  tag (`adminata.status.renderer`) is unchanged.
-- `Form/datepicker.html.twig` and `FlashMessage/render.html.twig` are `@Adminata/…`, and that is
-  what every default inside adminata says, so they are overridden like any other admin template in
-  `templates/bundles/AdminataBundle/`. `@Adminata/…` and `@Adminata/…` still resolve, as
-  compatibility aliases of the same directory for templates outside adminata;
-  `templates/bundles/SonataFormBundle/` and `templates/bundles/SonataTwigBundle/` are read by
-  nothing.
-- Their strings are in the `AdminataBundle` translation domain; there is no `SonataFormBundle`
-  and no `SonataTwigBundle` domain. **Breaking** for an application that overrides one of the eight
-  units (`link_add`, `label_type_yes`, `label_type_no`, `date_range_start`, `date_range_end`,
-  `message_close`, `more`, `less`): they move to `translations/AdminataBundle.<locale>.xliff`,
-  ids unchanged ([UPGRADE-1.0.md](UPGRADE-1.0.md) §U1).
-- adminata **conflicts** with `sonata-project/form-extensions` and
-  `sonata-project/twig-extensions` instead of replacing them, for the same reason as
-  `block-bundle`.
-
-### The exporter
-
-The same again, for `exporter` (owner directive, 2026-09-07 — "i consider exporter also an integral
-part, no point of making it a separate lib"):
-
-- The classes are `IDCT\Adminata\Exporter\` — `Exporter`, `ExporterInterface`, `Handler`,
-  `Source\`, `Writer\`, `Exception\` — not `IDCT\Adminata\Exporter\`. **This is a breaking change** for
-  an application that type-hints the exporter, a writer or a source iterator; the map is in
-  [CHANGELOG.md](CHANGELOG.md). The admin bundle's own `Exporter\DataSourceInterface`, which the
-  storage layer implements, is where it always was.
-- There is no `SonataExporterBundle` class and no line for it in `bundles.php`.
-  `AdminataBundle` registers `AdminataExporterExtension` and the writer-collecting compiler pass
-  itself.
-- `adminata_exporter:` is still its own configuration root, in its own
-  `config/packages/adminata_exporter.yaml` — unchanged.
-- Every service id (`adminata.exporter.*`, including the public `adminata.exporter.exporter` and the
-  `adminata.exporter.writer.<format>` services), the `adminata.exporter.writer` tag and the
-  `adminata.exporter.writer.*.*` container parameters are unchanged.
-- Nothing else to move: the exporter ships no templates and no translations, so there is no Twig
-  namespace to alias and no translation domain to merge.
-- adminata **conflicts** with `sonata-project/exporter` instead of replacing it, for the same
-  reason as the other three.
-
-## What is preserved
-
-Everything the PHP side of an application touches:
-
-- The three replaced packages' **namespaces** and **bundle classes**, all seven **configuration
-  roots** (`adminata`, `adminata_block`, `adminata_doctrine`, `adminata_doctrine_orm`,
-  `adminata_exporter`, `adminata_form`, `adminata_twig`) and all five **Twig namespaces**
-  (`@Adminata`, `@Adminata`, `@Adminata`, `@Adminata`, `@AdminataDoctrineORM`) —
-  the middle three now as compatibility aliases of the admin bundle's view directory, which is
-  where those templates moved and where `@Adminata/…` addresses them. The four lines an
-  existing `config/bundles.php` loses are `SonataBlockBundle`, `SonataExporterBundle`,
-  `SonataFormBundle` and `SonataTwigBundle`.
-- All **service ids**, tags, compiler passes and container parameters.
-- All **routes** (`adminata_admin_*`) and their JSON contracts, and the three replaced packages'
-  translation domains and catalogues.
-- All **template file paths** and template-registry keys, so `templates/bundles/AdminataBundle/`
-  overrides keep resolving (the block templates' included), and the **Twig block names** of the
-  rewritten templates.
-- The published asset path `public/bundles/adminata/`.
-
-## What is not preserved
+## What is not preserved from upstream
 
 Bootstrap and AdminLTE class names, AdminLTE skins, **jQuery** and every jQuery plugin (select2,
 iCheck, x-editable, jquery-form and its `ajaxSubmit` feature for association widgets), Tempus
-Dominus, the `window.Admin` facade, and the `adminata.options.{skin,use_select2,use_icheck,use_bootlint}`
-configuration nodes. Applications that overrode Sonata's Bootstrap markup port those overrides once.
-On the PHP side, the `IDCT\Adminata\`, `IDCT\Adminata\Exporter\`, `IDCT\Adminata\Form\` and
-`IDCT\Adminata\Twig\` namespaces, the `SonataBlockBundle`, `SonataExporterBundle`, `SonataFormBundle` and
-`SonataTwigBundle` classes, and the three translation domains that carried the first, third and
-fourth of those names — the exporter shipped none. On the Twig side,
-`templates/bundles/SonataBlockBundle/`, `templates/bundles/SonataFormBundle/` and
-`templates/bundles/SonataTwigBundle/` as override directories (see
-[What lives inside the admin bundle](#what-lives-inside-the-admin-bundle)).
+Dominus, the `window.Admin` facade, and the `options.{skin,use_select2,use_icheck,use_bootlint}`
+configuration nodes. Applications that overrode Sonata's Bootstrap markup port those overrides
+once; [UPGRADE-1.0.md](UPGRADE-1.0.md) is the guide for that side, [UPGRADE.md](UPGRADE.md) for
+the names.
 
 ## Requirements
 
@@ -207,7 +136,7 @@ checkout beside your project, or the `vcs` ones:
 ]
 ```
 
-For MongoDB, take [`idct/sonata-admin-mongodb-bundle`](https://github.com/ideaconnect/sonata-admin-mongodb-bundle)
+For MongoDB, take [`idct/adminata-admin-mongodb-bundle`](https://github.com/ideaconnect/adminata-admin-mongodb-bundle)
 instead of, or alongside, the ORM package.
 
 Register the bundles in `config/bundles.php`:
@@ -217,11 +146,14 @@ IDCT\Adminata\AdminataBundle::class => ['all' => true],
 IDCT\Adminata\DoctrineORM\AdminataDoctrineORMBundle::class => ['all' => true],
 ```
 
-Two lines, not seven: there is no `SonataBlockBundle`, `SonataDoctrineBundle`,
-`SonataExporterBundle`, `SonataFormBundle` or `SonataTwigBundle` to register — `AdminataBundle`
-brings the block, Doctrine, form, Twig-helper and exporter services and the `adminata_block`,
-`adminata_form`, `adminata_twig` and `adminata_exporter` configuration roots with it. Then publish the
-assets:
+Then the routes and the assets:
+
+```yaml
+# config/routes/adminata.yaml
+admin_area:
+    resource: '@AdminataBundle/Resources/config/routing/adminata.xml'
+    prefix: /admin
+```
 
 ```bash
 bin/console assets:install public
@@ -233,9 +165,10 @@ JavaScript API, compiling Tailwind yourself, and what is not yet ported — with
 Twig-helper and exporter pages inside the admin bundle's section, the way their sources are inside
 the bundle.
 
-Migrating an application that already runs Sonata Admin: [UPGRADE-1.0.md](UPGRADE-1.0.md) for the
-generic notes, and [MIGRATION.md](MIGRATION.md) for the checklist as it was actually executed
-against a 46-admin production panel, with what each step turned out to involve.
+Migrating an application that already runs Sonata Admin: [UPGRADE.md](UPGRADE.md) for the names
+and the tool that changes them, [UPGRADE-1.0.md](UPGRADE-1.0.md) for the interface, and
+[MIGRATION.md](MIGRATION.md) for the checklist as it was actually executed against a 46-admin
+production panel, with what each step turned out to involve.
 
 ## Theming
 
@@ -261,11 +194,12 @@ make lint-js test-js assets-build # JavaScript and CSS gates
 make test-visual                  # screenshots, axe and html-validate (needs Docker)
 make test-functional              # BrowserKit and Panther against the demo
                                   # (needs a geckodriver, or `docker compose up -d selenium`
-                                  #  plus PANTHER_SELENIUM_HOST=http://127.0.0.1:4444)
+                                  #  plus PANTHER_SELENIUM_HOST=http://127.0.0.1:4444/wd/hub)
+make check-names                  # nothing may still carry a Sonata name (the rename engine's gate)
 make demo                         # http://127.0.0.1:8000/admin — user "admin", password "admin"
 ```
 
-`make demo` serves `tests/App`, the application the three package directories are developed against:
+`make demo` serves the demo application adminata's own suites drive:
 two admins over MySQL, deterministic fixtures, and the same pages the functional, Playwright and
 accessibility runs drive. `make test-visual` drives it from the pinned
 `mcr.microsoft.com/playwright` image — the one that produced the committed baselines under

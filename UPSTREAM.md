@@ -2,11 +2,20 @@
 
 adminata is a **hard fork** of seven `sonata-project` packages. What is left in this repository is
 one of them: `sonata-project/admin-bundle`, whose tree *is* this repository — `src/` and `tests/`,
-the same layout upstream uses, which is what lets `upstream/sync.sh` apply an upstream diff with no
-directory prefix at all. It keeps the upstream namespace, bundle class, config roots, service ids
-and Twig namespaces (PLAN/01 P1, P2), and Composer `replace`s it at the exact version below, so
-installing `idct/adminata` satisfies any dependant that requires it — including
-`idct/adminata-doctrine-orm-admin-bundle` and `idct/sonata-admin-mongodb-bundle`.
+the same layout upstream uses, which is what lets `upstream/sync.sh` merge an upstream release
+with no directory prefix at all. Until 2026-09-12 it kept the upstream namespace, bundle class,
+config roots, service ids and Twig namespaces (PLAN/01 P1, P2) and Composer `replace`d the package
+at the exact version below. Since that day every one of those names is adminata's own —
+`IDCT\Adminata\`, `AdminataBundle`, `adminata`, `adminata.*`, `@Adminata` (PLAN/v2 N2–N15) —
+and `composer.json` `conflict`s with the package instead: adminata provides the same behaviour
+under its own names, so an installation cannot hold both, and nothing that requires the upstream
+package would work with this one. Its dependants, `idct/adminata-doctrine-orm-admin-bundle` and
+`idct/adminata-admin-mongodb-bundle`, require `idct/adminata` by name.
+
+The rename was performed by `upstream/rename/apply.php`, an ordered rule file applied over every
+file and path, and that engine is permanent infrastructure: it is what translates an upstream
+release before it is merged here (see *Sync process*), and `make check-names` runs it as the gate
+that nothing named after Sonata comes back.
 
 Five more were **merged into it**: `block-bundle` on 2026-09-06 (PLAN/01 P10, P13), then
 `form-extensions` and `twig-extensions` the same day (PLAN/01 P14), then `exporter` (PLAN/01 P15)
@@ -53,13 +62,13 @@ upstream changelogs, the history CHANGELOG-sonata.md links, are under `changelog
 | merged into the admin bundle | `sonata-project/form-extensions` | `Sonata\AdminBundle\` | 2.7.0 | `f4f46206377a4eb4fcdef343698198bdca88c834` | 2025-11-23 | `bf26b6a` |
 | merged into the admin bundle | `sonata-project/twig-extensions` | `Sonata\AdminBundle\` | 2.6.0 | `bbc173ad144d30f87e94f544cbec4ab8de1b4b20` | 2025-11-23 | `6fae8f1` |
 
-The `replace` block of the root `composer.json` must list exactly `sonata-project/admin-bundle` at
-exactly this version, and `conflict` must carry every merged tree — `sonata-project/block-bundle`,
-`sonata-project/doctrine-extensions`, `sonata-project/exporter`, `sonata-project/form-extensions`
-and `sonata-project/twig-extensions`; `bin/check-replace-versions.php` (P0-09) asserts that against
-this table, against `upstream/remotes.txt` and against `upstream/merged.txt`. It reads the
-**Upstream package** and **Tag** columns by name, so a merged row keeps its tag recorded while its
-first cell no longer names a tree.
+The `conflict` block of the root `composer.json` must carry all six trees at `*` —
+`sonata-project/admin-bundle` and the five merged ones — and there must be no `replace` block at
+all; `bin/check-upstream-versions.php` asserts that against this table, against
+`upstream/remotes.txt` and against `upstream/merged.txt`. It reads the **Upstream package** and
+**Tag** columns by name, so a merged row keeps its tag recorded while its first cell no longer
+names a tree. The tag is still the record of the upstream release each tree sits at — the base of
+the next translated diff.
 
 ## Remotes
 
@@ -95,16 +104,24 @@ Every list additionally excludes the dev-kit repo scaffolding named above.
 
 ## Sync process
 
-See PLAN/07 §10. Summary: `make upstream-diff PKG=<name> FROM=<tag> TO=<tag>` for the report,
-`make upstream-sync PKG=<name> TO=<tag>` to apply the PHP-side diff with
-`git apply -3`, then `make cs-fix rector phpstan test`, one commit
-"Sync `<pkg>` X.Y.Z" plus one commit bumping the `replace` entry and this file. UI changes are
-re-implemented by hand and get a CHANGELOG line "Ported upstream `<pkg>`#NNNN".
+See PLAN/07 §10 and PLAN/v2 N16. Upstream speaks the Sonata names and this repository does not, so
+a release is never applied as a patch. `make upstream-diff PKG=<name> FROM=<tag> TO=<tag>` prints
+the report, with the part adminata owns translated to this repository's names;
+`make upstream-rehearse PKG=<name> TO=<tag>` runs the sync in a scratch worktree and prints what it
+would do; `make upstream-sync PKG=<name> TO=<tag>` does it: for every file the release touched
+outside the exclusion list, both upstream versions — the tag we sit at and the tag we move to —
+go through `upstream/rename/apply.php --stdin` and php-cs-fixer (the rename reorders every sorted
+`use` block, and an unnormalised side would conflict on every file), and `git merge-file` merges
+them three-way onto ours; added files are translated in, deleted files removed, renamed paths
+followed. Conflict markers are left for the hand. Then `make cs-fix rector phpstan test
+check-names`, one commit "Sync `<pkg>` X.Y.Z" plus one commit bumping the row in this file (the
+sync bumps `upstream/remotes.txt` itself). UI changes are re-implemented by hand and get a
+CHANGELOG line "Ported upstream `<pkg>`#NNNN".
 
-For the four merged trees only the first half applies: `make upstream-diff PKG=form-extensions`
-still reads, `make upstream-sync PKG=form-extensions` has nowhere to apply to. Read the diff,
-translate each hunk through the class map into this bundle, and record the release in
-the **Tag** column above and in `CHANGELOG-sonata.md` as usual.
+For the five merged trees only the report applies: `make upstream-diff PKG=form-extensions` still
+reads, translated, and `make upstream-sync PKG=form-extensions` has nowhere to apply to. Read the
+translated diff, port each hunk into this bundle by hand, and record the release in the **Tag**
+column above and in `CHANGELOG-sonata.md` as usual.
 
 Policy: every upstream minor is synced within one adminata minor; `admin-bundle` 5.x is not merged
 before adminata 2.0; upstream deprecations are carried as-is.
@@ -121,3 +138,4 @@ before adminata 2.0; upstream deprecations are carried as-is.
 | 2026-09-07 | `doctrine-extensions` | 2.6.0 | 2.6.0 | Not a sync: `packages/doctrine-extensions/` was merged into `packages/admin-bundle/` and deleted (owner directive; PLAN/01 P16). No upstream code changed — the sources moved namespace, under `Sonata\AdminBundle\Doctrine\`, and the two compiler passes took the concern prefix the block and exporter passes beside them use. `SonataDoctrineExtension` went with `SonataDoctrineBundle`: the `sonata_doctrine` root had no `Configuration` class and took no options, so `SonataAdminExtension` loads the services instead. Later upstream releases are ported by hand. |
 | 2026-09-07 | `doctrine-orm-admin-bundle` | 4.21.0 | 4.21.0 | Not a sync, and the last entry for this package here: `packages/doctrine-orm-admin-bundle/` was split into [a repository of its own][orm] with `git subtree split` (owner directive; PLAN/01 P17). No upstream code changed. Its remote, its exclusion list and its row in the tables above went with it; it is a dev dependency of this repository now. |
 | 2026-09-07 | `admin-bundle` | 4.43.0 | 4.43.0 | Not a sync: with one tree left, `packages/` was removed and `packages/admin-bundle/{src,tests}` became `{src,tests}` at the repository root (owner directive; PLAN/01 P18). No upstream code changed. This is the layout upstream itself uses, so `upstream/sync.sh` no longer passes `--directory` at all. |
+| 2026-09-12 | all six | — | — | Not a sync: the rename to adminata's own names (PLAN/v2). Every upstream release from here on is translated through `upstream/rename/` before it is merged; the mechanical commit is `f141c1105`, the last Sonata-named commit `d76c4818f`. |

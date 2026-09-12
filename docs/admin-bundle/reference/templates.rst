@@ -157,9 +157,8 @@ You can specify your templates in the config file:
 
     The block templates — ``list_block`` and ``search_result_block`` above, and the ones the block
     services themselves default to — are ``@Adminata/Block/…`` like every other path here, and
-    are overridden the same way, under ``templates/bundles/AdminataBundle/Block/``.
-    ``@Adminata/…`` is a compatibility alias of the same directory for templates outside
-    adminata; see :doc:`block_configuration`.
+    are overridden the same way, under ``templates/bundles/AdminataBundle/Block/``; see
+    :doc:`block_configuration`.
 
 If you wish, you can specify custom templates on a per ``Admin`` mapping
 basis. Internally, the ``CRUDController`` fetches this information from the

@@ -19,11 +19,10 @@ services and the ``adminata_exporter`` configuration root with it
 
 .. note::
 
-    Coming from Sonata? The ``IDCT\Adminata\Exporter\`` classes are ``IDCT\Adminata\Exporter\``
-    here — the map is in `UPGRADE-1.0.md
-    <https://github.com/ideaconnect/adminata/blob/main/UPGRADE-1.0.md>`_ §U1 — and there is no
-    ``SonataExporterBundle`` to register. What stays exactly as it was is on
-    :doc:`exporter_configuration`.
+    Coming from Sonata? The classes of ``sonata-project/exporter`` are
+    ``IDCT\Adminata\Exporter\`` here — the map and the tool that applies it are in `UPGRADE.md
+    <https://github.com/ideaconnect/adminata/blob/main/UPGRADE.md>`_ — and there is no
+    ``SonataExporterBundle`` to register. The rest is on :doc:`exporter_configuration`.
 
 Three parts
 -----------

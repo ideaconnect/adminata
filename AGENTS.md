@@ -2,42 +2,47 @@
 
 Project-specific instructions for any AI coding agent (or human contributor) working on
 `idct/adminata`. Read this end-to-end before touching code. It is the short form; the long form is
-[PLAN/](PLAN/README.md) (design) and [PROJECT_PLAN.md](PROJECT_PLAN.md) (the task list).
+[PLAN/](PLAN/README.md) (the design of 1.0), [PLAN/v2/](PLAN/v2/README.md) (the rename to
+adminata's own names) and [PROJECT_PLAN.md](PROJECT_PLAN.md) (the task list).
 
 ---
 
 ## 1. What this project is
 
-adminata is a **hard fork** of seven `sonata-project` packages, shipped as one Composer package
-`idct/adminata` that `replace`s `sonata-project/admin-bundle`. Five more — `block-bundle`,
-`doctrine-extensions`, `exporter`, `form-extensions` and `twig-extensions` — are **part of that
-bundle** (owner directives of 2026-09-06 and 2026-09-07; PLAN/01 P10, P13, P14, P15 and P16): their
-classes are `IDCT\Adminata\` (the exporter's under `IDCT\Adminata\Exporter\`,
-doctrine-extensions' under `IDCT\Adminata\Doctrine\`), the strings three of them shipped are
-in the `AdminataBundle` translation domain and the other two shipped none, there is no
-`SonataBlockBundle`, `SonataDoctrineBundle`, `SonataExporterBundle`, `SonataFormBundle` or
-`SonataTwigBundle` — no class, no domain — and `composer.json` `conflict`s with all five instead of
-replacing them. The seventh, `doctrine-orm-admin-bundle`, is a **repository of its own** since
-2026-09-07 (PLAN/01 P17): `ideaconnect/adminata-doctrine-orm-admin-bundle`, a dev dependency here
-because the demo application and adminata's own suites are built on Doctrine ORM. The PHP layer
-stays Sonata's; the Twig templates, CSS and JavaScript are replaced with a Tailwind CSS v4 /
-TailAdmin user interface.
+adminata is an admin bundle for Symfony with a Tailwind CSS v4 / TailAdmin user interface, shipped
+as one Composer package `idct/adminata` and one bundle, `IDCT\Adminata\AdminataBundle`. It is a
+**hard fork** of seven `sonata-project` packages, imported with their history on 2026-09-04: the
+PHP design — admin classes, mappers, datagrid, routing, security handlers, exporter — is theirs
+under new names, and their sources keep the upstream copyright headers. Five of the seven are
+**part of this bundle** (owner directives of 2026-09-06 and 2026-09-07; PLAN/01 P10, P13, P14,
+P15 and P16): `block-bundle`, `doctrine-extensions`, `exporter`, `form-extensions` and
+`twig-extensions` live under `IDCT\Adminata\` (`Block\`, `Doctrine\`, `Exporter\`, `Form\`,
+`Twig\`, …), and there is no bundle class, translation domain or override directory for any of
+them. The sixth, `doctrine-orm-admin-bundle`, is a **repository of its own** since 2026-09-07
+(PLAN/01 P17): `ideaconnect/adminata-doctrine-orm-admin-bundle`, `IDCT\Adminata\DoctrineORM\`,
+a dev dependency here because the demo application and adminata's own suites are built on
+Doctrine ORM. The MongoDB layer, `idct/adminata-admin-mongodb-bundle`
+(`IDCT\Adminata\DoctrineMongoDB\`), is the owner's separate package and must keep working on top
+of adminata at every milestone.
 
-It is not an overlay, not a theme bundle and not a compatibility layer. There is no
-`sonata-project/*` package installed alongside it — installing adminata makes those packages
-uninstallable, which is the point.
+Since 2026-09-12 (PLAN/v2) nothing in the API carries the Sonata name: the namespace, the bundle
+class, the configuration roots, every service id, tag, parameter and event, the routes, the Twig
+namespace, functions, globals and block names, the form type prefixes, the translation domain,
+the markup hooks, the Stimulus identifiers, the cookies and the published asset path are
+adminata's own. `composer.json` **conflicts** with every `sonata-project` package it forked and
+replaces none — installing adminata makes those packages uninstallable, which is the point. It is
+not an overlay, not a theme bundle and not a compatibility layer.
 
 The first release supports what the production application `recomaty-panel` uses
 ([PLAN/appendix-C-recomaty-panel-scope.md](PLAN/appendix-C-recomaty-panel-scope.md)); everything else
-is ported when first needed. `idct/sonata-admin-mongodb-bundle` must keep working on top of adminata
-at every milestone.
+is ported when first needed.
 
 ---
 
 ## 2. Owner directives (non-negotiable)
 
 1. **Hard fork, not an override.** Rewrite the upstream templates in place; never add a parallel
-   template tree, a `.adminata-bc` scope, dual class names or a Bootstrap shim.
+   template tree, a "legacy" CSS scope, dual class names or a Bootstrap shim.
 2. **No jQuery, anywhere.** Not as a dependency, not as a peer, not through another library.
    `npm ls jquery` must come back empty, and ESLint bans `$`, `jQuery` and importing `jquery`.
    When a behaviour needs more than plain DOM code: first check whether Tailwind/TailAdmin already
@@ -45,21 +50,23 @@ at every milestone.
    modern, actively released, jQuery-free vanilla library. Vetted candidates: SortableJS,
    vanilla-calendar-pro, Tom Select.
 3. **No compatibility layers.** Unused configuration nodes are removed, not deprecated. Missing
-   features are developed as they come up.
+   features are developed as they come up. No alias, shim or "kept for now" spelling of a name.
 4. **Latest releases, pinned exactly.** Nothing inherits Sonata's pins
    ([PLAN/07 §2](PLAN/07-packaging-and-project-setup.md)).
 5. **No AJAX form submission** in any phase. `ajaxSubmit` is gone for good.
 6. **No inline scripts and no `onclick`** in adminata templates, except the three-line theme
    pre-paint script rendered under the `adminata_script_attributes` block (for a CSP nonce). Every
    script tag carries `defer`.
-7. **Seven forked trees, one project.** No sub-bundles of our own, and no bundle class beyond the
-   three upstream ones. Blocks, form types, the Twig helpers and the exporter are not usable
-   without the admin bundle in this fork, so they do not earn bundles of their own either — that is
-   what the 2026-09-06 and 2026-09-07 merges settled. Do not reintroduce the names
-   `SonataBlockBundle`, `SonataExporterBundle`, `SonataFormBundle` or `SonataTwigBundle` anywhere:
-   not as a class, not as a translation domain, not as a `templates/bundles/` directory, not as a
-   `docs/` section, and not as a `@Sonata…` default inside adminata.
-8. **Push `main` after every milestone** (`Pn-MS` tasks), plan revision and tag.
+7. **Seven forked trees, one project.** No sub-bundles of our own, and no bundle class beyond
+   `AdminataBundle` and the storage layers' own. Blocks, form types, the Twig helpers and the
+   exporter are not usable without the admin bundle in this fork, so they do not earn bundles of
+   their own either.
+8. **No Sonata-named identifier, ever** (PLAN/v2 N20). `make check-names` is the gate: nothing
+   outside the history and upgrade documents may match a rule of `upstream/rename/rules.php`, and
+   nothing may say the word at all except the attribution phrases `upstream/rename/allow.php`
+   lists. The acknowledgement stays — "a hard fork of Sonata Admin", the upstream headers,
+   `NOTICE`, `UPSTREAM.md` — the *names* do not. A new name is spelled `adminata…` from the start.
+9. **Push `main` after every milestone** (`Pn-MS` tasks), plan revision and tag.
 
 ---
 
@@ -74,68 +81,62 @@ tests-adminata/{App,Unit,Functional,…}      adminata-level suites and the demo
                                             `Adminata\Tests\`
 changelog/                                  the inherited upstream histories
 upstream/                                   remotes, merge record, exclusion lists, diff/sync
+upstream/rename/                            the rename engine, its rules, allow-list and known names
 docs/                                       one Sphinx site (`make docs`)
-PLAN/                                       the design; PROJECT_PLAN.md the task list
+PLAN/, PLAN/v2/                             the designs; PROJECT_PLAN.md the task list
 ```
 
-`src/` and `tests/` are upstream's own layout, which is the point: `upstream/sync.sh` applies an
-upstream diff here with no `--directory` prefix at all. Hence the second test root — the bundle's
-suite is `tests/`, and adminata's own suites keep a directory beside it rather than a namespace
-nested inside one, which would make every optimised autoload dump warn.
+`src/` and `tests/` are upstream's own layout, which is the point: `upstream/sync.sh` translates
+an upstream release through the engine and merges it here with no directory prefix at all. Hence
+the second test root — the bundle's suite is `tests/`, and adminata's own suites keep a directory
+beside it rather than a namespace nested inside one, which would make every optimised autoload
+dump warn.
 
-One PSR-4 entry maps `IDCT\Adminata\` onto `src/`. The five merged namespaces —
-`IDCT\Adminata\`, `IDCT\Adminata\Doctrine\`, `IDCT\Adminata\Exporter\`, `IDCT\Adminata\Form\` and
-`IDCT\Adminata\Twig\` — are gone: those sources are `IDCT\Adminata\` (the exporter's under
-`IDCT\Adminata\Exporter\`, beside the `DataSourceInterface` that was already there;
-doctrine-extensions' under `IDCT\Adminata\Doctrine\`), and only their subtree histories
-remain. Their DI service files are renamed flat inside the bundle (`block_*.php`,
-`form_ext_types.php`, `form_validator.php`, `twig_flash.php`, `twig_ext.php`,
-`exporter_services.php`, `doctrine*.php` — `exporter_services.php` because admin's own
-`exporter.php` wires the `AdminExporter` bridge) so they cannot collide with admin's own. There is
-one `composer.json`, one `phpunit.xml.dist`, one PHPStan, Rector and CS-Fixer configuration for the
-whole repository — the per-package ones were deleted at import.
+One PSR-4 entry maps `IDCT\Adminata\` onto `src/`. The merged trees' DI service files are named
+flat inside the bundle (`block_*.php`, `form_ext_types.php`, `form_validator.php`,
+`twig_flash.php`, `twig_ext.php`, `exporter_services.php`, `doctrine*.php`) so they cannot
+collide with admin's own. There is one `composer.json`, one `phpunit.xml.dist`, one PHPStan,
+Rector and CS-Fixer configuration for the whole repository.
+
+`src/` must never grow a `DoctrineORM/` or `DoctrineMongoDB/` directory: those namespaces belong
+to the storage layers' packages (`NamespaceContractTest`).
 
 ---
 
 ## 4. Contracts you must not break
 
-[PLAN/02-compatibility-contract.md](PLAN/02-compatibility-contract.md) is the full list; it is
-enforced by `make test-contract`. In short:
+[PLAN/02-compatibility-contract.md](PLAN/02-compatibility-contract.md) is the full list, re-issued
+under the new names by PLAN/v2; it is enforced by `make test-contract`. In short:
 
-- **Namespaces, bundle classes, config roots, service ids, routes, translation domains** — frozen.
-  The exceptions are spent, three on 2026-09-06 and the fourth on 2026-09-07: the merges removed
-  `IDCT\Adminata\`, `IDCT\Adminata\Form\`, `IDCT\Adminata\Twig\` and `IDCT\Adminata\Exporter\`, the
-  `SonataBlockBundle`, `SonataFormBundle`, `SonataTwigBundle` and `SonataExporterBundle` classes,
-  and the first three of those as translation domains (those strings are `AdminataBundle`'s; the
-  exporter had no domain of its own to retire). What they deliberately kept is under contract
-  exactly as before — the `adminata_block`, `adminata_form`, `adminata_twig` and `adminata_exporter` config
-  roots, the `adminata.block.*`, `adminata.form.*`, `adminata.twig.*` and `adminata.exporter.*` service
-  ids, the `adminata_block_*` and `adminata_flashmessages_*` Twig functions, the `adminata_status_class`
-  filter, the `adminata.status.renderer` and `adminata.exporter.writer` tags and the `@Adminata`,
-  `@Adminata` and `@Adminata` Twig namespaces — the last three as compatibility
-  aliases for templates outside adminata only: every default inside adminata says
-  `@Adminata/…`, so that an application overrides those templates in
-  `templates/bundles/AdminataBundle/` like any other, and a new `@Adminata/…`,
-  `@Adminata/…` or `@Adminata/…` default is a regression. Do not rename any of those, and do
-  not bring the names `SonataBlockBundle`, `SonataFormBundle`, `SonataTwigBundle` or
-  `SonataExporterBundle` back anywhere: blocks, form types, the Twig helpers and the exporter are
-  the admin bundle's.
-- **Two `CollectionType`s, and they exchanged names.** `IDCT\Adminata\Form\Type\CollectionType`
+- **Namespace, bundle class, config roots, service ids, routes, translation domain** — frozen at
+  their adminata spellings: `IDCT\Adminata\`, `AdminataBundle`, `adminata` /
+  `adminata_{block,form,twig,exporter}`, `adminata.*`, `adminata_*`, `AdminataBundle`. The
+  `adminata_block_*` and `adminata_flashmessages_*` Twig functions, the `adminata_status_class`
+  filter, the `adminata.status.renderer` and `adminata.exporter.writer` tags are part of it. There
+  is exactly **one** Twig namespace for this bundle, `@Adminata`; every default inside adminata
+  says it, so an application overrides in `templates/bundles/AdminataBundle/`. No alias may come
+  back.
+- **Two `CollectionType`s, and they exchanged names in 1.0.** `IDCT\Adminata\Form\Type\CollectionType`
   is form-extensions' (`adminata_type_collection`); admin's old one is `NativeCollectionType`
-  (`adminata_type_native_collection`). Both are alive and both block prefixes are frozen. Check which
-  one you mean before touching an import or a widget block — the wrong one compiles and renders the
-  other widget.
+  (`adminata_type_native_collection`). Both are alive and both block prefixes are frozen. Check
+  which one you mean before touching an import or a widget block — the wrong one compiles and
+  renders the other widget.
 - **Template paths and template-registry keys** — frozen. A rewritten template keeps its file name
-  and its Twig **block names** (`admin_lte_skin_class` and `bootlint` are the only removals);
-  additive blocks are allowed.
-- **Markup hooks** the PHP layer or an application selects on: `adminata-*` and `adminata-*` class
-  names, element ids, `objectId`, `data-adminata-*` attributes, button `name` attributes, and the
-  literal strings the PHP layer emits. Tailwind utilities and `.adm-*` components carry the styling;
-  the hooks carry the meaning.
-- **JavaScript**: `adminata-<name>` Stimulus identifiers, their targets, values and dispatched event
-  names, snapshotted in `assets/js/__contract__/controllers.json`.
-- **The MongoDB fork**: its two form themes extend `@Adminata/Form/{form,filter}_admin_fields.html.twig`
+  and its Twig **block names** (`admin_lte_skin_class` and `bootlint` are the only removals from
+  upstream's list; the rest carry the `adminata_` spelling the engine gives them); additive
+  blocks are allowed.
+- **Markup hooks** the PHP layer or an application selects on: `adminata-*` class names, element
+  ids, `objectId`, `data-adminata-*` attributes, button `name` attributes, and the literal strings
+  the PHP layer emits. Tailwind utilities and `.adm-*` components carry the styling; the hooks
+  carry the meaning.
+- **JavaScript**: `adminata-<name>` Stimulus identifiers, their targets, values and dispatched
+  event names, snapshotted in `assets/js/__contract__/controllers.json`.
+- **The MongoDB layer**: its two form themes extend `@Adminata/Form/{form,filter}_admin_fields.html.twig`
   and its `ListBuilder` hard-codes `@Adminata/CRUD/list__action*.html.twig`.
+- **The engine's known names** (`upstream/rename/known.txt`): the exact list of what adminata,
+  the ORM layer and the MongoDB layer own, generated from the last Sonata-named trees. A new
+  name never needs adding (it is spelled `adminata…` from birth); a rule change needs a case in
+  `tests-adminata/Unit/Rename/EngineTest.php`.
 
 ---
 
@@ -144,11 +145,11 @@ enforced by `make test-contract`. In short:
 A task is finished when **all** of these are green — running one and declaring victory is not enough:
 
 ```bash
-make lint          # php-cs-fixer, composer-normalize, yamllint, xmllint, lint:twig/container/xliff/yaml
+make lint          # php-cs-fixer, composer-normalize, yamllint, xmllint, lint:twig/container/xliff/yaml, check-names
 make phpstan       # level 8 + bleedingEdge + strict, no new baseline entries
 make rector        # --dry-run must be clean
 make test          # every PHPUnit suite: the imported ones and adminata's own
-make test-contract # the frozen interfaces of PLAN/02
+make test-contract # the frozen interfaces of PLAN/02 under their PLAN/v2 names
 make lint-js       # ESLint 10, Stylelint 17, Prettier 3.9, and the jQuery gate
 make test-js       # Vitest 5
 make assets-check  # rebuild + `git diff --exit-code` on the committed output + CSS contract + size budgets
@@ -161,7 +162,7 @@ the Playwright/axe/Panther coverage of the milestone passes.
 
 ## 6. Style and conventions
 
-**PHP** (same rules as `idct/sonata-admin-mongodb-bundle`):
+**PHP** (same rules as the MongoDB layer's):
 
 - `declare(strict_types=1);` in every file; the Sonata header comment stays on inherited files, the
   combined adminata header goes on new ones (CS-Fixer enforces both).
@@ -170,7 +171,7 @@ the Playwright/axe/Panther coverage of the milestone passes.
   to silence the analyser, no new baseline entries — fix the cause.
 - Every behaviour has a test that locks it from the public API surface.
 - Do not touch upstream PHP outside the list in [PLAN/01 P6](PLAN/01-architecture-decisions.md);
-  everything else is synced from upstream and must stay mergeable.
+  everything else is synced from upstream and must stay mergeable — through the engine.
 
 **Twig**: `stimulus_controller()` / `stimulus_target()` / `stimulus_action()` from
 `symfony/stimulus-bundle`, never hand-written `data-controller` strings. Show and hide with the
@@ -195,11 +196,14 @@ milestone tasks and after plan revisions.
 
 ## 7. Upstream syncs
 
-See [UPSTREAM.md](UPSTREAM.md) and [PLAN/07 §10](PLAN/07-packaging-and-project-setup.md). The PHP
-side of an upstream release is applied mechanically:
+See [UPSTREAM.md](UPSTREAM.md) and [PLAN/07 §10](PLAN/07-packaging-and-project-setup.md). Upstream
+speaks the Sonata names and this repository does not, so an upstream release is never applied as a
+patch: every file it touched is translated through `upstream/rename/apply.php` — the base tag and
+the head tag both — normalised by php-cs-fixer, and merged three-way onto ours:
 
 ```bash
-make upstream-diff PKG=admin-bundle FROM=4.43.0 TO=4.44.0   # report for the sync issue
+make upstream-diff PKG=admin-bundle FROM=4.43.0 TO=4.44.0   # report for the sync issue, with the owned part translated
+make upstream-rehearse PKG=admin-bundle TO=4.44.0           # dry run in a scratch worktree
 make upstream-sync PKG=admin-bundle TO=4.44.0               # apply, then run the gates
 ```
 
@@ -208,10 +212,10 @@ upstream UI changes are re-implemented by hand with a CHANGELOG line "Ported ups
 Never merge `admin-bundle` 5.x before adminata 2.0.
 
 The five trees in `upstream/merged.txt` are the exceptions: `make upstream-diff PKG=block-bundle`
-still reports, but they have no tree of their own for a diff to land in, so `make upstream-sync`
-refuses them. **Every upstream change to those five is ported by hand** through the class maps in
-CHANGELOG.md. `doctrine-orm-admin-bundle` is not adminata's to sync at all any more — it has its
-own repository, its own `UPSTREAM.md` and its own remote.
+still reports (translated), but they have no tree of their own for a merge to land in, so
+`make upstream-sync` refuses them. **Every upstream change to those five is ported by hand.**
+`doctrine-orm-admin-bundle` is not adminata's to sync at all any more — it has its own repository,
+its own `UPSTREAM.md` and its own remote.
 
 ---
 
@@ -224,7 +228,9 @@ own repository, its own `UPSTREAM.md` and its own remote.
 - New work discovered mid-task becomes a new task in the same milestone, never a silent extension of
   the current one.
 - Reference checkouts on the maintainer's machine: the application
-  `/home/bartosz/dev/r3/recomaty-panel-clean`, the MongoDB fork
-  `/home/bartosz/dev/idct/sonata-admin-mongodb-bundle`. TailAdmin is fetched into a scratch
+  `/home/bartosz/dev/r3/recomaty-panel-clean`, the ORM layer
+  `/home/bartosz/dev/idct/adminata-doctrine-orm-admin-bundle`, the MongoDB layer
+  `/home/bartosz/dev/idct/sonata-admin-mongodb-bundle` (the directory keeps the old name; the
+  repository is `ideaconnect/adminata-admin-mongodb-bundle`). TailAdmin is fetched into a scratch
   directory when needed and never vendored.
 - Don't generate documentation files unless asked.

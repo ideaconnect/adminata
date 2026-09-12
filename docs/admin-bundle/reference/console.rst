@@ -21,7 +21,7 @@ The ``cache:create-cache-class`` command generates the cache class
     bin/console cache:create-cache-class
 
 make:adminata:admin
------------------
+-------------------
 
 The ``make:adminata:admin`` command generates a new Admin class based on the given model
 class, registers it as a service and potentially creates a new controller.

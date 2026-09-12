@@ -20,8 +20,9 @@ Copyright (c) 2010 Thomas Rabaix and the Sonata Project contributors
 sonata-project/doctrine-orm-admin-bundle 4.21.0 was forked here too and split out on 2026-09-07
 into idct/adminata-doctrine-orm-admin-bundle, which carries its own NOTICE.
 
-Their PHP sources keep the upstream file headers. See UPSTREAM.md for the exact
-commits and the sync process.
+Their PHP sources keep the upstream file headers, under the IDCT\Adminata\
+namespace since 2026-09-12. See UPSTREAM.md for the exact commits and the
+sync process.
 
 ## Design system
 

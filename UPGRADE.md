@@ -1,9 +1,5 @@
 # Upgrading an application to adminata under the IDCT names
 
-> **Status.** This guide describes adminata from the IDCT rename on — the plan is
-> [PLAN/v2/](PLAN/v2/README.md). Until that rename lands on `main`, the names in the *after*
-> columns are not in the code yet. The line you are reading is removed when they are.
-
 adminata's code no longer answers to any Sonata name. The PHP namespace is `IDCT\Adminata\`, the
 bundle is `AdminataBundle`, the Twig namespace is `@Adminata`, the configuration root is
 `adminata`, and every service id, tag, route, form type, translation domain, markup hook,
@@ -52,7 +48,7 @@ project); the lock file must be resolved from GitHub, never from a `path` dist.
 |---|---|---|
 | `idct/adminata` | `dev-main` | `dev-main` (the rename is on `main`; adminata is untagged until its first release) |
 | `idct/adminata-doctrine-orm-admin-bundle` | `^1.0` | `^2.0` |
-| MongoDB ODM layer | `idct/sonata-admin-mongodb-bundle` `^6.0` | `idct/adminata-admin-mongodb-bundle` `^7.0` — the renamed package; the same code under the old name would be `idct/sonata-admin-mongodb-bundle` `^7.0` if the rename of that package is not carried out |
+| MongoDB ODM layer | `idct/sonata-admin-mongodb-bundle` `^6.0` | `idct/adminata-admin-mongodb-bundle` `^7.0` — the renamed package, from the repository of the same name |
 
 ```console
 $ composer remove --no-update idct/sonata-admin-mongodb-bundle          # MongoDB applications only
@@ -111,12 +107,13 @@ Values inside those files that change:
 | Node | Before | After |
 |---|---|---|
 | `adminata.templates.*`, `adminata_block.templates.*`, `adminata.options.form_type`, `twig.form_themes` | `'@SonataAdmin/…'` | `'@Adminata/…'` |
-| `adminata.assets.stylesheets` / `javascripts` / `remove_*` | `'/bundles/sonataadmin/…'` | `'/bundles/adminata/…'` |
+| `adminata.assets.stylesheets` / `javascripts` / `remove_*` | `'/bundles/sonataadmin/…'`, `package_name: sonata_admin` | `'/bundles/adminata/…'`, `package_name: adminata` |
 | `adminata.security.handler` | `sonata.admin.security.handler.role` (or `.acl`, `.noop`) | `adminata.admin.security.handler.role` |
 | `adminata.default_controller` | `sonata.admin.controller.crud` | `adminata.admin.controller.crud` |
 | `adminata.dashboard.blocks[].type`, `adminata_block.blocks` keys | `sonata.admin.block.admin_list`, `sonata.admin.block.search_result`, `sonata.admin.block.stats` | `adminata.admin.block.admin_list`, `…search_result`, `…stats` |
 | `adminata.dashboard.groups.*.items`, `adminata.extensions.*.admins` | your admin ids | unchanged unless you rename them ([§6.3](#63-your-own-service-ids-and-the-roles-derived-from-them)) |
 | `adminata_form.*`, `adminata_twig.flashmessage.*` type keys | `sonata_flash_success`, `sonata_flash_error`, `sonata_flash_info` | `adminata_flash_success`, `adminata_flash_error`, `adminata_flash_info` |
+| `adminata.security.role_admin` | `ROLE_SONATA_ADMIN` (the old default) | `ROLE_ADMINATA_ADMIN` — see [§6.3](#63-your-own-service-ids-and-the-roles-derived-from-them) before relying on the new default |
 | `adminata.theme.mode` | unchanged | unchanged |
 
 **upstream** — the nodes 1.0 removed (`options.skin`, `options.use_select2`, `options.use_icheck`,
@@ -133,6 +130,11 @@ XML configuration only: the namespaces `https://sonata-project.org/schema/dic/ad
 # config/routes/adminata.yaml (was config/routes/sonata_admin.yaml)
 admin_area:
     resource: '@AdminataBundle/Resources/config/routing/adminata.xml'   # was @SonataAdminBundle/…/sonata_admin.xml
+    prefix: /admin
+
+_adminata_admin:                                                        # was _sonata_admin
+    resource: .
+    type: adminata                                                      # the route loader type, was sonata_admin
     prefix: /admin
 ```
 
@@ -223,6 +225,17 @@ fixtures and migrations — and in the database, in every user's roles column, a
 user whose stored roles still say `ROLE_SONATA_ADMIN_…` loses access the moment the new
 container boots. Persisted filters (`persist_filters: true`) are keyed by the code too and would
 reset once.
+
+One default of adminata's changed too: `security.role_admin` was `ROLE_SONATA_ADMIN` and is
+`ROLE_ADMINATA_ADMIN`. If the old role is in your users' database, either set the node back —
+
+```yaml
+adminata:
+    security:
+        role_admin: ROLE_SONATA_ADMIN
+```
+
+— or migrate that role with the deploy, the same way as below.
 
 So:
 

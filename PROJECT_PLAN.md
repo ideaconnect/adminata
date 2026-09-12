@@ -1318,6 +1318,52 @@ mistake cannot recur.
     reference application `git diff -- config/bundles.php config/packages config/routes` is exactly
     the one deleted `SonataExporterBundle` line.
 
+## Milestone M7 — The IDCT identity (PLAN/v2)
+
+The rename of everything Sonata-named to adminata's own names, executed on 2026-09-12 under the
+owner's instruction to decide the open questions without asking (OQ1 no, OQ2 the owner renamed the
+repository to `adminata-admin-mongodb-bundle`, OQ3 drop `ba`, OQ4 delete the stale tag, OQ5 keep
+the panel's own ids). The tasks are PLAN/v2/05's; their Read/Do/Deliver/Accept lines live there.
+
+- [x] **R0-01 · Rule file and path file** — `upstream/rename/{rules,allow}.php` (PHP data files
+  rather than the `.txt` the plan sketched: backslashes and PCRE are safer quoted in PHP).
+- [x] **R0-02 · `apply.php`, `build-lists.php`, the launcher** — `Engine.php`, six modes,
+  `known.txt` generated from worktrees at the last Sonata-named commits, `bin/adminata-rename`,
+  `tests-adminata/Unit/Rename/EngineTest.php` (52 cases).
+- [x] **R0-03 · The gate** — `make check-names`, part of `make lint` and the Lint workflow.
+- [x] **R0-04 · Translated three-way sync** — `upstream/sync.sh` merges through the engine and
+  php-cs-fixer; `upstream/rehearse-sync.sh`; `upstream/diff.sh` prints the owned part translated.
+  The rehearsal against a real upstream release is owed to the first sync (a 4.43.0 → 4.43.0
+  identity run has nothing to merge).
+- [x] **R1-01 · The two collisions** — `adminata-content` for both the class and the id,
+  `adminata-tabs` for both (the `sonata-tabs` of 1.0 lived only in comments).
+- [x] **R1-02 · The two mechanical commits** — `f141c1105` (engine) and `8277bfe22` (fixer).
+  The rules were refined during the hand pass (the URL-encoded backslash, the `%5C` and
+  `sonata:user:` protections, the routes cache path instead of `/sonata/`, the foreign roots'
+  boundary, the `__fixture__` exclusion of the list generator), so the mechanical commit is the
+  engine's output at `d76c4818f` and the refinements' effect on the tree is in the hand commit.
+- [x] **R1-03 · DI, Twig aliases, Composer** — `TwigNamespaceAliasCompilerPass` deleted, six
+  conflicts and no `replace`, the two XML namespaces, `bin/check-upstream-versions.php`,
+  `bin` entry, `upstream/rename/` shipped in the archive.
+- [x] **R1-04 · Contract suites** — `ConflictTest` (offline manifest test plus the network
+  group), `NamespaceContractTest`, `TemplatePathTest` on one namespace, `BlockNameTest` reading
+  appendix A through the engine.
+- [x] **R1-05 · Assets, fixtures, snapshots** — `make assets-check` reproduces the engine's
+  rewrite of the committed build byte for byte; `make js-fixtures` reproduces the fixtures.
+- [x] **R1-06 · Demo and test apps** — `tests-adminata/App/config/adminata.yaml`, both kernels.
+- [x] **R2-01 · README, NOTICE, UPSTREAM, CONTRIBUTING, composer description** — README rewritten
+  around the identity with the *Origins* section.
+- [x] **R2-02 · Documentation site** — identifiers by the engine, prose by hand, `origins.rst`,
+  `upgrading.rst` re-issued, four underlines the rename outgrew; `make docs` clean.
+- [x] **R2-03 · UPGRADE.md, UPGRADE-1.0.md, MIGRATION.md, CHANGELOG.md**.
+- [x] **R2-04 · AGENTS.md** — rewritten; directive 8 is the gate.
+- [x] **R2-05 · CI and metadata** — `mongo-compat.yaml` on `7.x`, PR template, `.gitattributes`.
+- [ ] **R1/R2-MS · Milestone push**.
+- [x] **R3-01..03 · ORM layer** — branch `rename/idct`, v2.0.0.
+- [ ] **R4-01..04 · MongoDB layer** — branch `7.x`, package `idct/adminata-admin-mongodb-bundle`, v7.0.0.
+- [ ] **R5-01..03 · recomaty-panel round 2**.
+- [ ] **R6 · Bookkeeping** — stale tag, memory, status.
+
 ## Backlog (unscheduled; each becomes tasks when first needed — PLAN/09 backlog)
 
 - [ ] **B-01** Association widgets without AJAX submission (11 templates, `sonata-association`, `sonata-tabs`), then the MongoDB fork's Panther scenarios adapted.

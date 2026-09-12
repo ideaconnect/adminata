@@ -24,10 +24,7 @@ What the form layer has of its own:
   that is the path every default names — ``datepicker.html.twig`` is added to ``twig.form_themes``
   as ``@Adminata/Form/datepicker.html.twig``. So a form template is overridden exactly like any
   other admin template: a file of the same name under ``templates/bundles/AdminataBundle/``,
-  with ``@!Adminata/Form/…`` reaching the shipped one. ``@Adminata`` is kept as a
-  compatibility alias of the same directory, for templates outside adminata that still say
-  ``@Adminata/…``: ``@Adminata/Form/datepicker.html.twig`` and
-  ``@Adminata/Form/datepicker.html.twig`` are one file.
+  with ``@!Adminata/Form/…`` reaching the shipped one.
 
 What the form layer shares with the rest of the admin bundle is the translation domain. The button
 labels and widget strings — ``link_add``, ``label_type_yes``, ``label_type_no`` and their siblings
@@ -37,15 +34,18 @@ labels and widget strings — ``link_add``, ``label_type_yes``, ``label_type_no`
 
 .. note::
 
-    Coming from Sonata? The ``IDCT\Adminata\Form\`` classes are ``IDCT\Adminata\`` here — the map is
-    in `UPGRADE-1.0.md <https://github.com/ideaconnect/adminata/blob/main/UPGRADE-1.0.md>`_ §U1 —
-    there is no ``SonataFormBundle`` to register in ``bundles.php``, and there is no
-    ``SonataFormBundle`` translation domain: units an application kept in
+    Coming from Sonata? The classes of ``sonata-project/form-extensions`` are ``IDCT\Adminata\``
+    here (``Form\Type\``, ``Form\DataTransformer\``, ``Validator\``, …) — the map and the
+    tool that applies it are in `UPGRADE.md
+    <https://github.com/ideaconnect/adminata/blob/main/UPGRADE.md>`_ — there is no
+    ``SonataFormBundle`` to register in ``bundles.php``, and there is no ``SonataFormBundle``
+    translation domain: units an application kept in
     ``translations/SonataFormBundle.<locale>.xliff`` move to
-    ``translations/AdminataBundle.<locale>.xliff``, ids unchanged. Service ids and
-    ``config/packages/adminata_form.yaml`` need no edit, and a template of yours that says
-    ``@Adminata/…`` still resolves. A ``templates/bundles/SonataFormBundle/`` directory is read
-    by nothing any more: its files move to ``templates/bundles/AdminataBundle/``.
+    ``translations/AdminataBundle.<locale>.xliff``, ids unchanged. The configuration root is
+    ``adminata_form`` in ``config/packages/adminata_form.yaml``, the service ids
+    ``adminata.form.*`` and the form type prefixes ``adminata_type_*``. A
+    ``templates/bundles/SonataFormBundle/`` directory is read by nothing: its files move to
+    ``templates/bundles/AdminataBundle/``.
 
     **Read the** :doc:`form_types` **note on the two collection types before you update any
     import.** ``CollectionType`` and ``NativeCollectionType`` exchanged names in the merge, and the

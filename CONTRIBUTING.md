@@ -28,16 +28,16 @@ and the definition of done that every change is measured against.
 
 ## Semantic versioning contract
 
-adminata versions itself from **1.0.0**; the `replace` versions track upstream separately.
+adminata versions itself from **1.0.0**; the upstream versions each forked tree sits at are tracked separately in [UPSTREAM.md](UPSTREAM.md).
 
 | Change | Release |
 |---|---|
-| PHP API break; removal of a template file, a template-registry key, a config node, a service id or a Twig block listed in [PLAN/02 §5](PLAN/02-compatibility-contract.md) | **major** |
+| PHP API break; removal of a template file, a template-registry key, a config node, a service id or a Twig block listed in [PLAN/02 §5](PLAN/02-compatibility-contract.md) (under the names PLAN/v2 gave them) | **major** |
 | Markup rewritten while keeping those blocks and the `adminata-*` hooks; new blocks; new Stimulus controllers, targets or events; a new config node; a BC upstream PHP sync (which also bumps the corresponding `replace` version in the same release) | **minor** |
 | CSS-only changes; bug fixes that keep the markup contract | **patch** |
 
-An upstream sync never lands alone: the same release bumps the package's entry in `composer.json`
-`replace` and in [UPSTREAM.md](UPSTREAM.md).
+An upstream sync never lands alone: the same release bumps the package's row in
+[UPSTREAM.md](UPSTREAM.md) and `upstream/remotes.txt`.
 
 ## Licence
 

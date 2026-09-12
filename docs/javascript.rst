@@ -8,7 +8,7 @@ Tempus Dominus, and no ``window.Admin`` facade. There is also **no AJAX form sub
 ``ajaxSubmit`` is gone and is not coming back. Forms post.
 
 ``window.adminataApplication``
-----------------------------
+------------------------------
 
 One Stimulus application, started by adminata's bundle, with an explicit registry — no
 ``stimulus-bridge``, no ``require.context``. The built file contains exactly the controllers named

@@ -26,8 +26,7 @@ What the Twig helpers have of their own:
   ``@Adminata/FlashMessage/render.html.twig`` is the path adminata's own layout includes, and
   the template is overridden like any other admin template: a file of the same name under
   ``templates/bundles/AdminataBundle/``, with ``@!Adminata/FlashMessage/render.html.twig``
-  reaching the shipped one. ``@Adminata`` is kept as a compatibility alias of the same directory,
-  for templates outside adminata that still say ``@Adminata/…``.
+  reaching the shipped one.
 
 What the Twig helpers share with the rest of the admin bundle is the translation domain. Their
 strings — ``message_close``, ``more`` and ``less`` on a grouped flash message — are in
@@ -36,17 +35,19 @@ unit in ``translations/AdminataBundle.<locale>.xliff`` (:doc:`translation`).
 
 .. note::
 
-    Coming from Sonata? The ``IDCT\Adminata\Twig\`` classes are ``IDCT\Adminata\`` here — the map is
-    in `UPGRADE-1.0.md <https://github.com/ideaconnect/adminata/blob/main/UPGRADE-1.0.md>`_ §U1 —
-    there is no ``SonataTwigBundle`` to register in ``bundles.php``, and there is no
-    ``SonataTwigBundle`` translation domain: units an application kept in
+    Coming from Sonata? The classes of ``sonata-project/twig-extensions`` are ``IDCT\Adminata\``
+    here (``Twig\``, ``FlashMessage\``, ``Status\``) — the map and the tool that applies it are
+    in `UPGRADE.md <https://github.com/ideaconnect/adminata/blob/main/UPGRADE.md>`_ — there is
+    no ``SonataTwigBundle`` to register in ``bundles.php``, and there is no ``SonataTwigBundle``
+    translation domain: units an application kept in
     ``translations/SonataTwigBundle.<locale>.xliff`` move to
-    ``translations/AdminataBundle.<locale>.xliff``, ids unchanged. Service ids, Twig function
-    names and ``config/packages/adminata_twig.yaml`` need no edit, and a template of yours that says
-    ``@Adminata/…`` still resolves. A ``templates/bundles/SonataTwigBundle/`` directory is read
-    by nothing any more: its files move to ``templates/bundles/AdminataBundle/``. adminata
-    **conflicts** with ``sonata-project/twig-extensions``: the two cannot be installed together.
-    See :doc:`/upgrading`.
+    ``translations/AdminataBundle.<locale>.xliff``, ids unchanged. The configuration root is
+    ``adminata_twig`` in ``config/packages/adminata_twig.yaml``, the service ids
+    ``adminata.twig.*``, the Twig functions ``adminata_flashmessages_*`` and the filter
+    ``adminata_status_class``. A ``templates/bundles/SonataTwigBundle/`` directory is read by
+    nothing: its files move to ``templates/bundles/AdminataBundle/``. adminata **conflicts**
+    with ``sonata-project/twig-extensions``: the two cannot be installed together. See
+    :doc:`/upgrading`.
 
 The tree
 --------

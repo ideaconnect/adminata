@@ -12,7 +12,8 @@ Read AGENTS.md before opening this. The definition of done is in §5 there; run 
       [PLAN/02](../PLAN/02-compatibility-contract.md) was removed or renamed — or the removal is
       justified below and the CHANGELOG says so.
 - [ ] No Bootstrap or AdminLTE class name, no jQuery, no inline script, no AJAX form submission.
-- [ ] `idct/sonata-admin-mongodb-bundle` still resolves and its unit suite still passes.
+- [ ] `idct/adminata-admin-mongodb-bundle` still resolves and its unit suite still passes.
+- [ ] No new name says Sonata: `make check-names` is part of `make lint` and stays clean.
 
 ## Gates
 

@@ -26,9 +26,8 @@ What blocks have of their own:
   ``adminata_block.templates.block_base`` and ``block_container``, ``adminata_block.profiler.template``
   (``@Adminata/Profiler/block.html.twig``) and the two exception renderers. So a block template
   is overridden exactly like any other admin template — see `Overriding a block template`_ below.
-  ``@Adminata`` is kept as a compatibility alias of the same directory, for templates outside
-  adminata that still say ``@Adminata/…``: ``@Adminata/Block/block_core_rss.html.twig`` and
-  ``@Adminata/Block/block_core_rss.html.twig`` are one file.
+  There is no other namespace for them: ``@Adminata`` is the one the bundle derives from its
+  name.
 
 What blocks share with the rest of the admin bundle is the translation domain. The block strings —
 the ``adminata.block.service.*`` names and the ``form.label_*`` labels of the editable blocks — are in
@@ -38,17 +37,20 @@ that domain. An application overriding one of them puts the unit in
 
 .. note::
 
-    Coming from Sonata? The ``IDCT\Adminata\`` classes are ``IDCT\Adminata\`` here — the
-    map is in `UPGRADE-1.0.md <https://github.com/ideaconnect/adminata/blob/main/UPGRADE-1.0.md>`_
-    §U1 — there is no ``SonataBlockBundle`` to register in ``bundles.php``, and there is no
-    ``SonataBlockBundle`` translation domain: units an application kept in
+    Coming from Sonata? The block classes of ``sonata-project/block-bundle`` are
+    ``IDCT\Adminata\`` here (``Block\``, ``Model\``, ``Exception\``, …) — the map and the
+    tool that applies it are in `UPGRADE.md
+    <https://github.com/ideaconnect/adminata/blob/main/UPGRADE.md>`_ — there is no
+    ``SonataBlockBundle`` to register in ``bundles.php``, and there is no ``SonataBlockBundle``
+    translation domain: units an application kept in
     ``translations/SonataBlockBundle.<locale>.xliff`` move to
-    ``translations/AdminataBundle.<locale>.xliff``, ids unchanged. Service ids, Twig function
-    names and ``config/packages/adminata_block.yaml`` need no edit, and a template of yours that says
-    ``@Adminata/…`` still resolves. A ``templates/bundles/SonataBlockBundle/`` directory is read
-    by nothing any more: its files move to ``templates/bundles/AdminataBundle/Block/``.
-    adminata **conflicts** with ``sonata-project/block-bundle``: the two cannot be installed
-    together. See :doc:`/upgrading`.
+    ``translations/AdminataBundle.<locale>.xliff``, ids unchanged. The configuration root is
+    ``adminata_block`` in ``config/packages/adminata_block.yaml``, the service ids are
+    ``adminata.block.*``, the Twig functions ``adminata_block_*``, and every block template is
+    ``@Adminata/Block/…`` — a ``templates/bundles/SonataBlockBundle/`` directory is read by
+    nothing: its files move to ``templates/bundles/AdminataBundle/Block/``. adminata
+    **conflicts** with ``sonata-project/block-bundle``: the two cannot be installed together. See
+    :doc:`/upgrading`.
 
 Enabling a block
 ----------------

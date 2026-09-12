@@ -47,7 +47,7 @@ The default template values can be configured in the configuration section
             search:              '@Adminata/Core/search.html.twig'
             search_result_block: '@Adminata/Block/block_search_result.html.twig'
 
-You also need to configure the block in the sonata block config
+You also need to configure the block in the adminata_block config
 
 .. code-block:: yaml
 

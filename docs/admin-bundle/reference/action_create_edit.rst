@@ -159,7 +159,7 @@ Displaying custom data/template
 -------------------------------
 
 If you need a specific layout between some fields, you can define a custom template
-with the sonata TemplateType::
+with the adminata TemplateType::
 
     namespace App\Admin;
 

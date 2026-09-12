@@ -13,7 +13,7 @@ created objects and other admin features.
 
 .. hint::
 
-    As most of the classes from sonata are **final**, "Extension" is an easy way to customize admins created in sonata's code.
+    As most of the classes from adminata are **final**, "Extension" is an easy way to customize admins created in adminata's code.
 
 As an example, let's assume that we want to customize ``PageAdmin``, adding ``position`` field into the admin page,
 and this admin is declared as ``adminata.page.admin.page``
@@ -53,7 +53,7 @@ As you can see the **position** field was added into the admin page!
 
 
 Attributes supported by ``adminata.admin.extension`` tag
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +------------------------+-------------------------------------------------------------------------------------------------+
 | Attribute name         | Description                                                                                     |
@@ -93,8 +93,8 @@ Attributes supported by ``adminata.admin.extension`` tag
 | priority               | Can be a positive or negative integer. The higher the priority, the earlier it was executed.    |
 +------------------------+-------------------------------------------------------------------------------------------------+
 
-Configuration extension in sonata config
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Configuration extension in adminata config
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 It's a another way to configure Admin extension in case you don't want to use services tags,
 it's defined in your adminata configs

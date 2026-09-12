@@ -1,23 +1,24 @@
 adminata
 ========
 
-adminata is a hard fork of seven Sonata packages with a Tailwind CSS v4 interface. This site
-documents the admin bundle, which is six of them: it ``replace``\ s ``sonata-project/admin-bundle``
-at an exact version, so an application's admin classes, services and routes carry over untouched —
-what changes is the markup, the JavaScript and the form widgets — and ``block-bundle``,
-``doctrine-extensions``, ``exporter``, ``form-extensions`` and ``twig-extensions`` are part of it:
-blocks, Doctrine managers, form types, the Twig helpers and the exporter are
-``IDCT\Adminata\`` classes and there is no ``SonataBlockBundle``, ``SonataDoctrineBundle``,
-``SonataFormBundle``, ``SonataTwigBundle`` or ``SonataExporterBundle`` (see
+adminata is an admin bundle for Symfony with a Tailwind CSS v4 interface — a hard fork of seven
+Sonata packages under its own name, ``IDCT\Adminata\`` (:doc:`origins`). This site documents the
+admin bundle, which is six of them: ``sonata-project/admin-bundle`` is its tree, and
+``block-bundle``, ``doctrine-extensions``, ``exporter``, ``form-extensions`` and ``twig-extensions``
+are part of it — blocks, Doctrine managers, form types, the Twig helpers and the exporter are
+``IDCT\Adminata\`` classes, and ``AdminataBundle`` brings their ``adminata_block``,
+``adminata_form``, ``adminata_twig`` and ``adminata_exporter`` configuration roots with it (see
 :doc:`admin-bundle/reference/block_configuration`,
 :doc:`admin-bundle/reference/form_configuration`,
 :doc:`admin-bundle/reference/twig_configuration` and
-:doc:`admin-bundle/reference/exporter_configuration`).
+:doc:`admin-bundle/reference/exporter_configuration`). adminata **conflicts** with every package
+it forked: it provides their behaviour under its own names, so an installation cannot hold both.
 
 The seventh, the Doctrine ORM storage layer, is a package of its own:
-`idct/adminata-doctrine-orm-admin-bundle <https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle>`_,
-which carries its own documentation. So is the MongoDB ODM one,
-`idct/sonata-admin-mongodb-bundle <https://github.com/ideaconnect/sonata-admin-mongodb-bundle>`_.
+`idct/adminata-doctrine-orm-admin-bundle <https://github.com/ideaconnect/adminata-doctrine-orm-admin-bundle>`_
+(``IDCT\Adminata\DoctrineORM\``), which carries its own documentation. So is the MongoDB ODM one,
+`idct/adminata-admin-mongodb-bundle <https://github.com/ideaconnect/adminata-admin-mongodb-bundle>`_
+(``IDCT\Adminata\DoctrineMongoDB\``).
 
 There is **no compatibility layer**. Bootstrap and AdminLTE class names are gone, so is jQuery, and
 nothing is aliased or shimmed to soften that. If you are coming from Sonata Admin 4.43, read
@@ -35,6 +36,7 @@ nothing is aliased or shimmed to soften that. If you are coming from Sonata Admi
     :maxdepth: 1
 
     upgrading
+    origins
     theming
     icons
     javascript

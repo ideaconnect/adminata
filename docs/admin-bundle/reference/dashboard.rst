@@ -224,24 +224,24 @@ suit this scenario.
                     position: left
                     type: adminata.admin.block.admin_list
                     settings:
-                        groups: [sonata_page1, sonata_page2]
+                        groups: [adminata_page1, adminata_page2]
                 -
                     position: right
                     type: adminata.admin.block.admin_list
                     settings:
-                        groups: [sonata_page3]
+                        groups: [adminata_page3]
 
             groups:
-                sonata_page1:
+                adminata_page1:
                     items:
                         - adminata.page.admin.myitem1
 
-                sonata_page2:
+                adminata_page2:
                     items:
                         - adminata.page.admin.myitem2
                         - adminata.page.admin.myitem3
 
-                sonata_page3:
+                adminata_page3:
                     items:
                         - adminata.page.admin.myitem4
 
