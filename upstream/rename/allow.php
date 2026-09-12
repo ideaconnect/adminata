@@ -54,6 +54,7 @@ return [
     ],
     'keep' => [
         'sonata-project/Sonata[A-Za-z0-9]+',
+        'sonata-project\\.org/projects/[A-Za-z0-9]+',
         'sonata-project',
         'sonata-admin-mongodb-bundle',
         'sonata-doctrine-extensions',
