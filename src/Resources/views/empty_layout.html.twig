@@ -20,18 +20,18 @@ file that was distributed with this source code.
 
 {% extends get_global_template('layout') %}
 
-{% block sonata_header %}{% endblock %}
-{% block sonata_left_side %}{% endblock %}
-{% block sonata_nav %}{% endblock %}
-{% block sonata_breadcrumb %}{% endblock %}
-{% block sonata_overlay %}{% endblock %}
+{% block adminata_header %}{% endblock %}
+{% block adminata_left_side %}{% endblock %}
+{% block adminata_nav %}{% endblock %}
+{% block adminata_breadcrumb %}{% endblock %}
+{% block adminata_overlay %}{% endblock %}
 
 {% block body_attributes %}
     class="adm-shell adm-empty-layout"
-    {{ stimulus_controller('sonata-layout')|stimulus_controller('sonata-sticky') }}
+    {{ stimulus_controller('adminata-layout')|stimulus_controller('adminata-sticky') }}
 {% endblock %}
 
-{% block sonata_wrapper %}
+{% block adminata_wrapper %}
     {% block sonata_page_content %}
         {{ parent() }}
     {% endblock %}

@@ -15,7 +15,7 @@ file that was distributed with this source code.
 {% extends base_template %}
 
 {%- block actions -%}
-    {% include '@SonataAdmin/CRUD/action_buttons.html.twig' %}
+    {% include '@Adminata/CRUD/action_buttons.html.twig' %}
 {%- endblock -%}
 
 {%- block tab_menu -%}
@@ -26,36 +26,36 @@ file that was distributed with this source code.
 {%- endblock -%}
 
 {#
-    The delete confirmation. `sonata-ba-delete` and the POST — `_method=DELETE`, the CSRF token and
+    The delete confirmation. `adminata-delete` and the POST — `_method=DELETE`, the CSRF token and
     the `btn_delete` submit — are the contract (PLAN/02 §8); the AdminLTE `box box-danger` around
     them is a card with an error border, the same shape as the batch confirmation of P3-08.
 #}
 {% block content %}
-    <div class="sonata-ba-delete">
+    <div class="adminata-delete">
         <div class="adm-card border-error-200 dark:border-error-500/30">
             <div class="adm-card-header">
-                <h1 class="adm-card-title">{{ 'title_delete'|trans({}, 'SonataAdminBundle') }}</h1>
+                <h1 class="adm-card-title">{{ 'title_delete'|trans({}, 'AdminataBundle') }}</h1>
             </div>
             <div class="adm-card-body">
-                {{ 'message_delete_confirmation'|trans({'%object%': admin.toString(object)}, 'SonataAdminBundle') }}
+                {{ 'message_delete_confirmation'|trans({'%object%': admin.toString(object)}, 'AdminataBundle') }}
             </div>
             <div class="adm-card-footer">
                 <form method="POST" action="{{ admin.generateObjectUrl('delete', object) }}"
                       class="flex flex-wrap items-center gap-3">
                     <input type="hidden" name="_method" value="DELETE">
-                    <input type="hidden" name="_sonata_csrf_token" value="{{ csrf_token }}">
+                    <input type="hidden" name="_adminata_csrf_token" value="{{ csrf_token }}">
 
                     <button type="submit" name="btn_delete" class="adm-btn adm-btn-danger">
                         <i class="fas fa-trash-can" aria-hidden="true"></i>
-                        {{ 'btn_delete'|trans({}, 'SonataAdminBundle') }}
+                        {{ 'btn_delete'|trans({}, 'AdminataBundle') }}
                     </button>
 
                     {% if admin.hasRoute('edit') and admin.hasAccess('edit', object) %}
-                        <span class="adm-help">{{ 'delete_or'|trans({}, 'SonataAdminBundle') }}</span>
+                        <span class="adm-help">{{ 'delete_or'|trans({}, 'AdminataBundle') }}</span>
 
                         <a class="adm-btn adm-btn-secondary" href="{{ admin.generateObjectUrl('edit', object) }}">
                             <i class="fas fa-pen-to-square" aria-hidden="true"></i>
-                            {{ 'link_action_edit'|trans({}, 'SonataAdminBundle') }}
+                            {{ 'link_action_edit'|trans({}, 'AdminataBundle') }}
                         </a>
                     {% endif %}
                 </form>

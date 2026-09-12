@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block;
+namespace IDCT\Adminata\Block;
 
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Block\Service\AbstractBlockService;
-use Sonata\AdminBundle\Filter\FilterInterface;
-use Sonata\AdminBundle\Search\SearchableFilterInterface;
-use Sonata\AdminBundle\Search\SearchHandlerInterface;
-use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Block\Service\AbstractBlockService;
+use IDCT\Adminata\Filter\FilterInterface;
+use IDCT\Adminata\Search\SearchableFilterInterface;
+use IDCT\Adminata\Search\SearchHandlerInterface;
+use IDCT\Adminata\Templating\TemplateRegistryInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;

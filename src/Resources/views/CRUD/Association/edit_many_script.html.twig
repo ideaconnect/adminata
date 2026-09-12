@@ -19,7 +19,7 @@ This code manages the many-to-[one|many] association field popup
 
 {% autoescape false %}
 
-{% set associationadmin = sonata_admin.field_description.associationadmin %}
+{% set associationadmin = adminata_admin.field_description.associationadmin %}
 
 <!-- edit many association -->
 
@@ -45,7 +45,7 @@ This code manages the many-to-[one|many] association field popup
 
         Admin.log('[{{ id }}|field_dialog_form_list_link] handle link click in a list');
 
-        var element = jQuery(this).parents('#field_dialog_{{ id }} .sonata-ba-list-field');
+        var element = jQuery(this).parents('#field_dialog_{{ id }} .adminata-list-field');
 
         // the user does not click on a row column
         if (element.length == 0) {
@@ -268,7 +268,7 @@ This code manages the many-to-[one|many] association field popup
             return;
         }
 
-        if (element.hasClass('sonata-ba-action')) {
+        if (element.hasClass('adminata-action')) {
             Admin.log('[{{ id }}|field_dialog_form_action] reserved action stop catch all events');
             return;
         }
@@ -303,7 +303,7 @@ This code manages the many-to-[one|many] association field popup
                 if (typeof data != 'string' && data.result == 'ok') {
                     field_dialog_{{ id }}.modal('hide');
 
-                    {% if sonata_admin.edit == 'list' %}
+                    {% if adminata_admin.edit == 'list' %}
                         {#
                            in this case we update the hidden input, and call the change event to
                            retrieve the post information
@@ -315,15 +315,15 @@ This code manages the many-to-[one|many] association field popup
 
                         // reload the form element
                         jQuery('#field_widget_{{ id }}').closest('form').ajaxSubmit({
-                            url: '{{ path('sonata_admin_retrieve_form_element', {
-                                '_sonata_admin': sonata_admin.admin.root.baseCodeRoute,
+                            url: '{{ path('adminata_retrieve_form_element', {
+                                '_adminata_admin': adminata_admin.admin.root.baseCodeRoute,
                                 'elementId': id,
-                                'subclass': sonata_admin.admin.hasActiveSubClass() ? sonata_admin.admin.getActiveSubclassCode() : null,
-                                'objectId': sonata_admin.admin.root.id(sonata_admin.admin.root.subject),
-                                'uniqid': sonata_admin.admin.root.uniqid,
+                                'subclass': adminata_admin.admin.hasActiveSubClass() ? adminata_admin.admin.getActiveSubclassCode() : null,
+                                'objectId': adminata_admin.admin.root.id(adminata_admin.admin.root.subject),
+                                'uniqid': adminata_admin.admin.root.uniqid,
                             } + (
-                                sonata_admin.admin.root.hasRequest()
-                                ? sonata_admin.admin.root.request.attributes.get('_route_params', {})
+                                adminata_admin.admin.root.hasRequest()
+                                ? adminata_admin.admin.root.request.attributes.get('_route_params', {})
                                 : {}
                             ) + app.request.query.all|default({})
                             ) }}',
@@ -339,7 +339,7 @@ This code manages the many-to-[one|many] association field popup
                                     newElement.attr('selected', 'selected');
                                 }
 
-                                jQuery('#field_container_{{ id }}').trigger('sonata-admin-append-form-element');
+                                jQuery('#field_container_{{ id }}').trigger('adminata-admin-append-form-element');
                             }
                         });
 
@@ -373,7 +373,7 @@ This code manages the many-to-[one|many] association field popup
                         return;
                     }
 
-                    event.currentTarget.querySelectorAll('.help-block.sonata-ba-field-error-messages').forEach((element) => {
+                    event.currentTarget.querySelectorAll('.help-block.adminata-field-error-messages').forEach((element) => {
                         element.remove();
                     });
 
@@ -400,13 +400,13 @@ This code manages the many-to-[one|many] association field popup
                         const formGroup = field.closest('.form-group');
 
                         let errorList = formGroup.querySelector(
-                            '.help-block.sonata-ba-field-error-messages .list-unstyled'
+                            '.help-block.adminata-field-error-messages .list-unstyled'
                         );
 
                         if (!errorList) {
                             const errorWrapper = document.createElement('div');
                             errorWrapper.classList.add('help-block');
-                            errorWrapper.classList.add('sonata-ba-field-error-messages');
+                            errorWrapper.classList.add('adminata-field-error-messages');
 
                             errorList = document.createElement('ul');
                             errorList.classList.add('list-unstyled');
@@ -501,7 +501,7 @@ This code manages the many-to-[one|many] association field popup
         Admin.shared_setup(field_dialog_{{ id }});
     }
 
-    {% if sonata_admin.edit == 'list' %}
+    {% if adminata_admin.edit == 'list' %}
         {#
             This code is used to defined the "list" popup
         #}
@@ -559,7 +559,7 @@ This code manages the many-to-[one|many] association field popup
 
             // Skip short object information call if object is missing.
             if (undefined === objectId || null === objectId || '' === objectId) {
-                jQuery('#field_widget_{{ id }}').html('{{ 'short_object_description_placeholder'|trans({}, 'SonataAdminBundle') }}');
+                jQuery('#field_widget_{{ id }}').html('{{ 'short_object_description_placeholder'|trans({}, 'AdminataBundle') }}');
 
                 {% if associationadmin.hasroute('edit') and associationadmin.hasAccess('edit') and btn_edit %}
                     jQuery('#field_actions_{{ id }} a.btn-warning').addClass('hidden');
@@ -568,14 +568,14 @@ This code manages the many-to-[one|many] association field popup
                 return;
             }
 
-            jQuery('#field_widget_{{ id }}').html("<span><img src=\"{{ asset('bundles/sonataadmin/images/ajax-loader.gif') }}\" style=\"vertical-align: middle; margin-right: 10px\"/>{{ 'loading_information'|trans([], 'SonataAdminBundle') }}</span>");
+            jQuery('#field_widget_{{ id }}').html("<span><img src=\"{{ asset('bundles/adminata/images/ajax-loader.gif') }}\" style=\"vertical-align: middle; margin-right: 10px\"/>{{ 'loading_information'|trans([], 'AdminataBundle') }}</span>");
             jQuery.ajax({
                 type: 'GET',
-                url: '{{ path('sonata_admin_short_object_information',{
-                    '_sonata_admin': associationadmin.baseCodeRoute,
+                url: '{{ path('adminata_short_object_information',{
+                    '_adminata_admin': associationadmin.baseCodeRoute,
                     'objectId': 'OBJECT_ID',
                     'uniqid': associationadmin.uniqid,
-                    'linkParameters': sonata_admin.field_description.option('link_parameters', {})
+                    'linkParameters': adminata_admin.field_description.option('link_parameters', {})
                 } + (
                     associationadmin.hasRequest()
                     ? associationadmin.request.attributes.get('_route_params', {})

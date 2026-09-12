@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Menu\Matcher\Voter;
+namespace IDCT\Adminata\Tests\Menu\Matcher\Voter;
 
 use Knp\Menu\ItemInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Menu\Matcher\Voter\ActiveVoter;
+use IDCT\Adminata\Menu\Matcher\Voter\ActiveVoter;
 
 final class ActiveVoterTest extends TestCase
 {
@@ -28,7 +28,7 @@ final class ActiveVoterTest extends TestCase
             ->expects(static::any())->method('getExtra')
             ->with(static::logicalOr(
                 static::equalTo('active'),
-                static::equalTo('sonata_admin')
+                static::equalTo('adminata_admin')
             ))
             ->willReturnCallback(static function (string $name) use ($itemData) {
                 if ('active' === $name) {

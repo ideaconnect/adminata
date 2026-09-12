@@ -10,7 +10,7 @@ file that was distributed with this source code.
 
 #}
 
-{% extends sonata_block.templates.block_base %}
+{% extends adminata_block.templates.block_base %}
 
 {% set translation_domain = settings.translation_domain ?? admin.translationDomain %}
 
@@ -31,22 +31,22 @@ file that was distributed with this source code.
             </h3>
         </div>
         <div class="box-body {% if results_count > 0 %}table-responsive no-padding{% endif %}">
-            {{ sonata_block_render_event('sonata.admin.list.table.top', { 'admin': admin }) }}
+            {{ adminata_block_render_event('adminata.admin.list.table.top', { 'admin': admin }) }}
 
             {% block list_header %}{% endblock %}
 
             {% if results_count > 0 %}
-                <table class="table table-bordered table-striped table-hover sonata-ba-list">
+                <table class="table table-bordered table-striped table-hover adminata-list">
                     {% block table_header %}
                         <thead>
-                            <tr class="sonata-ba-list-field-header">
+                            <tr class="adminata-list-field-header">
                                 {% for field_description in admin.list.getElements() %}
-                                    {% if field_description.name == constant('Sonata\\AdminBundle\\Datagrid\\ListMapper::NAME_SELECT') %}
-                                        <th class="sonata-ba-list-field-header sonata-ba-list-field-header-select"></th>
+                                    {% if field_description.name == constant('IDCT\\Adminata\\Datagrid\\ListMapper::NAME_SELECT') %}
+                                        <th class="adminata-list-field-header adminata-list-field-header-select"></th>
                                     {% else %}
-                                        <th class="sonata-ba-list-field-header-{{ field_description.type}} {% if field_description.option('header_class') is not null %} {{ field_description.option('header_class') }}{% endif %}"{% if field_description.option('header_style') is not null %} style="{{ field_description.option('header_style') }}"{% endif %}>
+                                        <th class="adminata-list-field-header-{{ field_description.type}} {% if field_description.option('header_class') is not null %} {{ field_description.option('header_class') }}{% endif %}"{% if field_description.option('header_style') is not null %} style="{{ field_description.option('header_style') }}"{% endif %}>
                                             {% if field_description.option('label_icon') %}
-                                                <span class="sonata-ba-list-field-header-label-icon">
+                                                <span class="adminata-list-field-header-label-icon">
                                                         {{ field_description.option('label_icon')|parse_icon }}
                                                     </span>
                                             {% endif %}
@@ -74,7 +74,7 @@ file that was distributed with this source code.
                 <div class="box-footer">
                     {% if admin.hasAccess('list') %}
                         <a href="{{ admin.generateUrl('list', {filter: settings.filters}) }}" class="btn btn-primary btn-block">
-                            <i class="fas fa-list" aria-hidden="true"></i> {{ 'preview_view_more'|trans({}, 'SonataAdminBundle') }}
+                            <i class="fas fa-list" aria-hidden="true"></i> {{ 'preview_view_more'|trans({}, 'AdminataBundle') }}
                         </a>
                     {% endif %}
                 </div>
@@ -82,13 +82,13 @@ file that was distributed with this source code.
                 {% block no_result_content %}
                     <div class="info-box">
                         <div class="info-box">
-                            <span class="info-box-text">{{ 'no_result'|trans({}, 'SonataAdminBundle') }}</span>
+                            <span class="info-box-text">{{ 'no_result'|trans({}, 'AdminataBundle') }}</span>
                         </div><!-- /.info-box-content -->
                     </div>
                 {% endblock %}
             {% endif %}
 
-            {{ sonata_block_render_event('sonata.admin.list.table.bottom', { 'admin': admin }) }}
+            {{ adminata_block_render_event('adminata.admin.list.table.bottom', { 'admin': admin }) }}
         </div>
     </div>
 {% endblock %}

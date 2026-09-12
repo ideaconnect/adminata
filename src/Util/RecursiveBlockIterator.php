@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Util;
+namespace IDCT\Adminata\Util;
 
 use Doctrine\Common\Collections\ReadableCollection;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Model\BlockInterface;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

@@ -1,7 +1,7 @@
 Saving hooks
 ============
 
-When a SonataAdmin is submitted for processing, there are some events called. One
+When a Adminata is submitted for processing, there are some events called. One
 is before any persistence layer interaction and the other is afterward. Also between submitting
 and validating for edit and create actions ``preValidate`` event called. The
 events are named as follows:
@@ -23,7 +23,7 @@ advantage.
 
 .. note::
 
-    When embedding one Admin within another, for example using the ``sonata_type_admin``
+    When embedding one Admin within another, for example using the ``adminata_type_admin``
     field type, the child Admin's hooks are **not** fired.
 
 Example used with the SonataUserBundle
@@ -38,8 +38,8 @@ solve the issue by using the ``preUpdate`` saving hook::
 
     namespace Sonata\UserBundle\Admin\Entity;
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Form\Type\ModelType;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Form\Type\ModelType;
     use Sonata\UserBundle\Form\Type\SecurityRolesType;
     use Sonata\UserBundle\Model\UserManagerInterface;
 

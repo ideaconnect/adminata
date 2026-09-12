@@ -21,17 +21,17 @@ import { mount, settle } from './helpers.js';
  * they are part of the contract, not styling.
  */
 const markup = `
-    <div data-controller="sonata-readmore"
-         data-sonata-readmore-collapsed-height-value="40"
-         data-sonata-readmore-more-text-value="Read more"
-         data-sonata-readmore-less-text-value="Read less">
-        <div data-sonata-readmore-target="content">A long value</div>
-        <button data-sonata-readmore-target="button" data-action="sonata-readmore#toggle"></button>
+    <div data-controller="adminata-readmore"
+         data-adminata-readmore-collapsed-height-value="40"
+         data-adminata-readmore-more-text-value="Read more"
+         data-adminata-readmore-less-text-value="Read less">
+        <div data-adminata-readmore-target="content">A long value</div>
+        <button data-adminata-readmore-target="button" data-action="adminata-readmore#toggle"></button>
     </div>
 `;
 
-const content = () => document.querySelector('[data-sonata-readmore-target=content]');
-const button = () => document.querySelector('[data-sonata-readmore-target=button]');
+const content = () => document.querySelector('[data-adminata-readmore-target=content]');
+const button = () => document.querySelector('[data-adminata-readmore-target=button]');
 
 /** jsdom reports every height as 0, so the measurements have to be declared. */
 const measure = (scrollHeight, clientHeight) => {
@@ -39,16 +39,16 @@ const measure = (scrollHeight, clientHeight) => {
     Object.defineProperty(content(), 'clientHeight', { configurable: true, value: clientHeight });
 };
 
-describe('sonata-readmore', () => {
+describe('adminata-readmore', () => {
     it('collapses the content to the configured height and offers the more text', async () => {
-        await mount('sonata-readmore', ReadmoreController, markup);
+        await mount('adminata-readmore', ReadmoreController, markup);
 
         expect(content().style.maxHeight).toBe('40px');
         expect(button().innerHTML).toBe('Read more');
     });
 
     it('marks the content truncated only when it overflows', async () => {
-        await mount('sonata-readmore', ReadmoreController, markup);
+        await mount('adminata-readmore', ReadmoreController, markup);
 
         measure(120, 40);
         ResizeObserver.instances.at(0).trigger(content());
@@ -60,7 +60,7 @@ describe('sonata-readmore', () => {
     });
 
     it('swaps the button text as it expands and collapses', async () => {
-        await mount('sonata-readmore', ReadmoreController, markup);
+        await mount('adminata-readmore', ReadmoreController, markup);
 
         button().click();
         await settle();
@@ -74,7 +74,7 @@ describe('sonata-readmore', () => {
     });
 
     it('stops observing when the element leaves the page', async () => {
-        const { element } = await mount('sonata-readmore', ReadmoreController, markup);
+        const { element } = await mount('adminata-readmore', ReadmoreController, markup);
 
         // The controller shares one module-level ResizeObserver across every instance, so what
         // matters is whether this element is still in it — not how many are.

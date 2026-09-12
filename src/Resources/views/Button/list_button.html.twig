@@ -14,9 +14,9 @@ file that was distributed with this source code.
 
 {% if admin.hasAccess('list') and admin.hasRoute('list') %}
     <li>
-        <a class="adm-btn adm-btn-secondary adm-btn-sm sonata-action-element" href="{{ admin.generateUrl('list') }}">
+        <a class="adm-btn adm-btn-secondary adm-btn-sm adminata-action-element" href="{{ admin.generateUrl('list') }}">
             <i class="fas fa-list" aria-hidden="true"></i>
-            {{ 'link_action_list'|trans({}, 'SonataAdminBundle') }}
+            {{ 'link_action_list'|trans({}, 'AdminataBundle') }}
         </a>
     </li>
 {% endif %}

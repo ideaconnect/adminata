@@ -13,21 +13,21 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Command\ExplainAdminCommand;
-use Sonata\AdminBundle\Command\ListAdminCommand;
+use IDCT\Adminata\Command\ExplainAdminCommand;
+use IDCT\Adminata\Command\ListAdminCommand;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
 
-        ->set('sonata.admin.command.explain', ExplainAdminCommand::class)
+        ->set('adminata.admin.command.explain', ExplainAdminCommand::class)
             ->tag('console.command')
             ->args([
-                service('sonata.admin.pool'),
+                service('adminata.admin.pool'),
             ])
 
-        ->set('sonata.admin.command.list', ListAdminCommand::class)
+        ->set('adminata.admin.command.list', ListAdminCommand::class)
             ->tag('console.command')
             ->args([
-                service('sonata.admin.pool'),
+                service('adminata.admin.pool'),
             ]);
 };

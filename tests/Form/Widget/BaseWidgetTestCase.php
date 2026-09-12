@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Widget;
+namespace IDCT\Adminata\Tests\Form\Widget;
 
-use Sonata\AdminBundle\Test\AbstractWidgetTestCase;
-use Sonata\AdminBundle\Tests\Fixtures\StubTranslator;
+use IDCT\Adminata\Test\AbstractWidgetTestCase;
+use IDCT\Adminata\Tests\Fixtures\StubTranslator;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
@@ -41,7 +41,7 @@ abstract class BaseWidgetTestCase extends AbstractWidgetTestCase
     /**
      * @var array<string, mixed>
      */
-    protected $sonataAdmin = [
+    protected $adminataAdmin = [
         'name' => null,
         'admin' => null,
         'value' => null,
@@ -58,7 +58,7 @@ abstract class BaseWidgetTestCase extends AbstractWidgetTestCase
     protected function getEnvironment(): Environment
     {
         $environment = parent::getEnvironment();
-        $environment->addGlobal('sonata_admin', $this->getSonataAdmin());
+        $environment->addGlobal('adminata_admin', $this->getAdminata());
         $environment->addExtension(new RoutingExtension(static::createStub(UrlGeneratorInterface::class)));
         $environment->addExtension(new StimulusTwigExtension(new StimulusHelper(null)));
         $environment->addExtension(new HttpKernelExtension());
@@ -86,9 +86,9 @@ abstract class BaseWidgetTestCase extends AbstractWidgetTestCase
     /**
      * @return array<string, mixed>
      */
-    protected function getSonataAdmin(): array
+    protected function getAdminata(): array
     {
-        return $this->sonataAdmin;
+        return $this->adminataAdmin;
     }
 
     protected function getTemplatePaths(): array

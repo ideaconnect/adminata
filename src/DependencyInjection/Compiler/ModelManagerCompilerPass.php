@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
@@ -27,7 +27,7 @@ use Symfony\Component\DependencyInjection\Exception\LogicException;
  */
 final class ModelManagerCompilerPass implements CompilerPassInterface
 {
-    public const string MANAGER_TAG = 'sonata.admin.manager';
+    public const string MANAGER_TAG = 'adminata.admin.manager';
 
     public function process(ContainerBuilder $container): void
     {
@@ -48,8 +48,8 @@ final class ModelManagerCompilerPass implements CompilerPassInterface
             $availableManagers[$id] = $definition;
         }
 
-        if ($container->hasDefinition('sonata.admin.maker')) {
-            $adminMaker = $container->getDefinition('sonata.admin.maker');
+        if ($container->hasDefinition('adminata.admin.maker')) {
+            $adminMaker = $container->getDefinition('adminata.admin.maker');
 
             $adminMaker->replaceArgument(1, $availableManagers);
         }

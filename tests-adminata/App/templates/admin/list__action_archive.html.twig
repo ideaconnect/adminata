@@ -3,7 +3,7 @@
     as the bundle's own, reached through `_action`'s `actions` option.
 #}
 {% if admin.hasAccess('edit', object) and admin.hasRoute('archive') %}
-    {% set button_content = sonata_config.getOption('list_action_button_content') %}
+    {% set button_content = adminata_config.getOption('list_action_button_content') %}
     {% set show_icon = button_content in ['icon', 'all'] %}
     {% set show_text = button_content in ['text', 'all'] %}
     {% set recipe = show_text ? 'adm-btn adm-btn-secondary adm-btn-sm' : 'adm-btn-icon' %}

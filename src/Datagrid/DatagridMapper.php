@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Datagrid;
+namespace IDCT\Adminata\Datagrid;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Filter\FilterInterface;
-use Sonata\AdminBundle\Mapper\MapperInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Builder\DatagridBuilderInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Filter\FilterInterface;
+use IDCT\Adminata\Mapper\MapperInterface;
 
 /**
  * This class is use to simulate the Form API.

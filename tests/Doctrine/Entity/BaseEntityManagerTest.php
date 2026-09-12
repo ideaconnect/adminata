@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Doctrine\Entity;
+namespace IDCT\Adminata\Tests\Doctrine\Entity;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -19,9 +19,9 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Doctrine\Entity\BaseEntityManager;
-use Sonata\AdminBundle\Doctrine\Exception\TransactionException;
-use Sonata\AdminBundle\Tests\Doctrine\App\Entity\TestEntity;
+use IDCT\Adminata\Doctrine\Entity\BaseEntityManager;
+use IDCT\Adminata\Doctrine\Exception\TransactionException;
+use IDCT\Adminata\Tests\Doctrine\App\Entity\TestEntity;
 
 final class BaseEntityManagerTest extends TestCase
 {
@@ -55,7 +55,7 @@ final class BaseEntityManagerTest extends TestCase
     public function testExceptionOnNonMappedEntity(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Unable to find the mapping information for the class Sonata\AdminBundle\Tests\Doctrine\App\Entity\TestEntity. Please check the `auto_mapping` option (http://symfony.com/doc/current/reference/configuration/doctrine.html#configuration-overview) or add the bundle to the `mappings` section in the doctrine configuration');
+        $this->expectExceptionMessage('Unable to find the mapping information for the class IDCT\Adminata\Tests\Doctrine\App\Entity\TestEntity. Please check the `auto_mapping` option (http://symfony.com/doc/current/reference/configuration/doctrine.html#configuration-overview) or add the bundle to the `mappings` section in the doctrine configuration');
 
         $this->registry->expects(static::once())->method('getManagerForClass')->willReturn(null);
 

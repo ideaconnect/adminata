@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig\Extension;
+namespace IDCT\Adminata\Twig\Extension;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Twig\GroupRuntime;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Twig\GroupRuntime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -40,7 +40,7 @@ final class GroupExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('get_sonata_dashboard_groups_with_creatable_admins', [GroupRuntime::class, 'getDashboardGroupsWithCreatableAdmins']),
+            new TwigFunction('get_adminata_dashboard_groups_with_creatable_admins', [GroupRuntime::class, 'getDashboardGroupsWithCreatableAdmins']),
         ];
     }
 

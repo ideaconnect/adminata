@@ -9,7 +9,7 @@ file that was distributed with this source code.
 
 #}
 
-{% extends sonata_block.templates.block_base %}
+{% extends adminata_block.templates.block_base %}
 
 {# block classes are prepended with a container class #}
 {% block block_class %} cms-container{% if not block.hasParent() %} cms-container-root{%endif%}{% if settings.class %} {{ settings.class }}{% endif %}{% endblock %}
@@ -22,7 +22,7 @@ file that was distributed with this source code.
     {% if decorator %}{{ decorator.pre|raw }}{% endif %}
     {% for child in block.children %}
         {% block block_child_render %}
-            {{ sonata_block_render(child) }}
+            {{ adminata_block_render(child) }}
         {% endblock %}
     {% endfor %}
     {% if decorator %}{{ decorator.post|raw }}{% endif %}

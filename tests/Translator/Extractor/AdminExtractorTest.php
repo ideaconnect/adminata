@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Translator\Extractor;
+namespace IDCT\Adminata\Tests\Translator\Extractor;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\BreadcrumbsBuilderInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
-use Sonata\AdminBundle\Translator\Extractor\AdminExtractor;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\BreadcrumbsBuilderInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
+use IDCT\Adminata\Translator\Extractor\AdminExtractor;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Translation\MessageCatalogue;
 

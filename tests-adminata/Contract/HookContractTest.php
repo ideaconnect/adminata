@@ -23,7 +23,7 @@ use Symfony\Component\Yaml\Yaml;
  * The markup hooks of PLAN/02 §8 survive every template rewrite.
  *
  * This is the test that gives the M2 to M4 rewrites their safety net: a template may change every
- * Tailwind utility it carries, but if it drops `sonata-ba-list-field` or `objectId`, an
+ * Tailwind utility it carries, but if it drops `adminata-list-field` or `objectId`, an
  * application's CSS, an application's JavaScript, or the forked packages' own functional tests stop
  * working — silently, because nothing else looks at a class name.
  *

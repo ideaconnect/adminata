@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type\Operator;
+namespace IDCT\Adminata\Form\Type\Operator;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType as FormChoiceType;
@@ -27,7 +27,7 @@ final class ContainsOperatorType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choice_translation_domain' => 'SonataAdminBundle',
+            'choice_translation_domain' => 'AdminataBundle',
             'choices' => [
                 'label_type_contains' => self::TYPE_CONTAINS,
                 'label_type_not_contains' => self::TYPE_NOT_CONTAINS,
@@ -46,6 +46,6 @@ final class ContainsOperatorType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_operator_contains';
+        return 'adminata_type_operator_contains';
     }
 }

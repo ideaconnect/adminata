@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection;
+namespace IDCT\Adminata\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -27,7 +27,7 @@ final class FormConfiguration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('sonata_form');
+        $treeBuilder = new TreeBuilder('adminata_form');
         $rootNode = $treeBuilder->getRootNode();
 
         $this->addFlashMessageSection($rootNode);

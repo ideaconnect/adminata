@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\FieldDescription;
+namespace IDCT\Adminata\Tests\App\FieldDescription;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionFactoryInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionFactoryInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 
 final class FieldDescriptionFactory implements FieldDescriptionFactoryInterface
 {

@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Admin;
+namespace IDCT\Adminata\Tests\App\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\AdminBundle\Tests\App\Controller\InvokableController;
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Route\RouteCollectionInterface;
+use IDCT\Adminata\Tests\App\Controller\InvokableController;
 
 /**
  * @phpstan-extends AbstractAdmin<object>
@@ -35,7 +35,7 @@ final class AdminAsParameterAdmin extends AbstractAdmin
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('test', null, [
-            '_controller' => 'Sonata\AdminBundle\Tests\App\Controller\AdminAsParameterController::test',
+            '_controller' => 'IDCT\Adminata\Tests\App\Controller\AdminAsParameterController::test',
         ]);
 
         $collection->add('invokable', null, [

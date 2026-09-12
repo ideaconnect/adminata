@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
-use Sonata\AdminBundle\Form\DataTransformer\ModelToIdTransformer;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Form\DataTransformer\ModelToIdTransformer;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -60,6 +60,6 @@ final class ModelHiddenType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_model_hidden';
+        return 'adminata_type_model_hidden';
     }
 }

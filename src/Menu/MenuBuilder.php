@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Menu;
+namespace IDCT\Adminata\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Event\ConfigureMenuEvent;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Event\ConfigureMenuEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -49,10 +49,10 @@ final class MenuBuilder
                 'translation_domain' => $group['translation_domain'],
                 'label_catalogue' => $group['label_catalogue'] ?? '', // NEXT_MAJOR: Remove this line.
                 'roles' => $group['roles'],
-                'sonata_admin' => true,
+                'adminata_admin' => true,
             ];
 
-            $menuProvider = $group['provider'] ?? 'sonata_group_menu';
+            $menuProvider = $group['provider'] ?? 'adminata_group_menu';
             $subMenu = $this->provider->get(
                 $menuProvider,
                 [

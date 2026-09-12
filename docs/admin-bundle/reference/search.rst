@@ -5,9 +5,9 @@ Search
 
 
 The admin comes with a basic global search available in the upper navigation menu. The search iterates over
-admin classes and looks for filters implementing the ``Sonata\AdminBundle\Search\SearchableFilterInterface`` interface with
-the method ``isSearchEnabled()`` returning true. If you are using ``SonataDoctrineORMBundle``, the
-``Sonata\DoctrineORMAdminBundle\Filter\StringFilter`` filter is searchable and relies on a ``global_search`` option.
+admin classes and looks for filters implementing the ``IDCT\Adminata\Search\SearchableFilterInterface`` interface with
+the method ``isSearchEnabled()`` returning true. If you are using ``AdminataDoctrineORMBundle``, the
+``IDCT\Adminata\DoctrineORM\Filter\StringFilter`` filter is searchable and relies on a ``global_search`` option.
 
 .. note::
 
@@ -18,12 +18,12 @@ Disabling the search by admin
 -----------------------------
 
 You can disable the search for a whole admin by setting the ``global_search`` attribute
-to ``false`` at your admin definition using the tag ``sonata.admin``.
+to ``false`` at your admin definition using the tag ``adminata.admin``.
 
 .. code-block:: xml
 
     <service id="app.admin.post" class="App\Admin\PostAdmin">
-        <tag name="sonata.admin" global_search="false" model_class="App\Entity\Post" manager_type="orm" group="Content" label="Post"/>
+        <tag name="adminata.admin" global_search="false" model_class="App\Entity\Post" manager_type="orm" group="Content" label="Post"/>
     </service>
 
 Customization
@@ -32,30 +32,30 @@ Customization
 Configure the search templates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The main action is using the template ``@SonataAdmin/Core/search.html.twig``. And each search is handled by a
-``block``, the template for the block is ``@SonataAdmin/Block/block_search_result.html.twig``.
+The main action is using the template ``@Adminata/Core/search.html.twig``. And each search is handled by a
+``block``, the template for the block is ``@Adminata/Block/block_search_result.html.twig``.
 
 The default template values can be configured in the configuration section
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         templates:
             # other configuration options
-            search:              '@SonataAdmin/Core/search.html.twig'
-            search_result_block: '@SonataAdmin/Block/block_search_result.html.twig'
+            search:              '@Adminata/Core/search.html.twig'
+            search_result_block: '@Adminata/Block/block_search_result.html.twig'
 
 You also need to configure the block in the sonata block config
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_block:
+    adminata_block:
         blocks:
-            sonata.admin.block.search_result:
+            adminata.admin.block.search_result:
                 contexts: [admin]
 
 You can also configure the block template per admin while defining the admin:
@@ -63,7 +63,7 @@ You can also configure the block template per admin while defining the admin:
 .. code-block:: xml
 
     <service id="app.admin.post" class="App\Admin\PostAdmin">
-            <tag name="sonata.admin" model_class="App\Entity\Post" manager_type="orm" group="Content" label="Post"/>
+            <tag name="adminata.admin" model_class="App\Entity\Post" manager_type="orm" group="Content" label="Post"/>
             <call method="setTemplate">
                 <argument>search_result_block</argument>
                 <argument>@SonataPost/Block/block_search_result.html.twig</argument>
@@ -79,9 +79,9 @@ permission. You can change this behavior by overriding the option
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         global_search:
             admin_route: edit
 
@@ -99,9 +99,9 @@ We can fade out the boxes that have no results with:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         global_search:
             empty_boxes: fade
 
@@ -116,9 +116,9 @@ The third option is to hide the empty boxes:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         global_search:
             empty_boxes: hide
 

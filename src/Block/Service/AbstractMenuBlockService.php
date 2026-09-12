@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block\Service;
+namespace IDCT\Adminata\Block\Service;
 
 use Knp\Menu\ItemInterface;
-use Sonata\AdminBundle\Block\BlockContextInterface;
-use Sonata\AdminBundle\Form\BlockFormMapperInterface;
-use Sonata\AdminBundle\Form\Type\ImmutableArrayType;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use IDCT\Adminata\Block\BlockContextInterface;
+use IDCT\Adminata\Form\BlockFormMapperInterface;
+use IDCT\Adminata\Form\Type\ImmutableArrayType;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormTypeInterface;
@@ -50,7 +50,7 @@ abstract class AbstractMenuBlockService extends AbstractBlockService implements 
     {
         $form->add('settings', ImmutableArrayType::class, [
             'keys' => $this->getFormSettingsKeys(),
-            'translation_domain' => 'SonataAdminBundle',
+            'translation_domain' => 'AdminataBundle',
         ]);
     }
 
@@ -62,7 +62,7 @@ abstract class AbstractMenuBlockService extends AbstractBlockService implements 
     {
         $resolver->setDefaults([
             'title' => '',
-            'template' => '@SonataAdmin/Block/block_core_menu.html.twig',
+            'template' => '@Adminata/Block/block_core_menu.html.twig',
             'safe_labels' => false,
             'current_class' => 'active',
             'first_class' => false,
@@ -80,32 +80,32 @@ abstract class AbstractMenuBlockService extends AbstractBlockService implements 
             ['title', TextType::class, [
                 'required' => false,
                 'label' => 'form.label_title',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
             ]],
             ['safe_labels', CheckboxType::class, [
                 'required' => false,
                 'label' => 'form.label_safe_labels',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
             ]],
             ['current_class', TextType::class, [
                 'required' => false,
                 'label' => 'form.label_current_class',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
             ]],
             ['first_class', TextType::class, [
                 'required' => false,
                 'label' => 'form.label_first_class',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
             ]],
             ['last_class', TextType::class, [
                 'required' => false,
                 'label' => 'form.label_last_class',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
             ]],
             ['menu_template', TextType::class, [
                 'required' => false,
                 'label' => 'form.label_menu_template',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
             ]],
         ];
     }

@@ -11,20 +11,20 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Action;
+namespace IDCT\Adminata\Tests\Action;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Action\SetObjectFieldValueAction;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\DataTransformerResolver;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Request\AdminFetcherInterface;
-use Sonata\AdminBundle\Templating\MutableTemplateRegistryInterface;
-use Sonata\AdminBundle\Twig\RenderElementRuntime;
+use IDCT\Adminata\Action\SetObjectFieldValueAction;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\DataTransformerResolver;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Request\AdminFetcherInterface;
+use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
+use IDCT\Adminata\Twig\RenderElementRuntime;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -101,7 +101,7 @@ final class SetObjectFieldValueActionTest extends TestCase
     {
         $object = new Foo();
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'field' => 'enabled',
             'value' => 1,
@@ -111,7 +111,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
         $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
-        $this->admin->method('getCode')->willReturn('sonata.post.admin');
+        $this->admin->method('getCode')->willReturn('adminata.post.admin');
         $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
         $this->admin->expects(static::any())->method('hasListFieldDescription')->with('enabled')->willReturn(true);
         $this->admin->expects(static::any())->method('getListFieldDescription')->with('enabled')->willReturn($fieldDescription);
@@ -154,7 +154,7 @@ final class SetObjectFieldValueActionTest extends TestCase
     ): void {
         $object = new Bafoo();
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'field' => 'dateProp',
             'value' => '2020-12-12',
@@ -164,7 +164,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
         $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
-        $this->admin->method('getCode')->willReturn('sonata.post.admin');
+        $this->admin->method('getCode')->willReturn('adminata.post.admin');
         $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
         $this->admin->expects(static::any())->method('hasListFieldDescription')->with('dateProp')->willReturn(true);
         $this->admin->expects(static::any())->method('getListFieldDescription')->with('dateProp')->willReturn($fieldDescription);
@@ -201,7 +201,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $object = new Baz();
         $associationObject = new Bar();
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'field' => 'bar',
             'value' => 1,
@@ -211,7 +211,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
         $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
-        $this->admin->method('getCode')->willReturn('sonata.post.admin');
+        $this->admin->method('getCode')->willReturn('adminata.post.admin');
         $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
         $this->admin->expects(static::any())->method('hasListFieldDescription')->with('bar')->willReturn(true);
         $this->admin->expects(static::any())->method('getListFieldDescription')->with('bar')->willReturn($fieldDescription);
@@ -244,7 +244,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $object = new Baz();
         $object->setBar($bar);
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'field' => 'bar.enabled',
             'value' => 1,
@@ -277,7 +277,7 @@ final class SetObjectFieldValueActionTest extends TestCase
     {
         $object = new StatusMultiple();
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'field' => 'status',
             'value' => [1, 2],
@@ -287,7 +287,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
         $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
-        $this->admin->method('getCode')->willReturn('sonata.post.admin');
+        $this->admin->method('getCode')->willReturn('adminata.post.admin');
         $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
         $this->admin->expects(static::any())->method('hasListFieldDescription')->with('status')->willReturn(true);
         $this->admin->expects(static::any())->method('getListFieldDescription')->with('status')->willReturn($fieldDescription);
@@ -315,7 +315,7 @@ final class SetObjectFieldValueActionTest extends TestCase
     {
         $object = new Foo();
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'field' => 'enabled',
             'value' => 'yes',
@@ -330,7 +330,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
         $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
-        $this->admin->method('getCode')->willReturn('sonata.post.admin');
+        $this->admin->method('getCode')->willReturn('adminata.post.admin');
         $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
         $this->admin->expects(static::any())->method('hasListFieldDescription')->with('enabled')->willReturn(true);
         $this->admin->expects(static::any())->method('getListFieldDescription')->with('enabled')->willReturn($fieldDescription);
@@ -357,7 +357,7 @@ final class SetObjectFieldValueActionTest extends TestCase
     {
         $object = new Foo();
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'field' => 'enabled',
             'value' => 'yes',
@@ -377,7 +377,7 @@ final class SetObjectFieldValueActionTest extends TestCase
         $fieldDescription = static::createStub(FieldDescriptionInterface::class);
 
         $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
-        $this->admin->method('getCode')->willReturn('sonata.post.admin');
+        $this->admin->method('getCode')->willReturn('adminata.post.admin');
         $this->admin->expects(static::any())->method('hasAccess')->with('edit', $object)->willReturn(true);
         $this->admin->expects(static::any())->method('hasListFieldDescription')->with('enabled')->willReturn(true);
         $this->admin->expects(static::any())->method('getListFieldDescription')->with('enabled')->willReturn($fieldDescription);

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Block;
+namespace IDCT\Adminata\Tests\App\Block;
 
-use Sonata\AdminBundle\Block\Service\AbstractBlockService;
+use IDCT\Adminata\Block\Service\AbstractBlockService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class DemoBlockService extends AbstractBlockService

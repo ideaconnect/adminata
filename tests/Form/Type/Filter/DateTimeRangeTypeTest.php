@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type\Filter;
+namespace IDCT\Adminata\Tests\Form\Type\Filter;
 
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
-use Sonata\AdminBundle\Form\Type\DateTimeRangeType as FormDateTimeRangeType;
-use Sonata\AdminBundle\Form\Type\Filter\DateTimeRangeType;
-use Sonata\AdminBundle\Form\Type\Operator\DateRangeOperatorType;
+use IDCT\Adminata\Form\Type\DateTimeRangeType as FormDateTimeRangeType;
+use IDCT\Adminata\Form\Type\Filter\DateTimeRangeType;
+use IDCT\Adminata\Form\Type\Operator\DateRangeOperatorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**

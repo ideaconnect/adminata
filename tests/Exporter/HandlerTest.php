@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exporter;
+namespace IDCT\Adminata\Tests\Exporter;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exporter\Handler;
-use Sonata\AdminBundle\Exporter\Writer\WriterInterface;
+use IDCT\Adminata\Exporter\Handler;
+use IDCT\Adminata\Exporter\Writer\WriterInterface;
 
 final class HandlerTest extends TestCase
 {

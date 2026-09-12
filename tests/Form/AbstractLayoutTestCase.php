@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form;
+namespace IDCT\Adminata\Tests\Form;
 
-use Sonata\AdminBundle\Form\Extension\Field\Type\FormTypeFieldExtension;
-use Sonata\AdminBundle\Tests\Fixtures\StubTranslator;
+use IDCT\Adminata\Form\Extension\Field\Type\FormTypeFieldExtension;
+use IDCT\Adminata\Tests\Fixtures\StubTranslator;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;

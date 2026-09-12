@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig\Extension;
+namespace IDCT\Adminata\Twig\Extension;
 
-use Sonata\AdminBundle\Twig\CanonicalizeRuntime;
+use IDCT\Adminata\Twig\CanonicalizeRuntime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

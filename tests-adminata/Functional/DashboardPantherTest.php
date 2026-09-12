@@ -47,7 +47,7 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
-     * The rail is a preference, and `sonata-layout` writes it to the cookie the server reads back,
+     * The rail is a preference, and `adminata-layout` writes it to the cookie the server reads back,
      * so the page comes up collapsed rather than expanding and snapping shut.
      */
     public function testTheCollapsedSidebarSurvivesAReload(): void
@@ -57,7 +57,7 @@ final class DashboardPantherTest extends BasePantherTestCase
         static::assertSame('expanded', $this->sidebarState());
 
         $this->client->executeScript(
-            'document.querySelector(\'[data-sonata-layout-target="collapseOnly"]\').click();'
+            'document.querySelector(\'[data-adminata-layout-target="collapseOnly"]\').click();'
         );
 
         static::assertSame('collapsed', $this->sidebarState());
@@ -78,7 +78,7 @@ final class DashboardPantherTest extends BasePantherTestCase
 
         static::assertFalse($this->isDark(), 'The demo defaults to the system theme.');
 
-        $this->client->executeScript('document.cookie = "sonata_theme=dark; path=/";');
+        $this->client->executeScript('document.cookie = "adminata_theme=dark; path=/";');
         $this->client->reload();
 
         static::assertTrue($this->isDark(), 'The server did not stamp html.dark from the cookie.');
@@ -86,7 +86,7 @@ final class DashboardPantherTest extends BasePantherTestCase
 
         $this->assertConsoleIsEmpty('The dark theme wrote to the browser console.');
 
-        $this->client->executeScript('document.cookie = "sonata_theme=; path=/; max-age=0";');
+        $this->client->executeScript('document.cookie = "adminata_theme=; path=/; max-age=0";');
     }
 
     /**
@@ -112,7 +112,7 @@ final class DashboardPantherTest extends BasePantherTestCase
     {
         $crawler = $this->client->request('GET', $this->url('/admin/tests/app/product/list'));
 
-        static::assertGreaterThan(0, $crawler->filter('table.sonata-ba-list tbody tr')->count());
+        static::assertGreaterThan(0, $crawler->filter('table.adminata-list tbody tr')->count());
 
         $this->assertConsoleIsEmpty('The product list wrote to the browser console.');
     }
@@ -138,9 +138,9 @@ final class DashboardPantherTest extends BasePantherTestCase
         );
 
         $this->client->findElement(
-            WebDriverBy::cssSelector('tr.sonata-ba-list-row-link td.sonata-ba-list-field-string')
+            WebDriverBy::cssSelector('tr.adminata-list-row-link td.adminata-list-field-string')
         )->click();
-        $this->client->waitFor('.sonata-ba-show');
+        $this->client->waitFor('.adminata-show');
 
         static::assertStringContainsString('/admin/tests/app/product/1/show', $this->client->getCurrentURL());
 
@@ -148,7 +148,7 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
-     * A group a visitor opened is still open on the next page: `sonata-menu` keeps the map in
+     * A group a visitor opened is still open on the next page: `adminata-menu` keeps the map in
      * `localStorage` and applies it over what the server rendered.
      */
     public function testAnOpenedMenuGroupSurvivesNavigation(): void
@@ -168,7 +168,7 @@ final class DashboardPantherTest extends BasePantherTestCase
 
         static::assertSame('true', $this->groupState('Catalogue'), 'The open group was forgotten.');
 
-        $this->client->executeScript('window.localStorage.removeItem("sonata_sidebar_open");');
+        $this->client->executeScript('window.localStorage.removeItem("adminata_sidebar_open");');
     }
 
     /**
@@ -243,7 +243,7 @@ final class DashboardPantherTest extends BasePantherTestCase
 
     /**
      * The filter panel: a filter is added from the dropdown, the panel appears, the value submits,
-     * and reset puts everything back. `sonata-filter`'s `prepareSubmit` needs real
+     * and reset puts everything back. `adminata-filter`'s `prepareSubmit` needs real
      * `<select name="filter[…]">` elements to strip the empty ones, which is why the operator
      * selects stayed native (PLAN/06 §1).
      */
@@ -253,26 +253,26 @@ final class DashboardPantherTest extends BasePantherTestCase
 
         static::assertFalse($this->filterPanelIsVisible(), 'The filter panel starts hidden.');
 
-        $this->client->findElement(WebDriverBy::cssSelector('.sonata-actions [aria-expanded]'))->click();
-        $this->client->findElement(WebDriverBy::cssSelector('.sonata-toggle-filter[data-filter$="-sku"]'))->click();
+        $this->client->findElement(WebDriverBy::cssSelector('.adminata-actions [aria-expanded]'))->click();
+        $this->client->findElement(WebDriverBy::cssSelector('.adminata-toggle-filter[data-filter$="-sku"]'))->click();
 
         static::assertTrue($this->filterPanelIsVisible(), 'Adding a filter did not open the panel.');
 
         // Scoped to the group that was just opened: every filter has a `[value]` input, and the
         // ones belonging to hidden groups are not reachable. Waited for, because the group is
-        // revealed by `sonata-filter` after the click.
+        // revealed by `adminata-filter` after the click.
         $this->client->waitForVisibility('[id$="-sku"] input[name$="[value]"]');
         $this->client->findElement(WebDriverBy::cssSelector('[id$="-sku"] input[name$="[value]"]'))->sendKeys('SKU-0007');
-        $this->client->findElement(WebDriverBy::cssSelector('.sonata-filter-form button[type="submit"]'))->click();
+        $this->client->findElement(WebDriverBy::cssSelector('.adminata-filter-form button[type="submit"]'))->click();
 
         // Submitting navigates; the crawler Panther is holding belongs to the page that just went.
-        $rows = $this->client->waitFor('table.sonata-ba-list')->filter('table.sonata-ba-list tbody tr');
+        $rows = $this->client->waitFor('table.adminata-list')->filter('table.adminata-list tbody tr');
         static::assertCount(1, $rows);
         static::assertStringContainsString('SKU-0007', $rows->text());
 
         $this->client->request('GET', $this->url('/admin/tests/app/product/list?filters=reset'));
 
-        static::assertGreaterThan(1, $this->client->refreshCrawler()->filter('table.sonata-ba-list tbody tr')->count());
+        static::assertGreaterThan(1, $this->client->refreshCrawler()->filter('table.adminata-list tbody tr')->count());
         $this->assertConsoleIsEmpty('Filtering wrote to the browser console.');
     }
 
@@ -285,8 +285,8 @@ final class DashboardPantherTest extends BasePantherTestCase
     {
         $this->client->request('GET', $this->url('/admin/tests/app/category/list'));
 
-        $this->client->findElement(WebDriverBy::cssSelector('.sonata-actions [aria-expanded]'))->click();
-        $this->client->findElement(WebDriverBy::cssSelector('.sonata-toggle-filter[data-filter$="-products"]'))->click();
+        $this->client->findElement(WebDriverBy::cssSelector('.adminata-actions [aria-expanded]'))->click();
+        $this->client->findElement(WebDriverBy::cssSelector('.adminata-toggle-filter[data-filter$="-products"]'))->click();
 
         $input = $this->client->waitForVisibility('#filter_products_value_autocomplete_input')
             ->filter('#filter_products_value_autocomplete_input');
@@ -335,9 +335,9 @@ final class DashboardPantherTest extends BasePantherTestCase
             )->getAttribute('value')
         );
 
-        $this->client->findElement(WebDriverBy::cssSelector('.sonata-filter-form button[type="submit"]'))->click();
+        $this->client->findElement(WebDriverBy::cssSelector('.adminata-filter-form button[type="submit"]'))->click();
 
-        $rows = $this->client->waitFor('table.sonata-ba-list')->filter('table.sonata-ba-list tbody tr');
+        $rows = $this->client->waitFor('table.adminata-list')->filter('table.adminata-list tbody tr');
         static::assertCount(1, $rows, 'The autocomplete filter did not narrow the list.');
 
         $this->assertConsoleIsEmpty('The autocomplete wrote to the browser console.');
@@ -385,14 +385,14 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
-     * A list whose batch column was removed still renders and still starts `sonata-batch` without
+     * A list whose batch column was removed still renders and still starts `adminata-batch` without
      * complaining: the controller has to tolerate a missing `all` target and an empty row set.
      */
     public function testAListWithoutABatchColumnLoadsCleanly(): void
     {
         $crawler = $this->client->request('GET', $this->url('/admin/tests/app/tag/list'));
 
-        static::assertCount(4, $crawler->filter('table.sonata-ba-list tbody tr'));
+        static::assertCount(4, $crawler->filter('table.adminata-list tbody tr'));
         static::assertCount(0, $crawler->filter('input[name="idx[]"]'));
 
         $this->assertConsoleIsEmpty('The tag list wrote to the browser console.');
@@ -428,7 +428,7 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
-     * The collection widget: `sonata-collection` clones the prototype, substitutes `__name__` into
+     * The collection widget: `adminata-collection` clones the prototype, substitutes `__name__` into
      * every id and name, and the delete button takes its own row away (PLAN/06 §2).
      */
     public function testACollectionRowCanBeAddedAndRemoved(): void
@@ -436,23 +436,23 @@ final class DashboardPantherTest extends BasePantherTestCase
         $this->client->request('GET', $this->url('/admin/tests/app/product/create'));
 
         $rows = fn (): int => \count(
-            $this->client->findElements(WebDriverBy::cssSelector('.sonata-collection-row'))
+            $this->client->findElements(WebDriverBy::cssSelector('.adminata-collection-row'))
         );
 
         static::assertSame(0, $rows(), 'A new product starts with no variants.');
 
-        $add = $this->client->findElement(WebDriverBy::cssSelector('.sonata-collection-add'));
+        $add = $this->client->findElement(WebDriverBy::cssSelector('.adminata-collection-add'));
         $add->click();
         $add->click();
 
         static::assertSame(2, $rows());
 
         // The second row's fields carry index 1 in both halves of the contract.
-        $second = $this->client->findElements(WebDriverBy::cssSelector('.sonata-collection-row input[type="text"]'))[1];
+        $second = $this->client->findElements(WebDriverBy::cssSelector('.adminata-collection-row input[type="text"]'))[1];
         static::assertStringEndsWith('_variants_1_label', (string) $second->getAttribute('id'));
         static::assertStringContainsString('[variants][1][label]', (string) $second->getAttribute('name'));
 
-        $this->client->findElements(WebDriverBy::cssSelector('.sonata-collection-delete'))[0]->click();
+        $this->client->findElements(WebDriverBy::cssSelector('.adminata-collection-delete'))[0]->click();
 
         static::assertSame(1, $rows(), 'Deleting a row left it on the page.');
         $this->assertConsoleIsEmpty('The collection wrote to the browser console.');
@@ -489,12 +489,12 @@ final class DashboardPantherTest extends BasePantherTestCase
 
         $this->client->findElement(WebDriverBy::cssSelector('button[name="btn_create_and_edit"]'))->click();
 
-        $edit = $this->client->waitFor('.sonata-ba-form');
+        $edit = $this->client->waitFor('.adminata-form');
 
         static::assertCount(
             0,
-            $edit->filter('.sonata-ba-field-error'),
-            'The form came back with errors: '.$edit->filter('.sonata-ba-field-error-messages')->text('')
+            $edit->filter('.adminata-field-error'),
+            'The form came back with errors: '.$edit->filter('.adminata-field-error-messages')->text('')
         );
 
         static::assertSame(
@@ -515,9 +515,9 @@ final class DashboardPantherTest extends BasePantherTestCase
         static::assertSame(1, preg_match('#/product/(\d+)/edit#', $this->client->getCurrentURL(), $matches));
 
         $this->client->request('GET', $this->url(\sprintf('/admin/tests/app/product/%s/delete', $matches[1])));
-        $this->client->findElement(WebDriverBy::cssSelector('.sonata-ba-delete form button[type="submit"]'))->click();
+        $this->client->findElement(WebDriverBy::cssSelector('.adminata-delete form button[type="submit"]'))->click();
 
-        $this->client->waitFor('table.sonata-ba-list');
+        $this->client->waitFor('table.adminata-list');
     }
 
     /**
@@ -554,12 +554,12 @@ final class DashboardPantherTest extends BasePantherTestCase
         static::assertSame(['Organic', 'Sale'], $chips());
 
         $this->client->findElement(WebDriverBy::cssSelector('button[name="btn_create_and_edit"]'))->click();
-        $edit = $this->client->waitFor('.sonata-ba-form');
+        $edit = $this->client->waitFor('.adminata-form');
 
         static::assertCount(
             0,
-            $edit->filter('.sonata-ba-field-error'),
-            'The form came back with errors: '.$edit->filter('.sonata-ba-field-error-messages')->text('')
+            $edit->filter('.adminata-field-error'),
+            'The form came back with errors: '.$edit->filter('.adminata-field-error-messages')->text('')
         );
 
         // What the server rendered back: the single field shows its label, the multiple one its
@@ -583,25 +583,25 @@ final class DashboardPantherTest extends BasePantherTestCase
         static::assertSame(1, preg_match('#/product/(\d+)/edit#', $this->client->getCurrentURL(), $matches));
 
         $this->client->request('GET', $this->url(\sprintf('/admin/tests/app/product/%s/delete', $matches[1])));
-        $this->client->findElement(WebDriverBy::cssSelector('.sonata-ba-delete form button[type="submit"]'))->click();
+        $this->client->findElement(WebDriverBy::cssSelector('.adminata-delete form button[type="submit"]'))->click();
 
-        $this->client->waitFor('table.sonata-ba-list');
+        $this->client->waitFor('table.adminata-list');
     }
 
     /**
-     * The per-page select carries whole URLs as its option values, and `sonata-per-page` navigates
+     * The per-page select carries whole URLs as its option values, and `adminata-per-page` navigates
      * to the one chosen.
      */
     public function testChangingThePerPageReloadsTheList(): void
     {
         $this->client->request('GET', $this->url('/admin/tests/app/product/list'));
 
-        static::assertCount(25, $this->client->getCrawler()->filter('table.sonata-ba-list tbody tr'));
+        static::assertCount(25, $this->client->getCrawler()->filter('table.adminata-list tbody tr'));
 
         $select = $this->client->findElement(WebDriverBy::cssSelector('select.per-page'));
         new WebDriverSelect($select)->selectByVisibleText('50');
 
-        $rows = $this->client->waitFor('table.sonata-ba-list')->filter('table.sonata-ba-list tbody tr');
+        $rows = $this->client->waitFor('table.adminata-list')->filter('table.adminata-list tbody tr');
 
         static::assertCount(42, $rows, 'The list did not reload with the larger page size.');
         $this->assertConsoleIsEmpty('Changing the page size wrote to the browser console.');
@@ -609,26 +609,26 @@ final class DashboardPantherTest extends BasePantherTestCase
 
     /**
      * The edit chrome (PLAN/03 §C): groups are cards in a twelve-column grid, the action bar is
-     * sticky and gains `.stuck` once it leaves the flow, and `sonata-confirm-exit` arms the
+     * sticky and gains `.stuck` once it leaves the flow, and `adminata-confirm-exit` arms the
      * browser's own "leave site?" prompt as soon as a field changes — and disarms it on submit.
      */
     public function testTheEditChromeIsStickyAndGuardsAgainstLeaving(): void
     {
         $this->client->request('GET', $this->url('/admin/tests/app/product/1/edit'));
 
-        $groups = $this->client->findElements(WebDriverBy::cssSelector('.sonata-ba-collapsed-fields'));
+        $groups = $this->client->findElements(WebDriverBy::cssSelector('.adminata-collapsed-fields'));
         static::assertCount(3, $groups, 'The three form groups of the demo admin.');
 
-        $actions = $this->client->findElement(WebDriverBy::cssSelector('.sonata-ba-form-actions'));
+        $actions = $this->client->findElement(WebDriverBy::cssSelector('.adminata-form-actions'));
         static::assertStringContainsString('adm-sticky', (string) $actions->getAttribute('class'));
 
-        // The bar sits below the fold on a form this long, so `sonata-sticky` pins it from the
+        // The bar sits below the fold on a form this long, so `adminata-sticky` pins it from the
         // first intersection callback — no scrolling needed.
-        $this->client->waitForAttributeToContain('.sonata-ba-form-actions', 'class', 'stuck');
+        $this->client->waitForAttributeToContain('.adminata-form-actions', 'class', 'stuck');
 
         // And it lets go once the page is scrolled down to where the bar actually belongs.
         $this->client->executeScript('window.scrollTo(0, document.body.scrollHeight);');
-        $this->client->waitForAttributeToNotContain('.sonata-ba-form-actions', 'class', 'stuck');
+        $this->client->waitForAttributeToNotContain('.adminata-form-actions', 'class', 'stuck');
 
         // `beforeunload` only counts once something changed, and a submit takes the guard off.
         static::assertFalse($this->confirmExitIsArmed());
@@ -660,7 +660,7 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
-     * Whether `sonata-confirm-exit` would stop a navigation: it registers a `beforeunload`
+     * Whether `adminata-confirm-exit` would stop a navigation: it registers a `beforeunload`
      * listener that only cancels once the form differs from the snapshot it took.
      */
     private function confirmExitIsArmed(): bool
@@ -707,7 +707,7 @@ final class DashboardPantherTest extends BasePantherTestCase
 
     private function filterPanelIsVisible(): bool
     {
-        return $this->client->findElement(WebDriverBy::cssSelector('.sonata-filters-box'))->isDisplayed();
+        return $this->client->findElement(WebDriverBy::cssSelector('.adminata-filters-box'))->isDisplayed();
     }
 
     private function focusIsInsideTheDialog(): bool

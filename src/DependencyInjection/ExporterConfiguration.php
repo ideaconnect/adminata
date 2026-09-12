@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection;
+namespace IDCT\Adminata\DependencyInjection;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -29,7 +29,7 @@ final class ExporterConfiguration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('sonata_exporter');
+        $treeBuilder = new TreeBuilder('adminata_exporter');
 
         $treeBuilder
             ->getRootNode()

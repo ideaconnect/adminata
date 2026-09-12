@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Menu;
+namespace IDCT\Adminata\Tests\Menu;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\MenuFactory;
@@ -19,9 +19,9 @@ use Knp\Menu\MenuItem;
 use Knp\Menu\Provider\MenuProviderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Event\ConfigureMenuEvent;
-use Sonata\AdminBundle\Menu\MenuBuilder;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Event\ConfigureMenuEvent;
+use IDCT\Adminata\Menu\MenuBuilder;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -66,7 +66,7 @@ final class MenuBuilderTest extends TestCase
         $this->provider
             ->expects(static::once())
             ->method('get')
-            ->with('sonata_group_menu')
+            ->with('adminata_group_menu')
             ->willReturn($this->factory->createItem('bar')->addChild('foo')->getParent());
 
         $builder = $this->createMenuBuilder($adminGroups);
@@ -136,7 +136,7 @@ final class MenuBuilderTest extends TestCase
             'bar' => [
                 'label' => 'foo',
                 'icon' => '<i class="fas fa-edit"></i>',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'items' => [],
                 'roles' => [],
                 'keep_open' => false,
@@ -151,13 +151,13 @@ final class MenuBuilderTest extends TestCase
             ->method('dispatch')
             ->with(
                 static::isInstanceOf(ConfigureMenuEvent::class),
-                static::equalTo('sonata.admin.event.configure.menu.sidebar')
+                static::equalTo('adminata.admin.event.configure.menu.sidebar')
             );
 
         $this->provider
             ->expects(static::once())
             ->method('get')
-            ->with('sonata_group_menu')
+            ->with('adminata_group_menu')
             ->willReturn($this->factory->createItem('bar'));
 
         $builder->createSidebarMenu();

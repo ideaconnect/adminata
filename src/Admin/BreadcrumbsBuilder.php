@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Admin;
+namespace IDCT\Adminata\Admin;
 
 use Knp\Menu\ItemInterface;
-use Sonata\AdminBundle\BCLayer\BCHelper;
+use IDCT\Adminata\BCLayer\BCHelper;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -85,8 +85,8 @@ final class BreadcrumbsBuilder implements BreadcrumbsBuilderInterface
             $menu = $menu->addChild(
                 'link_breadcrumb_dashboard',
                 [
-                    'uri' => $admin->getRouteGenerator()->generate('sonata_admin_dashboard'),
-                    'extras' => ['translation_domain' => 'SonataAdminBundle'],
+                    'uri' => $admin->getRouteGenerator()->generate('adminata_dashboard'),
+                    'extras' => ['translation_domain' => 'AdminataBundle'],
                 ]
             );
         }

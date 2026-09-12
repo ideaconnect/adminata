@@ -10,7 +10,7 @@ file that was distributed with this source code.
 
 #}
 <script type="text/javascript">
-    jQuery('div#field_container_{{ id }} .sonata-ba-tabs').sortable({
+    jQuery('div#field_container_{{ id }} .adminata-tabs').sortable({
         axis: 'y',
         opacity: 0.6,
         items: '> div',
@@ -19,26 +19,26 @@ file that was distributed with this source code.
 
     function apply_position_value_{{ id }}() {
         // update the input value position
-        jQuery('div#field_container_{{ id }} .sonata-ba-tabs .sonata-ba-field-{{ id }}-{{ sonata_admin.field_description.option('sortable') }}').each(function(index, element) {
+        jQuery('div#field_container_{{ id }} .adminata-tabs .adminata-field-{{ id }}-{{ adminata_admin.field_description.option('sortable') }}').each(function(index, element) {
             // remove the sortable handler and put it back
             var parent = jQuery(element).closest('.nav-tabs-custom');
             var tabs = parent.find('> .nav-tabs');
-            jQuery('.sonata-ba-sortable-handler', tabs).remove();
-            $('<li class="sonata-ba-sortable-handler pull-right"></li>')
+            jQuery('.adminata-sortable-handler', tabs).remove();
+            $('<li class="adminata-sortable-handler pull-right"></li>')
                     .prepend('<i class="fas fa-grip-lines"></i>')
                     .appendTo(tabs);
             jQuery('input', element).hide();
         });
 
-        jQuery('div#field_container_{{ id }} .sonata-ba-tabs .sonata-ba-field-{{ id }}-{{ sonata_admin.field_description.option('sortable') }} input').each(function(index, value) {
+        jQuery('div#field_container_{{ id }} .adminata-tabs .adminata-field-{{ id }}-{{ adminata_admin.field_description.option('sortable') }} input').each(function(index, value) {
             jQuery(value).val(index + 1);
         });
     }
 
     // refresh the sortable option when a new element is added
-    jQuery('#sonata-ba-field-container-{{ id }}').bind('sonata.add_element', function() {
+    jQuery('#adminata-field-container-{{ id }}').bind('adminata.add_element', function() {
         apply_position_value_{{ id }}();
-        jQuery('div#field_container_{{ id }} .sonata-ba-tabs').sortable('refresh');
+        jQuery('div#field_container_{{ id }} .adminata-tabs').sortable('refresh');
     });
 
     apply_position_value_{{ id }}();

@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type\Filter;
+namespace IDCT\Adminata\Tests\Form\Type\Filter;
 
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
-use Sonata\AdminBundle\Form\Type\Filter\DateType;
+use IDCT\Adminata\Form\Type\Filter\DateType;
 
 /**
  * NEXT_MAJOR: Remove this class.

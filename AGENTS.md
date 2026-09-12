@@ -12,9 +12,9 @@ adminata is a **hard fork** of seven `sonata-project` packages, shipped as one C
 `idct/adminata` that `replace`s `sonata-project/admin-bundle`. Five more — `block-bundle`,
 `doctrine-extensions`, `exporter`, `form-extensions` and `twig-extensions` — are **part of that
 bundle** (owner directives of 2026-09-06 and 2026-09-07; PLAN/01 P10, P13, P14, P15 and P16): their
-classes are `Sonata\AdminBundle\` (the exporter's under `Sonata\AdminBundle\Exporter\`,
-doctrine-extensions' under `Sonata\AdminBundle\Doctrine\`), the strings three of them shipped are
-in the `SonataAdminBundle` translation domain and the other two shipped none, there is no
+classes are `IDCT\Adminata\` (the exporter's under `IDCT\Adminata\Exporter\`,
+doctrine-extensions' under `IDCT\Adminata\Doctrine\`), the strings three of them shipped are
+in the `AdminataBundle` translation domain and the other two shipped none, there is no
 `SonataBlockBundle`, `SonataDoctrineBundle`, `SonataExporterBundle`, `SonataFormBundle` or
 `SonataTwigBundle` — no class, no domain — and `composer.json` `conflict`s with all five instead of
 replacing them. The seventh, `doctrine-orm-admin-bundle`, is a **repository of its own** since
@@ -37,7 +37,7 @@ at every milestone.
 ## 2. Owner directives (non-negotiable)
 
 1. **Hard fork, not an override.** Rewrite the upstream templates in place; never add a parallel
-   template tree, a `.sonata-bc` scope, dual class names or a Bootstrap shim.
+   template tree, a `.adminata-bc` scope, dual class names or a Bootstrap shim.
 2. **No jQuery, anywhere.** Not as a dependency, not as a peer, not through another library.
    `npm ls jquery` must come back empty, and ESLint bans `$`, `jQuery` and importing `jquery`.
    When a behaviour needs more than plain DOM code: first check whether Tailwind/TailAdmin already
@@ -50,7 +50,7 @@ at every milestone.
    ([PLAN/07 §2](PLAN/07-packaging-and-project-setup.md)).
 5. **No AJAX form submission** in any phase. `ajaxSubmit` is gone for good.
 6. **No inline scripts and no `onclick`** in adminata templates, except the three-line theme
-   pre-paint script rendered under the `sonata_script_attributes` block (for a CSP nonce). Every
+   pre-paint script rendered under the `adminata_script_attributes` block (for a CSP nonce). Every
    script tag carries `defer`.
 7. **Seven forked trees, one project.** No sub-bundles of our own, and no bundle class beyond the
    three upstream ones. Blocks, form types, the Twig helpers and the exporter are not usable
@@ -66,10 +66,10 @@ at every milestone.
 ## 3. Layout
 
 ```
-src/                                        the bundle — `Sonata\AdminBundle\`
-tests/                                      its suite — `Sonata\AdminBundle\Tests\`
+src/                                        the bundle — `IDCT\Adminata\`
+tests/                                      its suite — `IDCT\Adminata\Tests\`
 assets/{css,js,images}                      adminata's own UI sources (built by Vite)
-src/Resources/public                        committed build output (bundles/sonataadmin/)
+src/Resources/public                        committed build output (bundles/adminata/)
 tests-adminata/{App,Unit,Functional,…}      adminata-level suites and the demo application,
                                             `Adminata\Tests\`
 changelog/                                  the inherited upstream histories
@@ -83,11 +83,11 @@ upstream diff here with no `--directory` prefix at all. Hence the second test ro
 suite is `tests/`, and adminata's own suites keep a directory beside it rather than a namespace
 nested inside one, which would make every optimised autoload dump warn.
 
-One PSR-4 entry maps `Sonata\AdminBundle\` onto `src/`. The five merged namespaces —
-`Sonata\BlockBundle\`, `Sonata\Doctrine\`, `Sonata\Exporter\`, `Sonata\Form\` and
-`Sonata\Twig\` — are gone: those sources are `Sonata\AdminBundle\` (the exporter's under
-`Sonata\AdminBundle\Exporter\`, beside the `DataSourceInterface` that was already there;
-doctrine-extensions' under `Sonata\AdminBundle\Doctrine\`), and only their subtree histories
+One PSR-4 entry maps `IDCT\Adminata\` onto `src/`. The five merged namespaces —
+`IDCT\Adminata\`, `IDCT\Adminata\Doctrine\`, `IDCT\Adminata\Exporter\`, `IDCT\Adminata\Form\` and
+`IDCT\Adminata\Twig\` — are gone: those sources are `IDCT\Adminata\` (the exporter's under
+`IDCT\Adminata\Exporter\`, beside the `DataSourceInterface` that was already there;
+doctrine-extensions' under `IDCT\Adminata\Doctrine\`), and only their subtree histories
 remain. Their DI service files are renamed flat inside the bundle (`block_*.php`,
 `form_ext_types.php`, `form_validator.php`, `twig_flash.php`, `twig_ext.php`,
 `exporter_services.php`, `doctrine*.php` — `exporter_services.php` because admin's own
@@ -104,38 +104,38 @@ enforced by `make test-contract`. In short:
 
 - **Namespaces, bundle classes, config roots, service ids, routes, translation domains** — frozen.
   The exceptions are spent, three on 2026-09-06 and the fourth on 2026-09-07: the merges removed
-  `Sonata\BlockBundle\`, `Sonata\Form\`, `Sonata\Twig\` and `Sonata\Exporter\`, the
+  `IDCT\Adminata\`, `IDCT\Adminata\Form\`, `IDCT\Adminata\Twig\` and `IDCT\Adminata\Exporter\`, the
   `SonataBlockBundle`, `SonataFormBundle`, `SonataTwigBundle` and `SonataExporterBundle` classes,
-  and the first three of those as translation domains (those strings are `SonataAdminBundle`'s; the
+  and the first three of those as translation domains (those strings are `AdminataBundle`'s; the
   exporter had no domain of its own to retire). What they deliberately kept is under contract
-  exactly as before — the `sonata_block`, `sonata_form`, `sonata_twig` and `sonata_exporter` config
-  roots, the `sonata.block.*`, `sonata.form.*`, `sonata.twig.*` and `sonata.exporter.*` service
-  ids, the `sonata_block_*` and `sonata_flashmessages_*` Twig functions, the `sonata_status_class`
-  filter, the `sonata.status.renderer` and `sonata.exporter.writer` tags and the `@SonataBlock`,
-  `@SonataForm` and `@SonataTwig` Twig namespaces — the last three as compatibility
+  exactly as before — the `adminata_block`, `adminata_form`, `adminata_twig` and `adminata_exporter` config
+  roots, the `adminata.block.*`, `adminata.form.*`, `adminata.twig.*` and `adminata.exporter.*` service
+  ids, the `adminata_block_*` and `adminata_flashmessages_*` Twig functions, the `adminata_status_class`
+  filter, the `adminata.status.renderer` and `adminata.exporter.writer` tags and the `@Adminata`,
+  `@Adminata` and `@Adminata` Twig namespaces — the last three as compatibility
   aliases for templates outside adminata only: every default inside adminata says
-  `@SonataAdmin/…`, so that an application overrides those templates in
-  `templates/bundles/SonataAdminBundle/` like any other, and a new `@SonataBlock/…`,
-  `@SonataForm/…` or `@SonataTwig/…` default is a regression. Do not rename any of those, and do
+  `@Adminata/…`, so that an application overrides those templates in
+  `templates/bundles/AdminataBundle/` like any other, and a new `@Adminata/…`,
+  `@Adminata/…` or `@Adminata/…` default is a regression. Do not rename any of those, and do
   not bring the names `SonataBlockBundle`, `SonataFormBundle`, `SonataTwigBundle` or
   `SonataExporterBundle` back anywhere: blocks, form types, the Twig helpers and the exporter are
   the admin bundle's.
-- **Two `CollectionType`s, and they exchanged names.** `Sonata\AdminBundle\Form\Type\CollectionType`
-  is form-extensions' (`sonata_type_collection`); admin's old one is `NativeCollectionType`
-  (`sonata_type_native_collection`). Both are alive and both block prefixes are frozen. Check which
+- **Two `CollectionType`s, and they exchanged names.** `IDCT\Adminata\Form\Type\CollectionType`
+  is form-extensions' (`adminata_type_collection`); admin's old one is `NativeCollectionType`
+  (`adminata_type_native_collection`). Both are alive and both block prefixes are frozen. Check which
   one you mean before touching an import or a widget block — the wrong one compiles and renders the
   other widget.
 - **Template paths and template-registry keys** — frozen. A rewritten template keeps its file name
   and its Twig **block names** (`admin_lte_skin_class` and `bootlint` are the only removals);
   additive blocks are allowed.
-- **Markup hooks** the PHP layer or an application selects on: `sonata-*` and `sonata-ba-*` class
-  names, element ids, `objectId`, `data-sonata-*` attributes, button `name` attributes, and the
+- **Markup hooks** the PHP layer or an application selects on: `adminata-*` and `adminata-*` class
+  names, element ids, `objectId`, `data-adminata-*` attributes, button `name` attributes, and the
   literal strings the PHP layer emits. Tailwind utilities and `.adm-*` components carry the styling;
   the hooks carry the meaning.
-- **JavaScript**: `sonata-<name>` Stimulus identifiers, their targets, values and dispatched event
+- **JavaScript**: `adminata-<name>` Stimulus identifiers, their targets, values and dispatched event
   names, snapshotted in `assets/js/__contract__/controllers.json`.
-- **The MongoDB fork**: its two form themes extend `@SonataAdmin/Form/{form,filter}_admin_fields.html.twig`
-  and its `ListBuilder` hard-codes `@SonataAdmin/CRUD/list__action*.html.twig`.
+- **The MongoDB fork**: its two form themes extend `@Adminata/Form/{form,filter}_admin_fields.html.twig`
+  and its `ListBuilder` hard-codes `@Adminata/CRUD/list__action*.html.twig`.
 
 ---
 

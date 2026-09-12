@@ -11,16 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Search;
+namespace IDCT\Adminata\Tests\Search;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\PagerInterface;
-use Sonata\AdminBundle\Filter\FilterInterface;
-use Sonata\AdminBundle\Search\SearchableFilterInterface;
-use Sonata\AdminBundle\Search\SearchHandler;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\Datagrid\PagerInterface;
+use IDCT\Adminata\Filter\FilterInterface;
+use IDCT\Adminata\Search\SearchableFilterInterface;
+use IDCT\Adminata\Search\SearchHandler;
 
 final class SearchHandlerTest extends TestCase
 {

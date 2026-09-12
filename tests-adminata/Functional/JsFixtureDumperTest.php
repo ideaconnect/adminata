@@ -24,7 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  *
  * A Stimulus controller is a contract with a template: identifiers, targets, actions and values
  * live in the markup, and a rewrite that renames one of them breaks the controller silently —
- * nothing in PHP looks at `data-sonata-batch-target`. So the demo's pages are dumped here and the
+ * nothing in PHP looks at `data-adminata-batch-target`. So the demo's pages are dumped here and the
  * Vitest suites mount their controllers against those files rather than against markup written
  * beside the test, which drifts.
  *
@@ -42,19 +42,19 @@ final class JsFixtureDumperTest extends WebTestCase
      * @var array<string, string>
      */
     private const array PAGES = [
-        // sonata-layout, -menu, -theme, -dropdown, -sticky (navbar)
+        // adminata-layout, -menu, -theme, -dropdown, -sticky (navbar)
         'dashboard' => '/admin/dashboard',
-        // sonata-batch, -filter, -filter-list, -per-page, -readmore, -dropdown (export)
+        // adminata-batch, -filter, -filter-list, -per-page, -readmore, -dropdown (export)
         'product-list' => '/admin/tests/app/product/list',
-        // sonata-collection, -edit, -confirm-exit, -sticky (action bar), -autocomplete (form)
+        // adminata-collection, -edit, -confirm-exit, -sticky (action bar), -autocomplete (form)
         'product-create' => '/admin/tests/app/product/create',
-        // sonata-collection with rows in it, which a create page has none of
+        // adminata-collection with rows in it, which a create page has none of
         'product-edit' => '/admin/tests/app/product/1/edit',
-        // sonata-autocomplete in its filter context
+        // adminata-autocomplete in its filter context
         'category-list' => '/admin/tests/app/category/list?filter%5Bproducts%5D%5Bvalue%5D=1',
-        // sonata-modal
+        // adminata-modal
         'dialog' => '/admin/demo/dialog',
-        // sonata-reveal
+        // adminata-reveal
         'reveal' => '/admin/demo/reveal',
     ];
 
@@ -126,7 +126,7 @@ final class JsFixtureDumperTest extends WebTestCase
             [
                 '/(?<![0-9a-z])s[0-9a-f]{13}(?![0-9a-f])/',
                 '/(?<=cms-block-)[0-9a-f]{20,}/',
-                '/(name="_sonata_csrf_token" value=")[^"]*(")/',
+                '/(name="_adminata_csrf_token" value=")[^"]*(")/',
                 '/(data-controller="csrf-protection" value=")[^"]*(")/',
                 // `BrowserConsoleRecorderListener` belongs to the browser tests, not to what an
                 // application renders, and a fixture that carried it would say otherwise.

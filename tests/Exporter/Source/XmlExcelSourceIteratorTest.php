@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exporter\Source;
+namespace IDCT\Adminata\Tests\Exporter\Source;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exporter\Source\XmlExcelSourceIterator;
+use IDCT\Adminata\Exporter\Source\XmlExcelSourceIterator;
 
 final class XmlExcelSourceIteratorTest extends TestCase
 {

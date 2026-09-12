@@ -17,16 +17,16 @@ import { mount, settle } from './helpers.js';
 
 const alert = (attributes = '') => `
     <div id="wrap">
-        <div class="adm-alert alert alert-success" data-controller="sonata-dismiss" ${attributes}>
+        <div class="adm-alert alert alert-success" data-controller="adminata-dismiss" ${attributes}>
             <div class="adm-alert__body">Saved.</div>
-            <button type="button" id="close" data-action="click->sonata-dismiss#dismiss">Close</button>
+            <button type="button" id="close" data-action="click->adminata-dismiss#dismiss">Close</button>
         </div>
     </div>
 `;
 
-describe('sonata-dismiss', () => {
+describe('adminata-dismiss', () => {
     it('removes the alert', async () => {
-        const { element } = await mount('sonata-dismiss', DismissController, alert());
+        const { element } = await mount('adminata-dismiss', DismissController, alert());
 
         element.querySelector('#close').click();
         await settle();
@@ -36,9 +36,9 @@ describe('sonata-dismiss', () => {
 
     it('hides it instead when it is asked to keep it', async () => {
         const { element } = await mount(
-            'sonata-dismiss',
+            'adminata-dismiss',
             DismissController,
-            alert('data-sonata-dismiss-remove-value="false"'),
+            alert('data-adminata-dismiss-remove-value="false"'),
         );
 
         element.querySelector('#close').click();
@@ -51,10 +51,10 @@ describe('sonata-dismiss', () => {
     });
 
     it('says so before it goes', async () => {
-        const { element } = await mount('sonata-dismiss', DismissController, alert());
+        const { element } = await mount('adminata-dismiss', DismissController, alert());
         const dismissed = vi.fn();
 
-        document.querySelector('#wrap').addEventListener('sonata-dismiss:dismissed', dismissed);
+        document.querySelector('#wrap').addEventListener('adminata-dismiss:dismissed', dismissed);
         element.querySelector('#close').click();
         await settle();
 

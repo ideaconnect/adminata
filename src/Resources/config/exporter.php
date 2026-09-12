@@ -13,15 +13,15 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Bridge\Exporter\AdminExporter;
+use IDCT\Adminata\Bridge\Exporter\AdminExporter;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
 
-        ->set('sonata.admin.admin_exporter', AdminExporter::class)
+        ->set('adminata.admin.admin_exporter', AdminExporter::class)
             ->args([
-                service('sonata.exporter.exporter'),
+                service('adminata.exporter.exporter'),
             ])
 
-        ->alias(AdminExporter::class, 'sonata.admin.admin_exporter');
+        ->alias(AdminExporter::class, 'adminata.admin.admin_exporter');
 };

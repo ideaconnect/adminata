@@ -11,16 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\Extension\Field\Type\FormTypeFieldExtension;
-use Sonata\AdminBundle\Form\Type\AdminType;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\Foo;
-use Sonata\AdminBundle\Tests\Fixtures\TestExtension;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\Extension\Field\Type\FormTypeFieldExtension;
+use IDCT\Adminata\Form\Type\AdminType;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Tests\Fixtures\Entity\Foo;
+use IDCT\Adminata\Tests\Fixtures\TestExtension;
 use Symfony\Component\Form\FormExtensionInterface;
 use Symfony\Component\Form\FormTypeGuesserInterface;
 use Symfony\Component\Form\Test\TypeTestCase;
@@ -51,8 +51,8 @@ final class AdminTypeTest extends TypeTestCase
         static::assertSame('link_add', $options['btn_add']);
         static::assertSame('link_list', $options['btn_list']);
         static::assertSame('link_delete', $options['btn_delete']);
-        static::assertSame('SonataAdminBundle', $options['btn_catalogue']);
-        static::assertSame('SonataAdminBundle', $options['btn_translation_domain']);
+        static::assertSame('AdminataBundle', $options['btn_catalogue']);
+        static::assertSame('AdminataBundle', $options['btn_translation_domain']);
     }
 
     public function testSubmitValidData(): void
@@ -93,7 +93,7 @@ final class AdminTypeTest extends TypeTestCase
             AdminType::class,
             null,
             [
-                'sonata_field_description' => $field,
+                'adminata_field_description' => $field,
             ]
         );
         $form->submit($formData);
@@ -135,7 +135,7 @@ final class AdminTypeTest extends TypeTestCase
 
         try {
             $this->adminType->buildForm($this->builder, [
-                'sonata_field_description' => $field,
+                'adminata_field_description' => $field,
                 'delete' => false, // not needed
                 'property_path' => 'bar', // actual test case
             ]);
@@ -177,7 +177,7 @@ final class AdminTypeTest extends TypeTestCase
 
         try {
             $this->adminType->buildForm($this->builder, [
-                'sonata_field_description' => $field,
+                'adminata_field_description' => $field,
                 'delete' => false, // not needed
                 'property_path' => '[0]', // actual test case
             ]);
@@ -236,7 +236,7 @@ final class AdminTypeTest extends TypeTestCase
 
         try {
             $this->adminType->buildForm($this->builder, [
-                'sonata_field_description' => $field,
+                'adminata_field_description' => $field,
                 'delete' => false, // not needed
                 'property_path' => '[0]', // actual test case
                 'collection_by_reference' => false,
@@ -302,7 +302,7 @@ final class AdminTypeTest extends TypeTestCase
 
         try {
             $this->adminType->buildForm($this->builder, [
-                'sonata_field_description' => $field,
+                'adminata_field_description' => $field,
                 'delete' => false, // not needed
                 'property_path' => '[0]', // actual test case
                 'collection_by_reference' => true,

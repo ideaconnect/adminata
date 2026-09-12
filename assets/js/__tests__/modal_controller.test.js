@@ -22,20 +22,20 @@ import { mount, settle } from './helpers.js';
  * trap and Escape are the browser's, and the Panther test is what checks those.
  */
 const dialog = (attributes = '') => `
-    <div data-controller="sonata-modal" ${attributes}>
-        <button type="button" id="open" data-action="click->sonata-modal#open">Open</button>
-        <dialog data-sonata-modal-target="dialog">
-            <button type="button" id="close" data-action="click->sonata-modal#close">Close</button>
+    <div data-controller="adminata-modal" ${attributes}>
+        <button type="button" id="open" data-action="click->adminata-modal#open">Open</button>
+        <dialog data-adminata-modal-target="dialog">
+            <button type="button" id="close" data-action="click->adminata-modal#close">Close</button>
         </dialog>
     </div>
 `;
 
-describe('sonata-modal', () => {
+describe('adminata-modal', () => {
     it('marks the dialog and gives it the size it was told', async () => {
         const { element } = await mount(
-            'sonata-modal',
+            'adminata-modal',
             ModalController,
-            dialog('data-sonata-modal-size-value="lg"'),
+            dialog('data-adminata-modal-size-value="lg"'),
         );
 
         const target = element.querySelector('dialog');
@@ -45,16 +45,16 @@ describe('sonata-modal', () => {
     });
 
     it('adds no size class for the default', async () => {
-        const { element } = await mount('sonata-modal', ModalController, dialog());
+        const { element } = await mount('adminata-modal', ModalController, dialog());
 
         expect(element.querySelector('dialog').className).toBe('adm-dialog');
     });
 
     it('opens the dialog where it stands and says so', async () => {
-        const { element } = await mount('sonata-modal', ModalController, dialog());
+        const { element } = await mount('adminata-modal', ModalController, dialog());
         const opened = vi.fn();
 
-        element.addEventListener('sonata-modal:opened', opened);
+        element.addEventListener('adminata-modal:opened', opened);
         element.querySelector('#open').click();
         await settle();
 
@@ -68,10 +68,10 @@ describe('sonata-modal', () => {
     });
 
     it('closes and says so', async () => {
-        const { element } = await mount('sonata-modal', ModalController, dialog());
+        const { element } = await mount('adminata-modal', ModalController, dialog());
         const closed = vi.fn();
 
-        element.addEventListener('sonata-modal:closed', closed);
+        element.addEventListener('adminata-modal:closed', closed);
         element.querySelector('#open').click();
         await settle();
 
@@ -83,7 +83,7 @@ describe('sonata-modal', () => {
     });
 
     it('closes when the backdrop is clicked', async () => {
-        const { element } = await mount('sonata-modal', ModalController, dialog());
+        const { element } = await mount('adminata-modal', ModalController, dialog());
 
         element.querySelector('#open').click();
         await settle();
@@ -97,9 +97,9 @@ describe('sonata-modal', () => {
 
     it('ignores the backdrop when it is not closable', async () => {
         const { element } = await mount(
-            'sonata-modal',
+            'adminata-modal',
             ModalController,
-            dialog('data-sonata-modal-closable-value="false"'),
+            dialog('data-adminata-modal-closable-value="false"'),
         );
 
         element.querySelector('#open').click();
@@ -114,9 +114,9 @@ describe('sonata-modal', () => {
 
     it('refuses Escape when it is not closable', async () => {
         const { element } = await mount(
-            'sonata-modal',
+            'adminata-modal',
             ModalController,
-            dialog('data-sonata-modal-closable-value="false"'),
+            dialog('data-adminata-modal-closable-value="false"'),
         );
 
         element.querySelector('#open').click();
@@ -131,9 +131,9 @@ describe('sonata-modal', () => {
 
     it('keeps the backdrop inert when told to, while Escape still closes', async () => {
         const { element } = await mount(
-            'sonata-modal',
+            'adminata-modal',
             ModalController,
-            dialog('data-sonata-modal-backdrop-value="false"'),
+            dialog('data-adminata-modal-backdrop-value="false"'),
         );
 
         element.querySelector('#open').click();
@@ -150,9 +150,9 @@ describe('sonata-modal', () => {
 
     it('runs on a page whose dialog is missing', async () => {
         const { element } = await mount(
-            'sonata-modal',
+            'adminata-modal',
             ModalController,
-            '<div data-controller="sonata-modal"><button data-action="click->sonata-modal#open"></button></div>',
+            '<div data-controller="adminata-modal"><button data-action="click->adminata-modal#open"></button></div>',
         );
 
         element.querySelector('button').click();

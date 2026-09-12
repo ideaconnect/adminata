@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Block;
+namespace IDCT\Adminata\Tests\Block;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Block\BlockServiceManager;
-use Sonata\AdminBundle\Block\Service\BlockServiceInterface;
-use Sonata\AdminBundle\Exception\BlockServiceNotFoundException;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Block\BlockServiceManager;
+use IDCT\Adminata\Block\Service\BlockServiceInterface;
+use IDCT\Adminata\Exception\BlockServiceNotFoundException;
+use IDCT\Adminata\Model\BlockInterface;
 use Symfony\Component\DependencyInjection\Container;
 
 final class BlockServiceManagerTest extends TestCase

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Menu\Provider;
+namespace IDCT\Adminata\Tests\Menu\Provider;
 
 use Knp\Menu\Integration\Symfony\RoutingExtension;
 use Knp\Menu\ItemInterface;
@@ -20,9 +20,9 @@ use Knp\Menu\MenuItem;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Menu\Provider\GroupMenuProvider;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Menu\Provider\GroupMenuProvider;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -48,7 +48,7 @@ final class GroupMenuProviderTest extends TestCase
     protected function setUp(): void
     {
         $this->container = new Container();
-        $this->pool = new Pool($this->container, ['sonata_admin_foo_service', 'sonata_admin_absolute_url']);
+        $this->pool = new Pool($this->container, ['adminata_admin_foo_service', 'adminata_admin_absolute_url']);
         $this->checker = static::createStub(AuthorizationCheckerInterface::class);
 
         $this->factory = new MenuFactory();
@@ -74,7 +74,7 @@ final class GroupMenuProviderTest extends TestCase
 
     public function testGroupMenuProviderName(): void
     {
-        static::assertTrue($this->provider->has('sonata_group_menu'));
+        static::assertTrue($this->provider->has('adminata_group_menu'));
     }
 
     /**
@@ -83,7 +83,7 @@ final class GroupMenuProviderTest extends TestCase
     #[DataProvider('getAdminGroups')]
     public function testGetMenuProviderWithCheckerGrantedGroupRoles(array $adminGroups): void
     {
-        $this->container->set('sonata_admin_foo_service', $this->getAdminMock());
+        $this->container->set('adminata_admin_foo_service', $this->getAdminMock());
 
         $this->checker
             ->method('isGranted')
@@ -112,7 +112,7 @@ final class GroupMenuProviderTest extends TestCase
 
         $extras = $item->getExtras();
         static::assertArrayHasKey('translation_domain', $extras);
-        static::assertSame('SonataAdminBundle', $extras['translation_domain']);
+        static::assertSame('AdminataBundle', $extras['translation_domain']);
     }
 
     public function unanimousGrantCheckerMock(string $role): bool
@@ -207,7 +207,7 @@ final class GroupMenuProviderTest extends TestCase
     #[DataProvider('getAdminGroups')]
     public function testGetMenuProviderWithAdmin(array $adminGroups): void
     {
-        $this->container->set('sonata_admin_foo_service', $this->getAdminMock());
+        $this->container->set('adminata_admin_foo_service', $this->getAdminMock());
 
         $this->checker
             ->method('isGranted')
@@ -236,12 +236,12 @@ final class GroupMenuProviderTest extends TestCase
 
         $extras = $item->getExtras();
         static::assertArrayHasKey('translation_domain', $extras);
-        static::assertSame('SonataAdminBundle', $extras['translation_domain']);
+        static::assertSame('AdminataBundle', $extras['translation_domain']);
 
         static::assertInstanceOf(MenuItem::class, $menu['route_label']);
         $extras = $menu['route_label']->getExtras();
         static::assertArrayHasKey('translation_domain', $extras);
-        static::assertSame('SonataAdminBundle', $extras['translation_domain']);
+        static::assertSame('AdminataBundle', $extras['translation_domain']);
 
         static::assertSame('http://sonata-project/FooRoute?foo=bar', $menu['route_label']->getUri());
         static::assertInstanceOf(MenuItem::class, $menu['relative_route']);
@@ -254,7 +254,7 @@ final class GroupMenuProviderTest extends TestCase
     #[DataProvider('getAdminGroups')]
     public function testGetKnpMenuWithListRoute(array $adminGroups): void
     {
-        $this->container->set('sonata_admin_foo_service', $this->getAdminMock(false));
+        $this->container->set('adminata_admin_foo_service', $this->getAdminMock(false));
 
         $this->checker
             ->method('isGranted')
@@ -280,7 +280,7 @@ final class GroupMenuProviderTest extends TestCase
     #[DataProvider('getAdminGroups')]
     public function testGetKnpMenuWithGrantedList(array $adminGroups): void
     {
-        $this->container->set('sonata_admin_foo_service', $this->getAdminMock(true, false));
+        $this->container->set('adminata_admin_foo_service', $this->getAdminMock(true, false));
 
         $this->checker
             ->method('isGranted')
@@ -306,7 +306,7 @@ final class GroupMenuProviderTest extends TestCase
     #[DataProvider('provideGetMenuProviderOnTopOptionsCases')]
     public function testGetMenuProviderOnTopOptions(array $adminGroupsOnTopOption): void
     {
-        $this->container->set('sonata_admin_foo_service', $this->getAdminMock(true, false));
+        $this->container->set('adminata_admin_foo_service', $this->getAdminMock(true, false));
 
         $menu = $this->provider->get(
             'providerFoo',
@@ -326,7 +326,7 @@ final class GroupMenuProviderTest extends TestCase
     #[DataProvider('getAdminGroups')]
     public function testGetMenuProviderKeepOpenOption(array $adminGroups): void
     {
-        $this->container->set('sonata_admin_foo_service', $this->getAdminMock());
+        $this->container->set('adminata_admin_foo_service', $this->getAdminMock());
 
         $this->checker
             ->method('isGranted')
@@ -353,7 +353,7 @@ final class GroupMenuProviderTest extends TestCase
     #[DataProvider('provideRootMenuItemUrlCases')]
     public function testRootMenuItemUrl(string $expectedUrl, array $item): void
     {
-        $this->container->set('sonata_admin_absolute_url', $this->getAdminMock());
+        $this->container->set('adminata_admin_absolute_url', $this->getAdminMock());
 
         $this->checker
             ->method('isGranted')
@@ -382,10 +382,10 @@ final class GroupMenuProviderTest extends TestCase
             [
                 'label' => 'foo',
                 'icon' => '<i class="fas fa-edit"></i>',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'items' => [
                     [
-                        'admin' => 'sonata_admin_foo_service',
+                        'admin' => 'adminata_admin_foo_service',
                         'label' => 'fooLabel',
                         'route' => 'FooServiceRoute',
                         'route_params' => [],
@@ -426,7 +426,7 @@ final class GroupMenuProviderTest extends TestCase
             [
                 'label' => 'foo',
                 'icon' => '<i class="fas fa-edit"></i>',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'items' => [
                     [
                         'admin' => '',
@@ -471,7 +471,7 @@ final class GroupMenuProviderTest extends TestCase
             [
                 'label' => 'foo',
                 'icon' => '<i class="fas fa-edit"></i>',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'items' => [
                     [
                         'admin' => '',
@@ -522,7 +522,7 @@ final class GroupMenuProviderTest extends TestCase
             [
                 'label' => 'foo1',
                 'icon' => '<i class="fas fa-edit"></i>',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'items' => [
                     [
                         'admin' => '',
@@ -542,7 +542,7 @@ final class GroupMenuProviderTest extends TestCase
             [
                 'label' => 'foo2',
                 'icon' => '<i class="fas fa-edit"></i>',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'items' => [
                     [
                         'admin' => '',
@@ -562,7 +562,7 @@ final class GroupMenuProviderTest extends TestCase
             [
                 'label' => 'foo3',
                 'icon' => '<i class="fas fa-edit"></i>',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'items' => [
                     [
                         'admin' => '',
@@ -589,12 +589,12 @@ final class GroupMenuProviderTest extends TestCase
             [
                 'label' => 'foo_on_top',
                 'icon' => '<i class="fas fa-edit"></i>',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'keep_open' => false,
                 'on_top' => true,
                 'items' => [
                     [
-                        'admin' => 'sonata_admin_foo_service',
+                        'admin' => 'adminata_admin_foo_service',
                         'label' => 'fooLabel',
                         'route' => 'fakeRoute',
                         'route_absolute' => true,
@@ -617,12 +617,12 @@ final class GroupMenuProviderTest extends TestCase
             [
                 'label' => 'foo',
                 'icon' => '<i class="fas fa-edit"></i>',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'keep_open' => false,
                 'on_top' => false,
                 'items' => [
                     [
-                        'admin' => 'sonata_admin_absolute_url',
+                        'admin' => 'adminata_admin_absolute_url',
                         'label' => 'fooLabel',
                         'roles' => ['foo'],
                         'route' => 'FooAbsoulteRoute',
@@ -639,12 +639,12 @@ final class GroupMenuProviderTest extends TestCase
             [
                 'label' => 'foo',
                 'icon' => '<i class="fas fa-edit"></i>',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'keep_open' => false,
                 'on_top' => false,
                 'items' => [
                     [
-                        'admin' => 'sonata_admin_absolute_url',
+                        'admin' => 'adminata_admin_absolute_url',
                         'label' => 'fooLabel',
                         'roles' => ['foo'],
                         'route' => 'FooAbsolutePath',
@@ -694,7 +694,7 @@ final class GroupMenuProviderTest extends TestCase
 
         $admin
             ->method('getTranslationDomain')
-            ->willReturn('SonataAdminBundle');
+            ->willReturn('AdminataBundle');
 
         return $admin;
     }

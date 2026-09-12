@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Manipulator;
+namespace IDCT\Adminata\Manipulator;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 final class ObjectManipulator

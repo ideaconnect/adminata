@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection\Compiler;
+namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
-use Sonata\AdminBundle\DependencyInjection\Compiler\DoctrineAdapterCompilerPass;
+use IDCT\Adminata\DependencyInjection\Compiler\DoctrineAdapterCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -32,41 +32,41 @@ final class DoctrineAdapterCompilerPassTest extends AbstractCompilerPassTestCase
     public function testDefinitionsAdded(): void
     {
         $adapterChain = new Definition();
-        $this->setDefinition('sonata.doctrine.model.adapter.chain', $adapterChain);
+        $this->setDefinition('adminata.doctrine.model.adapter.chain', $adapterChain);
 
         $this->registerService('doctrine', 'foo');
-        $this->registerService('sonata.doctrine.adapter.doctrine_orm', 'foo');
+        $this->registerService('adminata.doctrine.adapter.doctrine_orm', 'foo');
 
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'sonata.doctrine.model.adapter.chain',
+            'adminata.doctrine.model.adapter.chain',
             'addAdapter',
-            [new Reference('sonata.doctrine.adapter.doctrine_orm')]
+            [new Reference('adminata.doctrine.adapter.doctrine_orm')]
         );
     }
 
     public function testDefinitionsAddedWithoutOrm(): void
     {
         $adapterChain = new Definition();
-        $this->setDefinition('sonata.doctrine.model.adapter.chain', $adapterChain);
+        $this->setDefinition('adminata.doctrine.model.adapter.chain', $adapterChain);
 
         $this->registerService('doctrine', 'foo');
 
         $this->compile();
 
-        $this->assertContainerBuilderNotHasService('sonata.doctrine.adapter.doctrine_orm');
+        $this->assertContainerBuilderNotHasService('adminata.doctrine.adapter.doctrine_orm');
     }
 
     public function testDefinitionsRemoved(): void
     {
         $adapterChain = new Definition();
-        $this->setDefinition('sonata.doctrine.model.adapter.chain', $adapterChain);
+        $this->setDefinition('adminata.doctrine.model.adapter.chain', $adapterChain);
 
-        $this->registerService('sonata.doctrine.adapter.doctrine_orm', 'foo');
+        $this->registerService('adminata.doctrine.adapter.doctrine_orm', 'foo');
 
         $this->compile();
 
-        $this->assertContainerBuilderNotHasService('sonata.doctrine.adapter.doctrine_orm');
+        $this->assertContainerBuilderNotHasService('adminata.doctrine.adapter.doctrine_orm');
     }
 }

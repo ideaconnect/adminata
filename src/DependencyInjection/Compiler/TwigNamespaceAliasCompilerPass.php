@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Points "@SonataBlock", "@SonataForm" and "@SonataTwig" at this bundle's Resources/views.
+ * Points "@Adminata", "@Adminata" and "@Adminata" at this bundle's Resources/views.
  *
  * The block, form and twig packages are part of this bundle, so their templates live beside the
- * admin bundle's own and adminata addresses every one of them as "@SonataAdmin/...", which an
- * application overrides under templates/bundles/SonataAdminBundle/. The three older namespaces are
+ * admin bundle's own and adminata addresses every one of them as "@Adminata/...", which an
+ * application overrides under templates/bundles/AdminataBundle/. The three older namespaces are
  * kept for templates outside adminata that still address them.
  *
  * Registering them here rather than through twig.paths is deliberate: that configuration node is a
@@ -32,7 +32,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 final class TwigNamespaceAliasCompilerPass implements CompilerPassInterface
 {
-    private const array ALIASES = ['SonataBlock', 'SonataForm', 'SonataTwig'];
+    private const array ALIASES = ['AdminataBlock', 'AdminataForm', 'AdminataTwig'];
 
     public function process(ContainerBuilder $container): void
     {

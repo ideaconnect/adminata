@@ -19,7 +19,7 @@ file that was distributed with this source code.
 {% if admin is defined and action is defined and 'list' == action and admin.listModes|length > 1 %}
     <div class="flex items-center gap-0.5 rounded-lg bg-gray-100 p-0.5 dark:bg-gray-900"
          role="group"
-         aria-label="{{ 'list_mode'|trans({}, 'SonataAdminBundle') }}"
+         aria-label="{{ 'list_mode'|trans({}, 'AdminataBundle') }}"
     >
         {% for mode, settings in admin.listModes %}
             {% set current = admin.getListMode() == mode %}
@@ -36,7 +36,7 @@ file that was distributed with this source code.
                 {% endif %}
                 {#- `list_mode_list` and `list_mode_mosaic` ship; an admin that adds a mode of its
                     own adds the id too. -#}
-                <span class="sr-only">{{ ('list_mode_'~mode)|trans({}, 'SonataAdminBundle') }}</span>
+                <span class="sr-only">{{ ('list_mode_'~mode)|trans({}, 'AdminataBundle') }}</span>
             </a>
         {% endfor %}
     </div>

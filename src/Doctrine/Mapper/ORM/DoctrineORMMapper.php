@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Doctrine\Mapper\ORM;
+namespace IDCT\Adminata\Doctrine\Mapper\ORM;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManagerInterface;

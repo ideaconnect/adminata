@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Action;
+namespace IDCT\Adminata\Action;
 
-use Sonata\AdminBundle\BCLayer\BCHelper;
-use Sonata\AdminBundle\Exception\BadRequestParamHttpException;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\DataTransformerResolverInterface;
-use Sonata\AdminBundle\Request\AdminFetcherInterface;
-use Sonata\AdminBundle\Twig\RenderElementRuntime;
+use IDCT\Adminata\BCLayer\BCHelper;
+use IDCT\Adminata\Exception\BadRequestParamHttpException;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\DataTransformerResolverInterface;
+use IDCT\Adminata\Request\AdminFetcherInterface;
+use IDCT\Adminata\Twig\RenderElementRuntime;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig\Extension;
+namespace IDCT\Adminata\Twig\Extension;
 
-use Sonata\AdminBundle\Twig\TokenParser\TemplateBoxTokenParser;
+use IDCT\Adminata\Twig\TokenParser\TemplateBoxTokenParser;
 use Twig\Extension\AbstractExtension;
 
 final class TemplateExtension extends AbstractExtension
@@ -34,6 +34,6 @@ final class TemplateExtension extends AbstractExtension
 
     public function getName(): string
     {
-        return 'sonata_twig_template';
+        return 'adminata_twig_template';
     }
 }

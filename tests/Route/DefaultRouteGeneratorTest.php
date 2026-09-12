@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Route;
+namespace IDCT\Adminata\Tests\Route;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Route\DefaultRouteGenerator;
-use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\AdminBundle\Route\RoutesCache;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Route\DefaultRouteGenerator;
+use IDCT\Adminata\Route\RouteCollection;
+use IDCT\Adminata\Route\RoutesCache;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +33,7 @@ final class DefaultRouteGeneratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->cacheTempFolder = \sprintf('%s/sonata_test_route', sys_get_temp_dir());
+        $this->cacheTempFolder = \sprintf('%s/adminata_test_route', sys_get_temp_dir());
 
         $filesystem = new Filesystem();
         $filesystem->remove($this->cacheTempFolder);

@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block\Service;
+namespace IDCT\Adminata\Block\Service;
 
-use Sonata\AdminBundle\Form\BlockFormMapperInterface;
-use Sonata\AdminBundle\Meta\MetadataInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use IDCT\Adminata\Form\BlockFormMapperInterface;
+use IDCT\Adminata\Meta\MetadataInterface;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Validator\ErrorElement;
 
 /**
  * @author Christian Gripp <mail@core23.de>

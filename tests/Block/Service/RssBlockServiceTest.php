@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Block\Service;
+namespace IDCT\Adminata\Tests\Block\Service;
 
-use Sonata\AdminBundle\Block\BlockContext;
-use Sonata\AdminBundle\Block\BlockContextInterface;
-use Sonata\AdminBundle\Block\Service\RssBlockService;
-use Sonata\AdminBundle\Form\BlockFormMapperInterface;
-use Sonata\AdminBundle\Model\Block;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Test\BlockServiceTestCase;
+use IDCT\Adminata\Block\BlockContext;
+use IDCT\Adminata\Block\BlockContextInterface;
+use IDCT\Adminata\Block\Service\RssBlockService;
+use IDCT\Adminata\Form\BlockFormMapperInterface;
+use IDCT\Adminata\Model\Block;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Test\BlockServiceTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -58,7 +58,7 @@ final class RssBlockServiceTest extends BlockServiceTestCase
 
         $blockContext = $this->createMock(BlockContextInterface::class);
         $blockContext->method('getTemplate')
-            ->willReturn('@SonataAdmin/Block/block_core_rss.html.twig');
+            ->willReturn('@Adminata/Block/block_core_rss.html.twig');
         $blockContext->method('getSettings')
             ->willReturn([
                 'title' => 'foo',
@@ -68,7 +68,7 @@ final class RssBlockServiceTest extends BlockServiceTestCase
             ->willReturn($block);
 
         $this->twig->expects(static::once())->method('render')
-            ->with('@SonataAdmin/Block/block_core_rss.html.twig', [
+            ->with('@Adminata/Block/block_core_rss.html.twig', [
                 'feeds' => false,
                 'block' => $block,
                 'settings' => [

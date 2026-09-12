@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection;
+namespace IDCT\Adminata\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -36,7 +36,7 @@ final class BlockConfiguration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('sonata_block');
+        $treeBuilder = new TreeBuilder('adminata_block');
 
         $node = $treeBuilder->getRootNode();
 
@@ -61,7 +61,7 @@ final class BlockConfiguration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('enabled')->defaultValue('%kernel.debug%')->end()
-                        ->scalarNode('template')->defaultValue('@SonataAdmin/Profiler/block.html.twig')->end()
+                        ->scalarNode('template')->defaultValue('@Adminata/Profiler/block.html.twig')->end()
                     ->end()
                 ->end()
 
@@ -69,7 +69,7 @@ final class BlockConfiguration implements ConfigurationInterface
                     ->prototype('scalar')->end()
                 ->end()
 
-                ->scalarNode('context_manager')->defaultValue('sonata.block.context_manager.default')->end()
+                ->scalarNode('context_manager')->defaultValue('adminata.block.context_manager.default')->end()
                 // NEXT_MAJOR: remove this on 6.x
                 ->booleanNode('http_cache')
                     ->defaultFalse()
@@ -95,8 +95,8 @@ final class BlockConfiguration implements ConfigurationInterface
                     ->children()
                         ->arrayNode('types')
                             ->info('container service ids')
-                            // Adminata's own container block plus the ones sonata-page, sonata-dashboard and CMF ship.
-                            ->defaultValue(['sonata.block.service.container', 'sonata.page.block.container', 'sonata.dashboard.block.container', 'cmf.block.container', 'cmf.block.slideshow'])
+                            // Adminata's own container block plus the ones adminata-page, adminata-dashboard and CMF ship.
+                            ->defaultValue(['adminata.block.service.container', 'sonata.page.block.container', 'adminata.dashboard.block.container', 'cmf.block.container', 'cmf.block.slideshow'])
                             ->prototype('scalar')->end()
                         ->end()
                         ->arrayNode('templates')
@@ -174,19 +174,19 @@ final class BlockConfiguration implements ConfigurationInterface
                             ->useAttributeAsKey('id')
                             ->prototype('scalar')->end()
                             ->defaultValue([
-                                'debug_only' => 'sonata.block.exception.filter.debug_only',
-                                'ignore_block_exception' => 'sonata.block.exception.filter.ignore_block_exception',
-                                'keep_all' => 'sonata.block.exception.filter.keep_all',
-                                'keep_none' => 'sonata.block.exception.filter.keep_none',
+                                'debug_only' => 'adminata.block.exception.filter.debug_only',
+                                'ignore_block_exception' => 'adminata.block.exception.filter.ignore_block_exception',
+                                'keep_all' => 'adminata.block.exception.filter.keep_all',
+                                'keep_none' => 'adminata.block.exception.filter.keep_none',
                             ])
                         ->end()
                         ->arrayNode('renderers')
                             ->useAttributeAsKey('id')
                             ->prototype('scalar')->end()
                             ->defaultValue([
-                                'inline' => 'sonata.block.exception.renderer.inline',
-                                'inline_debug' => 'sonata.block.exception.renderer.inline_debug',
-                                'throw' => 'sonata.block.exception.renderer.throw',
+                                'inline' => 'adminata.block.exception.renderer.inline',
+                                'inline_debug' => 'adminata.block.exception.renderer.inline_debug',
+                                'throw' => 'adminata.block.exception.renderer.throw',
                             ])
                         ->end()
                     ->end()

@@ -15,18 +15,18 @@ file that was distributed with this source code.
     field_description.option('editable', false) and
     admin.hasAccess('edit', object)
 %}
-{% set x_editable_type = field_description.type|sonata_xeditable_type %}
+{% set x_editable_type = field_description.type|adminata_xeditable_type %}
 
 {% block field_span_attributes %}
     {% if is_editable and x_editable_type %}
         {{ parent() }}
-        data-source="{{ field_description|sonata_xeditable_choices|json_encode }}"
+        data-source="{{ field_description|adminata_xeditable_choices|json_encode }}"
     {% endif %}
 {% endblock %}
 
 {# NEXT_MAJOR: Remove the fallback on catalogue #}
 {% block field %}
-    {%- include '@SonataAdmin/CRUD/display_choice.html.twig' with {
+    {%- include '@Adminata/CRUD/display_choice.html.twig' with {
         value: value,
         choices: field_description.option('choices'),
         multiple: field_description.option('multiple'),

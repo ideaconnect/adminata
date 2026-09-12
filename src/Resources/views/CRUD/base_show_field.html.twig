@@ -27,20 +27,20 @@ file that was distributed with this source code.
     {%- block field -%}
         {% set collapse = field_description.option('collapse') %}
         {%- if collapse -%}
-            <div class="sonata-readmore" {{ stimulus_controller('sonata-readmore', {
+            <div class="adminata-readmore" {{ stimulus_controller('adminata-readmore', {
                 'collapsedHeight': collapse.height|default(40),
-                'moreText': collapse.more|default('read_more')|trans({}, 'SonataAdminBundle'),
-                'lessText': collapse.less|default('read_less')|trans({}, 'SonataAdminBundle'),
+                'moreText': collapse.more|default('read_more')|trans({}, 'AdminataBundle'),
+                'lessText': collapse.less|default('read_less')|trans({}, 'AdminataBundle'),
             }) }}>
-                <div class="sonata-readmore-content" {{ stimulus_target('sonata-readmore', 'content') }}>
+                <div class="adminata-readmore-content" {{ stimulus_target('adminata-readmore', 'content') }}>
                     {%- block field_value -%}
                         {% if field_description.option('safe', false) %}{{ value|raw }}{% else %}{{ value|default('')|nl2br }}{% endif %}
                     {%- endblock -%}
                 </div>
                 <button type="button"
-                        class="sonata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
-                        {{ stimulus_target('sonata-readmore', 'button') }}
-                        {{ stimulus_action('sonata-readmore', 'toggle', 'click') }}></button>
+                        class="adminata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
+                        {{ stimulus_target('adminata-readmore', 'button') }}
+                        {{ stimulus_action('adminata-readmore', 'toggle', 'click') }}></button>
             </div>
         {%- else -%}
             {{- block('field_value') -}}

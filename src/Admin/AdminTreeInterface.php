@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Admin;
+namespace IDCT\Adminata\Admin;
 
 /**
  * @author Jules Lamur <contact@juleslamur.fr>

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Route;
+namespace IDCT\Adminata\Route;
 
 use Symfony\Component\Routing\Route;
 
@@ -63,9 +63,9 @@ final class RouteCollection implements RouteCollectionInterface
             $defaults['_controller'] = $this->baseControllerName.$actionJoiner.$this->actionify($code);
         }
 
-        $defaults['_sonata_admin'] ??= $this->baseCodeRoute;
+        $defaults['_adminata_admin'] ??= $this->baseCodeRoute;
 
-        $defaults['_sonata_name'] = $this->getRouteName($name);
+        $defaults['_adminata_name'] = $this->getRouteName($name);
 
         $element = static fn (): Route => new Route($pattern, $defaults, $requirements, $options, $host, $schemes, $methods, $condition);
         $this->addElement($code, $element);

@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block;
+namespace IDCT\Adminata\Block;
 
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Block\Service\AbstractBlockService;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Block\Service\AbstractBlockService;
+use IDCT\Adminata\Datagrid\DatagridInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
@@ -70,7 +70,7 @@ final class AdminStatsBlockService extends AbstractBlockService
             'code' => false,
             'filters' => [],
             'limit' => 1000,
-            'template' => '@SonataAdmin/Block/block_stats.html.twig',
+            'template' => '@Adminata/Block/block_stats.html.twig',
         ]);
     }
 }

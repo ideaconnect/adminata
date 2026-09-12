@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Model;
+namespace IDCT\Adminata\Tests\App\Model;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Model\LockInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Model\LockInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
 
 /**
  * @phpstan-template T of EntityInterface

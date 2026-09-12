@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Block;
+namespace IDCT\Adminata\Tests\Fixtures\Block;
 
-use Sonata\AdminBundle\Block\Service\AbstractBlockService;
+use IDCT\Adminata\Block\Service\AbstractBlockService;
 
 final class FooBlock extends AbstractBlockService
 {

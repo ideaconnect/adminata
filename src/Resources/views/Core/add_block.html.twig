@@ -19,21 +19,21 @@ file that was distributed with this source code.
 
     The ARIA menu pattern is complete rather than half-applied: `role="menu"` on the panel,
     `role="none"` on the list and its items, `role="menuitem"` on the links, and the arrow-key
-    handling `sonata-dropdown` provides. Upstream emitted `role="menuitem"` inside a plain `<ul>`,
+    handling `adminata-dropdown` provides. Upstream emitted `role="menuitem"` inside a plain `<ul>`,
     which is what axe reports as `aria-required-parent`.
 #}
 
-{% set items_per_column = sonata_config.getOption('dropdown_number_groups_per_colums') %}
-{% set groups = get_sonata_dashboard_groups_with_creatable_admins() %}
+{% set items_per_column = adminata_config.getOption('dropdown_number_groups_per_colums') %}
+{% set groups = get_adminata_dashboard_groups_with_creatable_admins() %}
 {% set groups = groups|filter(group =>
     group.roles is empty
-    or is_granted(sonata_config.getOption('role_admin'))
+    or is_granted(adminata_config.getOption('role_admin'))
     or group.roles|filter(role => is_granted(role))|length > 0
 ) %}
 {% set columns = groups|batch(items_per_column) %}
 
 {% if groups|length > 0 %}
-    <div class="adm-dropdown__menu dropdown-add" role="menu" hidden {{ stimulus_target('sonata-dropdown', 'menu') }}>
+    <div class="adm-dropdown__menu dropdown-add" role="menu" hidden {{ stimulus_target('adminata-dropdown', 'menu') }}>
         {#- The column count is composed at runtime, so the `grid-cols-*` classes are in
             `assets/css/safelist.css`; six is where a dropdown stops being a dropdown. -#}
         <div class="grid gap-4 grid-cols-{{ min(columns|length, 6) }}">

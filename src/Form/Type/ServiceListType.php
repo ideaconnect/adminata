@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
-use Sonata\AdminBundle\Block\BlockServiceManagerInterface;
-use Sonata\AdminBundle\Block\Service\EditableBlockService;
+use IDCT\Adminata\Block\BlockServiceManagerInterface;
+use IDCT\Adminata\Block\Service\EditableBlockService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
@@ -28,7 +28,7 @@ final class ServiceListType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_block_service_choice';
+        return 'adminata_block_service_choice';
     }
 
     public function getParent(): string

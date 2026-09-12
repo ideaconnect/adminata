@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Controller;
+namespace IDCT\Adminata\Tests\App\Controller;
 
-use Sonata\AdminBundle\Controller\CRUDController;
-use Sonata\AdminBundle\Exception\ModelManagerThrowable;
+use IDCT\Adminata\Controller\CRUDController;
+use IDCT\Adminata\Exception\ModelManagerThrowable;
 
 /**
  * @phpstan-extends CRUDController<object>

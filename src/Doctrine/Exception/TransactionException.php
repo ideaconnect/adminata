@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Doctrine\Exception;
+namespace IDCT\Adminata\Doctrine\Exception;
 
 /**
  * @author Erison Silva <erison.sdn@gmail.com>

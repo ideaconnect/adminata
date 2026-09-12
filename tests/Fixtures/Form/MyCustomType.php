@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Form;
+namespace IDCT\Adminata\Tests\Fixtures\Form;
 
-use Sonata\AdminBundle\Form\Type\ModelType;
+use IDCT\Adminata\Form\Type\ModelType;
 use Symfony\Component\Form\AbstractType;
 
 final class MyCustomType extends AbstractType

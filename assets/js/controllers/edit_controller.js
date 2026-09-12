@@ -14,7 +14,7 @@ export default class extends Controller {
 
     connect() {
         if (this.tabSelected) {
-            this.showFirstTabWithErrors('.sonata-ba-field-error');
+            this.showFirstTabWithErrors('.adminata-field-error');
         }
     }
 
@@ -47,9 +47,9 @@ export default class extends Controller {
                 // Only show first tab with errors
                 if (!firstTabWithErrors) {
                     // Upstream showed the tab through Bootstrap's plugin here. adminata ships no tabs in
-                    // 1.0, so this dispatches the event `sonata-tabs` will listen for, and does nothing
+                    // 1.0, so this dispatches the event `adminata-tabs` will listen for, and does nothing
                     // until that controller exists (PLAN/05 §2).
-                    this.dispatch('show', { prefix: 'sonata-tabs', target: tab });
+                    this.dispatch('show', { prefix: 'adminata-tabs', target: tab });
                     firstTabWithErrors = tab;
                 }
 

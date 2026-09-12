@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Util;
+namespace IDCT\Adminata\Tests\Util;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Security\Handler\AclSecurityHandlerInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Util\DummyObjectAclManipulator;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Security\Handler\AclSecurityHandlerInterface;
+use IDCT\Adminata\Tests\Fixtures\Util\DummyObjectAclManipulator;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Model\MutableAclInterface;

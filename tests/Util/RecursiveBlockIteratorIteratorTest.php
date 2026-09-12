@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Util;
+namespace IDCT\Adminata\Tests\Util;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Model\Block;
-use Sonata\AdminBundle\Util\RecursiveBlockIteratorIterator;
+use IDCT\Adminata\Model\Block;
+use IDCT\Adminata\Util\RecursiveBlockIteratorIterator;
 
 final class RecursiveBlockIteratorIteratorTest extends TestCase
 {

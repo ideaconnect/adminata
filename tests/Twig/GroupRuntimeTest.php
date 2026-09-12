@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig;
+namespace IDCT\Adminata\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Tests\Admin\NextMajorAdminInterface;
-use Sonata\AdminBundle\Twig\GroupRuntime;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Tests\Admin\NextMajorAdminInterface;
+use IDCT\Adminata\Twig\GroupRuntime;
 use Symfony\Component\DependencyInjection\Container;
 
 final class GroupRuntimeTest extends TestCase
@@ -24,14 +24,14 @@ final class GroupRuntimeTest extends TestCase
     public function testGetDashboardGroupsWithCreatableAdmins(): void
     {
         $container = new Container();
-        $pool = new Pool($container, ['sonata_admin_non_creatable', 'sonata_admin_creatable'], [
+        $pool = new Pool($container, ['adminata_admin_non_creatable', 'adminata_admin_creatable'], [
             'group_without_creatable' => [
                 'label' => 'non_creatable',
                 'translation_domain' => 'default',
                 'icon' => 'icon1',
                 'items' => [
                     [
-                        'admin' => 'sonata_admin_non_creatable',
+                        'admin' => 'adminata_admin_non_creatable',
                         'label' => 'admin1',
                         'roles' => [],
                         'route' => 'foo',
@@ -49,7 +49,7 @@ final class GroupRuntimeTest extends TestCase
                 'icon' => 'icon2',
                 'items' => [
                     [
-                        'admin' => 'sonata_admin_creatable',
+                        'admin' => 'adminata_admin_creatable',
                         'label' => 'admin1',
                         'roles' => [],
                         'route' => 'foo',
@@ -68,8 +68,8 @@ final class GroupRuntimeTest extends TestCase
         $adminNonCreatable = $this->createMock(NextMajorAdminInterface::class);
         $adminCreatable = $this->createMock(NextMajorAdminInterface::class);
 
-        $container->set('sonata_admin_non_creatable', $adminNonCreatable);
-        $container->set('sonata_admin_creatable', $adminCreatable);
+        $container->set('adminata_admin_non_creatable', $adminNonCreatable);
+        $container->set('adminata_admin_creatable', $adminCreatable);
 
         $adminCreatable
             ->method('showInDashboard')

@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Doctrine\Model;
+namespace IDCT\Adminata\Tests\Doctrine\Model;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Doctrine\Model\BaseManager;
+use IDCT\Adminata\Doctrine\Model\BaseManager;
 
 /**
  * @phpstan-extends BaseManager<object>

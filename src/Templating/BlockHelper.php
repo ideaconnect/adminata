@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Templating;
+namespace IDCT\Adminata\Templating;
 
-use Sonata\AdminBundle\Block\BlockContextManagerInterface;
-use Sonata\AdminBundle\Block\BlockRendererInterface;
-use Sonata\AdminBundle\Event\BlockEvent;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Block\BlockContextManagerInterface;
+use IDCT\Adminata\Block\BlockRendererInterface;
+use IDCT\Adminata\Event\BlockEvent;
+use IDCT\Adminata\Model\BlockInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatcherComponentInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Stopwatch\StopwatchEvent;
@@ -117,7 +117,7 @@ class BlockHelper
      */
     public function renderEvent(string $name, array $options = []): string
     {
-        $eventName = \sprintf('sonata.block.event.%s', $name);
+        $eventName = \sprintf('adminata.block.event.%s', $name);
 
         $event = $this->eventDispatcher->dispatch(new BlockEvent($options), $eventName);
 

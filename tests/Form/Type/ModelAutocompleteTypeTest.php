@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\Form\Type\ModelAutocompleteType;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -56,7 +56,7 @@ final class ModelAutocompleteTypeTest extends TypeTestCase
         static::assertFalse($options['dropdown_auto_width']);
 
         static::assertSame('', $options['url']);
-        static::assertSame(['name' => 'sonata_admin_retrieve_autocomplete_items', 'parameters' => []], $options['route']);
+        static::assertSame(['name' => 'adminata_retrieve_autocomplete_items', 'parameters' => []], $options['route']);
         static::assertSame([], $options['req_params']);
         static::assertSame('q', $options['req_param_name_search']);
         static::assertSame(DatagridInterface::PAGE, $options['req_param_name_page_number']);
@@ -69,17 +69,17 @@ final class ModelAutocompleteTypeTest extends TypeTestCase
         static::assertSame('', $options['dropdown_css_class']);
         static::assertSame('', $options['dropdown_item_css_class']);
 
-        static::assertSame('@SonataAdmin/Form/Type/sonata_type_model_autocomplete.html.twig', $options['template']);
+        static::assertSame('@Adminata/Form/Type/adminata_type_model_autocomplete.html.twig', $options['template']);
 
         static::assertSame('', $options['context']);
 
         static::assertSame('link_add', $options['btn_add']);
-        static::assertSame('SonataAdminBundle', $options['btn_catalogue']);
-        static::assertSame('SonataAdminBundle', $options['btn_translation_domain']);
+        static::assertSame('AdminataBundle', $options['btn_catalogue']);
+        static::assertSame('AdminataBundle', $options['btn_translation_domain']);
     }
 
     public function testGetBlockPrefix(): void
     {
-        static::assertSame('sonata_type_model_autocomplete', $this->type->getBlockPrefix());
+        static::assertSame('adminata_type_model_autocomplete', $this->type->getBlockPrefix());
     }
 }

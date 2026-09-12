@@ -70,7 +70,7 @@ file that was distributed with this source code.
     Additive (PLAN/02 §5). A range filter is two `single_text` date inputs; upstream stacked them
     through `form_div_layout`, which puts each on its own row and loses which is which.
 #}
-{% block sonata_type_date_range_widget %}
+{% block adminata_type_date_range_widget %}
     {#- `widget_container_attributes` keeps the container's own id, which is what the filter row's
         `<label for>` points at. -#}
     <div {{ block('widget_container_attributes') }} class="grid grid-cols-2 gap-2">
@@ -84,12 +84,12 @@ file that was distributed with this source code.
             </div>
         {% endfor %}
     </div>
-{% endblock sonata_type_date_range_widget %}
+{% endblock adminata_type_date_range_widget %}
 
-{% block sonata_type_datetime_range_widget %}
-    {{ block('sonata_type_date_range_widget') }}
-{% endblock sonata_type_datetime_range_widget %}
+{% block adminata_type_datetime_range_widget %}
+    {{ block('adminata_type_date_range_widget') }}
+{% endblock adminata_type_datetime_range_widget %}
 
-{% block sonata_type_model_autocomplete_widget %}
+{% block adminata_type_model_autocomplete_widget %}
     {% include template %}
-{% endblock sonata_type_model_autocomplete_widget %}
+{% endblock adminata_type_model_autocomplete_widget %}

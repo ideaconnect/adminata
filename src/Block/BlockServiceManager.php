@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block;
+namespace IDCT\Adminata\Block;
 
 use Psr\Container\ContainerInterface;
-use Sonata\AdminBundle\Block\Service\BlockServiceInterface;
-use Sonata\AdminBundle\Block\Service\EditableBlockService;
-use Sonata\AdminBundle\Exception\BlockServiceNotFoundException;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use IDCT\Adminata\Block\Service\BlockServiceInterface;
+use IDCT\Adminata\Block\Service\EditableBlockService;
+use IDCT\Adminata\Exception\BlockServiceNotFoundException;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Validator\ErrorElement;
 
 final class BlockServiceManager implements BlockServiceManagerInterface
 {

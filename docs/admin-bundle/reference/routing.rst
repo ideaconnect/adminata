@@ -25,12 +25,12 @@ be added to generate the actual route names::
     {
         protected function generateBaseRouteName(bool $isChildAdmin = false): string
         {
-            return 'sonata_post';
+            return 'adminata_post';
         }
 
         // will result in routes named:
-        //   sonata_post_list
-        //   sonata_post_create
+        //   adminata_post_list
+        //   adminata_post_create
         //   etc..
 
         // ...
@@ -57,7 +57,7 @@ be prefixed by the parent route name, example::
     {
         protected function generateBaseRouteName(bool $isChildAdmin = false): string
         {
-            return 'sonata_post';
+            return 'adminata_post';
         }
     }
 
@@ -73,8 +73,8 @@ be prefixed by the parent route name, example::
             return 'comment';
         }
         // will result in routes named :
-        //   sonata_post_comment_list
-        //   sonata_post_comment_create
+        //   adminata_post_comment_list
+        //   adminata_post_comment_create
         //   etc..
 
         // ...
@@ -171,7 +171,7 @@ explicitly this defaults to the action name::
 
     // src/Admin/MediaAdmin.php
 
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     final class MediaAdmin extends AbstractAdmin
     {
@@ -190,7 +190,7 @@ in the ``add`` method to set additional settings like this::
 
     // src/Admin/MediaAdmin.php
 
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     final class MediaAdmin extends AbstractAdmin
     {
@@ -213,7 +213,7 @@ Other steps needed to create your new action
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In addition to defining the route for your new action you also need to create a
-handler for it in your Controller. By default Admin classes use ``Sonata\AdminBundle\Controller\CRUDController``
+handler for it in your Controller. By default Admin classes use ``IDCT\Adminata\Controller\CRUDController``
 as their controller, but this can be changed by altering the third argument when defining your Admin service.
 
 For example, lets change the Controller for our MediaAdmin class to ``App\Controller\MediaCRUDController``:
@@ -225,7 +225,7 @@ For example, lets change the Controller for our MediaAdmin class to ``App\Contro
     app.admin.media:
         class: App\Admin\MediaAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Page, controller: App\Controller\MediaCRUDController, manager_type: orm, label: 'Media' }
+            - { name: adminata.admin, model_class: App\Entity\Page, controller: App\Controller\MediaCRUDController, manager_type: orm, label: 'Media' }
 
 We now need to create our Controller, the easiest way is to extend the
 basic Sonata CRUD controller::
@@ -234,7 +234,7 @@ basic Sonata CRUD controller::
 
     namespace App\Controller;
 
-    use Sonata\AdminBundle\Controller\CRUDController;
+    use IDCT\Adminata\Controller\CRUDController;
     use Symfony\Component\HttpFoundation\Response;
 
     class MediaCRUDController extends CRUDController
@@ -248,7 +248,7 @@ basic Sonata CRUD controller::
 Removing a route
 ----------------
 
-Extending ``Sonata\AdminBundle\Admin\AbstractAdmin`` will give your Admin classes the following
+Extending ``IDCT\Adminata\Admin\AbstractAdmin`` will give your Admin classes the following
 default routes:
 
 * batch
@@ -263,13 +263,13 @@ You can view all of the current routes defined for an Admin class by using the c
 
 .. code-block:: bash
 
- bin/console sonata:admin:explain <<admin.service.name>>
+ bin/console adminata:explain <<admin.service.name>>
 
-for example if your Admin is called sonata.admin.foo you would run
+for example if your Admin is called adminata.admin.foo you would run
 
 .. code-block:: bash
 
-    bin/console sonata:admin:explain app.admin.foo
+    bin/console adminata:explain app.admin.foo
 
 Sonata internally checks for the existence of a route before linking to it. As a result, removing a
 route will prevent links to that action from appearing in the administrative interface. For example,
@@ -282,7 +282,7 @@ Any single registered route can be removed by name::
 
     // src/Admin/MediaAdmin.php
 
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     final class MediaAdmin extends AbstractAdmin
     {
@@ -300,7 +300,7 @@ the ``clearExcept()`` method. This method accepts an array of routes you want to
 
     // src/Admin/MediaAdmin.php
 
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     final class MediaAdmin extends AbstractAdmin
     {
@@ -321,7 +321,7 @@ If you want to remove all default routes, you can use ``clear()`` method::
 
     // src/Admin/MediaAdmin.php
 
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     final class MediaAdmin extends AbstractAdmin
     {
@@ -341,7 +341,7 @@ can use ``hasParentFieldDescription()`` to detect this case and remove the route
 
     // src/Admin/TagAdmin.php
 
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     final class TagAdmin extends AbstractAdmin
     {
@@ -361,7 +361,7 @@ Any previously removed route can be restored by name::
 
     // src/Admin/DeletableMediaAdmin.php
 
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     final class DeletableMediaAdmin extends MediaAdmin
     {

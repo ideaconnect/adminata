@@ -11,16 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Menu\Integration;
+namespace IDCT\Adminata\Tests\Menu\Integration;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\MatcherInterface;
 use Knp\Menu\Renderer\TwigRenderer;
 use Knp\Menu\Twig\MenuExtension;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Tests\Fixtures\StubTranslator;
-use Sonata\AdminBundle\Twig\Extension\IconExtension;
-use Sonata\AdminBundle\Twig\IconRuntime;
+use IDCT\Adminata\Tests\Fixtures\StubTranslator;
+use IDCT\Adminata\Twig\Extension\IconExtension;
+use IDCT\Adminata\Twig\IconRuntime;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;

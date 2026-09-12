@@ -13,20 +13,20 @@ file that was distributed with this source code.
 #}
 {#
     The form's own errors — the optimistic-lock conflict among them — as dismissible alerts.
-    `sonata-dismiss` replaces Bootstrap's `data-dismiss="alert"`; `alert alert-danger` stays,
+    `adminata-dismiss` replaces Bootstrap's `data-dismiss="alert"`; `alert alert-danger` stays,
     because an application's stylesheet selects on it (PLAN/02 §8).
 #}
 {% for error in form.vars.errors %}
     <div class="adm-alert adm-alert-error alert alert-danger mb-4"
          role="alert"
-         {{ stimulus_controller('sonata-dismiss') }}
+         {{ stimulus_controller('adminata-dismiss') }}
     >
         <div class="adm-alert__body">{{ error.message }}</div>
 
         <button type="button"
                 class="adm-alert__dismiss close"
-                aria-label="{{ 'message_close'|trans({}, 'SonataAdminBundle') }}"
-                {{ stimulus_action('sonata-dismiss', 'dismiss', 'click') }}
+                aria-label="{{ 'message_close'|trans({}, 'AdminataBundle') }}"
+                {{ stimulus_action('adminata-dismiss', 'dismiss', 'click') }}
         >
             <i class="fas fa-xmark" aria-hidden="true"></i>
         </button>

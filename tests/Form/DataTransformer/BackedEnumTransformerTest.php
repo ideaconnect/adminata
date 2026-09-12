@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\DataTransformer;
+namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Form\DataTransformer\BackedEnumTransformer;
-use Sonata\AdminBundle\Tests\Fixtures\Enum\Suit;
+use IDCT\Adminata\Form\DataTransformer\BackedEnumTransformer;
+use IDCT\Adminata\Tests\Fixtures\Enum\Suit;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 

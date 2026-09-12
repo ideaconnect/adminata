@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Command;
+namespace IDCT\Adminata\Command;
 
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Util\AdminAclManipulatorInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Util\AdminAclManipulatorInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-#[AsCommand(name: 'sonata:admin:setup-acl', description: 'Install ACL for Admin Classes')]
+#[AsCommand(name: 'adminata:setup-acl', description: 'Install ACL for Admin Classes')]
 final class SetupAclCommand extends Command
 {
     /**

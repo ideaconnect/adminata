@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Validator\Constraints;
+namespace IDCT\Adminata\Validator\Constraints;
 
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
@@ -107,7 +107,7 @@ final class InlineConstraint extends Constraint
 
     public function validatedBy(): string
     {
-        return 'sonata.form.validator.inline';
+        return 'adminata.form.validator.inline';
     }
 
     public function isClosure(): bool

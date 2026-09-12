@@ -15,25 +15,25 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import MenuController from '../controllers/menu_controller.js';
 import { mount, settle } from './helpers.js';
 
-const STORAGE_KEY = 'sonata_sidebar_open';
+const STORAGE_KEY = 'adminata_sidebar_open';
 
 /**
  * @param {{catalogue?: boolean, taxonomy?: boolean, pinned?: boolean}} state
  */
 const menu = ({ catalogue = false, taxonomy = false, pinned = false } = {}) => `
-    <nav data-controller="sonata-menu">
+    <nav data-controller="adminata-menu">
         <ul class="sidebar-menu">
             <li>
                 <button type="button" class="menu-item" aria-expanded="${catalogue}"
-                        ${pinned ? 'data-sonata-menu-keep-open="true"' : ''}
-                        data-sonata-menu-target="toggle" data-action="click->sonata-menu#toggle">
+                        ${pinned ? 'data-adminata-menu-keep-open="true"' : ''}
+                        data-adminata-menu-target="toggle" data-action="click->adminata-menu#toggle">
                     <span class="menu-item-text">Catalogue</span>
                 </button>
                 <ul class="menu-dropdown"><li><a href="/products">Products</a></li></ul>
             </li>
             <li>
                 <button type="button" class="menu-item" aria-expanded="${taxonomy}"
-                        data-sonata-menu-target="toggle" data-action="click->sonata-menu#toggle">
+                        data-adminata-menu-target="toggle" data-action="click->adminata-menu#toggle">
                     <span class="menu-item-text">Taxonomy</span>
                 </button>
                 <ul class="menu-dropdown"><li><a href="/categories">Categories</a></li></ul>
@@ -42,22 +42,22 @@ const menu = ({ catalogue = false, taxonomy = false, pinned = false } = {}) => `
     </nav>
 `;
 
-const buttons = (element) => [...element.querySelectorAll('[data-sonata-menu-target="toggle"]')];
+const buttons = (element) => [...element.querySelectorAll('[data-adminata-menu-target="toggle"]')];
 const expanded = (element) => buttons(element).map((button) => button.getAttribute('aria-expanded'));
 
 beforeEach(() => {
     window.localStorage.clear();
 });
 
-describe('sonata-menu', () => {
+describe('adminata-menu', () => {
     it('leaves what the server rendered alone when nothing is stored', async () => {
-        const { element } = await mount('sonata-menu', MenuController, menu({ taxonomy: true }));
+        const { element } = await mount('adminata-menu', MenuController, menu({ taxonomy: true }));
 
         expect(expanded(element)).toEqual(['false', 'true']);
     });
 
     it('opens and closes a group, and remembers both', async () => {
-        const { element } = await mount('sonata-menu', MenuController, menu());
+        const { element } = await mount('adminata-menu', MenuController, menu());
 
         buttons(element)[0].click();
         await settle();
@@ -75,7 +75,7 @@ describe('sonata-menu', () => {
     });
 
     it('lets several groups stay open at once', async () => {
-        const { element } = await mount('sonata-menu', MenuController, menu());
+        const { element } = await mount('adminata-menu', MenuController, menu());
 
         buttons(element)[0].click();
         buttons(element)[1].click();
@@ -87,7 +87,7 @@ describe('sonata-menu', () => {
     it('applies what was stored on the next page', async () => {
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ Catalogue: true, Taxonomy: false }));
 
-        const { element } = await mount('sonata-menu', MenuController, menu());
+        const { element } = await mount('adminata-menu', MenuController, menu());
 
         expect(expanded(element)).toEqual(['true', 'false']);
     });
@@ -95,7 +95,7 @@ describe('sonata-menu', () => {
     it('keeps the group holding the current page open whatever was stored', async () => {
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ Catalogue: false }));
 
-        const { element } = await mount('sonata-menu', MenuController, menu({ catalogue: true }));
+        const { element } = await mount('adminata-menu', MenuController, menu({ catalogue: true }));
 
         expect(expanded(element)).toEqual(['true', 'false']);
     });
@@ -103,7 +103,7 @@ describe('sonata-menu', () => {
     it('will not close a group the server pinned', async () => {
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ Catalogue: false }));
 
-        const { element } = await mount('sonata-menu', MenuController, menu({ pinned: true }));
+        const { element } = await mount('adminata-menu', MenuController, menu({ pinned: true }));
 
         expect(expanded(element)).toEqual(['true', 'false']);
 
@@ -120,7 +120,7 @@ describe('sonata-menu', () => {
      * sidebar that unfolds on every page load would be the obvious way to get this wrong.
      */
     it('leaves no inline styles on the panel after a click', async () => {
-        const { element } = await mount('sonata-menu', MenuController, menu());
+        const { element } = await mount('adminata-menu', MenuController, menu());
         const panel = element.querySelector('.menu-dropdown');
 
         buttons(element)[0].click();
@@ -141,7 +141,7 @@ describe('sonata-menu', () => {
     it('does not animate the groups it restores on connect', async () => {
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ Catalogue: true }));
 
-        const { element } = await mount('sonata-menu', MenuController, menu());
+        const { element } = await mount('adminata-menu', MenuController, menu());
         const panel = element.querySelector('.menu-dropdown');
 
         expect(expanded(element)).toEqual(['true', 'false']);
@@ -152,7 +152,7 @@ describe('sonata-menu', () => {
     it('ignores a stored value that is not a map', async () => {
         window.localStorage.setItem(STORAGE_KEY, '"nonsense"');
 
-        const { element } = await mount('sonata-menu', MenuController, menu({ taxonomy: true }));
+        const { element } = await mount('adminata-menu', MenuController, menu({ taxonomy: true }));
 
         expect(expanded(element)).toEqual(['false', 'true']);
     });

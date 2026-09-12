@@ -14,57 +14,57 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use Sonata\AdminBundle\Exporter\Exporter;
-use Sonata\AdminBundle\Exporter\ExporterInterface;
-use Sonata\AdminBundle\Exporter\Writer\CsvWriter;
-use Sonata\AdminBundle\Exporter\Writer\JsonWriter;
-use Sonata\AdminBundle\Exporter\Writer\XlsWriter;
-use Sonata\AdminBundle\Exporter\Writer\XlsxWriter;
-use Sonata\AdminBundle\Exporter\Writer\XmlWriter;
+use IDCT\Adminata\Exporter\Exporter;
+use IDCT\Adminata\Exporter\ExporterInterface;
+use IDCT\Adminata\Exporter\Writer\CsvWriter;
+use IDCT\Adminata\Exporter\Writer\JsonWriter;
+use IDCT\Adminata\Exporter\Writer\XlsWriter;
+use IDCT\Adminata\Exporter\Writer\XlsxWriter;
+use IDCT\Adminata\Exporter\Writer\XmlWriter;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set('sonata.exporter.writer.csv', CsvWriter::class)
+    $services->set('adminata.exporter.writer.csv', CsvWriter::class)
         ->args([
-            param('sonata.exporter.writer.csv.filename'),
-            param('sonata.exporter.writer.csv.delimiter'),
-            param('sonata.exporter.writer.csv.enclosure'),
-            param('sonata.exporter.writer.csv.escape'),
-            param('sonata.exporter.writer.csv.show_headers'),
-            param('sonata.exporter.writer.csv.with_bom'),
+            param('adminata.exporter.writer.csv.filename'),
+            param('adminata.exporter.writer.csv.delimiter'),
+            param('adminata.exporter.writer.csv.enclosure'),
+            param('adminata.exporter.writer.csv.escape'),
+            param('adminata.exporter.writer.csv.show_headers'),
+            param('adminata.exporter.writer.csv.with_bom'),
         ]);
 
-    $services->set('sonata.exporter.writer.json', JsonWriter::class)
+    $services->set('adminata.exporter.writer.json', JsonWriter::class)
         ->args([
-            param('sonata.exporter.writer.json.filename'),
+            param('adminata.exporter.writer.json.filename'),
         ]);
 
-    $services->set('sonata.exporter.writer.xls', XlsWriter::class)
+    $services->set('adminata.exporter.writer.xls', XlsWriter::class)
         ->args([
-            param('sonata.exporter.writer.xls.filename'),
-            param('sonata.exporter.writer.xls.show_headers'),
+            param('adminata.exporter.writer.xls.filename'),
+            param('adminata.exporter.writer.xls.show_headers'),
         ]);
 
     if (class_exists(Spreadsheet::class)) {
-        $services->set('sonata.exporter.writer.xlsx', XlsxWriter::class)
+        $services->set('adminata.exporter.writer.xlsx', XlsxWriter::class)
             ->args([
-                param('sonata.exporter.writer.xlsx.filename'),
-                param('sonata.exporter.writer.xlsx.show_headers'),
-                param('sonata.exporter.writer.xlsx.show_filters'),
+                param('adminata.exporter.writer.xlsx.filename'),
+                param('adminata.exporter.writer.xlsx.show_headers'),
+                param('adminata.exporter.writer.xlsx.show_filters'),
             ]);
     }
 
-    $services->set('sonata.exporter.writer.xml', XmlWriter::class)
+    $services->set('adminata.exporter.writer.xml', XmlWriter::class)
         ->args([
-            param('sonata.exporter.writer.xml.filename'),
-            param('sonata.exporter.writer.xml.main_element'),
-            param('sonata.exporter.writer.xml.child_element'),
+            param('adminata.exporter.writer.xml.filename'),
+            param('adminata.exporter.writer.xml.main_element'),
+            param('adminata.exporter.writer.xml.child_element'),
         ]);
 
-    $services->set('sonata.exporter.exporter', Exporter::class)
+    $services->set('adminata.exporter.exporter', Exporter::class)
         ->public();
 
-    $services->alias(Exporter::class, 'sonata.exporter.exporter');
-    $services->alias(ExporterInterface::class, 'sonata.exporter.exporter');
+    $services->alias(Exporter::class, 'adminata.exporter.exporter');
+    $services->alias(ExporterInterface::class, 'adminata.exporter.exporter');
 };

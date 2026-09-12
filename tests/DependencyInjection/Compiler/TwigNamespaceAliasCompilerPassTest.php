@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection\Compiler;
+namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\DependencyInjection\Compiler\TwigNamespaceAliasCompilerPass;
+use IDCT\Adminata\DependencyInjection\Compiler\TwigNamespaceAliasCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -35,9 +35,9 @@ final class TwigNamespaceAliasCompilerPassTest extends TestCase
         $calls = $container->getDefinition('twig.loader.native_filesystem')->getMethodCalls();
 
         static::assertSame([
-            ['addPath', [$views, 'SonataBlock']],
-            ['addPath', [$views, 'SonataForm']],
-            ['addPath', [$views, 'SonataTwig']],
+            ['addPath', [$views, 'AdminataBlock']],
+            ['addPath', [$views, 'AdminataForm']],
+            ['addPath', [$views, 'AdminataTwig']],
         ], $calls);
     }
 

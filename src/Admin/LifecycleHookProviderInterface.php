@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Admin;
+namespace IDCT\Adminata\Admin;
 
-use Sonata\AdminBundle\Exception\LockException;
-use Sonata\AdminBundle\Exception\ModelManagerThrowable;
+use IDCT\Adminata\Exception\LockException;
+use IDCT\Adminata\Exception\ModelManagerThrowable;
 
 /**
  * This interface can be implemented to provide hooks that will be called

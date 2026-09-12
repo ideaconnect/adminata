@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
-use Sonata\AdminBundle\DependencyInjection\Admin\TaggedAdminInterface;
+use IDCT\Adminata\DependencyInjection\Admin\TaggedAdminInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
@@ -31,7 +31,7 @@ final class AdminSearchCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition('sonata.admin.search.handler')) {
+        if (!$container->hasDefinition('adminata.admin.search.handler')) {
             return;
         }
 
@@ -49,7 +49,7 @@ final class AdminSearchCompilerPass implements CompilerPassInterface
             }
         }
 
-        $searchHandlerDefinition = $container->getDefinition('sonata.admin.search.handler');
+        $searchHandlerDefinition = $container->getDefinition('adminata.admin.search.handler');
         $searchHandlerDefinition->addMethodCall('configureAdminSearch', [$adminSearch]);
     }
 

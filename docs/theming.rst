@@ -8,12 +8,12 @@ or not a utility uses it, which is what makes that possible.
 Light, dark and system
 ----------------------
 
-The mode is resolved **on the server**, before a byte is sent, from the ``sonata_theme`` cookie:
+The mode is resolved **on the server**, before a byte is sent, from the ``adminata_theme`` cookie:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
-    sonata_admin:
+    # config/packages/adminata.yaml
+    adminata:
         options:
             theme:
                 mode: system   # light | dark | system

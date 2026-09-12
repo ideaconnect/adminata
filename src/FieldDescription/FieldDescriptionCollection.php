@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\FieldDescription;
+namespace IDCT\Adminata\FieldDescription;
 
-use Sonata\AdminBundle\Datagrid\ListMapper;
+use IDCT\Adminata\Datagrid\ListMapper;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

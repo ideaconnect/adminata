@@ -19,22 +19,22 @@ file that was distributed with this source code.
 #}
 
 {% if admin.hasAccess('edit', object) and admin.hasRoute('edit') %}
-    {% set button_content = sonata_config.getOption('list_action_button_content') %}
+    {% set button_content = adminata_config.getOption('list_action_button_content') %}
     {% set show_icon = button_content in ['icon', 'all'] %}
     {% set show_text = button_content in ['text', 'all'] %}
     {% set recipe = show_text ? 'adm-btn adm-btn-secondary adm-btn-sm' : 'adm-btn-icon adm-btn-icon-edit' %}
     <a
         href="{{ admin.generateObjectUrl('edit', object, actions.link_parameters|default([])) }}"
         class="{{ recipe }} edit_link"
-        title="{{ 'action_edit'|trans({}, 'SonataAdminBundle') }}"
+        title="{{ 'action_edit'|trans({}, 'AdminataBundle') }}"
     >
         {% if show_icon %}
             <i class="fas fa-pencil" aria-hidden="true"></i>
         {% endif %}
         {% if show_text %}
-            {{ 'action_edit'|trans({}, 'SonataAdminBundle') }}
+            {{ 'action_edit'|trans({}, 'AdminataBundle') }}
         {% else %}
-            <span class="sr-only">{{ 'action_edit'|trans({}, 'SonataAdminBundle') }}</span>
+            <span class="sr-only">{{ 'action_edit'|trans({}, 'AdminataBundle') }}</span>
         {% endif %}
     </a>
 {% endif %}

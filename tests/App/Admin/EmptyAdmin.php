@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Admin;
+namespace IDCT\Adminata\Tests\App\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\Form\FormMapper;
+use IDCT\Adminata\Show\ShowMapper;
 
 /**
  * @phpstan-extends AbstractAdmin<object>

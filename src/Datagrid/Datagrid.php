@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Datagrid;
+namespace IDCT\Adminata\Datagrid;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Filter\FilterInterface;
-use Sonata\AdminBundle\Form\Type\Filter\FilterDataType;
+use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Filter\FilterInterface;
+use IDCT\Adminata\Form\Type\Filter\FilterDataType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;

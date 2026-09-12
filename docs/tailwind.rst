@@ -90,10 +90,10 @@ Then tell adminata to stop shipping its own copy, and to load yours:
 
 .. code-block:: yaml
 
-    sonata_admin:
+    adminata:
         assets:
             remove_stylesheets:
-                - bundles/sonataadmin/app.css
+                - bundles/adminata/app.css
             extra_stylesheets:
                 - build/admin.css
 

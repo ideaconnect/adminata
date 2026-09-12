@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Profiler\DataCollector;
+namespace IDCT\Adminata\Tests\Profiler\DataCollector;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Profiler\DataCollector\BlockDataCollector;
-use Sonata\AdminBundle\Templating\BlockHelper;
+use IDCT\Adminata\Profiler\DataCollector\BlockDataCollector;
+use IDCT\Adminata\Templating\BlockHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

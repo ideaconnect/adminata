@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Security\Handler;
+namespace IDCT\Adminata\Tests\Security\Handler;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
@@ -19,8 +19,8 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Security\Handler\RoleSecurityHandler;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Security\Handler\RoleSecurityHandler;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
@@ -261,20 +261,20 @@ final class RoleSecurityHandlerTest extends TestCase
     public function testCreateObjectSecurity(): void
     {
         $handler = $this->getRoleSecurityHandler('ROLE_FOO');
-        $handler->createObjectSecurity($this->getSonataAdminObject(), new \stdClass());
+        $handler->createObjectSecurity($this->getAdminataObject(), new \stdClass());
     }
 
     #[DoesNotPerformAssertions]
     public function testDeleteObjectSecurity(): void
     {
         $handler = $this->getRoleSecurityHandler('ROLE_FOO');
-        $handler->deleteObjectSecurity($this->getSonataAdminObject(), new \stdClass());
+        $handler->deleteObjectSecurity($this->getAdminataObject(), new \stdClass());
     }
 
     public function testBuildSecurityInformation(): void
     {
         $handler = $this->getRoleSecurityHandler('ROLE_FOO');
-        static::assertSame([], $handler->buildSecurityInformation($this->getSonataAdminObject()));
+        static::assertSame([], $handler->buildSecurityInformation($this->getAdminataObject()));
     }
 
     /**
@@ -288,7 +288,7 @@ final class RoleSecurityHandlerTest extends TestCase
     /**
      * @return AdminInterface<object>&MockObject
      */
-    private function getSonataAdminObject(): AdminInterface
+    private function getAdminataObject(): AdminInterface
     {
         return $this->createMock(AdminInterface::class);
     }

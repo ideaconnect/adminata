@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Doctrine\Document;
+namespace IDCT\Adminata\Doctrine\Document;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\Persistence\ObjectManager;
-use Sonata\AdminBundle\Doctrine\Model\BaseManager;
+use IDCT\Adminata\Doctrine\Model\BaseManager;
 
 /**
  * @author Hugo Briand <briand@ekino.com>

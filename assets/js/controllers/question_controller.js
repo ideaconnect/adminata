@@ -17,17 +17,17 @@ import { Controller } from '@hotwired/stimulus';
  * page's own dialog rather than the browser's box.
  *
  * It sits on the thing that acts: a submit `<button>`, a `<form>`, or a link. Its `ask` action
- * stops that thing, fills the layout's question dialog (`sonata-question-dialog`, rendered beside
- * the shared one by the `sonata_dialog` block) with the `text`, an optional `title` and the two
- * button labels, and opens it through the `sonata-modal` on it — so the size, the backdrop, Escape
- * and `sonata-modal:opened` stay that controller's. Then one of two things happens:
+ * stops that thing, fills the layout's question dialog (`adminata-question-dialog`, rendered beside
+ * the shared one by the `adminata_dialog` block) with the `text`, an optional `title` and the two
+ * button labels, and opens it through the `adminata-modal` on it — so the size, the backdrop, Escape
+ * and `adminata-modal:opened` stay that controller's. Then one of two things happens:
  *
- * - the person confirms: `sonata-question:confirmed` is dispatched on the element, and unless a
+ * - the person confirms: `adminata-question:confirmed` is dispatched on the element, and unless a
  *   listener called `preventDefault()` on it the action goes ahead by itself — the form is
  *   submitted (with the button as its submitter, so its `name`, `value` and `formaction` count),
  *   or the link is followed;
  * - the dialog closes any other way — the cancel button, the close button, Escape:
- *   `sonata-question:cancelled` is dispatched and nothing else happens. The backdrop does not
+ *   `adminata-question:cancelled` is dispatched and nothing else happens. The backdrop does not
  *   close it; a stray click outside a question is not an answer.
  *
  * A controller of the application's own that needs to do something else on a yes — build a form
@@ -35,7 +35,7 @@ import { Controller } from '@hotwired/stimulus';
  *
  * `text` is set as text: nothing in it becomes markup, which is what a question built from a
  * record's own fields needs. Another dialog can be named with `target`; it must carry
- * `sonata-modal`, an `aria-labelledby` for its heading, and the three `data-sonata-question-*`
+ * `adminata-modal`, an `aria-labelledby` for its heading, and the three `data-adminata-question-*`
  * hooks the layout's has.
  */
 /** The labels each dialog was rendered with, so a question that names none puts them back. */
@@ -43,7 +43,7 @@ const defaults = new WeakMap();
 
 export default class extends Controller {
     static values = {
-        target: { type: String, default: 'sonata-question-dialog' },
+        target: { type: String, default: 'adminata-question-dialog' },
         text: String,
         title: String,
         confirm: String,
@@ -70,13 +70,13 @@ export default class extends Controller {
         const dialog = document.getElementById(this.targetValue);
 
         if (!(dialog instanceof HTMLDialogElement)) {
-            throw new Error(`sonata-question: there is no <dialog id="${this.targetValue}"> to ask in.`);
+            throw new Error(`adminata-question: there is no <dialog id="${this.targetValue}"> to ask in.`);
         }
 
-        const confirmButton = dialog.querySelector('[data-sonata-question-confirm]');
+        const confirmButton = dialog.querySelector('[data-adminata-question-confirm]');
 
         if (!(confirmButton instanceof HTMLButtonElement)) {
-            throw new Error(`sonata-question: <dialog id="${this.targetValue}"> has no confirm button.`);
+            throw new Error(`adminata-question: <dialog id="${this.targetValue}"> has no confirm button.`);
         }
 
         this.fill(dialog, confirmButton);
@@ -104,7 +104,7 @@ export default class extends Controller {
         confirmButton.addEventListener('click', onConfirm);
         dialog.addEventListener('close', onClose, { once: true });
 
-        const modal = this.application.getControllerForElementAndIdentifier(dialog, 'sonata-modal');
+        const modal = this.application.getControllerForElementAndIdentifier(dialog, 'adminata-modal');
 
         if (null === modal) {
             dialog.showModal();
@@ -122,8 +122,8 @@ export default class extends Controller {
     fill(dialog, confirmButton) {
         const labelledBy = dialog.getAttribute('aria-labelledby');
         const title = null === labelledBy ? null : document.getElementById(labelledBy);
-        const text = dialog.querySelector('[data-sonata-question-text]');
-        const cancelButton = dialog.querySelector('[data-sonata-question-cancel]');
+        const text = dialog.querySelector('[data-adminata-question-text]');
+        const cancelButton = dialog.querySelector('[data-adminata-question-cancel]');
 
         for (const [element, value] of [
             [title, this.hasTitleValue ? this.titleValue : ''],

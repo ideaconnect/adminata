@@ -82,7 +82,7 @@ final class ReplaceTest extends TestCase
      * next to adminata, because Composer would then have to choose between two providers of the
      * same names.
      */
-    public function testNoSonataPackageIsInstalledAlongsideAdminata(): void
+    public function testNoAdminataPackageIsInstalledAlongsideAdminata(): void
     {
         $this->writeProject([
             'idct/adminata' => '@dev',

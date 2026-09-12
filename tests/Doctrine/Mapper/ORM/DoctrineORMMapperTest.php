@@ -11,20 +11,20 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Doctrine\Mapper\ORM;
+namespace IDCT\Adminata\Tests\Doctrine\Mapper\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\DiscriminatorColumnMapping;
 use Doctrine\Persistence\Event\LoadClassMetadataEventArgs;
-use Sonata\AdminBundle\Doctrine\Mapper\Builder\ColumnDefinitionBuilder;
-use Sonata\AdminBundle\Doctrine\Mapper\Builder\OptionsBuilder;
-use Sonata\AdminBundle\Doctrine\Mapper\DoctrineCollector;
-use Sonata\AdminBundle\Doctrine\Mapper\ORM\DoctrineORMMapper;
-use Sonata\AdminBundle\Tests\Doctrine\App\Entity\TestEntity;
-use Sonata\AdminBundle\Tests\Doctrine\App\Entity\TestInheritanceEntity;
-use Sonata\AdminBundle\Tests\Doctrine\App\Entity\TestRelatedEntity;
-use Sonata\AdminBundle\Tests\Doctrine\App\Kernel;
+use IDCT\Adminata\Doctrine\Mapper\Builder\ColumnDefinitionBuilder;
+use IDCT\Adminata\Doctrine\Mapper\Builder\OptionsBuilder;
+use IDCT\Adminata\Doctrine\Mapper\DoctrineCollector;
+use IDCT\Adminata\Doctrine\Mapper\ORM\DoctrineORMMapper;
+use IDCT\Adminata\Tests\Doctrine\App\Entity\TestEntity;
+use IDCT\Adminata\Tests\Doctrine\App\Entity\TestInheritanceEntity;
+use IDCT\Adminata\Tests\Doctrine\App\Entity\TestRelatedEntity;
+use IDCT\Adminata\Tests\Doctrine\App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class DoctrineORMMapperTest extends KernelTestCase
@@ -61,7 +61,7 @@ final class DoctrineORMMapperTest extends KernelTestCase
     {
         self::bootKernel();
 
-        $mapper = static::getContainer()->get('sonata.doctrine.mapper');
+        $mapper = static::getContainer()->get('adminata.doctrine.mapper');
 
         static::assertInstanceOf(DoctrineORMMapper::class, $mapper);
     }
@@ -71,7 +71,7 @@ final class DoctrineORMMapperTest extends KernelTestCase
         self::bootKernel();
 
         /** @var DoctrineORMMapper $mapper */
-        $mapper = static::getContainer()->get('sonata.doctrine.mapper');
+        $mapper = static::getContainer()->get('adminata.doctrine.mapper');
 
         /** @var EntityManagerInterface $entityManager */
         $entityManager = static::getContainer()->get('doctrine.orm.entity_manager');

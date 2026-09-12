@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Builder;
+namespace IDCT\Adminata\Tests\App\Builder;
 
-use Sonata\AdminBundle\Builder\ShowBuilderInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
+use IDCT\Adminata\Builder\ShowBuilderInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Templating\TemplateRegistryInterface;
 
 final class ShowBuilder implements ShowBuilderInterface
 {

@@ -33,7 +33,7 @@ adminata versions itself from **1.0.0**; the `replace` versions track upstream s
 | Change | Release |
 |---|---|
 | PHP API break; removal of a template file, a template-registry key, a config node, a service id or a Twig block listed in [PLAN/02 §5](PLAN/02-compatibility-contract.md) | **major** |
-| Markup rewritten while keeping those blocks and the `sonata-*` hooks; new blocks; new Stimulus controllers, targets or events; a new config node; a BC upstream PHP sync (which also bumps the corresponding `replace` version in the same release) | **minor** |
+| Markup rewritten while keeping those blocks and the `adminata-*` hooks; new blocks; new Stimulus controllers, targets or events; a new config node; a BC upstream PHP sync (which also bumps the corresponding `replace` version in the same release) | **minor** |
 | CSS-only changes; bug fixes that keep the markup contract | **patch** |
 
 An upstream sync never lands alone: the same release bumps the package's entry in `composer.json`

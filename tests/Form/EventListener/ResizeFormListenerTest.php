@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\EventListener;
+namespace IDCT\Adminata\Tests\Form\EventListener;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Form\EventListener\ResizeFormListener;
+use IDCT\Adminata\Form\EventListener\ResizeFormListener;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\Extension\Core\DataMapper\DataMapper;

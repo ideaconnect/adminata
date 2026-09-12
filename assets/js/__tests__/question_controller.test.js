@@ -18,61 +18,61 @@ import { mount, settle } from './helpers.js';
 
 /** The layout's question dialog, as `Core/question_dialog.html.twig` renders it. */
 const dialog = `
-    <dialog id="sonata-question-dialog" aria-labelledby="sonata-question-dialog-title"
-            data-controller="sonata-modal" data-sonata-modal-target="dialog"
-            data-sonata-modal-size-value="sm" data-sonata-modal-backdrop-value="false">
-        <div class="adm-dialog__header"><h1 id="sonata-question-dialog-title">Are you sure ?</h1></div>
-        <div class="adm-dialog__body"><p data-sonata-question-text></p></div>
+    <dialog id="adminata-question-dialog" aria-labelledby="adminata-question-dialog-title"
+            data-controller="adminata-modal" data-adminata-modal-target="dialog"
+            data-adminata-modal-size-value="sm" data-adminata-modal-backdrop-value="false">
+        <div class="adm-dialog__header"><h1 id="adminata-question-dialog-title">Are you sure ?</h1></div>
+        <div class="adm-dialog__body"><p data-adminata-question-text></p></div>
         <div class="adm-dialog__footer">
-            <button type="button" id="cancel" data-sonata-question-cancel data-action="click->sonata-modal#close">Cancel</button>
-            <button type="button" id="confirm" data-sonata-question-confirm>Confirm</button>
+            <button type="button" id="cancel" data-adminata-question-cancel data-action="click->adminata-modal#close">Cancel</button>
+            <button type="button" id="confirm" data-adminata-question-confirm>Confirm</button>
         </div>
     </dialog>
 `;
 
 const values = (extra = '') =>
-    `data-controller="sonata-question" data-sonata-question-text-value="Delete it?" ${extra}`;
+    `data-controller="adminata-question" data-adminata-question-text-value="Delete it?" ${extra}`;
 
 const buttonInForm = (extra = '') => `
     <form id="form" action="/delete" method="post">
         <input type="hidden" name="_token" value="t">
         <button type="submit" id="trigger" name="which" value="this" ${values(extra)}
-                data-action="click->sonata-question#ask">Delete</button>
+                data-action="click->adminata-question#ask">Delete</button>
     </form>
     ${dialog}
 `;
 
 const formTrigger = `
-    <form id="form" action="/delete" method="post" ${values()} data-action="submit->sonata-question#ask">
+    <form id="form" action="/delete" method="post" ${values()} data-action="submit->adminata-question#ask">
         <button type="submit" id="submit">Delete</button>
     </form>
     ${dialog}
 `;
 
 const linkTrigger = `
-    <a href="https://example.test/archive" id="trigger" ${values()} data-action="click->sonata-question#ask">Archive</a>
+    <a href="https://example.test/archive" id="trigger" ${values()} data-action="click->adminata-question#ask">Archive</a>
     ${dialog}
 `;
 
-/** Both controllers, the way a page has them: the question on the trigger, `sonata-modal` on the dialog. */
+/** Both controllers, the way a page has them: the question on the trigger, `adminata-modal` on the dialog. */
 async function mountPage(html) {
-    const { application, element } = await mount('sonata-question', QuestionController, html);
-    application.register('sonata-modal', ModalController);
+    const { application, element } = await mount('adminata-question', QuestionController, html);
+    application.register('adminata-modal', ModalController);
     await settle();
 
-    return { application, element, dialog: document.getElementById('sonata-question-dialog') };
+    return { application, element, dialog: document.getElementById('adminata-question-dialog') };
 }
 
-describe('sonata-question', () => {
-    it('stops the click, fills the dialog and opens it through sonata-modal', async () => {
+describe('adminata-question', () => {
+    it('stops the click, fills the dialog and opens it through adminata-modal', async () => {
         const { element, dialog } = await mountPage(
             buttonInForm(
-                'data-sonata-question-title-value="Delete?" data-sonata-question-confirm-value="Yes, delete" data-sonata-question-cancel-value="Keep"',
+                'data-adminata-question-title-value="Delete?" data-adminata-question-confirm-value="Yes, delete" data-adminata-question-cancel-value="Keep"',
             ),
         );
         const opened = vi.fn();
         const submitted = vi.fn((event) => event.preventDefault());
-        dialog.addEventListener('sonata-modal:opened', opened);
+        dialog.addEventListener('adminata-modal:opened', opened);
         document.getElementById('form').addEventListener('submit', submitted);
 
         element.click();
@@ -81,8 +81,8 @@ describe('sonata-question', () => {
         expect(dialog.open).toBe(true);
         expect(opened).toHaveBeenCalledTimes(1);
         expect(submitted).not.toHaveBeenCalled();
-        expect(document.getElementById('sonata-question-dialog-title').textContent).toBe('Delete?');
-        expect(dialog.querySelector('[data-sonata-question-text]').textContent).toBe('Delete it?');
+        expect(document.getElementById('adminata-question-dialog-title').textContent).toBe('Delete?');
+        expect(dialog.querySelector('[data-adminata-question-text]').textContent).toBe('Delete it?');
         expect(document.getElementById('confirm').textContent).toBe('Yes, delete');
         expect(document.getElementById('cancel').textContent).toBe('Keep');
     });
@@ -95,14 +95,14 @@ describe('sonata-question', () => {
         element.click();
         await settle();
 
-        expect(dialog.querySelector('[data-sonata-question-text]').textContent).toBe('Delete <b>this</b>?');
-        expect(dialog.querySelector('[data-sonata-question-text] b')).toBeNull();
+        expect(dialog.querySelector('[data-adminata-question-text]').textContent).toBe('Delete <b>this</b>?');
+        expect(dialog.querySelector('[data-adminata-question-text] b')).toBeNull();
     });
 
     it('puts the rendered labels back for a question that names none', async () => {
         const { element } = await mountPage(
             buttonInForm(
-                'data-sonata-question-title-value="Delete?" data-sonata-question-confirm-value="Yes"',
+                'data-adminata-question-title-value="Delete?" data-adminata-question-confirm-value="Yes"',
             ),
         );
 
@@ -112,13 +112,13 @@ describe('sonata-question', () => {
         await settle();
 
         // A second, plainer question on the same page.
-        element.removeAttribute('data-sonata-question-title-value');
-        element.removeAttribute('data-sonata-question-confirm-value');
+        element.removeAttribute('data-adminata-question-title-value');
+        element.removeAttribute('data-adminata-question-confirm-value');
         await settle();
         element.click();
         await settle();
 
-        expect(document.getElementById('sonata-question-dialog-title').textContent).toBe('Are you sure ?');
+        expect(document.getElementById('adminata-question-dialog-title').textContent).toBe('Are you sure ?');
         expect(document.getElementById('confirm').textContent).toBe('Confirm');
     });
 
@@ -127,7 +127,7 @@ describe('sonata-question', () => {
         const form = document.getElementById('form');
         const requestSubmit = vi.spyOn(form, 'requestSubmit').mockImplementation(() => {});
         const confirmed = vi.fn();
-        element.addEventListener('sonata-question:confirmed', confirmed);
+        element.addEventListener('adminata-question:confirmed', confirmed);
 
         element.click();
         await settle();
@@ -144,7 +144,7 @@ describe('sonata-question', () => {
         const requestSubmit = vi
             .spyOn(document.getElementById('form'), 'requestSubmit')
             .mockImplementation(() => {});
-        element.addEventListener('sonata-question:confirmed', (event) => event.preventDefault());
+        element.addEventListener('adminata-question:confirmed', (event) => event.preventDefault());
 
         element.click();
         await settle();
@@ -161,8 +161,8 @@ describe('sonata-question', () => {
             .mockImplementation(() => {});
         const cancelled = vi.fn();
         const confirmed = vi.fn();
-        element.addEventListener('sonata-question:cancelled', cancelled);
-        element.addEventListener('sonata-question:confirmed', confirmed);
+        element.addEventListener('adminata-question:cancelled', cancelled);
+        element.addEventListener('adminata-question:confirmed', confirmed);
 
         element.click();
         await settle();
@@ -183,7 +183,7 @@ describe('sonata-question', () => {
     it('lets Escape cancel: the dialog closes and cancelled goes out', async () => {
         const { element, dialog } = await mountPage(buttonInForm());
         const cancelled = vi.fn();
-        element.addEventListener('sonata-question:cancelled', cancelled);
+        element.addEventListener('adminata-question:cancelled', cancelled);
 
         element.click();
         await settle();
@@ -286,13 +286,13 @@ describe('sonata-question', () => {
         }
     });
 
-    it('opens the dialog itself when no sonata-modal drives it', async () => {
+    it('opens the dialog itself when no adminata-modal drives it', async () => {
         const { element } = await mount(
-            'sonata-question',
+            'adminata-question',
             QuestionController,
-            buttonInForm().replace('data-controller="sonata-modal" ', ''),
+            buttonInForm().replace('data-controller="adminata-modal" ', ''),
         );
-        const dialog = document.getElementById('sonata-question-dialog');
+        const dialog = document.getElementById('adminata-question-dialog');
 
         element.click();
         await settle();
@@ -302,9 +302,9 @@ describe('sonata-question', () => {
 
     it('refuses to ask in a dialog that is not there', async () => {
         const { application, element } = await mountPage(
-            buttonInForm('data-sonata-question-target-value="nowhere"'),
+            buttonInForm('data-adminata-question-target-value="nowhere"'),
         );
-        const controller = application.getControllerForElementAndIdentifier(element, 'sonata-question');
+        const controller = application.getControllerForElementAndIdentifier(element, 'adminata-question');
 
         expect(() => controller.ask()).toThrow('there is no <dialog id="nowhere">');
     });

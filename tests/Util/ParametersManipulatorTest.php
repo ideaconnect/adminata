@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Util;
+namespace IDCT\Adminata\Tests\Util;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Util\ParametersManipulator;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\Util\ParametersManipulator;
 
 /**
  * @author Willem Verspyck <willemverspyck@users.noreply.github.com>

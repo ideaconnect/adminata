@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Doctrine\Mapper\ORM\DoctrineORMMapper;
+use IDCT\Adminata\Doctrine\Mapper\ORM\DoctrineORMMapper;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
 
-        ->set('sonata.doctrine.mapper', DoctrineORMMapper::class)
+        ->set('adminata.doctrine.mapper', DoctrineORMMapper::class)
             ->tag('doctrine.event_listener', ['event' => 'loadClassMetadata', 'priority' => 10]);
 };

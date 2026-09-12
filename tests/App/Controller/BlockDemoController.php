@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Controller;
+namespace IDCT\Adminata\Tests\App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
 /**
- * Renders a page that puts two blocks through `sonata_block_render`.
+ * Renders a page that puts two blocks through `adminata_block_render`.
  */
 final class BlockDemoController
 {

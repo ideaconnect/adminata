@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Doctrine\Document;
+namespace IDCT\Adminata\Tests\Doctrine\Document;
 
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Doctrine\Document\BaseDocumentManager;
+use IDCT\Adminata\Doctrine\Document\BaseDocumentManager;
 
 /**
  * @phpstan-extends BaseDocumentManager<object>

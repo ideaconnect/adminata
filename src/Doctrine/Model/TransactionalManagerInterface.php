@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Doctrine\Model;
+namespace IDCT\Adminata\Doctrine\Model;
 
-use Sonata\AdminBundle\Doctrine\Exception\TransactionException;
+use IDCT\Adminata\Doctrine\Exception\TransactionException;
 
 /**
  * @author Erison Silva <erison.sdn@gmail.com>

@@ -11,16 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Admin;
+namespace IDCT\Adminata\Tests\Admin;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminHelper;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\Bar;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\Foo;
+use IDCT\Adminata\Admin\AdminHelper;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Tests\Fixtures\Entity\Bar;
+use IDCT\Adminata\Tests\Fixtures\Entity\Foo;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -236,7 +236,7 @@ final class AdminHelperTest extends TestCase
         $eventDispatcher = static::createStub(EventDispatcherInterface::class);
         $formBuilder = new FormBuilder('test', $foo::class, $eventDispatcher, $formFactory);
         $childFormBuilder = new FormBuilder('bar', \stdClass::class, $eventDispatcher, $formFactory, [
-            'sonata_field_description' => $fieldDescription,
+            'adminata_field_description' => $fieldDescription,
         ]);
         $childFormBuilder->setCompound(true);
         $childFormBuilder->setDataMapper($dataMapper);
@@ -773,19 +773,19 @@ final class AdminHelperTest extends TestCase
         $eventDispatcher = static::createStub(EventDispatcherInterface::class);
 
         $collectionFormBuilder = new FormBuilder('collection', null, $eventDispatcher, $formFactory, [
-            'sonata_field_description' => $collectionFieldDescription,
+            'adminata_field_description' => $collectionFieldDescription,
         ]);
         $collectionFormBuilder->setCompound(true);
         $collectionFormBuilder->setDataMapper($dataMapper);
 
         $childCollectionFormBuilder = new FormBuilder('collection', null, $eventDispatcher, $formFactory, [
-            'sonata_field_description' => $subObjectCollectionFieldDescription,
+            'adminata_field_description' => $subObjectCollectionFieldDescription,
         ]);
         $childCollectionFormBuilder->setCompound(true);
         $childCollectionFormBuilder->setDataMapper($dataMapper);
 
         $childFormBuilder = new FormBuilder('sub_object', $subObject::class, $eventDispatcher, $formFactory, [
-            'sonata_field_description' => $subObjectFieldDescription,
+            'adminata_field_description' => $subObjectFieldDescription,
         ]);
         $childFormBuilder->setCompound(true);
         $childFormBuilder->setDataMapper($dataMapper);

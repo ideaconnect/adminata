@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Search;
+namespace IDCT\Adminata\Search;
 
-use Sonata\AdminBundle\Filter\FilterInterface;
+use IDCT\Adminata\Filter\FilterInterface;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

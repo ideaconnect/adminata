@@ -1,8 +1,8 @@
 {#
     The layout's shared dialog: one native `<dialog>` every page carries, closed and out of the
-    accessibility tree until something opens it. `sonata-modal-trigger`, on any link or button, fills
-    its title and body and opens it; `sonata-modal` on it does the rest — the size, the backdrop, the
-    close buttons, and `sonata-modal:opened` / `sonata-modal:closed` for the page.
+    accessibility tree until something opens it. `adminata-modal-trigger`, on any link or button, fills
+    its title and body and opens it; `adminata-modal` on it does the rest — the size, the backdrop, the
+    close buttons, and `adminata-modal:opened` / `adminata-modal:closed` for the page.
 
     The heading is a real one at rest — a heading with nothing in it is a markup error and, once the
     dialog is open, an unnamed dialog — and a trigger that names no title leaves it. It is an `<h1>`
@@ -11,25 +11,25 @@
     does not continue the page's outline — which also keeps it valid on a page that has no heading
     of its own, where an `<h2>` would be the first heading the validator meets.
 
-    Override the `sonata_dialog` block of the layout to change it, or to leave it out.
+    Override the `adminata_dialog` block of the layout to change it, or to leave it out.
 #}
 <dialog class="adm-dialog"
-        id="sonata-dialog"
-        aria-labelledby="sonata-dialog-title"
-        {{ stimulus_controller('sonata-modal') }}
-        {{ stimulus_target('sonata-modal', 'dialog') }}>
+        id="adminata-dialog"
+        aria-labelledby="adminata-dialog-title"
+        {{ stimulus_controller('adminata-modal') }}
+        {{ stimulus_target('adminata-modal', 'dialog') }}>
     <div class="adm-dialog__header">
-        <h1 class="adm-card-title" id="sonata-dialog-title">{{ 'title_details'|trans({}, 'SonataAdminBundle') }}</h1>
+        <h1 class="adm-card-title" id="adminata-dialog-title">{{ 'title_details'|trans({}, 'AdminataBundle') }}</h1>
         <button type="button" class="adm-btn-icon adm-btn-icon-round"
-                aria-label="{{ 'message_close'|trans({}, 'SonataAdminBundle') }}"
-                {{ stimulus_action('sonata-modal', 'close', 'click') }}>
+                aria-label="{{ 'message_close'|trans({}, 'AdminataBundle') }}"
+                {{ stimulus_action('adminata-modal', 'close', 'click') }}>
             <i class="fas fa-xmark" aria-hidden="true"></i>
         </button>
     </div>
     <div class="adm-dialog__body"></div>
     <div class="adm-dialog__footer">
-        <button type="button" class="adm-btn adm-btn-secondary" {{ stimulus_action('sonata-modal', 'close', 'click') }}>
-            {{ 'message_close'|trans({}, 'SonataAdminBundle') }}
+        <button type="button" class="adm-btn adm-btn-secondary" {{ stimulus_action('adminata-modal', 'close', 'click') }}>
+            {{ 'message_close'|trans({}, 'AdminataBundle') }}
         </button>
     </div>
 </dialog>

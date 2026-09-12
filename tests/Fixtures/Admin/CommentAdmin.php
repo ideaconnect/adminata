@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Admin;
+namespace IDCT\Adminata\Tests\Fixtures\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Route\RouteCollectionInterface;
 
 /**
  * @phpstan-extends AbstractAdmin<object>

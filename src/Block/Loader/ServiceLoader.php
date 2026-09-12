@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block\Loader;
+namespace IDCT\Adminata\Block\Loader;
 
-use Sonata\AdminBundle\Block\BlockLoaderInterface;
-use Sonata\AdminBundle\Model\Block;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Block\BlockLoaderInterface;
+use IDCT\Adminata\Model\Block;
+use IDCT\Adminata\Model\BlockInterface;
 
 final class ServiceLoader implements BlockLoaderInterface
 {

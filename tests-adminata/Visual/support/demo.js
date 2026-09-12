@@ -66,7 +66,7 @@ export const THEMES = ['light', 'dark'];
  * @param {'light' | 'dark'} theme
  */
 export async function useTheme(page, theme) {
-    await page.context().addCookies([{ name: 'sonata_theme', value: theme, url: BASE_URL }]);
+    await page.context().addCookies([{ name: 'adminata_theme', value: theme, url: BASE_URL }]);
 }
 
 /**

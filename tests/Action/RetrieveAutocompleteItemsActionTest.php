@@ -11,20 +11,20 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Action;
+namespace IDCT\Adminata\Tests\Action;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Action\RetrieveAutocompleteItemsAction;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\PagerInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Filter\FilterInterface;
-use Sonata\AdminBundle\Object\MetadataInterface;
-use Sonata\AdminBundle\Request\AdminFetcherInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Filter\FooFilter;
+use IDCT\Adminata\Action\RetrieveAutocompleteItemsAction;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\Datagrid\PagerInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Filter\FilterInterface;
+use IDCT\Adminata\Object\MetadataInterface;
+use IDCT\Adminata\Request\AdminFetcherInterface;
+use IDCT\Adminata\Tests\Fixtures\Filter\FooFilter;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,7 +56,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
     public function testRetrieveAutocompleteItemsActionNotGranted(): void
     {
         $request = new Request([
-            '_sonata_admin' => 'foo.admin',
+            '_adminata_admin' => 'foo.admin',
         ], [], [], [], [], ['REQUEST_METHOD' => Request::METHOD_GET, 'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
 
         $this->admin->method('hasAccess')->willReturnMap([
@@ -73,7 +73,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
     {
         $object = new \stdClass();
         $request = new Request([
-            '_sonata_admin' => 'foo.admin',
+            '_adminata_admin' => 'foo.admin',
             'field' => 'barField',
         ], [], [], [], [], ['REQUEST_METHOD' => Request::METHOD_GET, 'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
 
@@ -101,7 +101,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
     {
         $object = new \stdClass();
         $request = new Request([
-            '_sonata_admin' => 'foo.admin',
+            '_adminata_admin' => 'foo.admin',
             'field' => 'barField',
             'q' => 'so',
         ], [], [], [], [], ['REQUEST_METHOD' => Request::METHOD_GET, 'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
@@ -131,7 +131,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
     public function testRetrieveAutocompleteItems(): void
     {
         $request = new Request([
-            '_sonata_admin' => 'foo.admin',
+            '_adminata_admin' => 'foo.admin',
             'field' => 'barField',
             'q' => 'adminata',
         ], [], [], [], [], ['REQUEST_METHOD' => Request::METHOD_GET, 'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
@@ -156,7 +156,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
     public function testRetrieveAutocompleteItemsComplexPropertyArray(): void
     {
         $request = new Request([
-            '_sonata_admin' => 'foo.admin',
+            '_adminata_admin' => 'foo.admin',
             'field' => 'barField',
             'q' => 'adminata',
         ], [], [], [], [], ['REQUEST_METHOD' => Request::METHOD_GET, 'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);
@@ -200,7 +200,7 @@ final class RetrieveAutocompleteItemsActionTest extends TestCase
     public function testRetrieveAutocompleteItemsComplexProperty(): void
     {
         $request = new Request([
-            '_sonata_admin' => 'foo.admin',
+            '_adminata_admin' => 'foo.admin',
             'field' => 'barField',
             'q' => 'adminata',
         ], [], [], [], [], ['REQUEST_METHOD' => Request::METHOD_GET, 'HTTP_X_REQUESTED_WITH' => 'XMLHttpRequest']);

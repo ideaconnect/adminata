@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Command;
+namespace IDCT\Adminata\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Command\ListAdminCommand;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Command\ListAdminCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\Container;
@@ -50,7 +50,7 @@ final class ListAdminCommandTest extends TestCase
 
         $application->addCommand($command);
 
-        $command = $application->find('sonata:admin:list');
+        $command = $application->find('adminata:list');
         $commandTester = new CommandTester($command);
         $commandTester->execute(['command' => $command->getName()]);
 

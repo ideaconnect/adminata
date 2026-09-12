@@ -3,107 +3,107 @@ services:
         autowire: true
         autoconfigure: true
 
-    Sonata\AdminBundle\Tests\App\:
+    IDCT\Adminata\Tests\App\:
         resource: ../*
         exclude: ../{Entity,config,AppKernel.php}
 
-    Sonata\AdminBundle\Tests\App\Controller\:
+    IDCT\Adminata\Tests\App\Controller\:
         resource: ../Controller
         tags: [controller.service_arguments]
 
-    Sonata\AdminBundle\Tests\App\Block\DemoBlockService:
-        tags: [sonata.block]
+    IDCT\Adminata\Tests\App\Block\DemoBlockService:
+        tags: [adminata.block]
 
-    sonata.admin.manager.test:
-        class: Sonata\AdminBundle\Tests\App\Model\ModelManager
+    adminata.admin.manager.test:
+        class: IDCT\Adminata\Tests\App\Model\ModelManager
         arguments:
-            - '@Sonata\AdminBundle\Tests\App\Model\FooRepository'
+            - '@IDCT\Adminata\Tests\App\Model\FooRepository'
         tags:
-            - {name: sonata.admin.manager}
+            - {name: adminata.admin.manager}
 
-    sonata.admin.manager.bar:
-        class: Sonata\AdminBundle\Tests\App\Model\ModelManager
+    adminata.admin.manager.bar:
+        class: IDCT\Adminata\Tests\App\Model\ModelManager
         arguments:
-            - '@Sonata\AdminBundle\Tests\App\Model\BarRepository'
+            - '@IDCT\Adminata\Tests\App\Model\BarRepository'
         tags:
-            - {name: sonata.admin.manager}
+            - {name: adminata.admin.manager}
 
-    sonata.admin.manager.baz:
-        class: Sonata\AdminBundle\Tests\App\Model\ModelManager
+    adminata.admin.manager.baz:
+        class: IDCT\Adminata\Tests\App\Model\ModelManager
         arguments:
-            - '@Sonata\AdminBundle\Tests\App\Model\BazRepository'
+            - '@IDCT\Adminata\Tests\App\Model\BazRepository'
         tags:
-            - {name: sonata.admin.manager}
+            - {name: adminata.admin.manager}
 
-    sonata.admin.builder.test_form:
-        class: Sonata\AdminBundle\Tests\App\Builder\FormContractor
+    adminata.admin.builder.test_form:
+        class: IDCT\Adminata\Tests\App\Builder\FormContractor
         arguments:
             - '@form.factory'
             - '@form.registry'
 
-    sonata.admin.builder.test_show:
-        class: Sonata\AdminBundle\Tests\App\Builder\ShowBuilder
+    adminata.admin.builder.test_show:
+        class: IDCT\Adminata\Tests\App\Builder\ShowBuilder
 
-    sonata.admin.builder.test_list:
-        class: Sonata\AdminBundle\Tests\App\Builder\ListBuilder
+    adminata.admin.builder.test_list:
+        class: IDCT\Adminata\Tests\App\Builder\ListBuilder
 
-    sonata.admin.pager.test:
-        class: Sonata\AdminBundle\Tests\App\Datagrid\Pager
+    adminata.admin.pager.test:
+        class: IDCT\Adminata\Tests\App\Datagrid\Pager
         arguments:
-            - '@Sonata\AdminBundle\Tests\App\Model\FooRepository'
-            - '@Sonata\AdminBundle\Tests\App\Model\BazRepository'
+            - '@IDCT\Adminata\Tests\App\Model\FooRepository'
+            - '@IDCT\Adminata\Tests\App\Model\BazRepository'
 
-    sonata.admin.builder.test_datagrid:
-        class: Sonata\AdminBundle\Tests\App\Builder\DatagridBuilder
+    adminata.admin.builder.test_datagrid:
+        class: IDCT\Adminata\Tests\App\Builder\DatagridBuilder
         arguments:
             - '@form.factory'
-            - '@sonata.admin.pager.test'
-            - '@sonata.admin.datagrid.proxy_query'
+            - '@adminata.admin.pager.test'
+            - '@adminata.admin.datagrid.proxy_query'
 
-    sonata.admin.data_source.test:
-        class: Sonata\AdminBundle\Tests\App\Exporter\DataSource
+    adminata.admin.data_source.test:
+        class: IDCT\Adminata\Tests\App\Exporter\DataSource
 
-    sonata.admin.datagrid.proxy_query:
-        class: Sonata\AdminBundle\Tests\App\Datagrid\ProxyQuery
+    adminata.admin.datagrid.proxy_query:
+        class: IDCT\Adminata\Tests\App\Datagrid\ProxyQuery
 
-    sonata.admin.field_description_factory.test:
-        class: Sonata\AdminBundle\Tests\App\FieldDescription\FieldDescriptionFactory
+    adminata.admin.field_description_factory.test:
+        class: IDCT\Adminata\Tests\App\FieldDescription\FieldDescriptionFactory
 
-    sonata_foo_admin:
-        class: Sonata\AdminBundle\Tests\App\Admin\FooAdmin
+    adminata_foo_admin:
+        class: IDCT\Adminata\Tests\App\Admin\FooAdmin
         tags:
-            - {name: sonata.admin, model_class: Sonata\AdminBundle\Tests\App\Model\Foo, controller: 'sonata.admin.controller.crud', manager_type: test, label: Foo}
+            - {name: adminata.admin, model_class: IDCT\Adminata\Tests\App\Model\Foo, controller: 'adminata.admin.controller.crud', manager_type: test, label: Foo}
         calls:
-            - [addChild, ['@sonata_bar_admin', 'foo']]
+            - [addChild, ['@adminata_bar_admin', 'foo']]
 
-    Sonata\AdminBundle\Tests\App\Admin\FooAdminWithCustomController:
+    IDCT\Adminata\Tests\App\Admin\FooAdminWithCustomController:
         tags:
-            - {name: sonata.admin, model_class: Sonata\AdminBundle\Tests\App\Model\Foo, controller: Sonata\AdminBundle\Tests\App\Controller\CustomCRUDController, manager_type: test, label: Foo}
+            - {name: adminata.admin, model_class: IDCT\Adminata\Tests\App\Model\Foo, controller: IDCT\Adminata\Tests\App\Controller\CustomCRUDController, manager_type: test, label: Foo}
 
-    Sonata\AdminBundle\Tests\App\Admin\AdminAsParameterAdmin:
+    IDCT\Adminata\Tests\App\Admin\AdminAsParameterAdmin:
         tags:
-            - {name: sonata.admin, model_class: Sonata\AdminBundle\Tests\App\Model\Foo, manager_type: test}
+            - {name: adminata.admin, model_class: IDCT\Adminata\Tests\App\Model\Foo, manager_type: test}
 
-    Sonata\AdminBundle\Tests\App\Admin\EmptyAdmin:
+    IDCT\Adminata\Tests\App\Admin\EmptyAdmin:
         tags:
-            - {name: sonata.admin, model_class: Sonata\AdminBundle\Tests\App\Model\Foo, manager_type: test, label: Empty}
+            - {name: adminata.admin, model_class: IDCT\Adminata\Tests\App\Model\Foo, manager_type: test, label: Empty}
 
-    Sonata\AdminBundle\Tests\App\Admin\TranslatedAdmin:
+    IDCT\Adminata\Tests\App\Admin\TranslatedAdmin:
         tags:
-            - {name: sonata.admin, model_class: Sonata\AdminBundle\Tests\App\Model\Translated, manager_type: test, group: 'group_label', label: 'admin_label'}
+            - {name: adminata.admin, model_class: IDCT\Adminata\Tests\App\Model\Translated, manager_type: test, group: 'group_label', label: 'admin_label'}
 
-    sonata_baz_admin:
-        class: Sonata\AdminBundle\Tests\App\Admin\BazAdmin
+    adminata_baz_admin:
+        class: IDCT\Adminata\Tests\App\Admin\BazAdmin
         tags:
-            - {name: sonata.admin, model_class: Sonata\AdminBundle\Tests\App\Model\Baz, manager_type: test, model_manager: sonata.admin.manager.baz, label: Baz}
+            - {name: adminata.admin, model_class: IDCT\Adminata\Tests\App\Model\Baz, manager_type: test, model_manager: adminata.admin.manager.baz, label: Baz}
 
-    sonata_bar_admin:
-        class: Sonata\AdminBundle\Tests\App\Admin\BarAdmin
+    adminata_bar_admin:
+        class: IDCT\Adminata\Tests\App\Admin\BarAdmin
         tags:
-            - {name: sonata.admin, model_class: Sonata\AdminBundle\Tests\App\Model\Bar, manager_type: test, model_manager: sonata.admin.manager.bar, label: Bar}
+            - {name: adminata.admin, model_class: IDCT\Adminata\Tests\App\Model\Bar, manager_type: test, model_manager: adminata.admin.manager.bar, label: Bar}
         calls:
-            - [addChild, ['@sonata_baz_admin']]
+            - [addChild, ['@adminata_baz_admin']]
 
-    Sonata\AdminBundle\Tests\App\Admin\Extension\CustomAdminExtension:
+    IDCT\Adminata\Tests\App\Admin\Extension\CustomAdminExtension:
         tags:
-            - {name: sonata.admin.extension, target: sonata_foo_admin}
+            - {name: adminata.admin.extension, target: adminata_foo_admin}

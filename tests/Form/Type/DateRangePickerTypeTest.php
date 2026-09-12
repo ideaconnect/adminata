@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
-use Sonata\AdminBundle\Form\Type\DatePickerType;
-use Sonata\AdminBundle\Form\Type\DateRangePickerType;
+use IDCT\Adminata\Form\Type\DatePickerType;
+use IDCT\Adminata\Form\Type\DateRangePickerType;
 use Symfony\Component\Form\FormExtensionInterface;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
@@ -26,7 +26,7 @@ final class DateRangePickerTypeTest extends TypeTestCase
     {
         $type = new DateRangePickerType();
 
-        static::assertSame('sonata_type_datetime_range_picker', $type->getBlockPrefix());
+        static::assertSame('adminata_type_datetime_range_picker', $type->getBlockPrefix());
 
         $type->configureOptions($resolver = new OptionsResolver());
 

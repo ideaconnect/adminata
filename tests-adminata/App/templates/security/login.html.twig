@@ -1,17 +1,17 @@
 {#
     The demo's login page: an application's own template on the admin layout with `logo`,
-    `sonata_nav` and `sonata_left_side` emptied, which is how recomaty-panel writes its login and
-    password pages (appendix C §2). `sonata_header` then renders nothing at all — that is PLAN/01
+    `adminata_nav` and `adminata_left_side` emptied, which is how recomaty-panel writes its login and
+    password pages (appendix C §2). `adminata_header` then renders nothing at all — that is PLAN/01
     T9, and this page is what proves it.
 #}
 
-{% extends '@SonataAdmin/standard_layout.html.twig' %}
+{% extends '@Adminata/standard_layout.html.twig' %}
 
 {% block logo %}{% endblock %}
-{% block sonata_nav %}{% endblock %}
-{% block sonata_left_side %}{% endblock %}
+{% block adminata_nav %}{% endblock %}
+{% block adminata_left_side %}{% endblock %}
 
-{% block sonata_head_title %}{{ 'Admin'|trans({}, 'SonataAdminBundle') }} — sign in{% endblock %}
+{% block adminata_head_title %}{{ 'Admin'|trans({}, 'AdminataBundle') }} — sign in{% endblock %}
 
 {% block content %}
     {#- A `style` and not `mx-auto max-w-sm`: the demo runs on adminata's shipped stylesheet
@@ -20,7 +20,7 @@
     <div style="max-width: 24rem; margin-inline: auto;">
         <form method="post" action="{{ path('demo_login') }}" class="adm-card">
             <div class="adm-card-body flex flex-col gap-3">
-                <h1 class="adm-card-title">{{ sonata_config.title }}</h1>
+                <h1 class="adm-card-title">{{ adminata_config.title }}</h1>
 
                 {% if error %}
                     <p class="adm-alert adm-alert-error" role="alert">

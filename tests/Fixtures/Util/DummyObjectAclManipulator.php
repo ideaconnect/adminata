@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Util;
+namespace IDCT\Adminata\Tests\Fixtures\Util;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Util\ObjectAclManipulator;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Util\ObjectAclManipulator;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 

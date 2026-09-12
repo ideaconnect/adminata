@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig\Node;
+namespace IDCT\Adminata\Twig\Node;
 
 use Twig\Attribute\YieldReady;
 use Twig\Compiler;
@@ -42,7 +42,7 @@ final class TemplateBoxNode extends Node
             ->addDebugInfo($this);
 
         if (!$this->enabled) {
-            $compiler->write("// token for sonata_template_box, however the box is disabled\n");
+            $compiler->write("// token for adminata_template_box, however the box is disabled\n");
 
             return;
         }

@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig;
+namespace IDCT\Adminata\Twig;
 
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Exception\AdminCodeNotFoundException;
-use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Exception\AdminCodeNotFoundException;
+use IDCT\Adminata\Templating\TemplateRegistryInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Twig\Extension\RuntimeExtensionInterface;

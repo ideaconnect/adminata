@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
-use Sonata\AdminBundle\Form\DataTransformer\BooleanTypeToBooleanTransformer;
+use IDCT\Adminata\Form\DataTransformer\BooleanTypeToBooleanTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,12 +36,12 @@ final class BooleanType extends AbstractType
     {
         $resolver->setDefaults([
             'transform' => false,
-            'choice_translation_domain' => 'SonataAdminBundle',
+            'choice_translation_domain' => 'AdminataBundle',
             'choices' => [
                 'label_type_yes' => self::TYPE_YES,
                 'label_type_no' => self::TYPE_NO,
             ],
-            'translation_domain' => 'SonataAdminBundle',
+            'translation_domain' => 'AdminataBundle',
         ]);
 
         $resolver->setAllowedTypes('transform', 'bool');
@@ -54,6 +54,6 @@ final class BooleanType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_boolean';
+        return 'adminata_type_boolean';
     }
 }

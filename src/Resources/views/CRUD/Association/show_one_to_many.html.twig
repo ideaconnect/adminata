@@ -9,11 +9,11 @@ file that was distributed with this source code.
 
 #}
 
-{% extends '@SonataAdmin/CRUD/base_show_field.html.twig' %}
+{% extends '@Adminata/CRUD/base_show_field.html.twig' %}
 
 {% block field %}
-    <ul class="sonata-ba-show-one-to-many">
-        {% set route_name = field_description.option('route').name|default(sonata_config.getOption('default_admin_route')) %}
+    <ul class="adminata-show-one-to-many">
+        {% set route_name = field_description.option('route').name|default(adminata_config.getOption('default_admin_route')) %}
         {% set route_parameters = field_description.option('route').parameters|default([]) %}
 
         {% for element in value %}

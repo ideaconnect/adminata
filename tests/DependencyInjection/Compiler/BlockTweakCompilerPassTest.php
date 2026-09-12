@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection\Compiler;
+namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\DependencyInjection\Compiler\BlockTweakCompilerPass;
+use IDCT\Adminata\DependencyInjection\Compiler\BlockTweakCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -27,29 +27,29 @@ final class BlockTweakCompilerPassTest extends TestCase
     {
         $this->container = new ContainerBuilder();
 
-        $this->container->setDefinition('sonata.block.menu.registry', $this->createMock(Definition::class));
-        $this->container->setDefinition('sonata.block.loader.chain', $this->createMock(Definition::class));
-        $this->container->setDefinition('sonata.block.context_manager', $this->createMock(Definition::class));
-        $this->container->setDefinition('sonata.block.loader.service', $this->createMock(Definition::class));
+        $this->container->setDefinition('adminata.block.menu.registry', $this->createMock(Definition::class));
+        $this->container->setDefinition('adminata.block.loader.chain', $this->createMock(Definition::class));
+        $this->container->setDefinition('adminata.block.context_manager', $this->createMock(Definition::class));
+        $this->container->setDefinition('adminata.block.loader.service', $this->createMock(Definition::class));
 
-        $this->container->setParameter('sonata_block.blocks', []);
-        $this->container->setParameter('sonata_blocks.block_types', []);
-        $this->container->setParameter('sonata_block.cache_blocks', []);
-        $this->container->setParameter('sonata_blocks.default_contexts', []);
-        $this->container->setParameter('sonata_block.blocks_by_class', []);
+        $this->container->setParameter('adminata_block.blocks', []);
+        $this->container->setParameter('adminata_blocks.block_types', []);
+        $this->container->setParameter('adminata_block.cache_blocks', []);
+        $this->container->setParameter('adminata_blocks.default_contexts', []);
+        $this->container->setParameter('adminata_block.blocks_by_class', []);
     }
 
     public function testProcessAutowired(): void
     {
         $blockDefinition = new Definition(null, ['acme.block.service']);
-        $blockDefinition->addTag('sonata.block');
+        $blockDefinition->addTag('adminata.block');
         $blockDefinition->setAutoconfigured(true);
 
         $managerDefinition = $this->createMock(Definition::class);
         $managerDefinition->expects(static::once())->method('addMethodCall')->with('add', ['acme.block.service', 'acme.block.service', []]);
 
         $this->container->setDefinition('acme.block.service', $blockDefinition);
-        $this->container->setDefinition('sonata.block.manager', $managerDefinition);
+        $this->container->setDefinition('adminata.block.manager', $managerDefinition);
 
         $pass = new BlockTweakCompilerPass();
         $pass->process($this->container);
@@ -58,13 +58,13 @@ final class BlockTweakCompilerPassTest extends TestCase
     public function testProcessSameBlockId(): void
     {
         $blockDefinition = new Definition(null, ['acme.block.service']);
-        $blockDefinition->addTag('sonata.block');
+        $blockDefinition->addTag('adminata.block');
 
         $managerDefinition = $this->createMock(Definition::class);
         $managerDefinition->expects(static::once())->method('addMethodCall')->with('add', ['acme.block.service', 'acme.block.service', []]);
 
         $this->container->setDefinition('acme.block.service', $blockDefinition);
-        $this->container->setDefinition('sonata.block.manager', $managerDefinition);
+        $this->container->setDefinition('adminata.block.manager', $managerDefinition);
 
         $pass = new BlockTweakCompilerPass();
         $pass->process($this->container);
@@ -74,13 +74,13 @@ final class BlockTweakCompilerPassTest extends TestCase
     public function testProcessDifferentBlockId(): void
     {
         $blockDefinition = new Definition(null, ['acme.block.service.name']);
-        $blockDefinition->addTag('sonata.block');
+        $blockDefinition->addTag('adminata.block');
 
         $managerDefinition = $this->createMock(Definition::class);
         $managerDefinition->expects(static::once())->method('addMethodCall')->with('add', ['acme.block.service', 'acme.block.service', []]);
 
         $this->container->setDefinition('acme.block.service', $blockDefinition);
-        $this->container->setDefinition('sonata.block.manager', $managerDefinition);
+        $this->container->setDefinition('adminata.block.manager', $managerDefinition);
 
         $pass = new BlockTweakCompilerPass();
         $pass->process($this->container);

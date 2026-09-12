@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Filter\Model;
+namespace IDCT\Adminata\Tests\Filter\Model;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Filter\Model\FilterData;
+use IDCT\Adminata\Filter\Model\FilterData;
 
 final class FilterDataTest extends TestCase
 {

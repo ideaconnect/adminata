@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Model;
+namespace IDCT\Adminata\Tests\Model;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Model\AuditManager;
-use Sonata\AdminBundle\Model\AuditReaderInterface;
+use IDCT\Adminata\Model\AuditManager;
+use IDCT\Adminata\Model\AuditReaderInterface;
 use Symfony\Component\DependencyInjection\Container;
 
 /**

@@ -11,18 +11,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Builder;
+namespace IDCT\Adminata\Builder;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 
 /**
  * NEXT_MAJOR: Avoid extending deprecated BuilderInterface.
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *
- * @phpstan-template T of \Sonata\AdminBundle\Datagrid\ProxyQueryInterface
+ * @phpstan-template T of \IDCT\Adminata\Datagrid\ProxyQueryInterface
  */
 interface DatagridBuilderInterface extends BuilderInterface
 {

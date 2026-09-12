@@ -15,17 +15,17 @@ file that was distributed with this source code.
 {% if admin.hasAccess('create') and admin.hasRoute('create') %}
     {% if admin.subClasses is empty %}
         <li>
-            <a class="adm-btn adm-btn-secondary adm-btn-sm sonata-action-element" href="{{ admin.generateUrl('create') }}">
+            <a class="adm-btn adm-btn-secondary adm-btn-sm adminata-action-element" href="{{ admin.generateUrl('create') }}">
                 <i class="fas fa-circle-plus" aria-hidden="true"></i>
-                {{ 'link_action_create'|trans({}, 'SonataAdminBundle') }}
+                {{ 'link_action_create'|trans({}, 'AdminataBundle') }}
             </a>
         </li>
     {% else %}
         {% for subclass in admin.subclasses|keys %}
             <li>
-                <a class="adm-btn adm-btn-secondary adm-btn-sm sonata-action-element" href="{{ admin.generateUrl('create', {'subclass': subclass}) }}">
+                <a class="adm-btn adm-btn-secondary adm-btn-sm adminata-action-element" href="{{ admin.generateUrl('create', {'subclass': subclass}) }}">
                     <i class="fas fa-circle-plus" aria-hidden="true"></i>
-                    {{ 'link_action_create'|trans({}, 'SonataAdminBundle') }} {{ subclass|trans({}, admin.translationdomain) }}
+                    {{ 'link_action_create'|trans({}, 'AdminataBundle') }} {{ subclass|trans({}, admin.translationdomain) }}
                 </a>
             </li>
         {% endfor %}

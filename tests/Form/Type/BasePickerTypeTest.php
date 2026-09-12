@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Tests\Fixtures\Type\DummyPickerType;
+use IDCT\Adminata\Tests\Fixtures\Type\DummyPickerType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormView;

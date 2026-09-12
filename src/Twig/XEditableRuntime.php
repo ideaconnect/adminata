@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig;
+namespace IDCT\Adminata\Twig;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 

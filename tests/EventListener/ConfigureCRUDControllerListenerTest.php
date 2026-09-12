@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\EventListener;
+namespace IDCT\Adminata\Tests\EventListener;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Controller\CRUDController;
-use Sonata\AdminBundle\EventListener\ConfigureCRUDControllerListener;
-use Sonata\AdminBundle\Request\AdminFetcherInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Controller\CRUDController;
+use IDCT\Adminata\EventListener\ConfigureCRUDControllerListener;
+use IDCT\Adminata\Request\AdminFetcherInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -43,10 +43,10 @@ final class ConfigureCRUDControllerListenerTest extends TestCase
             ->willReturn(true);
 
         $adminFetcher = $this->createMock(AdminFetcherInterface::class);
-        $container->set('sonata.admin.request.fetcher', $adminFetcher);
+        $container->set('adminata.admin.request.fetcher', $adminFetcher);
 
         $request = new Request([], [], [
-            '_sonata_admin' => 'admin.code',
+            '_adminata_admin' => 'admin.code',
         ]);
 
         $controller = new CRUDController();

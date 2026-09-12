@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
-use Sonata\AdminBundle\Form\Type\CollectionType;
+use IDCT\Adminata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,7 +32,7 @@ final class CollectionTypeTest extends TypeTestCase
         static::assertSame(TextType::class, $options['type']);
         static::assertCount(0, $options['type_options']);
         static::assertSame('link_add', $options['btn_add']);
-        static::assertSame('SonataAdminBundle', $options['btn_catalogue']);
+        static::assertSame('AdminataBundle', $options['btn_catalogue']);
         static::assertNull($options['pre_bind_data_callback']);
     }
 }

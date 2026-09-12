@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Model;
+namespace IDCT\Adminata\Tests\App\Model;
 
 final class Foo implements EntityInterface
 {

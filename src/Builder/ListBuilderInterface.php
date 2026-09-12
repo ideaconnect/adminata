@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Builder;
+namespace IDCT\Adminata\Builder;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 
 /**
  * NEXT_MAJOR: Avoid extending deprecated BuilderInterface.

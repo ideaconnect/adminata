@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Exception\Block\Renderer;
+namespace IDCT\Adminata\Exception\Block\Renderer;
 
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Model\BlockInterface;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;

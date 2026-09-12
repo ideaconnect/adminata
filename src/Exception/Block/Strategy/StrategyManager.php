@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Exception\Block\Strategy;
+namespace IDCT\Adminata\Exception\Block\Strategy;
 
-use Sonata\AdminBundle\Exception\Block\Filter\FilterInterface;
-use Sonata\AdminBundle\Exception\Block\Renderer\RendererInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Exception\Block\Filter\FilterInterface;
+use IDCT\Adminata\Exception\Block\Renderer\RendererInterface;
+use IDCT\Adminata\Model\BlockInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 

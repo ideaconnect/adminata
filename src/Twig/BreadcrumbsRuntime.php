@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig;
+namespace IDCT\Adminata\Twig;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\BreadcrumbsBuilderInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\BreadcrumbsBuilderInterface;
 use Twig\Environment;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -39,7 +39,7 @@ final class BreadcrumbsRuntime implements RuntimeExtensionInterface
         AdminInterface $admin,
         string $action,
     ): string {
-        return $environment->render('@SonataAdmin/Breadcrumb/breadcrumb.html.twig', [
+        return $environment->render('@Adminata/Breadcrumb/breadcrumb.html.twig', [
             'items' => $this->breadcrumbsBuilder->getBreadcrumbs($admin, $action),
         ]);
     }
@@ -55,7 +55,7 @@ final class BreadcrumbsRuntime implements RuntimeExtensionInterface
         AdminInterface $admin,
         string $action,
     ): string {
-        return $environment->render('@SonataAdmin/Breadcrumb/breadcrumb_title.html.twig', [
+        return $environment->render('@Adminata/Breadcrumb/breadcrumb_title.html.twig', [
             'items' => $this->breadcrumbsBuilder->getBreadcrumbs($admin, $action),
         ]);
     }

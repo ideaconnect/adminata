@@ -28,7 +28,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     strict_variables: true
     form_themes:
-        - '@SonataAdmin/Form/form_admin_fields.html.twig'
+        - '@Adminata/Form/form_admin_fields.html.twig'
 
 doctrine:
     dbal:
@@ -45,10 +45,10 @@ doctrine:
 
 security:
     # In-memory users: the demo has no user entity and adminata ships no SonataUserBundle
-    # (owner directive 6). `sonata_admin.security.handler` stays at its `noop` default, so the
+    # (owner directive 6). `adminata.security.handler` stays at its `noop` default, so the
     # firewall is what decides who gets in.
     role_hierarchy:
-        ROLE_ADMIN: [ROLE_SONATA_ADMIN]
+        ROLE_ADMIN: [ROLE_ADMINATA_ADMIN]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
     password_hashers:
         Symfony\Component\Security\Core\User\InMemoryUser: plaintext

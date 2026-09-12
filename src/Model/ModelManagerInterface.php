@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Model;
+namespace IDCT\Adminata\Model;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Exception\ModelManagerThrowable;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Exception\ModelManagerThrowable;
 
 /**
  * A model manager is a bridge between the model classes and the admin functionality.

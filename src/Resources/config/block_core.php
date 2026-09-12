@@ -13,75 +13,75 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Block\BlockContextManager;
-use Sonata\AdminBundle\Block\BlockLoaderChain;
-use Sonata\AdminBundle\Block\BlockRenderer;
-use Sonata\AdminBundle\Block\BlockServiceManager;
-use Sonata\AdminBundle\Block\Loader\ServiceLoader;
-use Sonata\AdminBundle\Menu\MenuRegistry;
-use Sonata\AdminBundle\Templating\BlockHelper;
-use Sonata\AdminBundle\Twig\BlockGlobalVariables;
-use Sonata\AdminBundle\Twig\Extension\BlockExtension;
+use IDCT\Adminata\Block\BlockContextManager;
+use IDCT\Adminata\Block\BlockLoaderChain;
+use IDCT\Adminata\Block\BlockRenderer;
+use IDCT\Adminata\Block\BlockServiceManager;
+use IDCT\Adminata\Block\Loader\ServiceLoader;
+use IDCT\Adminata\Menu\MenuRegistry;
+use IDCT\Adminata\Templating\BlockHelper;
+use IDCT\Adminata\Twig\BlockGlobalVariables;
+use IDCT\Adminata\Twig\Extension\BlockExtension;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set('sonata.block.manager', BlockServiceManager::class)
+    $services->set('adminata.block.manager', BlockServiceManager::class)
         ->public()
         ->args([
             abstract_arg('container of block services'),
-            param('sonata.block.container.types'),
+            param('adminata.block.container.types'),
         ]);
 
-    $services->set('sonata.block.menu.registry', MenuRegistry::class)
+    $services->set('adminata.block.menu.registry', MenuRegistry::class)
         ->public();
 
-    $services->set('sonata.block.context_manager.default', BlockContextManager::class)
+    $services->set('adminata.block.context_manager.default', BlockContextManager::class)
         ->public()
         ->args([
-            service('sonata.block.loader.chain'),
-            service('sonata.block.manager'),
+            service('adminata.block.loader.chain'),
+            service('adminata.block.manager'),
             service('logger')->nullOnInvalid(),
         ]);
 
-    $services->set('sonata.block.renderer.default', BlockRenderer::class)
+    $services->set('adminata.block.renderer.default', BlockRenderer::class)
         ->public()
         ->args([
-            service('sonata.block.manager'),
-            service('sonata.block.exception.strategy.manager'),
+            service('adminata.block.manager'),
+            service('adminata.block.exception.strategy.manager'),
             service('logger')->nullOnInvalid(),
         ]);
 
-    $services->set('sonata.block.twig.extension', BlockExtension::class)
+    $services->set('adminata.block.twig.extension', BlockExtension::class)
         ->tag('twig.extension')
         ->args([
-            service('sonata.block.templating.helper'),
+            service('adminata.block.templating.helper'),
         ]);
 
-    $services->set('sonata.block.templating.helper', BlockHelper::class)
+    $services->set('adminata.block.templating.helper', BlockHelper::class)
         ->tag('twig.runtime')
         ->args([
-            service('sonata.block.renderer'),
-            service('sonata.block.context_manager'),
+            service('adminata.block.renderer'),
+            service('adminata.block.context_manager'),
             service('event_dispatcher'),
             service('debug.stopwatch')->nullOnInvalid(),
         ]);
 
-    $services->set('sonata.block.loader.chain', BlockLoaderChain::class)
+    $services->set('adminata.block.loader.chain', BlockLoaderChain::class)
         ->args([
             abstract_arg('loaders array'),
         ]);
 
-    $services->set('sonata.block.loader.service', ServiceLoader::class)
-        ->tag('sonata.block.loader')
+    $services->set('adminata.block.loader.service', ServiceLoader::class)
+        ->tag('adminata.block.loader')
         ->args([
             abstract_arg('types array'),
         ]);
 
-    $services->set('sonata.block.twig.global', BlockGlobalVariables::class)
+    $services->set('adminata.block.twig.global', BlockGlobalVariables::class)
         ->args([
             abstract_arg('templates array'),
         ]);
 
-    $services->alias(BlockHelper::class, 'sonata.block.templating.helper');
+    $services->alias(BlockHelper::class, 'adminata.block.templating.helper');
 };

@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use Sonata\AdminBundle\Form\Type\ModelListType;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Form\Type\ModelListType;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -49,8 +49,8 @@ final class ModelListTypeTest extends TypeTestCase
         static::assertSame('link_edit', $options['btn_edit']);
         static::assertSame('link_list', $options['btn_list']);
         static::assertSame('link_delete', $options['btn_delete']);
-        static::assertSame('SonataAdminBundle', $options['btn_catalogue']);
-        static::assertSame('SonataAdminBundle', $options['btn_translation_domain']);
+        static::assertSame('AdminataBundle', $options['btn_catalogue']);
+        static::assertSame('AdminataBundle', $options['btn_translation_domain']);
     }
 
     public function testSubmitValidData(): void

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Doctrine\Mapper\Builder;
+namespace IDCT\Adminata\Doctrine\Mapper\Builder;
 
 final class ColumnDefinitionBuilder
 {

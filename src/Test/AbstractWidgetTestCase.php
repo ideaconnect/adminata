@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Test;
+namespace IDCT\Adminata\Test;
 
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
@@ -97,7 +97,7 @@ abstract class AbstractWidgetTestCase extends TypeTestCase
     }
 
     /**
-     * Renders widget from FormView, in SonataAdmin context, with optional view variables $vars. Returns plain HTML.
+     * Renders widget from FormView, in Adminata context, with optional view variables $vars. Returns plain HTML.
      *
      * @param array<string, mixed> $vars
      */

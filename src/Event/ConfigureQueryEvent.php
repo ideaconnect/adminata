@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Event;
+namespace IDCT\Adminata\Event;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -22,8 +22,8 @@ use Symfony\Contracts\EventDispatcher\Event;
  *   - configureQuery.
  *
  * You can register the listener to the event dispatcher by using:
- *   - sonata.admin.event.configure.query
- *   - sonata.admin.event.configure.[admin_code].query  (not implemented yet)
+ *   - adminata.admin.event.configure.query
+ *   - adminata.admin.event.configure.[admin_code].query  (not implemented yet)
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */

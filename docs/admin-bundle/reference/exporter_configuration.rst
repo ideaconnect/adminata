@@ -8,39 +8,39 @@ Exporter configuration
 The exporter is part of the admin bundle. Every list page's export menu goes through it
 (:doc:`action_export`), so there is nothing to install beyond the admin bundle itself
 (:doc:`/admin-bundle/getting_started/installation`) and nothing to register in ``bundles.php``.
-Its classes are ``Sonata\AdminBundle\Exporter\`` — ``Exporter``, ``Handler``, ``Source\`` and
-``Writer\`` (:doc:`exporter_introduction`) — and ``SonataAdminBundle`` registers the exporter
-services, the writer-collecting compiler pass and the ``sonata_exporter`` configuration root.
+Its classes are ``IDCT\Adminata\Exporter\`` — ``Exporter``, ``Handler``, ``Source\`` and
+``Writer\`` (:doc:`exporter_introduction`) — and ``AdminataBundle`` registers the exporter
+services, the writer-collecting compiler pass and the ``adminata_exporter`` configuration root.
 
 What the exporter has of its own:
 
-* ``sonata_exporter`` is a configuration root of its own, in its own
-  ``config/packages/sonata_exporter.yaml``; the tree is below.
-* Service ids are ``sonata.exporter.*`` — ``sonata.exporter.exporter``, which is public and also
-  aliased to ``Sonata\AdminBundle\Exporter\Exporter`` and
-  ``Sonata\AdminBundle\Exporter\ExporterInterface`` for autowiring, and one
-  ``sonata.exporter.writer.<format>`` per shipped writer (``csv``, ``json``, ``xls``, ``xml``, and
+* ``adminata_exporter`` is a configuration root of its own, in its own
+  ``config/packages/adminata_exporter.yaml``; the tree is below.
+* Service ids are ``adminata.exporter.*`` — ``adminata.exporter.exporter``, which is public and also
+  aliased to ``IDCT\Adminata\Exporter\Exporter`` and
+  ``IDCT\Adminata\Exporter\ExporterInterface`` for autowiring, and one
+  ``adminata.exporter.writer.<format>`` per shipped writer (``csv``, ``json``, ``xls``, ``xml``, and
   ``xlsx`` when ``phpoffice/phpspreadsheet`` is installed).
-* A writer is offered to the exporter by the tag ``sonata.exporter.writer``; a compiler pass hands
-  every tagged service to ``sonata.exporter.exporter``.
+* A writer is offered to the exporter by the tag ``adminata.exporter.writer``; a compiler pass hands
+  every tagged service to ``adminata.exporter.exporter``.
 * No templates and no translation domain: the exporter writes files, and the export menu on a list
   page is the admin bundle's template, in the admin bundle's domain.
 
 .. note::
 
-    Coming from Sonata? The ``Sonata\Exporter\`` classes are ``Sonata\AdminBundle\Exporter\``
+    Coming from Sonata? The ``IDCT\Adminata\Exporter\`` classes are ``IDCT\Adminata\Exporter\``
     here — the map is in `UPGRADE-1.0.md
     <https://github.com/ideaconnect/adminata/blob/main/UPGRADE-1.0.md>`_ §U1 — and there is no
     ``SonataExporterBundle`` to register in ``bundles.php``: an application's ``bundles.php``
     loses that line and nothing else. Service ids, the tag and
-    ``config/packages/sonata_exporter.yaml`` need no edit. adminata **conflicts** with
+    ``config/packages/adminata_exporter.yaml`` need no edit. adminata **conflicts** with
     ``sonata-project/exporter``: the two cannot be installed together. See :doc:`/upgrading`.
 
 XLSX needs one more package
 ---------------------------
 
 ``XlsxWriter`` builds its spreadsheet with PhpSpreadsheet, which is not a dependency of adminata.
-The ``sonata.exporter.writer.xlsx`` service is registered only when the class is there, and the
+The ``adminata.exporter.writer.xlsx`` service is registered only when the class is there, and the
 ``xlsx`` format is offered only when the service is:
 
 .. code-block:: bash
@@ -52,11 +52,11 @@ Every other format works out of the box.
 Exporting from a controller
 ---------------------------
 
-``sonata.exporter.exporter`` builds a streamed response from a format, a filename and a source,
+``adminata.exporter.exporter`` builds a streamed response from a format, a filename and a source,
 ready to return from a controller::
 
-    use Sonata\AdminBundle\Exporter\ExporterInterface;
-    use Sonata\AdminBundle\Exporter\Source\ArraySourceIterator;
+    use IDCT\Adminata\Exporter\ExporterInterface;
+    use IDCT\Adminata\Exporter\Source\ArraySourceIterator;
     use Symfony\Component\HttpFoundation\StreamedResponse;
 
     final class ReportController
@@ -85,9 +85,9 @@ settings from container parameters, and each parameter has a configuration count
 
 .. code-block:: yaml
 
-    # config/packages/sonata_exporter.yaml
+    # config/packages/adminata_exporter.yaml
 
-    sonata_exporter:
+    adminata_exporter:
         writers:
             some_format:
                 some_setting: some_value
@@ -97,52 +97,52 @@ The CSV writer service
 
 This service can be configured through the following parameters:
 
-* ``sonata.exporter.writer.csv.filename``: defaults to ``php://output``
-* ``sonata.exporter.writer.csv.delimiter``: defaults to ``,``
-* ``sonata.exporter.writer.csv.enclosure``: defaults to ``"``
-* ``sonata.exporter.writer.csv.escape``: defaults to ``\``
-* ``sonata.exporter.writer.csv.show_headers``: defaults to ``true``
-* ``sonata.exporter.writer.csv.with_bom``: defaults to ``false``
+* ``adminata.exporter.writer.csv.filename``: defaults to ``php://output``
+* ``adminata.exporter.writer.csv.delimiter``: defaults to ``,``
+* ``adminata.exporter.writer.csv.enclosure``: defaults to ``"``
+* ``adminata.exporter.writer.csv.escape``: defaults to ``\``
+* ``adminata.exporter.writer.csv.show_headers``: defaults to ``true``
+* ``adminata.exporter.writer.csv.with_bom``: defaults to ``false``
 
 The JSON writer service
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Only the filename may be configured for this service:
-``sonata.exporter.writer.json.filename``: defaults to ``php://output``
+``adminata.exporter.writer.json.filename``: defaults to ``php://output``
 
 The XLS writer service
 ~~~~~~~~~~~~~~~~~~~~~~
 
 This service can be configured through the following parameters:
 
-* ``sonata.exporter.writer.xls.filename``: defaults to ``php://output``
-* ``sonata.exporter.writer.xls.show_headers``: defaults to ``true``
+* ``adminata.exporter.writer.xls.filename``: defaults to ``php://output``
+* ``adminata.exporter.writer.xls.show_headers``: defaults to ``true``
 
 The XLSX writer service
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 This service can be configured through the following parameters:
 
-* ``sonata.exporter.writer.xlsx.filename``: defaults to ``php://output``
-* ``sonata.exporter.writer.xlsx.show_headers``: defaults to ``true``
-* ``sonata.exporter.writer.xlsx.show_filters``: defaults to ``true``
+* ``adminata.exporter.writer.xlsx.filename``: defaults to ``php://output``
+* ``adminata.exporter.writer.xlsx.show_headers``: defaults to ``true``
+* ``adminata.exporter.writer.xlsx.show_filters``: defaults to ``true``
 
 The XML writer service
 ~~~~~~~~~~~~~~~~~~~~~~
 
 This service can be configured through the following parameters:
 
-* ``sonata.exporter.writer.xml.filename``: defaults to ``php://output``
-* ``sonata.exporter.writer.xml.show_headers``: defaults to ``true``
-* ``sonata.exporter.writer.xml.main_element``: defaults to ``datas``
-* ``sonata.exporter.writer.xml.child_element``: defaults to ``data``
+* ``adminata.exporter.writer.xml.filename``: defaults to ``php://output``
+* ``adminata.exporter.writer.xml.show_headers``: defaults to ``true``
+* ``adminata.exporter.writer.xml.main_element``: defaults to ``datas``
+* ``adminata.exporter.writer.xml.child_element``: defaults to ``data``
 
 Adding a custom writer to the list
 ----------------------------------
 
 If you want to add a custom writer to the list of writers supported by the exporter, you simply
 need to tag your service, which must implement
-``Sonata\AdminBundle\Exporter\Writer\TypedWriterInterface``, with the ``sonata.exporter.writer``
+``IDCT\Adminata\Exporter\Writer\TypedWriterInterface``, with the ``adminata.exporter.writer``
 tag. Its ``getFormat()`` is the name an export URL asks for, and its ``getDefaultMimeType()`` is
 the response's ``Content-Type`` (:doc:`exporter_outputs`).
 
@@ -153,9 +153,9 @@ The default writers list can be altered through configuration:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_exporter.yaml
+    # config/packages/adminata_exporter.yaml
 
-    sonata_exporter:
+    adminata_exporter:
         exporter:
             default_writers:
                 - csv
@@ -167,11 +167,11 @@ admin can narrow it further for itself with ``getExportFormats()`` (:doc:`action
 The tree
 --------
 
-``bin/console config:dump-reference sonata_exporter`` prints the whole tree with its defaults:
+``bin/console config:dump-reference adminata_exporter`` prints the whole tree with its defaults:
 
 .. code-block:: yaml
 
-    sonata_exporter:
+    adminata_exporter:
         exporter:
             # the formats offered; xlsx is in this default only when PhpSpreadsheet is installed
             default_writers:

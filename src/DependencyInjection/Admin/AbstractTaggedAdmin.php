@@ -11,25 +11,25 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Admin;
+namespace IDCT\Adminata\DependencyInjection\Admin;
 
 use Knp\Menu\FactoryInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
-use Sonata\AdminBundle\Builder\FormContractorInterface;
-use Sonata\AdminBundle\Builder\ListBuilderInterface;
-use Sonata\AdminBundle\Builder\RouteBuilderInterface;
-use Sonata\AdminBundle\Builder\ShowBuilderInterface;
-use Sonata\AdminBundle\Datagrid\Pager;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Exporter\DataSourceInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionFactoryInterface;
-use Sonata\AdminBundle\Filter\Persister\FilterPersisterInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Route\RouteGeneratorInterface;
-use Sonata\AdminBundle\Security\Handler\SecurityHandlerInterface;
-use Sonata\AdminBundle\Templating\MutableTemplateRegistryInterface;
-use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Builder\DatagridBuilderInterface;
+use IDCT\Adminata\Builder\FormContractorInterface;
+use IDCT\Adminata\Builder\ListBuilderInterface;
+use IDCT\Adminata\Builder\RouteBuilderInterface;
+use IDCT\Adminata\Builder\ShowBuilderInterface;
+use IDCT\Adminata\Datagrid\Pager;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Exporter\DataSourceInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionFactoryInterface;
+use IDCT\Adminata\Filter\Persister\FilterPersisterInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Route\RouteGeneratorInterface;
+use IDCT\Adminata\Security\Handler\SecurityHandlerInterface;
+use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
+use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -151,7 +151,7 @@ abstract class AbstractTaggedAdmin implements TaggedAdminInterface
             @trigger_error(
                 'Setting the code, the model class and the base controller name with the constructor is deprecated'
                 .' since sonata-project/admin-bundle version 4.8 and will not be possible in 5.0 version.'
-                .' Use the `code`, `model_class` and `controller` attribute of the `sonata.admin` tag or'
+                .' Use the `code`, `model_class` and `controller` attribute of the `adminata.admin` tag or'
                 .' the method "setCode()", "setModelClass()" and "setBaseControllerName()" instead.',
                 \E_USER_DEPRECATED
             );

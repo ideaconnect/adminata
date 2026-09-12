@@ -11,8 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Exporter\Exception;
+namespace IDCT\Adminata\Exporter\Exception;
 
-final class InvalidDataFormatException extends RuntimeException implements SonataExporterException
+final class InvalidDataFormatException extends RuntimeException implements AdminataExporterException
 {
 }

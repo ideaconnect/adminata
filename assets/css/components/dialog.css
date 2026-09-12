@@ -1,5 +1,5 @@
 /*
- * Native `<dialog>`, driven by the `sonata-modal` controller. The top layer gives focus trapping
+ * Native `<dialog>`, driven by the `adminata-modal` controller. The top layer gives focus trapping
  * and Escape for free, which is why adminata has no modal library (PLAN/01 J7).
  */
 

@@ -15,16 +15,16 @@ import { Application } from '@hotwired/stimulus';
 import { register } from './registry.js';
 
 /**
- * One Stimulus application owns every `sonata-*` controller. Applications resolve identifiers
+ * One Stimulus application owns every `adminata-*` controller. Applications resolve identifiers
  * independently, so an application may run its own alongside this one; see PLAN/05 §5.
  */
 const application = Application.start();
 
-application.debug = document.documentElement.dataset.sonataDebug === 'true';
+application.debug = document.documentElement.dataset.adminataDebug === 'true';
 
 register(application);
 
-window.sonataApplication = application;
+window.adminataApplication = application;
 
 // Progressive enhancement marker: stylesheets can key off `html.no-js` until this runs.
 document.documentElement.classList.remove('no-js');

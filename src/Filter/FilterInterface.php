@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Filter;
+namespace IDCT\Adminata\Filter;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Filter\Model\FilterData;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Filter\Model\FilterData;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

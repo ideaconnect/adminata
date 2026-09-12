@@ -30,8 +30,8 @@ class::
     namespace App\Admin;
 
     use Knp\Menu\ItemInterface as MenuItemInterface;
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Admin\AdminInterface;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Admin\AdminInterface;
 
     final class PlaylistAdmin extends AbstractAdmin
     {
@@ -65,8 +65,8 @@ or not. To get rid of them, you may override the ``configureRoutes`` method::
 
     namespace App\Admin;
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     final class VideoAdmin extends AbstractAdmin
     {

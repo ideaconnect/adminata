@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection;
+namespace IDCT\Adminata\Tests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\DependencyInjection\Configuration;
-use Sonata\AdminBundle\Tests\Fixtures\Controller\FooAdminController;
+use IDCT\Adminata\DependencyInjection\Configuration;
+use IDCT\Adminata\Tests\Fixtures\Controller\FooAdminController;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 use Symfony\Component\Config\Definition\Processor;
 
@@ -31,9 +31,9 @@ final class ConfigurationTest extends TestCase
         static::assertTrue($config['options']['confirm_exit']);
         static::assertFalse($config['options']['js_debug']);
         static::assertTrue($config['options']['use_stickyforms']);
-        static::assertSame('bundles/sonataadmin/images/default_mosaic_image.png', $config['options']['mosaic_background']);
+        static::assertSame('bundles/adminata/images/default_mosaic_image.png', $config['options']['mosaic_background']);
         static::assertSame('default', $config['options']['default_group']);
-        static::assertSame('SonataAdminBundle', $config['options']['default_label_catalogue']);
+        static::assertSame('AdminataBundle', $config['options']['default_label_catalogue']);
         static::assertNull($config['options']['default_translation_domain']);
         static::assertSame('fas fa-folder', $config['options']['default_icon']);
     }
@@ -226,7 +226,7 @@ final class ConfigurationTest extends TestCase
         $config = $this->process([[]]);
 
         static::assertIsArray($config['security']);
-        static::assertSame('ROLE_SONATA_ADMIN', $config['security']['role_admin']);
+        static::assertSame('ROLE_ADMINATA_ADMIN', $config['security']['role_admin']);
         static::assertSame('ROLE_SUPER_ADMIN', $config['security']['role_super_admin']);
     }
 
@@ -266,13 +266,13 @@ final class ConfigurationTest extends TestCase
         ]]);
 
         static::assertSame([
-            ['path' => 'foo.css', 'package_name' => 'sonata_admin'],
+            ['path' => 'foo.css', 'package_name' => 'adminata'],
             ['path' => 'bar.css', 'package_name' => 'pkg'],
             ['path' => 'baz.css', 'package_name' => null],
         ], $config['assets']['extra_stylesheets']);
 
         static::assertSame([
-            ['path' => 'foo.js', 'package_name' => 'sonata_admin'],
+            ['path' => 'foo.js', 'package_name' => 'adminata'],
             ['path' => 'bar.js', 'package_name' => 'pkg'],
             ['path' => 'baz.js', 'package_name' => null],
         ], $config['assets']['extra_javascripts']);
@@ -327,7 +327,7 @@ final class ConfigurationTest extends TestCase
     {
         $config = $this->process([]);
 
-        static::assertSame('sonata.admin.controller.crud', $config['default_controller']);
+        static::assertSame('adminata.admin.controller.crud', $config['default_controller']);
     }
 
     public function testSettingDefaultController(): void

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
-use Sonata\AdminBundle\Util\ObjectAclManipulatorInterface;
+use IDCT\Adminata\Util\ObjectAclManipulatorInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -28,14 +28,14 @@ final class ObjectAclManipulatorCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has('sonata.admin.command.generate_object_acl')) {
+        if (!$container->has('adminata.admin.command.generate_object_acl')) {
             return;
         }
 
         $availableManagers = [];
 
         foreach ($container->getServiceIds() as $id) {
-            if (!str_starts_with($id, 'sonata.admin.manipulator.acl.object.') || null === $class = $container->getDefinition($id)->getClass()) {
+            if (!str_starts_with($id, 'adminata.admin.manipulator.acl.object.') || null === $class = $container->getDefinition($id)->getClass()) {
                 continue;
             }
 
@@ -54,7 +54,7 @@ final class ObjectAclManipulatorCompilerPass implements CompilerPassInterface
             $availableManagers[$id] = $container->getDefinition($id);
         }
 
-        $generateAdminCommandDefinition = $container->getDefinition('sonata.admin.command.generate_object_acl');
+        $generateAdminCommandDefinition = $container->getDefinition('adminata.admin.command.generate_object_acl');
         $generateAdminCommandDefinition->replaceArgument(1, $availableManagers);
     }
 }

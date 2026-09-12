@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Block;
+namespace IDCT\Adminata\Tests\Block;
 
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Block\AdminStatsBlockService;
-use Sonata\AdminBundle\Test\BlockServiceTestCase;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Block\AdminStatsBlockService;
+use IDCT\Adminata\Test\BlockServiceTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
@@ -45,7 +45,7 @@ final class AdminStatsBlockServiceTest extends BlockServiceTestCase
             'code' => false,
             'filters' => [],
             'limit' => 1000,
-            'template' => '@SonataAdmin/Block/block_stats.html.twig',
+            'template' => '@Adminata/Block/block_stats.html.twig',
         ], $blockContext);
     }
 }

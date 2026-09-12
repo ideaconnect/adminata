@@ -1,6 +1,6 @@
 /*
  * Font Awesome 7 Free, shipped as its own stylesheet so an application can drop it with
- * `sonata_admin.assets.remove_stylesheets` and bring its own icon set.
+ * `adminata.assets.remove_stylesheets` and bring its own icon set.
  *
  * The core plus the two Free styles, deliberately not `all.css`: that also carries Brands and the
  * version 4 and 5 compatibility shims, whose `@font-face` rules point at files adminata does not

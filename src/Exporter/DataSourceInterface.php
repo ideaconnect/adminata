@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Exporter;
+namespace IDCT\Adminata\Exporter;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 
 interface DataSourceInterface
 {

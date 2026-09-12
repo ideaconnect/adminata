@@ -136,10 +136,10 @@ Each carries its own documentation.
    cookbook/recipe_improve_performance_large_datasets
    cookbook/recipe_virtual_field
    cookbook/recipe_lock_protection
-   cookbook/recipe_sortable_sonata_type_model
+   cookbook/recipe_sortable_adminata_type_model
    cookbook/recipe_delete_field_group
    cookbook/recipe_data_mapper
    cookbook/recipe_persisting_filters
    cookbook/recipe_workflow_integration
-   cookbook/recipe_sonata_admin_without_user_bundle
+   cookbook/recipe_adminata_without_user_bundle
    cookbook/recipe_rapid_prototyping

@@ -32,11 +32,11 @@ function prefersDark(matches) {
 }
 
 const button = (theme) =>
-    `<button data-controller="sonata-theme" data-sonata-theme-theme-value="${theme}"
-             data-action="click->sonata-theme#cycle"></button>`;
+    `<button data-controller="adminata-theme" data-adminata-theme-theme-value="${theme}"
+             data-action="click->adminata-theme#cycle"></button>`;
 
 beforeEach(() => {
-    document.cookie = 'sonata_theme=; path=/; max-age=0';
+    document.cookie = 'adminata_theme=; path=/; max-age=0';
     document.documentElement.className = '';
     delete document.documentElement.dataset.theme;
 });
@@ -45,21 +45,21 @@ afterEach(() => {
     document.documentElement.className = '';
 });
 
-describe('sonata-theme', () => {
+describe('adminata-theme', () => {
     it('leaves the server-rendered theme alone when it connects', async () => {
         prefersDark(false);
         document.documentElement.classList.add('dark');
 
-        await mount('sonata-theme', ThemeController, button('dark'));
+        await mount('adminata-theme', ThemeController, button('dark'));
 
         expect(document.documentElement.classList.contains('dark')).toBe(true);
         expect(document.documentElement.dataset.theme).toBe('dark');
-        expect(document.cookie).not.toContain('sonata_theme=');
+        expect(document.cookie).not.toContain('adminata_theme=');
     });
 
     it('cycles light, dark, system', async () => {
         prefersDark(false);
-        const { element } = await mount('sonata-theme', ThemeController, button('light'));
+        const { element } = await mount('adminata-theme', ThemeController, button('light'));
 
         element.click();
         await settle();
@@ -78,14 +78,14 @@ describe('sonata-theme', () => {
 
     it('resolves system against the operating system', async () => {
         prefersDark(true);
-        await mount('sonata-theme', ThemeController, button('system'));
+        await mount('adminata-theme', ThemeController, button('system'));
 
         expect(document.documentElement.classList.contains('dark')).toBe(true);
     });
 
     it('follows the operating system while it is set to system, and not after', async () => {
         prefersDark(false);
-        const { element } = await mount('sonata-theme', ThemeController, button('system'));
+        const { element } = await mount('adminata-theme', ThemeController, button('system'));
 
         expect(document.documentElement.classList.contains('dark')).toBe(false);
 
@@ -102,20 +102,20 @@ describe('sonata-theme', () => {
 
     it('writes the cookie the server reads back', async () => {
         prefersDark(false);
-        const { element } = await mount('sonata-theme', ThemeController, button('light'));
+        const { element } = await mount('adminata-theme', ThemeController, button('light'));
 
         element.click();
         await settle();
 
-        expect(document.cookie).toContain('sonata_theme=dark');
+        expect(document.cookie).toContain('adminata_theme=dark');
     });
 
     it('announces the change', async () => {
         prefersDark(false);
-        const { element } = await mount('sonata-theme', ThemeController, button('light'));
+        const { element } = await mount('adminata-theme', ThemeController, button('light'));
         const seen = [];
 
-        element.addEventListener('sonata-theme:changed', (event) => seen.push(event.detail));
+        element.addEventListener('adminata-theme:changed', (event) => seen.push(event.detail));
 
         element.click();
         await settle();
@@ -126,11 +126,11 @@ describe('sonata-theme', () => {
     it('names what the button will do next', async () => {
         prefersDark(false);
         const { element } = await mount(
-            'sonata-theme',
+            'adminata-theme',
             ThemeController,
-            `<button data-controller="sonata-theme" data-sonata-theme-theme-value="light"
-                     data-sonata-theme-labels-value='{"light":"To light","dark":"To dark","system":"Follow the system"}'
-                     data-action="click->sonata-theme#cycle"></button>`,
+            `<button data-controller="adminata-theme" data-adminata-theme-theme-value="light"
+                     data-adminata-theme-labels-value='{"light":"To light","dark":"To dark","system":"Follow the system"}'
+                     data-action="click->adminata-theme#cycle"></button>`,
         );
 
         expect(element.getAttribute('aria-label')).toBe('To dark');
@@ -144,10 +144,10 @@ describe('sonata-theme', () => {
     it('selects a named theme directly', async () => {
         prefersDark(false);
         const { element } = await mount(
-            'sonata-theme',
+            'adminata-theme',
             ThemeController,
-            `<div data-controller="sonata-theme" data-sonata-theme-theme-value="light">
-                <button data-action="click->sonata-theme#select" data-theme="dark"></button>
+            `<div data-controller="adminata-theme" data-adminata-theme-theme-value="light">
+                <button data-action="click->adminata-theme#select" data-theme="dark"></button>
             </div>`,
         );
 

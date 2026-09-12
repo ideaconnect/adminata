@@ -12,7 +12,7 @@ import { buildQueryString, controlReset, controlValue, convertQueryStringToObjec
 
 export default class extends Controller {
     static targets = ['form', 'group', 'advanced', 'submitter'];
-    static outlets = ['sonata-filter-list'];
+    static outlets = ['adminata-filter-list'];
     static values = {
         defaultValues: Object,
     };
@@ -91,7 +91,7 @@ export default class extends Controller {
 
     hideFilter({ params }) {
         this.toggleFilter(params.id, false);
-        this.sonataFilterListOutlet.disable(params.id);
+        this.adminataFilterListOutlet.disable(params.id);
     }
 
     get visibleGroups() {

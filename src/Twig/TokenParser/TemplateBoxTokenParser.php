@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig\TokenParser;
+namespace IDCT\Adminata\Twig\TokenParser;
 
-use Sonata\AdminBundle\Twig\Node\TemplateBoxNode;
+use IDCT\Adminata\Twig\Node\TemplateBoxNode;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Token;
 use Twig\TokenParser\AbstractTokenParser;
@@ -46,6 +46,6 @@ final class TemplateBoxTokenParser extends AbstractTokenParser
 
     public function getTag(): string
     {
-        return 'sonata_template_box';
+        return 'adminata_template_box';
     }
 }

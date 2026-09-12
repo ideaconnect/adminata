@@ -7,7 +7,7 @@ at an exact version, so an application's admin classes, services and routes carr
 what changes is the markup, the JavaScript and the form widgets — and ``block-bundle``,
 ``doctrine-extensions``, ``exporter``, ``form-extensions`` and ``twig-extensions`` are part of it:
 blocks, Doctrine managers, form types, the Twig helpers and the exporter are
-``Sonata\AdminBundle\`` classes and there is no ``SonataBlockBundle``, ``SonataDoctrineBundle``,
+``IDCT\Adminata\`` classes and there is no ``SonataBlockBundle``, ``SonataDoctrineBundle``,
 ``SonataFormBundle``, ``SonataTwigBundle`` or ``SonataExporterBundle`` (see
 :doc:`admin-bundle/reference/block_configuration`,
 :doc:`admin-bundle/reference/form_configuration`,

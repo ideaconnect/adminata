@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Datagrid;
+namespace IDCT\Adminata\Datagrid;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Filter\FilterInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Filter\FilterInterface;
 use Symfony\Component\Form\FormInterface;
 
 /**

@@ -11,26 +11,26 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Event;
+namespace IDCT\Adminata\Tests\Event;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
-use Sonata\AdminBundle\Builder\FormContractorInterface;
-use Sonata\AdminBundle\Builder\ListBuilderInterface;
-use Sonata\AdminBundle\Builder\ShowBuilderInterface;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Event\AdminEventExtension;
-use Sonata\AdminBundle\Event\BatchActionEvent;
-use Sonata\AdminBundle\Event\ConfigureEvent;
-use Sonata\AdminBundle\Event\ConfigureQueryEvent;
-use Sonata\AdminBundle\Event\PersistenceEvent;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Builder\DatagridBuilderInterface;
+use IDCT\Adminata\Builder\FormContractorInterface;
+use IDCT\Adminata\Builder\ListBuilderInterface;
+use IDCT\Adminata\Builder\ShowBuilderInterface;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\Datagrid\DatagridMapper;
+use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Event\AdminEventExtension;
+use IDCT\Adminata\Event\BatchActionEvent;
+use IDCT\Adminata\Event\ConfigureEvent;
+use IDCT\Adminata\Event\ConfigureQueryEvent;
+use IDCT\Adminata\Event\PersistenceEvent;
+use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
+use IDCT\Adminata\Form\FormMapper;
+use IDCT\Adminata\Show\ShowMapper;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -84,7 +84,7 @@ final class AdminEventExtensionTest extends TestCase
         $this
             ->getExtension([
                 static::callback($this->getConfigureEventClosure(ConfigureEvent::TYPE_FORM)),
-                static::equalTo('sonata.admin.event.configure.form'),
+                static::equalTo('adminata.admin.event.configure.form'),
             ])
             ->configureFormFields(new FormMapper(
                 static::createStub(FormContractorInterface::class),
@@ -98,7 +98,7 @@ final class AdminEventExtensionTest extends TestCase
         $this
             ->getExtension([
                 static::callback($this->getConfigureEventClosure(ConfigureEvent::TYPE_LIST)),
-                static::equalTo('sonata.admin.event.configure.list'),
+                static::equalTo('adminata.admin.event.configure.list'),
             ])
             ->configureListFields(new ListMapper(
                 static::createStub(ListBuilderInterface::class),
@@ -112,7 +112,7 @@ final class AdminEventExtensionTest extends TestCase
         $this
             ->getExtension([
                 static::callback($this->getConfigureEventClosure(ConfigureEvent::TYPE_DATAGRID)),
-                static::equalTo('sonata.admin.event.configure.datagrid'),
+                static::equalTo('adminata.admin.event.configure.datagrid'),
             ])
             ->configureDatagridFilters(new DatagridMapper(
                 static::createStub(DatagridBuilderInterface::class),
@@ -126,7 +126,7 @@ final class AdminEventExtensionTest extends TestCase
         $this
             ->getExtension([
                 static::callback($this->getConfigureEventClosure(ConfigureEvent::TYPE_SHOW)),
-                static::equalTo('sonata.admin.event.configure.show'),
+                static::equalTo('adminata.admin.event.configure.show'),
             ])
             ->configureShowFields(new ShowMapper(
                 static::createStub(ShowBuilderInterface::class),
@@ -139,7 +139,7 @@ final class AdminEventExtensionTest extends TestCase
     {
         $this->getExtension([
             static::callback($this->getConfigurePersistenceClosure(PersistenceEvent::TYPE_PRE_UPDATE)),
-            static::equalTo('sonata.admin.event.persistence.pre_update'),
+            static::equalTo('adminata.admin.event.persistence.pre_update'),
         ])->preUpdate($this->createMock(AdminInterface::class), new \stdClass());
     }
 
@@ -147,7 +147,7 @@ final class AdminEventExtensionTest extends TestCase
     {
         $this->getExtension([
             static::isInstanceOf(ConfigureQueryEvent::class),
-            static::equalTo('sonata.admin.event.configure.query'),
+            static::equalTo('adminata.admin.event.configure.query'),
         ])->configureQuery($this->createMock(AdminInterface::class), $this->createMock(ProxyQueryInterface::class));
     }
 
@@ -155,7 +155,7 @@ final class AdminEventExtensionTest extends TestCase
     {
         $this->getExtension([
             static::callback($this->getConfigurePersistenceClosure(PersistenceEvent::TYPE_POST_UPDATE)),
-            static::equalTo('sonata.admin.event.persistence.post_update'),
+            static::equalTo('adminata.admin.event.persistence.post_update'),
         ])->postUpdate($this->createMock(AdminInterface::class), new \stdClass());
     }
 
@@ -163,7 +163,7 @@ final class AdminEventExtensionTest extends TestCase
     {
         $this->getExtension([
             static::callback($this->getConfigurePersistenceClosure(PersistenceEvent::TYPE_PRE_PERSIST)),
-            static::equalTo('sonata.admin.event.persistence.pre_persist'),
+            static::equalTo('adminata.admin.event.persistence.pre_persist'),
         ])->prePersist($this->createMock(AdminInterface::class), new \stdClass());
     }
 
@@ -171,7 +171,7 @@ final class AdminEventExtensionTest extends TestCase
     {
         $this->getExtension([
             static::callback($this->getConfigurePersistenceClosure(PersistenceEvent::TYPE_POST_PERSIST)),
-            static::equalTo('sonata.admin.event.persistence.post_persist'),
+            static::equalTo('adminata.admin.event.persistence.post_persist'),
         ])->postPersist($this->createMock(AdminInterface::class), new \stdClass());
     }
 
@@ -179,7 +179,7 @@ final class AdminEventExtensionTest extends TestCase
     {
         $this->getExtension([
             static::callback($this->getConfigurePersistenceClosure(PersistenceEvent::TYPE_PRE_REMOVE)),
-            static::equalTo('sonata.admin.event.persistence.pre_remove'),
+            static::equalTo('adminata.admin.event.persistence.pre_remove'),
         ])->preRemove($this->createMock(AdminInterface::class), new \stdClass());
     }
 
@@ -187,7 +187,7 @@ final class AdminEventExtensionTest extends TestCase
     {
         $this->getExtension([
             static::callback($this->getConfigurePersistenceClosure(PersistenceEvent::TYPE_POST_REMOVE)),
-            static::equalTo('sonata.admin.event.persistence.post_remove'),
+            static::equalTo('adminata.admin.event.persistence.post_remove'),
         ])->postRemove($this->createMock(AdminInterface::class), new \stdClass());
     }
 
@@ -218,7 +218,7 @@ final class AdminEventExtensionTest extends TestCase
                     return true;
                 }
             ),
-            static::equalTo('sonata.admin.event.batch_action.pre_batch_action'),
+            static::equalTo('adminata.admin.event.batch_action.pre_batch_action'),
         ])->preBatchAction($this->createMock(AdminInterface::class), 'delete', $this->createMock(ProxyQueryInterface::class), $idx, false);
     }
 }

@@ -7,13 +7,13 @@ of the fields and forms available in these views and any other relevant settings
 Basic configuration
 -------------------
 
-SonataAdmin Options that may affect the create or edit view:
+Adminata Options that may affect the create or edit view:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         options:
             html5_validate:  true     # enable or disable html5 form validation
             confirm_exit:    true     # enable or disable a confirmation before navigating away
@@ -22,8 +22,8 @@ SonataAdmin Options that may affect the create or edit view:
             form_type:       standard # can also be 'horizontal'
 
         templates:
-            edit:              '@SonataAdmin/CRUD/edit.html.twig'
-            tab_menu_template: '@SonataAdmin/Core/tab_menu_template.html.twig'
+            edit:              '@Adminata/CRUD/edit.html.twig'
+            tab_menu_template: '@Adminata/Core/tab_menu_template.html.twig'
 
 .. note::
 
@@ -116,7 +116,7 @@ options for the group itself.
   unless you know what you're doing).
 - ``class``: the class of the group's wrapper — its grid span, and any hook of your own. A
   group that one field's value should show or hide carries a hook here and the field carries
-  ``sonata-reveal``: see :doc:`/javascript`.
+  ``adminata-reveal``: see :doc:`/javascript`.
 - ``box_class``: The class for your form group box in the admin; by default,
   the value is set to ``box box-primary``.
 - ``description``: A text shown at the top of the form group.
@@ -163,9 +163,9 @@ with the sonata TemplateType::
 
     namespace App\Admin;
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Form\FormMapper;
-    use Sonata\AdminBundle\Form\Type\TemplateType;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Form\FormMapper;
+    use IDCT\Adminata\Form\Type\TemplateType;
 
    final class PersonAdmin extends AbstractAdmin
     {

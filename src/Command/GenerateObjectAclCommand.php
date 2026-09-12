@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Command;
+namespace IDCT\Adminata\Command;
 
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Util\ObjectAclManipulatorInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Util\ObjectAclManipulatorInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,7 +25,7 @@ use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-#[AsCommand(name: 'sonata:admin:generate-object-acl', description: 'Install ACL for the objects of the Admin Classes.')]
+#[AsCommand(name: 'adminata:generate-object-acl', description: 'Install ACL for the objects of the Admin Classes.')]
 final class GenerateObjectAclCommand extends QuestionableCommand
 {
     private string $userModelClass = '';
@@ -104,7 +104,7 @@ final class GenerateObjectAclCommand extends QuestionableCommand
                 $securityIdentity = new UserSecurityIdentity($objectOwner, $this->getUserModelClass($input, $output));
             }
 
-            $manipulatorId = \sprintf('sonata.admin.manipulator.acl.object.%s', $admin->getManagerType());
+            $manipulatorId = \sprintf('adminata.admin.manipulator.acl.object.%s', $admin->getManagerType());
             if (!isset($this->aclObjectManipulators[$manipulatorId])) {
                 $output->writeln('Admin class is using a manager type that has no manipulator implemented : <info>ignoring</info>');
 

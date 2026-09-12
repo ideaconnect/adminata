@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Admin;
+namespace IDCT\Adminata\Tests\Admin;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Security\Handler\SecurityHandlerInterface;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Security\Handler\SecurityHandlerInterface;
 
 final class BaseAdminModelManagerTest extends TestCase
 {

@@ -5,7 +5,7 @@ The List View
 
     **``editable`` is not yet ported.** adminata ships no in-place editing library, so the option
     renders an inert ``<span class="x-editable">`` that your own JavaScript may bind to. The
-    ``sonata_admin_set_object_field_value`` route it posts to still exists.
+    ``adminata_set_object_field_value`` route it posts to still exists.
 
 
 This document will cover the List view which you use to browse the objects in your
@@ -15,24 +15,24 @@ to control what's visible.
 Basic configuration
 -------------------
 
-SonataAdmin Options that may affect the list view:
+Adminata Options that may affect the list view:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         templates:
-            list:                       '@SonataAdmin/CRUD/list.html.twig'
-            action:                     '@SonataAdmin/CRUD/action.html.twig'
-            select:                     '@SonataAdmin/CRUD/list__select.html.twig'
-            list_block:                 '@SonataAdmin/Block/block_admin_list.html.twig'
-            short_object_description:   '@SonataAdmin/Helper/short-object-description.html.twig'
-            batch:                      '@SonataAdmin/CRUD/list__batch.html.twig'
-            inner_list_row:             '@SonataAdmin/CRUD/list_inner_row.html.twig'
-            base_list_field:            '@SonataAdmin/CRUD/base_list_field.html.twig'
-            pager_links:                '@SonataAdmin/Pager/links.html.twig'
-            pager_results:              '@SonataAdmin/Pager/results.html.twig'
+            list:                       '@Adminata/CRUD/list.html.twig'
+            action:                     '@Adminata/CRUD/action.html.twig'
+            select:                     '@Adminata/CRUD/list__select.html.twig'
+            list_block:                 '@Adminata/Block/block_admin_list.html.twig'
+            short_object_description:   '@Adminata/Helper/short-object-description.html.twig'
+            batch:                      '@Adminata/CRUD/list__batch.html.twig'
+            inner_list_row:             '@Adminata/CRUD/list_inner_row.html.twig'
+            base_list_field:            '@Adminata/CRUD/base_list_field.html.twig'
+            pager_links:                '@Adminata/Pager/links.html.twig'
+            pager_results:              '@Adminata/Pager/results.html.twig'
 
 Routes
 ------
@@ -59,11 +59,11 @@ Using this, the route can be customized as follows::
 
     namespace App\Admin;
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Form\FormMapper;
-    use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Form\FormMapper;
+    use IDCT\Adminata\Datagrid\DatagridMapper;
+    use IDCT\Adminata\Datagrid\ListMapper;
+    use IDCT\Adminata\Show\ShowMapper;
 
     final class MediaAdmin extends AbstractAdmin
     {
@@ -173,7 +173,7 @@ Here is an example::
 
 .. tip::
 
-    Edit and Delete actions are enabled in the default configuration. You can add your own! Default template file is: ``@SonataAdmin/CRUD/list__action_[ACTION_NAME].html.twig``
+    Edit and Delete actions are enabled in the default configuration. You can add your own! Default template file is: ``@Adminata/CRUD/list__action_[ACTION_NAME].html.twig``
 
 Options
 ^^^^^^^
@@ -370,8 +370,8 @@ Configuring the default ordering column can be achieved by overriding the
 
     // src/Admin/PostAdmin.php
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Datagrid\DatagridInterface;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Datagrid\DatagridInterface;
 
     final class PostAdmin extends AbstractAdmin
     {
@@ -400,12 +400,12 @@ Configuring the default ordering column can be achieved by overriding the
 
     For UI reason, it's not possible to sort by multiple fields. However, this behavior can be simulate by
     adding some default orders in the ``configureQuery()`` method. The following example is using
-    ``SonataAdminBundle`` with ``SonataDoctrineORMAdminBundle``::
+    ``AdminataBundle`` with ``AdminataDoctrineORMBundle``::
 
         // src/Admin/PostAdmin.php
 
-        use Sonata\AdminBundle\Admin\AbstractAdmin;
-        use Sonata\AdminBundle\Datagrid\DatagridInterface;
+        use IDCT\Adminata\Admin\AbstractAdmin;
+        use IDCT\Adminata\Datagrid\DatagridInterface;
 
         final class PostAdmin extends AbstractAdmin
         {
@@ -443,7 +443,7 @@ You can add filters to let user control which data will be displayed::
 
     // src/Admin/PostAdmin.php
 
-    use Sonata\AdminBundle\Datagrid\DatagridMapper;
+    use IDCT\Adminata\Datagrid\DatagridMapper;
 
     final class ClientAdmin extends AbstractAdmin
     {
@@ -476,14 +476,14 @@ To make the filter always visible (even when it is inactive), set the parameter
         ;
     }
 
-By default the template generates an ``operator`` for a filter which defaults to ``sonata_type_equal``.
+By default the template generates an ``operator`` for a filter which defaults to ``adminata_type_equal``.
 Though this ``operator_type`` is automatically detected it can be changed or even be hidden::
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
     {
         $datagrid
             ->add('foo', null, [
-                'operator_type' => 'sonata_type_boolean'
+                'operator_type' => 'adminata_type_boolean'
             ])
             ->add('bar', null, [
                 'operator_type' => 'hidden'
@@ -529,7 +529,7 @@ Available types are represented through classes which can be found `here`_.
 Types like ``equal`` and ``boolean`` use constants to assign a choice of
 ``type`` to an ``integer`` for its ``value``::
 
-    namespace Sonata\AdminBundle\Form\Type;
+    namespace IDCT\Adminata\Form\Type;
 
     final class EqualType extends AbstractType
     {
@@ -542,8 +542,8 @@ The integers are then passed in the URL of the list action e.g.:
 
 This is an example using these constants for an ``boolean`` type::
 
-    use Sonata\AdminBundle\Form\Type\EqualType;
-    use Sonata\AdminBundle\Form\Type\BooleanType;
+    use IDCT\Adminata\Form\Type\EqualType;
+    use IDCT\Adminata\Form\Type\BooleanType;
 
     final class UserAdmin extends Sonata\UserBundle\Admin\Model\UserAdmin
     {
@@ -560,7 +560,7 @@ Please note that setting a ``false`` value on a the ``boolean`` type
 will not work since the type expects an integer of  ``2`` as ``value``
 as defined in the class constants::
 
-    namespace Sonata\AdminBundle\Form\Type;
+    namespace IDCT\Adminata\Form\Type;
 
     final class BooleanType extends AbstractType
     {
@@ -594,11 +594,11 @@ This approach allow to create dynamic filters::
 Callback filter
 ^^^^^^^^^^^^^^^
 
-If you have the **SonataDoctrineORMAdminBundle** installed you can use the
+If you have the **AdminataDoctrineORMBundle** installed you can use the
 ``CallbackFilter`` filter type e.g. for creating a full text filter::
 
-    use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Filter\Model\FilterData;
+    use IDCT\Adminata\Datagrid\DatagridMapper;
+    use IDCT\Adminata\Filter\Model\FilterData;
 
     final class UserAdmin extends Sonata\UserBundle\Admin\Model\UserAdmin
     {
@@ -633,8 +633,8 @@ The callback function should return a boolean indicating whether it is active.
 You can also get the filter type which can be helpful to change the operator
 type of your condition(s)::
 
-    use Sonata\AdminBundle\Filter\Model\FilterData;
-    use Sonata\AdminBundle\Form\Type\EqualType;
+    use IDCT\Adminata\Filter\Model\FilterData;
+    use IDCT\Adminata\Form\Type\EqualType;
 
     final class UserAdmin extends Sonata\UserBundle\Admin\Model\UserAdmin
     {
@@ -726,9 +726,9 @@ You have the possibility to show/hide mosaic view button.
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         # for hide mosaic view button on all screen using `false`
         show_mosaic_button: true
 
@@ -739,15 +739,15 @@ You need to add option ``show_mosaic_button`` in your admin services:
 
     # config/services.yaml
 
-    sonata_admin.admin.post:
-        class: Sonata\AdminBundle\Admin\PostAdmin
+    adminata.admin.post:
+        class: IDCT\Adminata\Admin\PostAdmin
         tags:
-            - { name: sonata.admin, model_class: Sonata\AdminBundle\Entity\Post, manager_type: orm, group: admin, label: Post, show_mosaic_button: true }
+            - { name: adminata.admin, model_class: IDCT\Adminata\Entity\Post, manager_type: orm, group: admin, label: Post, show_mosaic_button: true }
 
-    sonata_admin.admin.news:
-        class: Sonata\AdminBundle\Admin\NewsAdmin
+    adminata.admin.news:
+        class: IDCT\Adminata\Admin\NewsAdmin
         tags:
-            - { name: sonata.admin, model_class: Sonata\AdminBundle\Entity\News, manager_type: orm, group: admin, label: News, show_mosaic_button: false }
+            - { name: adminata.admin, model_class: IDCT\Adminata\Entity\News, manager_type: orm, group: admin, label: News, show_mosaic_button: false }
 
 Show Icons on Action Buttons
 ----------------------------
@@ -756,9 +756,9 @@ You can choose if the action buttons on the list-page show an icon, text or both
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         options:
             # Choices are: text, icon or all (default)
             list_action_button_content: icon
@@ -824,7 +824,7 @@ query and displayed::
 
 Lastly, you can also define your list fields as ``virtual``.
 This way, Sonata's FieldDescription will always return a value of null, as documented here:
-https://docs.sonata-project.org/projects/SonataAdminBundle/en/4.x/cookbook/recipe_virtual_field/
+https://docs.sonata-project.org/projects/AdminataBundle/en/4.x/cookbook/recipe_virtual_field/
 
 Combine this with configuring a custom template and you'll have a list column fully customizable in what it eventually renders. ::
 
@@ -838,7 +838,7 @@ Combine this with configuring a custom template and you'll have a list column fu
         ]);
     }
 
-.. _`SonataDoctrineORMAdminBundle Documentation`: https://docs.sonata-project.org/projects/SonataDoctrineORMAdminBundle/en/4.x/reference/list_field_definition/
+.. _`AdminataDoctrineORMBundle Documentation`: https://docs.sonata-project.org/projects/AdminataDoctrineORMBundle/en/4.x/reference/list_field_definition/
 .. _`here`: https://github.com/ideaconnect/adminata/tree/main/src/Form/Type/Operator
 
 Advance Usage
@@ -854,11 +854,11 @@ If you need to display only one field from a sub model or embedded object in a d
 
     namespace App\Admin;
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Form\FormMapper;
-    use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Form\FormMapper;
+    use IDCT\Adminata\Datagrid\DatagridMapper;
+    use IDCT\Adminata\Datagrid\ListMapper;
+    use IDCT\Adminata\Show\ShowMapper;
 
     final class UserAdmin extends AbstractAdmin
     {
@@ -882,12 +882,12 @@ If you need a specific layout for a row cell, you can define a custom template::
 
     namespace App\Admin;
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-    use Sonata\AdminBundle\Form\FormMapper;
-    use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+    use IDCT\Adminata\Form\FormMapper;
+    use IDCT\Adminata\Datagrid\DatagridMapper;
+    use IDCT\Adminata\Datagrid\ListMapper;
+    use IDCT\Adminata\Show\ShowMapper;
 
    final class MediaAdmin extends AbstractAdmin
     {
@@ -905,7 +905,7 @@ The related template:
 
 .. code-block:: html+twig
 
-    {% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+    {% extends '@Adminata/CRUD/base_list_field.html.twig' %}
 
     {% block field %}
         <div>

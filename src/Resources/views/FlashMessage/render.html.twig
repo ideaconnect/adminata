@@ -15,7 +15,7 @@ file that was distributed with this source code.
     `alert alert-{type}` stays on every message: the type is PHP-emitted by `FlashManager`, an
     application's CSS selects on it, and it is part of the contract (PLAN/02 §8). So are the
     `read-more-*` classes. What changed is everything around them — TailAdmin's alert recipe, a
-    dismiss button driven by `sonata-dismiss` instead of Bootstrap's `data-dismiss`, and a
+    dismiss button driven by `adminata-dismiss` instead of Bootstrap's `data-dismiss`, and a
     read-more toggle that is still nothing but a checkbox and a sibling selector.
 #}
 
@@ -29,16 +29,16 @@ file that was distributed with this source code.
     info: 'adm-alert-info',
 } %}
 
-{% for type in sonata_flashmessages_types() %}
-    {% set messages = sonata_flashmessages_get(type) %}
-    {% set status = sonata_flashmessages_class(type, 'default') %}
+{% for type in adminata_flashmessages_types() %}
+    {% set messages = adminata_flashmessages_get(type) %}
+    {% set status = adminata_flashmessages_class(type, 'default') %}
     {% set recipe = recipes[status]|default('') %}
     {% set role = 'danger' == status ? 'alert' : 'status' %}
 
     {% if messages|length > collapse and collapse > 0 %}
         <div class="adm-alert {{ recipe }} alert alert-{{ status }} mb-4"
              role="{{ role }}"
-             {{ stimulus_controller('sonata-dismiss') }}
+             {{ stimulus_controller('adminata-dismiss') }}
         >
             <input type="checkbox" class="adm-alert__more read-more-state" id="toggle-more-{{ loop.index }}">
 
@@ -52,16 +52,16 @@ file that was distributed with this source code.
                 {% endfor %}
 
                 <label for="toggle-more-{{ loop.index }}" class="adm-alert__more-label read-more-trigger">
-                    <span class="adm-alert__more-more more">{{ 'more'|trans({}, 'SonataAdminBundle') }}</span>
-                    <span class="adm-alert__more-less less">{{ 'less'|trans({}, 'SonataAdminBundle') }}</span>
+                    <span class="adm-alert__more-more more">{{ 'more'|trans({}, 'AdminataBundle') }}</span>
+                    <span class="adm-alert__more-less less">{{ 'less'|trans({}, 'AdminataBundle') }}</span>
                     <span class="adm-badge">{{ messages|length }}</span>
                 </label>
             </div>
 
             <button type="button"
                     class="adm-alert__dismiss close"
-                    aria-label="{{ 'message_close'|trans({}, 'SonataAdminBundle') }}"
-                    {{ stimulus_action('sonata-dismiss', 'dismiss', 'click') }}
+                    aria-label="{{ 'message_close'|trans({}, 'AdminataBundle') }}"
+                    {{ stimulus_action('adminata-dismiss', 'dismiss', 'click') }}
             >
                 <i class="fas fa-xmark" aria-hidden="true"></i>
             </button>
@@ -70,14 +70,14 @@ file that was distributed with this source code.
         {% for message in messages %}
             <div class="adm-alert {{ recipe }} alert alert-{{ status }} mb-4"
                  role="{{ role }}"
-                 {{ stimulus_controller('sonata-dismiss') }}
+                 {{ stimulus_controller('adminata-dismiss') }}
             >
                 <div class="adm-alert__body">{{ message|raw }}</div>
 
                 <button type="button"
                         class="adm-alert__dismiss close"
-                        aria-label="{{ 'message_close'|trans({}, 'SonataAdminBundle') }}"
-                        {{ stimulus_action('sonata-dismiss', 'dismiss', 'click') }}
+                        aria-label="{{ 'message_close'|trans({}, 'AdminataBundle') }}"
+                        {{ stimulus_action('adminata-dismiss', 'dismiss', 'click') }}
                 >
                     <i class="fas fa-xmark" aria-hidden="true"></i>
                 </button>

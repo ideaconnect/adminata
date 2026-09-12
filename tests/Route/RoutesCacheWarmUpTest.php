@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Route;
+namespace IDCT\Adminata\Tests\Route;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Route\RoutesCache;
-use Sonata\AdminBundle\Route\RoutesCacheWarmUp;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Route\RoutesCache;
+use IDCT\Adminata\Route\RoutesCacheWarmUp;
 use Symfony\Component\DependencyInjection\Container;
 
 final class RoutesCacheWarmUpTest extends TestCase

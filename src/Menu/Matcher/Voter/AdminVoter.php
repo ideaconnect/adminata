@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Menu\Matcher\Voter;
+namespace IDCT\Adminata\Menu\Matcher\Voter;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\BCLayer\BCHelper;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\BCLayer\BCHelper;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -42,7 +42,7 @@ final class AdminVoter implements VoterInterface
         if (
             $admin instanceof AdminInterface
             && $admin->hasRoute('list') && $admin->hasAccess('list')
-            && $this->match($admin, BCHelper::getFromRequest($request, '_sonata_admin'))
+            && $this->match($admin, BCHelper::getFromRequest($request, '_adminata_admin'))
         ) {
             return true;
         }

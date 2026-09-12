@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Filter\Persister;
+namespace IDCT\Adminata\Filter\Persister;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 

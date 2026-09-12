@@ -25,11 +25,11 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * Three sources feed this. The template registry's defaults, which an application overrides by
  * key. Every `@Sonata…/….html.twig` string in the forked packages' PHP, which is what the builders
  * and field descriptions hand to Twig. And the paths `idct/sonata-admin-mongodb-bundle` hard-codes
- * — its `ListBuilder` names `@SonataAdmin/CRUD/list__action.html.twig` and
+ * — its `ListBuilder` names `@Adminata/CRUD/list__action.html.twig` and
  * `list__action_%s.html.twig` directly, so renaming one of those breaks the fork silently.
  *
  * Resolution is by file path rather than through a Twig loader on purpose: the mapping from
- * `@SonataAdmin` to `src/Resources/views` is exactly what a bundle's name and location
+ * `@Adminata` to `src/Resources/views` is exactly what a bundle's name and location
  * produce, and checking it here needs no kernel.
  */
 final class TemplatePathTest extends ContractTestCase
@@ -37,8 +37,8 @@ final class TemplatePathTest extends ContractTestCase
     /**
      * Twig namespace => the view directory it points at, relative to the repository root.
      *
-     * Four of the five share this bundle's. Adminata's own defaults all say `@SonataAdmin`;
-     * `SonataBlockExtension`, `SonataFormExtension` and `SonataTwigExtension` each prepend a
+     * Four of the five share this bundle's. Adminata's own defaults all say `@Adminata`;
+     * `AdminataBlockExtension`, `AdminataFormExtension` and `AdminataTwigExtension` each prepend a
      * `twig.paths` entry aliasing their namespace to that same directory, for templates outside
      * adminata that still address the pre-merge spellings. The fifth belongs to the ORM storage
      * layer, which ships as a package of its own and is read from its installed copy.
@@ -46,11 +46,11 @@ final class TemplatePathTest extends ContractTestCase
      * @var array<string, string>
      */
     private const array NAMESPACES = [
-        'SonataAdmin' => 'src/Resources/views',
-        'SonataBlock' => 'src/Resources/views',
-        'SonataDoctrineORMAdmin' => self::ORM_VIEWS,
-        'SonataForm' => 'src/Resources/views',
-        'SonataTwig' => 'src/Resources/views',
+        'Adminata' => 'src/Resources/views',
+        'AdminataBlock' => 'src/Resources/views',
+        'AdminataDoctrineORMAdmin' => self::ORM_VIEWS,
+        'AdminataForm' => 'src/Resources/views',
+        'AdminataTwig' => 'src/Resources/views',
     ];
 
     /**
@@ -60,7 +60,7 @@ final class TemplatePathTest extends ContractTestCase
      *
      * @var list<string>
      */
-    private const array ALIAS_NAMESPACES = ['SonataBlock', 'SonataForm', 'SonataTwig'];
+    private const array ALIAS_NAMESPACES = ['AdminataBlock', 'AdminataForm', 'AdminataTwig'];
 
     /**
      * What the MongoDB fork asks for by name. Its `ListBuilder` builds the second from a field
@@ -69,15 +69,15 @@ final class TemplatePathTest extends ContractTestCase
      * @var list<string>
      */
     private const array MONGODB_FORK_PATHS = [
-        '@SonataAdmin/CRUD/list__action.html.twig',
-        '@SonataAdmin/CRUD/list__action_delete.html.twig',
-        '@SonataAdmin/CRUD/list__action_edit.html.twig',
-        '@SonataAdmin/CRUD/list__action_show.html.twig',
-        '@SonataAdmin/Form/form_admin_fields.html.twig',
-        '@SonataAdmin/Form/filter_admin_fields.html.twig',
-        '@SonataAdmin/CRUD/Association/edit_many_to_one.html.twig',
-        '@SonataAdmin/CRUD/Association/edit_many_to_many.html.twig',
-        '@SonataAdmin/CRUD/Association/edit_one_to_many.html.twig',
+        '@Adminata/CRUD/list__action.html.twig',
+        '@Adminata/CRUD/list__action_delete.html.twig',
+        '@Adminata/CRUD/list__action_edit.html.twig',
+        '@Adminata/CRUD/list__action_show.html.twig',
+        '@Adminata/Form/form_admin_fields.html.twig',
+        '@Adminata/Form/filter_admin_fields.html.twig',
+        '@Adminata/CRUD/Association/edit_many_to_one.html.twig',
+        '@Adminata/CRUD/Association/edit_many_to_many.html.twig',
+        '@Adminata/CRUD/Association/edit_one_to_many.html.twig',
     ];
 
     /**
@@ -90,7 +90,7 @@ final class TemplatePathTest extends ContractTestCase
      * @var list<string>
      */
     private const array NOT_SHIPPED = [
-        '@SonataAdmin/CRUD/list_outer_rows_tree.html.twig',
+        '@Adminata/CRUD/list_outer_rows_tree.html.twig',
     ];
 
     /**
@@ -149,9 +149,9 @@ final class TemplatePathTest extends ContractTestCase
     }
 
     /**
-     * Adminata addresses every template it ships as `@SonataAdmin/…`, which is what makes it
-     * overridable under `templates/bundles/SonataAdminBundle/` like any other bundle template.
-     * `@SonataBlock`, `@SonataForm` and `@SonataTwig` are plain `twig.paths` aliases onto the same
+     * Adminata addresses every template it ships as `@Adminata/…`, which is what makes it
+     * overridable under `templates/bundles/AdminataBundle/` like any other bundle template.
+     * `@Adminata`, `@Adminata` and `@Adminata` are plain `twig.paths` aliases onto the same
      * directory, with no override directory of their own, kept for templates outside adminata that
      * still address the pre-merge spellings; a shipped file that used one would bypass an
      * application's override in silence.
@@ -168,7 +168,7 @@ final class TemplatePathTest extends ContractTestCase
         }
 
         static::assertSame([], $offenders, \sprintf(
-            'Shipped code addresses @%s/ instead of @SonataAdmin/.',
+            'Shipped code addresses @%s/ instead of @Adminata/.',
             $namespace
         ));
     }
@@ -199,10 +199,10 @@ final class TemplatePathTest extends ContractTestCase
 
         // 148 at import (PLAN/00), plus `Core/list_mode_buttons.html.twig`, which PLAN/03 §F asks
         // for — `standard_layout` and `ajax_layout` had the same switcher twice, which is how they
-        // drifted apart — plus `Form/Type/sonata_type_model_list.html.twig`, the unported
+        // drifted apart — plus `Form/Type/adminata_type_model_list.html.twig`, the unported
         // `ModelListType` widget P4-03 lifted out of the form theme, plus `Core/dialog.html.twig`,
         // the layout's shared dialog, plus `Core/question_dialog.html.twig`, the one
-        // `sonata-question` asks in (P6-03). Three of those 152 are the ORM storage layer's, which
+        // `adminata-question` asks in (P6-03). Three of those 152 are the ORM storage layer's, which
         // is a package of its own since PLAN/01 P17 and is counted here through its installed copy.
         static::assertSame(152, $found, 'The admin bundle and the ORM storage layer ship 152 templates.');
     }

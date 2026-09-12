@@ -21,7 +21,7 @@ You can add your Admin as parameter of the action::
 
             // ...
 
-            $request->getSession()->getFlashBag()->add('sonata_flash_success', 'Cloned successfully');
+            $request->getSession()->getFlashBag()->add('adminata_flash_success', 'Cloned successfully');
 
             return new RedirectResponse($admin->generateUrl('list'));
         }
@@ -33,7 +33,7 @@ Or if you have a reusable action for **all** admin::
 
     namespace App\Controller;
 
-    use Sonata\AdminBundle\Admin\AdminInterface;
+    use IDCT\Adminata\Admin\AdminInterface;
     use Symfony\Component\HttpFoundation\RedirectResponse;
 
     final class CloneAdminController
@@ -44,7 +44,7 @@ Or if you have a reusable action for **all** admin::
 
             // ...
 
-            $request->getSession()->getFlashBag()->add('sonata_flash_success', 'Cloned successfully');
+            $request->getSession()->getFlashBag()->add('adminata_flash_success', 'Cloned successfully');
 
             return new RedirectResponse($admin->generateUrl('list'));
         }
@@ -76,7 +76,7 @@ the controller to make it Invokable::
 
             // ...
 
-            $request->getSession()->getFlashBag()->add('sonata_flash_success', 'Sold successfully');
+            $request->getSession()->getFlashBag()->add('adminata_flash_success', 'Sold successfully');
 
             return new RedirectResponse($admin->generateUrl('list'));
         }
@@ -85,7 +85,7 @@ the controller to make it Invokable::
 Now we only need to add the new route in ``configureRoutes``::
 
     use App\Controller\CarAdminCloneAction;
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     protected function configureRoutes(RouteCollectionInterface $collection)
     {

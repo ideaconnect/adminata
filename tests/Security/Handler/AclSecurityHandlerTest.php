@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Security\Handler;
+namespace IDCT\Adminata\Tests\Security\Handler;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Security\Acl\Permission\MaskBuilder;
-use Sonata\AdminBundle\Security\Handler\AclSecurityHandler;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Security\Acl\Permission\MaskBuilder;
+use IDCT\Adminata\Security\Handler\AclSecurityHandler;
 use Symfony\Component\Security\Acl\Model\MutableAclInterface;
 use Symfony\Component\Security\Acl\Model\MutableAclProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;

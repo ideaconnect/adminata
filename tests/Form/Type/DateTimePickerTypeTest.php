@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use Sonata\AdminBundle\Form\Type\DateTimePickerType;
+use IDCT\Adminata\Form\Type\DateTimePickerType;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormExtensionInterface;
@@ -46,7 +46,7 @@ final class DateTimePickerTypeTest extends TypeTestCase
             'en'
         );
 
-        static::assertSame('sonata_type_datetime_picker', $type->getBlockPrefix());
+        static::assertSame('adminata_type_datetime_picker', $type->getBlockPrefix());
     }
 
     public function testSubmitUnmatchingDateFormat(): void

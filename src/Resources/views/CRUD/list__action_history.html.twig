@@ -22,22 +22,22 @@ file that was distributed with this source code.
 #}
 
 {% if admin.hasAccess('history', object) and admin.hasRoute('history') %}
-    {% set button_content = sonata_config.getOption('list_action_button_content') %}
+    {% set button_content = adminata_config.getOption('list_action_button_content') %}
     {% set show_icon = button_content in ['icon', 'all'] %}
     {% set show_text = button_content in ['text', 'all'] %}
     {% set recipe = show_text ? 'adm-btn adm-btn-secondary adm-btn-sm' : 'adm-btn-icon adm-btn-icon-history' %}
     <a
         href="{{ admin.generateObjectUrl('history', object, actions.link_parameters|default([])) }}"
         class="{{ recipe }} view_link"
-        title="{{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}"
+        title="{{ 'link_action_history'|trans({}, 'AdminataBundle') }}"
     >
         {% if show_icon %}
             <i class="fas fa-clock-rotate-left" aria-hidden="true"></i>
         {% endif %}
         {% if show_text %}
-            {{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}
+            {{ 'link_action_history'|trans({}, 'AdminataBundle') }}
         {% else %}
-            <span class="sr-only">{{ 'link_action_history'|trans({}, 'SonataAdminBundle') }}</span>
+            <span class="sr-only">{{ 'link_action_history'|trans({}, 'AdminataBundle') }}</span>
         {% endif %}
     </a>
 {% endif %}

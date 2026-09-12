@@ -18,18 +18,18 @@ namespace Adminata\Tests\App\Admin;
 
 use Adminata\Tests\App\Entity\Product;
 use Adminata\Tests\App\Entity\ProductVariant;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Datagrid\DatagridMapper;
+use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Route\RouteCollectionInterface;
+use IDCT\Adminata\DoctrineORM\Filter\ModelFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * The child list the application fetches over XHR (`TransactionItemsAccordion.js`, appendix C §2):
  * a plain list, filtered by its parent, whose `ajax_layout` response has to keep
- * `table.sonata-ba-list` parseable.
+ * `table.adminata-list` parseable.
  *
  * @phpstan-extends AbstractAdmin<ProductVariant>
  */

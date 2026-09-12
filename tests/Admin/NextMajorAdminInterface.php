@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Admin;
+namespace IDCT\Adminata\Tests\Admin;
 
-use Sonata\AdminBundle\Admin\AdminExtensionInterface;
-use Sonata\AdminBundle\Admin\AdminInterface;
+use IDCT\Adminata\Admin\AdminExtensionInterface;
+use IDCT\Adminata\Admin\AdminInterface;
 
 /**
  * @phpstan-template T of object

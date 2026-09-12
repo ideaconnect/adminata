@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Type;
+namespace IDCT\Adminata\Tests\Fixtures\Type;
 
-use Sonata\AdminBundle\Form\Type\BasePickerType;
+use IDCT\Adminata\Form\Type\BasePickerType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 final class DummyPickerType extends BasePickerType

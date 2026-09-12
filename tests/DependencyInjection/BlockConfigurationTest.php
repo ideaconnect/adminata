@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection;
+namespace IDCT\Adminata\Tests\DependencyInjection;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\DependencyInjection\BlockConfiguration;
+use IDCT\Adminata\DependencyInjection\BlockConfiguration;
 use Symfony\Component\Config\Definition\Processor;
 
 final class BlockConfigurationTest extends TestCase
@@ -57,9 +57,9 @@ final class BlockConfigurationTest extends TestCase
             ],
             'profiler' => [
                 'enabled' => '%kernel.debug%',
-                'template' => '@SonataAdmin/Profiler/block.html.twig',
+                'template' => '@Adminata/Profiler/block.html.twig',
             ],
-            'context_manager' => 'sonata.block.context_manager.default',
+            'context_manager' => 'adminata.block.context_manager.default',
             'http_cache' => false,
             'templates' => [
                 'block_base' => null,
@@ -67,9 +67,9 @@ final class BlockConfigurationTest extends TestCase
             ],
             'container' => [
                 'types' => [
-                    0 => 'sonata.block.service.container',
+                    0 => 'adminata.block.service.container',
                     1 => 'sonata.page.block.container',
-                    2 => 'sonata.dashboard.block.container',
+                    2 => 'adminata.dashboard.block.container',
                     3 => 'cmf.block.container',
                     4 => 'cmf.block.slideshow',
                 ],
@@ -82,15 +82,15 @@ final class BlockConfigurationTest extends TestCase
                     'renderer' => 'throw',
                 ],
                 'filters' => [
-                    'debug_only' => 'sonata.block.exception.filter.debug_only',
-                    'ignore_block_exception' => 'sonata.block.exception.filter.ignore_block_exception',
-                    'keep_all' => 'sonata.block.exception.filter.keep_all',
-                    'keep_none' => 'sonata.block.exception.filter.keep_none',
+                    'debug_only' => 'adminata.block.exception.filter.debug_only',
+                    'ignore_block_exception' => 'adminata.block.exception.filter.ignore_block_exception',
+                    'keep_all' => 'adminata.block.exception.filter.keep_all',
+                    'keep_none' => 'adminata.block.exception.filter.keep_none',
                 ],
                 'renderers' => [
-                    'inline' => 'sonata.block.exception.renderer.inline',
-                    'inline_debug' => 'sonata.block.exception.renderer.inline_debug',
-                    'throw' => 'sonata.block.exception.renderer.throw',
+                    'inline' => 'adminata.block.exception.renderer.inline',
+                    'inline_debug' => 'adminata.block.exception.renderer.inline_debug',
+                    'throw' => 'adminata.block.exception.renderer.throw',
                 ],
             ],
         ];

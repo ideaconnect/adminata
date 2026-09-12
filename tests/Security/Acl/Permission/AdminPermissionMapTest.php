@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Security\Acl\Permission;
+namespace IDCT\Adminata\Tests\Security\Acl\Permission;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
-use Sonata\AdminBundle\Security\Acl\Permission\MaskBuilder;
+use IDCT\Adminata\Security\Acl\Permission\AdminPermissionMap;
+use IDCT\Adminata\Security\Acl\Permission\MaskBuilder;
 
 final class AdminPermissionMapTest extends TestCase
 {

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig\Extension;
+namespace IDCT\Adminata\Twig\Extension;
 
-use Sonata\AdminBundle\Twig\ThemeRuntime;
+use IDCT\Adminata\Twig\ThemeRuntime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -25,8 +25,8 @@ final class ThemeExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sonata_theme', [ThemeRuntime::class, 'getTheme']),
-            new TwigFunction('sonata_html_dir', [ThemeRuntime::class, 'getHtmlDir']),
+            new TwigFunction('adminata_theme', [ThemeRuntime::class, 'getTheme']),
+            new TwigFunction('adminata_html_dir', [ThemeRuntime::class, 'getHtmlDir']),
         ];
     }
 }

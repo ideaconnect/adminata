@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig;
+namespace IDCT\Adminata\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\FlashMessage\FlashManager;
-use Sonata\AdminBundle\Twig\FlashMessageRuntime;
+use IDCT\Adminata\FlashMessage\FlashManager;
+use IDCT\Adminata\Twig\FlashMessageRuntime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;

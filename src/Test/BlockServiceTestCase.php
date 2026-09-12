@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Test;
+namespace IDCT\Adminata\Test;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Block\BlockContextInterface;
-use Sonata\AdminBundle\Block\BlockContextManager;
-use Sonata\AdminBundle\Block\BlockContextManagerInterface;
-use Sonata\AdminBundle\Block\BlockLoaderInterface;
-use Sonata\AdminBundle\Block\BlockServiceManagerInterface;
-use Sonata\AdminBundle\Block\Service\BlockServiceInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Block\BlockContextInterface;
+use IDCT\Adminata\Block\BlockContextManager;
+use IDCT\Adminata\Block\BlockContextManagerInterface;
+use IDCT\Adminata\Block\BlockLoaderInterface;
+use IDCT\Adminata\Block\BlockServiceManagerInterface;
+use IDCT\Adminata\Block\Service\BlockServiceInterface;
+use IDCT\Adminata\Model\BlockInterface;
 use Twig\Environment;
 
 /**

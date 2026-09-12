@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Object;
+namespace IDCT\Adminata\Object;
 
 final class Metadata implements MetadataInterface
 {
-    public const string DEFAULT_MOSAIC_BACKGROUND = 'bundles/sonataadmin/images/default_mosaic_image.png';
+    public const string DEFAULT_MOSAIC_BACKGROUND = 'bundles/adminata/images/default_mosaic_image.png';
 
     private ?string $image = null;
 

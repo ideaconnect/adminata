@@ -51,7 +51,7 @@ demo_is_up() {
     local body
     body="$(curl --silent --max-time 10 --user admin:admin "${URL}/admin/tests/app/product/list" || true)"
 
-    [[ "$body" == *sonata-ba-list* ]]
+    [[ "$body" == *adminata-list* ]]
 }
 
 if ! demo_is_up; then

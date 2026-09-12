@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\EventListener;
+namespace IDCT\Adminata\Form\EventListener;
 
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

@@ -1,5 +1,5 @@
 {
-  "build/app.js": "/bundles/sonataadmin/app.js",
-  "build/app.css": "/bundles/sonataadmin/app.css",
-  "build/fontawesome.css": "/bundles/sonataadmin/fontawesome.css"
+  "build/app.js": "/bundles/adminata/app.js",
+  "build/app.css": "/bundles/adminata/app.css",
+  "build/fontawesome.css": "/bundles/adminata/fontawesome.css"
 }

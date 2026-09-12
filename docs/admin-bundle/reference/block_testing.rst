@@ -32,7 +32,7 @@ Given the following block service::
 
 You can write unit tests for block services with the following code::
 
-    use Sonata\AdminBundle\Test\BlockServiceTestCase;
+    use IDCT\Adminata\Test\BlockServiceTestCase;
 
     class CustomBlockServiceTest extends BlockServiceTestCase
     {

@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Action;
+namespace IDCT\Adminata\Action;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\BCLayer\BCHelper;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Exception\AbstractClassException;
-use Sonata\AdminBundle\Exception\BadRequestParamHttpException;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Filter\FilterInterface;
-use Sonata\AdminBundle\Request\AdminFetcherInterface;
-use Sonata\AdminBundle\Search\ChainableFilterInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\BCLayer\BCHelper;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\Exception\AbstractClassException;
+use IDCT\Adminata\Exception\BadRequestParamHttpException;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Filter\FilterInterface;
+use IDCT\Adminata\Request\AdminFetcherInterface;
+use IDCT\Adminata\Search\ChainableFilterInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -11,18 +11,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig\Extension;
+namespace IDCT\Adminata\Tests\Twig\Extension;
 
 use Knp\Menu\ItemInterface;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\BreadcrumbsBuilderInterface;
-use Sonata\AdminBundle\Tests\Fixtures\StubFilesystemLoader;
-use Sonata\AdminBundle\Tests\Fixtures\StubTranslator;
-use Sonata\AdminBundle\Twig\BreadcrumbsRuntime;
-use Sonata\AdminBundle\Twig\Extension\BreadcrumbsExtension;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\BreadcrumbsBuilderInterface;
+use IDCT\Adminata\Tests\Fixtures\StubFilesystemLoader;
+use IDCT\Adminata\Tests\Fixtures\StubTranslator;
+use IDCT\Adminata\Twig\BreadcrumbsRuntime;
+use IDCT\Adminata\Twig\Extension\BreadcrumbsExtension;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Twig\Environment;
 use Twig\Extra\String\StringExtension;
@@ -45,7 +45,7 @@ final class BreadcrumbsExtensionTest extends TestCase
     protected function setUp(): void
     {
         $loader = new StubFilesystemLoader();
-        $loader->addPath(__DIR__.'/../../../src/Resources/views/', 'SonataAdmin');
+        $loader->addPath(__DIR__.'/../../../src/Resources/views/', 'Adminata');
 
         $this->environment = new Environment($loader, [
             'strict_variables' => true,

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
-use Sonata\AdminBundle\DependencyInjection\Admin\TaggedAdminInterface;
+use IDCT\Adminata\DependencyInjection\Admin\TaggedAdminInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -60,7 +60,7 @@ final class ExtensionCompilerPass implements CompilerPassInterface
         $universalExtensions = [];
         $targets = [];
 
-        foreach ($container->findTaggedServiceIds('sonata.admin.extension') as $id => $tags) {
+        foreach ($container->findTaggedServiceIds('adminata.admin.extension') as $id => $tags) {
             $adminExtension = $container->getDefinition($id);
 
             // Trim possible parameter delimiters ("%") from the class name.
@@ -99,7 +99,7 @@ final class ExtensionCompilerPass implements CompilerPassInterface
         /**
          * @phpstan-var ExtensionMap $extensionConfig
          */
-        $extensionConfig = $container->getParameter('sonata.admin.extension.map');
+        $extensionConfig = $container->getParameter('adminata.admin.extension.map');
         $extensionMap = $this->flattenExtensionConfiguration($extensionConfig);
 
         foreach ($container->findTaggedServiceIds(TaggedAdminInterface::ADMIN_TAG) as $id => $tags) {

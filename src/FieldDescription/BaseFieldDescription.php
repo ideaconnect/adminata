@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\FieldDescription;
+namespace IDCT\Adminata\FieldDescription;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Exception\NoValueException;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Exception\NoValueException;
 use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;

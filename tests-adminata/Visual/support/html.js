@@ -30,7 +30,7 @@ import { HtmlValidate } from 'html-validate';
  *   assets are same-origin files whose hash is not known when the template renders, and Subresource
  *   Integrity protects against a third-party origin, so it is narrowed to `crossorigin`.
  * - `no-inline-style` cannot tell a template's `style` attribute from one a controller measured and
- *   set: `sonata-sticky` writes the pixel height of the space a stuck element vacates, which is a
+ *   set: `adminata-sticky` writes the pixel height of the space a stuck element vacates, which is a
  *   measurement and cannot be a class. What the rule is actually for — inline styles written into
  *   templates — is visible in a diff, and the twelve inherited templates that still have them are
  *   M3's and M4's to rewrite.

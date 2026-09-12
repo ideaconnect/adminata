@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Doctrine\Mapper\Builder;
+namespace IDCT\Adminata\Tests\Doctrine\Mapper\Builder;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Doctrine\Mapper\Builder\OptionsBuilder;
+use IDCT\Adminata\Doctrine\Mapper\Builder\OptionsBuilder;
 
 final class OptionsBuilderTest extends TestCase
 {

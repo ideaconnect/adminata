@@ -17,17 +17,17 @@ import { fixture, mount, settle } from './helpers.js';
 
 /*
  * What the demo's product list actually renders (PLAN/05 §9). The fixture is dumped by
- * `JsFixtureDumperTest`, so a template that renames `data-sonata-batch-target` or drops the
+ * `JsFixtureDumperTest`, so a template that renames `data-adminata-batch-target` or drops the
  * action fails here instead of in a browser.
  */
 const LIST = fixture('product-list', 'form[action*="batch"]');
 
-const rows = (element) => [...element.querySelectorAll('[data-sonata-batch-target="row"]')];
+const rows = (element) => [...element.querySelectorAll('[data-adminata-batch-target="row"]')];
 const all = (element) => element.querySelector('#list_batch_checkbox');
 const checked = (element) => rows(element).map((row) => row.checked);
 const selected = (element) =>
     [...element.querySelectorAll('tbody tr')].map((row) =>
-        row.classList.contains('sonata-ba-list-row-selected'),
+        row.classList.contains('adminata-list-row-selected'),
     );
 
 /** The indices of the rows a predicate holds for, which is what the assertions compare. */
@@ -43,9 +43,9 @@ const every = (element, value) => rows(element).map(() => value);
  */
 const shiftClick = (input) => input.dispatchEvent(new MouseEvent('click', { bubbles: true, shiftKey: true }));
 
-describe('sonata-batch', () => {
+describe('adminata-batch', () => {
     it('selects and clears every row from the header', async () => {
-        const { element } = await mount('sonata-batch', BatchController, LIST);
+        const { element } = await mount('adminata-batch', BatchController, LIST);
 
         all(element).checked = true;
         all(element).dispatchEvent(new Event('change', { bubbles: true }));
@@ -63,7 +63,7 @@ describe('sonata-batch', () => {
     });
 
     it('shows the header as indeterminate while only some rows are selected', async () => {
-        const { element } = await mount('sonata-batch', BatchController, LIST);
+        const { element } = await mount('adminata-batch', BatchController, LIST);
 
         rows(element)[1].click();
         await settle();
@@ -83,7 +83,7 @@ describe('sonata-batch', () => {
     });
 
     it('marks the row a checkbox belongs to', async () => {
-        const { element } = await mount('sonata-batch', BatchController, LIST);
+        const { element } = await mount('adminata-batch', BatchController, LIST);
 
         rows(element)[2].click();
         await settle();
@@ -92,7 +92,7 @@ describe('sonata-batch', () => {
     });
 
     it('extends the selection downwards with shift', async () => {
-        const { element } = await mount('sonata-batch', BatchController, LIST);
+        const { element } = await mount('adminata-batch', BatchController, LIST);
 
         rows(element)[1].click();
         await settle();
@@ -104,7 +104,7 @@ describe('sonata-batch', () => {
 
     /** Upstream's condition read `indexedDB > currentIndex`, so this direction never worked. */
     it('extends the selection upwards with shift', async () => {
-        const { element } = await mount('sonata-batch', BatchController, LIST);
+        const { element } = await mount('adminata-batch', BatchController, LIST);
 
         rows(element)[3].click();
         await settle();
@@ -115,7 +115,7 @@ describe('sonata-batch', () => {
     });
 
     it('clears a range with shift when the anchor is being cleared', async () => {
-        const { element } = await mount('sonata-batch', BatchController, LIST);
+        const { element } = await mount('adminata-batch', BatchController, LIST);
 
         all(element).checked = true;
         all(element).dispatchEvent(new Event('change', { bubbles: true }));
@@ -131,7 +131,7 @@ describe('sonata-batch', () => {
 
     it('runs on a list with no header checkbox', async () => {
         const { element } = await mount(
-            'sonata-batch',
+            'adminata-batch',
             BatchController,
             LIST.replace(/<thead>[\s\S]*<\/thead>/, ''),
         );

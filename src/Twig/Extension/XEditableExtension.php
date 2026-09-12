@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig\Extension;
+namespace IDCT\Adminata\Twig\Extension;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Twig\XEditableRuntime;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Twig\XEditableRuntime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -52,11 +52,11 @@ final class XEditableExtension extends AbstractExtension
     {
         return [
             new TwigFilter(
-                'sonata_xeditable_type',
+                'adminata_xeditable_type',
                 [XEditableRuntime::class, 'getXEditableType']
             ),
             new TwigFilter(
-                'sonata_xeditable_choices',
+                'adminata_xeditable_choices',
                 [XEditableRuntime::class, 'getXEditableChoices']
             ),
         ];

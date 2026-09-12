@@ -18,12 +18,12 @@ import Translation from '../core/translation.js';
 import { mount, settle } from './helpers.js';
 
 /*
- * Mirrors the edit form of `@SonataAdmin/CRUD/base_edit_form.html.twig` under
- * `sonata_admin.options.confirm_exit`. The controller compares a snapshot of the form against its
+ * Mirrors the edit form of `@Adminata/CRUD/base_edit_form.html.twig` under
+ * `adminata.options.confirm_exit`. The controller compares a snapshot of the form against its
  * current state, so what matters is that a changed field asks and an unchanged one does not.
  */
 const markup = `
-    <form data-controller="sonata-confirm-exit" data-action="submit->sonata-confirm-exit#skip">
+    <form data-controller="adminata-confirm-exit" data-action="submit->adminata-confirm-exit#skip">
         <input name="name" value="one">
         <button type="submit">Update</button>
     </form>
@@ -36,17 +36,17 @@ const meta = (name, content) => {
     document.head.appendChild(element);
 };
 
-describe('sonata-confirm-exit', () => {
+describe('adminata-confirm-exit', () => {
     beforeEach(() => {
         document.head.innerHTML = '';
         Config.params = null;
         Translation.messages = null;
-        meta('sonata-config', JSON.stringify({ CONFIRM_EXIT: true }));
-        meta('sonata-translations', JSON.stringify({ CONFIRM_EXIT: 'You have unsaved changes.' }));
+        meta('adminata-config', JSON.stringify({ CONFIRM_EXIT: true }));
+        meta('adminata-translations', JSON.stringify({ CONFIRM_EXIT: 'You have unsaved changes.' }));
     });
 
     it('does not ask when nothing changed', async () => {
-        const { element } = await mount('sonata-confirm-exit', ConfirmExitController, markup);
+        const { element } = await mount('adminata-confirm-exit', ConfirmExitController, markup);
 
         const event = new Event('beforeunload', { cancelable: true });
         element.dispatchEvent(new Event('input'));
@@ -57,30 +57,30 @@ describe('sonata-confirm-exit', () => {
     });
 
     it('asks once a field has changed', async () => {
-        const { element } = await mount('sonata-confirm-exit', ConfirmExitController, markup);
+        const { element } = await mount('adminata-confirm-exit', ConfirmExitController, markup);
 
         element.querySelector('input').value = 'two';
 
         const event = new Event('beforeunload', { cancelable: true });
-        expect(element.dataset.sonataConfirmExitSnapshotValue).toBe('name=one');
+        expect(element.dataset.adminataConfirmExitSnapshotValue).toBe('name=one');
         window.dispatchEvent(event);
         await settle();
     });
 
     it('stops asking once the form is being submitted', async () => {
-        const { element } = await mount('sonata-confirm-exit', ConfirmExitController, markup);
+        const { element } = await mount('adminata-confirm-exit', ConfirmExitController, markup);
 
         element.querySelector('input').value = 'two';
         element.dispatchEvent(new Event('submit'));
         await settle();
 
-        expect(element.dataset.sonataConfirmExitSkipValue).toBe('true');
+        expect(element.dataset.adminataConfirmExitSkipValue).toBe('true');
     });
 
     it('is not loaded at all when the option is off', () => {
         document.head.innerHTML = '';
         Config.params = null;
-        meta('sonata-config', JSON.stringify({ CONFIRM_EXIT: false }));
+        meta('adminata-config', JSON.stringify({ CONFIRM_EXIT: false }));
 
         expect(ConfirmExitController.shouldLoad).toBe(false);
     });

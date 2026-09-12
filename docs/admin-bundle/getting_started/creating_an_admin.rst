@@ -2,7 +2,7 @@ Creating an Admin
 =================
 
 You've been able to get the admin interface working in :doc:`the previous
-chapter <installation>`. In this tutorial, you'll learn how to tell SonataAdmin
+chapter <installation>`. In this tutorial, you'll learn how to tell Adminata
 how an admin can manage your models.
 
 Step 0: Create a Model
@@ -84,7 +84,7 @@ After this, create the schema for these entities:
 Step 1: Create an Admin Class
 -----------------------------
 
-SonataAdminBundle helps you manage your data using a graphical interface that
+AdminataBundle helps you manage your data using a graphical interface that
 will let you create, update or search your model instances. The bundle relies
 on Admin classes to know which models will be managed and what these actions
 will look like.
@@ -94,17 +94,17 @@ to find entries and what the create form will look like. Each model will have
 its own Admin class.
 
 Knowing this, let's create an Admin class for the ``Category`` entity. The
-easiest way to do this is by extending ``Sonata\AdminBundle\Admin\AbstractAdmin``::
+easiest way to do this is by extending ``IDCT\Adminata\Admin\AbstractAdmin``::
 
     // src/Admin/CategoryAdmin.php
 
     namespace App\Admin;
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Form\FormMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Datagrid\DatagridMapper;
+    use IDCT\Adminata\Datagrid\ListMapper;
+    use IDCT\Adminata\Form\FormMapper;
+    use IDCT\Adminata\Show\ShowMapper;
     use Symfony\Component\Form\Extension\Core\Type\TextType;
 
     final class CategoryAdmin extends AbstractAdmin
@@ -149,9 +149,9 @@ Step 2: Register the Admin class
 --------------------------------
 
 You've now created an Admin class, but there is currently no way for the
-SonataAdminBundle to know that this Admin class exists. To tell the
-SonataAdminBundle of the existence of this Admin class, you have to create a
-service and tag it with the ``sonata.admin`` tag:
+AdminataBundle to know that this Admin class exists. To tell the
+AdminataBundle of the existence of this Admin class, you have to create a
+service and tag it with the ``adminata.admin`` tag:
 
 .. code-block:: yaml
 
@@ -162,7 +162,7 @@ service and tag it with the ``sonata.admin`` tag:
         admin.category:
             class: App\Admin\CategoryAdmin
             tags:
-                - { name: sonata.admin, model_class: App\Entity\Category, manager_type: orm, label: Category }
+                - { name: adminata.admin, model_class: App\Entity\Category, manager_type: orm, label: Category }
 
 +---------------------------------------+-----------------------------------------------------------------------------------------+
 | Tag option                            | Description                                                                             |
@@ -180,25 +180,25 @@ service and tag it with the ``sonata.admin`` tag:
 | controller (``optional``)             | In case you want to use a custom controller, pass the class name.                       |
 +---------------------------------------+-----------------------------------------------------------------------------------------+
 
-The constructor of the base Admin class has many arguments. SonataAdminBundle
+The constructor of the base Admin class has many arguments. AdminataBundle
 provides a compiler pass which takes care of configuring it correctly for you.
 You can often tweak things using tag attributes. The code shown here is the
 shortest code needed to get it working.
 
-Step 3: Register SonataAdmin custom Routes
+Step 3: Register Adminata custom Routes
 ------------------------------------------
 
-SonataAdminBundle generates routes for the Admin classes on the fly. To load these
-routes, you have to make sure the routing loader of the SonataAdminBundle is executed:
+AdminataBundle generates routes for the Admin classes on the fly. To load these
+routes, you have to make sure the routing loader of the AdminataBundle is executed:
 
 .. code-block:: yaml
 
-    # config/routes/sonata_admin.yaml
+    # config/routes/adminata.yaml
 
     # ...
-    _sonata_admin:
+    _adminata_admin:
         resource: .
-        type: sonata_admin
+        type: adminata
         prefix: /admin
 
 View the Category Admin Interface

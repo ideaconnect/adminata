@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Exception;
+namespace IDCT\Adminata\Exception;
 
 /**
  * @author Morgan Abraham <morgan@geekimo.me>

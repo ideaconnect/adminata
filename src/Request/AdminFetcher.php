@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Request;
+namespace IDCT\Adminata\Request;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\BCLayer\BCHelper;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\BCLayer\BCHelper;
 use Symfony\Component\HttpFoundation\Request;
 
 final class AdminFetcher implements AdminFetcherInterface
@@ -27,14 +27,14 @@ final class AdminFetcher implements AdminFetcherInterface
 
     public function get(Request $request): AdminInterface
     {
-        $adminCode = BCHelper::getFromRequest($request, '_sonata_admin');
+        $adminCode = BCHelper::getFromRequest($request, '_adminata_admin');
 
         if (!\is_string($adminCode)) {
             $route = BCHelper::getFromRequest($request, '_route', '');
             \assert(\is_string($route));
 
             throw new \InvalidArgumentException(\sprintf(
-                'There is no `_sonata_admin` defined for the current route `%s`.',
+                'There is no `_adminata_admin` defined for the current route `%s`.',
                 $route
             ));
         }

@@ -18,8 +18,8 @@ namespace Adminata\Tests\App\Controller;
 
 use Adminata\Tests\App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
-use Sonata\AdminBundle\Controller\CRUDController;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Controller\CRUDController;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -48,7 +48,7 @@ final class ProductCRUDController extends CRUDController
         $object->setArchived(true);
         $this->entityManager->flush();
 
-        $this->addFlash('sonata_flash_success', \sprintf('%s was archived.', $object->getName()));
+        $this->addFlash('adminata_flash_success', \sprintf('%s was archived.', $object->getName()));
 
         return $this->redirectToList();
     }
@@ -74,7 +74,7 @@ final class ProductCRUDController extends CRUDController
 
         $this->entityManager->flush();
 
-        $this->addFlash('sonata_flash_success', \sprintf('%d products were archived.', $archived));
+        $this->addFlash('adminata_flash_success', \sprintf('%d products were archived.', $archived));
 
         return $this->redirectToList();
     }

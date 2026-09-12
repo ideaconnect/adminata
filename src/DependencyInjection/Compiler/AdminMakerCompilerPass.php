@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -23,22 +23,22 @@ final class AdminMakerCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition('sonata.admin.maker')) {
+        if (!$container->hasDefinition('adminata.admin.maker')) {
             return;
         }
 
-        if (!$container->hasParameter('sonata.admin.configuration.default_controller')) {
+        if (!$container->hasParameter('adminata.admin.configuration.default_controller')) {
             return;
         }
 
-        $defaultController = $container->getParameter('sonata.admin.configuration.default_controller');
+        $defaultController = $container->getParameter('adminata.admin.configuration.default_controller');
         \assert(\is_string($defaultController));
 
         if (!$container->hasDefinition($defaultController)) {
             return;
         }
 
-        $adminMaker = $container->getDefinition('sonata.admin.maker');
+        $adminMaker = $container->getDefinition('adminata.admin.maker');
         $controllerDefinition = $container->getDefinition($defaultController);
 
         $adminMaker->replaceArgument(2, $controllerDefinition->getClass());

@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block;
+namespace IDCT\Adminata\Block;
 
-use Sonata\AdminBundle\Exception\BlockNotFoundException;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Exception\BlockNotFoundException;
+use IDCT\Adminata\Model\BlockInterface;
 
 interface BlockContextManagerInterface
 {

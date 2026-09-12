@@ -11,16 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\ArgumentResolver;
+namespace IDCT\Adminata\Tests\ArgumentResolver;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\ArgumentResolver\AdminValueResolver;
-use Sonata\AdminBundle\Request\AdminFetcher;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\CommentAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\PostAdmin;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\ArgumentResolver\AdminValueResolver;
+use IDCT\Adminata\Request\AdminFetcher;
+use IDCT\Adminata\Tests\Fixtures\Admin\CommentAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\PostAdmin;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -31,12 +31,12 @@ final class AdminValueResolverTest extends TestCase
     public function testWithInvalidData(Request $request, ArgumentMetadata $argumentMetadata): void
     {
         $admin = new PostAdmin();
-        $admin->setCode('sonata.admin.post');
+        $admin->setCode('adminata.admin.post');
 
         $container = new Container();
-        $container->set('sonata.admin.post', $admin);
+        $container->set('adminata.admin.post', $admin);
 
-        $adminFetcher = new AdminFetcher(new Pool($container, ['sonata.admin.post']));
+        $adminFetcher = new AdminFetcher(new Pool($container, ['adminata.admin.post']));
         $adminValueResolver = new AdminValueResolver($adminFetcher);
 
         static::assertFalse($adminValueResolver->supports($request, $argumentMetadata));
@@ -53,43 +53,43 @@ final class AdminValueResolverTest extends TestCase
     {
         yield 'Object with no type' => [
             static::createRequest(),
-            static::createArgumentMetadata('_sonata_admin'),
+            static::createArgumentMetadata('_adminata_admin'),
         ];
 
         yield 'Object must implement AdminInterface' => [
             static::createRequest(),
-            static::createArgumentMetadata('_sonata_admin', self::class),
+            static::createArgumentMetadata('_adminata_admin', self::class),
         ];
 
         yield 'Admin code must be passed' => [
             static::createRequest(),
-            static::createArgumentMetadata('_sonata_admin', PostAdmin::class),
+            static::createArgumentMetadata('_adminata_admin', PostAdmin::class),
         ];
 
         yield 'Admin code must exist' => [
-            static::createRequest(['_sonata_admin' => 'non_existing']),
-            static::createArgumentMetadata('_sonata_admin', PostAdmin::class),
+            static::createRequest(['_adminata_admin' => 'non_existing']),
+            static::createArgumentMetadata('_adminata_admin', PostAdmin::class),
         ];
 
         yield 'Admin fetched must be of the type specified in the action' => [
-            static::createRequest(['_sonata_admin' => 'sonata.admin.post']),
-            static::createArgumentMetadata('_sonata_admin', CommentAdmin::class),
+            static::createRequest(['_adminata_admin' => 'adminata.admin.post']),
+            static::createArgumentMetadata('_adminata_admin', CommentAdmin::class),
         ];
     }
 
     public function testResolvesAdminClass(): void
     {
         $admin = new PostAdmin();
-        $admin->setCode('sonata.admin.post');
+        $admin->setCode('adminata.admin.post');
 
         $container = new Container();
-        $container->set('sonata.admin.post', $admin);
+        $container->set('adminata.admin.post', $admin);
 
-        $adminFetcher = new AdminFetcher(new Pool($container, ['sonata.admin.post']));
+        $adminFetcher = new AdminFetcher(new Pool($container, ['adminata.admin.post']));
         $adminValueResolver = new AdminValueResolver($adminFetcher);
 
-        $request = static::createRequest(['_sonata_admin' => 'sonata.admin.post']);
-        $argumentMetadata = static::createArgumentMetadata('_sonata_admin', PostAdmin::class);
+        $request = static::createRequest(['_adminata_admin' => 'adminata.admin.post']);
+        $argumentMetadata = static::createArgumentMetadata('_adminata_admin', PostAdmin::class);
 
         static::assertTrue($adminValueResolver->supports($request, $argumentMetadata));
         static::assertSame(
@@ -101,16 +101,16 @@ final class AdminValueResolverTest extends TestCase
     public function testResolvesAdminInterface(): void
     {
         $admin = new PostAdmin();
-        $admin->setCode('sonata.admin.post');
+        $admin->setCode('adminata.admin.post');
 
         $container = new Container();
-        $container->set('sonata.admin.post', $admin);
+        $container->set('adminata.admin.post', $admin);
 
-        $adminFetcher = new AdminFetcher(new Pool($container, ['sonata.admin.post']));
+        $adminFetcher = new AdminFetcher(new Pool($container, ['adminata.admin.post']));
         $adminValueResolver = new AdminValueResolver($adminFetcher);
 
-        $request = static::createRequest(['_sonata_admin' => 'sonata.admin.post']);
-        $argumentMetadata = static::createArgumentMetadata('_sonata_admin', AdminInterface::class);
+        $request = static::createRequest(['_adminata_admin' => 'adminata.admin.post']);
+        $argumentMetadata = static::createArgumentMetadata('_adminata_admin', AdminInterface::class);
 
         static::assertTrue($adminValueResolver->supports($request, $argumentMetadata));
         static::assertSame(

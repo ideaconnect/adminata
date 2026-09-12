@@ -13,41 +13,41 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Block\Service\ContainerBlockService;
-use Sonata\AdminBundle\Block\Service\EmptyBlockService;
-use Sonata\AdminBundle\Block\Service\RssBlockService;
-use Sonata\AdminBundle\Block\Service\TemplateBlockService;
-use Sonata\AdminBundle\Block\Service\TextBlockService;
+use IDCT\Adminata\Block\Service\ContainerBlockService;
+use IDCT\Adminata\Block\Service\EmptyBlockService;
+use IDCT\Adminata\Block\Service\RssBlockService;
+use IDCT\Adminata\Block\Service\TemplateBlockService;
+use IDCT\Adminata\Block\Service\TextBlockService;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set('sonata.block.service.container', ContainerBlockService::class)
-        ->tag('sonata.block')
+    $services->set('adminata.block.service.container', ContainerBlockService::class)
+        ->tag('adminata.block')
         ->args([
             service('twig'),
         ]);
 
-    $services->set('sonata.block.service.empty', EmptyBlockService::class)
-        ->tag('sonata.block')
+    $services->set('adminata.block.service.empty', EmptyBlockService::class)
+        ->tag('adminata.block')
         ->args([
             service('twig'),
         ]);
 
-    $services->set('sonata.block.service.text', TextBlockService::class)
-        ->tag('sonata.block')
+    $services->set('adminata.block.service.text', TextBlockService::class)
+        ->tag('adminata.block')
         ->args([
             service('twig'),
         ]);
 
-    $services->set('sonata.block.service.rss', RssBlockService::class)
-        ->tag('sonata.block')
+    $services->set('adminata.block.service.rss', RssBlockService::class)
+        ->tag('adminata.block')
         ->args([
             service('twig'),
         ]);
 
-    $services->set('sonata.block.service.template', TemplateBlockService::class)
-        ->tag('sonata.block')
+    $services->set('adminata.block.service.template', TemplateBlockService::class)
+        ->tag('adminata.block')
         ->args([
             service('twig'),
         ]);

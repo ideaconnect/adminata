@@ -128,7 +128,7 @@ would do something like::
 
     namespace App\Admin;
 
-    use Sonata\AdminBundle\Datagrid\DatagridMapper;
+    use IDCT\Adminata\Datagrid\DatagridMapper;
 
     final class BlogPostAdmin extends AbstractAdmin
     {
@@ -164,7 +164,7 @@ the search field to use the ``name`` property of the Category::
     namespace App\Admin;
 
     use App\Entity\Category;
-    use Sonata\AdminBundle\Datagrid\DatagridMapper;
+    use IDCT\Adminata\Datagrid\DatagridMapper;
     use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
     final class BlogPostAdmin extends AbstractAdmin

@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Doctrine\Mapper;
+namespace IDCT\Adminata\Tests\Doctrine\Mapper;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Doctrine\Mapper\Builder\ColumnDefinitionBuilder;
-use Sonata\AdminBundle\Doctrine\Mapper\Builder\OptionsBuilder;
-use Sonata\AdminBundle\Doctrine\Mapper\DoctrineCollector;
+use IDCT\Adminata\Doctrine\Mapper\Builder\ColumnDefinitionBuilder;
+use IDCT\Adminata\Doctrine\Mapper\Builder\OptionsBuilder;
+use IDCT\Adminata\Doctrine\Mapper\DoctrineCollector;
 
 #[CoversMethod(DoctrineCollector::class, 'getIndexes')]
 #[CoversMethod(DoctrineCollector::class, 'getUniques')]

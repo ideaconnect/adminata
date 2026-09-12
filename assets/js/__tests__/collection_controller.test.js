@@ -18,26 +18,26 @@ import { fixture, mount, settle } from './helpers.js';
 /*
  * What the demo's product edit page actually renders (PLAN/05 §9): a collection with two rows and
  * a prototype carrying `__name__` in the id and the name of every field. The fixture is dumped by
- * `JsFixtureDumperTest`, so a rewrite of `sonata_type_native_collection_widget` that changes the
+ * `JsFixtureDumperTest`, so a rewrite of `adminata_type_native_collection_widget` that changes the
  * prototype contract — or the four event names below, which applications listen for — fails here.
  */
-const markup = fixture('product-edit', '[data-controller~="sonata-collection"]');
+const markup = fixture('product-edit', '[data-controller~="adminata-collection"]');
 
-const addButton = () => document.querySelector('.sonata-collection-add');
-const items = () => [...document.querySelectorAll('[data-sonata-collection-target=item]')];
+const addButton = () => document.querySelector('.adminata-collection-add');
+const items = () => [...document.querySelectorAll('[data-adminata-collection-target=item]')];
 
 /** The demo's product has two variants; the assertions are written against whatever it has. */
 const start = () => items().length;
 
-describe('sonata-collection', () => {
+describe('adminata-collection', () => {
     it('counts the rows it starts with', async () => {
-        const { element } = await mount('sonata-collection', CollectionController, markup);
+        const { element } = await mount('adminata-collection', CollectionController, markup);
 
-        expect(element.dataset.sonataCollectionNumItemsValue).toBe(String(start()));
+        expect(element.dataset.adminataCollectionNumItemsValue).toBe(String(start()));
     });
 
     it('adds a row with the index substituted into both the id and the name', async () => {
-        await mount('sonata-collection', CollectionController, markup);
+        await mount('adminata-collection', CollectionController, markup);
 
         const index = start();
 
@@ -52,7 +52,7 @@ describe('sonata-collection', () => {
     });
 
     it('inserts the row before the add button', async () => {
-        await mount('sonata-collection', CollectionController, markup);
+        await mount('adminata-collection', CollectionController, markup);
 
         addButton().click();
         await settle();
@@ -61,12 +61,12 @@ describe('sonata-collection', () => {
     });
 
     it('dispatches the two names an application may listen for when a row is added', async () => {
-        const { element } = await mount('sonata-collection', CollectionController, markup);
+        const { element } = await mount('adminata-collection', CollectionController, markup);
 
         const appended = vi.fn();
         const added = vi.fn();
-        element.addEventListener('sonata-admin-append-form-element', appended);
-        element.addEventListener('sonata-collection-item-added', added);
+        element.addEventListener('adminata-admin-append-form-element', appended);
+        element.addEventListener('adminata-collection-item-added', added);
 
         addButton().click();
         await settle();
@@ -77,15 +77,15 @@ describe('sonata-collection', () => {
     });
 
     it('removes the row the delete button belongs to and announces it twice', async () => {
-        const { element } = await mount('sonata-collection', CollectionController, markup);
+        const { element } = await mount('adminata-collection', CollectionController, markup);
 
         const before = start();
         const deleted = vi.fn();
         const successful = vi.fn();
-        element.addEventListener('sonata-collection-item-deleted', deleted);
-        element.addEventListener('sonata-collection-item-deleted-successful', successful);
+        element.addEventListener('adminata-collection-item-deleted', deleted);
+        element.addEventListener('adminata-collection-item-deleted-successful', successful);
 
-        items()[0].querySelector('.sonata-collection-delete').click();
+        items()[0].querySelector('.adminata-collection-delete').click();
         await settle();
 
         expect(items()).toHaveLength(before - 1);

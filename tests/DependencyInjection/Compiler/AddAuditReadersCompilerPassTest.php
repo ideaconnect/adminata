@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection\Compiler;
+namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
-use Sonata\AdminBundle\DependencyInjection\Compiler\AddAuditReadersCompilerPass;
-use Sonata\AdminBundle\Model\AuditManager;
-use Sonata\AdminBundle\Tests\Fixtures\Model\AuditReader;
+use IDCT\Adminata\DependencyInjection\Compiler\AddAuditReadersCompilerPass;
+use IDCT\Adminata\Model\AuditManager;
+use IDCT\Adminata\Tests\Fixtures\Model\AuditReader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
@@ -31,7 +31,7 @@ final class AddAuditReadersCompilerPassTest extends AbstractCompilerPassTestCase
         ]);
 
         $this->container
-            ->setDefinition('sonata.admin.audit.manager', $auditManagerDefinition);
+            ->setDefinition('adminata.admin.audit.manager', $auditManagerDefinition);
 
         $auditReader = new Definition(AuditReader::class);
         $auditReader
@@ -42,7 +42,7 @@ final class AddAuditReadersCompilerPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        $serviceLocator = $this->container->getDefinition('sonata.admin.audit.manager')->getArgument(0);
+        $serviceLocator = $this->container->getDefinition('adminata.admin.audit.manager')->getArgument(0);
         static::assertInstanceOf(Reference::class, $serviceLocator);
 
         self::assertContainerBuilderHasServiceLocator(
@@ -58,7 +58,7 @@ final class AddAuditReadersCompilerPassTest extends AbstractCompilerPassTestCase
         $auditManagerDefinition = new Definition(AuditManager::class);
 
         $this->container
-            ->setDefinition('sonata.admin.audit.manager', $auditManagerDefinition);
+            ->setDefinition('adminata.admin.audit.manager', $auditManagerDefinition);
 
         $auditReader = new Definition(\stdClass::class);
         $auditReader
@@ -68,7 +68,7 @@ final class AddAuditReadersCompilerPassTest extends AbstractCompilerPassTestCase
             ->setDefinition('std_audit_reader', $auditReader);
 
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('Service "std_audit_reader" MUST implement "Sonata\AdminBundle\Model\AuditReaderInterface".');
+        $this->expectExceptionMessage('Service "std_audit_reader" MUST implement "IDCT\Adminata\Model\AuditReaderInterface".');
 
         $this->compile();
     }

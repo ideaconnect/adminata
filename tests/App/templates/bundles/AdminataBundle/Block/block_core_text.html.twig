@@ -1,0 +1,10 @@
+{#
+    The test application's override of the text block. It extends the shipped file through the
+    "@!Adminata" escape and wraps the content, so BlockDemoControllerTest can tell the override
+    chain apart from a plain replacement.
+#}
+{% extends '@!Adminata/Block/block_core_text.html.twig' %}
+
+{% block block %}
+    <span class="app-text-override">{{ parent() }}</span>
+{% endblock %}

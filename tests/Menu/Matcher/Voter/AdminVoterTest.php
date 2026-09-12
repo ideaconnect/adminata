@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Menu\Matcher\Voter;
+namespace IDCT\Adminata\Tests\Menu\Matcher\Voter;
 
 use Knp\Menu\ItemInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Menu\Matcher\Voter\AdminVoter;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Menu\Matcher\Voter\AdminVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -36,7 +36,7 @@ final class AdminVoterTest extends TestCase
             ->willReturn($itemData);
 
         $request = new Request();
-        $request->request->set('_sonata_admin', $voterData);
+        $request->request->set('_adminata_admin', $voterData);
         $request->request->set('_route', $route);
 
         $requestStack = new RequestStack();
@@ -53,16 +53,16 @@ final class AdminVoterTest extends TestCase
     public static function provideMatchingCases(): iterable
     {
         yield 'no data' => [null, null, null, null];
-        yield 'no route and granted' => [static::getAdmin('_sonata_admin'), '_sonata_admin', null, null];
-        yield 'no granted' => [static::getAdmin('_sonata_admin', true), '_sonata_admin', null, null];
-        yield 'no code' => [static::getAdmin('_sonata_admin_code', true, true), '_sonata_admin', null, null];
-        yield 'no code request' => [static::getAdmin('_sonata_admin', true, true), '_sonata_admin_unexpected', null, null];
-        yield 'no route' => [static::getAdmin('_sonata_admin', false, true), '_sonata_admin', null, null];
-        yield 'has admin' => [static::getAdmin('_sonata_admin', true, true), '_sonata_admin', null, true];
-        yield 'has child admin' => [static::getChildAdmin('_sonata_admin', '_sonata_child_admin', true, true), '_sonata_admin|_sonata_child_admin', null, true];
-        yield 'has bad child admin' => [static::getChildAdmin('_sonata_admin', '_sonata_child_admin', true, true), '_sonata_admin|_sonata_child_admin_unexpected', null, null];
-        yield 'has nested child admin' => [static::getNestedChildAdmin('_sonata_admin', '_sonata_child_admin', '_sonata_nested_child_admin', true, true), '_sonata_admin|_sonata_child_admin|_sonata_nested_child_admin', null, true];
-        yield 'has bad nested child admin' => [static::getNestedChildAdmin('_sonata_admin', '_sonata_child_admin', '_sonata_nested_child_admin', true, true), '_sonata_admin|_sonata_child_admin|_sonata_nested_child_admin_unexpected', null, null];
+        yield 'no route and granted' => [static::getAdmin('_adminata_admin'), '_adminata_admin', null, null];
+        yield 'no granted' => [static::getAdmin('_adminata_admin', true), '_adminata_admin', null, null];
+        yield 'no code' => [static::getAdmin('_adminata_admin_code', true, true), '_adminata_admin', null, null];
+        yield 'no code request' => [static::getAdmin('_adminata_admin', true, true), '_adminata_admin_unexpected', null, null];
+        yield 'no route' => [static::getAdmin('_adminata_admin', false, true), '_adminata_admin', null, null];
+        yield 'has admin' => [static::getAdmin('_adminata_admin', true, true), '_adminata_admin', null, true];
+        yield 'has child admin' => [static::getChildAdmin('_adminata_admin', '_adminata_child_admin', true, true), '_adminata_admin|_adminata_child_admin', null, true];
+        yield 'has bad child admin' => [static::getChildAdmin('_adminata_admin', '_adminata_child_admin', true, true), '_adminata_admin|_adminata_child_admin_unexpected', null, null];
+        yield 'has nested child admin' => [static::getNestedChildAdmin('_adminata_admin', '_adminata_child_admin', '_adminata_nested_child_admin', true, true), '_adminata_admin|_adminata_child_admin|_adminata_nested_child_admin', null, true];
+        yield 'has bad nested child admin' => [static::getNestedChildAdmin('_adminata_admin', '_adminata_child_admin', '_adminata_nested_child_admin', true, true), '_adminata_admin|_adminata_child_admin|_adminata_nested_child_admin_unexpected', null, null];
         yield 'direct link' => ['admin_post', null, 'admin_post', true];
         yield 'no direct link' => ['admin_post', null, 'admin_blog', null];
     }

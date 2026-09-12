@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Exporter;
+namespace IDCT\Adminata\Exporter;
 
-use Sonata\AdminBundle\Exporter\Writer\WriterInterface;
+use IDCT\Adminata\Exporter\Writer\WriterInterface;
 
 final class Handler
 {

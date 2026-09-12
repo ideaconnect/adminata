@@ -2,7 +2,7 @@ Improve Performance of Large Datasets
 =====================================
 
 If your database table contains thousands of records, the database queries generated
-by SonataAdmin may become very slow. Here are tips how to improve the performance of your admin.
+by Adminata may become very slow. Here are tips how to improve the performance of your admin.
 
 Change default Pager to SimplePager
 -----------------------------------
@@ -23,9 +23,9 @@ To use ``SimplePager`` in your admin,  define ``pager_type`` in the service defi
         app.admin.post:
             class: App\Admin\PostAdmin
             tags:
-                - { name: sonata.admin, model_class: App\Entity\Post, manager_type: orm, group: 'Content', label: 'Post', pager_type: 'simple' }
+                - { name: adminata.admin, model_class: App\Entity\Post, manager_type: orm, group: 'Content', label: 'Post', pager_type: 'simple' }
 
 .. note::
 
     The ``pager_results`` template is automatically changed to
-    ``@SonataAdmin/Pager/simple_pager_results.html.twig`` if it's not already overloaded.
+    ``@Adminata/Pager/simple_pager_results.html.twig`` if it's not already overloaded.

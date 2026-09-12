@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Security\Handler;
+namespace IDCT\Adminata\Security\Handler;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
+use IDCT\Adminata\Admin\AdminInterface;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;

@@ -11,22 +11,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Admin;
+namespace IDCT\Adminata\Tests\App\Admin;
 
 use Knp\Menu\ItemInterface as MenuItemInterface;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\ImmutableArrayType;
-use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Form\Type\NativeCollectionType;
-use Sonata\AdminBundle\Form\Type\TemplateType;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Tests\App\Model\Bar;
-use Sonata\AdminBundle\Tests\App\Model\Foo;
-use Sonata\AdminBundle\Tests\Fixtures\Controller\BatchOtherController;
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\FormMapper;
+use IDCT\Adminata\Form\Type\ImmutableArrayType;
+use IDCT\Adminata\Form\Type\ModelAutocompleteType;
+use IDCT\Adminata\Form\Type\NativeCollectionType;
+use IDCT\Adminata\Form\Type\TemplateType;
+use IDCT\Adminata\Show\ShowMapper;
+use IDCT\Adminata\Tests\App\Model\Bar;
+use IDCT\Adminata\Tests\App\Model\Foo;
+use IDCT\Adminata\Tests\Fixtures\Controller\BatchOtherController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Count;
@@ -68,7 +68,7 @@ class FooAdmin extends AbstractAdmin
                     'property' => ['name', 'title'],
                 ],
                 [
-                    'admin_code' => 'sonata_bar_admin',
+                    'admin_code' => 'adminata_bar_admin',
                 ]
             )
             ->add(

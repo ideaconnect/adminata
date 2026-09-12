@@ -11,18 +11,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Templating;
+namespace IDCT\Adminata\Tests\Templating;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Block\BlockContext;
-use Sonata\AdminBundle\Block\BlockContextManagerInterface;
-use Sonata\AdminBundle\Block\BlockRendererInterface;
-use Sonata\AdminBundle\Block\BlockServiceManagerInterface;
-use Sonata\AdminBundle\Block\Service\BlockServiceInterface;
-use Sonata\AdminBundle\Event\BlockEvent;
-use Sonata\AdminBundle\Model\Block;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Templating\BlockHelper;
+use IDCT\Adminata\Block\BlockContext;
+use IDCT\Adminata\Block\BlockContextManagerInterface;
+use IDCT\Adminata\Block\BlockRendererInterface;
+use IDCT\Adminata\Block\BlockServiceManagerInterface;
+use IDCT\Adminata\Block\Service\BlockServiceInterface;
+use IDCT\Adminata\Event\BlockEvent;
+use IDCT\Adminata\Model\Block;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Templating\BlockHelper;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 

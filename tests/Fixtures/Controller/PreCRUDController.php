@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Controller;
+namespace IDCT\Adminata\Tests\Fixtures\Controller;
 
-use Sonata\AdminBundle\Controller\CRUDController;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\Entity;
+use IDCT\Adminata\Controller\CRUDController;
+use IDCT\Adminata\Tests\Fixtures\Entity\Entity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

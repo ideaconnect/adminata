@@ -14,7 +14,7 @@ class Config {
 
     param(key) {
         if (this.params === null) {
-            const content = getMetaContent('sonata-config');
+            const content = getMetaContent('adminata-config');
 
             // A page without the meta tag — a login page, an application's own template extending
             // `empty_layout` — is not an error; every parameter is simply unset. Malformed JSON still
@@ -27,7 +27,7 @@ class Config {
                 this.params = JSON.parse(content);
             } catch (e) {
                 throw new Error(
-                    `An error has occurred resolving the "sonata-config" meta tag: ${e.message}.`,
+                    `An error has occurred resolving the "adminata-config" meta tag: ${e.message}.`,
                     { cause: e },
                 );
             }

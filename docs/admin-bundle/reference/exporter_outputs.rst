@@ -5,8 +5,8 @@
 Outputs
 =======
 
-A writer implements ``Sonata\AdminBundle\Exporter\Writer\WriterInterface`` — ``open()``,
-``write()`` once per row, ``close()`` — and ``Sonata\AdminBundle\Exporter\Writer\`` ships these:
+A writer implements ``IDCT\Adminata\Exporter\Writer\WriterInterface`` — ``open()``,
+``write()`` once per row, ``close()`` — and ``IDCT\Adminata\Exporter\Writer\`` ships these:
 
 ======================= ==================================================
 Class                   Writes
@@ -25,7 +25,7 @@ Class                   Writes
 
 The five whose format an admin can ask for by name — ``csv``, ``json``, ``xls``, ``xlsx`` and
 ``xml`` — implement ``TypedWriterInterface``, which adds ``getFormat()`` and
-``getDefaultMimeType()``. That is what lets ``sonata.exporter.exporter`` pick a writer from the
+``getDefaultMimeType()``. That is what lets ``adminata.exporter.exporter`` pick a writer from the
 format string in an export URL and set the response's ``Content-Type``; the others are used
 directly, through a ``Handler``. ``XlsxWriter`` is registered only when
 ``phpoffice/phpspreadsheet`` is installed (:doc:`exporter_configuration`).

@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
-use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceLoader;
-use Sonata\AdminBundle\Form\DataTransformer\ModelsToArrayTransformer;
-use Sonata\AdminBundle\Form\DataTransformer\ModelToIdTransformer;
-use Sonata\AdminBundle\Form\EventListener\MergeCollectionListener;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Form\ChoiceList\ModelChoiceLoader;
+use IDCT\Adminata\Form\DataTransformer\ModelsToArrayTransformer;
+use IDCT\Adminata\Form\DataTransformer\ModelToIdTransformer;
+use IDCT\Adminata\Form\EventListener\MergeCollectionListener;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
 use Symfony\Component\Form\ChoiceList\Loader\ChoiceLoaderInterface;
@@ -71,7 +71,7 @@ final class ModelType extends AbstractType
 
         // NEXT_MAJOR: Remove the btn_catalogue usage.
         $view->vars['btn_translation_domain'] =
-            'SonataAdminBundle' !== $options['btn_translation_domain']
+            'AdminataBundle' !== $options['btn_translation_domain']
                 ? $options['btn_translation_domain']
                 : $options['btn_catalogue'];
         $view->vars['btn_catalogue'] = $options['btn_catalogue'];
@@ -108,8 +108,8 @@ final class ModelType extends AbstractType
             'btn_add' => 'link_add',
             'btn_list' => 'link_list',
             'btn_delete' => 'link_delete',
-            'btn_catalogue' => 'SonataAdminBundle', // NEXT_MAJOR: Remove this option
-            'btn_translation_domain' => 'SonataAdminBundle',
+            'btn_catalogue' => 'AdminataBundle', // NEXT_MAJOR: Remove this option
+            'btn_translation_domain' => 'AdminataBundle',
         ]));
 
         $resolver->setRequired(['model_manager', 'class']);
@@ -121,7 +121,7 @@ final class ModelType extends AbstractType
             'sonata-project/admin-bundle',
             '4.9',
             static function (Options $options, mixed $value): string {
-                if ('SonataAdminBundle' !== $value) {
+                if ('AdminataBundle' !== $value) {
                     return 'Passing a value to option "btn_catalogue" is deprecated! Use "btn_translation_domain" instead!';
                 }
 
@@ -140,6 +140,6 @@ final class ModelType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_model';
+        return 'adminata_type_model';
     }
 }

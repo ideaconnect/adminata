@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exporter\Writer;
+namespace IDCT\Adminata\Tests\Exporter\Writer;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exporter\Writer\JsonWriter;
+use IDCT\Adminata\Exporter\Writer\JsonWriter;
 
 final class JsonWriterTest extends TestCase
 {

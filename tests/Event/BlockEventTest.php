@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Event;
+namespace IDCT\Adminata\Tests\Event;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Event\BlockEvent;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Event\BlockEvent;
+use IDCT\Adminata\Model\BlockInterface;
 
 final class BlockEventTest extends TestCase
 {

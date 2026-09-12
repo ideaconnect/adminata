@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Block;
+namespace IDCT\Adminata\Tests\Block;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Sonata\AdminBundle\Block\BlockContextInterface;
-use Sonata\AdminBundle\Block\BlockContextManager;
-use Sonata\AdminBundle\Block\BlockLoaderInterface;
-use Sonata\AdminBundle\Block\BlockServiceManagerInterface;
-use Sonata\AdminBundle\Block\Service\AbstractBlockService;
-use Sonata\AdminBundle\Model\Block;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Block\BlockContextInterface;
+use IDCT\Adminata\Block\BlockContextManager;
+use IDCT\Adminata\Block\BlockLoaderInterface;
+use IDCT\Adminata\Block\BlockServiceManagerInterface;
+use IDCT\Adminata\Block\Service\AbstractBlockService;
+use IDCT\Adminata\Model\Block;
+use IDCT\Adminata\Model\BlockInterface;
 
 final class BlockContextManagerTest extends TestCase
 {

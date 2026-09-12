@@ -14,12 +14,12 @@ declare(strict_types=1);
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 return static function (RoutingConfigurator $routes): void {
-    $routes->add('sonata_admin_foo', '/foo')
-        ->controller('SonataAdminBundle:RouteAdminController:foo');
+    $routes->add('adminata_admin_foo', '/foo')
+        ->controller('AdminataBundle:RouteAdminController:foo');
 
-    $routes->add('sonata_admin_foo_param', '/foo/{param1}/{param2}')
-        ->controller('SonataAdminBundle:RouteAdminController:fooParam');
+    $routes->add('adminata_admin_foo_param', '/foo/{param1}/{param2}')
+        ->controller('AdminataBundle:RouteAdminController:fooParam');
 
-    $routes->add('sonata_admin_foo_object', '/foo/obj/{param1}/{barId}/{param2}')
-        ->controller('SonataAdminBundle:RouteAdminController:fooObject');
+    $routes->add('adminata_admin_foo_object', '/foo/obj/{param1}/{barId}/{param2}')
+        ->controller('AdminataBundle:RouteAdminController:fooObject');
 };

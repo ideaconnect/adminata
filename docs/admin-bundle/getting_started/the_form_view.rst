@@ -16,9 +16,9 @@ The basic class definition will look the same as the ``CategoryAdmin``::
 
     namespace App\Admin;
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Form\FormMapper;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Datagrid\ListMapper;
+    use IDCT\Adminata\Form\FormMapper;
 
     final class BlogPostAdmin extends AbstractAdmin
     {
@@ -43,7 +43,7 @@ The same applies to the service definition:
         admin.blog_post:
             class: App\Admin\BlogPostAdmin
             tags:
-                - { name: sonata.admin, model_class: App\Entity\BlogPost, manager_type: orm, label: 'Blog post' }
+                - { name: adminata.admin, model_class: App\Entity\BlogPost, manager_type: orm, label: 'Blog post' }
 
 Configuring the Form Mapper
 ---------------------------
@@ -127,7 +127,7 @@ dialog with the admin of the referenced model in it::
     // src/Admin/BlogPostAdmin.php
 
     use App\Entity\Category;
-    use Sonata\AdminBundle\Form\Type\ModelType;
+    use IDCT\Adminata\Form\Type\ModelType;
 
     protected function configureFormFields(FormMapper $form): void
     {
@@ -139,7 +139,7 @@ dialog with the admin of the referenced model in it::
         ;
     }
 
-.. image:: ../images/getting_started_sonata_model_type.png
+.. image:: ../images/getting_started_adminata_model_type.png
    :align: center
    :alt: Sonata ModelType
    :width: 700px
@@ -162,7 +162,7 @@ category field to a Meta data group. To do this, use the ``with()`` method::
     // src/Admin/BlogPostAdmin.php
 
     use App\Entity\Category;
-    use Sonata\AdminBundle\Form\Type\ModelType
+    use IDCT\Adminata\Form\Type\ModelType
     use Symfony\Component\Form\Extension\Core\Type\TextType;
     use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -236,10 +236,10 @@ After pressing the "Create" button, you probably see a green message like:
 *Item "App\Entity\BlogPost:00000000192ba93c000000001b786396" has been
 successfully created.*
 
-While it's very friendly of the SonataAdminBundle to notify the admin of a
+While it's very friendly of the AdminataBundle to notify the admin of a
 successful creation, the classname and some sort of hash aren't really nice to
 read. This is the default string representation of an object in the
-SonataAdminBundle. You can change it by defining a ``toString()`` method in the
+AdminataBundle. You can change it by defining a ``toString()`` method in the
 Admin class. This receives the object to transform to a string as the first parameter::
 
     // src/Admin/BlogPostAdmin.php
@@ -264,7 +264,7 @@ Round Up
 --------
 
 In this tutorial, you've made your first contact with the greatest feature of
-the SonataAdminBundle: Being able to customize literally everything. You've
+the AdminataBundle: Being able to customize literally everything. You've
 started by creating a form and ended up with a nice edit page for your admin.
 
 In the :doc:`next chapter <the_list_view>`, you're going to look at the list

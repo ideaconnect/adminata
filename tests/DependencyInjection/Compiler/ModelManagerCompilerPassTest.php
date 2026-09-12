@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection\Compiler;
+namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\DependencyInjection\Compiler\ModelManagerCompilerPass;
-use Sonata\AdminBundle\Maker\AdminMaker;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Tests\App\Model\ModelManager;
+use IDCT\Adminata\DependencyInjection\Compiler\ModelManagerCompilerPass;
+use IDCT\Adminata\Maker\AdminMaker;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Tests\App\Model\ModelManager;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
@@ -36,7 +36,7 @@ final class ModelManagerCompilerPassTest extends TestCase
         ]);
 
         $containerBuilder = new ContainerBuilder();
-        $containerBuilder->setDefinition('sonata.admin.maker', $adminMaker);
+        $containerBuilder->setDefinition('adminata.admin.maker', $adminMaker);
         $containerBuilder->setParameter('kernel.bundles', ['MakerBundle' => 'MakerBundle']);
 
         $compilerPass = new ModelManagerCompilerPass();
@@ -56,12 +56,12 @@ final class ModelManagerCompilerPassTest extends TestCase
         ]);
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->setParameter('kernel.bundles', ['MakerBundle' => 'MakerBundle']);
-        $containerBuilder->setDefinition('sonata.admin.maker', $adminMaker);
+        $containerBuilder->setDefinition('adminata.admin.maker', $adminMaker);
 
         $managerDefinition = new Definition(ModelManager::class);
         $managerDefinition->addTag(ModelManagerCompilerPass::MANAGER_TAG);
 
-        $containerBuilder->setDefinition('sonata.admin.manager.test', $managerDefinition);
+        $containerBuilder->setDefinition('adminata.admin.manager.test', $managerDefinition);
 
         $compilerPass = new ModelManagerCompilerPass();
         $compilerPass->process($containerBuilder);
@@ -81,17 +81,17 @@ final class ModelManagerCompilerPassTest extends TestCase
 
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->setParameter('kernel.bundles', ['MakerBundle' => 'MakerBundle']);
-        $containerBuilder->setDefinition('sonata.admin.maker', $adminMaker);
+        $containerBuilder->setDefinition('adminata.admin.maker', $adminMaker);
 
         $managerDefinition = new Definition(\stdClass::class);
         $managerDefinition->addTag(ModelManagerCompilerPass::MANAGER_TAG);
 
-        $containerBuilder->setDefinition('sonata.admin.manager.test', $managerDefinition);
+        $containerBuilder->setDefinition('adminata.admin.manager.test', $managerDefinition);
 
         $compilerPass = new ModelManagerCompilerPass();
 
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(\sprintf('Service "sonata.admin.manager.test" must implement `%s`.', ModelManagerInterface::class));
+        $this->expectExceptionMessage(\sprintf('Service "adminata.admin.manager.test" must implement `%s`.', ModelManagerInterface::class));
 
         $compilerPass->process($containerBuilder);
     }

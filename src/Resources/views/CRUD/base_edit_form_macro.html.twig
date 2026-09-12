@@ -15,7 +15,7 @@ file that was distributed with this source code.
     Form groups as cards in a twelve-column grid (PLAN/03 §C).
 
     The group's `class` is emitted verbatim — an application writes `col-span-8` there and expects
-    it on the element — and `box_class` is appended to the card. `sonata-ba-collapsed-fields` is
+    it on the element — and `box_class` is appended to the card. `adminata-collapsed-fields` is
     the hook an application's own script uses to fold a group.
 #}
 {% macro render_groups(admin, form, groups, has_tab) %}
@@ -38,7 +38,7 @@ file that was distributed with this source code.
                     </{{ heading }}>
                 </div>
                 <div class="adm-card-body">
-                    <div class="sonata-ba-collapsed-fields">
+                    <div class="adminata-collapsed-fields">
                         {% if form_group.description %}
                             <p class="adm-card-subtitle mb-4">
                                 {%- if form_group.translation_domain is defined and form_group.translation_domain is same as(false) -%}

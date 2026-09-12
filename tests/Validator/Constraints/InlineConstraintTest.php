@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Validator\Constraints;
+namespace IDCT\Adminata\Tests\Validator\Constraints;
 
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Validator\Constraints\InlineConstraint;
+use IDCT\Adminata\Validator\Constraints\InlineConstraint;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
@@ -60,7 +60,7 @@ final class InlineConstraintTest extends TestCase
     public function testValidatedBy(): void
     {
         $constraint = new InlineConstraint(service: 'foo', method: 'bar');
-        static::assertSame('sonata.form.validator.inline', $constraint->validatedBy());
+        static::assertSame('adminata.form.validator.inline', $constraint->validatedBy());
     }
 
     public function testIsClosure(): void

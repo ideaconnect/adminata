@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Model;
+namespace IDCT\Adminata\Tests\Model;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Model\Block;
+use IDCT\Adminata\Model\Block;
 
 final class BlockTest extends TestCase
 {

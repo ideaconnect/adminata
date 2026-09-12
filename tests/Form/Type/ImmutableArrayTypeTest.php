@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
-use Sonata\AdminBundle\Form\Type\ImmutableArrayType;
+use IDCT\Adminata\Form\Type\ImmutableArrayType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,7 +28,7 @@ final class ImmutableArrayTypeTest extends TypeTestCase
     {
         $type = new ImmutableArrayType();
 
-        static::assertSame('sonata_type_immutable_array', $type->getBlockPrefix());
+        static::assertSame('adminata_type_immutable_array', $type->getBlockPrefix());
 
         static::assertSame(FormType::class, $type->getParent());
 

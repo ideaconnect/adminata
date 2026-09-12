@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Doctrine\Adapter\AdapterChain;
+use IDCT\Adminata\Doctrine\Adapter\AdapterChain;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
 
-        ->set('sonata.doctrine.model.adapter.chain', AdapterChain::class)
+        ->set('adminata.doctrine.model.adapter.chain', AdapterChain::class)
             ->public();
 };

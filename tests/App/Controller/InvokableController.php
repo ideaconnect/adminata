@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Controller;
+namespace IDCT\Adminata\Tests\App\Controller;
 
-use Sonata\AdminBundle\Tests\App\Admin\AdminAsParameterAdmin;
+use IDCT\Adminata\Tests\App\Admin\AdminAsParameterAdmin;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 

@@ -13,16 +13,16 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Maker\AdminMaker;
+use IDCT\Adminata\Maker\AdminMaker;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
 
-        ->set('sonata.admin.maker', AdminMaker::class)
+        ->set('adminata.admin.maker', AdminMaker::class)
             ->tag('maker.command')
             ->args([
                 param('kernel.project_dir'),
                 abstract_arg('available model managers'),
-                param('sonata.admin.configuration.default_controller'),
+                param('adminata.admin.configuration.default_controller'),
             ]);
 };

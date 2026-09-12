@@ -36,7 +36,7 @@ const INTERACTIVE = 'a, button, input, select, textarea, label, summary, [role="
  * Cells whose whole area belongs to their controls: the batch checkbox is aimed at, not hit, and
  * the gaps between row actions are part of the action column, not of the row.
  */
-const RESERVED = '.sonata-ba-list-field-batch, .sonata-ba-list-field-select, .sonata-ba-list-field-actions';
+const RESERVED = '.adminata-list-field-batch, .adminata-list-field-select, .adminata-list-field-actions';
 
 export default class extends Controller {
     /**
@@ -49,7 +49,7 @@ export default class extends Controller {
         }
 
         const row =
-            event.target instanceof Element ? event.target.closest('tr[data-sonata-row-link-url]') : null;
+            event.target instanceof Element ? event.target.closest('tr[data-adminata-row-link-url]') : null;
 
         if (null === row || !this.element.contains(row)) {
             return;
@@ -63,7 +63,7 @@ export default class extends Controller {
             return;
         }
 
-        const url = row.dataset.sonataRowLinkUrl;
+        const url = row.dataset.adminataRowLinkUrl;
 
         event.preventDefault();
 

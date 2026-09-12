@@ -13,16 +13,16 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Block\Service\MenuBlockService;
+use IDCT\Adminata\Block\Service\MenuBlockService;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set('sonata.block.service.menu', MenuBlockService::class)
-        ->tag('sonata.block')
+    $services->set('adminata.block.service.menu', MenuBlockService::class)
+        ->tag('adminata.block')
         ->args([
             service('twig'),
             service('knp_menu.menu_provider'),
-            service('sonata.block.menu.registry'),
+            service('adminata.block.menu.registry'),
         ]);
 };

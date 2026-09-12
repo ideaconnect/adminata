@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Translator;
+namespace IDCT\Adminata\Tests\Translator;
 
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Translator\BCLabelTranslatorStrategy;
+use IDCT\Adminata\Translator\BCLabelTranslatorStrategy;
 
 /**
  * NEXT_MAJOR: Remove this class.

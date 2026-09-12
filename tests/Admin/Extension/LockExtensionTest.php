@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Admin\Extension;
+namespace IDCT\Adminata\Tests\Admin\Extension;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Extension\LockExtension;
-use Sonata\AdminBundle\Builder\FormContractorInterface;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Model\LockInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Extension\LockExtension;
+use IDCT\Adminata\Builder\FormContractorInterface;
+use IDCT\Adminata\Form\FormMapper;
+use IDCT\Adminata\Model\LockInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilder;

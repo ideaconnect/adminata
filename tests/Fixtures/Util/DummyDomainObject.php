@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Util;
+namespace IDCT\Adminata\Tests\Fixtures\Util;
 
 use Symfony\Component\Security\Acl\Model\DomainObjectInterface;
 

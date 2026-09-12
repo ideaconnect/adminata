@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exporter;
+namespace IDCT\Adminata\Tests\Exporter;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exporter\Exporter;
-use Sonata\AdminBundle\Exporter\Source\ArraySourceIterator;
-use Sonata\AdminBundle\Exporter\Writer\CsvWriter;
-use Sonata\AdminBundle\Exporter\Writer\JsonWriter;
-use Sonata\AdminBundle\Exporter\Writer\TypedWriterInterface;
-use Sonata\AdminBundle\Exporter\Writer\XlsWriter;
-use Sonata\AdminBundle\Exporter\Writer\XmlWriter;
+use IDCT\Adminata\Exporter\Exporter;
+use IDCT\Adminata\Exporter\Source\ArraySourceIterator;
+use IDCT\Adminata\Exporter\Writer\CsvWriter;
+use IDCT\Adminata\Exporter\Writer\JsonWriter;
+use IDCT\Adminata\Exporter\Writer\TypedWriterInterface;
+use IDCT\Adminata\Exporter\Writer\XlsWriter;
+use IDCT\Adminata\Exporter\Writer\XmlWriter;
 use Symfony\Component\HttpFoundation\Response;
 
 final class ExporterTest extends TestCase

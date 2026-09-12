@@ -10,16 +10,16 @@ the admin bundle (:doc:`action_export`). It converts a large amount of data from
 output format — most generally a file — one row at a time, so the memory it costs does not grow
 with the number of rows.
 
-Its classes are ``Sonata\AdminBundle\Exporter\``: ``Handler`` and ``Exporter``, the source
+Its classes are ``IDCT\Adminata\Exporter\``: ``Handler`` and ``Exporter``, the source
 iterators of :doc:`exporter_sources` and the writers of :doc:`exporter_outputs`. There is nothing
 to install beyond the admin bundle itself (:doc:`/admin-bundle/getting_started/installation`), and
-nothing to register in ``bundles.php``; ``SonataAdminBundle`` brings the ``sonata.exporter.*``
-services and the ``sonata_exporter`` configuration root with it
+nothing to register in ``bundles.php``; ``AdminataBundle`` brings the ``adminata.exporter.*``
+services and the ``adminata_exporter`` configuration root with it
 (:doc:`exporter_configuration`).
 
 .. note::
 
-    Coming from Sonata? The ``Sonata\Exporter\`` classes are ``Sonata\AdminBundle\Exporter\``
+    Coming from Sonata? The ``IDCT\Adminata\Exporter\`` classes are ``IDCT\Adminata\Exporter\``
     here — the map is in `UPGRADE-1.0.md
     <https://github.com/ideaconnect/adminata/blob/main/UPGRADE-1.0.md>`_ §U1 — and there is no
     ``SonataExporterBundle`` to register. What stays exactly as it was is on
@@ -30,13 +30,13 @@ Three parts
 
 A **source** is any ``\Iterator`` whose values are arrays of scalars, keyed by column name;
 ``Source\`` ships the ones worth having (:doc:`exporter_sources`). A **writer** implements
-``Sonata\AdminBundle\Exporter\Writer\WriterInterface`` — ``open()``, ``write()`` per row,
+``IDCT\Adminata\Exporter\Writer\WriterInterface`` — ``open()``, ``write()`` per row,
 ``close()`` — and ``Writer\`` ships one per format (:doc:`exporter_outputs`). ``Handler`` runs the
 loop between them::
 
-    use Sonata\AdminBundle\Exporter\Handler;
-    use Sonata\AdminBundle\Exporter\Source\ArraySourceIterator;
-    use Sonata\AdminBundle\Exporter\Writer\JsonWriter;
+    use IDCT\Adminata\Exporter\Handler;
+    use IDCT\Adminata\Exporter\Source\ArraySourceIterator;
+    use IDCT\Adminata\Exporter\Writer\JsonWriter;
 
     // any \Iterator will do
     $source = new ArraySourceIterator([/* your data */]);
@@ -51,6 +51,6 @@ walks the iterator writing one row at a time, and closes it.
 
 Inside an admin, none of that is written by hand. The export action asks the admin's
 ``DataSourceInterface`` for an iterator over the current query and the fields
-``configureExportFields()`` chose, and hands it to the ``sonata.exporter.exporter`` service, which
+``configureExportFields()`` chose, and hands it to the ``adminata.exporter.exporter`` service, which
 returns a streamed response — see :doc:`action_export` for the admin side and
 :doc:`exporter_configuration` for the service.

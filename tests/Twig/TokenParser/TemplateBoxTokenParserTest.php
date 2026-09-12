@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig\TokenParser;
+namespace IDCT\Adminata\Tests\Twig\TokenParser;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Twig\Node\TemplateBoxNode;
-use Sonata\AdminBundle\Twig\TokenParser\TemplateBoxTokenParser;
+use IDCT\Adminata\Twig\Node\TemplateBoxNode;
+use IDCT\Adminata\Twig\TokenParser\TemplateBoxTokenParser;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 use Twig\Node\Expression\ConstantExpression;
@@ -49,32 +49,32 @@ final class TemplateBoxTokenParserTest extends TestCase
     {
         yield [
             true,
-            '{% sonata_template_box %}',
+            '{% adminata_template_box %}',
             new TemplateBoxNode(
                 new ConstantExpression('Template information', 1),
                 true,
                 1,
-                'sonata_template_box'
+                'adminata_template_box'
             ),
         ];
         yield [
             true,
-            '{% sonata_template_box "This is the basket delivery address step page" %}',
+            '{% adminata_template_box "This is the basket delivery address step page" %}',
             new TemplateBoxNode(
                 new ConstantExpression('This is the basket delivery address step page', 1),
                 true,
                 1,
-                'sonata_template_box'
+                'adminata_template_box'
             ),
         ];
         yield [
             false,
-            '{% sonata_template_box "This is the basket delivery address step page" %}',
+            '{% adminata_template_box "This is the basket delivery address step page" %}',
             new TemplateBoxNode(
                 new ConstantExpression('This is the basket delivery address step page', 1),
                 false,
                 1,
-                'sonata_template_box'
+                'adminata_template_box'
             ),
         ];
     }

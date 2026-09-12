@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Block\Service;
+namespace IDCT\Adminata\Tests\Block\Service;
 
 use Knp\Menu\Provider\MenuProviderInterface;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
-use Sonata\AdminBundle\Block\Service\MenuBlockService;
-use Sonata\AdminBundle\Form\BlockFormMapperInterface;
-use Sonata\AdminBundle\Form\Type\ImmutableArrayType;
-use Sonata\AdminBundle\Menu\MenuRegistryInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Test\BlockServiceTestCase;
+use IDCT\Adminata\Block\Service\MenuBlockService;
+use IDCT\Adminata\Form\BlockFormMapperInterface;
+use IDCT\Adminata\Form\Type\ImmutableArrayType;
+use IDCT\Adminata\Menu\MenuRegistryInterface;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Test\BlockServiceTestCase;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -59,7 +59,7 @@ final class MenuBlockServiceTest extends BlockServiceTestCase
         $choiceOptions = [
             'required' => true,
             'label' => 'form.label_menu_name',
-            'translation_domain' => 'SonataAdminBundle',
+            'translation_domain' => 'AdminataBundle',
         ];
 
         $choiceOptions['choices'] = [
@@ -72,36 +72,36 @@ final class MenuBlockServiceTest extends BlockServiceTestCase
                     ['title', TextType::class, [
                         'required' => false,
                         'label' => 'form.label_title',
-                        'translation_domain' => 'SonataAdminBundle',
+                        'translation_domain' => 'AdminataBundle',
                     ]],
                     ['safe_labels', CheckboxType::class, [
                         'required' => false,
                         'label' => 'form.label_safe_labels',
-                        'translation_domain' => 'SonataAdminBundle',
+                        'translation_domain' => 'AdminataBundle',
                     ]],
                     ['current_class', TextType::class, [
                         'required' => false,
                         'label' => 'form.label_current_class',
-                        'translation_domain' => 'SonataAdminBundle',
+                        'translation_domain' => 'AdminataBundle',
                     ]],
                     ['first_class', TextType::class, [
                         'required' => false,
                         'label' => 'form.label_first_class',
-                        'translation_domain' => 'SonataAdminBundle',
+                        'translation_domain' => 'AdminataBundle',
                     ]],
                     ['last_class', TextType::class, [
                         'required' => false,
                         'label' => 'form.label_last_class',
-                        'translation_domain' => 'SonataAdminBundle',
+                        'translation_domain' => 'AdminataBundle',
                     ]],
                     ['menu_template', TextType::class, [
                         'required' => false,
                         'label' => 'form.label_menu_template',
-                        'translation_domain' => 'SonataAdminBundle',
+                        'translation_domain' => 'AdminataBundle',
                     ]],
                     ['menu_name', ChoiceType::class, $choiceOptions],
                 ],
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
             ]);
 
         $blockService = new MenuBlockService($this->twig, $this->menuProvider, $this->menuRegistry);
@@ -115,7 +115,7 @@ final class MenuBlockServiceTest extends BlockServiceTestCase
 
         $this->assertSettings([
             'title' => '',
-            'template' => '@SonataAdmin/Block/block_core_menu.html.twig',
+            'template' => '@Adminata/Block/block_core_menu.html.twig',
             'menu_name' => '',
             'safe_labels' => false,
             'current_class' => 'active',

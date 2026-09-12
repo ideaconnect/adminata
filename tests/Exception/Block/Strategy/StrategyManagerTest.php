@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exception\Block\Strategy;
+namespace IDCT\Adminata\Tests\Exception\Block\Strategy;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exception\Block\Filter\FilterInterface;
-use Sonata\AdminBundle\Exception\Block\Renderer\RendererInterface;
-use Sonata\AdminBundle\Exception\Block\Strategy\StrategyManager;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Exception\Block\Filter\FilterInterface;
+use IDCT\Adminata\Exception\Block\Renderer\RendererInterface;
+use IDCT\Adminata\Exception\Block\Strategy\StrategyManager;
+use IDCT\Adminata\Model\BlockInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 

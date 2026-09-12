@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form;
+namespace IDCT\Adminata\Form;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\DataTransformer\BackedEnumTransformer;
-use Sonata\AdminBundle\Form\DataTransformer\ModelToIdTransformer;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\DataTransformer\BackedEnumTransformer;
+use IDCT\Adminata\Form\DataTransformer\ModelToIdTransformer;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
 

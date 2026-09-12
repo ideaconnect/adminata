@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Asset;
+namespace IDCT\Adminata\Tests\Asset;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Asset\LastModifiedVersionStrategy;
+use IDCT\Adminata\Asset\LastModifiedVersionStrategy;
 
 final class LastModifiedVersionStrategyTest extends TestCase
 {

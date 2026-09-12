@@ -14,25 +14,25 @@ file that was distributed with this source code.
 {#
     The show page (PLAN/03 §D).
 
-    `sonata-ba-view`, `sonata-ba-view-container` and the `<table><tr><th><td>` a field renders into
+    `adminata-view`, `adminata-view-container` and the `<table><tr><th><td>` a field renders into
     are the contract — the show tests assert that shape — so the table is styled rather than
     replaced. Groups become cards in the same twelve-column grid the edit page uses, and a tabbed
     show renders its tabs one after another under an `<h2>`, as the edit form does, until
-    `sonata-tabs` exists (PLAN/01 J2).
+    `adminata-tabs` exists (PLAN/01 J2).
 #}
 
 {% extends base_template %}
 
 {% block title %}
-    {{ 'title_show'|trans({'%name%': admin.toString(object)|u.truncate(15, '...') }, 'SonataAdminBundle') }}
+    {{ 'title_show'|trans({'%name%': admin.toString(object)|u.truncate(15, '...') }, 'AdminataBundle') }}
 {% endblock %}
 
 {% block navbar_title %}
-    {{ 'title_show'|trans({'%name%': admin.toString(object)|u.truncate(100, '...') }, 'SonataAdminBundle') }}
+    {{ 'title_show'|trans({'%name%': admin.toString(object)|u.truncate(100, '...') }, 'AdminataBundle') }}
 {% endblock %}
 
 {%- block actions -%}
-    {% include '@SonataAdmin/CRUD/action_buttons.html.twig' %}
+    {% include '@Adminata/CRUD/action_buttons.html.twig' %}
 {%- endblock -%}
 
 {% block tab_menu %}
@@ -43,9 +43,9 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block show %}
-    <div class="sonata-ba-view">
+    <div class="adminata-view">
 
-        {{ sonata_block_render_event('sonata.admin.show.top', { 'admin': admin, 'object': object }) }}
+        {{ adminata_block_render_event('adminata.admin.show.top', { 'admin': admin, 'object': object }) }}
 
         {% set showtabs = admin.getshowtabs() %}
         {% set has_tab = (showtabs|length == 1 and showtabs|keys[0] != 'default') or showtabs|length > 1 %}
@@ -64,7 +64,7 @@ file that was distributed with this source code.
                             {%- endif -%}
                         </h2>
 
-                        <div class="sonata-ba-collapsed-fields">
+                        <div class="adminata-collapsed-fields">
                             {% if show_tab.description != false %}
                                 <p class="adm-card-subtitle mb-4">{{ show_tab.description|raw }}</p>
                             {% endif %}
@@ -82,7 +82,7 @@ file that was distributed with this source code.
 
     </div>
 
-    {{ sonata_block_render_event('sonata.admin.show.bottom', { 'admin': admin, 'object': object }) }}
+    {{ adminata_block_render_event('adminata.admin.show.bottom', { 'admin': admin, 'object': object }) }}
 {% endblock %}
 
 {% block show_groups %}
@@ -115,7 +115,7 @@ file that was distributed with this source code.
                                     <tbody>
                                     {% for show_field_name in show_group.fields %}
                                         {% block show_field %}
-                                            <tr class="sonata-ba-view-container">
+                                            <tr class="adminata-view-container">
                                                 {% if elements[show_field_name] is defined %}
                                                     {{ elements[show_field_name]|render_view_element(object) }}
                                                 {% endif %}

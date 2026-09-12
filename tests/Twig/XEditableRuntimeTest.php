@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig;
+namespace IDCT\Adminata\Tests\Twig;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Enum\Suit;
-use Sonata\AdminBundle\Twig\XEditableRuntime;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Tests\Fixtures\Enum\Suit;
+use IDCT\Adminata\Twig\XEditableRuntime;
 use Symfony\Component\Translation\Translator;
 
 final class XEditableRuntimeTest extends TestCase

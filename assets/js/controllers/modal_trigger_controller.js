@@ -15,13 +15,13 @@ import { Controller } from '@hotwired/stimulus';
 /**
  * Opens a dialog from anywhere on the page, with a title and content of the trigger's choosing.
  *
- * `sonata-modal` sits on a `<dialog>` and drives it; its `open` action can only be wired from
+ * `adminata-modal` sits on a `<dialog>` and drives it; its `open` action can only be wired from
  * inside that dialog's own markup. This is the other half: a button in a table cell, a show page,
  * a dashboard block, that wants the layout's shared dialog to show *this* note. A `<button>`
  * rather than a link — it opens something here, and Space has to work — and, when it is only an
  * icon, one with an `aria-label`: the `title` names the dialog, not the button. It
- * fills the dialog's title and body and hands the opening to the `sonata-modal` instance on it,
- * so the size, the backdrop, the announcement of `sonata-modal:opened` and every close button stay
+ * fills the dialog's title and body and hands the opening to the `adminata-modal` instance on it,
+ * so the size, the backdrop, the announcement of `adminata-modal:opened` and every close button stay
  * that controller's business.
  *
  * Content comes in one of two forms, and the difference is deliberate. `text` is set as text and
@@ -30,8 +30,8 @@ import { Controller } from '@hotwired/stimulus';
  * copied into the body: server-rendered, already trusted as part of the page, and the way to show
  * something formatted. A `<template>` works there as well as a hidden `<div>`.
  *
- * The dialog is the layout's `sonata-dialog` unless `target` names another one, which must carry
- * `sonata-modal` and label itself with `aria-labelledby` — that is how its title is found. A
+ * The dialog is the layout's `adminata-dialog` unless `target` names another one, which must carry
+ * `adminata-modal` and label itself with `aria-labelledby` — that is how its title is found. A
  * trigger with no `title` leaves the dialog the heading it was rendered with, rather than an empty
  * one: an open dialog with no name is what that would be.
  */
@@ -40,7 +40,7 @@ const defaults = new WeakMap();
 
 export default class extends Controller {
     static values = {
-        target: { type: String, default: 'sonata-dialog' },
+        target: { type: String, default: 'adminata-dialog' },
         title: String,
         text: String,
         content: String,
@@ -56,12 +56,12 @@ export default class extends Controller {
         const dialog = document.getElementById(this.targetValue);
 
         if (!(dialog instanceof HTMLDialogElement)) {
-            throw new Error(`sonata-modal-trigger: there is no <dialog id="${this.targetValue}"> to open.`);
+            throw new Error(`adminata-modal-trigger: there is no <dialog id="${this.targetValue}"> to open.`);
         }
 
         this.fill(dialog);
 
-        const modal = this.application.getControllerForElementAndIdentifier(dialog, 'sonata-modal');
+        const modal = this.application.getControllerForElementAndIdentifier(dialog, 'adminata-modal');
 
         if (null === modal) {
             dialog.showModal();
@@ -106,7 +106,7 @@ export default class extends Controller {
 
             if (null === source) {
                 throw new Error(
-                    `sonata-modal-trigger: there is no element "${this.contentValue}" to take the content from.`,
+                    `adminata-modal-trigger: there is no element "${this.contentValue}" to take the content from.`,
                 );
             }
 

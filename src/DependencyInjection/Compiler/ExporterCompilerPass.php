@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -24,12 +24,12 @@ final class ExporterCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has('sonata.exporter.exporter')) {
+        if (!$container->has('adminata.exporter.exporter')) {
             return;
         }
 
-        $definition = $container->findDefinition('sonata.exporter.exporter');
-        $writers = $container->findTaggedServiceIds('sonata.exporter.writer');
+        $definition = $container->findDefinition('adminata.exporter.exporter');
+        $writers = $container->findTaggedServiceIds('adminata.exporter.writer');
 
         foreach (array_keys($writers) as $id) {
             $definition->addMethodCall('addWriter', [new Reference($id)]);

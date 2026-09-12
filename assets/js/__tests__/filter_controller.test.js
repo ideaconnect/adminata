@@ -19,19 +19,19 @@ import { mount, settle } from './helpers.js';
 /*
  * `prepareSubmit()` is what keeps a filter URL short: a field left at the admin's default value
  * loses its `name` and is not submitted at all. Mirrors the filter panel of
- * `@SonataAdmin/CRUD/base_list.html.twig`, which M3 rewrites.
+ * `@Adminata/CRUD/base_list.html.twig`, which M3 rewrites.
  */
 const markup = (defaults) => `
-    <div data-controller="sonata-filter"
-         data-sonata-filter-default-values-value='${JSON.stringify(defaults)}'>
-        <form data-sonata-filter-target="form" data-action="submit->sonata-filter#prepareSubmit">
-            <div id="name" data-sonata-filter-target="group">
+    <div data-controller="adminata-filter"
+         data-adminata-filter-default-values-value='${JSON.stringify(defaults)}'>
+        <form data-adminata-filter-target="form" data-action="submit->adminata-filter#prepareSubmit">
+            <div id="name" data-adminata-filter-target="group">
                 <input name="filter[name][value]" value="">
             </div>
-            <div id="status" data-sonata-filter-target="group">
+            <div id="status" data-adminata-filter-target="group">
                 <input name="filter[status][value]" value="">
             </div>
-            <button type="submit" data-sonata-filter-target="submitter">Filter</button>
+            <button type="submit" data-adminata-filter-target="submitter">Filter</button>
         </form>
     </div>
 `;
@@ -39,9 +39,9 @@ const markup = (defaults) => `
 const field = (name) => document.querySelector(`[name="filter[${name}][value]"]`);
 const form = () => document.querySelector('form');
 
-describe('sonata-filter', () => {
+describe('adminata-filter', () => {
     it('drops the name of a field left at its default so it is not submitted', async () => {
-        await mount('sonata-filter', FilterController, markup({ name: { value: 'default' } }));
+        await mount('adminata-filter', FilterController, markup({ name: { value: 'default' } }));
 
         field('name').value = 'default';
         field('status').value = 'chosen';
@@ -53,7 +53,7 @@ describe('sonata-filter', () => {
     });
 
     it('keeps the name of a field the user changed away from the default', async () => {
-        await mount('sonata-filter', FilterController, markup({ name: { value: 'default' } }));
+        await mount('adminata-filter', FilterController, markup({ name: { value: 'default' } }));
 
         field('name').value = 'something else';
         form().dispatchEvent(new Event('submit'));
@@ -63,16 +63,16 @@ describe('sonata-filter', () => {
     });
 
     it('disables the submit button so the filters are not submitted twice', async () => {
-        await mount('sonata-filter', FilterController, markup({}));
+        await mount('adminata-filter', FilterController, markup({}));
 
         form().dispatchEvent(new Event('submit'));
         await settle();
 
-        expect(document.querySelector('[data-sonata-filter-target=submitter]').disabled).toBe(true);
+        expect(document.querySelector('[data-adminata-filter-target=submitter]').disabled).toBe(true);
     });
 
     it('clears the fields of a hidden group before submitting', async () => {
-        await mount('sonata-filter', FilterController, markup({}));
+        await mount('adminata-filter', FilterController, markup({}));
 
         field('status').value = 'stale';
         document.querySelector('#status').hidden = true;

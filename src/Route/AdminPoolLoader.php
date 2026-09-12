@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Route;
+namespace IDCT\Adminata\Route;
 
-use Sonata\AdminBundle\Admin\Pool;
+use IDCT\Adminata\Admin\Pool;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Routing\RouteCollection as SymfonyRouteCollection;
@@ -23,7 +23,7 @@ use Symfony\Component\Routing\RouteCollection as SymfonyRouteCollection;
  */
 final class AdminPoolLoader extends Loader
 {
-    public const string ROUTE_TYPE_NAME = 'sonata_admin';
+    public const string ROUTE_TYPE_NAME = 'adminata';
 
     public function __construct(
         private Pool $pool,
@@ -43,7 +43,7 @@ final class AdminPoolLoader extends Loader
             $admin = $this->pool->getInstance($code);
 
             foreach ($admin->getRoutes()->getElements() as $route) {
-                $name = $route->getDefault('_sonata_name');
+                $name = $route->getDefault('_adminata_name');
                 \assert(\is_string($name));
                 $collection->add($name, $route);
             }

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Route;
+namespace IDCT\Adminata\Route;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
+use IDCT\Adminata\Admin\AdminInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 

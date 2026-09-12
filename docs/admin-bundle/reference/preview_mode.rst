@@ -39,14 +39,14 @@ Preview can be used to render how the object would look like in your front-end e
 However by default it uses a template similar to the one of the show action and works with
 the fields configured to be shown in the show view.
 
-Overriding the preview template ``@SonataAdmin/CRUD/preview.html.twig`` can be done either
+Overriding the preview template ``@Adminata/CRUD/preview.html.twig`` can be done either
 globally through the template configuration for the key 'preview':
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         templates:
             preview: '@App/CRUD/preview.html.twig'
 
@@ -72,9 +72,9 @@ expects a different object you can set your own variables prior to calling ``par
 
     {% extends '@App/layout.html.twig' %}
 
-    {% use '@SonataAdmin/CRUD/base_edit_form.html.twig' with form as parentForm %}
+    {% use '@Adminata/CRUD/base_edit_form.html.twig' with form as parentForm %}
 
-    {% import '@SonataAdmin/CRUD/base_edit_form_macro.html.twig' as form_helper %}
+    {% import '@Adminata/CRUD/base_edit_form_macro.html.twig' as form_helper %}
 
     {# a block in '@App/layout.html.twig' expecting article #}
     {% block templateContent %}
@@ -82,7 +82,7 @@ expects a different object you can set your own variables prior to calling ``par
 
         {{ parent() }}
 
-        <div class="sonata-preview-form-container">
+        <div class="adminata-preview-form-container">
             {{ block('parentForm') }}
         </div>
     {% endblock %}
@@ -90,11 +90,11 @@ expects a different object you can set your own variables prior to calling ``par
     {% block formactions %}
         <button class="btn btn-success" type="submit" name="btn_preview_approve">
             <i class="fas fa-check"></i>
-            {{ 'btn_preview_approve'|trans({}, 'SonataAdminBundle') }}
+            {{ 'btn_preview_approve'|trans({}, 'AdminataBundle') }}
         </button>
         <button class="btn btn-danger" type="submit" name="btn_preview_decline">
             <i class="fas fa-times"></i>
-            {{ 'btn_preview_decline'|trans({}, 'SonataAdminBundle') }}
+            {{ 'btn_preview_decline'|trans({}, 'AdminataBundle') }}
         </button>
     {% endblock %}
 
@@ -104,7 +104,7 @@ Hiding the fieldset tags with css ``display:none`` will be enough to only show t
 
 .. code-block:: css
 
-    .sonata-preview-form-container .row {
+    .adminata-preview-form-container .row {
         display: none;
     };
 
@@ -112,7 +112,7 @@ Or if you prefer less:
 
 .. code-block:: scss
 
-    div.sonata-preview-form-container {
+    div.adminata-preview-form-container {
         .row {
             display: none;
         };

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Util;
+namespace IDCT\Adminata\Util;
 
-use Sonata\AdminBundle\Form\Type\AclMatrixType;
+use IDCT\Adminata\Form\Type\AclMatrixType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;

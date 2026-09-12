@@ -20,8 +20,8 @@ use DAMA\DoctrineTestBundle\DAMADoctrineTestBundle;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
 use Knp\Bundle\MenuBundle\KnpMenuBundle;
-use Sonata\AdminBundle\SonataAdminBundle;
-use Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle;
+use IDCT\Adminata\AdminataBundle;
+use IDCT\Adminata\DoctrineORM\AdminataDoctrineORMBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
@@ -58,8 +58,8 @@ final class Kernel extends BaseKernel
             new KnpMenuBundle(),
             new DoctrineBundle(),
             new DoctrineFixturesBundle(),
-            new SonataAdminBundle(),
-            new SonataDoctrineORMAdminBundle(),
+            new AdminataBundle(),
+            new AdminataDoctrineORMBundle(),
         ];
 
         if (class_exists(StimulusBundle::class)) {
@@ -98,7 +98,7 @@ final class Kernel extends BaseKernel
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $loader->load(__DIR__.'/config/packages.yaml');
-        $loader->load(__DIR__.'/config/sonata.yaml');
+        $loader->load(__DIR__.'/config/adminata.yaml');
 
         if ('test' === $this->environment) {
             $loader->load(__DIR__.'/config/packages_test.yaml');

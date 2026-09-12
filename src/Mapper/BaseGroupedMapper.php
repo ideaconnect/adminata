@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Mapper;
+namespace IDCT\Adminata\Mapper;
 
 /**
  * This class is used to simulate the Form API.
@@ -82,7 +82,7 @@ abstract class BaseGroupedMapper implements MapperInterface
             'name' => $name,
             'box_class' => '',
             'empty_message' => 'message_form_group_empty',
-            'empty_message_translation_domain' => 'SonataAdminBundle',
+            'empty_message_translation_domain' => 'AdminataBundle',
         ];
 
         $code = $name;

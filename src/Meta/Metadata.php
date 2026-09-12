@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Meta;
+namespace IDCT\Adminata\Meta;
 
 /**
  * @author Hugo Briand <briand@ekino.com>

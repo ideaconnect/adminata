@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exporter\Source;
+namespace IDCT\Adminata\Tests\Exporter\Source;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exporter\Source\IteratorSourceIterator;
+use IDCT\Adminata\Exporter\Source\IteratorSourceIterator;
 
 final class IteratorSourceIteratorTest extends TestCase
 {

@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Action;
+namespace IDCT\Adminata\Tests\Action;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Action\AppendFormFieldElementAction;
-use Sonata\AdminBundle\Admin\AdminHelper;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Request\AdminFetcherInterface;
+use IDCT\Adminata\Action\AppendFormFieldElementAction;
+use IDCT\Adminata\Admin\AdminHelper;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Request\AdminFetcherInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRenderer;
@@ -72,7 +72,7 @@ final class AppendFormFieldElementActionTest extends TestCase
         $object->collection = [new \stdClass()];
 
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'elementId' => 'element_collection',
             'field' => 'enabled',

@@ -21,20 +21,20 @@ import { mount, settle } from './helpers.js';
  * adminata submits no form over fetch, in any phase (PLAN/01 J9).
  */
 const markup = `
-    <div data-controller="sonata-revision">
-        <a href="/admin/history/1/view" data-action="sonata-revision#showPreview">Revision 1</a>
-        <div data-sonata-revision-target="preview">stale</div>
+    <div data-controller="adminata-revision">
+        <a href="/admin/history/1/view" data-action="adminata-revision#showPreview">Revision 1</a>
+        <div data-adminata-revision-target="preview">stale</div>
     </div>
 `;
 
-const preview = () => document.querySelector('[data-sonata-revision-target=preview]');
+const preview = () => document.querySelector('[data-adminata-revision-target=preview]');
 
-describe('sonata-revision', () => {
+describe('adminata-revision', () => {
     it('replaces the panel with what the request returned', async () => {
         const fetchMock = vi.fn().mockResolvedValue({ text: () => Promise.resolve('<p>diff</p>') });
         vi.stubGlobal('fetch', fetchMock);
 
-        await mount('sonata-revision', RevisionController, markup);
+        await mount('adminata-revision', RevisionController, markup);
 
         document.querySelector('a').click();
         await settle();
@@ -47,7 +47,7 @@ describe('sonata-revision', () => {
         const fetchMock = vi.fn().mockResolvedValue({ text: () => Promise.resolve('') });
         vi.stubGlobal('fetch', fetchMock);
 
-        await mount('sonata-revision', RevisionController, markup);
+        await mount('adminata-revision', RevisionController, markup);
 
         document.querySelector('a').click();
         await settle();
@@ -62,11 +62,11 @@ describe('sonata-revision', () => {
         vi.stubGlobal('fetch', fetchMock);
 
         await mount(
-            'sonata-revision',
+            'adminata-revision',
             RevisionController,
-            `<div data-controller="sonata-revision">
-                <button data-action="sonata-revision#showPreview">Not a link</button>
-                <div data-sonata-revision-target="preview">kept</div>
+            `<div data-controller="adminata-revision">
+                <button data-action="adminata-revision#showPreview">Not a link</button>
+                <div data-adminata-revision-target="preview">kept</div>
             </div>`,
         );
 

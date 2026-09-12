@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Action;
+namespace IDCT\Adminata\Tests\App\Action;
 
 use Symfony\Component\HttpFoundation\Response;
 

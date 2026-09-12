@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
-use Sonata\AdminBundle\Doctrine\Mapper\DoctrineCollector;
+use IDCT\Adminata\Doctrine\Mapper\DoctrineCollector;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -25,12 +25,12 @@ final class DoctrineMapperCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         if (!$this->isDoctrineOrmLoaded($container)) {
-            $container->removeDefinition('sonata.doctrine.mapper');
+            $container->removeDefinition('adminata.doctrine.mapper');
 
             return;
         }
 
-        $mapper = $container->getDefinition('sonata.doctrine.mapper');
+        $mapper = $container->getDefinition('adminata.doctrine.mapper');
         $collector = DoctrineCollector::getInstance();
 
         foreach ($collector->getAssociations() as $class => $associations) {
@@ -76,6 +76,6 @@ final class DoctrineMapperCompilerPass implements CompilerPassInterface
 
     private function isDoctrineOrmLoaded(ContainerBuilder $container): bool
     {
-        return $container->hasDefinition('doctrine') && $container->hasDefinition('sonata.doctrine.mapper');
+        return $container->hasDefinition('doctrine') && $container->hasDefinition('adminata.doctrine.mapper');
     }
 }

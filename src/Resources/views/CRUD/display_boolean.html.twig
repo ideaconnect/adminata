@@ -11,9 +11,9 @@ file that was distributed with this source code.
 
 {%- apply trim|raw %}
     {% if value %}
-        {% set text = 'label_type_yes'|trans({}, 'SonataAdminBundle') %}
+        {% set text = 'label_type_yes'|trans({}, 'AdminataBundle') %}
     {% else %}
-        {% set text = 'label_type_no'|trans({}, 'SonataAdminBundle') %}
+        {% set text = 'label_type_no'|trans({}, 'AdminataBundle') %}
     {% endif %}
 
     {# `label label-*` was Bootstrap's and is in PLAN/02 §8's dropped list. #}

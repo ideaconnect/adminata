@@ -16,6 +16,6 @@ file that was distributed with this source code.
         reader nothing. -#}
     <input type="checkbox" class="adm-checkbox" name="idx[]" value="{{ admin.id(object) }}"
            aria-label="{{ admin.toString(object) }}"
-           {{ stimulus_target('sonata-batch', 'row') }}
-           {{ stimulus_action('sonata-batch', 'toggleRow', 'click') }}>
+           {{ stimulus_target('adminata-batch', 'row') }}
+           {{ stimulus_action('adminata-batch', 'toggleRow', 'click') }}>
 {% endblock %}

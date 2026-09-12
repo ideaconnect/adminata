@@ -18,7 +18,7 @@ file that was distributed with this source code.
             {% if not admin_configuration.getOption('html5_validate') %}novalidate="novalidate"{% endif %}
             >
 
-        {{ include('@SonataAdmin/Helper/render_form_dismissable_errors.html.twig') }}
+        {{ include('@Adminata/Helper/render_form_dismissable_errors.html.twig') }}
 
         <div class="box box-success">
             <div class="body table-responsive no-padding">
@@ -33,7 +33,7 @@ file that was distributed with this source code.
                     {% for child in form.children|filter(child => child.vars.name != '_token') %}
                         {% if loop.index0 == 0 or loop.index0 % 10 == 0 %}
                             <tr>
-                                <th>{{ td_type|trans({}, 'SonataAdminBundle') }}</th>
+                                <th>{{ td_type|trans({}, 'AdminataBundle') }}</th>
                                 {% for permission in permissions %}
                                     <th class="text-right">{{ permission }}</th>
                                 {% endfor %}
@@ -58,7 +58,7 @@ file that was distributed with this source code.
         {{ form_row(form._token) }}
 
         <div class="well well-small form-actions">
-            <input class="btn btn-primary" type="submit" name="btn_create_and_edit" value="{{ 'btn_update_acl'|trans({}, 'SonataAdminBundle') }}">
+            <input class="btn btn-primary" type="submit" name="btn_create_and_edit" value="{{ 'btn_update_acl'|trans({}, 'AdminataBundle') }}">
         </div>
     </form>
 {% endmacro %}

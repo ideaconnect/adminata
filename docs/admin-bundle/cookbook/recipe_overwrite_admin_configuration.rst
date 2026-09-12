@@ -10,23 +10,23 @@ with the following templates:
 
 .. code-block:: yaml
 
-    sonata_admin:
+    adminata:
         default_admin_services:
             # service configuration
-            model_manager:              sonata.admin.manager.orm
-            data_source:                sonata.admin.data_source.orm
-            field_description_factory:  sonata.admin.field_description_factory.orm
-            form_contractor:            sonata.admin.builder.orm_form
-            show_builder:               sonata.admin.builder.orm_show
-            list_builder:               sonata.admin.builder.orm_list
-            datagrid_builder:           sonata.admin.builder.orm_datagrid
+            model_manager:              adminata.admin.manager.orm
+            data_source:                adminata.admin.data_source.orm
+            field_description_factory:  adminata.admin.field_description_factory.orm
+            form_contractor:            adminata.admin.builder.orm_form
+            show_builder:               adminata.admin.builder.orm_show
+            list_builder:               adminata.admin.builder.orm_list
+            datagrid_builder:           adminata.admin.builder.orm_datagrid
             translator:                 translator
-            configuration_pool:         sonata.admin.pool
-            route_generator:            sonata.admin.route.default_generator
-            security_handler:           sonata.admin.security.handler
+            configuration_pool:         adminata.admin.pool
+            route_generator:            adminata.admin.route.default_generator
+            security_handler:           adminata.admin.security.handler
             menu_factory:               knp_menu.factory
-            route_builder:              sonata.admin.route.path_info
-            label_translator_strategy:  sonata.admin.label.strategy.native
+            route_builder:              adminata.admin.route.path_info
+            label_translator_strategy:  adminata.admin.label.strategy.native
             pager_type:                 default
 
 With these settings you will be able to change default services and templates used by the admin instances.
@@ -41,11 +41,11 @@ If you need to override the service of a specific admin, you can do it during th
         admin.blog_post:
             class: App\Admin\BlogPostAdmin
             tags:
-                - name: sonata.admin
+                - name: adminata.admin
                   model_class: App\Entity\BlogPost
                   manager_type: orm
                   label: 'Blog post'
-                  label_translator_strategy: sonata.admin.label.strategy.native
-                  route_builder: sonata.admin.route.path_info
+                  label_translator_strategy: adminata.admin.label.strategy.native
+                  route_builder: adminata.admin.route.path_info
                   pager_type: simple
                   # and so on

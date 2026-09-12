@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form;
+namespace IDCT\Adminata\Tests\Form;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\DataTransformer\ModelToIdTransformer;
-use Sonata\AdminBundle\Form\DataTransformerResolver;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\AbstractEntity;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\Entity;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\DataTransformer\ModelToIdTransformer;
+use IDCT\Adminata\Form\DataTransformerResolver;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Tests\Fixtures\Entity\AbstractEntity;
+use IDCT\Adminata\Tests\Fixtures\Entity\Entity;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;

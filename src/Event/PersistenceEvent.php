@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Event;
+namespace IDCT\Adminata\Event;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
+use IDCT\Adminata\Admin\AdminInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -23,8 +23,8 @@ use Symfony\Contracts\EventDispatcher\Event;
  *   - preRemove | postRemove.
  *
  * You can register the listener to the event dispatcher by using:
- *   - sonata.admin.event.persistence.[pre|post]_[persist|update|remove)
- *   - sonata.admin.event.persistence.[admin_code].[pre|post]_[persist|update|remove)  (not implemented yet)
+ *   - adminata.admin.event.persistence.[pre|post]_[persist|update|remove)
+ *   - adminata.admin.event.persistence.[admin_code].[pre|post]_[persist|update|remove)  (not implemented yet)
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *

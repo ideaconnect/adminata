@@ -2,7 +2,7 @@ Showing image previews
 ======================
 
 This is a full working example of one way to add image previews to your create and
-edit views in SonataAdmin.
+edit views in Adminata.
 
 Pre-requisites
 --------------
@@ -17,7 +17,7 @@ Pre-requisites
 .. note::
 
     There is a separate cookbook recipe to demonstrate how to upload images
-    (and other files) using SonataAdmin.
+    (and other files) using Adminata.
 
 The recipe
 ----------
@@ -78,7 +78,7 @@ We then use CSS to restrict the max size of the image:
 And that is all there is to it!
 
 However, this method does not work when the ``ImageAdmin`` can be embedded in other
-Admins using the ``Sonata\\AdminBundle\\Form\\Type\\AdminType`` field type. For that we need...
+Admins using the ``IDCT\\Adminata\\Form\\Type\\AdminType`` field type. For that we need...
 
 Advanced example - works with embedded Admins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

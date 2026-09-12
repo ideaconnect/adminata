@@ -12,7 +12,7 @@ file that was distributed with this source code.
 {% extends base_template %}
 
 {%- block actions -%}
-    {% include '@SonataAdmin/CRUD/action_buttons.html.twig' %}
+    {% include '@Adminata/CRUD/action_buttons.html.twig' %}
 {%- endblock -%}
 
 {%- block tab_menu -%}
@@ -25,45 +25,45 @@ file that was distributed with this source code.
 {#
     The batch confirmation page (PLAN/03 §B).
 
-    The POST is untouched: `confirmation=ok`, the `data` payload, `_sonata_csrf_token` and the
-    hidden `form_rest`. `sonata-ba-delete` is the hook PLAN/02 §8 keeps.
+    The POST is untouched: `confirmation=ok`, the `data` payload, `_adminata_csrf_token` and the
+    hidden `form_rest`. `adminata-delete` is the hook PLAN/02 §8 keeps.
 #}
 
 {% block content %}
-    <div class="sonata-ba-delete">
+    <div class="adminata-delete">
         <div class="adm-card border-error-200 dark:border-error-500/30">
             <div class="adm-card-header">
                 {% if batch_translation_domain is not same as(false) %}
                     {% set action_label = action_label|trans({}, batch_translation_domain) %}
                 {% endif %}
-                <h1 class="adm-card-title">{% trans with {'%action%': action_label} from 'SonataAdminBundle' %}title_batch_confirmation{% endtrans %}</h1>
+                <h1 class="adm-card-title">{% trans with {'%action%': action_label} from 'AdminataBundle' %}title_batch_confirmation{% endtrans %}</h1>
             </div>
             <div class="adm-card-body">
                 {% if data.all_elements %}
-                    {{ 'message_batch_all_confirmation'|trans({}, 'SonataAdminBundle') }}
+                    {{ 'message_batch_all_confirmation'|trans({}, 'AdminataBundle') }}
                 {% else %}
-                    {% trans with {'%count%': data.idx|length} from 'SonataAdminBundle' %}message_batch_confirmation{% endtrans %}
+                    {% trans with {'%count%': data.idx|length} from 'AdminataBundle' %}message_batch_confirmation{% endtrans %}
                 {% endif %}
             </div>
             <div class="adm-card-footer">
                 <form action="{{ admin.generateUrl('batch', {'filter': admin.filterParameters}) }}" method="POST" class="flex flex-wrap items-center gap-3">
                     <input type="hidden" name="confirmation" value="ok">
                     <input type="hidden" name="data" value="{{ data|json_encode }}">
-                    <input type="hidden" name="_sonata_csrf_token" value="{{ csrf_token }}">
+                    <input type="hidden" name="_adminata_csrf_token" value="{{ csrf_token }}">
 
                     <div hidden>
                         {{ form_rest(form) }}
                     </div>
 
                     <button type="submit" class="adm-btn adm-btn-danger">
-                        {{ 'btn_execute_batch_action'|trans({}, 'SonataAdminBundle') }}
+                        {{ 'btn_execute_batch_action'|trans({}, 'AdminataBundle') }}
                     </button>
 
                     {% if admin.hasRoute('list') and admin.hasAccess('list') %}
-                        {{ 'delete_or'|trans({}, 'SonataAdminBundle') }}
+                        {{ 'delete_or'|trans({}, 'AdminataBundle') }}
 
                         <a class="adm-btn adm-btn-secondary" href="{{ admin.generateUrl('list') }}">
-                            <i class="fas fa-list" aria-hidden="true"></i> {{ 'link_action_list'|trans({}, 'SonataAdminBundle') }}
+                            <i class="fas fa-list" aria-hidden="true"></i> {{ 'link_action_list'|trans({}, 'AdminataBundle') }}
                         </a>
                     {% endif %}
                 </form>

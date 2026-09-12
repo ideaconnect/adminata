@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Templating;
+namespace IDCT\Adminata\Templating;
 
 /**
  * @author Wojciech Błoszyk <wbloszyk@gmail.com>

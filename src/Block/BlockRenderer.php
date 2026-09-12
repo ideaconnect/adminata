@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block;
+namespace IDCT\Adminata\Block;
 
 use Psr\Log\LoggerInterface;
-use Sonata\AdminBundle\Exception\Block\Strategy\StrategyManagerInterface;
+use IDCT\Adminata\Exception\Block\Strategy\StrategyManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

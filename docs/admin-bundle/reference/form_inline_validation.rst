@@ -5,8 +5,8 @@
 Inline Validation
 =================
 
-``Sonata\AdminBundle\Validator\ErrorElement``, the ``InlineConstraint`` it is driven by and the
-``sonata.form.validator.inline`` service that runs it are part of the admin bundle, so there is
+``IDCT\Adminata\Validator\ErrorElement``, the ``InlineConstraint`` it is driven by and the
+``adminata.form.validator.inline`` service that runs it are part of the admin bundle, so there is
 nothing to install for what follows (:doc:`/admin-bundle/getting_started/installation`).
 
 The inline validation is about delegating model validation to a
@@ -86,7 +86,7 @@ Add the ``InlineConstraint`` class constraint to your bundle's validation config
 
     Application\Sonata\PageBundle\Entity\Block:
         constraints:
-            - Sonata\AdminBundle\Validator\Constraints\InlineConstraint:
+            - IDCT\Adminata\Validator\Constraints\InlineConstraint:
                 service: sonata.page.cms.page
                 method: validateBlock
 
@@ -114,9 +114,9 @@ Example from the ``SonataPageBundle``
     namespace Sonata\PageBundle\Block;
 
     use Sonata\PageBundle\Model\PageInterface;
-    use Sonata\AdminBundle\Validator\ErrorElement;
-    use Sonata\AdminBundle\Block\Service\AbstractBlockService;
-    use Sonata\AdminBundle\Model\BlockInterface;
+    use IDCT\Adminata\Validator\ErrorElement;
+    use IDCT\Adminata\Block\Service\AbstractBlockService;
+    use IDCT\Adminata\Model\BlockInterface;
 
     class RssBlockService extends AbstractBlockService
     {

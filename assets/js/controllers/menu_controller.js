@@ -36,7 +36,7 @@ export default class extends Controller {
     static targets = ['toggle'];
 
     static values = {
-        storageKey: { type: String, default: 'sonata_sidebar_open' },
+        storageKey: { type: String, default: 'adminata_sidebar_open' },
     };
 
     connect() {
@@ -219,7 +219,7 @@ export default class extends Controller {
     }
 
     isPinned(toggle) {
-        return 'true' === toggle.dataset.sonataMenuKeepOpen;
+        return 'true' === toggle.dataset.adminataMenuKeepOpen;
     }
 
     /**

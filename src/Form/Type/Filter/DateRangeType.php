@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type\Filter;
+namespace IDCT\Adminata\Form\Type\Filter;
 
-use Sonata\AdminBundle\Form\Type\DateRangeType as FormDateRangeType;
-use Sonata\AdminBundle\Form\Type\Operator\DateRangeOperatorType;
+use IDCT\Adminata\Form\Type\DateRangeType as FormDateRangeType;
+use IDCT\Adminata\Form\Type\Operator\DateRangeOperatorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,7 +30,7 @@ final class DateRangeType extends AbstractType
 {
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_filter_date_range';
+        return 'adminata_type_filter_date_range';
     }
 
     public function getParent(): string

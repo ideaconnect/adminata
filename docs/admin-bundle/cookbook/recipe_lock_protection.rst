@@ -18,13 +18,13 @@ Enable Lock Protection
 ----------------------
 
 By default, lock protection is disabled.
-You can enable it in your ``sonata_admin`` configuration:
+You can enable it in your ``adminata`` configuration:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         options:
             lock_protection: true
 
@@ -73,4 +73,4 @@ For more information about this visit the `Doctrine docs <https://www.doctrine-p
 
     If the object model manager does not support object locking,
     the lock protection will not be triggered for the object.
-    Currently, only the ``SonataDoctrineORMAdminBundle`` supports it.
+    Currently, only the ``AdminataDoctrineORMBundle`` supports it.

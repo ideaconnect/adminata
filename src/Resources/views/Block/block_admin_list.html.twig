@@ -17,11 +17,11 @@ file that was distributed with this source code.
     `overflow-x` wrapper.
 #}
 
-{% extends sonata_block.templates.block_base %}
+{% extends adminata_block.templates.block_base %}
 
 {% block block %}
     {% for group in groups %}
-        {% set display = group.roles is empty or is_granted(sonata_config.getOption('role_super_admin')) or group.roles|filter(role => is_granted(role))|length > 0 %}
+        {% set display = group.roles is empty or is_granted(adminata_config.getOption('role_super_admin')) or group.roles|filter(role => is_granted(role))|length > 0 %}
 
         {% if display %}
             <div class="adm-card mb-4 md:mb-6">
@@ -42,7 +42,7 @@ file that was distributed with this source code.
                         {% for admin in group.items %}
                             {% if admin.dashboardActions|length > 0 %}
                                 <li class="flex flex-wrap items-center justify-between gap-2 py-2">
-                                    <span class="sonata-ba-list-label text-theme-sm text-gray-700 dark:text-gray-300">
+                                    <span class="adminata-list-label text-theme-sm text-gray-700 dark:text-gray-300">
                                         {% if admin.label is not empty %}
                                             {{ admin.label|trans({}, admin.translationdomain) }}
                                         {% endif %}
@@ -50,7 +50,7 @@ file that was distributed with this source code.
 
                                     <span class="flex flex-wrap items-center gap-1">
                                         {% for action in admin.dashboardActions %}
-                                            {% include action.template|default('@SonataAdmin/CRUD/dashboard__action.html.twig') with {'action': action} %}
+                                            {% include action.template|default('@Adminata/CRUD/dashboard__action.html.twig') with {'action': action} %}
                                         {% endfor %}
                                     </span>
                                 </li>

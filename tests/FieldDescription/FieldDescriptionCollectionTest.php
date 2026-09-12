@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\FieldDescription;
+namespace IDCT\Adminata\Tests\FieldDescription;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 
 final class FieldDescriptionCollectionTest extends TestCase
 {

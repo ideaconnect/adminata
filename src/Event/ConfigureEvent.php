@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Event;
+namespace IDCT\Adminata\Event;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Mapper\MapperInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Mapper\MapperInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -25,8 +25,8 @@ use Symfony\Contracts\EventDispatcher\Event;
  *   - configureShowFields.
  *
  * You can register the listener to the event dispatcher by using:
- *   - sonata.admin.event.configure.[form|list|datagrid|show]
- *   - sonata.admin.event.configure.[admin_code].[form|list|datagrid|show] (not implemented yet)
+ *   - adminata.admin.event.configure.[form|list|datagrid|show]
+ *   - adminata.admin.event.configure.[admin_code].[form|list|datagrid|show] (not implemented yet)
  *
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  *

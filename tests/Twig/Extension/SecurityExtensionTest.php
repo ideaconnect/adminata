@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig\Extension;
+namespace IDCT\Adminata\Tests\Twig\Extension;
 
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Twig\Extension\SecurityExtension;
-use Sonata\AdminBundle\Twig\SecurityRuntime;
+use IDCT\Adminata\Twig\Extension\SecurityExtension;
+use IDCT\Adminata\Twig\SecurityRuntime;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**

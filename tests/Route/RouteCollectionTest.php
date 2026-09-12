@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Route;
+namespace IDCT\Adminata\Tests\Route;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Controller\CRUDController;
-use Sonata\AdminBundle\Route\RouteCollection;
+use IDCT\Adminata\Controller\CRUDController;
+use IDCT\Adminata\Route\RouteCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Route;
 
@@ -135,8 +135,8 @@ final class RouteCollectionTest extends TestCase
         $route = $routeCollection->get('view');
 
         static::assertSame('BundleName:ControllerName:view', $route->getDefault('_controller'));
-        static::assertSame('baseCodeRoute', $route->getDefault('_sonata_admin'));
-        static::assertSame('baseRouteName_view', $route->getDefault('_sonata_name'));
+        static::assertSame('baseCodeRoute', $route->getDefault('_adminata_admin'));
+        static::assertSame('baseRouteName_view', $route->getDefault('_adminata_name'));
     }
 
     public function testRouteWithAllConstructorParameters(): void
@@ -191,8 +191,8 @@ final class RouteCollectionTest extends TestCase
         $route = $routeCollection->get('view');
 
         static::assertSame('baseControllerServiceName::viewAction', $route->getDefault('_controller'));
-        static::assertSame('baseCodeRoute', $route->getDefault('_sonata_admin'));
-        static::assertSame('baseRouteName_view', $route->getDefault('_sonata_name'));
+        static::assertSame('baseCodeRoute', $route->getDefault('_adminata_admin'));
+        static::assertSame('baseRouteName_view', $route->getDefault('_adminata_name'));
     }
 
     public function testControllerWithFQCN(): void
@@ -201,7 +201,7 @@ final class RouteCollectionTest extends TestCase
         $routeCollection->add('view');
         $route = $routeCollection->get('view');
 
-        static::assertSame('Sonata\AdminBundle\Controller\CRUDController::viewAction', $route->getDefault('_controller'));
+        static::assertSame('IDCT\Adminata\Controller\CRUDController::viewAction', $route->getDefault('_controller'));
     }
 
     public function testControllerWithBundleSubFolder(): void

@@ -17,8 +17,8 @@ Then, you should be able to dynamically add needed fields to the form::
 
     namespace App\Admin;
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Form\FormMapper;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Form\FormMapper;
     use Symfony\Component\Form\Extension\Core\Type\TextType;
     use Symfony\Component\Form\Extension\Core\Type\TextareaType;
     use Symfony\Component\Form\Extension\Core\Type\FileType;

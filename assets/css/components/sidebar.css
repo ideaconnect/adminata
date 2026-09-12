@@ -194,7 +194,7 @@
 
     /*
      * A group's panel follows its button, and the button's `aria-expanded` is the only state:
-     * `sonata-menu` sets that one attribute, the server renders it, and a page with no JavaScript
+     * `adminata-menu` sets that one attribute, the server renders it, and a page with no JavaScript
      * is still consistent. Nested here rather than in `@layer components`, where the utilities
      * layer would override it.
      */
@@ -203,7 +203,7 @@
     }
 
     /*
-     * The slide. `sonata-menu` puts `data-sliding` on the panel for the length of the animation
+     * The slide. `adminata-menu` puts `data-sliding` on the panel for the length of the animation
      * and drives the height itself, because there is no height to transition *to*: the panel is
      * `auto`, and CSS cannot interpolate that in every browser adminata supports — `calc-size()`
      * and `interpolate-size` are Chromium-only at the time of writing, and a sidebar that animates

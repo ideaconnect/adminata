@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig;
+namespace IDCT\Adminata\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Status\StatusClassRendererInterface;
-use Sonata\AdminBundle\Twig\StatusRuntime;
+use IDCT\Adminata\Status\StatusClassRendererInterface;
+use IDCT\Adminata\Twig\StatusRuntime;
 
 final class StatusRuntimeTest extends TestCase
 {

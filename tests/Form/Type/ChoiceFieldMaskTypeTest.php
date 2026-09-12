@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType;
+use IDCT\Adminata\Form\Type\ChoiceFieldMaskType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -67,7 +67,7 @@ final class ChoiceFieldMaskTypeTest extends TypeTestCase
     public function testGetBlockPrefix(): void
     {
         $type = new ChoiceFieldMaskType();
-        static::assertSame('sonata_type_choice_field_mask', $type->getBlockPrefix());
+        static::assertSame('adminata_type_choice_field_mask', $type->getBlockPrefix());
     }
 
     public function testGetParent(): void

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\ArgumentResolver;
+namespace IDCT\Adminata\ArgumentResolver;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 

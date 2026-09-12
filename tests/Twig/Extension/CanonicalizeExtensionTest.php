@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig\Extension;
+namespace IDCT\Adminata\Tests\Twig\Extension;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Twig\CanonicalizeRuntime;
-use Sonata\AdminBundle\Twig\Extension\CanonicalizeExtension;
+use IDCT\Adminata\Twig\CanonicalizeRuntime;
+use IDCT\Adminata\Twig\Extension\CanonicalizeExtension;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 

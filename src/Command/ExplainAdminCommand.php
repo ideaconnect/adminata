@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Command;
+namespace IDCT\Adminata\Command;
 
-use Sonata\AdminBundle\Admin\Pool;
+use IDCT\Adminata\Admin\Pool;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-#[AsCommand(name: 'sonata:admin:explain', description: 'Explain an admin service')]
+#[AsCommand(name: 'adminata:explain', description: 'Explain an admin service')]
 final class ExplainAdminCommand extends Command
 {
     /**
@@ -65,7 +65,7 @@ final class ExplainAdminCommand extends Command
         $output->writeln('');
         $output->writeln('<info>Routes</info>');
         foreach ($admin->getRoutes()->getElements() as $route) {
-            $output->writeln(\sprintf('  - % -25s %s', $route->getDefault('_sonata_name'), $route->getPath()));
+            $output->writeln(\sprintf('  - % -25s %s', $route->getDefault('_adminata_name'), $route->getPath()));
         }
 
         $output->writeln('');

@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection\Compiler;
+namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
-use Sonata\AdminBundle\DependencyInjection\Compiler\ExporterCompilerPass;
+use IDCT\Adminata\DependencyInjection\Compiler\ExporterCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
@@ -24,15 +24,15 @@ final class ExporterCompilerPassTest extends AbstractCompilerPassTestCase
     public function testWritersAreAddedToTheExporter(): void
     {
         $exporter = new Definition();
-        $this->setDefinition('sonata.exporter.exporter', $exporter);
+        $this->setDefinition('adminata.exporter.exporter', $exporter);
 
         $writer = new Definition();
-        $writer->addTag('sonata.exporter.writer');
+        $writer->addTag('adminata.exporter.writer');
         $this->setDefinition('foo_writer', $writer);
 
         $this->compile();
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'sonata.exporter.exporter',
+            'adminata.exporter.exporter',
             'addWriter',
             [new Reference('foo_writer')]
         );

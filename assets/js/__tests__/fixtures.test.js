@@ -20,7 +20,7 @@ import { mountFixture } from './helpers.js';
  *
  * A Stimulus controller is a contract with a template, and the template holds both ends of it:
  * the identifier, the targets, the actions and the values. Nothing in PHP looks at
- * `data-sonata-batch-target`, so a rewrite that renames one breaks the controller silently. The
+ * `data-adminata-batch-target`, so a rewrite that renames one breaks the controller silently. The
  * behaviour suites beside this one use markup written for the case they exercise; this one uses
  * `tests-adminata/fixtures/js/*.html`, dumped from the demo by `JsFixtureDumperTest`, and asserts that each
  * controller finds what it reaches for.
@@ -31,135 +31,135 @@ import { mountFixture } from './helpers.js';
  */
 const MOUNTS = [
     {
-        identifier: 'sonata-layout',
+        identifier: 'adminata-layout',
         page: 'dashboard',
         selector: 'body',
         targets: ['sidebar', 'collapseOnly', 'overlay'],
     },
     {
-        identifier: 'sonata-menu',
+        identifier: 'adminata-menu',
         page: 'dashboard',
-        selector: 'nav[data-controller~="sonata-menu"]',
+        selector: 'nav[data-controller~="adminata-menu"]',
         targets: ['toggle'],
     },
     {
-        identifier: 'sonata-theme',
+        identifier: 'adminata-theme',
         page: 'dashboard',
-        selector: '[data-controller~="sonata-theme"]',
+        selector: '[data-controller~="adminata-theme"]',
         targets: [],
     },
     {
-        identifier: 'sonata-dropdown',
+        identifier: 'adminata-dropdown',
         page: 'dashboard',
-        selector: '[data-controller~="sonata-dropdown"]',
+        selector: '[data-controller~="adminata-dropdown"]',
         targets: ['toggle', 'menu'],
     },
-    { identifier: 'sonata-sticky', page: 'dashboard', selector: 'body', targets: ['topNavbar', 'navbar'] },
+    { identifier: 'adminata-sticky', page: 'dashboard', selector: 'body', targets: ['topNavbar', 'navbar'] },
     {
-        identifier: 'sonata-dismiss',
+        identifier: 'adminata-dismiss',
         page: 'dialog',
-        selector: '[data-controller~="sonata-dismiss"]',
+        selector: '[data-controller~="adminata-dismiss"]',
         targets: [],
     },
     {
-        identifier: 'sonata-modal',
+        identifier: 'adminata-modal',
         page: 'dialog',
-        selector: '[data-controller~="sonata-modal"]',
+        selector: '[data-controller~="adminata-modal"]',
         targets: ['dialog'],
     },
     {
-        identifier: 'sonata-question',
+        identifier: 'adminata-question',
         page: 'dialog',
-        selector: '[data-controller~="sonata-question"]',
+        selector: '[data-controller~="adminata-question"]',
         targets: [],
     },
     {
-        identifier: 'sonata-modal-trigger',
+        identifier: 'adminata-modal-trigger',
         page: 'dialog',
         selector: '#open-shared-content',
         targets: [],
     },
     {
-        identifier: 'sonata-reveal',
+        identifier: 'adminata-reveal',
         page: 'reveal',
         selector: '#demo-uses-map',
         targets: [],
     },
     {
-        identifier: 'sonata-batch',
+        identifier: 'adminata-batch',
         page: 'product-list',
         selector: 'form[action*="batch"]',
         targets: ['all', 'row'],
     },
     {
-        identifier: 'sonata-filter',
+        identifier: 'adminata-filter',
         page: 'product-list',
-        selector: '[data-controller~="sonata-filter"]',
+        selector: '[data-controller~="adminata-filter"]',
         targets: ['form', 'group', 'advanced', 'submitter'],
     },
     {
-        identifier: 'sonata-filter-list',
+        identifier: 'adminata-filter-list',
         page: 'product-list',
-        selector: '[data-controller~="sonata-filter-list"]',
+        selector: '[data-controller~="adminata-filter-list"]',
         targets: ['counter', 'field'],
     },
     {
-        identifier: 'sonata-per-page',
+        identifier: 'adminata-per-page',
         page: 'product-list',
-        selector: '[data-controller~="sonata-per-page"]',
+        selector: '[data-controller~="adminata-per-page"]',
         targets: [],
     },
     {
-        identifier: 'sonata-readmore',
+        identifier: 'adminata-readmore',
         page: 'product-list',
-        selector: '[data-controller~="sonata-readmore"]',
+        selector: '[data-controller~="adminata-readmore"]',
         targets: ['content', 'button'],
     },
     {
-        identifier: 'sonata-collection',
+        identifier: 'adminata-collection',
         page: 'product-edit',
-        selector: '[data-controller~="sonata-collection"]',
+        selector: '[data-controller~="adminata-collection"]',
         targets: ['item'],
     },
     {
-        identifier: 'sonata-confirm-exit',
+        identifier: 'adminata-confirm-exit',
         page: 'product-create',
-        selector: '[data-controller~="sonata-confirm-exit"]',
+        selector: '[data-controller~="adminata-confirm-exit"]',
         targets: [],
     },
     {
-        identifier: 'sonata-edit',
+        identifier: 'adminata-edit',
         page: 'product-create',
-        selector: '[data-controller~="sonata-edit"]',
+        selector: '[data-controller~="adminata-edit"]',
         targets: [],
     },
     {
-        identifier: 'sonata-autocomplete',
+        identifier: 'adminata-autocomplete',
         page: 'product-create',
-        selector: '[data-controller~="sonata-autocomplete"]',
+        selector: '[data-controller~="adminata-autocomplete"]',
         targets: ['input', 'listbox', 'status', 'hiddenInputs', 'itemTemplate', 'chipTemplate'],
     },
     {
-        identifier: 'sonata-autocomplete',
+        identifier: 'adminata-autocomplete',
         page: 'category-list',
-        selector: '[data-controller~="sonata-autocomplete"]',
+        selector: '[data-controller~="adminata-autocomplete"]',
         targets: ['input', 'listbox', 'status', 'hiddenInputs'],
     },
     {
         // The whole table: a bare `<tbody>` written into `document.body` is dropped by the parser.
-        identifier: 'sonata-row-link',
+        identifier: 'adminata-row-link',
         page: 'product-list',
-        selector: 'table.sonata-ba-list',
+        selector: 'table.adminata-list',
         targets: [],
     },
 ];
 
 /**
- * `sonata-revision` is the one controller with no page here: it belongs to the history view, which
+ * `adminata-revision` is the one controller with no page here: it belongs to the history view, which
  * 1.0 inherits unported (PLAN/03 §E). Its suite keeps markup of its own until that page is
  * rewritten.
  */
-const WITHOUT_A_PAGE = ['sonata-revision'];
+const WITHOUT_A_PAGE = ['adminata-revision'];
 
 const capitalise = (name) => name.charAt(0).toUpperCase() + name.slice(1);
 

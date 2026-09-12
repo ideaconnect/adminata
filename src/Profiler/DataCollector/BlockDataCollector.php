@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Profiler\DataCollector;
+namespace IDCT\Adminata\Profiler\DataCollector;
 
-use Sonata\AdminBundle\Templating\BlockHelper;
+use IDCT\Adminata\Templating\BlockHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;

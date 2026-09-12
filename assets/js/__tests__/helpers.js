@@ -36,8 +36,8 @@ export function fixture(page, selector) {
 }
 
 /**
- * Mounts one controller on the real markup, with the page's own `sonata-config` and
- * `sonata-translations` in the head — which is where `Config.param()` and `Translation.trans()`
+ * Mounts one controller on the real markup, with the page's own `adminata-config` and
+ * `adminata-translations` in the head — which is where `Config.param()` and `Translation.trans()`
  * read from, and what decides whether a controller loads at all.
  *
  * @param {string} identifier
@@ -52,7 +52,7 @@ export async function mountFixture(identifier, controller, page, selector) {
 
     const source = parse(page);
     document.head.replaceChildren(
-        ...[...source.querySelectorAll('meta[name^="sonata-"]')].map((meta) => meta.cloneNode(true)),
+        ...[...source.querySelectorAll('meta[name^="adminata-"]')].map((meta) => meta.cloneNode(true)),
     );
 
     const target = source.querySelector(selector);

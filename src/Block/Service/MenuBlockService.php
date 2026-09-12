@@ -11,16 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block\Service;
+namespace IDCT\Adminata\Block\Service;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
-use Sonata\AdminBundle\Block\BlockContextInterface;
-use Sonata\AdminBundle\Menu\MenuRegistryInterface;
-use Sonata\AdminBundle\Meta\Metadata;
-use Sonata\AdminBundle\Meta\MetadataInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use IDCT\Adminata\Block\BlockContextInterface;
+use IDCT\Adminata\Menu\MenuRegistryInterface;
+use IDCT\Adminata\Meta\Metadata;
+use IDCT\Adminata\Meta\MetadataInterface;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
@@ -44,7 +44,7 @@ final class MenuBlockService extends AbstractMenuBlockService
         if (null !== $name && '' !== $name && !$this->menuProvider->has($name)) {
             // If we specified a menu_name, check that it exists
             $errorElement->with('menu_name')
-                ->addViolation('sonata.block.menu.not_existing', ['%name%' => $name])
+                ->addViolation('adminata.block.menu.not_existing', ['%name%' => $name])
             ->end();
         }
     }
@@ -60,7 +60,7 @@ final class MenuBlockService extends AbstractMenuBlockService
 
     public function getMetadata(): MetadataInterface
     {
-        return new Metadata('sonata.block.service.menu', null, null, 'SonataAdminBundle', [
+        return new Metadata('adminata.block.service.menu', null, null, 'AdminataBundle', [
             'class' => 'fa fa-bars',
         ]);
     }
@@ -70,7 +70,7 @@ final class MenuBlockService extends AbstractMenuBlockService
         $choiceOptions = [
             'required' => true,
             'label' => 'form.label_menu_name',
-            'translation_domain' => 'SonataAdminBundle',
+            'translation_domain' => 'AdminataBundle',
         ];
 
         $choiceOptions['choices'] = array_flip($this->menuRegistry->getAliasNames());

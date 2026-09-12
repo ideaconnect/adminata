@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
-use Sonata\AdminBundle\Form\Type\BooleanType;
+use IDCT\Adminata\Form\Type\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Test\FormBuilderInterface;
 use Symfony\Component\Form\Test\TypeTestCase;
@@ -85,7 +85,7 @@ final class BooleanTypeTest extends TypeTestCase
         $type->buildForm($builder, $resolvedOptions);
 
         $expectedOptions = [
-            'choice_translation_domain' => 'SonataAdminBundle',
+            'choice_translation_domain' => 'AdminataBundle',
             'transform' => false,
             'choices' => [1 => 'foo_yes', 2 => 'foo_no'],
             'translation_domain' => 'fooTrans',

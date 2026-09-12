@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Model;
+namespace IDCT\Adminata\Tests\Fixtures\Model;
 
-use Sonata\AdminBundle\Model\AuditReaderInterface;
-use Sonata\AdminBundle\Model\Revision;
+use IDCT\Adminata\Model\AuditReaderInterface;
+use IDCT\Adminata\Model\Revision;
 
 /**
  * @phpstan-implements AuditReaderInterface<object>

@@ -14,53 +14,53 @@ file that was distributed with this source code.
 {#
     The edit form (PLAN/03 §C).
 
-    All sixteen blocks keep their names — an application overrides `form`, `sonata_pre_fieldsets`,
-    `sonata_post_fieldsets` and `sonata_form_actions` — and so do the `btn_*` submit names, the
-    `_tab` parameter, `sonata-ba-form-actions`, `sonata-ba-collapsed-fields` and `form_rest`, which
+    All sixteen blocks keep their names — an application overrides `form`, `adminata_pre_fieldsets`,
+    `adminata_post_fieldsets` and `adminata_form_actions` — and so do the `btn_*` submit names, the
+    `_tab` parameter, `adminata-form-actions`, `adminata-collapsed-fields` and `form_rest`, which
     is what carries `_lock_version`.
 
-    **Tabs render sequentially.** `nav-tabs-custom` was Bootstrap's, and the `sonata-tabs`
+    **Tabs render sequentially.** `nav-tabs-custom` was Bootstrap's, and the `adminata-tabs`
     controller that would replace it is post-1.0 (PLAN/01 J2); until it exists a tabbed form is
     every tab one after another under an `<h2>`, which shows the same fields and needs no script.
-    `sonata-edit`'s `tab` and `tabStore` targets stay wired for the day it lands.
+    `adminata-edit`'s `tab` and `tabStore` targets stay wired for the day it lands.
 #}
 
 {% block form %}
-    {{ sonata_block_render_event('sonata.admin.edit.form.top', { 'admin': admin, 'object': object }) }}
+    {{ adminata_block_render_event('adminata.admin.edit.form.top', { 'admin': admin, 'object': object }) }}
 
     {% set url = objectId is not null ? 'edit' : 'create' %}
 
     {% if not admin.hasRoute(url) %}
         <div class="adm-callout adm-callout-warning">
-            {{ "form_not_available"|trans({}, "SonataAdminBundle") }}
+            {{ "form_not_available"|trans({}, "AdminataBundle") }}
         </div>
     {% else %}
         <form
-              action="{% block sonata_form_action_url %}{{ admin.generateUrl(url, {(admin.idParameter): objectId, 'uniqid': admin.uniqid, 'subclass': app.request.attributes.get('subclass', app.request.query.get('subclass', app.request.request.get('subclass')))}) }}{% endblock %}"
+              action="{% block adminata_form_action_url %}{{ admin.generateUrl(url, {(admin.idParameter): objectId, 'uniqid': admin.uniqid, 'subclass': app.request.attributes.get('subclass', app.request.query.get('subclass', app.request.request.get('subclass')))}) }}{% endblock %}"
               {% if form.vars.multipart %} enctype="multipart/form-data"{% endif %}
               method="POST"
-              {% if not sonata_config.getOption('html5_validate') %}novalidate="novalidate"{% endif %}
+              {% if not adminata_config.getOption('html5_validate') %}novalidate="novalidate"{% endif %}
               {{
-                stimulus_controller('sonata-confirm-exit')|
-                stimulus_controller('sonata-edit')
+                stimulus_controller('adminata-confirm-exit')|
+                stimulus_controller('adminata-edit')
               }}
               {{
-                stimulus_action('sonata-confirm-exit', 'confirm', 'beforeunload@window')|
-                stimulus_action('sonata-confirm-exit', 'skip', 'submit')|
-                stimulus_action('sonata-edit', 'prepareSubmit', 'submit')|
-                stimulus_action('sonata-edit', 'checkValidity:capture', 'invalid')
+                stimulus_action('adminata-confirm-exit', 'confirm', 'beforeunload@window')|
+                stimulus_action('adminata-confirm-exit', 'skip', 'submit')|
+                stimulus_action('adminata-edit', 'prepareSubmit', 'submit')|
+                stimulus_action('adminata-edit', 'checkValidity:capture', 'invalid')
               }}
-              {% block sonata_form_attributes %}{% endblock %}
+              {% block adminata_form_attributes %}{% endblock %}
               >
 
-            {{ include('@SonataAdmin/Helper/render_form_dismissable_errors.html.twig') }}
+            {{ include('@Adminata/Helper/render_form_dismissable_errors.html.twig') }}
 
-            {% block sonata_pre_fieldsets %}
+            {% block adminata_pre_fieldsets %}
                 <div>
             {% endblock %}
 
-            {% block sonata_tab_content %}
-                {% import "@SonataAdmin/CRUD/base_edit_form_macro.html.twig" as form_helper %}
+            {% block adminata_tab_content %}
+                {% import "@Adminata/CRUD/base_edit_form_macro.html.twig" as form_helper %}
                 {% set formtabs = admin.getformtabs() %}
                 {% set has_tab = ((formtabs|length == 1 and formtabs|keys[0] != 'default') or formtabs|length > 1 ) %}
 
@@ -69,7 +69,7 @@ file that was distributed with this source code.
                     <div class="flex flex-col gap-8">
                         {% for code, form_tab in formtabs %}
                             {% set _tab_name = tab_prefix ~ '_' ~ loop.index %}
-                            <section id="{{ _tab_name }}" {{ stimulus_target('sonata-edit', 'tab') }}>
+                            <section id="{{ _tab_name }}" {{ stimulus_target('adminata-edit', 'tab') }}>
                                 <h2 class="adm-page-title mb-4">
                                     {%- if form_tab.translation_domain is defined and form_tab.translation_domain is same as(false) -%}
                                         {{ form_tab.label }}
@@ -78,7 +78,7 @@ file that was distributed with this source code.
                                     {%- endif -%}
                                 </h2>
 
-                                <div class="sonata-ba-collapsed-fields">
+                                <div class="adminata-collapsed-fields">
                                     {% if form_tab.description != false %}
                                         <p class="adm-card-subtitle mb-4">
                                             {%- if form_tab.translation_domain is defined and form_tab.translation_domain is same as(false) -%}
@@ -94,36 +94,36 @@ file that was distributed with this source code.
                             </section>
                         {% endfor %}
                     </div>
-                    <input type="hidden" name="_tab" value="{{ app.request.query.get('_tab') }}" {{ stimulus_target('sonata-edit', 'tabStore') }}>
+                    <input type="hidden" name="_tab" value="{{ app.request.query.get('_tab') }}" {{ stimulus_target('adminata-edit', 'tabStore') }}>
                 {% elseif formtabs['default'] is defined %}
                     {{ form_helper.render_groups(admin, form, formtabs['default'].groups, has_tab) }}
                 {% endif %}
             {% endblock %}
 
-            {% block sonata_post_fieldsets %}
+            {% block adminata_post_fieldsets %}
                 </div>
             {% endblock %}
 
             {{ form_rest(form) }}
 
             {% block formactions %}
-                <div class="sonata-ba-form-actions adm-sticky mt-6 flex flex-wrap items-center gap-3 px-4 py-3"
-                     {{ stimulus_target('sonata-sticky', 'action') }}>
-                {% block sonata_form_actions %}
+                <div class="adminata-form-actions adm-sticky mt-6 flex flex-wrap items-center gap-3 px-4 py-3"
+                     {{ stimulus_target('adminata-sticky', 'action') }}>
+                {% block adminata_form_actions %}
                     {% if app.request.isxmlhttprequest %}
                         {% if objectId is not null %}
-                            <button type="submit" class="adm-btn adm-btn-primary" name="btn_update"><i class="fas fa-floppy-disk" aria-hidden="true"></i> {{ 'btn_update'|trans({}, 'SonataAdminBundle') }}</button>
+                            <button type="submit" class="adm-btn adm-btn-primary" name="btn_update"><i class="fas fa-floppy-disk" aria-hidden="true"></i> {{ 'btn_update'|trans({}, 'AdminataBundle') }}</button>
                             {% if admin.hasRoute('delete') and admin.hasAccess('delete', object) %}
                                 {% block btn_delete %}
-                                    <span class="adm-help">{{ 'delete_or'|trans({}, 'SonataAdminBundle') }}</span>
+                                    <span class="adm-help">{{ 'delete_or'|trans({}, 'AdminataBundle') }}</span>
                                     <a class="adm-btn adm-btn-danger" href="{{ admin.generateObjectUrl('delete', object) }}">
-                                        <i class="fas fa-circle-minus" aria-hidden="true"></i> {{ 'link_delete'|trans({}, 'SonataAdminBundle') }}
+                                        <i class="fas fa-circle-minus" aria-hidden="true"></i> {{ 'link_delete'|trans({}, 'AdminataBundle') }}
                                     </a>
                                 {% endblock %}
                             {% endif %}
                         {% else %}
                             {% block btn_create %}
-                                <button type="submit" class="adm-btn adm-btn-primary" name="btn_create"><i class="fas fa-circle-plus" aria-hidden="true"></i> {{ 'btn_create'|trans({}, 'SonataAdminBundle') }}</button>
+                                <button type="submit" class="adm-btn adm-btn-primary" name="btn_create"><i class="fas fa-circle-plus" aria-hidden="true"></i> {{ 'btn_create'|trans({}, 'AdminataBundle') }}</button>
                             {% endblock %}
                         {% endif %}
                     {% else %}
@@ -131,18 +131,18 @@ file that was distributed with this source code.
                             {% block btn_preview %}
                                 <button class="adm-btn adm-btn-secondary persist-preview" name="btn_preview" type="submit">
                                     <i class="fas fa-eye" aria-hidden="true"></i>
-                                    {{ 'btn_preview'|trans({}, 'SonataAdminBundle') }}
+                                    {{ 'btn_preview'|trans({}, 'AdminataBundle') }}
                                 </button>
                             {% endblock %}
                         {% endif %}
                         {% if objectId is not null %}
                             {% block btn_update_and_edit %}
-                                <button type="submit" class="adm-btn adm-btn-primary" name="btn_update_and_edit"><i class="fas fa-floppy-disk" aria-hidden="true"></i> {{ 'btn_update_and_edit_again'|trans({}, 'SonataAdminBundle') }}</button>
+                                <button type="submit" class="adm-btn adm-btn-primary" name="btn_update_and_edit"><i class="fas fa-floppy-disk" aria-hidden="true"></i> {{ 'btn_update_and_edit_again'|trans({}, 'AdminataBundle') }}</button>
                             {% endblock %}
 
                             {% if admin.hasRoute('list') and admin.hasAccess('list') %}
                                 {% block btn_update_and_list %}
-                                    <button type="submit" class="adm-btn adm-btn-secondary" name="btn_update_and_list"><i class="fas fa-list" aria-hidden="true"></i> {{ 'btn_update_and_return_to_list'|trans({}, 'SonataAdminBundle') }}</button>
+                                    <button type="submit" class="adm-btn adm-btn-secondary" name="btn_update_and_list"><i class="fas fa-list" aria-hidden="true"></i> {{ 'btn_update_and_return_to_list'|trans({}, 'AdminataBundle') }}</button>
                                 {% endblock %}
                             {% endif %}
 
@@ -152,22 +152,22 @@ file that was distributed with this source code.
 
                             {% if admin.isAclEnabled() and admin.hasRoute('acl') and admin.hasAccess('acl', object) %}
                                 {% block btn_acl %}
-                                    <a class="adm-btn adm-btn-secondary" href="{{ admin.generateObjectUrl('acl', object) }}"><i class="fas fa-users" aria-hidden="true"></i> {{ 'link_edit_acl'|trans({}, 'SonataAdminBundle') }}</a>
+                                    <a class="adm-btn adm-btn-secondary" href="{{ admin.generateObjectUrl('acl', object) }}"><i class="fas fa-users" aria-hidden="true"></i> {{ 'link_edit_acl'|trans({}, 'AdminataBundle') }}</a>
                                 {% endblock %}
                             {% endif %}
                         {% else %}
                             {% if admin.hasroute('edit') and admin.hasAccess('edit') %}
                                 {% block btn_create_and_edit %}
-                                    <button class="adm-btn adm-btn-primary" type="submit" name="btn_create_and_edit"><i class="fas fa-floppy-disk" aria-hidden="true"></i> {{ 'btn_create_and_edit_again'|trans({}, 'SonataAdminBundle') }}</button>
+                                    <button class="adm-btn adm-btn-primary" type="submit" name="btn_create_and_edit"><i class="fas fa-floppy-disk" aria-hidden="true"></i> {{ 'btn_create_and_edit_again'|trans({}, 'AdminataBundle') }}</button>
                                 {% endblock %}
                             {% endif %}
                             {% if admin.hasroute('list') and admin.hasAccess('list') %}
                                 {% block btn_create_and_list %}
-                                    <button type="submit" class="adm-btn adm-btn-secondary" name="btn_create_and_list"><i class="fas fa-list" aria-hidden="true"></i> {{ 'btn_create_and_return_to_list'|trans({}, 'SonataAdminBundle') }}</button>
+                                    <button type="submit" class="adm-btn adm-btn-secondary" name="btn_create_and_list"><i class="fas fa-list" aria-hidden="true"></i> {{ 'btn_create_and_return_to_list'|trans({}, 'AdminataBundle') }}</button>
                                 {% endblock %}
                             {% endif %}
                             {% block btn_create_and_create %}
-                                <button class="adm-btn adm-btn-secondary" type="submit" name="btn_create_and_create"><i class="fas fa-circle-plus" aria-hidden="true"></i> {{ 'btn_create_and_create_a_new_one'|trans({}, 'SonataAdminBundle') }}</button>
+                                <button class="adm-btn adm-btn-secondary" type="submit" name="btn_create_and_create"><i class="fas fa-circle-plus" aria-hidden="true"></i> {{ 'btn_create_and_create_a_new_one'|trans({}, 'AdminataBundle') }}</button>
                             {% endblock %}
                         {% endif %}
                     {% endif %}
@@ -177,6 +177,6 @@ file that was distributed with this source code.
         </form>
     {% endif %}
 
-    {{ sonata_block_render_event('sonata.admin.edit.form.bottom', { 'admin': admin, 'object': object }) }}
+    {{ adminata_block_render_event('adminata.admin.edit.form.bottom', { 'admin': admin, 'object': object }) }}
 
 {% endblock %}

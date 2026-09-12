@@ -10,20 +10,20 @@ the services which are injected by default are:
 =========================     ===================================================================
 Dependencies                  Service ID
 =========================     ===================================================================
-model_manager                 sonata.admin.manager.%manager-type%
-data_source                   sonata.admin.data_source.%manager-type%
-form_contractor               sonata.admin.builder.%manager-type%_form
-show_builder                  sonata.admin.builder.%manager-type%_show
-list_builder                  sonata.admin.builder.%manager-type%_list
-datagrid_builder              sonata.admin.builder.%manager-type%_datagrid
+model_manager                 adminata.admin.manager.%manager-type%
+data_source                   adminata.admin.data_source.%manager-type%
+form_contractor               adminata.admin.builder.%manager-type%_form
+show_builder                  adminata.admin.builder.%manager-type%_show
+list_builder                  adminata.admin.builder.%manager-type%_list
+datagrid_builder              adminata.admin.builder.%manager-type%_datagrid
 translator                    translator
-configuration_pool            sonata.admin.pool
+configuration_pool            adminata.admin.pool
 router                        router
 validator                     validator
-security_handler              sonata.admin.security.handler
+security_handler              adminata.admin.security.handler
 menu_factory                  knp_menu.factory
-route_builder                 sonata.admin.route.path_info | sonata.admin.route.path_info_slashes
-label_translator_strategy     sonata.admin.label.strategy.form_component
+route_builder                 adminata.admin.route.path_info | adminata.admin.route.path_info_slashes
+label_translator_strategy     adminata.admin.label.strategy.form_component
 =========================     ===================================================================
 
 .. note::
@@ -45,13 +45,13 @@ With a tag attribute (less verbose)
         class: App\Admin\ProjectAdmin
         tags:
             -
-                name: sonata.admin
+                name: adminata.admin
                 model_class: App\Entity\Project
                 manager_type: orm
                 group: 'Project'
                 label: 'Project'
-                label_translator_strategy: 'sonata.admin.label.strategy.native'
-                route_builder: 'sonata.admin.route.path_info'
+                label_translator_strategy: 'adminata.admin.label.strategy.native'
+                route_builder: 'adminata.admin.route.path_info'
 
 With a method call (more verbose)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -63,23 +63,23 @@ With a method call (more verbose)
     app.admin.project:
         class: App\Admin\ProjectAdmin
         calls:
-            - [setLabelTranslatorStrategy, ['@sonata.admin.label.strategy.native']]
-            - [setRouteBuilder, ['@sonata.admin.route.path_info']]
+            - [setLabelTranslatorStrategy, ['@adminata.admin.label.strategy.native']]
+            - [setRouteBuilder, ['@adminata.admin.route.path_info']]
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Project, manager_type: orm, group: 'Project', label: 'Project' }
+            - { name: adminata.admin, model_class: App\Entity\Project, manager_type: orm, group: 'Project', label: 'Project' }
 
 If you want to modify the service that is going to be injected, add the following code to your
 application's config file:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
     admins:
-        sonata_admin:
-            sonata.order.admin.order:   # id of the admin service this setting is for
+        adminata:
+            adminata.order.admin.order:   # id of the admin service this setting is for
                 model_manager:          # dependency name, from the table above
-                    sonata.order.admin.order.manager  # customised service id
+                    adminata.order.admin.order.manager  # customised service id
 
 Creating a custom RouteBuilder
 ------------------------------
@@ -88,10 +88,10 @@ To create your own RouteBuilder create the PHP class and register it as a servic
 
     namespace App\Route;
 
-    use Sonata\AdminBundle\Builder\RouteBuilderInterface;
-    use Sonata\AdminBundle\Admin\AdminInterface;
-    use Sonata\AdminBundle\Route\PathInfoBuilder;
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Builder\RouteBuilderInterface;
+    use IDCT\Adminata\Admin\AdminInterface;
+    use IDCT\Adminata\Route\PathInfoBuilder;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     final class EntityRouterBuilder implements RouteBuilderInterface
     {
@@ -123,7 +123,7 @@ To create your own RouteBuilder create the PHP class and register it as a servic
         app.admin.entity_route_builder:
             class: App\Route\EntityRouterBuilder
             arguments:
-                - '@sonata.admin.audit.manager'
+                - '@adminata.admin.audit.manager'
 
 Inherited classes
 -----------------
@@ -145,7 +145,7 @@ Lets consider a base class named ``Person`` and its subclasses ``Student`` and `
                     student: App\Entity\Student
                     teacher: App\Entity\Teacher
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Person, manager_type: orm, group: "admin", label: "Person" }
+            - { name: adminata.admin, model_class: App\Entity\Person, manager_type: orm, group: "admin", label: "Person" }
 
 You will need to change the way forms are configured in order to
 take into account these new subclasses::
@@ -218,9 +218,9 @@ If you want to use the Tab Menu in a different way, you can replace the Menu Tem
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         templates:
             tab_menu_template:  "@App/Admin/own_tab_menu_template.html.twig"
 
@@ -247,9 +247,9 @@ Filter parameters
 You can add or override filter parameters to the Tab Menu::
 
     use Knp\Menu\ItemInterface as MenuItemInterface;
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Admin\AdminInterface;
-    use Sonata\AdminBundle\Form\Type\EqualType;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Admin\AdminInterface;
+    use IDCT\Adminata\Form\Type\EqualType;
 
     final class DeliveryAdmin extends AbstractAdmin
     {
@@ -380,7 +380,7 @@ by creating custom SecurityHandler service for specific Admin class::
 
     // src/Security/Handler/CustomSecurityHandler.php
 
-    use Sonata\AdminBundle\Security\Handler\SecurityHandlerInterface;
+    use IDCT\Adminata\Security\Handler\SecurityHandlerInterface;
 
     final class CustomSecurityHandler implements SecurityHandlerInterface
     {
@@ -420,14 +420,14 @@ for specific Admin class:
         admin.custom:
             class: App\Admin\CustomAdmin
             tags:
-                - { name: sonata.admin, model_class: App\Entity\Custom, manager_type: orm, label: Category, security_handler: App\Security\Handler\CustomSecurityHandler }
+                - { name: adminata.admin, model_class: App\Entity\Custom, manager_type: orm, label: Category, security_handler: App\Security\Handler\CustomSecurityHandler }
 
 You can also use the default SecurityHandler (defined in global configuration)
 in your custom SecurityHandler::
 
     // src/Security/Handler/CustomSecurityHandler.php
 
-    use Sonata\AdminBundle\Security\Handler\SecurityHandlerInterface;
+    use IDCT\Adminata\Security\Handler\SecurityHandlerInterface;
 
     final class CustomSecurityHandler implements SecurityHandlerInterface
     {
@@ -460,7 +460,7 @@ in your custom SecurityHandler::
         # ...
         App\Security\Handler\CustomSecurityHandler:
             arguments:
-                - '@sonata.admin.security.handler'
+                - '@adminata.admin.security.handler'
 
 If you have a lot of SecurityHandler services that use the default SecurityHandler service,
 you can define a service alias:
@@ -471,7 +471,7 @@ you can define a service alias:
 
     services:
         # ...
-        Sonata\AdminBundle\Security\Handler\SecurityHandlerInterface: '@sonata.admin.security.handler'
+        IDCT\Adminata\Security\Handler\SecurityHandlerInterface: '@adminata.admin.security.handler'
 
 This way, you do not need to define each custom SecurityHandler service to specify
 the default SecurityHandler service as an argument.
@@ -485,7 +485,7 @@ adding the following in the configuration:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         default_controller: App\Controller\DefaultCRUDController

@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Request;
+namespace IDCT\Adminata\Tests\Request;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Exception\AdminCodeNotFoundException;
-use Sonata\AdminBundle\Request\AdminFetcher;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Exception\AdminCodeNotFoundException;
+use IDCT\Adminata\Request\AdminFetcher;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -36,9 +36,9 @@ final class AdminFetcherTest extends TestCase
         $this->admin = $this->createMock(AdminInterface::class);
 
         $container = new Container();
-        $container->set('sonata.admin.post', $this->admin);
+        $container->set('adminata.admin.post', $this->admin);
 
-        $this->adminFetcher = new AdminFetcher(new Pool($container, ['sonata.admin.post']));
+        $this->adminFetcher = new AdminFetcher(new Pool($container, ['adminata.admin.post']));
     }
 
     public function testGetItThrowsAnExceptionWithoutAdminCode(): void
@@ -53,7 +53,7 @@ final class AdminFetcherTest extends TestCase
     public function testGetItThrowsAnExceptionIfThereIsNoAdminWithAdminCodeGiven(): void
     {
         $request = new Request();
-        $request->attributes->set('_sonata_admin', 'non_existing_admin_code');
+        $request->attributes->set('_adminata_admin', 'non_existing_admin_code');
 
         $this->expectException(AdminCodeNotFoundException::class);
 
@@ -63,7 +63,7 @@ final class AdminFetcherTest extends TestCase
     public function testSetsUniqIdToAdmin(): void
     {
         $request = new Request();
-        $request->attributes->set('_sonata_admin', 'sonata.admin.post');
+        $request->attributes->set('_adminata_admin', 'adminata.admin.post');
         $uniqueId = 'uniqid_post_id';
         $request->query->set('uniqid', $uniqueId);
 
@@ -78,7 +78,7 @@ final class AdminFetcherTest extends TestCase
     public function testSetsRequestToRootAdmin(): void
     {
         $request = new Request();
-        $request->attributes->set('_sonata_admin', 'sonata.admin.post');
+        $request->attributes->set('_adminata_admin', 'adminata.admin.post');
 
         $this->admin
             ->expects(static::once())

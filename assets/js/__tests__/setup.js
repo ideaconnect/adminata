@@ -60,7 +60,7 @@ if ('function' !== typeof globalThis.matchMedia) {
 /*
  * jsdom 30 knows the `<dialog>` element but implements none of its methods, so `showModal()` is
  * simply missing. This is the smallest thing that behaves like the specification for what
- * `sonata-modal` does with it: `open` reflects the attribute, `close()` fires `close`, and Escape
+ * `adminata-modal` does with it: `open` reflects the attribute, `close()` fires `close`, and Escape
  * is `cancel` followed by `close` unless the page prevents it. The top layer, the focus trap and
  * the backdrop are the browser's, and the Panther test is what checks those.
  */

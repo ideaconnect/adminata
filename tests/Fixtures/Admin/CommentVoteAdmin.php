@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Admin;
+namespace IDCT\Adminata\Tests\Fixtures\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin;
+use IDCT\Adminata\Admin\AbstractAdmin;
 
 /**
  * This class is intended to be used when testing with 3-level admin nesting.

@@ -102,7 +102,7 @@ final class DemoSmokeTest extends WebTestCase
         $crawler = $client->request('GET', '/admin/tests/app/product/list');
 
         static::assertResponseIsSuccessful();
-        static::assertGreaterThan(0, $crawler->filter('table.sonata-ba-list tbody tr')->count());
+        static::assertGreaterThan(0, $crawler->filter('table.adminata-list tbody tr')->count());
 
         $client->request('GET', '/admin/tests/app/product/list?filter[sku][value]=SKU-0007');
 
@@ -151,7 +151,7 @@ final class DemoSmokeTest extends WebTestCase
 
         static::assertStringContainsString('alert alert-success', $html);
         static::assertStringContainsString('adm-alert-success', $html);
-        static::assertStringContainsString('data-controller="sonata-dismiss"', $html);
+        static::assertStringContainsString('data-controller="adminata-dismiss"', $html);
     }
 
     /**
@@ -169,11 +169,11 @@ final class DemoSmokeTest extends WebTestCase
 
         static::assertStringNotContainsString('<html', $html);
         static::assertStringNotContainsString('main-sidebar', $html);
-        static::assertStringContainsString('sonata-ba-list', $html);
+        static::assertStringContainsString('adminata-list', $html);
     }
 
     /**
-     * A page that empties `logo` and `sonata_nav` gets no header bar at all (PLAN/01 T9). The
+     * A page that empties `logo` and `adminata_nav` gets no header bar at all (PLAN/01 T9). The
      * demo's login page is written the way recomaty-panel writes its own.
      */
     public function testTheLoginPageHasNoHeaderBar(): void
@@ -199,18 +199,18 @@ final class DemoSmokeTest extends WebTestCase
         $ids = array_map(static fn (Product $product): ?int => $product->getId(), $products);
 
         $crawler = $client->request('GET', '/admin/tests/app/product/list');
-        $token = $crawler->filter('input[name="_sonata_csrf_token"]')->attr('value');
+        $token = $crawler->filter('input[name="_adminata_csrf_token"]')->attr('value');
 
         $crawler = $client->request('POST', '/admin/tests/app/product/batch', [
             'action' => 'delete',
             'idx' => array_map(strval(...), $ids),
-            '_sonata_csrf_token' => $token,
+            '_adminata_csrf_token' => $token,
         ]);
 
         static::assertResponseIsSuccessful();
-        static::assertCount(1, $crawler->filter('.sonata-ba-delete'));
+        static::assertCount(1, $crawler->filter('.adminata-delete'));
 
-        $form = $crawler->filter('.sonata-ba-delete form')->form();
+        $form = $crawler->filter('.adminata-delete form')->form();
         static::assertSame('ok', $form->getValues()['confirmation'] ?? null);
 
         $client->submit($form);
@@ -238,14 +238,14 @@ final class DemoSmokeTest extends WebTestCase
         ] as $type) {
             static::assertGreaterThan(
                 0,
-                $crawler->filter('td.sonata-ba-list-field-'.$type)->count(),
+                $crawler->filter('td.adminata-list-field-'.$type)->count(),
                 \sprintf('No cell of type "%s" on the product list.', $type)
             );
         }
 
         // The template that extends the envelope keeps it; the one that writes its own `<td>`
         // still carries the classes and the `objectId` an application's script reads.
-        static::assertGreaterThan(0, $crawler->filter('td.sonata-ba-list-field-integer .adm-badge')->count());
+        static::assertGreaterThan(0, $crawler->filter('td.adminata-list-field-integer .adm-badge')->count());
         static::assertGreaterThan(0, $crawler->filter('td.demo-specification[objectId] dl dt')->count());
 
         // `header_class` and `row_align`, and the sortable column with a `sort_field_mapping`.
@@ -253,7 +253,7 @@ final class DemoSmokeTest extends WebTestCase
         static::assertGreaterThan(0, $crawler->filter('td[style="text-align:right"]')->count());
         static::assertCount(
             1,
-            $crawler->filter('th.sonata-ba-list-field-header-many_to_one a[href*="_sort_by%5D=category"]')
+            $crawler->filter('th.adminata-list-field-header-many_to_one a[href*="_sort_by%5D=category"]')
         );
 
         // `sort_field_mapping` orders by the association's `name`, not by its identifier: the
@@ -266,7 +266,7 @@ final class DemoSmokeTest extends WebTestCase
 
         static::assertStringContainsString(
             'Snacks',
-            $crawler->filter('table.sonata-ba-list tbody tr')->first()->filter('td.sonata-ba-list-field-many_to_one')->text()
+            $crawler->filter('table.adminata-list tbody tr')->first()->filter('td.adminata-list-field-many_to_one')->text()
         );
     }
 
@@ -332,18 +332,18 @@ final class DemoSmokeTest extends WebTestCase
         $ids = array_map(static fn (Product $product): ?int => $product->getId(), $products);
 
         $crawler = $client->request('GET', '/admin/tests/app/product/list');
-        $token = $crawler->filter('input[name="_sonata_csrf_token"]')->attr('value');
+        $token = $crawler->filter('input[name="_adminata_csrf_token"]')->attr('value');
 
         $crawler = $client->request('POST', '/admin/tests/app/product/batch', [
             'action' => 'archive',
             'idx' => array_map(strval(...), $ids),
-            '_sonata_csrf_token' => $token,
+            '_adminata_csrf_token' => $token,
         ]);
 
         static::assertResponseIsSuccessful();
-        static::assertCount(1, $crawler->filter('.sonata-ba-delete'));
+        static::assertCount(1, $crawler->filter('.adminata-delete'));
 
-        $client->submit($crawler->filter('.sonata-ba-delete form')->form());
+        $client->submit($crawler->filter('.adminata-delete form')->form());
         static::assertResponseRedirects();
 
         $manager->clear();
@@ -381,25 +381,25 @@ final class DemoSmokeTest extends WebTestCase
         $client = self::browser();
 
         $client->request('GET', '/admin/tests/app/product/list?filter%5Bsku%5D%5Bvalue%5D=SKU-0007');
-        static::assertCount(1, $client->getCrawler()->filter('table.sonata-ba-list tbody tr'));
+        static::assertCount(1, $client->getCrawler()->filter('table.adminata-list tbody tr'));
 
         $crawler = $client->request('GET', '/admin/tests/app/product/list');
 
         static::assertCount(
             1,
-            $crawler->filter('table.sonata-ba-list tbody tr'),
+            $crawler->filter('table.adminata-list tbody tr'),
             'The filter was not restored from the session.'
         );
 
         // And `filters=reset` clears it again, which is what the reset button links to.
         $crawler = $client->request('GET', '/admin/tests/app/product/list?filters=reset');
 
-        static::assertGreaterThan(1, $crawler->filter('table.sonata-ba-list tbody tr')->count());
+        static::assertGreaterThan(1, $crawler->filter('table.adminata-list tbody tr')->count());
     }
 
     /**
      * The child list an application fetches into an accordion: filtered by its parent, requested
-     * with `X-Requested-With`, and still parseable as `table.sonata-ba-list`.
+     * with `X-Requested-With`, and still parseable as `table.adminata-list`.
      */
     public function testAChildListIsFetchedAsAFragment(): void
     {
@@ -414,7 +414,7 @@ final class DemoSmokeTest extends WebTestCase
 
         static::assertResponseIsSuccessful();
         static::assertStringNotContainsString('<html', (string) $client->getResponse()->getContent());
-        static::assertCount(2, $crawler->filter('table.sonata-ba-list tbody tr'));
+        static::assertCount(2, $crawler->filter('table.adminata-list tbody tr'));
     }
 
     /**
@@ -427,9 +427,9 @@ final class DemoSmokeTest extends WebTestCase
         $crawler = $client->request('GET', '/admin/tests/app/tag/list');
 
         static::assertResponseIsSuccessful();
-        static::assertCount(0, $crawler->filter('td.sonata-ba-list-field-batch'));
+        static::assertCount(0, $crawler->filter('td.adminata-list-field-batch'));
         static::assertCount(0, $crawler->filter('input[name="idx[]"]'));
-        static::assertCount(4, $crawler->filter('table.sonata-ba-list tbody tr'));
+        static::assertCount(4, $crawler->filter('table.adminata-list tbody tr'));
     }
 
     /**
@@ -467,7 +467,7 @@ final class DemoSmokeTest extends WebTestCase
         );
 
         // `help_html` is the one place the theme may not escape the help text.
-        static::assertCount(1, $crawler->filter('.sonata-ba-field-help strong'));
+        static::assertCount(1, $crawler->filter('.adminata-field-help strong'));
 
         // And an attribute the application set is untouched.
         static::assertCount(1, $crawler->filter('select[data-controller="app--visibility"]'));

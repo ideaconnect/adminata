@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Filter;
+namespace IDCT\Adminata\Tests\Filter;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Filter\FilterFactory;
-use Sonata\AdminBundle\Filter\FilterInterface;
-use Sonata\AdminBundle\Form\Type\Filter\FilterDataType;
+use IDCT\Adminata\Filter\FilterFactory;
+use IDCT\Adminata\Filter\FilterInterface;
+use IDCT\Adminata\Form\Type\Filter\FilterDataType;
 use Symfony\Component\DependencyInjection\Container;
 
 final class FilterFactoryTest extends TestCase
@@ -39,7 +39,7 @@ final class FilterFactoryTest extends TestCase
 
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(
-            'The service `Sonata\AdminBundle\Form\Type\Filter\FilterDataType` must implement `FilterInterface`'
+            'The service `IDCT\Adminata\Form\Type\Filter\FilterDataType` must implement `FilterInterface`'
         );
 
         $filter->create('test', FilterDataType::class);

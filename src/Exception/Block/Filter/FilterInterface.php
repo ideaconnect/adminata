@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Exception\Block\Filter;
+namespace IDCT\Adminata\Exception\Block\Filter;
 
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Model\BlockInterface;
 
 /**
  * Interface for the exception filter used in the exception strategy management.

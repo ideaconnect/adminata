@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\DataTransformer;
+namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Filter\Model\FilterData;
-use Sonata\AdminBundle\Form\DataTransformer\FilterDataTransformer;
+use IDCT\Adminata\Filter\Model\FilterData;
+use IDCT\Adminata\Form\DataTransformer\FilterDataTransformer;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 final class FilterDataTransformerTest extends TestCase

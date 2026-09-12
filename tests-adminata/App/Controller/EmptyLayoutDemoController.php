@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Attribute\Route;
  * A page on `empty_layout`: the shell with the sidebar, the header and the breadcrumb taken out.
  *
  * The visual and accessibility suites walk it, because a layout with none of its targets is where
- * `sonata-layout` and the stylesheet are most likely to assume something that is not there.
+ * `adminata-layout` and the stylesheet are most likely to assume something that is not there.
  */
 final class EmptyLayoutDemoController extends AbstractController
 {

@@ -11,16 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Admin;
+namespace IDCT\Adminata\Tests\Admin;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\MenuFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\BreadcrumbsBuilder;
-use Sonata\AdminBundle\Route\RouteGeneratorInterface;
-use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\BreadcrumbsBuilder;
+use IDCT\Adminata\Route\RouteGeneratorInterface;
+use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -43,7 +43,7 @@ final class BreadcrumbsBuilderTest extends TestCase
         $labelTranslatorStrategy = static::createStub(LabelTranslatorStrategyInterface::class);
 
         $routeGenerator = $this->createMock(RouteGeneratorInterface::class);
-        $routeGenerator->expects(static::any())->method('generate')->with('sonata_admin_dashboard')->willReturn('/dashboard');
+        $routeGenerator->expects(static::any())->method('generate')->with('adminata_dashboard')->willReturn('/dashboard');
 
         $admin->method('getRouteGenerator')->willReturn($routeGenerator);
         $labelTranslatorStrategy->method('getLabel')->willReturnMap([
@@ -104,7 +104,7 @@ final class BreadcrumbsBuilderTest extends TestCase
         static::assertSame('link_breadcrumb_dashboard', $dashboardMenu->getName());
         static::assertSame('/dashboard', $dashboardMenu->getUri());
         static::assertSame(
-            ['translation_domain' => 'SonataAdminBundle'],
+            ['translation_domain' => 'AdminataBundle'],
             $dashboardMenu->getExtras()
         );
 
@@ -159,13 +159,13 @@ final class BreadcrumbsBuilderTest extends TestCase
         $labelTranslatorStrategy = static::createStub(LabelTranslatorStrategyInterface::class);
 
         $routeGenerator = $this->createMock(RouteGeneratorInterface::class);
-        $routeGenerator->expects(static::any())->method('generate')->with('sonata_admin_dashboard')->willReturn('/dashboard');
+        $routeGenerator->expects(static::any())->method('generate')->with('adminata_dashboard')->willReturn('/dashboard');
         $admin->method('getRouteGenerator')->willReturn($routeGenerator);
 
         $menu->method('addChild')->willReturnMap([
             ['link_breadcrumb_dashboard', [
                 'uri' => '/dashboard',
-                'extras' => ['translation_domain' => 'SonataAdminBundle'],
+                'extras' => ['translation_domain' => 'AdminataBundle'],
             ], $menu],
             ['create my object', [
                 'extras' => ['translation_domain' => 'FooBundle'],

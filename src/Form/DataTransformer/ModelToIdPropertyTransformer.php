@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\DataTransformer;
+namespace IDCT\Adminata\Form\DataTransformer;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\InvalidArgumentException;
 use Symfony\Component\Form\Exception\TransformationFailedException;
@@ -101,7 +101,7 @@ final class ModelToIdPropertyTransformer implements DataTransformerInterface
 
     /**
      * NEXT_MAJOR: Change array shape to array{labels: array<string>, ids: array<int|string>}
-     * and update the sonata_type_model_autocomplete.html.twig template.
+     * and update the adminata_type_model_autocomplete.html.twig template.
      *
      * @param object|array<object>|\Traversable<object>|null $value
      *

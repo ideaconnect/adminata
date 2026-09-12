@@ -18,12 +18,12 @@ namespace Adminata\Tests\Contract;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\DependencyInjection\BlockConfiguration;
-use Sonata\AdminBundle\DependencyInjection\Configuration as AdminConfiguration;
-use Sonata\AdminBundle\DependencyInjection\ExporterConfiguration;
-use Sonata\AdminBundle\DependencyInjection\FormConfiguration;
-use Sonata\AdminBundle\DependencyInjection\TwigConfiguration;
-use Sonata\DoctrineORMAdminBundle\DependencyInjection\Configuration as OrmConfiguration;
+use IDCT\Adminata\DependencyInjection\BlockConfiguration;
+use IDCT\Adminata\DependencyInjection\Configuration as AdminConfiguration;
+use IDCT\Adminata\DependencyInjection\ExporterConfiguration;
+use IDCT\Adminata\DependencyInjection\FormConfiguration;
+use IDCT\Adminata\DependencyInjection\TwigConfiguration;
+use IDCT\Adminata\DoctrineORM\DependencyInjection\Configuration as OrmConfiguration;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
 
@@ -31,7 +31,7 @@ use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
  * The configuration trees of PLAN/02 §3 do not drift.
  *
  * Every node, default and description of the six roots that declare one is captured under
- * `config-reference/`. An application's `sonata_admin.yaml` is written against these, and a node
+ * `config-reference/`. An application's `adminata.yaml` is written against these, and a node
  * that silently changes its default changes what that application does — so a change here has to
  * be a deliberate edit to the reference file, reviewed in the same commit.
  *
@@ -40,16 +40,16 @@ use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
  * `Configuration` classes directly rather than booting a kernel, so no test application has to
  * register the bundles for this to run.
  *
- * Five of the six roots belong to admin-bundle: `sonata_admin` from `Configuration`, and
- * `sonata_block`, `sonata_exporter`, `sonata_form` and `sonata_twig` from the
+ * Five of the six roots belong to admin-bundle: `adminata_admin` from `Configuration`, and
+ * `adminata_block`, `adminata_exporter`, `adminata_form` and `adminata_twig` from the
  * `BlockConfiguration`, `ExporterConfiguration`, `FormConfiguration` and `TwigConfiguration`
  * classes beside it. Five aliases, one bundle — the aliases are part of the contract, so an
- * application's existing `sonata_exporter.yaml`, `sonata_form.yaml` and `sonata_twig.yaml` keep
+ * application's existing `adminata_exporter.yaml`, `adminata_form.yaml` and `adminata_twig.yaml` keep
  * configuring the same trees.
  *
- * There is no `sonata_doctrine` root any more. The tree it used to name took no options at all --
+ * There is no `adminata_doctrine` root any more. The tree it used to name took no options at all --
  * doctrine-extensions never declared a `Configuration` class -- so when that package was merged in,
- * its services moved to `SonataAdminExtension` rather than to a registered extension that would
+ * its services moved to `AdminataExtension` rather than to a registered extension that would
  * only have added an empty configuration key.
  */
 final class ConfigContractTest extends TestCase
@@ -59,12 +59,12 @@ final class ConfigContractTest extends TestCase
      */
     public static function provideTheTreeMatchesTheCapturedReferenceCases(): iterable
     {
-        yield 'sonata_admin' => ['sonata_admin', new AdminConfiguration()];
-        yield 'sonata_block' => ['sonata_block', new BlockConfiguration([])];
-        yield 'sonata_doctrine_orm_admin' => ['sonata_doctrine_orm_admin', new OrmConfiguration()];
-        yield 'sonata_exporter' => ['sonata_exporter', new ExporterConfiguration()];
-        yield 'sonata_form' => ['sonata_form', new FormConfiguration()];
-        yield 'sonata_twig' => ['sonata_twig', new TwigConfiguration()];
+        yield 'adminata' => ['adminata', new AdminConfiguration()];
+        yield 'adminata_block' => ['adminata_block', new BlockConfiguration([])];
+        yield 'adminata_doctrine_orm' => ['adminata_doctrine_orm', new OrmConfiguration()];
+        yield 'adminata_exporter' => ['adminata_exporter', new ExporterConfiguration()];
+        yield 'adminata_form' => ['adminata_form', new FormConfiguration()];
+        yield 'adminata_twig' => ['adminata_twig', new TwigConfiguration()];
     }
 
     #[DataProvider('provideTheTreeMatchesTheCapturedReferenceCases')]
@@ -88,7 +88,7 @@ final class ConfigContractTest extends TestCase
     }
 
     /**
-     * The four options PLAN/01 P6 removes are gone for good: leaving one in `sonata_admin.yaml`
+     * The four options PLAN/01 P6 removes are gone for good: leaving one in `adminata.yaml`
      * has to be an error an application sees, not a silently ignored key.
      */
     public function testTheRemovedAdminLteOptionsAreAbsent(): void

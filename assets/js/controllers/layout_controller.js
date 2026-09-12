@@ -17,7 +17,7 @@ import { Controller } from '@hotwired/stimulus';
  *
  * It replaces AdminLTE's push-menu and `sidebar.js`. Mounted on `<body>`, which is also the
  * element the CSS keys off — `data-sidebar` is `expanded` or `collapsed`, `data-sidebar-mobile` is
- * `open` or `closed` — so the server can seed both from the `sonata_sidebar_hide` cookie and the
+ * `open` or `closed` — so the server can seed both from the `adminata_sidebar_hide` cookie and the
  * first paint is already right. Nothing here reads the DOM to decide state; it writes it.
  *
  * The two states are separate on purpose. Above the breakpoint the sidebar is always present and
@@ -45,7 +45,7 @@ export default class extends Controller {
         mobileOpen: { type: Boolean, default: false },
         headerMenuOpen: { type: Boolean, default: false },
         breakpoint: { type: Number, default: 1024 },
-        cookieName: { type: String, default: 'sonata_sidebar_hide' },
+        cookieName: { type: String, default: 'adminata_sidebar_hide' },
     };
 
     // Not `connect()`: Stimulus runs every `…ValueChanged` callback before it, and those repaint.

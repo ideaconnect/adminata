@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Bridge\Exporter;
+namespace IDCT\Adminata\Tests\Bridge\Exporter;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Bridge\Exporter\AdminExporter;
-use Sonata\AdminBundle\Exporter\Exporter;
-use Sonata\AdminBundle\Exporter\Writer\TypedWriterInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Bridge\Exporter\AdminExporter;
+use IDCT\Adminata\Exporter\Exporter;
+use IDCT\Adminata\Exporter\Writer\TypedWriterInterface;
 
 final class AdminExporterTest extends TestCase
 {

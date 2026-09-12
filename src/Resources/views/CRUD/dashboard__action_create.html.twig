@@ -4,38 +4,38 @@
         {% if action.translation_domain is defined and action.translation_domain is same as(false) %}
             {{ action.label }}
         {% else %}
-            {{ action.label|trans({}, action.translation_domain|default('SonataAdminBundle')) }}
+            {{ action.label|trans({}, action.translation_domain|default('AdminataBundle')) }}
         {% endif %}
     </a>
 {% else %}
     {# One admin, several classes to create: a disclosure rather than Bootstrap's dropdown plugin. #}
     <span class="adm-dropdown"
-          {{ stimulus_controller('sonata-dropdown') }}
-          {{ stimulus_action('sonata-dropdown', 'closeAndFocus', 'keydown.esc')|stimulus_action('sonata-dropdown', 'navigate', 'keydown') }}
+          {{ stimulus_controller('adminata-dropdown') }}
+          {{ stimulus_action('adminata-dropdown', 'closeAndFocus', 'keydown.esc')|stimulus_action('adminata-dropdown', 'navigate', 'keydown') }}
     >
         <button type="button" class="adm-btn adm-btn-ghost adm-btn-sm"
                 aria-expanded="false"
                 aria-haspopup="menu"
-                {{ stimulus_target('sonata-dropdown', 'toggle') }}
-                {{ stimulus_action('sonata-dropdown', 'toggle', 'click') }}
+                {{ stimulus_target('adminata-dropdown', 'toggle') }}
+                {{ stimulus_action('adminata-dropdown', 'toggle', 'click') }}
         >
             {{ action.icon|parse_icon }}
             {% if action.translation_domain is defined and action.translation_domain is same as(false) %}
                 {{ action.label }}
             {% else %}
-                {{ action.label|trans({}, action.translation_domain|default('SonataAdminBundle')) }}
+                {{ action.label|trans({}, action.translation_domain|default('AdminataBundle')) }}
             {% endif %}
             <i class="fas fa-angle-down" aria-hidden="true"></i>
         </button>
 
-        <ul class="adm-dropdown__menu adm-dropdown__menu-start" role="menu" hidden {{ stimulus_target('sonata-dropdown', 'menu') }}>
+        <ul class="adm-dropdown__menu adm-dropdown__menu-start" role="menu" hidden {{ stimulus_target('adminata-dropdown', 'menu') }}>
             {% for subclass in admin.subclasses|keys %}
                 <li role="none">
                     <a class="adm-dropdown__item" role="menuitem" href="{{ admin.generateUrl('create', {'subclass': subclass}) }}">
                         {% if action.translation_domain is defined and action.translation_domain is same as(false) %}
                             {{ subclass }}
                         {% else %}
-                            {{ subclass|trans({}, action.translation_domain|default('SonataAdminBundle')) }}
+                            {{ subclass|trans({}, action.translation_domain|default('AdminataBundle')) }}
                         {% endif %}
                     </a>
                 </li>

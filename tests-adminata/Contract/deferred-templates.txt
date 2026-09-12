@@ -17,7 +17,7 @@ src/Resources/views/CRUD/Association/edit_one_to_many_sortable_script_tabs.html.
 src/Resources/views/CRUD/Association/edit_one_to_one.html.twig
 
 # The `ModelListType` widget, which drives those flows.
-src/Resources/views/Form/Type/sonata_type_model_list.html.twig
+src/Resources/views/Form/Type/adminata_type_model_list.html.twig
 
 # History and compare — first admin with an audit reader.
 src/Resources/views/CRUD/base_history.html.twig

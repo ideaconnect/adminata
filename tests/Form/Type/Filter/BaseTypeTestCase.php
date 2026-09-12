@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type\Filter;
+namespace IDCT\Adminata\Tests\Form\Type\Filter;
 
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\Test\TypeTestCase;

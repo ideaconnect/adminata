@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig\Extension;
+namespace IDCT\Adminata\Tests\Twig\Extension;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Twig\Extension\XEditableExtension;
-use Sonata\AdminBundle\Twig\XEditableRuntime;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Twig\Extension\XEditableExtension;
+use IDCT\Adminata\Twig\XEditableRuntime;
 use Symfony\Component\Translation\Translator;
 
 /**

@@ -160,7 +160,7 @@ for (const [size, viewport] of Object.entries(VIEWPORTS)) {
     for (const { name, path } of PAGES) {
         for (const theme of THEMES) {
             await context.clearCookies();
-            await context.addCookies([{ name: 'sonata_theme', value: theme, url: BASE_URL }]);
+            await context.addCookies([{ name: 'adminata_theme', value: theme, url: BASE_URL }]);
 
             const page = await context.newPage();
             await page.setViewportSize(viewport);

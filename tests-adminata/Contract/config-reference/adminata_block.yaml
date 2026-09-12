@@ -1,0 +1,72 @@
+adminata_block:
+    profiler:
+        enabled:              '%kernel.debug%'
+        template:             '@Adminata/Profiler/block.html.twig'
+    default_contexts:     []
+    context_manager:      adminata.block.context_manager.default
+    http_cache:           false # Deprecated (Since sonata-project/block-bundle 5.0: The "http_cache" option is deprecated and not doing anything anymore since sonata-project/block-bundle 5.0. It will be removed in 6.0.)
+    templates:
+        block_base:           null
+        block_container:      null
+
+    # block container configuration
+    container:
+
+        # container service ids
+        types:
+
+            # Defaults:
+            - adminata.block.service.container
+            - sonata.page.block.container
+            - adminata.dashboard.block.container
+            - cmf.block.container
+            - cmf.block.slideshow
+
+        # container templates
+        templates:            []
+
+    # configuration per block service
+    blocks:
+
+        # Prototype
+        id:
+            contexts:             []
+            templates:
+
+                # Prototype
+                -
+                    name:                 ~
+                    template:             ~
+
+            # default settings
+            settings:
+
+                # Prototype
+                id:                   ~
+            exception:
+                filter:               null
+                renderer:             null
+
+    # configuration per block class
+    blocks_by_class:
+
+        # Prototype
+        class:
+
+            # default settings
+            settings:
+
+                # Prototype
+                id:                   ~
+    exception:
+        default:
+            filter:               debug_only
+            renderer:             throw
+        filters:
+
+            # Prototype
+            id:                   ~
+        renderers:
+
+            # Prototype
+            id:                   ~

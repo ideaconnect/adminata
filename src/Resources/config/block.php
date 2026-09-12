@@ -13,48 +13,48 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Block\AdminListBlockService;
-use Sonata\AdminBundle\Block\AdminPreviewBlockService;
-use Sonata\AdminBundle\Block\AdminSearchBlockService;
-use Sonata\AdminBundle\Block\AdminStatsBlockService;
+use IDCT\Adminata\Block\AdminListBlockService;
+use IDCT\Adminata\Block\AdminPreviewBlockService;
+use IDCT\Adminata\Block\AdminSearchBlockService;
+use IDCT\Adminata\Block\AdminStatsBlockService;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
 
-        ->set('sonata.admin.block.admin_list', AdminListBlockService::class)
+        ->set('adminata.admin.block.admin_list', AdminListBlockService::class)
             ->public()
-            ->tag('sonata.block')
+            ->tag('adminata.block')
             ->args([
                 service('twig'),
-                service('sonata.admin.pool'),
-                service('sonata.admin.global_template_registry'),
+                service('adminata.admin.pool'),
+                service('adminata.admin.global_template_registry'),
             ])
 
-        ->set('sonata.admin.block.search_result', AdminSearchBlockService::class)
+        ->set('adminata.admin.block.search_result', AdminSearchBlockService::class)
             ->public()
-            ->tag('sonata.block')
+            ->tag('adminata.block')
             ->args([
                 service('twig'),
-                service('sonata.admin.pool'),
-                service('sonata.admin.search.handler'),
-                service('sonata.admin.global_template_registry'),
-                param('sonata.admin.configuration.global_search.empty_boxes'),
-                param('sonata.admin.configuration.global_search.admin_route'),
+                service('adminata.admin.pool'),
+                service('adminata.admin.search.handler'),
+                service('adminata.admin.global_template_registry'),
+                param('adminata.admin.configuration.global_search.empty_boxes'),
+                param('adminata.admin.configuration.global_search.admin_route'),
             ])
 
-        ->set('sonata.admin.block.stats', AdminStatsBlockService::class)
+        ->set('adminata.admin.block.stats', AdminStatsBlockService::class)
             ->public()
-            ->tag('sonata.block')
+            ->tag('adminata.block')
             ->args([
                 service('twig'),
-                service('sonata.admin.pool'),
+                service('adminata.admin.pool'),
             ])
 
-        ->set('sonata.admin.block.admin_preview', AdminPreviewBlockService::class)
+        ->set('adminata.admin.block.admin_preview', AdminPreviewBlockService::class)
             ->public()
-            ->tag('sonata.block')
+            ->tag('adminata.block')
             ->args([
                 service('twig'),
-                service('sonata.admin.pool'),
+                service('adminata.admin.pool'),
             ]);
 };

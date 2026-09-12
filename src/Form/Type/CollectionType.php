@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
-use Sonata\AdminBundle\Form\EventListener\ResizeFormListener;
+use IDCT\Adminata\Form\EventListener\ResizeFormListener;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -40,7 +40,7 @@ final class CollectionType extends AbstractType
 
         // NEXT_MAJOR: Remove the btn_catalogue usage.
         $view->vars['btn_translation_domain'] =
-            'SonataAdminBundle' !== $options['btn_translation_domain']
+            'AdminataBundle' !== $options['btn_translation_domain']
                 ? $options['btn_translation_domain']
                 : $options['btn_catalogue'];
         $view->vars['btn_catalogue'] = $options['btn_catalogue'];
@@ -54,8 +54,8 @@ final class CollectionType extends AbstractType
             'type_options' => [],
             'pre_bind_data_callback' => null,
             'btn_add' => 'link_add',
-            'btn_catalogue' => 'SonataAdminBundle', // NEXT_MAJOR: Remove this option.
-            'btn_translation_domain' => 'SonataAdminBundle',
+            'btn_catalogue' => 'AdminataBundle', // NEXT_MAJOR: Remove this option.
+            'btn_translation_domain' => 'AdminataBundle',
         ]);
 
         $resolver->setDeprecated(
@@ -63,7 +63,7 @@ final class CollectionType extends AbstractType
             'sonata-project/form-extensions',
             '2.1',
             static function (Options $options, mixed $value): string {
-                if ('SonataAdminBundle' !== $value) {
+                if ('AdminataBundle' !== $value) {
                     return 'Passing a value to option "btn_catalogue" is deprecated! Use "btn_translation_domain" instead!';
                 }
 
@@ -82,6 +82,6 @@ final class CollectionType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_collection';
+        return 'adminata_type_collection';
     }
 }

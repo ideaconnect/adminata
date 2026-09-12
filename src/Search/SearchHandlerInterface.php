@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Search;
+namespace IDCT\Adminata\Search;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Datagrid\PagerInterface;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Datagrid\PagerInterface;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 
 interface SearchHandlerInterface
 {

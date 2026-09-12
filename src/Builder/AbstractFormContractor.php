@@ -11,16 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Builder;
+namespace IDCT\Adminata\Builder;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\Type\AdminType;
-use Sonata\AdminBundle\Form\Type\CollectionType;
-use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Form\Type\ModelHiddenType;
-use Sonata\AdminBundle\Form\Type\ModelListType;
-use Sonata\AdminBundle\Form\Type\ModelReferenceType;
-use Sonata\AdminBundle\Form\Type\ModelType;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\Type\AdminType;
+use IDCT\Adminata\Form\Type\CollectionType;
+use IDCT\Adminata\Form\Type\ModelAutocompleteType;
+use IDCT\Adminata\Form\Type\ModelHiddenType;
+use IDCT\Adminata\Form\Type\ModelListType;
+use IDCT\Adminata\Form\Type\ModelReferenceType;
+use IDCT\Adminata\Form\Type\ModelType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -69,7 +69,7 @@ abstract class AbstractFormContractor implements FormContractorInterface
         array $formOptions = [],
     ): array {
         $options = [];
-        $options['sonata_field_description'] = $fieldDescription;
+        $options['adminata_field_description'] = $fieldDescription;
 
         if ($this->isAnyInstanceOf($type, [
             ModelType::class,
@@ -179,7 +179,7 @@ abstract class AbstractFormContractor implements FormContractorInterface
     private function getDefaultAdminTypeOptions(FieldDescriptionInterface $fieldDescription, array $formOptions): array
     {
         $typeOptions = [
-            'sonata_field_description' => $fieldDescription,
+            'adminata_field_description' => $fieldDescription,
             'data_class' => $fieldDescription->getAssociationAdmin()->getClass(),
             'empty_data' => static fn (): object => $fieldDescription->getAssociationAdmin()->getNewInstance(),
         ];

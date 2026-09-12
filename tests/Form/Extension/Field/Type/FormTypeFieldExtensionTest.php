@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Extension\Field\Type;
+namespace IDCT\Adminata\Tests\Form\Extension\Field\Type;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\Extension\Field\Type\FormTypeFieldExtension;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\Extension\Field\Type\FormTypeFieldExtension;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Form;
@@ -43,17 +43,17 @@ final class FormTypeFieldExtensionTest extends TestCase
 
         $options = $resolver->resolve();
 
-        static::assertArrayHasKey('sonata_admin', $options);
-        static::assertArrayHasKey('sonata_field_description', $options);
+        static::assertArrayHasKey('adminata_admin', $options);
+        static::assertArrayHasKey('adminata_field_description', $options);
 
-        static::assertNull($options['sonata_admin']);
-        static::assertNull($options['sonata_field_description']);
+        static::assertNull($options['adminata_admin']);
+        static::assertNull($options['adminata_field_description']);
     }
 
-    public function testBuildViewWithNoSonataAdminArray(): void
+    public function testBuildViewWithNoAdminataArray(): void
     {
         $parentFormView = new FormView();
-        $parentFormView->vars['sonata_admin_enabled'] = false;
+        $parentFormView->vars['adminata_admin_enabled'] = false;
 
         $formView = new FormView();
         $formView->parent = $parentFormView;
@@ -65,8 +65,8 @@ final class FormTypeFieldExtensionTest extends TestCase
         $extension = new FormTypeFieldExtension([], []);
         $extension->buildView($formView, $form, []);
 
-        static::assertArrayHasKey('sonata_admin', $formView->vars);
-        static::assertNull($formView->vars['sonata_admin']);
+        static::assertArrayHasKey('adminata_admin', $formView->vars);
+        static::assertNull($formView->vars['adminata_admin']);
     }
 
     public function testBuildFormWithFieldDescription(): void
@@ -92,10 +92,10 @@ final class FormTypeFieldExtensionTest extends TestCase
 
         $extension = new FormTypeFieldExtension([], []);
         $extension->buildForm($formBuilder, [
-            'sonata_field_description' => $fieldDescription,
+            'adminata_field_description' => $fieldDescription,
         ]);
 
-        static::assertTrue($formBuilder->getAttribute('sonata_admin_enabled'));
+        static::assertTrue($formBuilder->getAttribute('adminata_admin_enabled'));
         static::assertSame([
             'name' => 'name',
             'admin' => $admin,
@@ -106,10 +106,10 @@ final class FormTypeFieldExtensionTest extends TestCase
             'block_name' => false,
             'options' => [],
             'class' => '',
-        ], $formBuilder->getAttribute('sonata_admin'));
+        ], $formBuilder->getAttribute('adminata_admin'));
     }
 
-    public function testBuildViewWithWithSonataAdmin(): void
+    public function testBuildViewWithWithAdminata(): void
     {
         $admin = $this->createMock(AdminInterface::class);
         $admin->expects(static::exactly(2))->method('getCode')->willReturn('my.admin.reference');
@@ -117,16 +117,16 @@ final class FormTypeFieldExtensionTest extends TestCase
         $formView = new FormView();
         $options = [];
         $config = new FormConfigBuilder('test', \stdClass::class, $this->createMock(EventDispatcherInterface::class), $options);
-        $config->setAttribute('sonata_admin', [
+        $config->setAttribute('adminata_admin', [
             'admin' => $admin,
             'name' => 'name',
         ]);
-        $config->setAttribute('sonata_admin_enabled', true);
+        $config->setAttribute('adminata_admin_enabled', true);
 
         $form = new Form($config);
 
         $formView->parent = new FormView();
-        $formView->parent->vars['sonata_admin_enabled'] = false;
+        $formView->parent->vars['adminata_admin_enabled'] = false;
 
         $formView->vars['block_prefixes'] = ['form', 'field', 'text', '_s50b26aa76cb96_username'];
 
@@ -134,8 +134,8 @@ final class FormTypeFieldExtensionTest extends TestCase
         $extension->buildView($formView, $form, []);
 
         static::assertArrayHasKey('block_prefixes', $formView->vars);
-        static::assertArrayHasKey('sonata_admin_enabled', $formView->vars);
-        static::assertArrayHasKey('sonata_admin', $formView->vars);
+        static::assertArrayHasKey('adminata_admin_enabled', $formView->vars);
+        static::assertArrayHasKey('adminata_admin', $formView->vars);
 
         $expected = [
             'form',
@@ -148,7 +148,7 @@ final class FormTypeFieldExtensionTest extends TestCase
         ];
 
         static::assertSame($expected, $formView->vars['block_prefixes']);
-        static::assertTrue($formView->vars['sonata_admin_enabled']);
+        static::assertTrue($formView->vars['adminata_admin_enabled']);
     }
 
     public function testBuildViewWithNestedForm(): void
@@ -158,13 +158,13 @@ final class FormTypeFieldExtensionTest extends TestCase
 
         $options = [];
         $config = new FormConfigBuilder('test', \stdClass::class, $this->createMock(EventDispatcherInterface::class), $options);
-        $config->setAttribute('sonata_admin', ['admin' => false]);
+        $config->setAttribute('adminata_admin', ['admin' => false]);
 
         $form = new Form($config);
 
         $formView->parent = new FormView();
-        $formView->parent->vars['sonata_admin_enabled'] = true;
-        $formView->parent->vars['sonata_admin_code'] = 'parent_code';
+        $formView->parent->vars['adminata_admin_enabled'] = true;
+        $formView->parent->vars['adminata_admin_code'] = 'parent_code';
         $formView->parent->vars['name'] = 'settings';
 
         $formView->vars['block_prefixes'] = ['form', 'field', 'text', '_s50b26aa76cb96_settings_format'];
@@ -173,8 +173,8 @@ final class FormTypeFieldExtensionTest extends TestCase
         $extension->buildView($formView, $form, []);
 
         static::assertArrayHasKey('block_prefixes', $formView->vars);
-        static::assertArrayHasKey('sonata_admin_enabled', $formView->vars);
-        static::assertArrayHasKey('sonata_admin', $formView->vars);
+        static::assertArrayHasKey('adminata_admin_enabled', $formView->vars);
+        static::assertArrayHasKey('adminata_admin', $formView->vars);
 
         $expected = [
             'value' => null,
@@ -189,8 +189,8 @@ final class FormTypeFieldExtensionTest extends TestCase
                 'parent_code_text_settings_format',
                 'parent_code_text_settings_settings_format',
             ],
-            'sonata_admin_enabled' => true,
-            'sonata_admin' => [
+            'adminata_admin_enabled' => true,
+            'adminata_admin' => [
                 'admin' => false,
                 'field_description' => false,
                 'name' => false,
@@ -200,7 +200,7 @@ final class FormTypeFieldExtensionTest extends TestCase
                 'class' => false,
                 'options' => [],
             ],
-            'sonata_admin_code' => 'parent_code',
+            'adminata_admin_code' => 'parent_code',
         ];
 
         static::assertSame($expected, $formView->vars);
@@ -217,8 +217,8 @@ final class FormTypeFieldExtensionTest extends TestCase
         $extension->buildView($formView, $form, []);
 
         static::assertArrayNotHasKey('block_prefixes', $formView->vars);
-        static::assertArrayHasKey('sonata_admin_enabled', $formView->vars);
-        static::assertArrayHasKey('sonata_admin', $formView->vars);
+        static::assertArrayHasKey('adminata_admin_enabled', $formView->vars);
+        static::assertArrayHasKey('adminata_admin', $formView->vars);
     }
 
     public function testBuildViewCollectionField(): void
@@ -233,8 +233,8 @@ final class FormTypeFieldExtensionTest extends TestCase
             '_parent_collection_entry_field',
         ];
         $formView->vars['unique_block_prefix'] = '_parent_collection_entry_field';
-        $formView->vars['sonata_admin_enabled'] = true;
-        $formView->vars['sonata_admin_code'] = 'admin.parent';
+        $formView->vars['adminata_admin_enabled'] = true;
+        $formView->vars['adminata_admin_code'] = 'admin.parent';
 
         $formView->parent = new FormView();
         $formView->parent->vars['name'] = '0';
@@ -247,24 +247,24 @@ final class FormTypeFieldExtensionTest extends TestCase
             'admin_parent_parent_field_collection__parent_collection_entry',
         ];
         $formView->parent->vars['unique_block_prefix'] = '_parent_collection_entry';
-        $formView->parent->vars['sonata_admin_enabled'] = true;
-        $formView->parent->vars['sonata_admin_code'] = 'admin.parent';
+        $formView->parent->vars['adminata_admin_enabled'] = true;
+        $formView->parent->vars['adminata_admin_code'] = 'admin.parent';
 
         $formView->parent->parent = new FormView();
         $formView->parent->parent->vars['name'] = 'collection';
         $formView->parent->parent->vars['block_prefixes'] = [
             'form',
             'collection',
-            'sonata_type_native_collection',
+            'adminata_type_native_collection',
             '_parent_collection',
-            'admin_parent_sonata_type_native_collection',
-            'admin_parent_collection_sonata_type_native_collection',
-            'admin_parent_collection_sonata_type_native_collection__parent_collection',
+            'admin_parent_adminata_type_native_collection',
+            'admin_parent_collection_adminata_type_native_collection',
+            'admin_parent_collection_adminata_type_native_collection__parent_collection',
             'field_collection',
         ];
         $formView->parent->parent->vars['unique_block_prefix'] = '_parent_collection';
-        $formView->parent->parent->vars['sonata_admin_enabled'] = false;
-        $formView->parent->parent->vars['sonata_admin_code'] = 'admin.parent';
+        $formView->parent->parent->vars['adminata_admin_enabled'] = false;
+        $formView->parent->parent->vars['adminata_admin_code'] = 'admin.parent';
 
         $formView->parent->parent->parent = new FormView();
         $formView->parent->parent->parent->vars['name'] = 'parent';
@@ -273,11 +273,11 @@ final class FormTypeFieldExtensionTest extends TestCase
             '_parent',
         ];
         $formView->parent->parent->parent->vars['unique_block_prefix'] = '_parent';
-        $formView->parent->parent->parent->vars['sonata_admin_enabled'] = false;
+        $formView->parent->parent->parent->vars['adminata_admin_enabled'] = false;
 
         $options = [];
         $config = new FormConfigBuilder('test', \stdClass::class, $this->createMock(EventDispatcherInterface::class), $options);
-        $config->setAttribute('sonata_admin', ['admin' => false]);
+        $config->setAttribute('adminata_admin', ['admin' => false]);
 
         $form = new Form($config);
 

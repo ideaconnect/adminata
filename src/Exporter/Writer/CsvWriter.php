@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Exporter\Writer;
+namespace IDCT\Adminata\Exporter\Writer;
 
-use Sonata\AdminBundle\Exporter\Exception\InvalidDataFormatException;
+use IDCT\Adminata\Exporter\Exception\InvalidDataFormatException;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

@@ -6,7 +6,7 @@ Sources
 =======
 
 A source is any ``\Iterator`` whose values are arrays of scalars keyed by column name, so an
-iterator of your own is a source. ``Sonata\AdminBundle\Exporter\Source\`` ships these:
+iterator of your own is a source. ``IDCT\Adminata\Exporter\Source\`` ships these:
 
 ======================================== ==================================================
 Class                                    Reads from
@@ -31,5 +31,5 @@ extend, and ``AbstractXmlSourceIterator``, which drives the XML parser for the t
 
 The list admin's source is not one of these directly. It is the storage layer's
 ``DataSourceInterface`` implementation, which builds a
-``Sonata\AdminBundle\Exporter\Source\DoctrineORMQuerySourceIterator`` over the query the list is
+``IDCT\Adminata\Exporter\Source\DoctrineORMQuerySourceIterator`` over the query the list is
 showing — see the ORM storage layer's ``data_source`` reference for replacing it.

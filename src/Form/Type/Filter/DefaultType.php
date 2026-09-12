@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type\Filter;
+namespace IDCT\Adminata\Form\Type\Filter;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -29,7 +29,7 @@ final class DefaultType extends AbstractType
 {
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_filter_default';
+        return 'adminata_type_filter_default';
     }
 
     public function getParent(): string

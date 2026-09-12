@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Datagrid;
+namespace IDCT\Adminata\Tests\Datagrid;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Datagrid\Pager;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Datagrid\Pager;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 
 /**
  * @author Andrej Hudec <pulzarraider@gmail.com>

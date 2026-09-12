@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Manipulator;
+namespace IDCT\Adminata\Tests\Manipulator;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Manipulator\ServicesManipulator;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Manipulator\ServicesManipulator;
 
 /**
  * @author Marek Stipek <mario.dweller@seznam.cz>
@@ -49,9 +49,9 @@ final class ServicesManipulatorTest extends TestCase
         static::assertSame(
             "services:
     service_id:
-        class: Sonata\AdminBundle\Admin\AdminInterface
+        class: IDCT\Adminata\Admin\AdminInterface
         tags:
-            - { name: sonata.admin, model_class: stdClass, controller: controller_name, manager_type: manager_type, group: admin, label: stdClass }\n",
+            - { name: adminata.admin, model_class: stdClass, controller: controller_name, manager_type: manager_type, group: admin, label: stdClass }\n",
             file_get_contents($this->file)
         );
         $this->servicesManipulator->addResource(
@@ -64,14 +64,14 @@ final class ServicesManipulatorTest extends TestCase
         static::assertSame(
             "services:
     service_id:
-        class: Sonata\AdminBundle\Admin\AdminInterface
+        class: IDCT\Adminata\Admin\AdminInterface
         tags:
-            - { name: sonata.admin, model_class: stdClass, controller: controller_name, manager_type: manager_type, group: admin, label: stdClass }
+            - { name: adminata.admin, model_class: stdClass, controller: controller_name, manager_type: manager_type, group: admin, label: stdClass }
 
     another_service_id:
-        class: Sonata\AdminBundle\Admin\AdminInterface
+        class: IDCT\Adminata\Admin\AdminInterface
         tags:
-            - { name: sonata.admin, model_class: stdClass, controller: another_controller_name, manager_type: another_manager_type, group: admin, label: stdClass }\n",
+            - { name: adminata.admin, model_class: stdClass, controller: another_controller_name, manager_type: another_manager_type, group: admin, label: stdClass }\n",
             file_get_contents($this->file)
         );
     }
@@ -110,9 +110,9 @@ final class ServicesManipulatorTest extends TestCase
         static::assertSame(
             "services:
     service_id:
-        class: Sonata\AdminBundle\Admin\AdminInterface
+        class: IDCT\Adminata\Admin\AdminInterface
         tags:
-            - { name: sonata.admin, model_class: stdClass, controller: controller_name, manager_type: manager_type, group: admin, label: stdClass }\n",
+            - { name: adminata.admin, model_class: stdClass, controller: controller_name, manager_type: manager_type, group: admin, label: stdClass }\n",
             file_get_contents($this->file)
         );
     }

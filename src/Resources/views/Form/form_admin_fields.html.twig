@@ -13,9 +13,9 @@ file that was distributed with this source code.
     The admin form theme (PLAN/06 §1).
 
     Bootstrap's `form-group`, `has-error`, `help-block`, `control-label` and `col-sm-*` are gone;
-    the hooks PLAN/02 §8 lists — `#sonata-ba-field-container-{id}`, `sonata-ba-field`,
-    `sonata-ba-field-{edit}-{inline}`, `sonata-ba-field-error`, `sonata-ba-field-error-messages`,
-    `sonata-ba-field-help`, `control-label__text` and `required` — are not.
+    the hooks PLAN/02 §8 lists — `#adminata-field-container-{id}`, `adminata-field`,
+    `adminata-field-{edit}-{inline}`, `adminata-field-error`, `adminata-field-error-messages`,
+    `adminata-field-help`, `control-label__text` and `required` — are not.
 
     Every widget block *appends* to `attr.class` and never replaces it, so an application's own
     `attr` — `data-controller` included — reaches the page untouched.
@@ -39,14 +39,14 @@ file that was distributed with this source code.
 {%- endblock form_errors %}
 
 {% block form_help -%}
-    {% if sonata_admin_translation_domain is defined and translation_domain is null %}
-        {% set translation_domain = sonata_admin_translation_domain %}
+    {% if adminata_admin_translation_domain is defined and translation_domain is null %}
+        {% set translation_domain = adminata_admin_translation_domain %}
     {% endif %}
     {% if help is not empty %}
         {# `parent()` is what keeps `help_html` rendering as markup. #}
         {% set help_attr = help_attr|merge({class: [
             help_attr.class|default(''),
-            'adm-help sonata-ba-field-help',
+            'adm-help adminata-field-help',
             help_class|default(''),
         ]|filter(part => part is not empty)|join(' ')}) %}
         {{ parent() }}
@@ -169,13 +169,13 @@ file that was distributed with this source code.
             label_attr.class|default(''),
             'adm-label',
             label_class|default(''),
-            sonata_admin.options['form_type'] == 'horizontal' ? 'col-span-12 mb-0 md:col-span-3 md:pt-2.5' : '',
+            adminata_admin.options['form_type'] == 'horizontal' ? 'col-span-12 mb-0 md:col-span-3 md:pt-2.5' : '',
             required ? 'required' : '',
         ]|filter(part => part is not empty)|join(' ')}) %}
 
         {#- The autocomplete widget's control is the combobox it draws, and it draws one whether or
             not the field is compound. -#}
-        {% if 'sonata_type_model_autocomplete' in block_prefixes %}
+        {% if 'adminata_type_model_autocomplete' in block_prefixes %}
             {% set label_attr = label_attr|merge({'for': id ~ '_autocomplete_input'}) %}
         {% elseif not compound %}
             {% set label_attr = label_attr|merge({'for': id}) %}
@@ -195,10 +195,10 @@ file that was distributed with this source code.
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
             {%- if translation_domain is same as(false) -%}
                 {{- label -}}
-            {%- elseif not sonata_admin.admin -%}
+            {%- elseif not adminata_admin.admin -%}
                 {{- label|trans(label_translation_parameters, translation_domain) -}}
             {%- else -%}
-                {{- label|trans(label_translation_parameters, sonata_admin.field_description.translationDomain|default(sonata_admin.admin.translationDomain)) -}}
+                {{- label|trans(label_translation_parameters, adminata_admin.field_description.translationDomain|default(adminata_admin.admin.translationDomain)) -}}
             {%- endif -%}
             {#- The control already carries `required`, which is what a screen reader announces; the
                 asterisk is for everyone else. -#}
@@ -216,8 +216,8 @@ file that was distributed with this source code.
 {%- endblock radio_label %}
 
 {% block checkbox_radio_label %}
-    {% if sonata_admin.admin %}
-        {% set translation_domain = sonata_admin.field_description.translationDomain %}
+    {% if adminata_admin.admin %}
+        {% set translation_domain = adminata_admin.field_description.translationDomain %}
     {% endif %}
     {# Do not display the label if widget is not defined in order to prevent double label rendering #}
     {% if widget is defined %}
@@ -280,20 +280,20 @@ file that was distributed with this source code.
         {% if empty_value is defined and empty_value is not none %}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
                 {% if empty_value != '' %}
-                    {% if not sonata_admin.admin %}
+                    {% if not adminata_admin.admin %}
                         {{- empty_value|trans({}, translation_domain) -}}
                     {% else %}
-                        {{- empty_value|trans({}, sonata_admin.field_description.translationDomain) -}}
+                        {{- empty_value|trans({}, adminata_admin.field_description.translationDomain) -}}
                     {% endif %}
                 {% endif %}
             </option>
         {% elseif placeholder is defined and placeholder is not none %}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
                 {%- if placeholder != '' -%}
-                    {%- if not sonata_admin.admin -%}
+                    {%- if not adminata_admin.admin -%}
                         {{- placeholder|trans({}, translation_domain) -}}
                     {%- else -%}
-                        {{- placeholder|trans({}, sonata_admin.field_description.translationDomain) -}}
+                        {{- placeholder|trans({}, adminata_admin.field_description.translationDomain) -}}
                     {%- endif -%}
                 {%- endif -%}
             </option>
@@ -389,8 +389,8 @@ file that was distributed with this source code.
 
 {% block form_row %}
     {% set show_label = show_label ?? true %}
-    {% set horizontal = sonata_admin is defined and sonata_admin.options['form_type'] == 'horizontal' %}
-    {% set row_id = 'sonata-ba-field-container-'~id %}
+    {% set horizontal = adminata_admin is defined and adminata_admin.options['form_type'] == 'horizontal' %}
+    {% set row_id = 'adminata-field-container-'~id %}
     {% set row_class = [
         row_attr.class|default(''),
         'adm-form-row',
@@ -398,10 +398,10 @@ file that was distributed with this source code.
         horizontal ? 'grid grid-cols-12 items-start gap-x-3 gap-y-1' : '',
     ]|filter(part => part is not empty)|join(' ') %}
     <div{% with {attr: row_attr|merge({id: row_id, class: row_class})} %}{{ block('attributes') }}{% endwith %}>
-        {% set div_class = 'sonata-ba-field' %}
+        {% set div_class = 'adminata-field' %}
 
         {% if label is same as(false) %}
-            {% set div_class = div_class ~ ' sonata-collection-row-without-label' %}
+            {% set div_class = div_class ~ ' adminata-collection-row-without-label' %}
         {% endif %}
 
         {% if horizontal %}
@@ -422,12 +422,12 @@ file that was distributed with this source code.
             {{ form_label(form, label|default(null), {label_class: label_class|default('')}) }}
         {% endif %}
 
-        {% if sonata_admin is defined and sonata_admin_enabled %}
-            {% set div_class = div_class ~ ' sonata-ba-field-' ~ sonata_admin.edit ~ '-' ~ sonata_admin.inline %}
+        {% if adminata_admin is defined and adminata_admin_enabled %}
+            {% set div_class = div_class ~ ' adminata-field-' ~ adminata_admin.edit ~ '-' ~ adminata_admin.inline %}
         {% endif %}
 
         {% if errors|length > 0 %}
-            {% set div_class = div_class ~ ' sonata-ba-field-error' %}
+            {% set div_class = div_class ~ ' adminata-field-error' %}
         {% endif %}
 
         <div class="{{ div_class }}">
@@ -436,7 +436,7 @@ file that was distributed with this source code.
             {{ form_widget(form, {widget_class: widget_class|default('')}) }}
 
             {% if errors|length > 0 %}
-                <div class="mt-1.5 sonata-ba-field-error-messages">
+                <div class="mt-1.5 adminata-field-error-messages">
                     {{ form_errors(form, {error_item_class: error_item_class|default('')}) }}
                 </div>
             {% endif %}
@@ -457,12 +457,12 @@ file that was distributed with this source code.
 {%- endblock radio_row %}
 
 {#
-    A collection row is a card (PLAN/06 §2). `sonata-collection-row`, `sonata-collection-delete`,
-    `sonata-collection-add`, `data-prototype` and `data-prototype-name` are the contract; the icon
+    A collection row is a card (PLAN/06 §2). `adminata-collection-row`, `adminata-collection-delete`,
+    `adminata-collection-add`, `data-prototype` and `data-prototype-name` are the contract; the icon
     buttons carry a name, because an icon is not one.
 #}
-{% block sonata_type_native_collection_widget_row %}
-    <div class="adm-collection-row sonata-collection-row" {{ stimulus_target('sonata-collection', 'item') }}>
+{% block adminata_type_native_collection_widget_row %}
+    <div class="adm-collection-row adminata-collection-row" {{ stimulus_target('adminata-collection', 'item') }}>
         {% if allow_delete %}
             <div class="flex items-start gap-3">
                 <div class="min-w-0 flex-1">
@@ -471,66 +471,66 @@ file that was distributed with this source code.
         {% if allow_delete %}
                 </div>
                 <button type="button"
-                        class="adm-btn-icon adm-btn-icon-delete sonata-collection-delete"
-                        {{ stimulus_action('sonata-collection', 'delete', 'click') }}>
+                        class="adm-btn-icon adm-btn-icon-delete adminata-collection-delete"
+                        {{ stimulus_action('adminata-collection', 'delete', 'click') }}>
                     <i class="fas fa-circle-minus" aria-hidden="true"></i>
-                    <span class="sr-only">{{ 'link_delete'|trans({}, 'SonataAdminBundle') }}</span>
+                    <span class="sr-only">{{ 'link_delete'|trans({}, 'AdminataBundle') }}</span>
                 </button>
             </div>
         {% endif %}
     </div>
-{% endblock sonata_type_native_collection_widget_row %}
+{% endblock adminata_type_native_collection_widget_row %}
 
-{% block sonata_type_native_collection_widget %}
+{% block adminata_type_native_collection_widget %}
     {% if prototype is defined %}
         {% set child = prototype %}
         {% set allow_delete_backup = allow_delete %}
         {% set allow_delete = true %}
         {% set attr = attr|merge({
-            'data-prototype': block('sonata_type_native_collection_widget_row'),
+            'data-prototype': block('adminata_type_native_collection_widget_row'),
             'data-prototype-name': prototype.vars.name,
             'class': [attr.class|default(''), 'adm-collection']|filter(part => part is not empty)|join(' '),
-        })|merge(stimulus_controller('sonata-collection').toArray()) %}
+        })|merge(stimulus_controller('adminata-collection').toArray()) %}
         {% set allow_delete = allow_delete_backup %}
     {% endif %}
     <div {{ block('widget_container_attributes') }}>
         {% for child in form %}
-            {{ block('sonata_type_native_collection_widget_row') }}
+            {{ block('adminata_type_native_collection_widget_row') }}
         {% endfor %}
         {{ form_rest(form) }}
         {% if allow_add %}
             <button type="button"
-                    class="adm-btn adm-btn-secondary adm-btn-sm sonata-collection-add"
-                    {{ stimulus_action('sonata-collection', 'add', 'click') }}>
+                    class="adm-btn adm-btn-secondary adm-btn-sm adminata-collection-add"
+                    {{ stimulus_action('adminata-collection', 'add', 'click') }}>
                 <i class="fas fa-circle-plus" aria-hidden="true"></i>
-                {{ 'link_add'|trans({}, 'SonataAdminBundle') }}
+                {{ 'link_add'|trans({}, 'AdminataBundle') }}
             </button>
         {% endif %}
     </div>
-{% endblock sonata_type_native_collection_widget %}
+{% endblock adminata_type_native_collection_widget %}
 
-{% block sonata_type_immutable_array_widget %}
+{% block adminata_type_immutable_array_widget %}
     <div {{ block('widget_container_attributes') }}>
         {% for key, child in form %}
-            {{ block('sonata_type_immutable_array_widget_row') }}
+            {{ block('adminata_type_immutable_array_widget_row') }}
         {% endfor %}
 
         {{ form_rest(form) }}
     </div>
-{% endblock sonata_type_immutable_array_widget %}
+{% endblock adminata_type_immutable_array_widget %}
 
-{% block sonata_type_immutable_array_widget_row %}
-    {% set horizontal = sonata_admin.options['form_type'] == 'horizontal' %}
+{% block adminata_type_immutable_array_widget_row %}
+    {% set horizontal = adminata_admin.options['form_type'] == 'horizontal' %}
     <div class="adm-form-row{% if horizontal %} grid grid-cols-12 items-start gap-x-3 gap-y-1{% endif %}"
-         id="sonata-ba-field-container-{{ id }}-{{ key }}">
+         id="adminata-field-container-{{ id }}-{{ key }}">
 
         {{ form_label(child) }}
 
-        <div class="{% if horizontal %}col-span-12 md:col-span-9 {% endif %}sonata-ba-field sonata-ba-field-{{ sonata_admin.edit }}-{{ sonata_admin.inline }}{% if child.vars.errors|length > 0 %} sonata-ba-field-error{% endif %}">
+        <div class="{% if horizontal %}col-span-12 md:col-span-9 {% endif %}adminata-field adminata-field-{{ adminata_admin.edit }}-{{ adminata_admin.inline }}{% if child.vars.errors|length > 0 %} adminata-field-error{% endif %}">
             {{ form_widget(child) }}
 
             {% if child.vars.errors|length > 0 %}
-                <div class="mt-1.5 sonata-ba-field-error-messages">
+                <div class="mt-1.5 adminata-field-error-messages">
                     {{ form_errors(child) }}
                 </div>
             {% endif %}
@@ -540,22 +540,22 @@ file that was distributed with this source code.
     </div>
 {% endblock %}
 
-{% block sonata_type_model_autocomplete_widget %}
+{% block adminata_type_model_autocomplete_widget %}
     {% include template %}
-{% endblock sonata_type_model_autocomplete_widget %}
+{% endblock adminata_type_model_autocomplete_widget %}
 
 {#
     Markup only. Upstream printed a page of jQuery here that showed and hid other fields as the
-    choice changed; the `sonata-choice-field-mask` controller that replaces it is post-1.0
+    choice changed; the `adminata-choice-field-mask` controller that replaces it is post-1.0
     (PLAN/01 J2), so until then every field the map governs simply stays visible. What the future
     controller needs — the map and the full list — is on the element already.
 #}
-{% block sonata_type_choice_field_mask_widget %}
+{% block adminata_type_choice_field_mask_widget %}
     {% set main_form_name = id|slice(0, (id|length - name|length) - 1) %}
-    <div class="sonata-choice-field-mask"
-         data-sonata-choice-field-mask-form="{{ main_form_name }}"
-         data-sonata-choice-field-mask-fields="{{ all_fields|json_encode }}"
-         data-sonata-choice-field-mask-map="{{ map|json_encode }}">
+    <div class="adminata-choice-field-mask"
+         data-adminata-choice-field-mask-form="{{ main_form_name }}"
+         data-adminata-choice-field-mask-fields="{{ all_fields|json_encode }}"
+         data-adminata-choice-field-mask-map="{{ map|json_encode }}">
         {{ block('choice_widget') }}
     </div>
 {% endblock %}
@@ -565,7 +565,7 @@ file that was distributed with this source code.
     separated input. Without select2 there is no ordering UI, so the field is the plain multiple
     select it always was underneath (PLAN/01 J6); the application has none.
 #}
-{% block sonata_type_choice_multiple_sortable %}
+{% block adminata_type_choice_multiple_sortable %}
     {{ block('choice_widget_collapsed') }}
 {% endblock %}
 
@@ -573,10 +573,10 @@ file that was distributed with this source code.
     Not ported: the widget is inherited markup and lives in its own file, which is what keeps this
     theme free of Bootstrap and of inline scripts (PLAN/03 §E).
 #}
-{% block sonata_type_model_list_widget %}
-    {% include '@SonataAdmin/Form/Type/sonata_type_model_list.html.twig' %}
+{% block adminata_type_model_list_widget %}
+    {% include '@Adminata/Form/Type/adminata_type_model_list.html.twig' %}
 {% endblock %}
 
-{% block sonata_type_template_widget %}
+{% block adminata_type_template_widget %}
     {% include template with parameters only %}
-{% endblock sonata_type_template_widget %}
+{% endblock adminata_type_template_widget %}

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Admin;
+namespace IDCT\Adminata\Tests\Admin;
 
 use Doctrine\Common\Collections\Collection;
 use Knp\Menu\FactoryInterface;
@@ -21,62 +21,62 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Admin\AbstractAdminExtension;
-use Sonata\AdminBundle\Admin\AdminExtensionInterface;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
-use Sonata\AdminBundle\Builder\FormContractorInterface;
-use Sonata\AdminBundle\Builder\ListBuilderInterface;
-use Sonata\AdminBundle\Builder\RouteBuilderInterface;
-use Sonata\AdminBundle\Builder\ShowBuilderInterface;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\PagerInterface;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Doctrine\Adapter\AdapterInterface;
-use Sonata\AdminBundle\Exporter\DataSourceInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionFactoryInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Filter\Persister\FilterPersisterInterface;
-use Sonata\AdminBundle\Model\AuditManagerInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Route\DefaultRouteGenerator;
-use Sonata\AdminBundle\Route\PathInfoBuilder;
-use Sonata\AdminBundle\Route\RouteGeneratorInterface;
-use Sonata\AdminBundle\Route\RoutesCache;
-use Sonata\AdminBundle\Security\Handler\AclSecurityHandlerInterface;
-use Sonata\AdminBundle\Security\Handler\SecurityHandlerInterface;
-use Sonata\AdminBundle\Templating\MutableTemplateRegistryInterface;
-use Sonata\AdminBundle\Tests\App\Builder\DatagridBuilder;
-use Sonata\AdminBundle\Tests\App\Builder\FormContractor;
-use Sonata\AdminBundle\Tests\App\Builder\ListBuilder;
-use Sonata\AdminBundle\Tests\App\Builder\ShowBuilder;
-use Sonata\AdminBundle\Tests\App\Model\Foo;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\AvoidInfiniteLoopAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\CommentAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\CommentVoteAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\CommentWithCustomRouteAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\FilteredAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\ModelAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\PostAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\PostCategoryAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\PostWithCustomRouteAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\PostWithoutBatchRouteAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\TagAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\TagWithoutPostAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Bundle\Entity\BlogPost;
-use Sonata\AdminBundle\Tests\Fixtures\Bundle\Entity\Comment;
-use Sonata\AdminBundle\Tests\Fixtures\Bundle\Entity\CommentVote;
-use Sonata\AdminBundle\Tests\Fixtures\Bundle\Entity\NewsPost;
-use Sonata\AdminBundle\Tests\Fixtures\Bundle\Entity\Post;
-use Sonata\AdminBundle\Tests\Fixtures\Bundle\Entity\PostCategory;
-use Sonata\AdminBundle\Tests\Fixtures\Bundle\Entity\Tag;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\FooToString;
-use Sonata\AdminBundle\Tests\Fixtures\FieldDescription\FieldDescription;
-use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
-use Sonata\AdminBundle\Translator\NoopLabelTranslatorStrategy;
-use Sonata\AdminBundle\Translator\UnderscoreLabelTranslatorStrategy;
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Admin\AbstractAdminExtension;
+use IDCT\Adminata\Admin\AdminExtensionInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Builder\DatagridBuilderInterface;
+use IDCT\Adminata\Builder\FormContractorInterface;
+use IDCT\Adminata\Builder\ListBuilderInterface;
+use IDCT\Adminata\Builder\RouteBuilderInterface;
+use IDCT\Adminata\Builder\ShowBuilderInterface;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\Datagrid\PagerInterface;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Doctrine\Adapter\AdapterInterface;
+use IDCT\Adminata\Exporter\DataSourceInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionFactoryInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Filter\Persister\FilterPersisterInterface;
+use IDCT\Adminata\Model\AuditManagerInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Route\DefaultRouteGenerator;
+use IDCT\Adminata\Route\PathInfoBuilder;
+use IDCT\Adminata\Route\RouteGeneratorInterface;
+use IDCT\Adminata\Route\RoutesCache;
+use IDCT\Adminata\Security\Handler\AclSecurityHandlerInterface;
+use IDCT\Adminata\Security\Handler\SecurityHandlerInterface;
+use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
+use IDCT\Adminata\Tests\App\Builder\DatagridBuilder;
+use IDCT\Adminata\Tests\App\Builder\FormContractor;
+use IDCT\Adminata\Tests\App\Builder\ListBuilder;
+use IDCT\Adminata\Tests\App\Builder\ShowBuilder;
+use IDCT\Adminata\Tests\App\Model\Foo;
+use IDCT\Adminata\Tests\Fixtures\Admin\AvoidInfiniteLoopAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\CommentAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\CommentVoteAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\CommentWithCustomRouteAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\FilteredAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\ModelAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\PostAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\PostCategoryAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\PostWithCustomRouteAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\PostWithoutBatchRouteAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\TagAdmin;
+use IDCT\Adminata\Tests\Fixtures\Admin\TagWithoutPostAdmin;
+use IDCT\Adminata\Tests\Fixtures\Bundle\Entity\BlogPost;
+use IDCT\Adminata\Tests\Fixtures\Bundle\Entity\Comment;
+use IDCT\Adminata\Tests\Fixtures\Bundle\Entity\CommentVote;
+use IDCT\Adminata\Tests\Fixtures\Bundle\Entity\NewsPost;
+use IDCT\Adminata\Tests\Fixtures\Bundle\Entity\Post;
+use IDCT\Adminata\Tests\Fixtures\Bundle\Entity\PostCategory;
+use IDCT\Adminata\Tests\Fixtures\Bundle\Entity\Tag;
+use IDCT\Adminata\Tests\Fixtures\Entity\FooToString;
+use IDCT\Adminata\Tests\Fixtures\FieldDescription\FieldDescription;
+use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
+use IDCT\Adminata\Translator\NoopLabelTranslatorStrategy;
+use IDCT\Adminata\Translator\UnderscoreLabelTranslatorStrategy;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Filesystem\Filesystem;
@@ -117,7 +117,7 @@ final class AdminTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->cacheTempFolder = \sprintf('%s/sonata_test_route', sys_get_temp_dir());
+        $this->cacheTempFolder = \sprintf('%s/adminata_test_route', sys_get_temp_dir());
         $filesystem = new Filesystem();
         $filesystem->remove($this->cacheTempFolder);
     }
@@ -131,7 +131,7 @@ final class AdminTest extends TestCase
         $class = Post::class;
         $baseControllerName = 'Sonata\NewsBundle\Controller\PostAdminController';
 
-        $admin = new PostAdmin('sonata.post.admin.post', $class, $baseControllerName);
+        $admin = new PostAdmin('adminata.post.admin.post', $class, $baseControllerName);
         static::assertInstanceOf(AbstractAdmin::class, $admin);
         static::assertSame($class, $admin->getClass());
         static::assertSame($baseControllerName, $admin->getBaseControllerName());
@@ -268,26 +268,26 @@ final class AdminTest extends TestCase
     public function testChildren(): void
     {
         $postAdmin = new PostAdmin();
-        $postAdmin->setCode('sonata.post.admin.post');
+        $postAdmin->setCode('adminata.post.admin.post');
         static::assertFalse($postAdmin->hasChildren());
         static::assertFalse($postAdmin->hasChild('comment'));
 
         $commentAdmin = new CommentAdmin();
-        $commentAdmin->setCode('sonata.post.admin.comment');
+        $commentAdmin->setCode('adminata.post.admin.comment');
         $postAdmin->addChild($commentAdmin, 'post');
 
         static::assertTrue($postAdmin->hasChildren());
-        static::assertTrue($postAdmin->hasChild('sonata.post.admin.comment'));
+        static::assertTrue($postAdmin->hasChild('adminata.post.admin.comment'));
 
-        static::assertSame('sonata.post.admin.comment', $postAdmin->getChild('sonata.post.admin.comment')->getCode());
-        static::assertSame('sonata.post.admin.post|sonata.post.admin.comment', $postAdmin->getChild('sonata.post.admin.comment')->getBaseCodeRoute());
-        static::assertSame($postAdmin, $postAdmin->getChild('sonata.post.admin.comment')->getParent());
+        static::assertSame('adminata.post.admin.comment', $postAdmin->getChild('adminata.post.admin.comment')->getCode());
+        static::assertSame('adminata.post.admin.post|adminata.post.admin.comment', $postAdmin->getChild('adminata.post.admin.comment')->getBaseCodeRoute());
+        static::assertSame($postAdmin, $postAdmin->getChild('adminata.post.admin.comment')->getParent());
         static::assertSame('post', $commentAdmin->getParentAssociationMapping());
 
         static::assertFalse($postAdmin->isChild());
         static::assertTrue($commentAdmin->isChild());
 
-        static::assertSame(['sonata.post.admin.comment' => $commentAdmin], $postAdmin->getChildren());
+        static::assertSame(['adminata.post.admin.comment' => $commentAdmin], $postAdmin->getChildren());
     }
 
     public function testParent(): void
@@ -343,12 +343,12 @@ final class AdminTest extends TestCase
         // @phpstan-ignore-next-line
         yield [
             'Application\Sonata\NewsBundle\Entity\Post',
-            '/sonata/news/post',
+            '/adminata/news/post',
         ];
         // @phpstan-ignore-next-line
         yield [
             'Application\Sonata\NewsBundle\Document\Post',
-            '/sonata/news/post',
+            '/adminata/news/post',
         ];
         // @phpstan-ignore-next-line
         yield [
@@ -502,12 +502,12 @@ final class AdminTest extends TestCase
         // @phpstan-ignore-next-line
         yield [
             'Application\Sonata\NewsBundle\Entity\Post',
-            'admin_sonata_news_post',
+            'admin_adminata_news_post',
         ];
         // @phpstan-ignore-next-line
         yield [
             'Application\Sonata\NewsBundle\Document\Post',
-            'admin_sonata_news_post',
+            'admin_adminata_news_post',
         ];
         // @phpstan-ignore-next-line
         yield [
@@ -920,17 +920,17 @@ final class AdminTest extends TestCase
     public function testGetBaseCodeRoute(): void
     {
         $postAdmin = new PostAdmin();
-        $postAdmin->setCode('sonata.post.admin.post');
+        $postAdmin->setCode('adminata.post.admin.post');
 
         $commentAdmin = new CommentAdmin();
-        $commentAdmin->setCode('sonata.post.admin.comment');
+        $commentAdmin->setCode('adminata.post.admin.comment');
 
         static::assertSame($postAdmin->getCode(), $postAdmin->getBaseCodeRoute());
 
         $postAdmin->addChild($commentAdmin, 'post');
 
         static::assertSame(
-            'sonata.post.admin.post|sonata.post.admin.comment',
+            'adminata.post.admin.post|adminata.post.admin.comment',
             $commentAdmin->getBaseCodeRoute()
         );
     }
@@ -1264,9 +1264,9 @@ final class AdminTest extends TestCase
     public function testGetObjectIdentifier(): void
     {
         $admin = new PostAdmin();
-        $admin->setCode('sonata.post.admin.post');
+        $admin->setCode('adminata.post.admin.post');
 
-        static::assertSame('sonata.post.admin.post', $admin->getObjectIdentifier());
+        static::assertSame('adminata.post.admin.post', $admin->getObjectIdentifier());
     }
 
     #[DoesNotPerformAssertions]
@@ -1280,12 +1280,12 @@ final class AdminTest extends TestCase
     public function testGetRootCode(): void
     {
         $admin = new PostAdmin();
-        $admin->setCode('sonata.post.admin.post');
+        $admin->setCode('adminata.post.admin.post');
 
-        static::assertSame('sonata.post.admin.post', $admin->getRootCode());
+        static::assertSame('adminata.post.admin.post', $admin->getRootCode());
 
         $parentAdmin = new PostAdmin();
-        $parentAdmin->setCode('sonata.post.admin.post.parent');
+        $parentAdmin->setCode('adminata.post.admin.post.parent');
 
         $parentFieldDescription = $this->createMock(FieldDescriptionInterface::class);
         $parentFieldDescription->expects(static::once())
@@ -1295,7 +1295,7 @@ final class AdminTest extends TestCase
         static::assertFalse($admin->hasParentFieldDescription());
         $admin->setParentFieldDescription($parentFieldDescription);
         static::assertSame($parentFieldDescription, $admin->getParentFieldDescription());
-        static::assertSame('sonata.post.admin.post.parent', $admin->getRootCode());
+        static::assertSame('adminata.post.admin.post.parent', $admin->getRootCode());
     }
 
     public function testGetRoot(): void
@@ -1815,16 +1815,16 @@ final class AdminTest extends TestCase
         $expected = [
             'delete' => [
                 'label' => 'action_delete',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'ask_confirmation' => true, // by default always true
             ],
             'foo' => [
                 'label' => 'action_foo',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
             ],
             'bar' => [
                 'label' => 'batch.label_bar',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
             ],
             'baz' => [
                 'label' => 'action_baz',
@@ -1841,7 +1841,7 @@ final class AdminTest extends TestCase
 
         $admin = new PostAdmin();
         $admin->setRouteBuilder($pathInfo);
-        $admin->setTranslationDomain('SonataAdminBundle');
+        $admin->setTranslationDomain('AdminataBundle');
         $admin->setLabelTranslatorStrategy($labelTranslatorStrategy);
 
         $routeGenerator = $this->createMock(RouteGeneratorInterface::class);
@@ -1888,7 +1888,7 @@ final class AdminTest extends TestCase
     public function testGetListMode(string $expected, ?Request $request = null): void
     {
         $admin = new PostAdmin();
-        $admin->setCode('sonata.post.admin.post');
+        $admin->setCode('adminata.post.admin.post');
 
         if (null !== $request) {
             $admin->setRequest($request);
@@ -1927,7 +1927,7 @@ final class AdminTest extends TestCase
             'mosaic' => ['icon' => '<i class="fas fa-th-large fa-fw" aria-hidden="true"></i>'],
             'list' => ['icon' => '<i class="fas fa-list fa-fw" aria-hidden="true"></i>'],
         ]);
-        $admin->setCode('sonata.post.admin.post');
+        $admin->setCode('adminata.post.admin.post');
 
         if (null !== $request) {
             $admin->setRequest($request);
@@ -2040,14 +2040,14 @@ final class AdminTest extends TestCase
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(
-            'Circular reference detected! The child admin `sonata.post.admin.post` is already in the parent tree of the `sonata.post.admin.comment` admin.'
+            'Circular reference detected! The child admin `adminata.post.admin.post` is already in the parent tree of the `adminata.post.admin.comment` admin.'
         );
 
         $postAdmin = new PostAdmin();
-        $postAdmin->setCode('sonata.post.admin.post');
+        $postAdmin->setCode('adminata.post.admin.post');
 
         $commentAdmin = new CommentAdmin();
-        $commentAdmin->setCode('sonata.post.admin.comment');
+        $commentAdmin->setCode('adminata.post.admin.comment');
 
         $postAdmin->addChild($commentAdmin, 'post');
         $commentAdmin->addChild($postAdmin, 'comment');
@@ -2057,17 +2057,17 @@ final class AdminTest extends TestCase
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(
-            'Circular reference detected! The child admin `sonata.post.admin.post` is already in the parent tree of the `sonata.post.admin.comment_vote` admin.'
+            'Circular reference detected! The child admin `adminata.post.admin.post` is already in the parent tree of the `adminata.post.admin.comment_vote` admin.'
         );
 
         $postAdmin = new PostAdmin();
-        $postAdmin->setCode('sonata.post.admin.post');
+        $postAdmin->setCode('adminata.post.admin.post');
 
         $commentAdmin = new CommentAdmin();
-        $commentAdmin->setCode('sonata.post.admin.comment');
+        $commentAdmin->setCode('adminata.post.admin.comment');
 
         $commentVoteAdmin = new CommentVoteAdmin();
-        $commentVoteAdmin->setCode('sonata.post.admin.comment_vote');
+        $commentVoteAdmin->setCode('adminata.post.admin.comment_vote');
 
         $postAdmin->addChild($commentAdmin, 'post');
         $commentAdmin->addChild($commentVoteAdmin, 'comment');
@@ -2078,11 +2078,11 @@ final class AdminTest extends TestCase
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(
-            'Circular reference detected! The child admin `sonata.post.admin.post` is already in the parent tree of the `sonata.post.admin.post` admin.'
+            'Circular reference detected! The child admin `adminata.post.admin.post` is already in the parent tree of the `adminata.post.admin.post` admin.'
         );
 
         $postAdmin = new PostAdmin();
-        $postAdmin->setCode('sonata.post.admin.post');
+        $postAdmin->setCode('adminata.post.admin.post');
         $postAdmin->addChild($postAdmin, 'post');
     }
 

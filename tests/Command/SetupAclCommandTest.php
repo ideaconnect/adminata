@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Command;
+namespace IDCT\Adminata\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Command\SetupAclCommand;
-use Sonata\AdminBundle\Util\AdminAclManipulatorInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Command\SetupAclCommand;
+use IDCT\Adminata\Util\AdminAclManipulatorInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\Container;
@@ -45,7 +45,7 @@ final class SetupAclCommandTest extends TestCase
         $application = new Application();
         $application->addCommand($command);
 
-        $command = $application->find('sonata:admin:setup-acl');
+        $command = $application->find('adminata:setup-acl');
         $commandTester = new CommandTester($command);
         $commandTester->execute(['command' => $command->getName()]);
 
@@ -62,7 +62,7 @@ final class SetupAclCommandTest extends TestCase
         $application = new Application();
         $application->addCommand($command);
 
-        $command = $application->find('sonata:admin:setup-acl');
+        $command = $application->find('adminata:setup-acl');
         $commandTester = new CommandTester($command);
         $commandTester->execute(['command' => $command->getName()]);
 

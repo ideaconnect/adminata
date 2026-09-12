@@ -11,8 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Exporter\Exception;
+namespace IDCT\Adminata\Exporter\Exception;
 
-class RuntimeException extends \RuntimeException implements SonataExporterException
+class RuntimeException extends \RuntimeException implements AdminataExporterException
 {
 }

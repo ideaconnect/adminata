@@ -11,23 +11,23 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Builder;
+namespace IDCT\Adminata\Tests\Builder;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Builder\AbstractFormContractor;
-use Sonata\AdminBundle\Builder\FormContractorInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\Type\AdminType;
-use Sonata\AdminBundle\Form\Type\CollectionType;
-use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
-use Sonata\AdminBundle\Form\Type\ModelHiddenType;
-use Sonata\AdminBundle\Form\Type\ModelListType;
-use Sonata\AdminBundle\Form\Type\ModelType;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Form\MyCustomType;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Builder\AbstractFormContractor;
+use IDCT\Adminata\Builder\FormContractorInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\Type\AdminType;
+use IDCT\Adminata\Form\Type\CollectionType;
+use IDCT\Adminata\Form\Type\ModelAutocompleteType;
+use IDCT\Adminata\Form\Type\ModelHiddenType;
+use IDCT\Adminata\Form\Type\ModelListType;
+use IDCT\Adminata\Form\Type\ModelType;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Tests\Fixtures\Form\MyCustomType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormRegistryInterface;
@@ -91,7 +91,7 @@ final class AbstractFormContractorTest extends TestCase
         );
     }
 
-    public function testDefaultOptionsForSonataFormTypes(): void
+    public function testDefaultOptionsForAdminataFormTypes(): void
     {
         $admin = $this->createMock(AdminInterface::class);
         $modelClass = 'FooModel';
@@ -122,7 +122,7 @@ final class AbstractFormContractorTest extends TestCase
         // model types
         foreach ($modelTypes as $formType) {
             $options = $this->formContractor->getDefaultOptions($formType, $this->fieldDescription);
-            static::assertSame($this->fieldDescription, $options['sonata_field_description']);
+            static::assertSame($this->fieldDescription, $options['adminata_field_description']);
             static::assertSame($modelClass, $options['class']);
             static::assertSame($modelManager, $options['model_manager']);
         }
@@ -133,7 +133,7 @@ final class AbstractFormContractorTest extends TestCase
             ->willReturn(true);
         foreach ($adminTypes as $formType) {
             $options = $this->formContractor->getDefaultOptions($formType, $this->fieldDescription);
-            static::assertSame($this->fieldDescription, $options['sonata_field_description']);
+            static::assertSame($this->fieldDescription, $options['adminata_field_description']);
             static::assertSame($modelClass, $options['data_class']);
             static::assertFalse($options['btn_add']);
             static::assertFalse($options['delete']);
@@ -144,11 +144,11 @@ final class AbstractFormContractorTest extends TestCase
             $options = $this->formContractor->getDefaultOptions($formType, $this->fieldDescription, [
                 'by_reference' => false,
             ]);
-            static::assertSame($this->fieldDescription, $options['sonata_field_description']);
+            static::assertSame($this->fieldDescription, $options['adminata_field_description']);
             static::assertSame(AdminType::class, $options['type']);
             static::assertTrue($options['modifiable']);
             static::assertIsArray($options['type_options']);
-            static::assertSame($this->fieldDescription, $options['type_options']['sonata_field_description']);
+            static::assertSame($this->fieldDescription, $options['type_options']['adminata_field_description']);
             static::assertSame($modelClass, $options['type_options']['data_class']);
             static::assertFalse($options['type_options']['collection_by_reference']);
         }
@@ -186,7 +186,7 @@ final class AbstractFormContractorTest extends TestCase
         $this->fieldDescription->expects(static::any())->method('getOption')->with(static::logicalOr(
             static::equalTo('edit'),
             static::equalTo('admin_code')
-        ))->willReturn('sonata.admin.code');
+        ))->willReturn('adminata.admin.code');
 
         $this->fieldDescription
             ->method('getAdmin')

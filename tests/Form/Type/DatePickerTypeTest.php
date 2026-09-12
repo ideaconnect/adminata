@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
-use Sonata\AdminBundle\Form\Type\DatePickerType;
+use IDCT\Adminata\Form\Type\DatePickerType;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormExtensionInterface;
@@ -45,7 +45,7 @@ final class DatePickerTypeTest extends TypeTestCase
             'en',
         );
 
-        static::assertSame('sonata_type_datetime_picker', $type->getBlockPrefix());
+        static::assertSame('adminata_type_datetime_picker', $type->getBlockPrefix());
     }
 
     public function testSubmitValidData(): void
@@ -74,7 +74,7 @@ final class DatePickerTypeTest extends TypeTestCase
     public function testACustomFormatIsRefused(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('Cannot use the "format" option of "Sonata\\AdminBundle\\Form\\Type\\DatePickerType"');
+        $this->expectExceptionMessage('Cannot use the "format" option of "IDCT\\Adminata\\Form\\Type\\DatePickerType"');
 
         $this->factory->create(DatePickerType::class, null, ['format' => 'dd.MM.yyyy']);
     }

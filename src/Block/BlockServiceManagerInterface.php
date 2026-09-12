@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block;
+namespace IDCT\Adminata\Block;
 
-use Sonata\AdminBundle\Block\Service\BlockServiceInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use IDCT\Adminata\Block\Service\BlockServiceInterface;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Validator\ErrorElement;
 
 interface BlockServiceManagerInterface
 {

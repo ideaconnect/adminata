@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig;
+namespace IDCT\Adminata\Twig;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
 use Twig\Environment;
@@ -65,7 +65,7 @@ final class RenderElementRuntime implements RuntimeExtensionInterface
     ): string {
         $template = $this->getTemplate(
             $fieldDescription,
-            '@SonataAdmin/CRUD/base_show_field.html.twig',
+            '@Adminata/CRUD/base_show_field.html.twig',
             $environment
         );
 
@@ -88,7 +88,7 @@ final class RenderElementRuntime implements RuntimeExtensionInterface
     ): string {
         $template = $this->getTemplate(
             $fieldDescription,
-            '@SonataAdmin/CRUD/base_show_field.html.twig',
+            '@Adminata/CRUD/base_show_field.html.twig',
             $environment
         );
 

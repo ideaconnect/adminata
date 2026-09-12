@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block;
+namespace IDCT\Adminata\Block;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Block\Service\AbstractBlockService;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\ListMapper;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Block\Service\AbstractBlockService;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\Datagrid\ListMapper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -69,7 +69,7 @@ final class AdminPreviewBlockService extends AbstractBlockService
             'icon' => false,
             'limit' => 10,
             'code' => false,
-            'template' => '@SonataAdmin/Block/block_admin_preview.html.twig',
+            'template' => '@Adminata/Block/block_admin_preview.html.twig',
             'remove_list_fields' => [ListMapper::NAME_ACTIONS],
         ]);
     }

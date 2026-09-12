@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type\Operator;
+namespace IDCT\Adminata\Form\Type\Operator;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType as FormChoiceType;
@@ -26,7 +26,7 @@ final class EqualOperatorType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choice_translation_domain' => 'SonataAdminBundle',
+            'choice_translation_domain' => 'AdminataBundle',
             'choices' => [
                 'label_type_equals' => self::TYPE_EQUAL,
                 'label_type_not_equals' => self::TYPE_NOT_EQUAL,
@@ -44,6 +44,6 @@ final class EqualOperatorType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_operator_equal';
+        return 'adminata_type_operator_equal';
     }
 }

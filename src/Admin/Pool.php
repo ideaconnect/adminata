@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Admin;
+namespace IDCT\Adminata\Admin;
 
 use Psr\Container\ContainerInterface;
-use Sonata\AdminBundle\Exception\AdminClassNotFoundException;
-use Sonata\AdminBundle\Exception\AdminCodeNotFoundException;
-use Sonata\AdminBundle\Exception\TooManyAdminClassException;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Exception\AdminClassNotFoundException;
+use IDCT\Adminata\Exception\AdminCodeNotFoundException;
+use IDCT\Adminata\Exception\TooManyAdminClassException;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
@@ -164,7 +164,7 @@ final class Pool
 
     /**
      * Returns an admin class by its Admin code
-     * ie : sonata.news.admin.post|sonata.news.admin.comment => return the child class of post.
+     * ie : adminata.news.admin.post|adminata.news.admin.comment => return the child class of post.
      *
      * @throws AdminCodeNotFoundException
      *

@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Templating;
+namespace IDCT\Adminata\Tests\Templating;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Templating\MutableTemplateRegistry;
-use Sonata\AdminBundle\Templating\MutableTemplateRegistryInterface;
+use IDCT\Adminata\Templating\MutableTemplateRegistry;
+use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
 
 final class MutableTemplateRegistryTest extends TestCase
 {

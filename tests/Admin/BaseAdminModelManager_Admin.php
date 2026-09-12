@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Admin;
+namespace IDCT\Adminata\Tests\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin;
+use IDCT\Adminata\Admin\AbstractAdmin;
 
 /**
  * @phpstan-extends AbstractAdmin<object>

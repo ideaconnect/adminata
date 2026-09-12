@@ -15,10 +15,10 @@ import { Controller } from '@hotwired/stimulus';
 import { buildQueryString } from '../core/utils.js';
 
 /**
- * The `sonata_type_model_autocomplete` widget, written by hand (PLAN/01 J5, PLAN/06 §3).
+ * The `adminata_type_model_autocomplete` widget, written by hand (PLAN/01 J5, PLAN/06 §3).
  *
  * select2 left with jQuery and nothing replaced it: this is the ARIA 1.2 combobox pattern over
- * `sonata_admin_retrieve_autocomplete_items`, which is a few hundred lines and no dependency.
+ * `adminata_retrieve_autocomplete_items`, which is a few hundred lines and no dependency.
  *
  * The **hidden inputs are the only submitted state**. The combobox itself is a search box that the
  * form never names, so what the server receives is exactly what upstream's select2 sent — which is
@@ -210,7 +210,7 @@ export default class extends Controller {
     pick(event) {
         event.preventDefault();
 
-        this.active = Number(event.currentTarget.dataset.sonataAutocompleteIndex);
+        this.active = Number(event.currentTarget.dataset.adminataAutocompleteIndex);
         this.choose();
     }
 
@@ -241,7 +241,7 @@ export default class extends Controller {
         event.preventDefault();
 
         this.removeId(
-            event.currentTarget.closest('[data-sonata-autocomplete-id]').dataset.sonataAutocompleteId,
+            event.currentTarget.closest('[data-adminata-autocomplete-id]').dataset.adminataAutocompleteId,
         );
         this.inputTarget.focus();
     }
@@ -263,7 +263,7 @@ export default class extends Controller {
 
         if (this.hasChipsTarget) {
             [...this.chipsTarget.children]
-                .filter((chip) => chip.dataset.sonataAutocompleteId === String(id))
+                .filter((chip) => chip.dataset.adminataAutocompleteId === String(id))
                 .forEach((chip) => chip.remove());
         }
 
@@ -287,7 +287,7 @@ export default class extends Controller {
         const element = this.itemTemplateTarget.content.firstElementChild.cloneNode(true);
 
         element.id = `${this.inputTarget.id}_option_${index}`;
-        element.dataset.sonataAutocompleteIndex = String(index);
+        element.dataset.adminataAutocompleteIndex = String(index);
         element.setAttribute('role', 'option');
         element.setAttribute('aria-selected', 'false');
         this.write(element, this.labelOf(item), more);
@@ -298,7 +298,7 @@ export default class extends Controller {
     chip(item) {
         const element = this.chipTemplateTarget.content.firstElementChild.cloneNode(true);
 
-        element.dataset.sonataAutocompleteId = String(item.id);
+        element.dataset.adminataAutocompleteId = String(item.id);
         this.write(element.querySelector('[data-label]') ?? element, this.labelOf(item), false);
         element
             .querySelector('[data-remove]')

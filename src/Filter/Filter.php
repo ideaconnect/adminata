@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Filter;
+namespace IDCT\Adminata\Filter;
 
-use Sonata\AdminBundle\Form\Type\Filter\FilterDataType;
-use Sonata\AdminBundle\Search\ChainableFilterInterface;
+use IDCT\Adminata\Form\Type\Filter\FilterDataType;
+use IDCT\Adminata\Search\ChainableFilterInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**

@@ -7,11 +7,11 @@ Testing
 Test Widgets
 ~~~~~~~~~~~~
 
-``Sonata\AdminBundle\Test\AbstractWidgetTestCase`` renders a form view through Twig with the admin
+``IDCT\Adminata\Test\AbstractWidgetTestCase`` renders a form view through Twig with the admin
 bundle's form themes loaded, so a widget test asserts on the markup a page would really get. You
 can write unit tests for Twig form rendering with the following code::
 
-    use Sonata\AdminBundle\Test\AbstractWidgetTestCase;
+    use IDCT\Adminata\Test\AbstractWidgetTestCase;
 
     class CustomTest extends AbstractWidgetTestCase
     {
@@ -32,5 +32,5 @@ can write unit tests for Twig form rendering with the following code::
 ``renderWidget()``, ``cleanHtmlWhitespace()`` and ``cleanHtmlAttributeWhitespace()`` are the three
 helpers the case gives you; ``getTemplatePaths()`` is the one to override when your widget's
 template lives outside the paths the case already loads. Translations are stubbed by
-``Sonata\AdminBundle\Test\StubTranslator``, which returns ``[trans]<id>[/trans]`` — assert on that
+``IDCT\Adminata\Test\StubTranslator``, which returns ``[trans]<id>[/trans]`` — assert on that
 rather than on a catalogue.

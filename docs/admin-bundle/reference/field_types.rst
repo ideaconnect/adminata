@@ -405,20 +405,20 @@ Create your own field type
 
 Field types are Twig templates that are registered in the configuration
 section matching your model manager. The example below uses
-``sonata_doctrine_orm_admin``.
+``adminata_doctrine_orm``.
 
 .. code-block:: yaml
 
-    # config/sonata_doctrine_orm_admin.yaml
+    # config/adminata_doctrine_orm.yaml
 
-    sonata_doctrine_orm_admin:
+    adminata_doctrine_orm:
         templates:
             types:
                 show: # or "list"
                     dump: 'field_types/show_dump.html.twig'
 
 Now add a twig file to your ``templates/`` directory. The example below
-uses ``@SonataAdmin/CRUD/base_show_field.html.twig`` to provide the row
+uses ``@Adminata/CRUD/base_show_field.html.twig`` to provide the row
 layout used by the "show" template.
 Within this base template you can override the ``field`` block to
 rewrite the contents of the field content cell in this row.
@@ -427,14 +427,14 @@ rewrite the contents of the field content cell in this row.
 
     {# templates/field_types/show_dump.html.twig #}
 
-    {% extends '@SonataAdmin/CRUD/base_show_field.html.twig' %}
+    {% extends '@Adminata/CRUD/base_show_field.html.twig' %}
 
     {% block field %}
         {{ dump(value) }}
     {% endblock %}
 
 Take a look at the default templates in
-``@SonataAdmin/Resources/views/CRUD`` to get an idea of the
+``@Adminata/Resources/views/CRUD`` to get an idea of the
 possibilities when writing field templates.
 
 You can now use it in your admin::

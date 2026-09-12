@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\EventListener;
+namespace IDCT\Adminata\Tests\App\EventListener;
 
-use Sonata\AdminBundle\Event\ConfigureMenuEvent;
+use IDCT\Adminata\Event\ConfigureMenuEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class ConfigureMenu implements EventSubscriberInterface

@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block\Service;
+namespace IDCT\Adminata\Block\Service;
 
-use Sonata\AdminBundle\Block\BlockContextInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Block\BlockContextInterface;
+use IDCT\Adminata\Model\BlockInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

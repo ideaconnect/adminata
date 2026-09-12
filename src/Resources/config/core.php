@@ -14,61 +14,61 @@ declare(strict_types=1);
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Psr\Container\ContainerInterface;
-use Sonata\AdminBundle\Admin\AdminHelper;
-use Sonata\AdminBundle\Admin\BreadcrumbsBuilder;
-use Sonata\AdminBundle\Admin\BreadcrumbsBuilderInterface;
-use Sonata\AdminBundle\Admin\Extension\LockExtension;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\ArgumentResolver\AdminValueResolver;
-use Sonata\AdminBundle\ArgumentResolver\ProxyQueryResolver;
-use Sonata\AdminBundle\Asset\LastModifiedVersionStrategy;
-use Sonata\AdminBundle\Controller\CRUDController;
-use Sonata\AdminBundle\Event\AdminEventExtension;
-use Sonata\AdminBundle\Filter\FilterFactory;
-use Sonata\AdminBundle\Filter\FilterFactoryInterface;
-use Sonata\AdminBundle\Filter\Persister\FilterPersisterInterface;
-use Sonata\AdminBundle\Filter\Persister\SessionFilterPersister;
-use Sonata\AdminBundle\Model\AuditManager;
-use Sonata\AdminBundle\Model\AuditManagerInterface;
-use Sonata\AdminBundle\Request\AdminFetcher;
-use Sonata\AdminBundle\Request\AdminFetcherInterface;
-use Sonata\AdminBundle\Route\AdminPoolLoader;
-use Sonata\AdminBundle\Search\SearchHandler;
-use Sonata\AdminBundle\Search\SearchHandlerInterface;
-use Sonata\AdminBundle\SonataConfiguration;
-use Sonata\AdminBundle\Templating\TemplateRegistry;
-use Sonata\AdminBundle\Translator\BCLabelTranslatorStrategy;
-use Sonata\AdminBundle\Translator\Extractor\AdminExtractor;
-use Sonata\AdminBundle\Translator\FormLabelTranslatorStrategy;
-use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
-use Sonata\AdminBundle\Translator\NativeLabelTranslatorStrategy;
-use Sonata\AdminBundle\Translator\NoopLabelTranslatorStrategy;
-use Sonata\AdminBundle\Translator\UnderscoreLabelTranslatorStrategy;
+use IDCT\Adminata\Admin\AdminHelper;
+use IDCT\Adminata\Admin\BreadcrumbsBuilder;
+use IDCT\Adminata\Admin\BreadcrumbsBuilderInterface;
+use IDCT\Adminata\Admin\Extension\LockExtension;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\ArgumentResolver\AdminValueResolver;
+use IDCT\Adminata\ArgumentResolver\ProxyQueryResolver;
+use IDCT\Adminata\Asset\LastModifiedVersionStrategy;
+use IDCT\Adminata\Controller\CRUDController;
+use IDCT\Adminata\Event\AdminEventExtension;
+use IDCT\Adminata\Filter\FilterFactory;
+use IDCT\Adminata\Filter\FilterFactoryInterface;
+use IDCT\Adminata\Filter\Persister\FilterPersisterInterface;
+use IDCT\Adminata\Filter\Persister\SessionFilterPersister;
+use IDCT\Adminata\Model\AuditManager;
+use IDCT\Adminata\Model\AuditManagerInterface;
+use IDCT\Adminata\Request\AdminFetcher;
+use IDCT\Adminata\Request\AdminFetcherInterface;
+use IDCT\Adminata\Route\AdminPoolLoader;
+use IDCT\Adminata\Search\SearchHandler;
+use IDCT\Adminata\Search\SearchHandlerInterface;
+use IDCT\Adminata\AdminataConfiguration;
+use IDCT\Adminata\Templating\TemplateRegistry;
+use IDCT\Adminata\Translator\BCLabelTranslatorStrategy;
+use IDCT\Adminata\Translator\Extractor\AdminExtractor;
+use IDCT\Adminata\Translator\FormLabelTranslatorStrategy;
+use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
+use IDCT\Adminata\Translator\NativeLabelTranslatorStrategy;
+use IDCT\Adminata\Translator\NoopLabelTranslatorStrategy;
+use IDCT\Adminata\Translator\UnderscoreLabelTranslatorStrategy;
 use Symfony\Component\Asset\PathPackage;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->parameters()
 
-        ->set('sonata.admin.assets.public_dir', '/public')
-        ->set('sonata.admin.assets.base_path', '/');
+        ->set('adminata.admin.assets.public_dir', '/public')
+        ->set('adminata.admin.assets.base_path', '/');
 
     $containerConfigurator->services()
 
-        ->set('sonata.admin.assets.version_strategy', LastModifiedVersionStrategy::class)
+        ->set('adminata.admin.assets.version_strategy', LastModifiedVersionStrategy::class)
             ->args([
                 param('kernel.project_dir'),
-                param('sonata.admin.assets.public_dir'),
+                param('adminata.admin.assets.public_dir'),
             ])
 
-        ->set('sonata.admin.assets.package', PathPackage::class)
-            ->tag('assets.package', ['package' => 'sonata_admin'])
+        ->set('adminata.admin.assets.package', PathPackage::class)
+            ->tag('assets.package', ['package' => 'adminata'])
             ->args([
-                param('sonata.admin.assets.base_path'),
-                service('sonata.admin.assets.version_strategy'),
+                param('adminata.admin.assets.base_path'),
+                service('adminata.admin.assets.version_strategy'),
                 service('assets.context'),
             ])
 
-        ->set('sonata.admin.pool', Pool::class)
+        ->set('adminata.admin.pool', Pool::class)
             ->args([
                 abstract_arg('admin service locator'),
                 abstract_arg('admin service ids'),
@@ -76,116 +76,116 @@ return static function (ContainerConfigurator $containerConfigurator): void {
                 abstract_arg('admin service clasess'),
             ])
 
-        ->alias(Pool::class, 'sonata.admin.pool')
+        ->alias(Pool::class, 'adminata.admin.pool')
 
-        ->set('sonata.admin.configuration', SonataConfiguration::class)
+        ->set('adminata.admin.configuration', AdminataConfiguration::class)
             ->args([
                 abstract_arg('title'),
                 abstract_arg('logo'),
                 abstract_arg('options'),
             ])
 
-        ->set('sonata.admin.route_loader', AdminPoolLoader::class)
+        ->set('adminata.admin.route_loader', AdminPoolLoader::class)
             ->tag('routing.loader')
             ->args([
-                service('sonata.admin.pool'),
+                service('adminata.admin.pool'),
             ])
 
         // @phpstan-ignore-next-line classConstant.internalClass
-        ->set('sonata.admin.helper', AdminHelper::class)
+        ->set('adminata.admin.helper', AdminHelper::class)
             ->args([
                 service('property_accessor'),
             ])
 
-        ->set('sonata.admin.builder.filter.factory', FilterFactory::class)
+        ->set('adminata.admin.builder.filter.factory', FilterFactory::class)
             ->args([
                 abstract_arg('service locator'),
             ])
 
-        ->alias(FilterFactoryInterface::class, 'sonata.admin.builder.filter.factory')
+        ->alias(FilterFactoryInterface::class, 'adminata.admin.builder.filter.factory')
 
-        ->set('sonata.admin.breadcrumbs_builder', BreadcrumbsBuilder::class)
+        ->set('adminata.admin.breadcrumbs_builder', BreadcrumbsBuilder::class)
             ->args([
-                param('sonata.admin.configuration.breadcrumbs'),
+                param('adminata.admin.configuration.breadcrumbs'),
             ])
 
-        ->alias(BreadcrumbsBuilderInterface::class, 'sonata.admin.breadcrumbs_builder')
+        ->alias(BreadcrumbsBuilderInterface::class, 'adminata.admin.breadcrumbs_builder')
 
-        // Services used to format the label, default is sonata.admin.label.strategy.noop
+        // Services used to format the label, default is adminata.admin.label.strategy.noop
 
         // NEXT_MAJOR: Remove this line.
-        ->set('sonata.admin.label.strategy.bc', BCLabelTranslatorStrategy::class)
+        ->set('adminata.admin.label.strategy.bc', BCLabelTranslatorStrategy::class)
 
-        ->set('sonata.admin.label.strategy.native', NativeLabelTranslatorStrategy::class)
+        ->set('adminata.admin.label.strategy.native', NativeLabelTranslatorStrategy::class)
 
-        ->alias(LabelTranslatorStrategyInterface::class, 'sonata.admin.label.strategy.native')
+        ->alias(LabelTranslatorStrategyInterface::class, 'adminata.admin.label.strategy.native')
 
-        ->set('sonata.admin.label.strategy.noop', NoopLabelTranslatorStrategy::class)
+        ->set('adminata.admin.label.strategy.noop', NoopLabelTranslatorStrategy::class)
 
-        ->set('sonata.admin.label.strategy.underscore', UnderscoreLabelTranslatorStrategy::class)
+        ->set('adminata.admin.label.strategy.underscore', UnderscoreLabelTranslatorStrategy::class)
 
-        ->set('sonata.admin.label.strategy.form_component', FormLabelTranslatorStrategy::class)
+        ->set('adminata.admin.label.strategy.form_component', FormLabelTranslatorStrategy::class)
 
         // @phpstan-ignore-next-line classConstant.internalClass
-        ->set('sonata.admin.translation_extractor', AdminExtractor::class)
+        ->set('adminata.admin.translation_extractor', AdminExtractor::class)
             ->tag('translation.extractor', [
-                'alias' => 'sonata_admin',
+                'alias' => 'adminata',
             ])
             ->args([
-                service('sonata.admin.pool'),
-                service('sonata.admin.breadcrumbs_builder'),
+                service('adminata.admin.pool'),
+                service('adminata.admin.breadcrumbs_builder'),
             ])
 
-        ->set('sonata.admin.audit.manager', AuditManager::class)
+        ->set('adminata.admin.audit.manager', AuditManager::class)
             ->args([
                 abstract_arg('service locator'),
             ])
 
-        ->alias(AuditManagerInterface::class, 'sonata.admin.audit.manager')
+        ->alias(AuditManagerInterface::class, 'adminata.admin.audit.manager')
 
-        ->set('sonata.admin.search.handler', SearchHandler::class)
+        ->set('adminata.admin.search.handler', SearchHandler::class)
 
-        ->alias(SearchHandlerInterface::class, 'sonata.admin.search.handler')
+        ->alias(SearchHandlerInterface::class, 'adminata.admin.search.handler')
 
-        ->set('sonata.admin.controller.crud', CRUDController::class)
+        ->set('adminata.admin.controller.crud', CRUDController::class)
             ->public()
             ->tag('container.service_subscriber')
             ->call('setContainer', [service(ContainerInterface::class)])
 
-        ->set('sonata.admin.event.extension', AdminEventExtension::class)
-            ->tag('sonata.admin.extension', ['global' => true])
+        ->set('adminata.admin.event.extension', AdminEventExtension::class)
+            ->tag('adminata.admin.extension', ['global' => true])
             ->args([
                 service('event_dispatcher'),
             ])
 
-        ->set('sonata.admin.lock.extension', LockExtension::class)
-            ->tag('sonata.admin.extension', ['global' => true])
+        ->set('adminata.admin.lock.extension', LockExtension::class)
+            ->tag('adminata.admin.extension', ['global' => true])
 
-        ->set('sonata.admin.filter_persister.session', SessionFilterPersister::class)
+        ->set('adminata.admin.filter_persister.session', SessionFilterPersister::class)
             ->args([
                 service('request_stack'),
             ])
 
-        ->alias(FilterPersisterInterface::class, 'sonata.admin.filter_persister.session')
+        ->alias(FilterPersisterInterface::class, 'adminata.admin.filter_persister.session')
 
-        ->set('sonata.admin.global_template_registry', TemplateRegistry::class)
+        ->set('adminata.admin.global_template_registry', TemplateRegistry::class)
             ->args([
-                param('sonata.admin.configuration.templates'),
+                param('adminata.admin.configuration.templates'),
             ])
 
-        ->set('sonata.admin.request.fetcher', AdminFetcher::class)
+        ->set('adminata.admin.request.fetcher', AdminFetcher::class)
             ->args([
-                service('sonata.admin.pool'),
+                service('adminata.admin.pool'),
             ])
 
-        ->alias(AdminFetcherInterface::class, 'sonata.admin.request.fetcher')
+        ->alias(AdminFetcherInterface::class, 'adminata.admin.request.fetcher')
 
-        ->set('sonata.admin.argument_resolver.admin', AdminValueResolver::class)
+        ->set('adminata.admin.argument_resolver.admin', AdminValueResolver::class)
             ->args([
-                service('sonata.admin.request.fetcher'),
+                service('adminata.admin.request.fetcher'),
             ])
             ->tag('controller.argument_value_resolver')
 
-        ->set('sonata.admin.argument_resolver.proxy_query', ProxyQueryResolver::class)
+        ->set('adminata.admin.argument_resolver.proxy_query', ProxyQueryResolver::class)
             ->tag('controller.argument_value_resolver');
 };

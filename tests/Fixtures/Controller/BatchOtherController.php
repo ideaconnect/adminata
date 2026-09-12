@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Controller;
+namespace IDCT\Adminata\Tests\Fixtures\Controller;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 final class BatchOtherController

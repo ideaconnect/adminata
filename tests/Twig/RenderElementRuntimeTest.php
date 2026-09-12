@@ -11,24 +11,24 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig;
+namespace IDCT\Adminata\Tests\Twig;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\SonataConfiguration;
-use Sonata\AdminBundle\Templating\MutableTemplateRegistryInterface;
-use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\FooToString;
-use Sonata\AdminBundle\Tests\Fixtures\Enum\Suit;
-use Sonata\AdminBundle\Tests\Fixtures\StubFilesystemLoader;
-use Sonata\AdminBundle\Tests\Twig\Extension\FakeTemplateRegistryExtension;
-use Sonata\AdminBundle\Twig\Extension\RenderElementExtension;
-use Sonata\AdminBundle\Twig\Extension\XEditableExtension;
-use Sonata\AdminBundle\Twig\RenderElementRuntime;
-use Sonata\AdminBundle\Twig\XEditableRuntime;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\AdminataConfiguration;
+use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
+use IDCT\Adminata\Templating\TemplateRegistryInterface;
+use IDCT\Adminata\Tests\Fixtures\Entity\FooToString;
+use IDCT\Adminata\Tests\Fixtures\Enum\Suit;
+use IDCT\Adminata\Tests\Fixtures\StubFilesystemLoader;
+use IDCT\Adminata\Tests\Twig\Extension\FakeTemplateRegistryExtension;
+use IDCT\Adminata\Twig\Extension\RenderElementExtension;
+use IDCT\Adminata\Twig\Extension\XEditableExtension;
+use IDCT\Adminata\Twig\RenderElementRuntime;
+use IDCT\Adminata\Twig\XEditableRuntime;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Component\Config\FileLocator;
@@ -79,9 +79,9 @@ final class RenderElementRuntimeTest extends TestCase
         $translator->addLoader('xlf', new XliffFileLoader());
         $translator->addResource(
             'xlf',
-            \sprintf('%s/../../src/Resources/translations/SonataAdminBundle.en.xliff', __DIR__),
+            \sprintf('%s/../../src/Resources/translations/AdminataBundle.en.xliff', __DIR__),
             'en',
-            'SonataAdminBundle'
+            'AdminataBundle'
         );
 
         $this->translator = $translator;
@@ -93,7 +93,7 @@ final class RenderElementRuntimeTest extends TestCase
             __DIR__.'/../../src/Resources/views/CRUD',
             __DIR__.'/../Fixtures/Resources/views/CRUD',
         ]);
-        $loader->addPath(__DIR__.'/../../src/Resources/views/', 'SonataAdmin');
+        $loader->addPath(__DIR__.'/../../src/Resources/views/', 'Adminata');
         $loader->addPath(__DIR__.'/../Fixtures/Resources/views/', 'App');
 
         $this->environment = new Environment($loader, [
@@ -103,12 +103,12 @@ final class RenderElementRuntimeTest extends TestCase
             'optimizations' => 0,
         ]);
         $this->environment->addExtension(new StimulusTwigExtension(new StimulusHelper(null)));
-        $this->environment->addGlobal('sonata_config', new SonataConfiguration('title', '/path/to/logo.png', [
+        $this->environment->addGlobal('adminata_config', new AdminataConfiguration('title', '/path/to/logo.png', [
             'confirm_exit' => true,
             'default_admin_route' => 'show',
             'default_group' => 'default',
             'default_icon' => '<i class="fas fa-folder"></i>',
-            'default_translation_domain' => 'SonataAdminBundle',
+            'default_translation_domain' => 'AdminataBundle',
             'dropdown_number_groups_per_colums' => 2,
             'form_type' => 'standard',
             'html5_validate' => true,
@@ -118,9 +118,9 @@ final class RenderElementRuntimeTest extends TestCase
             'list_row_link' => true,
             'lock_protection' => false,
             'logo_content' => 'text',
-            'mosaic_background' => 'bundles/sonataadmin/images/default_mosaic_image.png',
+            'mosaic_background' => 'bundles/adminata/images/default_mosaic_image.png',
             'pager_links' => null,
-            'role_admin' => 'ROLE_SONATA_ADMIN',
+            'role_admin' => 'ROLE_ADMINATA_ADMIN',
             'role_super_admin' => 'ROLE_SUPER_ADMIN',
             'search' => true,
             'sort_admins' => true,
@@ -145,7 +145,7 @@ final class RenderElementRuntimeTest extends TestCase
 
         $this->admin
             ->method('getBaseCodeRoute')
-            ->willReturn('sonata_admin_foo_service');
+            ->willReturn('adminata_admin_foo_service');
 
         $this->admin
             ->expects(static::any())->method('id')
@@ -193,7 +193,7 @@ final class RenderElementRuntimeTest extends TestCase
             ->willReturn(true);
 
         $this->templateRegistry->expects(static::any())->method('getTemplate')->with('base_list_field')
-            ->willReturn('@SonataAdmin/CRUD/base_list_field.html.twig');
+            ->willReturn('@Adminata/CRUD/base_list_field.html.twig');
 
         $this->fieldDescription
             ->method('getValue')
@@ -228,14 +228,14 @@ final class RenderElementRuntimeTest extends TestCase
     public function testRenderListElementWithAdditionalValuesInArray(): void
     {
         $this->templateRegistry->expects(static::any())->method('getTemplate')->with('base_list_field')
-            ->willReturn('@SonataAdmin/CRUD/base_list_field.html.twig');
+            ->willReturn('@Adminata/CRUD/base_list_field.html.twig');
 
         $this->fieldDescription
             ->method('getTemplate')
-            ->willReturn('@SonataAdmin/CRUD/list_string.html.twig');
+            ->willReturn('@Adminata/CRUD/list_string.html.twig');
 
         static::assertSame(
-            static::removeExtraWhitespace('<td class="sonata-ba-list-field sonata-ba-list-field-" objectId="12345"> Extra value </td>'),
+            static::removeExtraWhitespace('<td class="adminata-list-field adminata-list-field-" objectId="12345"> Extra value </td>'),
             static::removeExtraWhitespace($this->renderElementRuntime->renderListElement(
                 $this->environment,
                 [$this->object, 'fd_name' => 'Extra value'],
@@ -248,7 +248,7 @@ final class RenderElementRuntimeTest extends TestCase
     {
         $this->fieldDescription
             ->method('getTemplate')
-            ->willReturn('@SonataAdmin/CRUD/base_list_field.html.twig');
+            ->willReturn('@Adminata/CRUD/base_list_field.html.twig');
 
         $this->fieldDescription
             ->method('getFieldName')
@@ -272,10 +272,10 @@ final class RenderElementRuntimeTest extends TestCase
                 <<<'EOT'
                     <!-- START
                         fieldName: fd_name
-                        template: @SonataAdmin/CRUD/base_list_field.html.twig
-                        compiled template: @SonataAdmin/CRUD/base_list_field.html.twig
+                        template: @Adminata/CRUD/base_list_field.html.twig
+                        compiled template: @Adminata/CRUD/base_list_field.html.twig
                     -->
-                        <td class="sonata-ba-list-field sonata-ba-list-field-" objectId="12345"> foo </td>
+                        <td class="adminata-list-field adminata-list-field-" objectId="12345"> foo </td>
                     <!-- END - fieldName: fd_name -->
                     EOT
             ),
@@ -360,7 +360,7 @@ final class RenderElementRuntimeTest extends TestCase
                 return TemplateRegistryInterface::SHOW_TEMPLATES[$type] ?? null;
             });
 
-        $this->object->name = 'SonataAdmin';
+        $this->object->name = 'Adminata';
 
         $comparedObject = clone $this->object;
 
@@ -489,43 +489,43 @@ final class RenderElementRuntimeTest extends TestCase
     {
         $elements = [
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-string" objectId="12345"> Example </td>',
+                '<td class="adminata-list-field adminata-list-field-string" objectId="12345"> Example </td>',
                 FieldDescriptionInterface::TYPE_STRING,
                 'Example',
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-string" objectId="12345"> </td>',
+                '<td class="adminata-list-field adminata-list-field-string" objectId="12345"> </td>',
                 FieldDescriptionInterface::TYPE_STRING,
                 null,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-string" objectId="12345"> Example </td>',
+                '<td class="adminata-list-field adminata-list-field-string" objectId="12345"> Example </td>',
                 FieldDescriptionInterface::TYPE_STRING,
                 'Example',
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-string" objectId="12345"> </td>',
+                '<td class="adminata-list-field adminata-list-field-string" objectId="12345"> </td>',
                 FieldDescriptionInterface::TYPE_STRING,
                 null,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-textarea" objectId="12345"> Example </td>',
+                '<td class="adminata-list-field adminata-list-field-textarea" objectId="12345"> Example </td>',
                 FieldDescriptionInterface::TYPE_TEXTAREA,
                 'Example',
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-textarea" objectId="12345"> </td>',
+                '<td class="adminata-list-field adminata-list-field-textarea" objectId="12345"> </td>',
                 FieldDescriptionInterface::TYPE_TEXTAREA,
                 null,
                 [],
             ],
             'datetime field' => [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-datetime" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-datetime" objectId="12345">
                     <time datetime="2013-12-24T10:11:12+00:00" title="2013-12-24T10:11:12+00:00">
                         December 24, 2013 10:11
                     </time>
@@ -535,7 +535,7 @@ final class RenderElementRuntimeTest extends TestCase
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-datetime" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-datetime" objectId="12345">
                     <time datetime="2013-12-24T10:11:12+00:00" title="2013-12-24T10:11:12+00:00">
                         December 24, 2013 18:11
                     </time>
@@ -545,13 +545,13 @@ final class RenderElementRuntimeTest extends TestCase
                 ['timezone' => 'Asia/Hong_Kong'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-datetime" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-datetime" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_DATETIME,
                 null,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-datetime" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-datetime" objectId="12345">
                     <time datetime="2013-12-24T10:11:12+00:00" title="2013-12-24T10:11:12+00:00">
                         24.12.2013 10:11:12
                     </time>
@@ -561,13 +561,13 @@ final class RenderElementRuntimeTest extends TestCase
                 ['format' => 'd.m.Y H:i:s'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-datetime" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-datetime" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_DATETIME,
                 null,
                 ['format' => 'd.m.Y H:i:s'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-datetime" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-datetime" objectId="12345">
                     <time datetime="2013-12-24T10:11:12+00:00" title="2013-12-24T10:11:12+00:00">
                         24.12.2013 18:11:12
                     </time>
@@ -577,13 +577,13 @@ final class RenderElementRuntimeTest extends TestCase
                 ['format' => 'd.m.Y H:i:s', 'timezone' => 'Asia/Hong_Kong'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-datetime" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-datetime" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_DATETIME,
                 null,
                 ['format' => 'd.m.Y H:i:s', 'timezone' => 'Asia/Hong_Kong'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-date" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-date" objectId="12345">
                     <time datetime="2013-12-24" title="2013-12-24">
                         December 24, 2013
                     </time>
@@ -593,13 +593,13 @@ final class RenderElementRuntimeTest extends TestCase
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-date" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-date" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_DATE,
                 null,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-date" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-date" objectId="12345">
                     <time datetime="2013-12-24" title="2013-12-24">
                         24.12.2013
                     </time>
@@ -609,13 +609,13 @@ final class RenderElementRuntimeTest extends TestCase
                 ['format' => 'd.m.Y'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-date" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-date" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_DATE,
                 null,
                 ['format' => 'd.m.Y'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-time" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-time" objectId="12345">
                     <time datetime="10:11:12+00:00" title="10:11:12+00:00">
                         10:11:12
                     </time>
@@ -625,7 +625,7 @@ final class RenderElementRuntimeTest extends TestCase
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-time" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-time" objectId="12345">
                     <time datetime="10:11:12+00:00" title="10:11:12+00:00">
                         18:11:12
                     </time>
@@ -635,143 +635,143 @@ final class RenderElementRuntimeTest extends TestCase
                 ['timezone' => 'Asia/Hong_Kong'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-time" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-time" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_TIME,
                 null,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-float" objectId="12345"> 10.746135 </td>',
+                '<td class="adminata-list-field adminata-list-field-float" objectId="12345"> 10.746135 </td>',
                 FieldDescriptionInterface::TYPE_FLOAT,
                 10.746135,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-float" objectId="12345"> </td>',
+                '<td class="adminata-list-field adminata-list-field-float" objectId="12345"> </td>',
                 FieldDescriptionInterface::TYPE_FLOAT,
                 null,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-integer" objectId="12345"> 5678 </td>',
+                '<td class="adminata-list-field adminata-list-field-integer" objectId="12345"> 5678 </td>',
                 FieldDescriptionInterface::TYPE_INTEGER,
                 5678,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-integer" objectId="12345"> </td>',
+                '<td class="adminata-list-field adminata-list-field-integer" objectId="12345"> </td>',
                 FieldDescriptionInterface::TYPE_INTEGER,
                 null,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-percent" objectId="12345"> 1074.6135 % </td>',
+                '<td class="adminata-list-field adminata-list-field-percent" objectId="12345"> 1074.6135 % </td>',
                 FieldDescriptionInterface::TYPE_PERCENT,
                 10.746135,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-percent" objectId="12345"> 0 % </td>',
+                '<td class="adminata-list-field adminata-list-field-percent" objectId="12345"> 0 % </td>',
                 FieldDescriptionInterface::TYPE_PERCENT,
                 0,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-percent" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-percent" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_PERCENT,
                 null,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-currency" objectId="12345"> EUR 10.746135 </td>',
+                '<td class="adminata-list-field adminata-list-field-currency" objectId="12345"> EUR 10.746135 </td>',
                 FieldDescriptionInterface::TYPE_CURRENCY,
                 10.746135,
                 ['currency' => 'EUR'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-currency" objectId="12345"> EUR 0 </td>',
+                '<td class="adminata-list-field adminata-list-field-currency" objectId="12345"> EUR 0 </td>',
                 FieldDescriptionInterface::TYPE_CURRENCY,
                 0,
                 ['currency' => 'EUR'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-currency" objectId="12345"> GBP 51.23456 </td>',
+                '<td class="adminata-list-field adminata-list-field-currency" objectId="12345"> GBP 51.23456 </td>',
                 FieldDescriptionInterface::TYPE_CURRENCY,
                 51.23456,
                 ['currency' => 'GBP'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-currency" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-currency" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_CURRENCY,
                 null,
                 ['currency' => 'GBP'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-email" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-email" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_EMAIL,
                 null,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-email" objectId="12345"> <a href="mailto:admin@admin.com">admin@admin.com</a> </td>',
+                '<td class="adminata-list-field adminata-list-field-email" objectId="12345"> <a href="mailto:admin@admin.com">admin@admin.com</a> </td>',
                 FieldDescriptionInterface::TYPE_EMAIL,
                 'admin@admin.com',
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-email" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-email" objectId="12345">
                     <a href="mailto:admin@admin.com">admin@admin.com</a> </td>',
                 FieldDescriptionInterface::TYPE_EMAIL,
                 'admin@admin.com',
                 ['as_string' => false],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-email" objectId="12345"> admin@admin.com </td>',
+                '<td class="adminata-list-field adminata-list-field-email" objectId="12345"> admin@admin.com </td>',
                 FieldDescriptionInterface::TYPE_EMAIL,
                 'admin@admin.com',
                 ['as_string' => true],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-email" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-email" objectId="12345">
                     <a href="mailto:admin@admin.com?'.static::buildTwigLikeUrl(['subject' => 'Main Theme', 'body' => 'Message Body']).'">admin@admin.com</a>  </td>',
                 FieldDescriptionInterface::TYPE_EMAIL,
                 'admin@admin.com',
                 ['subject' => 'Main Theme', 'body' => 'Message Body'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-email" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-email" objectId="12345">
                     <a href="mailto:admin@admin.com?'.static::buildTwigLikeUrl(['subject' => 'Main Theme']).'">admin@admin.com</a>  </td>',
                 FieldDescriptionInterface::TYPE_EMAIL,
                 'admin@admin.com',
                 ['subject' => 'Main Theme'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-email" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-email" objectId="12345">
                     <a href="mailto:admin@admin.com?'.static::buildTwigLikeUrl(['body' => 'Message Body']).'">admin@admin.com</a>  </td>',
                 FieldDescriptionInterface::TYPE_EMAIL,
                 'admin@admin.com',
                 ['body' => 'Message Body'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-email" objectId="12345"> admin@admin.com </td>',
+                '<td class="adminata-list-field adminata-list-field-email" objectId="12345"> admin@admin.com </td>',
                 FieldDescriptionInterface::TYPE_EMAIL,
                 'admin@admin.com',
                 ['as_string' => true, 'subject' => 'Main Theme', 'body' => 'Message Body'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-email" objectId="12345"> admin@admin.com </td>',
+                '<td class="adminata-list-field adminata-list-field-email" objectId="12345"> admin@admin.com </td>',
                 FieldDescriptionInterface::TYPE_EMAIL,
                 'admin@admin.com',
                 ['as_string' => true, 'body' => 'Message Body'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-email" objectId="12345"> admin@admin.com </td>',
+                '<td class="adminata-list-field adminata-list-field-email" objectId="12345"> admin@admin.com </td>',
                 FieldDescriptionInterface::TYPE_EMAIL,
                 'admin@admin.com',
                 ['as_string' => true, 'subject' => 'Main Theme'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-array" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-array" objectId="12345">
                     [1&nbsp;=>&nbsp;First, 2&nbsp;=>&nbsp;Second]
                 </td>',
                 FieldDescriptionInterface::TYPE_ARRAY,
@@ -779,13 +779,13 @@ final class RenderElementRuntimeTest extends TestCase
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-array" objectId="12345"> [] </td>',
+                '<td class="adminata-list-field adminata-list-field-array" objectId="12345"> [] </td>',
                 FieldDescriptionInterface::TYPE_ARRAY,
                 null,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-boolean" objectId="12345">
                     <span class="adm-badge adm-badge-success">yes</span>
                 </td>',
                 FieldDescriptionInterface::TYPE_BOOLEAN,
@@ -793,7 +793,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['editable' => false],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-boolean" objectId="12345">
                     <span class="adm-badge adm-badge-error">no</span>
                 </td>',
                 FieldDescriptionInterface::TYPE_BOOLEAN,
@@ -801,7 +801,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['editable' => false],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-boolean" objectId="12345">
                     <span class="adm-badge adm-badge-error">no</span>
                 </td>',
                 FieldDescriptionInterface::TYPE_BOOLEAN,
@@ -810,14 +810,14 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 <<<'EOT'
-                    <td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectId="12345">
+                    <td class="adminata-list-field adminata-list-field-boolean" objectId="12345">
                         <span
                             class="x-editable"
                             data-type="select"
                             data-value="1"
                             data-title="Data"
                             data-pk="12345"
-                            data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
+                            data-url="/core/set-object-field-value?_adminata_admin=adminata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[{value: 0, text: 'no'},{value: 1, text: 'yes'}]"
                         >
                             <span class="adm-badge adm-badge-success">yes</span>
@@ -830,14 +830,14 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 <<<'EOT'
-                    <td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectId="12345">
+                    <td class="adminata-list-field adminata-list-field-boolean" objectId="12345">
                         <span
                             class="x-editable"
                             data-type="select"
                             data-value="0"
                             data-title="Data"
                             data-pk="12345"
-                            data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
+                            data-url="/core/set-object-field-value?_adminata_admin=adminata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[{value: 0, text: 'no'},{value: 1, text: 'yes'}]"
                         >
                         <span class="adm-badge adm-badge-error">no</span> </span>
@@ -849,14 +849,14 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 <<<'EOT'
-                    <td class="sonata-ba-list-field sonata-ba-list-field-boolean" objectId="12345">
+                    <td class="adminata-list-field adminata-list-field-boolean" objectId="12345">
                         <span
                             class="x-editable"
                             data-type="select"
                             data-value="0"
                             data-title="Data"
                             data-pk="12345"
-                            data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
+                            data-url="/core/set-object-field-value?_adminata_admin=adminata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[{value: 0, text: 'no'},{value: 1, text: 'yes'}]" >
                             <span class="adm-badge adm-badge-error">no</span> </span>
                     </td>
@@ -866,25 +866,25 @@ final class RenderElementRuntimeTest extends TestCase
                 ['editable' => true],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-trans" objectId="12345"> Delete </td>',
+                '<td class="adminata-list-field adminata-list-field-trans" objectId="12345"> Delete </td>',
                 FieldDescriptionInterface::TYPE_TRANS,
                 'action_delete',
-                ['value_translation_domain' => 'SonataAdminBundle'],
+                ['value_translation_domain' => 'AdminataBundle'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-trans" objectId="12345"> </td>',
+                '<td class="adminata-list-field adminata-list-field-trans" objectId="12345"> </td>',
                 FieldDescriptionInterface::TYPE_TRANS,
                 null,
-                ['value_translation_domain' => 'SonataAdminBundle'],
+                ['value_translation_domain' => 'AdminataBundle'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-trans" objectId="12345"> Delete </td>',
+                '<td class="adminata-list-field adminata-list-field-trans" objectId="12345"> Delete </td>',
                 FieldDescriptionInterface::TYPE_TRANS,
                 'action_delete',
-                ['format' => '%s', 'value_translation_domain' => 'SonataAdminBundle'],
+                ['format' => '%s', 'value_translation_domain' => 'AdminataBundle'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-trans" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-trans" objectId="12345">
                 action.action_delete
                 </td>',
                 FieldDescriptionInterface::TYPE_TRANS,
@@ -892,39 +892,39 @@ final class RenderElementRuntimeTest extends TestCase
                 ['format' => 'action.%s'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-trans" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-trans" objectId="12345">
                 action.action_delete
                 </td>',
                 FieldDescriptionInterface::TYPE_TRANS,
                 'action_delete',
-                ['format' => 'action.%s', 'value_translation_domain' => 'SonataAdminBundle'],
+                ['format' => 'action.%s', 'value_translation_domain' => 'AdminataBundle'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345"> Status1 </td>',
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345"> Status1 </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
                 'Status1',
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345"> Status1 </td>',
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345"> Status1 </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
                 ['Status1'],
                 ['choices' => [], 'multiple' => true],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345"> Alias1 </td>',
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345"> Alias1 </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
                 'Status1',
                 ['choices' => ['Status1' => 'Alias1', 'Status2' => 'Alias2', 'Status3' => 'Alias3']],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345"> </td>',
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345"> </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
                 null,
                 ['choices' => ['Status1' => 'Alias1', 'Status2' => 'Alias2', 'Status3' => 'Alias3']],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345">
                 NoValidKeyInChoices
                 </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
@@ -932,17 +932,17 @@ final class RenderElementRuntimeTest extends TestCase
                 ['choices' => ['Status1' => 'Alias1', 'Status2' => 'Alias2', 'Status3' => 'Alias3']],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345"> Delete </td>',
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345"> Delete </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
                 'Foo',
-                ['choice_translation_domain' => 'SonataAdminBundle', 'choices' => [
+                ['choice_translation_domain' => 'AdminataBundle', 'choices' => [
                     'Foo' => 'action_delete',
                     'Status2' => 'Alias2',
                     'Status3' => 'Alias3',
                 ]],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345"> Alias1, Alias3 </td>',
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345"> Alias1, Alias3 </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
                 ['Status1', 'Status3'],
                 ['choices' => [
@@ -951,7 +951,7 @@ final class RenderElementRuntimeTest extends TestCase
                     'Status3' => 'Alias3',
                 ], 'multiple' => true], ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345"> Alias1 | Alias3 </td>',
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345"> Alias1 | Alias3 </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
                 ['Status1', 'Status3'],
                 ['choices' => [
@@ -960,7 +960,7 @@ final class RenderElementRuntimeTest extends TestCase
                     'Status3' => 'Alias3',
                 ], 'multiple' => true, 'delimiter' => ' | '], ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345"> </td>',
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345"> </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
                 null,
                 ['choices' => [
@@ -970,7 +970,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ], 'multiple' => true],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345">
                 NoValidKeyInChoices
                 </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
@@ -982,7 +982,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ], 'multiple' => true],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345">
                 NoValidKeyInChoices, Alias2
                 </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
@@ -994,17 +994,17 @@ final class RenderElementRuntimeTest extends TestCase
                 ], 'multiple' => true],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345"> Delete, Alias3 </td>',
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345"> Delete, Alias3 </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
                 ['Foo', 'Status3'],
-                ['choice_translation_domain' => 'SonataAdminBundle', 'choices' => [
+                ['choice_translation_domain' => 'AdminataBundle', 'choices' => [
                     'Foo' => 'action_delete',
                     'Status2' => 'Alias2',
                     'Status3' => 'Alias3',
                 ], 'multiple' => true],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-choice" objectId="12345">
                 &lt;b&gt;Alias1&lt;/b&gt;, &lt;b&gt;Alias3&lt;/b&gt;
             </td>',
                 FieldDescriptionInterface::TYPE_CHOICE,
@@ -1016,14 +1016,14 @@ final class RenderElementRuntimeTest extends TestCase
                 ], 'multiple' => true], ],
             [
                 <<<'EOT'
-                    <td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345">
+                    <td class="adminata-list-field adminata-list-field-choice" objectId="12345">
                         <span
                             class="x-editable"
                             data-type="select"
                             data-value="Status1"
                             data-title="Data"
                             data-pk="12345"
-                            data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
+                            data-url="/core/set-object-field-value?_adminata_admin=adminata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[]"
                         >
                             Status1
@@ -1036,14 +1036,14 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 <<<'EOT'
-                    <td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345">
+                    <td class="adminata-list-field adminata-list-field-choice" objectId="12345">
                         <span
                             class="x-editable"
                             data-type="select"
                             data-value="Status1"
                             data-title="Data"
                             data-pk="12345"
-                            data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
+                            data-url="/core/set-object-field-value?_adminata_admin=adminata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[{&quot;value&quot;:&quot;Status1&quot;,&quot;text&quot;:&quot;Alias1&quot;},{&quot;value&quot;:&quot;Status2&quot;,&quot;text&quot;:&quot;Alias2&quot;},{&quot;value&quot;:&quot;Status3&quot;,&quot;text&quot;:&quot;Alias3&quot;}]" >
                             Alias1 </span>
                     </td>
@@ -1061,14 +1061,14 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 <<<'EOT'
-                    <td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345">
+                    <td class="adminata-list-field adminata-list-field-choice" objectId="12345">
                         <span
                             class="x-editable"
                             data-type="select"
                             data-value=""
                             data-title="Data"
                             data-pk="12345"
-                            data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
+                            data-url="/core/set-object-field-value?_adminata_admin=adminata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[{&quot;value&quot;:&quot;Status1&quot;,&quot;text&quot;:&quot;Alias1&quot;},{&quot;value&quot;:&quot;Status2&quot;,&quot;text&quot;:&quot;Alias2&quot;},{&quot;value&quot;:&quot;Status3&quot;,&quot;text&quot;:&quot;Alias3&quot;}]" >
 
                         </span>
@@ -1087,13 +1087,13 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 <<<'EOT'
-                    <td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345">
+                    <td class="adminata-list-field adminata-list-field-choice" objectId="12345">
                         <span
                             class="x-editable"
                             data-type="select"
                             data-value="NoValidKeyInChoices"
                             data-title="Data" data-pk="12345"
-                            data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
+                            data-url="/core/set-object-field-value?_adminata_admin=adminata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[{&quot;value&quot;:&quot;Status1&quot;,&quot;text&quot;:&quot;Alias1&quot;},{&quot;value&quot;:&quot;Status2&quot;,&quot;text&quot;:&quot;Alias2&quot;},{&quot;value&quot;:&quot;Status3&quot;,&quot;text&quot;:&quot;Alias3&quot;}]" >
                             NoValidKeyInChoices
                         </span>
@@ -1112,14 +1112,14 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 <<<'EOT'
-                    <td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345">
+                    <td class="adminata-list-field adminata-list-field-choice" objectId="12345">
                         <span
                             class="x-editable"
                             data-type="select"
                             data-value="Foo"
                             data-title="Data"
                             data-pk="12345"
-                            data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
+                            data-url="/core/set-object-field-value?_adminata_admin=adminata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[{&quot;value&quot;:&quot;Foo&quot;,&quot;text&quot;:&quot;Delete&quot;},{&quot;value&quot;:&quot;Status2&quot;,&quot;text&quot;:&quot;Alias2&quot;},{&quot;value&quot;:&quot;Status3&quot;,&quot;text&quot;:&quot;Alias3&quot;}]" >
                              Delete
                         </span>
@@ -1129,7 +1129,7 @@ final class RenderElementRuntimeTest extends TestCase
                 'Foo',
                 [
                     'editable' => true,
-                    'choice_translation_domain' => 'SonataAdminBundle',
+                    'choice_translation_domain' => 'AdminataBundle',
                     'choices' => [
                         'Foo' => 'action_delete',
                         'Status2' => 'Alias2',
@@ -1138,25 +1138,25 @@ final class RenderElementRuntimeTest extends TestCase
                 ],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 null,
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 null,
                 ['url' => 'http://example.com'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345"> &nbsp; </td>',
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345"> &nbsp; </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 null,
-                ['route' => ['name' => 'sonata_admin_foo']],
+                ['route' => ['name' => 'adminata_admin_foo']],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="http://example.com" target="_blank" rel="noopener">http://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
@@ -1164,7 +1164,7 @@ final class RenderElementRuntimeTest extends TestCase
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="https://example.com" target="_blank" rel="noopener">https://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
@@ -1172,7 +1172,7 @@ final class RenderElementRuntimeTest extends TestCase
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="https://example.com" target="_blank" rel="noopener">https://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
@@ -1180,7 +1180,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['attributes' => ['target' => '_blank']],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="https://example.com" target="_blank" rel="noopener" class="fooLink">https://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
@@ -1188,7 +1188,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['attributes' => ['target' => '_blank', 'class' => 'fooLink']],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="http://example.com" target="_blank" rel="noopener">example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
@@ -1196,7 +1196,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['hide_protocol' => true],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="https://example.com" target="_blank" rel="noopener">example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
@@ -1204,7 +1204,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['hide_protocol' => true],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="http://example.com" target="_blank" rel="noopener">http://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
@@ -1212,7 +1212,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['hide_protocol' => false],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="https://example.com" target="_blank" rel="noopener">https://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
@@ -1220,7 +1220,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['hide_protocol' => false],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="http://example.com" target="_blank" rel="noopener">Foo</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
@@ -1228,7 +1228,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['url' => 'http://example.com'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="http://example.com" target="_blank" rel="noopener">&lt;b&gt;Foo&lt;/b&gt;</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
@@ -1236,15 +1236,15 @@ final class RenderElementRuntimeTest extends TestCase
                 ['url' => 'http://example.com'],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="/foo">Foo</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'Foo',
-                ['route' => ['name' => 'sonata_admin_foo']],
+                ['route' => ['name' => 'adminata_admin_foo']],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="https://example.com" target="_blank" rel="noopener">https://example.com</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
@@ -1252,83 +1252,83 @@ final class RenderElementRuntimeTest extends TestCase
                 ['route' => ['name' => 'show']],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="http://localhost/foo">Foo</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'Foo',
-                ['route' => ['name' => 'sonata_admin_foo', 'absolute' => true]],
+                ['route' => ['name' => 'adminata_admin_foo', 'absolute' => true]],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="/foo">foo/bar?a=b&amp;c=123456789</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'http://foo/bar?a=b&c=123456789',
-                ['route' => ['name' => 'sonata_admin_foo'],
+                ['route' => ['name' => 'adminata_admin_foo'],
                     'hide_protocol' => true, ],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="http://localhost/foo">foo/bar?a=b&amp;c=123456789</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'http://foo/bar?a=b&c=123456789',
                 [
-                    'route' => ['name' => 'sonata_admin_foo', 'absolute' => true],
+                    'route' => ['name' => 'adminata_admin_foo', 'absolute' => true],
                     'hide_protocol' => true,
                 ],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="/foo/abcd/efgh?param3=ijkl">Foo</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'Foo',
                 [
-                    'route' => ['name' => 'sonata_admin_foo_param',
+                    'route' => ['name' => 'adminata_admin_foo_param',
                         'parameters' => ['param1' => 'abcd', 'param2' => 'efgh', 'param3' => 'ijkl'], ],
                 ],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="http://localhost/foo/abcd/efgh?param3=ijkl">Foo</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'Foo',
                 [
-                    'route' => ['name' => 'sonata_admin_foo_param',
+                    'route' => ['name' => 'adminata_admin_foo_param',
                         'absolute' => true,
                         'parameters' => ['param1' => 'abcd', 'param2' => 'efgh', 'param3' => 'ijkl'], ],
                 ],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="/foo/obj/abcd/12345/efgh?param3=ijkl">Foo</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'Foo',
                 [
-                    'route' => ['name' => 'sonata_admin_foo_object',
+                    'route' => ['name' => 'adminata_admin_foo_object',
                         'parameters' => ['param1' => 'abcd', 'param2' => 'efgh', 'param3' => 'ijkl'],
                         'identifier_parameter_name' => 'barId', ],
                 ],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-url" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-url" objectId="12345">
                 <a href="http://localhost/foo/obj/abcd/12345/efgh?param3=ijkl">Foo</a>
                 </td>',
                 FieldDescriptionInterface::TYPE_URL,
                 'Foo',
                 [
-                    'route' => ['name' => 'sonata_admin_foo_object',
+                    'route' => ['name' => 'adminata_admin_foo_object',
                         'absolute' => true,
                         'parameters' => ['param1' => 'abcd', 'param2' => 'efgh', 'param3' => 'ijkl'],
                         'identifier_parameter_name' => 'barId', ],
                 ],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-html" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-html" objectId="12345">
                 <p><strong>Creating a Template for the Field</strong> and form</p>
                 </td>',
                 FieldDescriptionInterface::TYPE_HTML,
@@ -1336,7 +1336,7 @@ final class RenderElementRuntimeTest extends TestCase
                 [],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-html" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-html" objectId="12345">
                 Creating a Template for the Field and form
                 </td>',
                 FieldDescriptionInterface::TYPE_HTML,
@@ -1344,7 +1344,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['strip' => true],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-html" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-html" objectId="12345">
                 Creating a Template for the...
                 </td>',
                 FieldDescriptionInterface::TYPE_HTML,
@@ -1352,13 +1352,13 @@ final class RenderElementRuntimeTest extends TestCase
                 ['truncate' => true],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-html" objectId="12345"> Creatin... </td>',
+                '<td class="adminata-list-field adminata-list-field-html" objectId="12345"> Creatin... </td>',
                 FieldDescriptionInterface::TYPE_HTML,
                 '<p><strong>Creating a Template for the Field</strong> and form</p>',
                 ['truncate' => ['length' => 10]],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-html" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-html" objectId="12345">
                 Creating a Template for the Field...
                 </td>',
                 FieldDescriptionInterface::TYPE_HTML,
@@ -1366,7 +1366,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['truncate' => ['cut' => false]],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-html" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-html" objectId="12345">
                 Creating a Template for t etc.
                 </td>',
                 FieldDescriptionInterface::TYPE_HTML,
@@ -1374,7 +1374,7 @@ final class RenderElementRuntimeTest extends TestCase
                 ['truncate' => ['ellipsis' => ' etc.']],
             ],
             [
-                '<td class="sonata-ba-list-field sonata-ba-list-field-html" objectId="12345">
+                '<td class="adminata-list-field adminata-list-field-html" objectId="12345">
                 Creating a Template[...]
                 </td>',
                 FieldDescriptionInterface::TYPE_HTML,
@@ -1390,17 +1390,17 @@ final class RenderElementRuntimeTest extends TestCase
 
             [
                 <<<'EOT'
-                    <td class="sonata-ba-list-field sonata-ba-list-field-string" objectId="12345">
-                        <div class="sonata-readmore"
-                             data-controller="sonata-readmore"
-                             data-sonata-readmore-collapsed-height-value="40"
-                             data-sonata-readmore-more-text-value="Read more"
-                             data-sonata-readmore-less-text-value="Close">
-                            <div class="sonata-readmore-content" data-sonata-readmore-target="content">A very long string</div>
+                    <td class="adminata-list-field adminata-list-field-string" objectId="12345">
+                        <div class="adminata-readmore"
+                             data-controller="adminata-readmore"
+                             data-adminata-readmore-collapsed-height-value="40"
+                             data-adminata-readmore-more-text-value="Read more"
+                             data-adminata-readmore-less-text-value="Close">
+                            <div class="adminata-readmore-content" data-adminata-readmore-target="content">A very long string</div>
                             <button type="button"
-                                    class="sonata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
-                                    data-sonata-readmore-target="button"
-                                    data-action="click->sonata-readmore#toggle"></button>
+                                    class="adminata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
+                                    data-adminata-readmore-target="button"
+                                    data-action="click->adminata-readmore#toggle"></button>
                         </div>
                     </td>
                     EOT,
@@ -1412,17 +1412,17 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 <<<'EOT'
-                    <td class="sonata-ba-list-field sonata-ba-list-field-string" objectId="12345">
-                        <div class="sonata-readmore"
-                             data-controller="sonata-readmore"
-                             data-sonata-readmore-collapsed-height-value="10"
-                             data-sonata-readmore-more-text-value="More"
-                             data-sonata-readmore-less-text-value="Less">
-                            <div class="sonata-readmore-content" data-sonata-readmore-target="content">A very long string</div>
+                    <td class="adminata-list-field adminata-list-field-string" objectId="12345">
+                        <div class="adminata-readmore"
+                             data-controller="adminata-readmore"
+                             data-adminata-readmore-collapsed-height-value="10"
+                             data-adminata-readmore-more-text-value="More"
+                             data-adminata-readmore-less-text-value="Less">
+                            <div class="adminata-readmore-content" data-adminata-readmore-target="content">A very long string</div>
                             <button type="button"
-                                    class="sonata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
-                                    data-sonata-readmore-target="button"
-                                    data-action="click->sonata-readmore#toggle"></button>
+                                    class="adminata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
+                                    data-adminata-readmore-target="button"
+                                    data-action="click->adminata-readmore#toggle"></button>
                         </div>
                     </td>
                     EOT,
@@ -1438,14 +1438,14 @@ final class RenderElementRuntimeTest extends TestCase
             ],
             [
                 <<<'EOT'
-                    <td class="sonata-ba-list-field sonata-ba-list-field-choice" objectId="12345">
+                    <td class="adminata-list-field adminata-list-field-choice" objectId="12345">
                         <span
                             class="x-editable"
                             data-type="checklist"
                             data-value="[&quot;Status1&quot;,&quot;Status2&quot;]"
                             data-title="Data"
                             data-pk="12345"
-                            data-url="/core/set-object-field-value?_sonata_admin=sonata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
+                            data-url="/core/set-object-field-value?_adminata_admin=adminata_admin_foo_service&amp;context=list&amp;field=fd_name&amp;objectId=12345"
                             data-source="[{&quot;value&quot;:&quot;Status1&quot;,&quot;text&quot;:&quot;Delete&quot;},{&quot;value&quot;:&quot;Status2&quot;,&quot;text&quot;:&quot;Alias2&quot;},{&quot;value&quot;:&quot;Status3&quot;,&quot;text&quot;:&quot;Alias3&quot;}]" >
                              Delete, Alias2
                         </span>
@@ -1459,7 +1459,7 @@ final class RenderElementRuntimeTest extends TestCase
                 [
                     'editable' => true,
                     'multiple' => true,
-                    'choice_translation_domain' => 'SonataAdminBundle',
+                    'choice_translation_domain' => 'AdminataBundle',
                     'choices' => [
                         'Status1' => 'action_delete',
                         'Status2' => 'Alias2',
@@ -1470,7 +1470,7 @@ final class RenderElementRuntimeTest extends TestCase
         ];
 
         $elements[] = [
-            '<td class="sonata-ba-list-field sonata-ba-list-field-enum" objectId="12345"> Hearts </td>',
+            '<td class="adminata-list-field adminata-list-field-enum" objectId="12345"> Hearts </td>',
             FieldDescriptionInterface::TYPE_ENUM,
             Suit::Hearts,
             [],
@@ -1570,13 +1570,13 @@ final class RenderElementRuntimeTest extends TestCase
             '<th>Data</th> <td>Delete</td>',
             FieldDescriptionInterface::TYPE_TRANS,
             'action_delete',
-            ['safe' => false, 'value_translation_domain' => 'SonataAdminBundle'],
+            ['safe' => false, 'value_translation_domain' => 'AdminataBundle'],
         ];
         yield [
             '<th>Data</th> <td>Delete</td>',
             FieldDescriptionInterface::TYPE_TRANS,
             'delete',
-            ['safe' => false, 'value_translation_domain' => 'SonataAdminBundle', 'format' => 'action_%s'],
+            ['safe' => false, 'value_translation_domain' => 'AdminataBundle', 'format' => 'action_%s'],
         ];
         yield ['<th>Data</th> <td>Status1</td>', FieldDescriptionInterface::TYPE_CHOICE, 'Status1', ['safe' => false]];
         yield [
@@ -1603,7 +1603,7 @@ final class RenderElementRuntimeTest extends TestCase
             '<th>Data</th> <td>Delete</td>',
             FieldDescriptionInterface::TYPE_CHOICE,
             'Foo',
-            ['safe' => false, 'choice_translation_domain' => 'SonataAdminBundle', 'choices' => [
+            ['safe' => false, 'choice_translation_domain' => 'AdminataBundle', 'choices' => [
                 'Foo' => 'action_delete',
                 'Status2' => 'Alias2',
                 'Status3' => 'Alias3',
@@ -1652,7 +1652,7 @@ final class RenderElementRuntimeTest extends TestCase
             '<th>Data</th> <td>Delete, Alias3</td>',
             FieldDescriptionInterface::TYPE_CHOICE,
             ['Foo', 'Status3'],
-            ['safe' => false, 'choice_translation_domain' => 'SonataAdminBundle', 'choices' => [
+            ['safe' => false, 'choice_translation_domain' => 'AdminataBundle', 'choices' => [
                 'Foo' => 'action_delete',
                 'Status2' => 'Alias2',
                 'Status3' => 'Alias3',
@@ -1749,14 +1749,14 @@ final class RenderElementRuntimeTest extends TestCase
             '<th>Data</th> <td><a href="/foo">Foo</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             'Foo',
-            ['safe' => false, 'route' => ['name' => 'sonata_admin_foo']],
+            ['safe' => false, 'route' => ['name' => 'adminata_admin_foo']],
         ];
         yield [
             '<th>Data</th> <td><a href="http://localhost/foo">Foo</a></td>',
             FieldDescriptionInterface::TYPE_URL,
             'Foo',
             ['safe' => false, 'route' => [
-                'name' => 'sonata_admin_foo',
+                'name' => 'adminata_admin_foo',
                 'absolute' => true,
             ]],
         ];
@@ -1766,7 +1766,7 @@ final class RenderElementRuntimeTest extends TestCase
             'http://foo/bar?a=b&c=123456789',
             [
                 'safe' => false,
-                'route' => ['name' => 'sonata_admin_foo'],
+                'route' => ['name' => 'adminata_admin_foo'],
                 'hide_protocol' => true,
             ],
         ];
@@ -1775,7 +1775,7 @@ final class RenderElementRuntimeTest extends TestCase
             FieldDescriptionInterface::TYPE_URL,
             'http://foo/bar?a=b&c=123456789',
             ['safe' => false, 'route' => [
-                'name' => 'sonata_admin_foo',
+                'name' => 'adminata_admin_foo',
                 'absolute' => true,
             ], 'hide_protocol' => true],
         ];
@@ -1784,7 +1784,7 @@ final class RenderElementRuntimeTest extends TestCase
             FieldDescriptionInterface::TYPE_URL,
             'Foo',
             ['safe' => false, 'route' => [
-                'name' => 'sonata_admin_foo_param',
+                'name' => 'adminata_admin_foo_param',
                 'parameters' => ['param1' => 'abcd', 'param2' => 'efgh', 'param3' => 'ijkl'],
             ]],
         ];
@@ -1793,7 +1793,7 @@ final class RenderElementRuntimeTest extends TestCase
             FieldDescriptionInterface::TYPE_URL,
             'Foo',
             ['safe' => false, 'route' => [
-                'name' => 'sonata_admin_foo_param',
+                'name' => 'adminata_admin_foo_param',
                 'absolute' => true,
                 'parameters' => [
                     'param1' => 'abcd',
@@ -1807,7 +1807,7 @@ final class RenderElementRuntimeTest extends TestCase
             FieldDescriptionInterface::TYPE_URL,
             'Foo',
             ['safe' => false, 'route' => [
-                'name' => 'sonata_admin_foo_object',
+                'name' => 'adminata_admin_foo_object',
                 'parameters' => [
                     'param1' => 'abcd',
                     'param2' => 'efgh',
@@ -1821,7 +1821,7 @@ final class RenderElementRuntimeTest extends TestCase
             FieldDescriptionInterface::TYPE_URL,
             'Foo',
             ['safe' => false, 'route' => [
-                'name' => 'sonata_admin_foo_object',
+                'name' => 'adminata_admin_foo_object',
                 'absolute' => true,
                 'parameters' => [
                     'param1' => 'abcd',
@@ -1942,16 +1942,16 @@ final class RenderElementRuntimeTest extends TestCase
         yield [
             <<<'EOT'
                 <th>Data</th> <td>
-                    <div class="sonata-readmore"
-                         data-controller="sonata-readmore"
-                         data-sonata-readmore-collapsed-height-value="40"
-                         data-sonata-readmore-more-text-value="Read more"
-                         data-sonata-readmore-less-text-value="Close">
-                        <div class="sonata-readmore-content" data-sonata-readmore-target="content"> A very long string </div>
+                    <div class="adminata-readmore"
+                         data-controller="adminata-readmore"
+                         data-adminata-readmore-collapsed-height-value="40"
+                         data-adminata-readmore-more-text-value="Read more"
+                         data-adminata-readmore-less-text-value="Close">
+                        <div class="adminata-readmore-content" data-adminata-readmore-target="content"> A very long string </div>
                         <button type="button"
-                                class="sonata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
-                                data-sonata-readmore-target="button"
-                                data-action="click->sonata-readmore#toggle"></button>
+                                class="adminata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
+                                data-adminata-readmore-target="button"
+                                data-action="click->adminata-readmore#toggle"></button>
                     </div>
                 </td>
                 EOT,
@@ -1965,16 +1965,16 @@ final class RenderElementRuntimeTest extends TestCase
         yield [
             <<<'EOT'
                 <th>Data</th> <td>
-                    <div class="sonata-readmore"
-                         data-controller="sonata-readmore"
-                         data-sonata-readmore-collapsed-height-value="10"
-                         data-sonata-readmore-more-text-value="More"
-                         data-sonata-readmore-less-text-value="Less">
-                        <div class="sonata-readmore-content" data-sonata-readmore-target="content"> A very long string </div>
+                    <div class="adminata-readmore"
+                         data-controller="adminata-readmore"
+                         data-adminata-readmore-collapsed-height-value="10"
+                         data-adminata-readmore-more-text-value="More"
+                         data-adminata-readmore-less-text-value="Less">
+                        <div class="adminata-readmore-content" data-adminata-readmore-target="content"> A very long string </div>
                         <button type="button"
-                                class="sonata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
-                                data-sonata-readmore-target="button"
-                                data-action="click->sonata-readmore#toggle"></button>
+                                class="adminata-readmore-btn adm-btn adm-btn-ghost adm-btn-sm"
+                                data-adminata-readmore-target="button"
+                                data-action="click->adminata-readmore#toggle"></button>
                     </div>
                 </td>
                 EOT,
@@ -1999,8 +1999,8 @@ final class RenderElementRuntimeTest extends TestCase
         yield ['<th>Data</th> <td>Example</td><td>Example</td>', FieldDescriptionInterface::TYPE_STRING, 'Example', ['safe' => false], null];
         yield ['<th>Data</th> <td>Example</td><td>Example</td>', FieldDescriptionInterface::TYPE_STRING, 'Example', ['safe' => false], null];
         yield ['<th>Data</th> <td>Example</td><td>Example</td>', FieldDescriptionInterface::TYPE_TEXTAREA, 'Example', ['safe' => false], null];
-        yield ['<th>Data</th> <td>SonataAdmin<br/>Example</td><td>SonataAdmin<br/>Example</td>', 'virtual_field', 'Example', ['template' => 'custom_show_field.html.twig', 'safe' => false], 'SonataAdmin'];
-        yield ['<th class="diff">Data</th> <td>SonataAdmin<br/>Example</td><td>sonata-project/admin-bundle<br/>Example</td>', 'virtual_field', 'Example', ['template' => 'custom_show_field.html.twig', 'safe' => false], 'sonata-project/admin-bundle'];
+        yield ['<th>Data</th> <td>Adminata<br/>Example</td><td>Adminata<br/>Example</td>', 'virtual_field', 'Example', ['template' => 'custom_show_field.html.twig', 'safe' => false], 'Adminata'];
+        yield ['<th class="diff">Data</th> <td>Adminata<br/>Example</td><td>sonata-project/admin-bundle<br/>Example</td>', 'virtual_field', 'Example', ['template' => 'custom_show_field.html.twig', 'safe' => false], 'sonata-project/admin-bundle'];
         yield [
             '<th>Data</th> <td><time datetime="2020-05-27T09:11:12+00:00" title="2020-05-27T09:11:12+00:00"> May 27, 2020 10:11 </time></td>'
             .'<td><time datetime="2020-05-27T09:11:12+00:00" title="2020-05-27T09:11:12+00:00"> May 27, 2020 10:11 </time></td>',
@@ -2070,7 +2070,7 @@ final class RenderElementRuntimeTest extends TestCase
         $phpFileLoader = new PhpFileLoader(new FileLocator([
             \sprintf('%s/../../src/Resources/config/routing', __DIR__),
         ]));
-        $routeCollection = $phpFileLoader->load('sonata_admin.php');
+        $routeCollection = $phpFileLoader->load('adminata.php');
 
         $phpFileLoader = new PhpFileLoader(new FileLocator([
             \sprintf('%s/../Fixtures/Resources/config/routing', __DIR__),

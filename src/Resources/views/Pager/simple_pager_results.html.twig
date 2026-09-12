@@ -9,13 +9,13 @@ file that was distributed with this source code.
 
 #}
 
-{% extends '@SonataAdmin/Pager/base_results.html.twig' %}
+{% extends '@Adminata/Pager/base_results.html.twig' %}
 
 {% block num_results %}
     {% if admin.datagrid.pager.lastPage != admin.datagrid.pager.page %}
-        {{ 'list_results_count_prefix'|trans({}, 'SonataAdminBundle') }}
+        {{ 'list_results_count_prefix'|trans({}, 'AdminataBundle') }}
     {% endif %}
-    {% trans with {'%count%': admin.datagrid.pager.countResults()} from 'SonataAdminBundle' %}list_results_count{% endtrans %}
+    {% trans with {'%count%': admin.datagrid.pager.countResults()} from 'AdminataBundle' %}list_results_count{% endtrans %}
     &nbsp;-&nbsp;
 {% endblock %}
 

@@ -11,24 +11,24 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Admin;
+namespace IDCT\Adminata\DependencyInjection\Admin;
 
 use Knp\Menu\FactoryInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
-use Sonata\AdminBundle\Builder\FormContractorInterface;
-use Sonata\AdminBundle\Builder\ListBuilderInterface;
-use Sonata\AdminBundle\Builder\RouteBuilderInterface;
-use Sonata\AdminBundle\Builder\ShowBuilderInterface;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Exporter\DataSourceInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionFactoryInterface;
-use Sonata\AdminBundle\Filter\Persister\FilterPersisterInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Route\RouteGeneratorInterface;
-use Sonata\AdminBundle\Security\Handler\SecurityHandlerInterface;
-use Sonata\AdminBundle\Templating\MutableTemplateRegistryAwareInterface;
-use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Builder\DatagridBuilderInterface;
+use IDCT\Adminata\Builder\FormContractorInterface;
+use IDCT\Adminata\Builder\ListBuilderInterface;
+use IDCT\Adminata\Builder\RouteBuilderInterface;
+use IDCT\Adminata\Builder\ShowBuilderInterface;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Exporter\DataSourceInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionFactoryInterface;
+use IDCT\Adminata\Filter\Persister\FilterPersisterInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Route\RouteGeneratorInterface;
+use IDCT\Adminata\Security\Handler\SecurityHandlerInterface;
+use IDCT\Adminata\Templating\MutableTemplateRegistryAwareInterface;
+use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -46,7 +46,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 interface TaggedAdminInterface extends MutableTemplateRegistryAwareInterface
 {
-    public const ADMIN_TAG = 'sonata.admin';
+    public const ADMIN_TAG = 'adminata.admin';
 
     public const DEFAULT_LIST_MODES = [
         'list' => [

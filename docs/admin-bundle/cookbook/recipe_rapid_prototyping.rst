@@ -26,13 +26,13 @@ At this point, you might want to reuse some elements inside different templates.
 
 This overhead is not always required just to render an area and you might want to have a fine control over the caching strategy. This is where the ``TemplateBlockService`` can be an excellent complement to the TemplateController_.
 
-You start integrating your HTML with the ``sonata.block.service.template`` block and once you need to use the block you can just update the ``sonata_block_render`` call with the correct service name and the valid settings.
+You start integrating your HTML with the ``adminata.block.service.template`` block and once you need to use the block you can just update the ``adminata_block_render`` call with the correct service name and the valid settings.
 
 The usage is very simple:
 
 .. code-block:: html+twig
 
-    {{ sonata_block_render({ 'type': 'sonata.block.service.template' }, {
+    {{ adminata_block_render({ 'type': 'adminata.block.service.template' }, {
         'template': '@SonataDemo/Block/myblock.html'
     }) }}
 
@@ -51,18 +51,18 @@ The main template might look like:
             </head>
 
             <div class="container">
-                {{ sonata_block_render({ 'type': 'sonata.block.service.template' }, {
+                {{ adminata_block_render({ 'type': 'adminata.block.service.template' }, {
                     'template': '@MyMenu/Block/menu.twig.html'
                 }) }}
 
                 <div class="col-4">
-                    {{ sonata_block_render({ 'type': 'sonata.block.service.template' }, {
+                    {{ adminata_block_render({ 'type': 'adminata.block.service.template' }, {
                         'template': '@MyMenu/Block/navigation.twig.html'
                     }) }}
                 </div>
 
                 <div class="col-6">
-                    {{ sonata_block_render({ 'type': 'sonata.block.service.template' }, {
+                    {{ adminata_block_render({ 'type': 'adminata.block.service.template' }, {
                         'template': '@MyMenu/Block/content.twig.html'
                     }) }}
                 </div>

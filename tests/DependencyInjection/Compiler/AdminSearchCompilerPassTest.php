@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection\Compiler;
+namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
-use Sonata\AdminBundle\DependencyInjection\Admin\TaggedAdminInterface;
-use Sonata\AdminBundle\DependencyInjection\Compiler\AdminSearchCompilerPass;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\PostAdmin;
-use Sonata\AdminBundle\Tests\Fixtures\Bundle\Entity\Post;
+use IDCT\Adminata\DependencyInjection\Admin\TaggedAdminInterface;
+use IDCT\Adminata\DependencyInjection\Compiler\AdminSearchCompilerPass;
+use IDCT\Adminata\Tests\Fixtures\Admin\PostAdmin;
+use IDCT\Adminata\Tests\Fixtures\Bundle\Entity\Post;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -53,12 +53,12 @@ final class AdminSearchCompilerPassTest extends AbstractCompilerPassTestCase
         $this->setDefinition('admin.baz', $adminBazDefinition);
 
         $searchHandlerDefinition = new Definition();
-        $this->setDefinition('sonata.admin.search.handler', $searchHandlerDefinition);
+        $this->setDefinition('adminata.admin.search.handler', $searchHandlerDefinition);
 
         $this->compile();
 
         self::assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'sonata.admin.search.handler',
+            'adminata.admin.search.handler',
             'configureAdminSearch',
             [['admin_foo_code' => true, 'admin_bar_code' => false]]
         );

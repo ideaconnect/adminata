@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Event;
+namespace IDCT\Adminata\Event;
 
-use Sonata\AdminBundle\Admin\AbstractAdminExtension;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
+use IDCT\Adminata\Admin\AbstractAdminExtension;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Datagrid\DatagridMapper;
+use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Form\FormMapper;
+use IDCT\Adminata\Show\ShowMapper;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -38,7 +38,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new ConfigureEvent($form->getAdmin(), $form, ConfigureEvent::TYPE_FORM),
-            'sonata.admin.event.configure.form'
+            'adminata.admin.event.configure.form'
         );
     }
 
@@ -46,7 +46,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new ConfigureEvent($list->getAdmin(), $list, ConfigureEvent::TYPE_LIST),
-            'sonata.admin.event.configure.list'
+            'adminata.admin.event.configure.list'
         );
     }
 
@@ -54,7 +54,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new ConfigureEvent($filter->getAdmin(), $filter, ConfigureEvent::TYPE_DATAGRID),
-            'sonata.admin.event.configure.datagrid'
+            'adminata.admin.event.configure.datagrid'
         );
     }
 
@@ -62,7 +62,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new ConfigureEvent($show->getAdmin(), $show, ConfigureEvent::TYPE_SHOW),
-            'sonata.admin.event.configure.show'
+            'adminata.admin.event.configure.show'
         );
     }
 
@@ -70,7 +70,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new ConfigureQueryEvent($admin, $query, $context),
-            'sonata.admin.event.configure.query'
+            'adminata.admin.event.configure.query'
         );
     }
 
@@ -78,7 +78,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new PersistenceEvent($admin, $object, PersistenceEvent::TYPE_PRE_UPDATE),
-            'sonata.admin.event.persistence.pre_update'
+            'adminata.admin.event.persistence.pre_update'
         );
     }
 
@@ -86,7 +86,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new PersistenceEvent($admin, $object, PersistenceEvent::TYPE_POST_UPDATE),
-            'sonata.admin.event.persistence.post_update'
+            'adminata.admin.event.persistence.post_update'
         );
     }
 
@@ -94,7 +94,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new PersistenceEvent($admin, $object, PersistenceEvent::TYPE_PRE_PERSIST),
-            'sonata.admin.event.persistence.pre_persist'
+            'adminata.admin.event.persistence.pre_persist'
         );
     }
 
@@ -102,7 +102,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new PersistenceEvent($admin, $object, PersistenceEvent::TYPE_POST_PERSIST),
-            'sonata.admin.event.persistence.post_persist'
+            'adminata.admin.event.persistence.post_persist'
         );
     }
 
@@ -110,7 +110,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new PersistenceEvent($admin, $object, PersistenceEvent::TYPE_PRE_REMOVE),
-            'sonata.admin.event.persistence.pre_remove'
+            'adminata.admin.event.persistence.pre_remove'
         );
     }
 
@@ -118,7 +118,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new PersistenceEvent($admin, $object, PersistenceEvent::TYPE_POST_REMOVE),
-            'sonata.admin.event.persistence.post_remove'
+            'adminata.admin.event.persistence.post_remove'
         );
     }
 
@@ -126,7 +126,7 @@ final class AdminEventExtension extends AbstractAdminExtension
     {
         $this->eventDispatcher->dispatch(
             new BatchActionEvent($admin, BatchActionEvent::TYPE_PRE_BATCH_ACTION, $actionName, $query, $idx, $allElements),
-            'sonata.admin.event.batch_action.pre_batch_action'
+            'adminata.admin.event.batch_action.pre_batch_action'
         );
     }
 }

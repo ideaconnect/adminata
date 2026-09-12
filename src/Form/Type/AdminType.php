@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\DataTransformer\ArrayToModelTransformer;
-use Sonata\AdminBundle\Manipulator\ObjectManipulator;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\DataTransformer\ArrayToModelTransformer;
+use IDCT\Adminata\Manipulator\ObjectManipulator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -117,7 +117,7 @@ final class AdminType extends AbstractType
 
         // NEXT_MAJOR: Remove the btn_catalogue usage.
         $view->vars['btn_translation_domain'] =
-            'SonataAdminBundle' !== $options['btn_translation_domain']
+            'AdminataBundle' !== $options['btn_translation_domain']
                 ? $options['btn_translation_domain']
                 : $options['btn_catalogue'];
         $view->vars['btn_catalogue'] = $options['btn_catalogue'];
@@ -138,8 +138,8 @@ final class AdminType extends AbstractType
             'btn_add' => 'link_add',
             'btn_list' => 'link_list',
             'btn_delete' => 'link_delete',
-            'btn_catalogue' => 'SonataAdminBundle', // NEXT_MAJOR: Remove this option.
-            'btn_translation_domain' => 'SonataAdminBundle',
+            'btn_catalogue' => 'AdminataBundle', // NEXT_MAJOR: Remove this option.
+            'btn_translation_domain' => 'AdminataBundle',
             'collection_by_reference' => true,
         ]);
 
@@ -148,7 +148,7 @@ final class AdminType extends AbstractType
             'sonata-project/admin-bundle',
             '4.9',
             static function (Options $options, mixed $value): string {
-                if ('SonataAdminBundle' !== $value) {
+                if ('AdminataBundle' !== $value) {
                     return 'Passing a value to option "btn_catalogue" is deprecated! Use "btn_translation_domain" instead!';
                 }
 
@@ -159,7 +159,7 @@ final class AdminType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_admin';
+        return 'adminata_type_admin';
     }
 
     /**
@@ -169,11 +169,11 @@ final class AdminType extends AbstractType
      */
     private function getFieldDescription(array $options): FieldDescriptionInterface
     {
-        if (!isset($options['sonata_field_description'])) {
-            throw new \RuntimeException('Please provide a valid `sonata_field_description` option');
+        if (!isset($options['adminata_field_description'])) {
+            throw new \RuntimeException('Please provide a valid `adminata_field_description` option');
         }
 
-        return $options['sonata_field_description'];
+        return $options['adminata_field_description'];
     }
 
     /**

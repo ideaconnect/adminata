@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Validator\InlineValidator;
+use IDCT\Adminata\Validator\InlineValidator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
-        ->set('sonata.form.validator.inline', InlineValidator::class)
+        ->set('adminata.form.validator.inline', InlineValidator::class)
             ->tag('validator.constraint_validator', [
-                'alias' => 'sonata.form.validator.inline',
+                'alias' => 'adminata.form.validator.inline',
             ])
             ->args([
                 service('service_container'),

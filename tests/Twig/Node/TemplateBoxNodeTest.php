@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig\Node;
+namespace IDCT\Adminata\Tests\Twig\Node;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use Sonata\AdminBundle\Twig\Node\TemplateBoxNode;
+use IDCT\Adminata\Twig\Node\TemplateBoxNode;
 use Twig\Attribute\YieldReady;
 use Twig\Environment;
 use Twig\Node\Expression\ConstantExpression;
@@ -29,7 +29,7 @@ final class TemplateBoxNodeTest extends NodeTestCase
             new ConstantExpression('This is the default message', 1),
             true,
             1,
-            'sonata_template_box'
+            'adminata_template_box'
         );
 
         static::assertSame(1, $body->getTemplateLine());
@@ -56,14 +56,14 @@ final class TemplateBoxNodeTest extends NodeTestCase
             new ConstantExpression('This is the default message', 1),
             true,
             1,
-            'sonata_template_box'
+            'adminata_template_box'
         );
 
         $nodeFr = new TemplateBoxNode(
             new ConstantExpression('Ceci est le message par défaut', 1),
             true,
             1,
-            'sonata_template_box'
+            'adminata_template_box'
         );
 
         $display = class_exists(YieldReady::class) ? 'yield' : 'echo';

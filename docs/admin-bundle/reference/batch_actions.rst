@@ -50,15 +50,15 @@ Define the core action logic
 
 Define a regular Symfony controller like you normally would (without a route). Make sure you configure your controller
 as a service and tag it with **controller.service_arguments**. The parameter will be automatically injected.
-The AdminInterface is done via a param converter already available in **SonataAdminBundle**. The $query is unique to
+The AdminInterface is done via a param converter already available in **AdminataBundle**. The $query is unique to
 the context of this request. There is no requirement on the base class or any other logic, this is just an example::
 
     // src/Controller/MergeController.php
 
     namespace App\Controller;
 
-    use Sonata\AdminBundle\Admin\AdminInterface;
-    use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+    use IDCT\Adminata\Admin\AdminInterface;
+    use IDCT\Adminata\Datagrid\ProxyQueryInterface;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\RedirectResponse;
     use Symfony\Component\HttpFoundation\Request;
@@ -75,7 +75,7 @@ the context of this request. There is no requirement on the base class or any ot
             $target = $modelManager->find($admin->getClass(), $request->get('targetId'));
 
             if ($target === null) {
-                $this->addFlash('sonata_flash_info', 'flash_batch_merge_no_target');
+                $this->addFlash('adminata_flash_info', 'flash_batch_merge_no_target');
 
                 return new RedirectResponse(
                     $admin->generateUrl('list', [
@@ -93,9 +93,9 @@ the context of this request. There is no requirement on the base class or any ot
                     $modelManager->delete($selectedModel);
                 }
 
-                $this->addFlash('sonata_flash_success', 'flash_batch_merge_success');
+                $this->addFlash('adminata_flash_success', 'flash_batch_merge_success');
             } catch (\Exception $e) {
-                $this->addFlash('sonata_flash_error', 'flash_batch_merge_error');
+                $this->addFlash('adminata_flash_error', 'flash_batch_merge_error');
             } finally {
                 return new RedirectResponse(
                     $admin->generateUrl('list', [
@@ -123,8 +123,8 @@ granularity), the passed query is ``null``::
 
     namespace App\Controller;
 
-    use Sonata\AdminBundle\Controller\CRUDController as BaseController;
-    use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+    use IDCT\Adminata\Controller\CRUDController as BaseController;
+    use IDCT\Adminata\Datagrid\ProxyQueryInterface;
     use Symfony\Component\HttpFoundation\RedirectResponse;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -147,7 +147,7 @@ granularity), the passed query is ``null``::
             $target = $modelManager->find($this->admin->getClass(), $request->get('targetId'));
 
             if ($target === null){
-                $this->addFlash('sonata_flash_info', 'flash_batch_merge_no_target');
+                $this->addFlash('adminata_flash_info', 'flash_batch_merge_no_target');
 
                 return new RedirectResponse(
                     $this->admin->generateUrl('list', [
@@ -167,7 +167,7 @@ granularity), the passed query is ``null``::
 
                 $modelManager->update($selectedModel);
             } catch (\Exception $e) {
-                $this->addFlash('sonata_flash_error', 'flash_batch_merge_error');
+                $this->addFlash('adminata_flash_error', 'flash_batch_merge_error');
 
                 return new RedirectResponse(
                     $this->admin->generateUrl('list', [
@@ -176,7 +176,7 @@ granularity), the passed query is ``null``::
                 );
             }
 
-            $this->addFlash('sonata_flash_success', 'flash_batch_merge_success');
+            $this->addFlash('adminata_flash_success', 'flash_batch_merge_success');
 
             return new RedirectResponse(
                 $this->admin->generateUrl('list', [
@@ -203,9 +203,9 @@ a radio button to choose the target object.
 
 .. code-block:: html+twig
 
-    {# templates/bundles/SonataAdminBundle/CRUD/list__batch.html.twig #}
+    {# templates/bundles/AdminataBundle/CRUD/list__batch.html.twig #}
 
-    {# see @SonataAdmin/CRUD/list__batch.html.twig for the current default template #}
+    {# see @Adminata/CRUD/list__batch.html.twig for the current default template #}
 
     {% extends get_admin_template('base_list_field', admin.code) %}
 
@@ -240,7 +240,7 @@ This method may return three different values:
 
     namespace App\Controller;
 
-    use Sonata\AdminBundle\Controller\CRUDController as BaseController;
+    use IDCT\Adminata\Controller\CRUDController as BaseController;
     use Symfony\Component\HttpFoundation\Request;
 
     class CRUDController extends BaseController

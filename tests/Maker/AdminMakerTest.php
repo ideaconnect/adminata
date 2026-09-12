@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Maker;
+namespace IDCT\Adminata\Tests\Maker;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Controller\CRUDController;
-use Sonata\AdminBundle\Maker\AdminMaker;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Bundle\Entity\Foo;
+use IDCT\Adminata\Controller\CRUDController;
+use IDCT\Adminata\Maker\AdminMaker;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Tests\Fixtures\Bundle\Entity\Foo;
 use Symfony\Bundle\MakerBundle\ConsoleStyle;
 use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;
@@ -56,9 +56,9 @@ final class AdminMakerTest extends TestCase
         $managerOrmProxy->expects(static::any())->method('getExportFields')->with(Foo::class)
             ->willReturn(['bar', 'baz']);
 
-        $this->modelManagers = ['sonata.admin.manager.orm' => $managerOrmProxy];
+        $this->modelManagers = ['adminata.admin.manager.orm' => $managerOrmProxy];
         $this->servicesFile = \sprintf('%s.yml', uniqid('test_', true));
-        $this->projectDirectory = \sprintf('%s/sonata-admin-bundle/', sys_get_temp_dir());
+        $this->projectDirectory = \sprintf('%s/adminata-admin-bundle/', sys_get_temp_dir());
         $this->filesystem = new Filesystem();
     }
 
@@ -112,7 +112,7 @@ final class AdminMakerTest extends TestCase
 
         $this->generator = new Generator(
             $fileManager,
-            'Sonata\AdminBundle\Tests'
+            'IDCT\Adminata\Tests'
         );
         $maker->generate($input, $this->io, $this->generator);
     }

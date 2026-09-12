@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Admin\Extension;
+namespace IDCT\Adminata\Admin\Extension;
 
-use Sonata\AdminBundle\Admin\AbstractAdminExtension;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\BCLayer\BCHelper;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Model\LockInterface;
+use IDCT\Adminata\Admin\AbstractAdminExtension;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\BCLayer\BCHelper;
+use IDCT\Adminata\Form\FormMapper;
+use IDCT\Adminata\Model\LockInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig\Extension;
+namespace IDCT\Adminata\Twig\Extension;
 
-use Sonata\AdminBundle\Twig\FlashMessageRuntime;
+use IDCT\Adminata\Twig\FlashMessageRuntime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -28,14 +28,14 @@ final class FlashMessageExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('sonata_flashmessages_get', [FlashMessageRuntime::class, 'getFlashMessages']),
-            new TwigFunction('sonata_flashmessages_types', [FlashMessageRuntime::class, 'getFlashMessagesTypes']),
-            new TwigFunction('sonata_flashmessages_class', [FlashMessageRuntime::class, 'getFlashMessagesClass']),
+            new TwigFunction('adminata_flashmessages_get', [FlashMessageRuntime::class, 'getFlashMessages']),
+            new TwigFunction('adminata_flashmessages_types', [FlashMessageRuntime::class, 'getFlashMessagesTypes']),
+            new TwigFunction('adminata_flashmessages_class', [FlashMessageRuntime::class, 'getFlashMessagesClass']),
         ];
     }
 
     public function getName(): string
     {
-        return 'sonata_twig_flashmessage';
+        return 'adminata_twig_flashmessage';
     }
 }

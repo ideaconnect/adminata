@@ -18,9 +18,9 @@ It is possible to configure the default view by creating a dedicated template.
 
     .. code-block:: yaml
 
-        # config/packages/sonata_admin.yaml
+        # config/packages/adminata.yaml
 
-        sonata_admin:
+        adminata:
             # ...
             options:
                 # ...
@@ -32,21 +32,21 @@ First, configure the ``outer_list_rows_mosaic`` template key:
 
       <!-- config/services.xml -->
 
-       <service id="sonata.media.admin.media" class="%sonata.media.admin.media.class%">
+       <service id="adminata.media.admin.media" class="%adminata.media.admin.media.class%">
             <call method="setTemplates">
                 <argument type="collection">
                     <argument key="outer_list_rows_mosaic">@SonataMedia/MediaAdmin/list_outer_rows_mosaic.html.twig</argument>
                 </argument>
             </call>
             <tag
-                name="sonata.admin"
-                model_class="%sonata.media.admin.media.entity%"
-                controller="%sonata.media.admin.media.controller%"
+                name="adminata.admin"
+                model_class="%adminata.media.admin.media.entity%"
+                controller="%adminata.media.admin.media.controller%"
                 manager_type="orm"
                 group="sonata_media"
-                translation_domain="%sonata.media.admin.media.translation_domain%"
+                translation_domain="%adminata.media.admin.media.translation_domain%"
                 label="media"
-                label_translator_strategy="sonata.admin.label.strategy.underscore"
+                label_translator_strategy="adminata.admin.label.strategy.underscore"
                 />
        </service>
 
@@ -54,15 +54,15 @@ The ``list_outer_rows_mosaic.html.twig`` is the name of one mosaic's tile. You s
 
 .. code-block:: html+twig
 
-    {% extends '@SonataAdmin/CRUD/list_outer_rows_mosaic.html.twig' %}
+    {% extends '@Adminata/CRUD/list_outer_rows_mosaic.html.twig' %}
 
-    {% block sonata_mosaic_background %}{{ meta.image }}{% endblock %}
+    {% block adminata_mosaic_background %}{{ meta.image }}{% endblock %}
 
-    {% block sonata_mosaic_default_view %}
+    {% block adminata_mosaic_default_view %}
         <span class="label label-primary pull-right">{{ object.providerName|trans({}, 'SonataMediaBundle') }}</span>
     {% endblock %}
 
-    {% block sonata_mosaic_hover_view %}
+    {% block adminata_mosaic_hover_view %}
         <span class="label label-primary pull-right">{{ object.providerName|trans({}, 'SonataMediaBundle') }}</span>
 
         {% if object.width %} {{ object.width }}{% if object.height %}x{{ object.height }}{% endif %}px{% endif %}
@@ -85,7 +85,7 @@ The ``list_outer_rows_mosaic.html.twig`` is the name of one mosaic's tile. You s
         {% endif  %}
     {% endblock %}
 
-    {% block sonata_mosaic_description %}
+    {% block adminata_mosaic_description %}
         {% if admin.hasAccess('edit', object) and admin.hasRoute('edit') %}
             <a href="{{ admin.generateObjectUrl('edit', object) }}">{{ meta.title|u.truncate(40) }}</a>
         {% elseif admin.hasAccess('show', object) and admin.hasRoute('show') %}
@@ -98,16 +98,16 @@ The ``list_outer_rows_mosaic.html.twig`` is the name of one mosaic's tile. You s
 Block types
 -----------
 
- - ``sonata_mosaic_background``: this block is the background value defined in the ObjectMetadata object.
- - ``sonata_mosaic_default_view``: this block is used when the list is displayed.
- - ``sonata_mosaic_hover_view``: this block is used when the mouse is over the tile.
- - ``sonata_mosaic_description``: this block will be always on screen and should represent the entity's name.
+ - ``adminata_mosaic_background``: this block is the background value defined in the ObjectMetadata object.
+ - ``adminata_mosaic_default_view``: this block is used when the list is displayed.
+ - ``adminata_mosaic_hover_view``: this block is used when the mouse is over the tile.
+ - ``adminata_mosaic_description``: this block will be always on screen and should represent the entity's name.
 
 The ``ObjectMetadata`` object is returned by the related admin class, and can be
 used to define which image field from the entity will be displayed if available.
 For instance, the SonataMediaBundle defines the method as::
 
-    use Sonata\AdminBundle\Object\MetadataInterface;
+    use IDCT\Adminata\Object\MetadataInterface;
 
     final class MediaAdmin extends AbstractAdmin
     {
@@ -126,7 +126,7 @@ For instance, the SonataMediaBundle defines the method as::
     In your own admin, ``media`` is a field and not the ``$object``. Therefore,
     the code above must be updated this way::
 
-        use Sonata\AdminBundle\Object\MetadataInterface;
+        use IDCT\Adminata\Object\MetadataInterface;
 
         public function getObjectMetadata(object $object): MetadataInterface
         {
@@ -164,7 +164,7 @@ Then add ``'@sonata.media.pool'`` to your service definition arguments:
                 - '@sonata.media.pool'
             tags:
                 -
-                    name: sonata.admin
+                    name: adminata.admin
                     model_class: App\Entity\Post
                     manager_type: orm
                     group: 'Content'

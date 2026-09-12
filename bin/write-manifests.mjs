@@ -13,7 +13,7 @@
 /*
  * Writes the two manifests Symfony's asset component understands, and removes the stub chunks Vite
  * emits for CSS-only entries. The output names are fixed rather than hashed, so an application's
- * `sonata_admin.assets.remove_stylesheets` entries stay valid across releases.
+ * `adminata.assets.remove_stylesheets` entries stay valid across releases.
  */
 
 import { readdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -31,19 +31,19 @@ for (const name of readdirSync(published)) {
 const entrypoints = {
     entrypoints: {
         app: {
-            js: ['/bundles/sonataadmin/app.js'],
-            css: ['/bundles/sonataadmin/app.css'],
+            js: ['/bundles/adminata/app.js'],
+            css: ['/bundles/adminata/app.css'],
         },
         fontawesome: {
-            css: ['/bundles/sonataadmin/fontawesome.css'],
+            css: ['/bundles/adminata/fontawesome.css'],
         },
     },
 };
 
 const manifest = {
-    'build/app.js': '/bundles/sonataadmin/app.js',
-    'build/app.css': '/bundles/sonataadmin/app.css',
-    'build/fontawesome.css': '/bundles/sonataadmin/fontawesome.css',
+    'build/app.js': '/bundles/adminata/app.js',
+    'build/app.css': '/bundles/adminata/app.css',
+    'build/fontawesome.css': '/bundles/adminata/fontawesome.css',
 };
 
 const json = (value) => `${JSON.stringify(value, null, 2)}\n`;

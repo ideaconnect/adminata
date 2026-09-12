@@ -4,7 +4,7 @@ Security
 User management
 ---------------
 
-By default, the SonataAdminBundle does not come with any user management,
+By default, the AdminataBundle does not come with any user management,
 however it is most likely the application requires such a feature. For this
 you can try the ``SonataUserBundle``.
 
@@ -20,7 +20,7 @@ The ``SonataUserBundle`` includes:
 * 2 Admin classes: User and Group
 * A default class for User and Group.
 
-There is a little magic in the ``SonataAdminBundle``: if the bundle detects the
+There is a little magic in the ``AdminataBundle``: if the bundle detects the
 ``SonataUserBundle`` class, then the default ``user_block`` template will be
 changed to use the one provided by the ``SonataUserBundle``.
 
@@ -32,14 +32,14 @@ Security handlers
 
 The security part is managed by a ``SecurityHandler``, the bundle comes with 3 handlers:
 
-- ``sonata.admin.security.handler.role``: ROLES to handle permissions
-- ``sonata.admin.security.handler.acl``: ACL and ROLES to handle permissions
-- ``sonata.admin.security.handler.noop``: always returns true, can be used
+- ``adminata.admin.security.handler.role``: ROLES to handle permissions
+- ``adminata.admin.security.handler.acl``: ACL and ROLES to handle permissions
+- ``adminata.admin.security.handler.noop``: always returns true, can be used
   with the Symfony firewall
 
-The default value is ``sonata.admin.security.handler.noop``, if you want to
+The default value is ``adminata.admin.security.handler.noop``, if you want to
 change the default value you can set the ``security_handler`` to
-``sonata.admin.security.handler.acl`` or ``sonata.admin.security.handler.role``.
+``adminata.admin.security.handler.acl`` or ``adminata.admin.security.handler.role``.
 
 To quickly secure an admin the role security can be used. It allows to specify
 the actions a user can do with the admin. The ACL security system is more advanced
@@ -57,11 +57,11 @@ Using roles:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         security:
-            handler: sonata.admin.security.handler.role
+            handler: adminata.admin.security.handler.role
 
             role_admin: ROLE_ADMIN
             role_super_admin: ROLE_SUPER_ADMIN
@@ -70,13 +70,13 @@ Using ACL:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         security:
-            handler: sonata.admin.security.handler.acl
+            handler: adminata.admin.security.handler.acl
 
-            # this service MUST implement ``Sonata\AdminBundle\Util\AdminAclUserManagerInterface``.
+            # this service MUST implement ``IDCT\Adminata\Util\AdminAclUserManagerInterface``.
             acl_user_manager: App\Manager\AclUserManager
 
             role_admin: ROLE_ADMIN
@@ -101,7 +101,7 @@ Later, we will explain how to set up ACL with the ``SonataUserBundle``.
 Role handler
 ------------
 
-The ``sonata.admin.security.handler.role`` allows you to operate finely on the
+The ``adminata.admin.security.handler.role`` allows you to operate finely on the
 actions that can be done (depending on the entity class), without requiring to set up ACL.
 
 Configuration
@@ -160,23 +160,23 @@ So our ``security.yaml`` file may look something like this:
         role_hierarchy:
 
             # for convenience, I decided to gather Sonata roles here
-            ROLE_SONATA_FOO_READER:
-                - ROLE_SONATA_ADMIN_DEMO_FOO_LIST
-                - ROLE_SONATA_ADMIN_DEMO_FOO_VIEW
-            ROLE_SONATA_FOO_EDITOR:
-                - ROLE_SONATA_ADMIN_DEMO_FOO_CREATE
-                - ROLE_SONATA_ADMIN_DEMO_FOO_EDIT
-            ROLE_SONATA_FOO_ADMIN:
-                - ROLE_SONATA_ADMIN_DEMO_FOO_DELETE
-                - ROLE_SONATA_ADMIN_DEMO_FOO_EXPORT
+            ROLE_ADMINATA_FOO_READER:
+                - ROLE_ADMINATA_ADMIN_DEMO_FOO_LIST
+                - ROLE_ADMINATA_ADMIN_DEMO_FOO_VIEW
+            ROLE_ADMINATA_FOO_EDITOR:
+                - ROLE_ADMINATA_ADMIN_DEMO_FOO_CREATE
+                - ROLE_ADMINATA_ADMIN_DEMO_FOO_EDIT
+            ROLE_ADMINATA_FOO_ADMIN:
+                - ROLE_ADMINATA_ADMIN_DEMO_FOO_DELETE
+                - ROLE_ADMINATA_ADMIN_DEMO_FOO_EXPORT
 
             # those are the roles I will use (less verbose)
-            ROLE_STAFF:             [ROLE_USER, ROLE_SONATA_FOO_READER]
-            ROLE_ADMIN:             [ROLE_STAFF, ROLE_SONATA_FOO_EDITOR, ROLE_SONATA_FOO_ADMIN]
+            ROLE_STAFF:             [ROLE_USER, ROLE_ADMINATA_FOO_READER]
+            ROLE_ADMIN:             [ROLE_STAFF, ROLE_ADMINATA_FOO_EDITOR, ROLE_ADMINATA_FOO_ADMIN]
             ROLE_SUPER_ADMIN:       [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
             # you could alternatively use for an admin who has all rights
-            ROLE_ALL_ADMIN:         [ROLE_STAFF, ROLE_SONATA_FOO_ALL]
+            ROLE_ALL_ADMIN:         [ROLE_STAFF, ROLE_ADMINATA_FOO_ALL]
 
         # set access_strategy to unanimous, else you may have unexpected behaviors
         access_decision_manager:
@@ -196,7 +196,7 @@ You can now test if a user is authorized from an Admin class::
         // ...
     }
 
-From a controller extending ``Sonata\AdminBundle\Controller\CRUDController``::
+From a controller extending ``IDCT\Adminata\Controller\CRUDController``::
 
     if ($this->admin->hasAccess('list')) {
         // ...
@@ -228,15 +228,15 @@ Customizing the handler behavior
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you want to change the handler behavior, create your own handler implementing
-``Sonata\AdminBundle\Security\Handler\SecurityHandlerInterface``.
+``IDCT\Adminata\Security\Handler\SecurityHandlerInterface``.
 
 And specify it as Sonata security handler on your configuration:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         default_admin_services:
             security_handler: App\Security\Handler\MySecurityHandler
 
@@ -264,12 +264,12 @@ it up as described in the `documentation of the bundle
 
 
 If you are going to use ACL, you must create a service implementing
-`Sonata\AdminBundle\Util\AdminAclUserManagerInterface`::
+`IDCT\Adminata\Util\AdminAclUserManagerInterface`::
 
     namespace App\Manager;
 
     use Sonata\UserBundle\Model\UserManagerInterface;
-    use Sonata\AdminBundle\Util\AdminAclUserManagerInterface;
+    use IDCT\Adminata\Util\AdminAclUserManagerInterface;
 
     final class AclUserManager implements AdminAclUserManagerInterface
     {
@@ -289,15 +289,15 @@ If you are going to use ACL, you must create a service implementing
         }
     }
 
-and then configure SonataAdminBundle:
+and then configure AdminataBundle:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         security:
-            handler: sonata.admin.security.handler.acl
+            handler: adminata.admin.security.handler.acl
             acl_user_manager: App\Manager\AclUserManager
             # ...
 
@@ -316,11 +316,11 @@ The following configuration for the SonataUserBundle defines:
 
     services:
         security.acl.permission.map:
-            class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
+            class: IDCT\Adminata\Security\Acl\Permission\AdminPermissionMap
 
     # optionally use a custom MaskBuilder
     parameters:
-        sonata.admin.security.mask.builder.class: Sonata\AdminBundle\Security\Acl\Permission\MaskBuilder
+        adminata.admin.security.mask.builder.class: IDCT\Adminata\Security\Acl\Permission\MaskBuilder
 
 In ``config/packages/security.yaml``:
 
@@ -373,9 +373,9 @@ In ``config/packages/security.yaml``:
             - { path: ^/admin/, role: ROLE_ADMIN }
             - { path: ^/.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
 
-        # Sonata "special" roles (ROLE_SONATA_ADMIN and ROLE_SUPER_ADMIN) are configurable
+        # Sonata "special" roles (ROLE_ADMINATA_ADMIN and ROLE_SUPER_ADMIN) are configurable
         role_hierarchy:
-            ROLE_ADMIN:       [ROLE_USER, ROLE_SONATA_ADMIN]
+            ROLE_ADMIN:       [ROLE_USER, ROLE_ADMINATA_ADMIN]
             ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
         acl:
@@ -397,13 +397,13 @@ If you have Admin classes, you can install or update the related CRUD ACL rules:
 
 .. code-block:: bash
 
-    bin/console sonata:admin:setup-acl
+    bin/console adminata:setup-acl
     Starting ACL AdminBundle configuration
-    > install ACL for sonata.media.admin.media
-       - add role: ROLE_SONATA_MEDIA_ADMIN_MEDIA_GUEST, permissions: ["VIEW","LIST"]
-       - add role: ROLE_SONATA_MEDIA_ADMIN_MEDIA_STAFF, permissions: ["EDIT","LIST","CREATE"]
-       - add role: ROLE_SONATA_MEDIA_ADMIN_MEDIA_EDITOR, permissions: ["OPERATOR","EXPORT"]
-       - add role: ROLE_SONATA_MEDIA_ADMIN_MEDIA_ADMIN, permissions: ["MASTER"]
+    > install ACL for adminata.media.admin.media
+       - add role: ROLE_ADMINATA_MEDIA_ADMIN_MEDIA_GUEST, permissions: ["VIEW","LIST"]
+       - add role: ROLE_ADMINATA_MEDIA_ADMIN_MEDIA_STAFF, permissions: ["EDIT","LIST","CREATE"]
+       - add role: ROLE_ADMINATA_MEDIA_ADMIN_MEDIA_EDITOR, permissions: ["OPERATOR","EXPORT"]
+       - add role: ROLE_ADMINATA_MEDIA_ADMIN_MEDIA_ADMIN, permissions: ["MASTER"]
     ... skipped ...
 
 If you already have objects, you can generate the object ACL rules for each
@@ -411,7 +411,7 @@ object of an admin:
 
 .. code-block:: bash
 
-    bin/console sonata:admin:generate-object-acl
+    bin/console adminata:generate-object-acl
 
 Optionally, you can specify an object owner, and step through each admin. See
 the help of the command for more information.
@@ -433,14 +433,14 @@ the ``Admin`` class is created for.
 By default each ``Admin`` class contains the following roles, override the
 property ``$securityInformation`` to change this:
 
-- ``ROLE_SONATA_..._GUEST``
+- ``ROLE_ADMINATA_..._GUEST``
     a guest that is allowed to ``VIEW`` an object and a ``LIST`` of objects;
-- ``ROLE_SONATA_..._STAFF``
+- ``ROLE_ADMINATA_..._STAFF``
     probably the biggest part of the users, a staff user  has the same permissions
     as guests and is additionally allowed to ``EDIT`` and ``CREATE`` new objects;
-- ``ROLE_SONATA_..._EDITOR``
+- ``ROLE_ADMINATA_..._EDITOR``
     an editor is granted all access and, compared to the staff users, is allowed to ``DELETE``;
-- ``ROLE_SONATA_..._ADMIN``
+- ``ROLE_ADMINATA_..._ADMIN``
     an administrative user is granted all access and on top of that, the user is allowed to grant other users access.
 
 Owner:
@@ -499,7 +499,7 @@ or a permission (``admin.isGranted``):
   counted votes granted access;
 - **RoleVoter:** votes for all attributes stating with ``ROLE_`` and grants
   access if the user has this role;
-- **RoleHierarchyVoter:** when the role ``ROLE_SONATA_ADMIN`` (or the role
+- **RoleHierarchyVoter:** when the role ``ROLE_ADMINATA_ADMIN`` (or the role
   specified in the configuration) is voted for, it also votes "granted" if
   the user has the role ``ROLE_SUPER_ADMIN``;
 - **AclVoter:** grants access for the permissions of the ``Admin`` class if
@@ -562,7 +562,7 @@ because for example you want to restrict access using extra rules:
     }
 
 - optionally create a custom permission map, copy to start the
-  ``Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap.php`` to
+  ``IDCT\Adminata\Security\Acl\Permission\AdminPermissionMap.php`` to
   your bundle
 
 - declare the voter and permission map as a service
@@ -616,7 +616,7 @@ Usage
 ^^^^^
 
 Every time you create a new ``Admin`` class, you should start with the command
-``bin/console sonata:admin:setup-acl`` so the ACL database will be updated
+``bin/console adminata:setup-acl`` so the ACL database will be updated
 with the latest roles and permissions.
 
 In the templates, or in your code, you can use the Admin method ``hasAccess()``:
@@ -654,15 +654,15 @@ List filtering
 ^^^^^^^^^^^^^^
 
 List filtering using ACL is available as a third party bundle:
-`CoopTilleulsAclSonataAdminExtensionBundle <https://github.com/coopTilleuls/CoopTilleulsAclSonataAdminExtensionBundle>`_.
+`CoopTilleulsAclAdminataExtensionBundle <https://github.com/coopTilleuls/CoopTilleulsAclAdminataExtensionBundle>`_.
 When enabled, the logged in user will only see the objects for which it has the ``VIEW`` right (or superior).
 
 ACL editor
 ----------
 
-SonataAdminBundle provides a user-friendly ACL editor
+AdminataBundle provides a user-friendly ACL editor
 interface.
-It will be automatically available if the ``sonata.admin.security.handler.acl``
+It will be automatically available if the ``adminata.admin.security.handler.acl``
 security handler is used and properly configured.
 
 The ACL editor is only available for users with ``OWNER`` or ``MASTER`` permissions
@@ -682,7 +682,7 @@ By default, the ACL editor allows to set permissions for all users managed by
 ``SonataUserBundle``.
 
 To customize displayed user override
-``Sonata\AdminBundle\Controller\CRUDController::getAclUsers()``. This method must
+``IDCT\Adminata\Controller\CRUDController::getAclUsers()``. This method must
 return an iterable collection of users::
 
     protected function getAclUsers(): \Traversable
@@ -702,7 +702,7 @@ Role list customization
 By default, the ACL editor allows to set permissions for all roles.
 
 To customize displayed role override
-``Sonata\AdminBundle\Controller\CRUDController::getAclRoles()``. This method must
+``IDCT\Adminata\Controller\CRUDController::getAclRoles()``. This method must
 return an iterable collection of roles::
 
     protected function getAclRoles(): \Traversable

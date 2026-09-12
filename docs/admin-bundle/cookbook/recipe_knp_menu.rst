@@ -2,7 +2,7 @@ KnpMenu
 =======
 
 The admin comes with `KnpMenu`_ integration.
-It integrates a menu with the KnpMenu library. This menu can be a SonataAdmin
+It integrates a menu with the KnpMenu library. This menu can be a Adminata
 service, a menu created with a Knp menu provider or a route of a custom controller.
 
 Add a custom controller entry in the menu
@@ -37,16 +37,16 @@ Add the controller route as an item of the menu:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         dashboard:
             groups:
                 news:
                     label:                ~
                     translation_domain:   ~
                     items:
-                        - sonata.news.admin.post
+                        - adminata.news.admin.post
                         - route:        blog_home
                             label:        Blog
                         - route:        blog_article
@@ -58,32 +58,32 @@ group roles will be checked.
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         dashboard:
             groups:
                 news:
                     label:                ~
                     translation_domain:   ~
                     items:
-                        - sonata.news.admin.post
+                        - adminata.news.admin.post
                         - route:        blog_home
                             label:        Blog
                             roles:        ['ROLE_FOO', 'ROLE_BAR']
                         - route:        blog_article
                             route_params: { articleId: 3 }
                             label:        Article
-                    roles: ['ROLE_ADMIN', 'ROLE_SONATA_ADMIN']
+                    roles: ['ROLE_ADMIN', 'ROLE_ADMINATA_ADMIN']
 
 You can also override the template of knp_menu used by sonata. The default
-one is `@SonataAdmin/Menu/sonata_menu.html.twig`:
+one is `@Adminata/Menu/adminata_menu.html.twig`:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         templates:
             knp_menu_template: '@ApplicationAdmin/Menu/custom_knp_menu.html.twig'
 
@@ -102,9 +102,9 @@ The following configuration uses a menu provider to populate the menu group ``my
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         dashboard:
             groups:
                 my_group:
@@ -135,13 +135,13 @@ Extending the menu
 
 You can modify the menu via events.
 You can register as many listeners as you want for the event with
-name ``sonata.admin.event.configure.menu.sidebar``::
+name ``adminata.admin.event.configure.menu.sidebar``::
 
     // src/EventListener/MenuBuilderListener.php
 
     namespace App\EventListener;
 
-    use Sonata\AdminBundle\Event\ConfigureMenuEvent;
+    use IDCT\Adminata\Event\ConfigureMenuEvent;
 
     final class MenuBuilderListener
     {
@@ -166,7 +166,7 @@ name ``sonata.admin.event.configure.menu.sidebar``::
         app.menu_listener:
             class: App\EventListener\MenuBuilderListener
             tags:
-                - { name: kernel.event_listener, event: sonata.admin.event.configure.menu.sidebar, method: addMenuItems }
+                - { name: kernel.event_listener, event: adminata.admin.event.configure.menu.sidebar, method: addMenuItems }
 
 Please see the `Using events to allow a menu to be extended`_ for further information.
 
@@ -174,33 +174,33 @@ Hiding menu items
 -----------------
 
 You can modify the menu to hide some menu items. You need to add the ``show_in_dashboard`` option in
-your admin services or remove menu items from the ``sonata_admin`` dashboard group configuration:
+your admin services or remove menu items from the ``adminata`` dashboard group configuration:
 
 .. code-block:: yaml
 
     # config/services.yaml
 
-    sonata_admin.admin.post:
-        class: Sonata\AdminBundle\Admin\PostAdmin
+    adminata.admin.post:
+        class: IDCT\Adminata\Admin\PostAdmin
         tags:
-            - { name: sonata.admin, model_class: Sonata\AdminBundle\Entity\Post, controller: Sonata\AdminBundle\Controller\CRUDController, manager_type: orm, group: admin, label: Post, show_in_dashboard: false }
+            - { name: adminata.admin, model_class: IDCT\Adminata\Entity\Post, controller: IDCT\Adminata\Controller\CRUDController, manager_type: orm, group: admin, label: Post, show_in_dashboard: false }
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         dashboard:
             groups:
                 news:
                     label:                ~
                     translation_domain:   ~
                     items:
-                      # comment or remove the sonata.news.admin.post declaration to hide it from the menu.
-                      #  - sonata.news.admin.post
+                      # comment or remove the adminata.news.admin.post declaration to hide it from the menu.
+                      #  - adminata.news.admin.post
                         - route:        blog_home
                           label:        Blog
-                        - sonata.news.admin.news
+                        - adminata.news.admin.news
 
 Keeping menu group open
 -----------------------
@@ -210,19 +210,19 @@ open and ignore open/close effects:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         dashboard:
             groups:
-                sonata.admin.group.content:
+                adminata.admin.group.content:
                     keep_open:          true
                     label:              sonata_media
                     translation_domain: SonataMediaBundle
                     icon:               'fas fa-image' # html is also supported
                     items:
-                        - sonata.media.admin.media
-                        - sonata.media.admin.gallery
+                        - adminata.media.admin.media
+                        - adminata.media.admin.gallery
 
 .. figure:: ../images/keep_open.png
    :align: center
@@ -232,22 +232,22 @@ Show menu item without treeview
 -------------------------------
 
 You can modify the menu to show menu item without treeview. You need to add option ``on_top`` in your admin services
-or in sonata_admin dashboard group configuration:
+or in adminata dashboard group configuration:
 
 .. code-block:: yaml
 
     # config/services.yaml
 
-    sonata_admin.admin.post:
-        class: Sonata\AdminBundle\Admin\PostAdmin
+    adminata.admin.post:
+        class: IDCT\Adminata\Admin\PostAdmin
         tags:
-            - { name: sonata.admin, model_class: Sonata\AdminBundle\Entity\Post, controller: Sonata\AdminBundle\Controller\CRUDController, manager_type: orm, group: admin, label: Post, on_top: true }
+            - { name: adminata.admin, model_class: IDCT\Adminata\Entity\Post, controller: IDCT\Adminata\Controller\CRUDController, manager_type: orm, group: admin, label: Post, on_top: true }
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         dashboard:
             groups:
                 news:
@@ -255,7 +255,7 @@ or in sonata_admin dashboard group configuration:
                     label:              ~
                     translation_domain: ~
                     items:
-                        - sonata.news.admin.post
+                        - adminata.news.admin.post
 
 .. figure:: ../images/demo_on_top.png
    :align: center
@@ -268,9 +268,9 @@ Your can't use this option for two or more items at the same time:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         dashboard:
             groups:
                 news:
@@ -278,7 +278,7 @@ Your can't use this option for two or more items at the same time:
                     label:              ~
                     translation_domain: ~
                     items:
-                        - sonata.news.admin.post
+                        - adminata.news.admin.post
                         - route:        blog_home
                           label:        Blog
 

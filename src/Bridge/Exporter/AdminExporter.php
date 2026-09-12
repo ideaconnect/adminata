@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Bridge\Exporter;
+namespace IDCT\Adminata\Bridge\Exporter;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Exporter\ExporterInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Exporter\ExporterInterface;
 
 /**
  * @author Grégoire Paris <postmaster@greg0ire.fr>

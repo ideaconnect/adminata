@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -63,6 +63,6 @@ final class ImmutableArrayType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_immutable_array';
+        return 'adminata_type_immutable_array';
     }
 }

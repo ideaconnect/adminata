@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block;
+namespace IDCT\Adminata\Block;
 
 use Doctrine\Common\Util\ClassUtils;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Model\BlockInterface;
 use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig\Extension;
+namespace IDCT\Adminata\Tests\Twig\Extension;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Templating\BlockHelper;
-use Sonata\AdminBundle\Twig\Extension\BlockExtension;
+use IDCT\Adminata\Templating\BlockHelper;
+use IDCT\Adminata\Twig\Extension\BlockExtension;
 use Twig\Environment;
 use Twig\Loader\LoaderInterface;
 use Twig\RuntimeLoader\FactoryRuntimeLoader;
@@ -52,19 +52,19 @@ final class BlockExtensionTest extends TestCase
      */
     public static function provideFunctionCases(): iterable
     {
-        yield ['sonata_block_exists', [
+        yield ['adminata_block_exists', [
             'block_name',    // arguments
         ], 'exists'];
-        yield ['sonata_block_render', [
+        yield ['adminata_block_render', [
             'foobar', ['bar' => 'foo'],    // arguments
         ], 'render'];
-        yield ['sonata_block_include_javascripts', [
+        yield ['adminata_block_include_javascripts', [
             'screen',                         // arguments
         ], 'includeJavascripts'];
-        yield ['sonata_block_include_stylesheets', [
+        yield ['adminata_block_include_stylesheets', [
             'foo',                            // arguments
         ], 'includeStylesheets'];
-        yield ['sonata_block_render_event', [
+        yield ['adminata_block_render_event', [
             'event.name', [],            // arguments
         ], 'renderEvent'];
     }

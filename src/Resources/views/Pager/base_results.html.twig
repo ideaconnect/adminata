@@ -15,18 +15,18 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block num_results %}
-    {% trans with {'%count%': admin.datagrid.pager.countResults()} from 'SonataAdminBundle' %}list_results_count{% endtrans %}
+    {% trans with {'%count%': admin.datagrid.pager.countResults()} from 'AdminataBundle' %}list_results_count{% endtrans %}
     &nbsp;-&nbsp;
 {% endblock %}
 
 {% block max_per_page %}
     {#- `per-page` is the hook PLAN/02 §8 keeps, and the option values are whole URLs: the
-        `sonata-per-page` controller navigates to the selected one. -#}
-    <label class="adm-label mb-0" for="{{ admin.uniqid }}_per_page">{% trans from 'SonataAdminBundle' %}label_per_page{% endtrans %}</label>
-    <select class="per-page adm-select w-auto" id="{{ admin.uniqid }}_per_page" {{ stimulus_controller('sonata-per-page') }} {{ stimulus_action('sonata-per-page', 'reload', 'change') }}>
+        `adminata-per-page` controller navigates to the selected one. -#}
+    <label class="adm-label mb-0" for="{{ admin.uniqid }}_per_page">{% trans from 'AdminataBundle' %}label_per_page{% endtrans %}</label>
+    <select class="per-page adm-select w-auto" id="{{ admin.uniqid }}_per_page" {{ stimulus_controller('adminata-per-page') }} {{ stimulus_action('adminata-per-page', 'reload', 'change') }}>
         {% for per_page in admin.getperpageoptions %}
             <option {% if per_page == admin.datagrid.pager.maxperpage %}selected="selected"{% endif %} value="{{ admin.generateUrl(action, {'filter': admin.datagrid.getPaginationParameters(1).filter|merge({
-                (constant('Sonata\\AdminBundle\\Datagrid\\DatagridInterface::PER_PAGE')): per_page})
+                (constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::PER_PAGE')): per_page})
             }) }}">
                 {{- per_page -}}
             </option>

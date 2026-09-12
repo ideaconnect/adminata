@@ -18,7 +18,7 @@ The `Event mechanism` of the admin bundle's blocks addresses this situation, and
     <h1>{{ post.title }}</h1>
     <div> {{ post.message }} </div>
 
-    {{ sonata_block_render_event('blog.comment', { 'target': post }) }}
+    {{ adminata_block_render_event('blog.comment', { 'target': post }) }}
 
 The `Twig` helper will dispatch a ``BlockEvent`` object where services can add ``BlockInterface``. Once the event is processed, the helper will render the available blocks.
 If there is no block, then the helper will return an empty string.
@@ -26,8 +26,8 @@ If there is no block, then the helper will return an empty string.
 Implementation
 ~~~~~~~~~~~~~~
 
-You can register a service to listen to the service ``blog.comment``. The actual name for the ``EventDispatcher`` must be prefixed by ``sonata.block.event``.
-So, the current the name will be ``sonata.block.event.blog.comment``.
+You can register a service to listen to the service ``blog.comment``. The actual name for the ``EventDispatcher`` must be prefixed by ``adminata.block.event``.
+So, the current the name will be ``adminata.block.event.blog.comment``.
 
 .. code-block:: yaml
 
@@ -37,11 +37,11 @@ So, the current the name will be ``sonata.block.event.blog.comment``.
         disqus.comment:
             class: Sonata\CommentBundle\Event\Disqus
             tags:
-                - { name: kernel.event_listener, event: sonata.block.event.blog.comment, method: onBlock }
+                - { name: kernel.event_listener, event: adminata.block.event.blog.comment, method: onBlock }
 
 The `event listener` must push one or some ``BlockInterface`` instances into ``BlockEvent`` passed in so the rendering workflow will work properly::
 
-    use Sonata\AdminBundle\Model\Block;
+    use IDCT\Adminata\Model\Block;
 
     class Disqus
     {

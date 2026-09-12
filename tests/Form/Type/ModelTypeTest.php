@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use Sonata\AdminBundle\Form\ChoiceList\ModelChoiceLoader;
-use Sonata\AdminBundle\Form\Type\ModelType;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Form\ChoiceList\ModelChoiceLoader;
+use IDCT\Adminata\Form\Type\ModelType;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -59,8 +59,8 @@ final class ModelTypeTest extends TypeTestCase
         static::assertSame('link_add', $resolvedOptions['btn_add']);
         static::assertSame('link_list', $resolvedOptions['btn_list']);
         static::assertSame('link_delete', $resolvedOptions['btn_delete']);
-        static::assertSame('SonataAdminBundle', $resolvedOptions['btn_catalogue']);
-        static::assertSame('SonataAdminBundle', $resolvedOptions['btn_translation_domain']);
+        static::assertSame('AdminataBundle', $resolvedOptions['btn_catalogue']);
+        static::assertSame('AdminataBundle', $resolvedOptions['btn_translation_domain']);
         static::assertInstanceOf(ModelChoiceLoader::class, $resolvedOptions['choice_loader']);
 
         $modelManager->expects(static::exactly($expectedModelManagerFindCalls))
@@ -102,8 +102,8 @@ final class ModelTypeTest extends TypeTestCase
         static::assertSame('link_add', $options['btn_add']);
         static::assertSame('link_list', $options['btn_list']);
         static::assertSame('link_delete', $options['btn_delete']);
-        static::assertSame('SonataAdminBundle', $options['btn_catalogue']);
-        static::assertSame('SonataAdminBundle', $options['btn_translation_domain']);
+        static::assertSame('AdminataBundle', $options['btn_catalogue']);
+        static::assertSame('AdminataBundle', $options['btn_translation_domain']);
         static::assertInstanceOf(ModelChoiceLoader::class, $options['choice_loader']);
     }
 

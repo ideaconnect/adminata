@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig\Extension;
+namespace IDCT\Adminata\Twig\Extension;
 
-use Sonata\AdminBundle\Templating\BlockHelper;
+use IDCT\Adminata\Templating\BlockHelper;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -23,26 +23,26 @@ final class BlockExtension extends AbstractExtension
     {
         return [
             new TwigFunction(
-                'sonata_block_exists',
+                'adminata_block_exists',
                 [BlockHelper::class, 'exists']
             ),
             new TwigFunction(
-                'sonata_block_render',
+                'adminata_block_render',
                 [BlockHelper::class, 'render'],
                 ['is_safe' => ['html']]
             ),
             new TwigFunction(
-                'sonata_block_render_event',
+                'adminata_block_render_event',
                 [BlockHelper::class, 'renderEvent'],
                 ['is_safe' => ['html']]
             ),
             new TwigFunction(
-                'sonata_block_include_javascripts',
+                'adminata_block_include_javascripts',
                 [BlockHelper::class, 'includeJavascripts'],
                 ['is_safe' => ['html']]
             ),
             new TwigFunction(
-                'sonata_block_include_stylesheets',
+                'adminata_block_include_stylesheets',
                 [BlockHelper::class, 'includeStylesheets'],
                 ['is_safe' => ['html']]
             ),

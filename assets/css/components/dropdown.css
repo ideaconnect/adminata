@@ -1,6 +1,6 @@
 /*
  * Dropdown panels: the user menu, the add-block panel, the export menu and the language menu an
- * application appends. Opened by the `sonata-dropdown` controller, which toggles the `hidden`
+ * application appends. Opened by the `adminata-dropdown` controller, which toggles the `hidden`
  * attribute rather than a class.
  */
 

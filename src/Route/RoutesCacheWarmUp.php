@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Route;
+namespace IDCT\Adminata\Route;
 
-use Sonata\AdminBundle\Admin\Pool;
+use IDCT\Adminata\Admin\Pool;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 /**

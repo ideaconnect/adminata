@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Validator;
+namespace IDCT\Adminata\Validator;
 
-use Sonata\AdminBundle\Validator\Constraints\InlineConstraint;
+use IDCT\Adminata\Validator\Constraints\InlineConstraint;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;

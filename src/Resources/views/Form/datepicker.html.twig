@@ -23,11 +23,11 @@ file that was distributed with this source code.
     JavaScript calendar and the addon was Bootstrap's `input-group`.
 #}
 
-{% block sonata_type_datetime_picker_widget %}
-    {{- block('sonata_type_datetime_picker_widget_html') -}}
-{% endblock sonata_type_datetime_picker_widget %}
+{% block adminata_type_datetime_picker_widget %}
+    {{- block('adminata_type_datetime_picker_widget_html') -}}
+{% endblock adminata_type_datetime_picker_widget %}
 
-{% block sonata_type_datetime_picker_widget_html %}
+{% block adminata_type_datetime_picker_widget_html %}
     {#- `??` and not `|default()`: the default filter also replaces a value that is *empty*, and
         `false` is empty — which is the one value each of these three carries. -#}
     {%- set components = datepicker_options.display.components ?? {} -%}
@@ -62,4 +62,4 @@ file that was distributed with this source code.
     ]|filter(part => part is not empty)|join(' ')}) -%}
 
     {{- block('form_widget_simple') -}}
-{% endblock sonata_type_datetime_picker_widget_html %}
+{% endblock adminata_type_datetime_picker_widget_html %}

@@ -19,22 +19,22 @@ file that was distributed with this source code.
 #}
 
 {% if admin.hasAccess('delete', object) and admin.hasRoute('delete') %}
-    {% set button_content = sonata_config.getOption('list_action_button_content') %}
+    {% set button_content = adminata_config.getOption('list_action_button_content') %}
     {% set show_icon = button_content in ['icon', 'all'] %}
     {% set show_text = button_content in ['text', 'all'] %}
     {% set recipe = show_text ? 'adm-btn adm-btn-secondary adm-btn-sm' : 'adm-btn-icon adm-btn-icon-delete' %}
     <a
         href="{{ admin.generateObjectUrl('delete', object, actions.link_parameters|default([])) }}"
         class="{{ recipe }} delete_link"
-        title="{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}"
+        title="{{ 'action_delete'|trans({}, 'AdminataBundle') }}"
     >
         {% if show_icon %}
             <i class="fas fa-xmark" aria-hidden="true"></i>
         {% endif %}
         {% if show_text %}
-            {{ 'action_delete'|trans({}, 'SonataAdminBundle') }}
+            {{ 'action_delete'|trans({}, 'AdminataBundle') }}
         {% else %}
-            <span class="sr-only">{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}</span>
+            <span class="sr-only">{{ 'action_delete'|trans({}, 'AdminataBundle') }}</span>
         {% endif %}
     </a>
 {% endif %}

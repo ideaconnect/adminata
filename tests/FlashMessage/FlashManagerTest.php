@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\FlashMessage;
+namespace IDCT\Adminata\Tests\FlashMessage;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\FlashMessage\FlashManager;
+use IDCT\Adminata\FlashMessage\FlashManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;

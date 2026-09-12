@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Form\DataTransformer\ModelToIdPropertyTransformer;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\Form\DataTransformer\ModelToIdPropertyTransformer;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\EventListener\ResizeFormListener;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -102,7 +102,7 @@ final class ModelAutocompleteType extends AbstractType
 
         // NEXT_MAJOR: Remove this BC-layer
         $view->vars['btn_translation_domain'] =
-            'SonataAdminBundle' !== $options['btn_translation_domain']
+            'AdminataBundle' !== $options['btn_translation_domain']
                 ? $options['btn_translation_domain']
                 : $options['btn_catalogue'];
         $view->vars['btn_catalogue'] = $options['btn_catalogue'];
@@ -134,12 +134,12 @@ final class ModelAutocompleteType extends AbstractType
 
             // add button
             'btn_add' => 'link_add',
-            'btn_catalogue' => 'SonataAdminBundle', // NEXT_MAJOR: Remove this option
-            'btn_translation_domain' => 'SonataAdminBundle',
+            'btn_catalogue' => 'AdminataBundle', // NEXT_MAJOR: Remove this option
+            'btn_translation_domain' => 'AdminataBundle',
 
             // ajax parameters
             'url' => '',
-            'route' => ['name' => 'sonata_admin_retrieve_autocomplete_items', 'parameters' => []],
+            'route' => ['name' => 'adminata_retrieve_autocomplete_items', 'parameters' => []],
             'req_params' => [],
             'req_param_name_search' => 'q',
             'req_param_name_page_number' => DatagridInterface::PAGE,
@@ -158,7 +158,7 @@ final class ModelAutocompleteType extends AbstractType
             // allow HTML
             'safe_label' => false,
 
-            'template' => '@SonataAdmin/Form/Type/sonata_type_model_autocomplete.html.twig',
+            'template' => '@Adminata/Form/Type/adminata_type_model_autocomplete.html.twig',
         ]);
 
         $resolver->setRequired(['property', 'model_manager', 'class']);
@@ -183,7 +183,7 @@ final class ModelAutocompleteType extends AbstractType
             'sonata-project/admin-bundle',
             '4.9',
             static function (Options $options, mixed $value): string {
-                if ('SonataAdminBundle' !== $value) {
+                if ('AdminataBundle' !== $value) {
                     return 'Passing a value to option "btn_catalogue" is deprecated! Use "btn_translation_domain" instead!';
                 }
 
@@ -194,6 +194,6 @@ final class ModelAutocompleteType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_model_autocomplete';
+        return 'adminata_type_model_autocomplete';
     }
 }

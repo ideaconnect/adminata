@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Filter;
+namespace IDCT\Adminata\Tests\Fixtures\Filter;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Filter\Filter;
-use Sonata\AdminBundle\Filter\Model\FilterData;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Filter\Filter;
+use IDCT\Adminata\Filter\Model\FilterData;
 
 final class BarFilter extends Filter
 {

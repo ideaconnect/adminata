@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Route;
+namespace IDCT\Adminata\Route;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Builder\RouteBuilderInterface;
-use Sonata\AdminBundle\Model\AuditManagerInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Builder\RouteBuilderInterface;
+use IDCT\Adminata\Model\AuditManagerInterface;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

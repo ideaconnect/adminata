@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\FieldDescription;
+namespace IDCT\Adminata\FieldDescription;
 
 use Symfony\Component\Form\Guess\TypeGuess;
 

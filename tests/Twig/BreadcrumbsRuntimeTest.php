@@ -11,16 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig;
+namespace IDCT\Adminata\Tests\Twig;
 
 use Knp\Menu\ItemInterface;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\BreadcrumbsBuilderInterface;
-use Sonata\AdminBundle\Tests\Fixtures\StubFilesystemLoader;
-use Sonata\AdminBundle\Tests\Fixtures\StubTranslator;
-use Sonata\AdminBundle\Twig\BreadcrumbsRuntime;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\BreadcrumbsBuilderInterface;
+use IDCT\Adminata\Tests\Fixtures\StubFilesystemLoader;
+use IDCT\Adminata\Tests\Fixtures\StubTranslator;
+use IDCT\Adminata\Twig\BreadcrumbsRuntime;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Twig\Environment;
 use Twig\Extra\String\StringExtension;
@@ -39,7 +39,7 @@ final class BreadcrumbsRuntimeTest extends TestCase
     protected function setUp(): void
     {
         $loader = new StubFilesystemLoader();
-        $loader->addPath(__DIR__.'/../../src/Resources/views/', 'SonataAdmin');
+        $loader->addPath(__DIR__.'/../../src/Resources/views/', 'Adminata');
 
         $this->environment = new Environment($loader, [
             'strict_variables' => true,

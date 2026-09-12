@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Menu\Provider;
+namespace IDCT\Adminata\Menu\Provider;
 
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
-use Sonata\AdminBundle\Admin\Pool;
+use IDCT\Adminata\Admin\Pool;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -92,7 +92,7 @@ final class GroupMenuProvider implements MenuProviderInterface
      */
     public function has(string $name, array $options = []): bool
     {
-        return 'sonata_group_menu' === $name;
+        return 'adminata_group_menu' === $name;
     }
 
     /**

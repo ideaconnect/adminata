@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Doctrine\Adapter\ORM;
+namespace IDCT\Adminata\Tests\Doctrine\Adapter\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Doctrine\Adapter\ORM\DoctrineORMAdapter;
+use IDCT\Adminata\Doctrine\Adapter\ORM\DoctrineORMAdapter;
 
 final class DoctrineORMAdapterTest extends TestCase
 {

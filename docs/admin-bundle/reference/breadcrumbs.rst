@@ -1,7 +1,7 @@
 The breadcrumbs builder
 =======================
 
-The ``sonata.admin.breadcrumbs_builder`` service is used in the layout of every
+The ``adminata.admin.breadcrumbs_builder`` service is used in the layout of every
 page to compute the underlying data for two breadcrumbs:
 
 * one as text, appearing in the ``title`` tag of the document's ``head`` tag;
@@ -9,16 +9,16 @@ page to compute the underlying data for two breadcrumbs:
 
 Getting the breadcrumbs for a given action of a given admin is done like this::
 
-   $this->get('sonata.admin.breadcrumbs_builder')->getBreadcrumbs($admin, $action);
+   $this->get('adminata.admin.breadcrumbs_builder')->getBreadcrumbs($admin, $action);
 
 Configuration
 -------------
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         breadcrumbs:
             # use this to change the default route used to generate the link
             # to the parent object inside a breadcrumb, when in a child admin

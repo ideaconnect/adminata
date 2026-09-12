@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Doctrine\Adapter;
+namespace IDCT\Adminata\Tests\Doctrine\Adapter;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Doctrine\Adapter\AdapterChain;
-use Sonata\AdminBundle\Doctrine\Adapter\AdapterInterface;
+use IDCT\Adminata\Doctrine\Adapter\AdapterChain;
+use IDCT\Adminata\Doctrine\Adapter\AdapterInterface;
 
 final class AdapterChainTest extends TestCase
 {

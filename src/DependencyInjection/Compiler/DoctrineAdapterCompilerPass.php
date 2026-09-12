@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -24,21 +24,21 @@ final class DoctrineAdapterCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has('sonata.doctrine.model.adapter.chain')) {
+        if (!$container->has('adminata.doctrine.model.adapter.chain')) {
             return;
         }
 
-        $definition = $container->findDefinition('sonata.doctrine.model.adapter.chain');
+        $definition = $container->findDefinition('adminata.doctrine.model.adapter.chain');
 
         if ($this->isDoctrineOrmLoaded($container)) {
-            $definition->addMethodCall('addAdapter', [new Reference('sonata.doctrine.adapter.doctrine_orm')]);
+            $definition->addMethodCall('addAdapter', [new Reference('adminata.doctrine.adapter.doctrine_orm')]);
         } else {
-            $container->removeDefinition('sonata.doctrine.adapter.doctrine_orm');
+            $container->removeDefinition('adminata.doctrine.adapter.doctrine_orm');
         }
     }
 
     private function isDoctrineOrmLoaded(ContainerBuilder $container): bool
     {
-        return $container->has('doctrine') && $container->has('sonata.doctrine.adapter.doctrine_orm');
+        return $container->has('doctrine') && $container->has('adminata.doctrine.adapter.doctrine_orm');
     }
 }

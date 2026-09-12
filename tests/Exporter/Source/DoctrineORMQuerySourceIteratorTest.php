@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exporter\Source;
+namespace IDCT\Adminata\Tests\Exporter\Source;
 
 use Adminata\Tests\Support\TestDatabase;
 use Doctrine\DBAL\Connection;
@@ -19,8 +19,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\SchemaTool;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exporter\Source\DoctrineORMQuerySourceIterator;
-use Sonata\AdminBundle\Tests\Exporter\Source\Fixtures\Entity;
+use IDCT\Adminata\Exporter\Source\DoctrineORMQuerySourceIterator;
+use IDCT\Adminata\Tests\Exporter\Source\Fixtures\Entity;
 
 final class DoctrineORMQuerySourceIteratorTest extends TestCase
 {

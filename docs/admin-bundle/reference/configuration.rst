@@ -5,7 +5,7 @@ Configuration
 
     This page will be removed soon, as it's content is being improved and moved to
     other pages of the documentation. Please refer to each section's documentation for up-to-date
-    information on SonataAdminBundle configuration options.
+    information on AdminataBundle configuration options.
 
 Configuration
 -------------
@@ -14,16 +14,16 @@ Configuration options
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         security:
 
             # the default value
-            handler: sonata.admin.security.handler.role
+            handler: adminata.admin.security.handler.role
 
             # use this service if you want ACL
-            handler: sonata.admin.security.handler.acl
+            handler: adminata.admin.security.handler.acl
 
 Full Configuration Options
 --------------------------
@@ -33,17 +33,17 @@ text ``ConfigContractTest`` compares against on every build, so it cannot drift 
 node is added, removed or given a different default, that test fails until the capture is updated,
 and this page is that capture.
 
-Four nodes upstream documented here no longer exist, and leaving one in your ``sonata_admin.yaml``
+Four nodes upstream documented here no longer exist, and leaving one in your ``adminata.yaml``
 is a container build error rather than a warning: ``options.skin``, ``options.use_select2``,
 ``options.use_icheck`` and ``options.use_bootlint``. See :doc:`/upgrading`.
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         security:
-            handler:              sonata.admin.security.handler.noop
+            handler:              adminata.admin.security.handler.noop
             information:
 
                 # Prototype
@@ -60,7 +60,7 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
                 - MASTER
 
             # Role which will see the top nav bar and dropdown groups regardless of its configuration
-            role_admin:           ROLE_SONATA_ADMIN
+            role_admin:           ROLE_ADMINATA_ADMIN
 
             # Role which will perform all admin actions, see dashboard, menu and search groups regardless of its configuration
             role_super_admin:     ROLE_SUPER_ADMIN
@@ -77,7 +77,7 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
                 - OWNER
             acl_user_manager:     null
         title:                'Sonata Admin'
-        title_logo:           bundles/sonataadmin/images/logo_title.png
+        title_logo:           bundles/adminata/images/logo_title.png
 
         # Enable/disable the search form in the sidebar
         search:               true
@@ -85,7 +85,7 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
         # Light and dark mode, and the logos each of them uses
         theme:
 
-            # Which mode a visitor without a "sonata_theme" cookie gets
+            # Which mode a visitor without a "adminata_theme" cookie gets
             mode:                 system # One of "light"; "dark"; "system"
 
             # Logo shown in dark mode; the "title_logo" one is used when this is null
@@ -102,7 +102,7 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
             admin_route:          show
 
         # Name of the controller class to be used as a default in admin definitions
-        default_controller:   sonata.admin.controller.crud
+        default_controller:   adminata.admin.controller.crud
         breadcrumbs:
 
             # Change the default route used to generate the link to the parent object, when in a child admin
@@ -125,7 +125,7 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
             default_group:        default
 
             # Label Catalogue used for admin services if one isn't provided.
-            default_label_catalogue: SonataAdminBundle # Deprecated (Since sonata-project/admin-bundle 4.9: The "default_label_catalogue" node is deprecated, use "default_translation_domain" instead.)
+            default_label_catalogue: AdminataBundle # Deprecated (Since sonata-project/admin-bundle 4.9: The "default_label_catalogue" node is deprecated, use "default_translation_domain" instead.)
 
             # Translation domain used for admin services if one isn't provided.
             default_translation_domain: null
@@ -143,7 +143,7 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
             lock_protection:      false
 
             # Background used in mosaic view
-            mosaic_background:    bundles/sonataadmin/images/default_mosaic_image.png
+            mosaic_background:    bundles/adminata/images/default_mosaic_image.png
         dashboard:
             groups:
 
@@ -203,45 +203,45 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
             label_translator_strategy: null
             pager_type:           null
         templates:
-            user_block:           '@SonataAdmin/Core/user_block.html.twig'
-            add_block:            '@SonataAdmin/Core/add_block.html.twig'
-            layout:               '@SonataAdmin/standard_layout.html.twig'
-            ajax:                 '@SonataAdmin/ajax_layout.html.twig'
-            dashboard:            '@SonataAdmin/Core/dashboard.html.twig'
-            search:               '@SonataAdmin/Core/search.html.twig'
-            list:                 '@SonataAdmin/CRUD/list.html.twig'
-            filter:               '@SonataAdmin/Form/filter_admin_fields.html.twig'
-            show:                 '@SonataAdmin/CRUD/show.html.twig'
-            show_compare:         '@SonataAdmin/CRUD/show_compare.html.twig'
-            edit:                 '@SonataAdmin/CRUD/edit.html.twig'
-            preview:              '@SonataAdmin/CRUD/preview.html.twig'
-            history:              '@SonataAdmin/CRUD/history.html.twig'
-            acl:                  '@SonataAdmin/CRUD/acl.html.twig'
-            history_revision_timestamp: '@SonataAdmin/CRUD/history_revision_timestamp.html.twig'
-            action:               '@SonataAdmin/CRUD/action.html.twig'
-            select:               '@SonataAdmin/CRUD/list__select.html.twig'
-            list_block:           '@SonataAdmin/Block/block_admin_list.html.twig'
-            search_result_block:  '@SonataAdmin/Block/block_search_result.html.twig'
-            short_object_description: '@SonataAdmin/Helper/short-object-description.html.twig'
-            delete:               '@SonataAdmin/CRUD/delete.html.twig'
-            batch:                '@SonataAdmin/CRUD/list__batch.html.twig'
-            batch_confirmation:   '@SonataAdmin/CRUD/batch_confirmation.html.twig'
-            inner_list_row:       '@SonataAdmin/CRUD/list_inner_row.html.twig'
-            outer_list_rows_mosaic: '@SonataAdmin/CRUD/list_outer_rows_mosaic.html.twig'
-            outer_list_rows_list: '@SonataAdmin/CRUD/list_outer_rows_list.html.twig'
-            outer_list_rows_tree: '@SonataAdmin/CRUD/list_outer_rows_tree.html.twig'
-            base_list_field:      '@SonataAdmin/CRUD/base_list_field.html.twig'
-            pager_links:          '@SonataAdmin/Pager/links.html.twig'
-            pager_results:        '@SonataAdmin/Pager/results.html.twig'
-            tab_menu_template:    '@SonataAdmin/Core/tab_menu_template.html.twig'
-            knp_menu_template:    '@SonataAdmin/Menu/sonata_menu.html.twig'
-            action_create:        '@SonataAdmin/CRUD/dashboard__action_create.html.twig'
-            button_acl:           '@SonataAdmin/Button/acl_button.html.twig'
-            button_create:        '@SonataAdmin/Button/create_button.html.twig'
-            button_edit:          '@SonataAdmin/Button/edit_button.html.twig'
-            button_history:       '@SonataAdmin/Button/history_button.html.twig'
-            button_list:          '@SonataAdmin/Button/list_button.html.twig'
-            button_show:          '@SonataAdmin/Button/show_button.html.twig'
+            user_block:           '@Adminata/Core/user_block.html.twig'
+            add_block:            '@Adminata/Core/add_block.html.twig'
+            layout:               '@Adminata/standard_layout.html.twig'
+            ajax:                 '@Adminata/ajax_layout.html.twig'
+            dashboard:            '@Adminata/Core/dashboard.html.twig'
+            search:               '@Adminata/Core/search.html.twig'
+            list:                 '@Adminata/CRUD/list.html.twig'
+            filter:               '@Adminata/Form/filter_admin_fields.html.twig'
+            show:                 '@Adminata/CRUD/show.html.twig'
+            show_compare:         '@Adminata/CRUD/show_compare.html.twig'
+            edit:                 '@Adminata/CRUD/edit.html.twig'
+            preview:              '@Adminata/CRUD/preview.html.twig'
+            history:              '@Adminata/CRUD/history.html.twig'
+            acl:                  '@Adminata/CRUD/acl.html.twig'
+            history_revision_timestamp: '@Adminata/CRUD/history_revision_timestamp.html.twig'
+            action:               '@Adminata/CRUD/action.html.twig'
+            select:               '@Adminata/CRUD/list__select.html.twig'
+            list_block:           '@Adminata/Block/block_admin_list.html.twig'
+            search_result_block:  '@Adminata/Block/block_search_result.html.twig'
+            short_object_description: '@Adminata/Helper/short-object-description.html.twig'
+            delete:               '@Adminata/CRUD/delete.html.twig'
+            batch:                '@Adminata/CRUD/list__batch.html.twig'
+            batch_confirmation:   '@Adminata/CRUD/batch_confirmation.html.twig'
+            inner_list_row:       '@Adminata/CRUD/list_inner_row.html.twig'
+            outer_list_rows_mosaic: '@Adminata/CRUD/list_outer_rows_mosaic.html.twig'
+            outer_list_rows_list: '@Adminata/CRUD/list_outer_rows_list.html.twig'
+            outer_list_rows_tree: '@Adminata/CRUD/list_outer_rows_tree.html.twig'
+            base_list_field:      '@Adminata/CRUD/base_list_field.html.twig'
+            pager_links:          '@Adminata/Pager/links.html.twig'
+            pager_results:        '@Adminata/Pager/results.html.twig'
+            tab_menu_template:    '@Adminata/Core/tab_menu_template.html.twig'
+            knp_menu_template:    '@Adminata/Menu/adminata_menu.html.twig'
+            action_create:        '@Adminata/CRUD/dashboard__action_create.html.twig'
+            button_acl:           '@Adminata/Button/acl_button.html.twig'
+            button_create:        '@Adminata/Button/create_button.html.twig'
+            button_edit:          '@Adminata/Button/edit_button.html.twig'
+            button_history:       '@Adminata/Button/history_button.html.twig'
+            button_list:          '@Adminata/Button/list_button.html.twig'
+            button_show:          '@Adminata/Button/show_button.html.twig'
             form_theme:           []
             filter_theme:         []
         assets:
@@ -250,7 +250,7 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
                 # Prototype
                 -
                     path:                 ~ # Required
-                    package_name:         sonata_admin
+                    package_name:         adminata
 
             # stylesheets to add to the page
             extra_stylesheets:
@@ -258,7 +258,7 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
                 # Prototype
                 -
                     path:                 ~ # Required
-                    package_name:         sonata_admin
+                    package_name:         adminata
 
             # stylesheets to remove from the page
             remove_stylesheets:
@@ -266,13 +266,13 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
                 # Prototype
                 -
                     path:                 ~ # Required
-                    package_name:         sonata_admin
+                    package_name:         adminata
             javascripts:
 
                 # Prototype
                 -
                     path:                 ~ # Required
-                    package_name:         sonata_admin
+                    package_name:         adminata
 
             # javascripts to add to the page
             extra_javascripts:
@@ -280,7 +280,7 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
                 # Prototype
                 -
                     path:                 ~ # Required
-                    package_name:         sonata_admin
+                    package_name:         adminata
 
             # javascripts to remove from the page
             remove_javascripts:
@@ -288,7 +288,7 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
                 # Prototype
                 -
                     path:                 ~ # Required
-                    package_name:         sonata_admin
+                    package_name:         adminata
         extensions:
 
             # Prototype
@@ -308,7 +308,7 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
                 # Positive or negative integer. The higher the priority, the earlier it’s executed.
                 priority:             0
         persist_filters:      false
-        filter_persister:     sonata.admin.filter_persister.session
+        filter_persister:     adminata.admin.filter_persister.session
 
         # Show mosaic button on all admin screens
         show_mosaic_button:   true

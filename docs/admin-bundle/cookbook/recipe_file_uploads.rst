@@ -1,13 +1,13 @@
-Uploading and saving documents (including images) using DoctrineORM and SonataAdmin
+Uploading and saving documents (including images) using DoctrineORM and Adminata
 ===================================================================================
 
 This is a full working example of a file upload management method using
-SonataAdmin with the DoctrineORM persistence layer.
+Adminata with the DoctrineORM persistence layer.
 
 Pre-requisites
 --------------
 
-- you already have SonataAdmin and DoctrineORM up and running
+- you already have Adminata and DoctrineORM up and running
 - you already have an Entity class that you wish to be able to connect uploaded
   documents to, in this example that class will be called ``Image``.
 - you already have an Admin set up, in this example it's called ``ImageAdmin``
@@ -24,7 +24,7 @@ management with Doctrine. There is a good cookbook entry about
 code examples here without going into the details. It is strongly recommended that
 you read that cookbook first.
 
-To get file uploads working with SonataAdmin we need to:
+To get file uploads working with Adminata we need to:
 
 - add a file upload field to our ImageAdmin
 - 'touch' the Entity when a new file is uploaded so its lifecycle events are triggered
@@ -190,7 +190,7 @@ Both of these are straightforward when you know what to do::
 We mark the ``file`` field as not required since we do not need the user to upload a
 new image every time the Image is updated. When a file is uploaded (and nothing else
 is changed on the form) there is no change to the data which Doctrine needs to persist
-so no ``preUpdate`` event would fire. To deal with this we hook into SonataAdmin's
+so no ``preUpdate`` event would fire. To deal with this we hook into Adminata's
 ``preUpdate`` event (which triggers every time the edit form is submitted) and use
 that to update an Image field which is persisted. This then ensures that Doctrine's
 lifecycle events are triggered and our Image manages the file upload as expected.
@@ -198,7 +198,7 @@ lifecycle events are triggered and our Image manages the file upload as expected
 And that is all there is to it!
 
 However, this method does not work when the ``ImageAdmin`` is embedded in other
-Admins using the ``sonata_type_admin`` field type. For that we need something more...
+Admins using the ``adminata_type_admin`` field type. For that we need something more...
 
 Advanced example - works with embedded Admins
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -213,7 +213,7 @@ looks like this::
 
     // src/Admin/PostAdmin.php
 
-    use Sonata\AdminBundle\Form\Type\AdminType;
+    use IDCT\Adminata\Form\Type\AdminType;
 
     final class PostAdmin extends AbstractAdmin
     {
@@ -257,7 +257,7 @@ In our ``PostAdmin`` we then have the following code to manage the relationships
             // Cycle through each field
             foreach ($this->getFormFieldDescriptions() as $fieldName => $fieldDescription) {
                 // detect embedded Admins that manage Images
-                if ($fieldDescription->getType() === 'sonata_type_admin' &&
+                if ($fieldDescription->getType() === 'adminata_type_admin' &&
                     ($associationMapping = $fieldDescription->getAssociationMapping()) &&
                     $associationMapping['targetEntity'] === 'App\Entity\Image'
                 ) {
@@ -281,7 +281,7 @@ In our ``PostAdmin`` we then have the following code to manage the relationships
         }
     }
 
-Here we loop through the fields of our PageAdmin and look for ones which are ``sonata_type_admin``
+Here we loop through the fields of our PageAdmin and look for ones which are ``adminata_type_admin``
 fields which have embedded an Admin which manages an Image.
 
 Once we have those fields we use the ``$fieldName`` to build strings which refer to our accessor
@@ -298,7 +298,7 @@ happening.
 
     If you are looking for richer media management functionality there is a complete ``SonataMediaBundle``
     which caters to this need. It is documented online and is created and maintained by the same team
-    as SonataAdmin.
+    as Adminata.
 
 To learn how to add an image preview to your ``ImageAdmin`` take a look at the related cookbook entry.
 

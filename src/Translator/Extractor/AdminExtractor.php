@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Translator\Extractor;
+namespace IDCT\Adminata\Translator\Extractor;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\BreadcrumbsBuilderInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\BreadcrumbsBuilderInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
 

@@ -24,7 +24,7 @@ const form = (master, sectionClass = '') => `
 `;
 
 const select = (selected, values = '') =>
-    `<select id="master" data-controller="sonata-reveal" data-sonata-reveal-target-value="#geo, #geo-help" ${values}>
+    `<select id="master" data-controller="adminata-reveal" data-adminata-reveal-target-value="#geo, #geo-help" ${values}>
         <option value="0"${'0' === selected ? ' selected' : ''}>No</option>
         <option value="1"${'1' === selected ? ' selected' : ''}>Yes</option>
         <option value="2"${'2' === selected ? ' selected' : ''}>Maybe</option>
@@ -35,12 +35,12 @@ const change = (element, value) => {
     element.dispatchEvent(new Event('change', { bubbles: true }));
 };
 
-describe('sonata-reveal', () => {
+describe('adminata-reveal', () => {
     it('puts the sections in the state the saved value asks for, on connect', async () => {
         await mount(
-            'sonata-reveal',
+            'adminata-reveal',
             RevealController,
-            form(select('0', 'data-sonata-reveal-when-value="1"')),
+            form(select('0', 'data-adminata-reveal-when-value="1"')),
         );
 
         expect(document.getElementById('geo').hidden).toBe(true);
@@ -49,9 +49,9 @@ describe('sonata-reveal', () => {
 
     it('shows them when the control takes the value, and hides them again', async () => {
         const { element } = await mount(
-            'sonata-reveal',
+            'adminata-reveal',
             RevealController,
-            form(select('0', 'data-sonata-reveal-when-value="1"')),
+            form(select('0', 'data-adminata-reveal-when-value="1"')),
         );
 
         change(element, '1');
@@ -65,9 +65,9 @@ describe('sonata-reveal', () => {
 
     it('takes over from a hidden class the server rendered', async () => {
         await mount(
-            'sonata-reveal',
+            'adminata-reveal',
             RevealController,
-            form(select('1', 'data-sonata-reveal-when-value="1"'), 'hidden'),
+            form(select('1', 'data-adminata-reveal-when-value="1"'), 'hidden'),
         );
 
         const section = document.getElementById('geo');
@@ -77,9 +77,9 @@ describe('sonata-reveal', () => {
 
     it('accepts a list of values', async () => {
         const { element } = await mount(
-            'sonata-reveal',
+            'adminata-reveal',
             RevealController,
-            form(select('2', `data-sonata-reveal-when-value='["1","2"]'`)),
+            form(select('2', `data-adminata-reveal-when-value='["1","2"]'`)),
         );
 
         expect(document.getElementById('geo').hidden).toBe(false);
@@ -91,11 +91,11 @@ describe('sonata-reveal', () => {
 
     it('works on a checkbox', async () => {
         const { element } = await mount(
-            'sonata-reveal',
+            'adminata-reveal',
             RevealController,
             form(
-                `<input type="checkbox" id="master" value="1" data-controller="sonata-reveal"
-                        data-sonata-reveal-target-value="#geo" data-sonata-reveal-when-value="1">`,
+                `<input type="checkbox" id="master" value="1" data-controller="adminata-reveal"
+                        data-adminata-reveal-target-value="#geo" data-adminata-reveal-when-value="1">`,
             ),
         );
 
@@ -110,14 +110,14 @@ describe('sonata-reveal', () => {
     it('resolves the section from the row it shares with the control, not from the document', async () => {
         const row = (n, selected) => `
             <div class="row" id="row-${n}">
-                <select id="master-${n}" data-controller="sonata-reveal"
-                        data-sonata-reveal-target-value=".details" data-sonata-reveal-when-value="1">
+                <select id="master-${n}" data-controller="adminata-reveal"
+                        data-adminata-reveal-target-value=".details" data-adminata-reveal-when-value="1">
                     <option value="0"${'0' === selected ? ' selected' : ''}>No</option>
                     <option value="1"${'1' === selected ? ' selected' : ''}>Yes</option>
                 </select>
                 <div class="details" id="details-${n}"></div>
             </div>`;
-        await mount('sonata-reveal', RevealController, `<form>${row(1, '1')}${row(2, '0')}</form>`);
+        await mount('adminata-reveal', RevealController, `<form>${row(1, '1')}${row(2, '0')}</form>`);
 
         expect(document.getElementById('details-1').hidden).toBe(false);
         expect(document.getElementById('details-2').hidden).toBe(true);
@@ -134,10 +134,10 @@ describe('sonata-reveal', () => {
 
     it('counts every selected value of a multiple select', async () => {
         const { element } = await mount(
-            'sonata-reveal',
+            'adminata-reveal',
             RevealController,
-            form(`<select id="master" multiple data-controller="sonata-reveal"
-                          data-sonata-reveal-target-value="#geo" data-sonata-reveal-when-value="b">
+            form(`<select id="master" multiple data-controller="adminata-reveal"
+                          data-adminata-reveal-target-value="#geo" data-adminata-reveal-when-value="b">
                       <option value="a">a</option><option value="b" selected>b</option><option value="c">c</option>
                   </select>`),
         );
@@ -158,10 +158,10 @@ describe('sonata-reveal', () => {
 
     it('works on a radio group, from its wrapper', async () => {
         const { element } = await mount(
-            'sonata-reveal',
+            'adminata-reveal',
             RevealController,
             form(
-                `<div id="master" data-controller="sonata-reveal" data-sonata-reveal-target-value="#geo" data-sonata-reveal-when-value="yes">
+                `<div id="master" data-controller="adminata-reveal" data-adminata-reveal-target-value="#geo" data-adminata-reveal-when-value="yes">
                     <label><input type="radio" name="uses" value="no" checked> No</label>
                     <label><input type="radio" name="uses" value="yes"> Yes</label>
                 </div>`,

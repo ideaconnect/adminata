@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form;
+namespace IDCT\Adminata\Tests\Form;
 
 use PHPUnit\Framework\MockObject\Stub;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormError;
 
@@ -82,10 +82,10 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
 
     public function testLabelWithAdminTranslationDomain(): void
     {
-        $fieldDescription = $this->createFieldDescriptionWithTranslationDomain('sonata_translation_domain');
+        $fieldDescription = $this->createFieldDescriptionWithTranslationDomain('adminata_translation_domain');
 
         $form = $this->factory->createNamed('name', TextType::class, null, [
-            'sonata_field_description' => $fieldDescription,
+            'adminata_field_description' => $fieldDescription,
         ]);
         $html = $this->renderLabel($form->createView());
 
@@ -93,7 +93,7 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
             /label
                 [@class="adm-label col-span-12 mb-0 md:col-span-3 md:pt-2.5 required"]
                 [@for="name"]
-                [.="[trans domain=sonata_translation_domain]Name[/trans]*"]
+                [.="[trans domain=adminata_translation_domain]Name[/trans]*"]
             EOD;
 
         self::assertMatchesXpath($html, $expression);
@@ -110,7 +110,7 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
         $expression = <<<'EOD'
             /div
                 [@id="name_help"]
-                [@class="adm-help sonata-ba-field-help help-text"]
+                [@class="adm-help adminata-field-help help-text"]
                 [.="[trans]Help text test![/trans]"]
             EOD;
 
@@ -119,11 +119,11 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
 
     public function testHelpWithAdminTranslationDomain(): void
     {
-        $fieldDescription = $this->createFieldDescriptionWithTranslationDomain('sonata_translation_domain');
+        $fieldDescription = $this->createFieldDescriptionWithTranslationDomain('adminata_translation_domain');
 
         $form = $this->factory->createNamed('name', TextType::class, null, [
             'help' => 'Help text test!',
-            'sonata_field_description' => $fieldDescription,
+            'adminata_field_description' => $fieldDescription,
         ]);
         $view = $form->createView();
         $html = $this->renderHelp($view);
@@ -131,8 +131,8 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
         $expression = <<<'EOD'
             /div
                 [@id="name_help"]
-                [@class="adm-help sonata-ba-field-help help-text"]
-                [.="[trans domain=sonata_translation_domain]Help text test![/trans]"]
+                [@class="adm-help adminata-field-help help-text"]
+                [.="[trans domain=adminata_translation_domain]Help text test![/trans]"]
             EOD;
 
         self::assertMatchesXpath($html, $expression);
@@ -145,7 +145,7 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
         $html = $this->renderRow($view);
 
         static::assertStringContainsString(
-            '<div id="sonata-ba-field-container-name" class="adm-form-row grid grid-cols-12 items-start gap-x-3 gap-y-1">',
+            '<div id="adminata-field-container-name" class="adm-form-row grid grid-cols-12 items-start gap-x-3 gap-y-1">',
             $html
         );
     }
@@ -160,14 +160,14 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
         $html = $this->renderRow($view);
 
         // The error state lives on the field and on the control, not on the row: `has-error` was
-        // Bootstrap's, and what an application selects on is `sonata-ba-field-error`.
+        // Bootstrap's, and what an application selects on is `adminata-field-error`.
         static::assertStringContainsString(
-            '<div id="sonata-ba-field-container-name" class="adm-form-row grid grid-cols-12 items-start gap-x-3 gap-y-1">',
+            '<div id="adminata-field-container-name" class="adm-form-row grid grid-cols-12 items-start gap-x-3 gap-y-1">',
             $html
         );
-        static::assertStringContainsString('sonata-ba-field-error"', $html);
+        static::assertStringContainsString('adminata-field-error"', $html);
         static::assertStringContainsString('class="adm-input adm-input-error" aria-invalid="true"', $html);
-        static::assertStringContainsString('class="mt-1.5 sonata-ba-field-error-messages"', $html);
+        static::assertStringContainsString('class="mt-1.5 adminata-field-error-messages"', $html);
     }
 
     public function testErrors(): void
@@ -219,7 +219,7 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
 
         static::assertStringContainsString(
             '<div class="foo adm-form-row grid grid-cols-12 items-start gap-x-3 gap-y-1"'
-            .' data-value="bar" id="sonata-ba-field-container-name">',
+            .' data-value="bar" id="adminata-field-container-name">',
             $html
         );
     }
@@ -234,7 +234,7 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
         $admin = static::createStub(AdminInterface::class);
         $admin
             ->method('getCode')
-            ->willReturn('sonata_code');
+            ->willReturn('adminata_code');
 
         $admin
             ->method('getTranslationDomain')

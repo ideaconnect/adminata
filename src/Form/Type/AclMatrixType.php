@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -54,6 +54,6 @@ final class AclMatrixType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_acl_matrix';
+        return 'adminata_type_acl_matrix';
     }
 }

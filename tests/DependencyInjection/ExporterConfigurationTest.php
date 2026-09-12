@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection;
+namespace IDCT\Adminata\Tests\DependencyInjection;
 
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\DependencyInjection\ExporterConfiguration;
+use IDCT\Adminata\DependencyInjection\ExporterConfiguration;
 
 final class ExporterConfigurationTest extends TestCase
 {

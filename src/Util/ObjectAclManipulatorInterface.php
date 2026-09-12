@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Util;
+namespace IDCT\Adminata\Util;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Exception\ModelManagerThrowable;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Exception\ModelManagerThrowable;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 

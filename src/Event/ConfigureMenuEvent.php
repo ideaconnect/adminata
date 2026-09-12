@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Event;
+namespace IDCT\Adminata\Event;
 
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
@@ -24,7 +24,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 final class ConfigureMenuEvent extends Event
 {
-    public const string SIDEBAR = 'sonata.admin.event.configure.menu.sidebar';
+    public const string SIDEBAR = 'adminata.admin.event.configure.menu.sidebar';
 
     public function __construct(
         private FactoryInterface $factory,

@@ -1,0 +1,14 @@
+adminata_doctrine_orm:
+    entity_manager:       null
+    audit:
+        force:                true
+    templates:
+        types:
+            list:
+
+                # Prototype
+                name:                 ~
+            show:
+
+                # Prototype
+                name:                 ~

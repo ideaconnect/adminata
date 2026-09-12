@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Model;
+namespace IDCT\Adminata\Model;
 
-use Sonata\AdminBundle\Exception\LockException;
+use IDCT\Adminata\Exception\LockException;
 
 /**
  * @author Emmanuel Vella <vella.emmanuel@gmail.com>

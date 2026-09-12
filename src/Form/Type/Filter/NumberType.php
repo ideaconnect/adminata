@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type\Filter;
+namespace IDCT\Adminata\Form\Type\Filter;
 
-use Sonata\AdminBundle\Form\Type\Operator\NumberOperatorType;
+use IDCT\Adminata\Form\Type\Operator\NumberOperatorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType as FormNumberType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,7 +29,7 @@ final class NumberType extends AbstractType
 {
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_filter_number';
+        return 'adminata_type_filter_number';
     }
 
     public function getParent(): string

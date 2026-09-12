@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Datagrid;
+namespace IDCT\Adminata\Tests\App\Datagrid;
 
-use Sonata\AdminBundle\Datagrid\PagerInterface;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Tests\App\Model\FooRepository;
+use IDCT\Adminata\Datagrid\PagerInterface;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Tests\App\Model\FooRepository;
 
 /**
  * @phpstan-implements PagerInterface<ProxyQueryInterface<object>>

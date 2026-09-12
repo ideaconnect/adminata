@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Mapper;
+namespace IDCT\Adminata\Tests\Mapper;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Tests\Fixtures\Mapper\AbstractDummyGroupedMapper;
-use Sonata\AdminBundle\Translator\LabelTranslatorStrategyInterface;
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Tests\Fixtures\Mapper\AbstractDummyGroupedMapper;
+use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
@@ -40,7 +40,7 @@ final class BaseGroupedMapperTest extends TestCase
         $admin->setLabelTranslatorStrategy($labelStrategy);
 
         $container = new Container();
-        $container->setParameter('sonata.admin.configuration.translate_group_label', '');
+        $container->setParameter('adminata.admin.configuration.translate_group_label', '');
         $configurationPool = new Pool($container);
 
         $admin->setConfigurationPool($configurationPool);

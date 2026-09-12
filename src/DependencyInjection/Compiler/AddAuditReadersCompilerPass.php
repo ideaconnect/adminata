@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
-use Sonata\AdminBundle\Model\AuditReaderInterface;
+use IDCT\Adminata\Model\AuditReaderInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -25,15 +25,15 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 final class AddAuditReadersCompilerPass implements CompilerPassInterface
 {
-    public const string AUDIT_READER_TAG = 'sonata.admin.audit_reader';
+    public const string AUDIT_READER_TAG = 'adminata.admin.audit_reader';
 
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has('sonata.admin.audit.manager')) {
+        if (!$container->has('adminata.admin.audit.manager')) {
             return;
         }
 
-        $definition = $container->getDefinition('sonata.admin.audit.manager');
+        $definition = $container->getDefinition('adminata.admin.audit.manager');
         $readers = [];
 
         foreach ($container->findTaggedServiceIds(self::AUDIT_READER_TAG, true) as $id => $tags) {

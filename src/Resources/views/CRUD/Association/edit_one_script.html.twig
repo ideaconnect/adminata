@@ -33,15 +33,15 @@ This code manages the one-to-many association field popup
 
         // the ajax post
         jQuery(form).ajaxSubmit({
-            url: '{{ path('sonata_admin_append_form_element', {
-                '_sonata_admin': sonata_admin.admin.root.baseCodeRoute,
+            url: '{{ path('adminata_append_form_element', {
+                '_adminata_admin': adminata_admin.admin.root.baseCodeRoute,
                 'elementId': id,
-                'objectId': sonata_admin.admin.root.id(sonata_admin.admin.root.subject),
-                'uniqid': sonata_admin.admin.root.uniqid,
-            } + sonata_admin.field_description.getOption('link_parameters', {})
+                'objectId': adminata_admin.admin.root.id(adminata_admin.admin.root.subject),
+                'uniqid': adminata_admin.admin.root.uniqid,
+            } + adminata_admin.field_description.getOption('link_parameters', {})
             + (
-                sonata_admin.admin.root.hasRequest()
-                ? sonata_admin.admin.root.request.attributes.get('_route_params', {})
+                adminata_admin.admin.root.hasRequest()
+                ? adminata_admin.admin.root.request.attributes.get('_route_params', {})
                 : {}
             ) + app.request.query.all|default({})
             ) }}',
@@ -70,8 +70,8 @@ This code manages the one-to-many association field popup
                     jQuery(form).attr('enctype', 'multipart/form-data');
                     jQuery(form).attr('encoding', 'multipart/form-data');
                 }
-                jQuery('#sonata-ba-field-container-{{ id }}').trigger('sonata.add_element');
-                jQuery('#field_container_{{ id }}').trigger('sonata.add_element');
+                jQuery('#adminata-field-container-{{ id }}').trigger('adminata.add_element');
+                jQuery('#field_container_{{ id }}').trigger('adminata.add_element');
             }
         });
 

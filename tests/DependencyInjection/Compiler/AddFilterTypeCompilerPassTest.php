@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection\Compiler;
+namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
-use Sonata\AdminBundle\DependencyInjection\Compiler\AddFilterTypeCompilerPass;
-use Sonata\AdminBundle\Filter\FilterFactoryInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Filter\BarFilter;
-use Sonata\AdminBundle\Tests\Fixtures\Filter\FooFilter;
+use IDCT\Adminata\DependencyInjection\Compiler\AddFilterTypeCompilerPass;
+use IDCT\Adminata\Filter\FilterFactoryInterface;
+use IDCT\Adminata\Tests\Fixtures\Filter\BarFilter;
+use IDCT\Adminata\Tests\Fixtures\Filter\FooFilter;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -34,14 +34,14 @@ final class AddFilterTypeCompilerPassTest extends AbstractCompilerPassTestCase
         ]);
 
         $this->container
-            ->setDefinition('sonata.admin.builder.filter.factory', $filterFactoryDefinition);
+            ->setDefinition('adminata.admin.builder.filter.factory', $filterFactoryDefinition);
     }
 
     public function testProcess(): void
     {
         $fooFilter = new Definition(FooFilter::class);
         $fooFilter
-            ->addTag('sonata.admin.filter.type', [
+            ->addTag('adminata.admin.filter.type', [
                 'alias' => 'foo_filter_alias',
             ]);
 
@@ -50,14 +50,14 @@ final class AddFilterTypeCompilerPassTest extends AbstractCompilerPassTestCase
 
         $barFilter = new Definition(BarFilter::class);
         $barFilter
-            ->addTag('sonata.admin.filter.type');
+            ->addTag('adminata.admin.filter.type');
 
         $this->container
             ->setDefinition('acme.demo.bar_filter', $barFilter);
 
         $this->compile();
 
-        $serviceLocator = $this->container->getDefinition('sonata.admin.builder.filter.factory')->getArgument(0);
+        $serviceLocator = $this->container->getDefinition('adminata.admin.builder.filter.factory')->getArgument(0);
         static::assertInstanceOf(Reference::class, $serviceLocator);
 
         self::assertContainerBuilderHasServiceLocator(
@@ -73,7 +73,7 @@ final class AddFilterTypeCompilerPassTest extends AbstractCompilerPassTestCase
     {
         $filter = new Definition('not_existing_class');
         $filter
-            ->addTag('sonata.admin.filter.type');
+            ->addTag('adminata.admin.filter.type');
 
         $this->container
             ->setDefinition('acme.demo.foo_filter', $filter);
@@ -88,13 +88,13 @@ final class AddFilterTypeCompilerPassTest extends AbstractCompilerPassTestCase
     {
         $filter = new Definition(\stdClass::class);
         $filter
-            ->addTag('sonata.admin.filter.type');
+            ->addTag('adminata.admin.filter.type');
 
         $this->container
             ->setDefinition('acme.demo.foo_filter', $filter);
 
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Service "acme.demo.foo_filter" MUST implement interface "Sonata\AdminBundle\Filter\FilterInterface".');
+        $this->expectExceptionMessage('Service "acme.demo.foo_filter" MUST implement interface "IDCT\Adminata\Filter\FilterInterface".');
 
         $this->compile();
     }

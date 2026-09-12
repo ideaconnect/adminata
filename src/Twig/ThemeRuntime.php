@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig;
+namespace IDCT\Adminata\Twig;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\RuntimeExtensionInterface;
@@ -24,7 +24,7 @@ use Twig\Extension\RuntimeExtensionInterface;
  */
 final class ThemeRuntime implements RuntimeExtensionInterface
 {
-    public const string COOKIE = 'sonata_theme';
+    public const string COOKIE = 'adminata_theme';
 
     public const string LIGHT = 'light';
 
@@ -45,7 +45,7 @@ final class ThemeRuntime implements RuntimeExtensionInterface
     private const array RTL_LANGUAGES = ['ar', 'fa', 'he', 'ur'];
 
     /**
-     * @param string $defaultMode the configured `sonata_admin.theme.mode`
+     * @param string $defaultMode the configured `adminata.theme.mode`
      *
      * @internal This class should only be used through Twig
      */
@@ -56,7 +56,7 @@ final class ThemeRuntime implements RuntimeExtensionInterface
     }
 
     /**
-     * The theme this response must be rendered in: the visitor's `sonata_theme` cookie when it
+     * The theme this response must be rendered in: the visitor's `adminata_theme` cookie when it
      * holds one of the three modes, the configured default otherwise.
      *
      * @phpstan-return 'light'|'dark'|'system'

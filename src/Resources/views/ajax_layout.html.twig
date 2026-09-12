@@ -11,8 +11,8 @@ file that was distributed with this source code.
 
 {#
     What an `X-Requested-With` request gets back: a fragment, no `<html>`, no shell (PLAN/03 §A
-    row 2). An application's own script parses `table.sonata-ba-list` out of it — recomaty-panel's
-    accordion does exactly that (appendix C §2) — so the list markup and the `sonata-list-table`
+    row 2). An application's own script parses `table.adminata-list` out of it — recomaty-panel's
+    accordion does exactly that (appendix C §2) — so the list markup and the `adminata-list-table`
     marker stay where they were.
 #}
 
@@ -27,10 +27,10 @@ file that was distributed with this source code.
     {% block show %}{% endblock %}
 
     {% if _list_table is not empty or _list_filters is not empty %}
-        {% set _list_modes %}{% include '@SonataAdmin/Core/list_mode_buttons.html.twig' %}{% endset %}
+        {% set _list_modes %}{% include '@Adminata/Core/list_mode_buttons.html.twig' %}{% endset %}
 
         {% if _list_modes|trim is not empty or _list_filters_actions is not empty %}
-            <div class="sonata-list-table mb-4 flex flex-wrap items-center justify-between gap-3">
+            <div class="adminata-list-table mb-4 flex flex-wrap items-center justify-between gap-3">
                 {{ _list_modes|raw }}
 
                 {% if _list_filters_actions is not empty %}

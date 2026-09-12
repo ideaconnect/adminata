@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\FieldDescription;
+namespace IDCT\Adminata\Tests\FieldDescription;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\FieldDescription\TypeGuesserChain;
-use Sonata\AdminBundle\FieldDescription\TypeGuesserInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\FieldDescription\TypeGuesserChain;
+use IDCT\Adminata\FieldDescription\TypeGuesserInterface;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 

@@ -4,7 +4,7 @@
     <div class="sf-toolbar-block">
         <a href="{{ path('_profiler', { 'token': token, 'panel': name }) }}">
             <div class="sf-toolbar-icon">
-                {{ include('@SonataAdmin/Profiler/icon.svg') }}
+                {{ include('@Adminata/Profiler/icon.svg') }}
                 <span class="sf-toolbar-value">{{ collector.getTotalBlock() }}</span>
             </div>
         </a>
@@ -29,7 +29,7 @@
 {% block menu %}
     <span class="label">
         <span class="icon">
-            {{ include('@SonataAdmin/Profiler/icon.svg') }}
+            {{ include('@Adminata/Profiler/icon.svg') }}
         </span>
         <strong>Blocks{% if collector.events|length > 0 %}<strong>*</strong>{% endif %}</strong>
         <span class="count">

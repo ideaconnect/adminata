@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type\Operator;
+namespace IDCT\Adminata\Tests\Form\Type\Operator;
 
-use Sonata\AdminBundle\Form\Type\Operator\StringOperatorType;
+use IDCT\Adminata\Form\Type\Operator\StringOperatorType;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -34,6 +34,6 @@ final class StringOperatorTypeTest extends TypeTestCase
         $formType->configureOptions($optionsResolver);
         $options = $optionsResolver->resolve([]);
         static::assertSame($expectedChoices, $options['choices']);
-        static::assertSame('SonataAdminBundle', $options['choice_translation_domain']);
+        static::assertSame('AdminataBundle', $options['choice_translation_domain']);
     }
 }

@@ -12,7 +12,7 @@ file that was distributed with this source code.
 {#
     The rows of a list.
 
-    Each one carries the URL of the object's default action, which `sonata-row-link` follows when
+    Each one carries the URL of the object's default action, which `adminata-row-link` follows when
     the row is clicked. `list_row_link` turns the whole thing off for an application that would
     rather rows did nothing.
 
@@ -28,8 +28,8 @@ file that was distributed with this source code.
     that is what a per-object security handler expects — again as `base_list_field` does.
 #}
 
-{%- set row_link_enabled = sonata_config.getOption('list_row_link') -%}
-{%- set row_link_default = sonata_config.getOption('default_admin_route') -%}
+{%- set row_link_enabled = adminata_config.getOption('list_row_link') -%}
+{%- set row_link_default = adminata_config.getOption('default_admin_route') -%}
 {%- set row_link_alternate = 'show' == row_link_default ? 'edit' : 'show' -%}
 
 {#- Built eagerly with `merge`, not with `filter`: `filter` yields an iterator, and one shared
@@ -41,7 +41,7 @@ file that was distributed with this source code.
     {#- `filter`+`first` rather than a loop with a flag: a `{% set %}` inside a nested `for` does
         not survive the loop, so the route has to come out of an expression. -#}
     {%- set row_link_route = row_link_routes|filter(route => admin.hasAccess(route, route in ['show', 'edit'] ? object : null))|first -%}
-    <tr{% if row_link_route %} class="sonata-ba-list-row-link" data-sonata-row-link-url="{{ admin.generateObjectUrl(row_link_route, object) }}"{% endif %}>
+    <tr{% if row_link_route %} class="adminata-list-row-link" data-adminata-row-link-url="{{ admin.generateObjectUrl(row_link_route, object) }}"{% endif %}>
         {% include get_admin_template('inner_list_row', admin.code) %}
     </tr>
 {% endfor %}

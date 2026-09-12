@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\ChoiceList;
+namespace IDCT\Adminata\Form\ChoiceList;
 
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
 use Symfony\Component\Form\ChoiceList\ChoiceListInterface;
 use Symfony\Component\Form\ChoiceList\Loader\ChoiceLoaderInterface;

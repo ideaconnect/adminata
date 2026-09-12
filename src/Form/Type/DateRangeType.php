@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -27,7 +27,7 @@ class DateRangeType extends AbstractType
         $options['field_options_start'] = array_merge(
             [
                 'label' => 'date_range_start',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
             ],
             $options['field_options_start']
         );
@@ -35,7 +35,7 @@ class DateRangeType extends AbstractType
         $options['field_options_end'] = array_merge(
             [
                 'label' => 'date_range_end',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
             ],
             $options['field_options_end']
         );
@@ -59,7 +59,7 @@ class DateRangeType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_date_range';
+        return 'adminata_type_date_range';
     }
 
     public function configureOptions(OptionsResolver $resolver): void

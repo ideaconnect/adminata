@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Doctrine\App\Entity;
+namespace IDCT\Adminata\Tests\Doctrine\App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

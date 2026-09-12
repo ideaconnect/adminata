@@ -165,13 +165,13 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Sonata\\AdminBundle\\": "src/"
+            "IDCT\\Adminata\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Adminata\\Tests\\": "tests-adminata/",
-            "Sonata\\AdminBundle\\Tests\\": "tests/"
+            "IDCT\\Adminata\\Tests\\": "tests/"
         }
     },
     "config": {

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Command;
+namespace IDCT\Adminata\Command;
 
-use Sonata\AdminBundle\Admin\Pool;
+use IDCT\Adminata\Admin\Pool;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-#[AsCommand(name: 'sonata:admin:list', description: 'List all admin services available')]
+#[AsCommand(name: 'adminata:list', description: 'List all admin services available')]
 final class ListAdminCommand extends Command
 {
     /**

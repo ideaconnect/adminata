@@ -1,14 +1,14 @@
 Console/Command-Line Commands
 =============================
 
-SonataAdminBundle provides the following console commands:
+AdminataBundle provides the following console commands:
 
 * ``cache:create-cache-class``
-* ``make:sonata:admin``
-* ``sonata:admin:list``
-* ``sonata:admin:explain``
-* ``sonata:admin:setup-acl``
-* ``sonata:admin:generate-object-acl``
+* ``make:adminata:admin``
+* ``adminata:list``
+* ``adminata:explain``
+* ``adminata:setup-acl``
+* ``adminata:generate-object-acl``
 
 cache:create-cache-class
 ------------------------
@@ -20,10 +20,10 @@ The ``cache:create-cache-class`` command generates the cache class
 
     bin/console cache:create-cache-class
 
-make:sonata:admin
+make:adminata:admin
 -----------------
 
-The ``make:sonata:admin`` command generates a new Admin class based on the given model
+The ``make:adminata:admin`` command generates a new Admin class based on the given model
 class, registers it as a service and potentially creates a new controller.
 As an argument you need to specify the fully qualified model class.
 All passed arguments and options are used as default values in interactive mode.
@@ -48,62 +48,62 @@ Options           Description
 
 .. code-block:: bash
 
-    bin/console make:sonata:admin App/Entity/Foo
+    bin/console make:adminata:admin App/Entity/Foo
 
-sonata:admin:list
+adminata:list
 -----------------
 
-To see which admin services are available use the ``sonata:admin:list`` command.
+To see which admin services are available use the ``adminata:list`` command.
 It prints all the admin service ids available in your application. This command
-gets the ids from the ``sonata.admin.pool`` service where all the available admin
+gets the ids from the ``adminata.admin.pool`` service where all the available admin
 services are registered.
 
 .. code-block:: bash
 
-    bin/console sonata:admin:list
+    bin/console adminata:list
 
 .. figure:: ../images/console_admin_list.png
    :align: center
    :alt: List command
    :width: 700px
 
-sonata:admin:explain
+adminata:explain
 --------------------
 
-The ``sonata:admin:explain`` command prints details about the admin of a model.
+The ``adminata:explain`` command prints details about the admin of a model.
 As an argument you need to specify the admin service id of the Admin to explain.
 
 .. code-block:: bash
 
-    bin/console sonata:admin:explain sonata.news.admin.post
+    bin/console adminata:explain adminata.news.admin.post
 
 .. figure:: ../images/console_admin_explain.png
    :align: center
    :alt: Explain command
    :width: 700px
 
-sonata:admin:setup-acl
+adminata:setup-acl
 ----------------------
 
-The ``sonata:admin:setup-acl`` command updates ACL definitions for all Admin
-classes available in ``sonata.admin.pool``. For instance, every time you create a
-new ``Admin`` class, you can create its ACL by using the ``sonata:admin:setup-acl``
+The ``adminata:setup-acl`` command updates ACL definitions for all Admin
+classes available in ``adminata.admin.pool``. For instance, every time you create a
+new ``Admin`` class, you can create its ACL by using the ``adminata:setup-acl``
 command. The ACL database will be automatically updated with the latest masks
 and roles.
 
 .. code-block:: bash
 
-    bin/console sonata:admin:setup-acl
+    bin/console adminata:setup-acl
 
-sonata:admin:generate-object-acl
+adminata:generate-object-acl
 --------------------------------
 
-The ``sonata:admin:generate-object-acl`` is an interactive command which helps
+The ``adminata:generate-object-acl`` is an interactive command which helps
 you to generate ACL entities for the objects handled by your Admins. See the help
 of the command for more information.
 
 .. code-block:: bash
 
-    bin/console sonata:admin:generate-object-acl
+    bin/console adminata:generate-object-acl
 
 .. _`Symfony Maker Bundle`: https://symfony.com/doc/current/bundles/SymfonyMakerBundle/index.html

@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Action;
+namespace IDCT\Adminata\Tests\Action;
 
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Action\DashboardAction;
-use Sonata\AdminBundle\Templating\MutableTemplateRegistryInterface;
+use IDCT\Adminata\Action\DashboardAction;
+use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;

@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Extension;
+namespace IDCT\Adminata\Tests\Form\Extension;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Form\Extension\ChoiceTypeExtension;
+use IDCT\Adminata\Form\Extension\ChoiceTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\Forms;

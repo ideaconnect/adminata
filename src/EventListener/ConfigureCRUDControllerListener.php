@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\EventListener;
+namespace IDCT\Adminata\EventListener;
 
-use Sonata\AdminBundle\Controller\CRUDController;
+use IDCT\Adminata\Controller\CRUDController;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;

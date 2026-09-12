@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form;
+namespace IDCT\Adminata\Form;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 
 /**

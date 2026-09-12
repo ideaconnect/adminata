@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exception\Block\Renderer;
+namespace IDCT\Adminata\Tests\Exception\Block\Renderer;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exception\Block\Renderer\InlineRenderer;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Exception\Block\Renderer\InlineRenderer;
+use IDCT\Adminata\Model\BlockInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 

@@ -12,14 +12,14 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-const SELECTED = 'sonata-ba-list-row-selected';
+const SELECTED = 'adminata-list-row-selected';
 
 /**
  * The list's batch selection, in place of the twelve lines of jQuery upstream printed into a
  * `<script>` inside the page.
  *
  * Three things: the header checkbox selects everything and shows an indeterminate state when only
- * some rows are, a selected row is marked with the `sonata-ba-list-row-selected` class an
+ * some rows are, a selected row is marked with the `adminata-list-row-selected` class an
  * application's CSS may select on, and holding shift extends the selection from the last row
  * clicked.
  *
@@ -69,10 +69,10 @@ export default class extends Controller {
 
     render() {
         this.rowTargets.forEach((row) => {
-            // `div.sonata-ba-list-field-batch` and not the bare class: in a table the checkbox's
+            // `div.adminata-list-field-batch` and not the bare class: in a table the checkbox's
             // own `<td>` carries it, and the row is what should look selected. The mosaic list has
             // no `<tr>`, which is what the `div` is for.
-            row.closest('tr, div.sonata-ba-list-field-batch')?.classList.toggle(SELECTED, row.checked);
+            row.closest('tr, div.adminata-list-field-batch')?.classList.toggle(SELECTED, row.checked);
         });
 
         if (!this.hasAllTarget) {

@@ -30,7 +30,7 @@
 }
 
 /* T7: a layer declared after the import sorts after `utilities`. */
-@layer sonata-overrides {
+@layer adminata-overrides {
     .probe-override {
         color: red;
     }

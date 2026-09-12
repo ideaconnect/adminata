@@ -1,7 +1,7 @@
 Installation
 ============
 
-SonataAdminBundle can be installed at any moment during a project's lifecycle.
+AdminataBundle can be installed at any moment during a project's lifecycle.
 
 Download the Bundle
 -------------------
@@ -24,18 +24,18 @@ you try.
 
     **Migrating an application that already runs Sonata Admin?** Run every Composer command with
     ``--no-plugins --no-scripts``, or Symfony Flex will run the old recipes' ``unconfigure`` and
-    delete your ``config/packages/sonata_*.yaml``. See :doc:`/upgrading`.
+    delete your ``config/packages/adminata_*.yaml``. See :doc:`/upgrading`.
 
 Download a Storage Bundle
 -------------------------
 
-You've now downloaded the SonataAdminBundle. While this bundle contains all
+You've now downloaded the AdminataBundle. While this bundle contains all
 functionality, it needs storage bundles to be able to communicate with a
-database. Before using the SonataAdminBundle, you have to download one of these
+database. Before using the AdminataBundle, you have to download one of these
 storage bundles. The official storage bundles are:
 
-* `SonataDoctrineORMAdminBundle`_ (integrates the Doctrine ORM);
-* `SonataDoctrineMongoDBAdminBundle`_ (integrates the Doctrine MongoDB ODM);
+* `AdminataDoctrineORMBundle`_ (integrates the Doctrine ORM);
+* `AdminataDoctrineMongoDBBundle`_ (integrates the Doctrine MongoDB ODM);
 
 The ORM one is part of adminata and is already installed. The MongoDB one is **not** part of
 adminata: ``idct/sonata-admin-mongodb-bundle`` is a separate package that works against adminata,
@@ -43,7 +43,7 @@ and is installed the usual way.
 
 .. note::
 
-    Don't know which to choose? Most new users prefer SonataDoctrineORMAdmin,
+    Don't know which to choose? Most new users prefer AdminataDoctrineORMAdmin,
     to interact with traditional relational databases (MySQL, PostgreSQL, etc).
 
 Enable the Bundle
@@ -58,16 +58,16 @@ line in ``bundles.php`` file of your project::
         // ...
         Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
         Knp\Bundle\MenuBundle\KnpMenuBundle::class => ['all' => true],
-        Sonata\AdminBundle\SonataAdminBundle::class => ['all' => true],
+        IDCT\Adminata\AdminataBundle::class => ['all' => true],
         Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
     ];
 
-``SonataAdminBundle`` is one line, not six: the blocks, the Doctrine managers, the form types,
+``AdminataBundle`` is one line, not six: the blocks, the Doctrine managers, the form types,
 the Twig helpers and the exporter are part of it, so there is no ``SonataBlockBundle``,
 ``SonataDoctrineBundle``, ``SonataFormBundle``, ``SonataTwigBundle`` or ``SonataExporterBundle``
-to register. What they contribute — the ``sonata_block``, ``sonata_form``, ``sonata_twig`` and
-``sonata_exporter`` configuration roots, the ``sonata.block.*``, ``sonata.form.*``,
-``sonata.twig.*`` and ``sonata.exporter.*`` services, the Doctrine manager, adapter and mapper
+to register. What they contribute — the ``adminata_block``, ``adminata_form``, ``adminata_twig`` and
+``adminata_exporter`` configuration roots, the ``adminata.block.*``, ``adminata.form.*``,
+``adminata.twig.*`` and ``adminata.exporter.*`` services, the Doctrine manager, adapter and mapper
 services, and the block and flash-message Twig functions — the admin bundle registers itself. See
 :doc:`/admin-bundle/reference/block_configuration`,
 :doc:`/admin-bundle/reference/form_configuration`,
@@ -79,18 +79,18 @@ Configure the Installed Bundles
 
 Now all needed bundles are downloaded and registered, you have to add some
 configuration. The admin interface uses *blocks* to put everything on the dashboard.
-Blocks are part of ``SonataAdminBundle`` — there is no block bundle to register — and
-they have a configuration root of their own, ``sonata_block``. You have to tell it
+Blocks are part of ``AdminataBundle`` — there is no block bundle to register — and
+they have a configuration root of their own, ``adminata_block``. You have to tell it
 about the existence of the admin block:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_block:
+    adminata_block:
         blocks:
-            # enable the SonataAdminBundle block
-            sonata.admin.block.admin_list:
+            # enable the AdminataBundle block
+            adminata.admin.block.admin_list:
                 contexts: [admin]
 
 .. note::
@@ -103,7 +103,7 @@ about the existence of the admin block:
 Enable the "translator" service
 -------------------------------
 
-The translator service is required by SonataAdmin to display all labels properly.
+The translator service is required by Adminata to display all labels properly.
 For more information: https://symfony.com/doc/5.4/translation.html#configuration
 
 .. code-block:: yaml
@@ -116,21 +116,21 @@ For more information: https://symfony.com/doc/5.4/translation.html#configuration
 Define routes
 -------------
 
-The bundles are now registered and configured correctly. To be able to access SonataAdminBundle's pages,
-the Symfony router needs to know the routes provided by the SonataAdminBundle.
+The bundles are now registered and configured correctly. To be able to access AdminataBundle's pages,
+the Symfony router needs to know the routes provided by the AdminataBundle.
 You can do this by adding its routes to your application's routing file:
 
 .. code-block:: yaml
 
-    # config/routes/sonata_admin.yaml
+    # config/routes/adminata.yaml
 
     admin_area:
-        resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+        resource: '@AdminataBundle/Resources/config/routing/adminata.xml'
         prefix: /admin
 
-    _sonata_admin:
+    _adminata_admin:
         resource: .
-        type: sonata_admin
+        type: adminata
         prefix: /admin
 
 .. note::
@@ -193,5 +193,5 @@ provided admin functionality for the admin bundle yet. Fortunately, you'll
 learn how to do this in the :doc:`next chapter <creating_an_admin>`.
 
 .. _`installation chapter`: https://getcomposer.org/doc/00-intro.md
-.. _SonataDoctrineORMAdminBundle: https://docs.sonata-project.org/projects/SonataDoctrineORMAdminBundle/en/4.x/
-.. _SonataDoctrineMongoDBAdminBundle: https://docs.sonata-project.org/projects/SonataDoctrineMongoDBAdminBundle/en/4.x/
+.. _AdminataDoctrineORMBundle: https://docs.sonata-project.org/projects/AdminataDoctrineORMBundle/en/4.x/
+.. _AdminataDoctrineMongoDBBundle: https://docs.sonata-project.org/projects/AdminataDoctrineMongoDBBundle/en/4.x/

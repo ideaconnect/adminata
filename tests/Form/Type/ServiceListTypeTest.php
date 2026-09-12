@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Block\BlockServiceManagerInterface;
-use Sonata\AdminBundle\Block\Service\BlockServiceInterface;
-use Sonata\AdminBundle\Form\Type\ServiceListType;
+use IDCT\Adminata\Block\BlockServiceManagerInterface;
+use IDCT\Adminata\Block\Service\BlockServiceInterface;
+use IDCT\Adminata\Form\Type\ServiceListType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,7 +30,7 @@ final class ServiceListTypeTest extends TestCase
             $this->createMock(BlockServiceManagerInterface::class)
         );
 
-        static::assertSame('sonata_block_service_choice', $type->getBlockPrefix());
+        static::assertSame('adminata_block_service_choice', $type->getBlockPrefix());
         static::assertSame(ChoiceType::class, $type->getParent());
     }
 

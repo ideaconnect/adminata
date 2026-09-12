@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Block\Loader;
+namespace IDCT\Adminata\Tests\Block\Loader;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Block\Loader\ServiceLoader;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Block\Loader\ServiceLoader;
+use IDCT\Adminata\Model\BlockInterface;
 
 final class ServiceLoaderTest extends TestCase
 {

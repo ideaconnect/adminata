@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Admin;
+namespace IDCT\Adminata\Admin;
 
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\AdminBundle\Route\RouteGeneratorInterface;
+use IDCT\Adminata\Route\RouteCollectionInterface;
+use IDCT\Adminata\Route\RouteGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface as RoutingUrlGeneratorInterface;
 
 /**

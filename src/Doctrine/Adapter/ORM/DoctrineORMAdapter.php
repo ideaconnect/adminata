@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Doctrine\Adapter\ORM;
+namespace IDCT\Adminata\Doctrine\Adapter\ORM;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Sonata\AdminBundle\Doctrine\Adapter\AdapterInterface;
+use IDCT\Adminata\Doctrine\Adapter\AdapterInterface;
 
 /**
  * This is a port of the DoctrineORMAdminBundle / ModelManager class.

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type\Filter;
+namespace IDCT\Adminata\Form\Type\Filter;
 
-use Sonata\AdminBundle\Form\DataTransformer\FilterDataTransformer;
+use IDCT\Adminata\Form\DataTransformer\FilterDataTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

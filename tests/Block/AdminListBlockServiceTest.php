@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Block;
+namespace IDCT\Adminata\Tests\Block;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Block\AdminListBlockService;
-use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
-use Sonata\AdminBundle\Test\BlockServiceTestCase;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Block\AdminListBlockService;
+use IDCT\Adminata\Templating\TemplateRegistryInterface;
+use IDCT\Adminata\Test\BlockServiceTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 /**

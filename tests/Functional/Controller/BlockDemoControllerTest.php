@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Functional\Controller;
+namespace IDCT\Adminata\Tests\Functional\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,9 +41,9 @@ final class BlockDemoControllerTest extends WebTestCase
     }
 
     /**
-     * The text block's default template is `@SonataAdmin/Block/block_core_text.html.twig`, so the
-     * application's `templates/bundles/SonataAdminBundle/Block/block_core_text.html.twig` takes its
-     * place. That override extends the shipped file through `@!SonataAdmin`, so the content it
+     * The text block's default template is `@Adminata/Block/block_core_text.html.twig`, so the
+     * application's `templates/bundles/AdminataBundle/Block/block_core_text.html.twig` takes its
+     * place. That override extends the shipped file through `@!Adminata`, so the content it
      * wraps proves the whole chain: override, then bundle template, then `block_base`.
      */
     public function testTheApplicationOverridesTheTextBlockTemplate(): void

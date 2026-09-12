@@ -43,8 +43,8 @@ To specify options, do as follow::
 
     // src/Admin/PersonAdmin.php
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Show\ShowMapper;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Show\ShowMapper;
 
     final class PersonAdmin extends AbstractAdmin
     {
@@ -70,7 +70,7 @@ Here is an example of how to achieve this::
 
     // src/Admin/PersonAdmin.php
 
-    use Sonata\AdminBundle\Show\ShowMapper;
+    use IDCT\Adminata\Show\ShowMapper;
 
     final class PersonAdmin extends ParentAdmin
     {
@@ -106,7 +106,7 @@ The following is a working example of a ShowAction::
 
     // src/Admin/PostAdmin.php
 
-    use Sonata\AdminBundle\Show\ShowMapper;
+    use IDCT\Adminata\Show\ShowMapper;
 
     final class ClientAdmin extends AbstractAdmin
     {
@@ -148,9 +148,9 @@ The first thing you need to do is define it in app/config/config/yml:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         title: Acme
         title_logo: img/logo_small.png
         templates:

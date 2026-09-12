@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Admin;
+namespace IDCT\Adminata\Admin;
 
-use Sonata\AdminBundle\BCLayer\BCHelper;
-use Sonata\AdminBundle\Exception\NoValueException;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Manipulator\ObjectManipulator;
-use Sonata\AdminBundle\Util\FormBuilderIterator;
-use Sonata\AdminBundle\Util\FormViewIterator;
+use IDCT\Adminata\BCLayer\BCHelper;
+use IDCT\Adminata\Exception\NoValueException;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Manipulator\ObjectManipulator;
+use IDCT\Adminata\Util\FormBuilderIterator;
+use IDCT\Adminata\Util\FormViewIterator;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -121,7 +121,7 @@ final class AdminHelper
         $form->handleRequest($admin->getRequest());
 
         $childFieldDescription = null !== $childFormBuilder
-            ? $childFormBuilder->getOption('sonata_field_description')
+            ? $childFormBuilder->getOption('adminata_field_description')
             : null;
 
         if (

@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block\Service;
+namespace IDCT\Adminata\Block\Service;
 
-use Sonata\AdminBundle\Block\BlockContextInterface;
-use Sonata\AdminBundle\Form\BlockFormMapperInterface;
-use Sonata\AdminBundle\Form\Type\ImmutableArrayType;
-use Sonata\AdminBundle\Meta\Metadata;
-use Sonata\AdminBundle\Meta\MetadataInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use IDCT\Adminata\Block\BlockContextInterface;
+use IDCT\Adminata\Form\BlockFormMapperInterface;
+use IDCT\Adminata\Form\Type\ImmutableArrayType;
+use IDCT\Adminata\Meta\Metadata;
+use IDCT\Adminata\Meta\MetadataInterface;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +41,7 @@ final class RssBlockService extends AbstractBlockService implements EditableBloc
             'translation_domain' => null,
             'icon' => 'fa fa-rss-square',
             'class' => null,
-            'template' => '@SonataAdmin/Block/block_core_rss.html.twig',
+            'template' => '@Adminata/Block/block_core_rss.html.twig',
         ]);
     }
 
@@ -58,30 +58,30 @@ final class RssBlockService extends AbstractBlockService implements EditableBloc
                     'required' => false,
                     'default_protocol' => 'https',
                     'label' => 'form.label_url',
-                    'translation_domain' => 'SonataAdminBundle',
+                    'translation_domain' => 'AdminataBundle',
                 ]],
                 ['title', TextType::class, [
                     'label' => 'form.label_title',
-                    'translation_domain' => 'SonataAdminBundle',
+                    'translation_domain' => 'AdminataBundle',
                     'required' => false,
                 ]],
                 ['translation_domain', TextType::class, [
                     'label' => 'form.label_translation_domain',
-                    'translation_domain' => 'SonataAdminBundle',
+                    'translation_domain' => 'AdminataBundle',
                     'required' => false,
                 ]],
                 ['icon', TextType::class, [
                     'label' => 'form.label_icon',
-                    'translation_domain' => 'SonataAdminBundle',
+                    'translation_domain' => 'AdminataBundle',
                     'required' => false,
                 ]],
                 ['class', TextType::class, [
                     'label' => 'form.label_class',
-                    'translation_domain' => 'SonataAdminBundle',
+                    'translation_domain' => 'AdminataBundle',
                     'required' => false,
                 ]],
             ],
-            'translation_domain' => 'SonataAdminBundle',
+            'translation_domain' => 'AdminataBundle',
         ]);
     }
 
@@ -138,7 +138,7 @@ final class RssBlockService extends AbstractBlockService implements EditableBloc
 
     public function getMetadata(): MetadataInterface
     {
-        return new Metadata('sonata.block.service.rss', null, null, 'SonataAdminBundle', [
+        return new Metadata('adminata.block.service.rss', null, null, 'AdminataBundle', [
             'class' => 'fa fa-rss-square',
         ]);
     }

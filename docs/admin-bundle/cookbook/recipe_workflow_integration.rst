@@ -9,7 +9,7 @@ Download the Bundle
 
 .. code-block:: bash
 
-    composer require yokai/sonata-workflow
+    composer require yokai/adminata-workflow
 
 Usage
 -----
@@ -54,13 +54,13 @@ You can use the provided extension to take care of your entity admin.
 
 .. code-block:: yaml
 
-   # config/packages/sonata_admin.yaml
+   # config/packages/adminata.yaml
 
    services:
        app.admin.blog_post:
            class: App\Admin\BlogPostAdmin
            tags:
-               - { name: sonata.admin, model_class: App\Entity\BlogPost, controller: Yokai\SonataWorkflow\Controller\WorkflowController, manager_type: orm }
+               - { name: adminata.admin, model_class: App\Entity\BlogPost, controller: Yokai\SonataWorkflow\Controller\WorkflowController, manager_type: orm }
 
        app.admin.extension.workflow.blog_post:
            class: Yokai\SonataWorkflow\Admin\Extension\WorkflowExtension
@@ -74,9 +74,9 @@ You can use the provided extension to take care of your entity admin.
 
 .. code-block:: yaml
 
-   # config/packages/sonata_admin.yaml
+   # config/packages/adminata.yaml
 
-   sonata_admin:
+   adminata:
        extensions:
            admin.extension.workflow.blog_post:
                admins:

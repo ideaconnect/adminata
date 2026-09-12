@@ -13,20 +13,20 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Form\Type\ContainerTemplateType;
-use Sonata\AdminBundle\Form\Type\ServiceListType;
+use IDCT\Adminata\Form\Type\ContainerTemplateType;
+use IDCT\Adminata\Form\Type\ServiceListType;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set('sonata.block.form.type.block', ServiceListType::class)
-        ->tag('form.type', ['alias' => 'sonata_block_service_choice'])
+    $services->set('adminata.block.form.type.block', ServiceListType::class)
+        ->tag('form.type', ['alias' => 'adminata_block_service_choice'])
         ->args([
-            service('sonata.block.manager'),
+            service('adminata.block.manager'),
         ]);
 
-    $services->set('sonata.block.form.type.container_template', ContainerTemplateType::class)
-        ->tag('form.type', ['alias' => 'sonata_type_container_template_choice'])
+    $services->set('adminata.block.form.type.container_template', ContainerTemplateType::class)
+        ->tag('form.type', ['alias' => 'adminata_type_container_template_choice'])
         ->args([
             abstract_arg('template choices array'),
         ]);

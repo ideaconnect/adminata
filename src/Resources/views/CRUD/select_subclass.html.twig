@@ -11,7 +11,7 @@ file that was distributed with this source code.
 #}
 {% extends base_template %}
 
-{% block title %}{{ 'title_select_subclass'|trans({}, 'SonataAdminBundle') }}{% endblock %}
+{% block title %}{{ 'title_select_subclass'|trans({}, 'AdminataBundle') }}{% endblock %}
 
 {% block content %}
     <div class="box box-success">
@@ -27,11 +27,11 @@ file that was distributed with this source code.
                        class="btn btn-app btn-block"
                             >
                         <i class="fas fa-plus-square" aria-hidden="true"></i>
-                        {{ subclass|trans({}, admin.translationdomain|default('SonataAdminBundle')) }}
+                        {{ subclass|trans({}, admin.translationdomain|default('AdminataBundle')) }}
                     </a>
                 </div>
             {% else %}
-                <span class="alert alert-info">{{ 'no_subclass_available'|trans({}, 'SonataAdminBundle') }}</span>
+                <span class="alert alert-info">{{ 'no_subclass_available'|trans({}, 'AdminataBundle') }}</span>
             {% endfor %}
             <div class="clearfix"></div>
         </div>

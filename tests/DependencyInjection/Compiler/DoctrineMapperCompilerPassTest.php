@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection\Compiler;
+namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
-use Sonata\AdminBundle\DependencyInjection\Compiler\DoctrineMapperCompilerPass;
-use Sonata\AdminBundle\Doctrine\Mapper\Builder\OptionsBuilder;
-use Sonata\AdminBundle\Doctrine\Mapper\DoctrineCollector;
-use Sonata\AdminBundle\Doctrine\Mapper\ORM\DoctrineORMMapper;
-use Sonata\AdminBundle\Tests\Doctrine\App\Entity\TestEntity;
-use Sonata\AdminBundle\Tests\Doctrine\App\Entity\TestRelatedEntity;
+use IDCT\Adminata\DependencyInjection\Compiler\DoctrineMapperCompilerPass;
+use IDCT\Adminata\Doctrine\Mapper\Builder\OptionsBuilder;
+use IDCT\Adminata\Doctrine\Mapper\DoctrineCollector;
+use IDCT\Adminata\Doctrine\Mapper\ORM\DoctrineORMMapper;
+use IDCT\Adminata\Tests\Doctrine\App\Entity\TestEntity;
+use IDCT\Adminata\Tests\Doctrine\App\Entity\TestRelatedEntity;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -36,16 +36,16 @@ final class DoctrineMapperCompilerPassTest extends AbstractCompilerPassTestCase
     {
         $this->compile();
 
-        $this->assertContainerBuilderNotHasService('sonata.doctrine.mapper');
+        $this->assertContainerBuilderNotHasService('adminata.doctrine.mapper');
     }
 
     public function testDefinitionsRemovedWithMapper(): void
     {
-        $this->registerService('sonata.doctrine.mapper', 'foo');
+        $this->registerService('adminata.doctrine.mapper', 'foo');
 
         $this->compile();
 
-        $this->assertContainerBuilderNotHasService('sonata.doctrine.mapper');
+        $this->assertContainerBuilderNotHasService('adminata.doctrine.mapper');
     }
 
     public function testDefinitionsRemovedWithDoctrine(): void
@@ -54,22 +54,22 @@ final class DoctrineMapperCompilerPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        $this->assertContainerBuilderNotHasService('sonata.doctrine.mapper');
+        $this->assertContainerBuilderNotHasService('adminata.doctrine.mapper');
     }
 
     public function testDefinitionsNotRemoved(): void
     {
-        $this->registerService('sonata.doctrine.mapper', 'foo');
+        $this->registerService('adminata.doctrine.mapper', 'foo');
         $this->registerService('doctrine', 'foo');
 
         $this->compile();
 
-        $this->assertContainerBuilderHasService('sonata.doctrine.mapper');
+        $this->assertContainerBuilderHasService('adminata.doctrine.mapper');
     }
 
     public function testAssociationMapping(): void
     {
-        $definition = $this->registerService('sonata.doctrine.mapper', DoctrineORMMapper::class);
+        $definition = $this->registerService('adminata.doctrine.mapper', DoctrineORMMapper::class);
         $definition->setPublic(true);
 
         $this->registerService('doctrine', 'foo');
@@ -82,10 +82,10 @@ final class DoctrineMapperCompilerPassTest extends AbstractCompilerPassTestCase
 
         $this->compile();
 
-        $compiledMapper = $this->container->get('sonata.doctrine.mapper');
+        $compiledMapper = $this->container->get('adminata.doctrine.mapper');
 
         $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
-            'sonata.doctrine.mapper',
+            'adminata.doctrine.mapper',
             'addAssociation',
             [TestEntity::class, 'mapManyToOne', [$options->getOptions()]]
         );

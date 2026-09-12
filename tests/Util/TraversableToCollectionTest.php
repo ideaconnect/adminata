@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Util;
+namespace IDCT\Adminata\Tests\Util;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Util\TraversableToCollection;
+use IDCT\Adminata\Util\TraversableToCollection;
 
 /**
  * @author Javier Spagnoletti <phansys@gmail.com>
@@ -55,7 +55,7 @@ final class TraversableToCollectionTest extends TestCase
     {
         $this->expectException(\TypeError::class);
         $this->expectExceptionMessage(\sprintf(
-            'Argument 1 passed to "Sonata\AdminBundle\Util\TraversableToCollection::transform()" must be an iterable, %s given.',
+            'Argument 1 passed to "IDCT\Adminata\Util\TraversableToCollection::transform()" must be an iterable, %s given.',
             $invalidType
         ));
 

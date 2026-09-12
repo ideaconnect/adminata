@@ -13,13 +13,13 @@ Render a block from its instance:
 
 .. code-block:: html+twig
 
-    {{ sonata_block_render(block) }}
+    {{ adminata_block_render(block) }}
 
 Render a block  by providing the block's type and options:
 
 .. code-block:: html+twig
 
-    {{ sonata_block_render({ 'type': 'sonata.block.service.rss' }, {
+    {{ adminata_block_render({ 'type': 'adminata.block.service.rss' }, {
         'title': 'Sonata Project\'s Feeds',
         'url': 'https://sonata-project.org/blog/archive.rss'
     }) }}
@@ -28,7 +28,7 @@ Render a block by calling an event:
 
 .. code-block:: html+twig
 
-    {{ sonata_block_render_event('node.comment', {
+    {{ adminata_block_render_event('node.comment', {
         'target': post
     }) }}
 
@@ -40,7 +40,7 @@ Rendering a block related to javascripts and stylesheets for the current page im
 
 .. code-block:: html+twig
 
-    {{ sonata_block_include_stylesheets('screen', app.request.basePath) }}
-    {{ sonata_block_include_javascripts('screen', app.request.basePath) }}
+    {{ adminata_block_include_stylesheets('screen', app.request.basePath) }}
+    {{ adminata_block_include_javascripts('screen', app.request.basePath) }}
 
 The ``app.request.basePath`` must be provided if your application is stored in a sub-folder.

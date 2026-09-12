@@ -9,10 +9,10 @@ can drop it:
 
 .. code-block:: yaml
 
-    sonata_admin:
+    adminata:
         assets:
             remove_stylesheets:
-                - bundles/sonataadmin/fontawesome.css
+                - bundles/adminata/fontawesome.css
 
 ``parse_icon``
 --------------

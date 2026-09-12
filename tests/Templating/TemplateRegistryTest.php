@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Templating;
+namespace IDCT\Adminata\Tests\Templating;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Templating\TemplateRegistry;
+use IDCT\Adminata\Templating\TemplateRegistry;
 
 final class TemplateRegistryTest extends TestCase
 {

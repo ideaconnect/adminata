@@ -17,11 +17,11 @@ declare(strict_types=1);
 namespace Adminata\Tests\App\Admin;
 
 use Adminata\Tests\App\Entity\Tag;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\FormMapper;
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Datagrid\DatagridMapper;
+use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
@@ -43,7 +43,7 @@ final class TagAdmin extends AbstractAdmin
             ]);
 
         // `->remove('batch')` ×1 in the application (appendix C §2): a list with no checkbox
-        // column at all, which the header, the footer and `sonata-batch` all have to survive.
+        // column at all, which the header, the footer and `adminata-batch` all have to survive.
         $list->remove(ListMapper::NAME_BATCH);
     }
 

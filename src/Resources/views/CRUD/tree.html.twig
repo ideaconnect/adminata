@@ -12,17 +12,17 @@ file that was distributed with this source code.
 
 {% deprecated 'The "tree.html.twig" template is deprecated since sonata-project/admin-bundle version 4.9 and will be removed in 5.0.' %}
 
-{% extends '@SonataAdmin/CRUD/base_list.html.twig' %}
+{% extends '@Adminata/CRUD/base_list.html.twig' %}
 
 {% import _self as tree %}
 {% macro navigate_child(collection, admin, root) %}
-    <ul{% if root %} class="sonata-tree"{% endif %}>
+    <ul{% if root %} class="adminata-tree"{% endif %}>
         {% for element in collection|filter(element => not root) %}
             <li>
-                <div class="sonata-tree__item">
+                <div class="adminata-tree__item">
                     {% if element.parent %}<i class="fas fa-caret-right" aria-hidden="true"></i>{% endif %}
                     <i class="fas fa-code" aria-hidden="true"></i>
-                    <a class="sonata-tree__item__edit" href="{{ admin.generateObjectUrl('edit', element) }}">{{ element.name }}</a>
+                    <a class="adminata-tree__item__edit" href="{{ admin.generateObjectUrl('edit', element) }}">{{ element.name }}</a>
                     <i class="text-muted">{{ element.description }}</i>
                     <a class="label label-default pull-right" href="{{ admin.generateObjectUrl('edit', element) }}">edit <i class="fas fa-magic" aria-hidden="true"></i></a>
                     {% if true %}<span class="label label-warning pull-right">true</span>{% endif %}
@@ -37,7 +37,7 @@ file that was distributed with this source code.
 {% endmacro %}
 
 {% block tab_menu %}
-    {% include '@SonataAdmin/CRUD/list_tab_menu.html.twig' with {
+    {% include '@Adminata/CRUD/list_tab_menu.html.twig' with {
         'mode':   'tree',
         'action': action,
         'admin':  admin,

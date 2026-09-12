@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Command;
+namespace IDCT\Adminata\Command;
 
-use Sonata\AdminBundle\Block\BlockServiceManagerInterface;
-use Sonata\AdminBundle\Block\Service\EditableBlockService;
+use IDCT\Adminata\Block\BlockServiceManagerInterface;
+use IDCT\Adminata\Block\Service\EditableBlockService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-#[AsCommand(name: 'debug:sonata:block', description: 'Debug all blocks available, show default settings of each block')]
+#[AsCommand(name: 'debug:adminata:block', description: 'Debug all blocks available, show default settings of each block')]
 final class DebugBlocksCommand extends Command
 {
     public function __construct(private BlockServiceManagerInterface $blockManager)

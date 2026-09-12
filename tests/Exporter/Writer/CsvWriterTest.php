@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exporter\Writer;
+namespace IDCT\Adminata\Tests\Exporter\Writer;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exporter\Exception\InvalidDataFormatException;
-use Sonata\AdminBundle\Exporter\Writer\CsvWriter;
+use IDCT\Adminata\Exporter\Exception\InvalidDataFormatException;
+use IDCT\Adminata\Exporter\Writer\CsvWriter;
 
 final class CsvWriterTest extends TestCase
 {

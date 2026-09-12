@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Bundle\Validator;
+namespace IDCT\Adminata\Tests\Fixtures\Bundle\Validator;
 
-use Sonata\AdminBundle\Validator\ErrorElement;
+use IDCT\Adminata\Validator\ErrorElement;
 use Symfony\Component\Validator\Exception\ValidatorException;
 
 /**

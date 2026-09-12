@@ -6,7 +6,7 @@ This is a full working example of how to implement a sortable feature in your So
 Background
 ----------
 
-A sortable behavior is already available for one-to-many relationships (https://docs.sonata-project.org/projects/SonataDoctrineORMAdminBundle/en/4.x/reference/form_field_definition/#advanced-usage-one-to-many).
+A sortable behavior is already available for one-to-many relationships (https://docs.sonata-project.org/projects/AdminataDoctrineORMBundle/en/4.x/reference/form_field_definition/#advanced-usage-one-to-many).
 However there is no packaged solution to have some up and down arrows to sort
 your records such as showed in the following screen
 
@@ -21,7 +21,7 @@ Pre-requisites
 Configuration
 ^^^^^^^^^^^^^
 
-- you already have SonataAdmin and DoctrineORM up and running
+- you already have Adminata and DoctrineORM up and running
 - you already have an Entity class for which you want to implement a sortable feature. For the purpose of the example we are going to call it ``Client``.
 - you already have an Admin set up, in this example we will call it ``ClientAdmin``
 
@@ -86,7 +86,7 @@ In order to add new routes for these actions and to apply right sorting use ``Ru
     namespace App\Admin;
 
     use Runroom\SortableBehaviorBundle\Admin\SortableAdminTrait;
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
+    use IDCT\Adminata\Admin\AbstractAdmin;
 
     final class ClientAdmin extends AbstractAdmin
     {
@@ -103,7 +103,7 @@ Define Admin in ``services.yaml``
         app.admin.client:
             class: App\Admin\ClientAdmin
             tags:
-                - { name: sonata.admin, model_class: App\Entity\Client, manager_type: orm, label: 'Clients' }
+                - { name: adminata.admin, model_class: App\Entity\Client, manager_type: orm, label: 'Clients' }
 
 Now we need to define sortable action::
 
@@ -112,8 +112,8 @@ Now we need to define sortable action::
     namespace App\Admin;
 
     use Runroom\SortableBehaviorBundle\Admin\SortableAdminTrait;
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Datagrid\ListMapper;
 
     final class ClientAdmin extends AbstractAdmin
     {

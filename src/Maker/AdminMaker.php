@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Maker;
+namespace IDCT\Adminata\Maker;
 
-use Sonata\AdminBundle\Command\Validators;
-use Sonata\AdminBundle\Manipulator\ServicesManipulator;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Command\Validators;
+use IDCT\Adminata\Manipulator\ServicesManipulator;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Bundle\MakerBundle\ConsoleStyle;
 use Symfony\Bundle\MakerBundle\DependencyBuilder;
 use Symfony\Bundle\MakerBundle\Generator;
@@ -90,7 +90,7 @@ final class AdminMaker extends AbstractMaker
 
     public static function getCommandName(): string
     {
-        return 'make:sonata:admin';
+        return 'make:adminata:admin';
     }
 
     public static function getCommandDescription(): string
@@ -230,7 +230,7 @@ final class AdminMaker extends AbstractMaker
                 $this->modelClass,
                 $adminClassFullName,
                 $controllerName,
-                substr($this->managerType, \strlen('sonata.admin.manager.'))
+                substr($this->managerType, \strlen('adminata.admin.manager.'))
             );
 
             $io->writeln(\sprintf(

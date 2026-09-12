@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block\Service;
+namespace IDCT\Adminata\Block\Service;
 
-use Sonata\AdminBundle\Block\BlockContextInterface;
-use Sonata\AdminBundle\Form\BlockFormMapperInterface;
-use Sonata\AdminBundle\Form\Type\ImmutableArrayType;
-use Sonata\AdminBundle\Meta\Metadata;
-use Sonata\AdminBundle\Meta\MetadataInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use IDCT\Adminata\Block\BlockContextInterface;
+use IDCT\Adminata\Form\BlockFormMapperInterface;
+use IDCT\Adminata\Form\Type\ImmutableArrayType;
+use IDCT\Adminata\Meta\Metadata;
+use IDCT\Adminata\Meta\MetadataInterface;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -50,10 +50,10 @@ final class TextBlockService extends AbstractBlockService implements EditableBlo
             'keys' => [
                 ['content', TextareaType::class, [
                     'label' => 'form.label_content',
-                    'translation_domain' => 'SonataAdminBundle',
+                    'translation_domain' => 'AdminataBundle',
                 ]],
             ],
-            'translation_domain' => 'SonataAdminBundle',
+            'translation_domain' => 'AdminataBundle',
         ]);
     }
 
@@ -65,13 +65,13 @@ final class TextBlockService extends AbstractBlockService implements EditableBlo
     {
         $resolver->setDefaults([
             'content' => 'Insert your custom content here',
-            'template' => '@SonataAdmin/Block/block_core_text.html.twig',
+            'template' => '@Adminata/Block/block_core_text.html.twig',
         ]);
     }
 
     public function getMetadata(): MetadataInterface
     {
-        return new Metadata('sonata.block.service.text', null, null, 'SonataAdminBundle', [
+        return new Metadata('adminata.block.service.text', null, null, 'AdminataBundle', [
             'class' => 'fa fa-file-text-o',
         ]);
     }

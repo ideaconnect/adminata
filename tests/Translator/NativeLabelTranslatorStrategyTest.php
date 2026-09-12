@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Translator;
+namespace IDCT\Adminata\Tests\Translator;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Translator\NativeLabelTranslatorStrategy;
+use IDCT\Adminata\Translator\NativeLabelTranslatorStrategy;
 
 final class NativeLabelTranslatorStrategyTest extends TestCase
 {

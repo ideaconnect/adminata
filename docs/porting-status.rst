@@ -36,7 +36,7 @@ a translation of markup, and it wants a real application to design against.
     CRUD/Association/edit_one_to_many_sortable_script_table
     CRUD/Association/edit_one_to_many_sortable_script_tabs
     CRUD/Association/edit_one_to_one
-    Form/Type/sonata_type_model_list
+    Form/Type/adminata_type_model_list
     Helper/short-object-description
 
 ``ModelAutocompleteType`` is **not** in this list: it was rewritten as an ARIA 1.2 combobox and is

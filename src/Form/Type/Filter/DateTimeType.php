@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type\Filter;
+namespace IDCT\Adminata\Form\Type\Filter;
 
-use Sonata\AdminBundle\Form\Type\Operator\DateOperatorType;
+use IDCT\Adminata\Form\Type\Operator\DateOperatorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType as FormDateTimeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,7 +29,7 @@ final class DateTimeType extends AbstractType
 {
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_filter_datetime';
+        return 'adminata_type_filter_datetime';
     }
 
     public function getParent(): string

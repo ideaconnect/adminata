@@ -11,19 +11,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Command;
+namespace IDCT\Adminata\Tests\Command;
 
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Block\BlockServiceManagerInterface;
-use Sonata\AdminBundle\Block\Service\AbstractBlockService;
-use Sonata\AdminBundle\Block\Service\EditableBlockService;
-use Sonata\AdminBundle\Command\DebugBlocksCommand;
-use Sonata\AdminBundle\Form\BlockFormMapperInterface;
-use Sonata\AdminBundle\Meta\Metadata;
-use Sonata\AdminBundle\Meta\MetadataInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use IDCT\Adminata\Block\BlockServiceManagerInterface;
+use IDCT\Adminata\Block\Service\AbstractBlockService;
+use IDCT\Adminata\Block\Service\EditableBlockService;
+use IDCT\Adminata\Command\DebugBlocksCommand;
+use IDCT\Adminata\Form\BlockFormMapperInterface;
+use IDCT\Adminata\Meta\Metadata;
+use IDCT\Adminata\Meta\MetadataInterface;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Validator\ErrorElement;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -56,9 +56,9 @@ final class DebugBlocksCommandTest extends TestCase
 
     public function testExecuteWithAlias(): void
     {
-        $command = $this->application->find('debug:sonata:block');
+        $command = $this->application->find('debug:adminata:block');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(['command' => 'debug:sonata:block']);
+        $commandTester->execute(['command' => 'debug:adminata:block']);
 
         static::assertSame("done!\n", $commandTester->getDisplay());
     }
@@ -112,9 +112,9 @@ final class DebugBlocksCommandTest extends TestCase
 
         $this->application->addCommand(new DebugBlocksCommand($blockManager));
 
-        $command = $this->application->find('debug:sonata:block');
+        $command = $this->application->find('debug:adminata:block');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(['command' => 'debug:sonata:block']);
+        $commandTester->execute(['command' => 'debug:adminata:block']);
 
         $expected = <<<EOF
 

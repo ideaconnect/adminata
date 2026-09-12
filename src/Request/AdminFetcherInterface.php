@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Request;
+namespace IDCT\Adminata\Request;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Exception\AdminCodeNotFoundException;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Exception\AdminCodeNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
 interface AdminFetcherInterface

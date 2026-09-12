@@ -18,7 +18,7 @@ parameters:
             message: '#^Call to static method PHPUnit\\Framework\\Assert::.* will always evaluate to true\.$#'
             path: ../tests
         - # The phpstan-param is less precise than the psalm-param https://github.com/phpstan/phpstan/issues/4703
-            message: '#^Parameter \#1 \$value of method Sonata\\AdminBundle\\Form\\DataTransformer\\ModelsToArrayTransformer\<T of object\>\:\:reverseTransform\(\) expects array\<int\|string\>\|null, array\<mixed, array\<string\>\|int\|string\> given\.$#'
+            message: '#^Parameter \#1 \$value of method IDCT\\Adminata\\Form\\DataTransformer\\ModelsToArrayTransformer\<T of object\>\:\:reverseTransform\(\) expects array\<int\|string\>\|null, array\<mixed, array\<string\>\|int\|string\> given\.$#'
             path: ../src/Form/DataTransformer/ModelToIdPropertyTransformer.php
         - # `InlineConstraint::__sleep()` returns [] for closure-based constraints, so
           # unserialize() leaves the promoted properties uninitialised even though they declare a

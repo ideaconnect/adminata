@@ -11,16 +11,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Action;
+namespace IDCT\Adminata\Tests\Action;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Action\GetShortObjectDescriptionAction;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Exception\BadRequestParamHttpException;
-use Sonata\AdminBundle\Request\AdminFetcherInterface;
-use Sonata\AdminBundle\Templating\MutableTemplateRegistry;
+use IDCT\Adminata\Action\GetShortObjectDescriptionAction;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Exception\BadRequestParamHttpException;
+use IDCT\Adminata\Request\AdminFetcherInterface;
+use IDCT\Adminata\Templating\MutableTemplateRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
@@ -57,7 +57,7 @@ final class GetShortObjectDescriptionActionTest extends TestCase
     public function testGetShortObjectDescriptionActionInvalidAdmin(): void
     {
         $request = new Request([
-            '_sonata_admin' => 'non_existing_code',
+            '_adminata_admin' => 'non_existing_code',
             'objectId' => 42,
             'uniqid' => 'asdasd123',
         ]);
@@ -76,7 +76,7 @@ final class GetShortObjectDescriptionActionTest extends TestCase
         $this->adminFetcher->method('get')->willReturn($this->admin);
 
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'uniqid' => 'asdasd123',
         ]);
@@ -90,7 +90,7 @@ final class GetShortObjectDescriptionActionTest extends TestCase
     public function testGetShortObjectDescriptionActionEmptyObjectId(): void
     {
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'uniqid' => 'asdasd123',
             '_format' => 'html',
         ]);
@@ -110,7 +110,7 @@ final class GetShortObjectDescriptionActionTest extends TestCase
         ]);
 
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'uniqid' => 'asdasd123',
             '_format' => 'html',
@@ -121,7 +121,7 @@ final class GetShortObjectDescriptionActionTest extends TestCase
 
         $this->admin->expects(static::any())->method('getObject')->with(42)->willReturn($object);
         $this->admin->expects(static::any())->method('toString')->with($object)->willReturn('bar');
-        $this->admin->method('getCode')->willReturn('sonata.post.admin');
+        $this->admin->method('getCode')->willReturn('adminata.post.admin');
         $this->admin->method('getTemplateRegistry')->willReturn($templateRegistry);
 
         $response = ($this->action)($request);
@@ -132,7 +132,7 @@ final class GetShortObjectDescriptionActionTest extends TestCase
     public function testGetShortObjectDescriptionActionEmptyObjectIdAsJson(): void
     {
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'uniqid' => 'asdasd123',
             '_format' => 'json',
         ]);
@@ -150,7 +150,7 @@ final class GetShortObjectDescriptionActionTest extends TestCase
     public function testGetShortObjectDescriptionActionObjectAsJson(): void
     {
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'uniqid' => 'asdasd123',
             '_format' => 'json',
@@ -171,7 +171,7 @@ final class GetShortObjectDescriptionActionTest extends TestCase
     public function testGetShortObjectDescriptionActionSubclassQueryParameterTemporaryRemoved(): void
     {
         $request = new Request([
-            '_sonata_admin' => 'sonata.post.admin',
+            '_adminata_admin' => 'adminata.post.admin',
             'objectId' => 42,
             'uniqid' => 'asdasd123',
             'subclass' => $subclass = uniqid('subclass'),

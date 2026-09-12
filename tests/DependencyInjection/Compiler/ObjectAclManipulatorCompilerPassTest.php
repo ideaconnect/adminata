@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection\Compiler;
+namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Command\GenerateObjectAclCommand;
-use Sonata\AdminBundle\DependencyInjection\Compiler\ObjectAclManipulatorCompilerPass;
-use Sonata\AdminBundle\Util\ObjectAclManipulator;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Command\GenerateObjectAclCommand;
+use IDCT\Adminata\DependencyInjection\Compiler\ObjectAclManipulatorCompilerPass;
+use IDCT\Adminata\Util\ObjectAclManipulator;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -34,7 +34,7 @@ final class ObjectAclManipulatorCompilerPassTest extends TestCase
 
         $objectAclManipulatorCompilerPass->process($containerBuilder);
 
-        $availableManagers = $containerBuilder->getDefinition('sonata.admin.command.generate_object_acl')->getArgument(1);
+        $availableManagers = $containerBuilder->getDefinition('adminata.admin.command.generate_object_acl')->getArgument(1);
 
         static::assertIsArray($availableManagers);
         static::assertArrayHasKey($serviceId, $availableManagers);
@@ -45,7 +45,7 @@ final class ObjectAclManipulatorCompilerPassTest extends TestCase
      */
     public static function provideAvailableManagerCases(): iterable
     {
-        $serviceId = 'sonata.admin.manipulator.acl.object.orm';
+        $serviceId = 'adminata.admin.manipulator.acl.object.orm';
         $container = static::createContainer();
         $container
             ->register($serviceId)
@@ -53,7 +53,7 @@ final class ObjectAclManipulatorCompilerPassTest extends TestCase
 
         yield [$container, $serviceId];
 
-        $parameterName = 'sonata.admin.manipulator.acl.object.orm.class';
+        $parameterName = 'adminata.admin.manipulator.acl.object.orm.class';
         $container = static::createContainer();
         $container->setParameter($parameterName, ObjectAclManipulator::class);
 
@@ -69,7 +69,7 @@ final class ObjectAclManipulatorCompilerPassTest extends TestCase
         $pool = new Pool(new Container());
         $container = new ContainerBuilder();
         $container
-            ->register('sonata.admin.command.generate_object_acl')
+            ->register('adminata.admin.command.generate_object_acl')
             ->setClass(GenerateObjectAclCommand::class)
             ->setArguments([$pool, []]);
 

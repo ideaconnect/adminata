@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Doctrine\Mapper;
+namespace IDCT\Adminata\Doctrine\Mapper;
 
-use Sonata\AdminBundle\Doctrine\Mapper\Builder\ColumnDefinitionBuilder;
-use Sonata\AdminBundle\Doctrine\Mapper\Builder\OptionsBuilder;
+use IDCT\Adminata\Doctrine\Mapper\Builder\ColumnDefinitionBuilder;
+use IDCT\Adminata\Doctrine\Mapper\Builder\OptionsBuilder;
 
 final class DoctrineCollector
 {

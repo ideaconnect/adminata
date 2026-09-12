@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig;
+namespace IDCT\Adminata\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Twig\SecurityRuntime;
+use IDCT\Adminata\Twig\SecurityRuntime;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class SecurityRuntimeTest extends TestCase

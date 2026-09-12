@@ -11,18 +11,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Block;
+namespace IDCT\Adminata\Tests\Block;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Block\AdminSearchBlockService;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\PagerInterface;
-use Sonata\AdminBundle\Search\SearchableFilterInterface;
-use Sonata\AdminBundle\Search\SearchHandler;
-use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
-use Sonata\AdminBundle\Test\BlockServiceTestCase;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Block\AdminSearchBlockService;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\Datagrid\PagerInterface;
+use IDCT\Adminata\Search\SearchableFilterInterface;
+use IDCT\Adminata\Search\SearchHandler;
+use IDCT\Adminata\Templating\TemplateRegistryInterface;
+use IDCT\Adminata\Test\BlockServiceTestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -47,7 +47,7 @@ final class AdminSearchBlockServiceTest extends BlockServiceTestCase
         $this->pool = new Pool(new Container());
         $this->searchHandler = new SearchHandler();
         $this->templateRegistry = $this->createMock(TemplateRegistryInterface::class);
-        $this->templateRegistry->method('getTemplate')->willReturn('@SonataAdmin/Block/block_search_result.html.twig');
+        $this->templateRegistry->method('getTemplate')->willReturn('@Adminata/Block/block_search_result.html.twig');
     }
 
     public function testDefaultSettings(): void

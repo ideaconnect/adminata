@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Manipulator;
+namespace IDCT\Adminata\Manipulator;
 
 use Symfony\Component\Yaml\Yaml;
 
@@ -24,7 +24,7 @@ final class ServicesManipulator
     private string $template = '    %s:
         class: %s
         tags:
-            - { name: sonata.admin, model_class: %s, controller: %s, manager_type: %s, group: admin, label: %s }
+            - { name: adminata.admin, model_class: %s, controller: %s, manager_type: %s, group: admin, label: %s }
 ';
 
     public function __construct(

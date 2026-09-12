@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Exception\Block\Strategy;
+namespace IDCT\Adminata\Exception\Block\Strategy;
 
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Model\BlockInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

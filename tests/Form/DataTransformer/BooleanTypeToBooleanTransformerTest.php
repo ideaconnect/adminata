@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\DataTransformer;
+namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Form\DataTransformer\BooleanTypeToBooleanTransformer;
-use Sonata\AdminBundle\Form\Type\BooleanType;
+use IDCT\Adminata\Form\DataTransformer\BooleanTypeToBooleanTransformer;
+use IDCT\Adminata\Form\Type\BooleanType;
 
 final class BooleanTypeToBooleanTransformerTest extends TestCase
 {

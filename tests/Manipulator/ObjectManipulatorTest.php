@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Manipulator;
+namespace IDCT\Adminata\Tests\Manipulator;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Manipulator\ObjectManipulator;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Manipulator\ObjectManipulator;
 
 final class ObjectManipulatorTest extends TestCase
 {

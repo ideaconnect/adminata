@@ -1,18 +1,18 @@
 Creating a Custom Admin Action
 ==============================
 
-This is a full working example of creating a custom list action for SonataAdmin.
+This is a full working example of creating a custom list action for Adminata.
 The example is based on an existing ``CarAdmin`` class in a ``App`` namespace.
 It is assumed you already have an admin service up and running.
 
 The recipe
 ----------
 
-SonataAdmin provides a very straight-forward way of adding your own custom actions.
+Adminata provides a very straight-forward way of adding your own custom actions.
 
 To do this we need to:
 
-- extend the ``SonataAdmin:CRUD`` Controller and tell our admin class to use it
+- extend the ``Adminata:CRUD`` Controller and tell our admin class to use it
 - create the custom action in our Controller
 - create a template to show the action in the list view
 - add the route and the new action in the Admin class
@@ -20,20 +20,20 @@ To do this we need to:
 Extending the Admin Controller
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-First you need to create your own Controller extending the one from SonataAdmin::
+First you need to create your own Controller extending the one from Adminata::
 
     // src/Controller/CarAdminController.php
 
     namespace App\Controller;
 
-    use Sonata\AdminBundle\Controller\CRUDController;
+    use IDCT\Adminata\Controller\CRUDController;
 
     class CarAdminController extends CRUDController
     {
         // ...
     }
 
-Admin classes by default use the ``SonataAdmin:CRUD`` controller, this is the third parameter
+Admin classes by default use the ``Adminata:CRUD`` controller, this is the third parameter
 of an admin service definition, you need to change it to your own.
 
 Register the Admin as a Service
@@ -46,7 +46,7 @@ Either by using XML:
         <!-- config/services.xml -->
 
         <service id="app.admin.car" class="App\Admin\CarAdmin">
-            <tag name="sonata.admin" model_class="App\Entity\Car" controller="App\Controller\CarAdminController" manager_type="orm" group="Demo" label="Car"/>
+            <tag name="adminata.admin" model_class="App\Entity\Car" controller="App\Controller\CarAdminController" manager_type="orm" group="Demo" label="Car"/>
         </service>
 
 or by adding it to your ``services.yaml``:
@@ -59,7 +59,7 @@ or by adding it to your ``services.yaml``:
         app.admin.car:
             class: App\Admin\CarAdmin
             tags:
-                - { name: sonata.admin, model_class: App\Entity\Car, controller: App\Controller\CarAdminController, manager_type: orm, group: Demo, label: Car }
+                - { name: adminata.admin, model_class: App\Entity\Car, controller: App\Controller\CarAdminController, manager_type: orm, group: Demo, label: Car }
 
 For more information about service configuration please refer to Step 3 of :doc:`../getting_started/creating_an_admin`
 
@@ -73,7 +73,7 @@ to implement a ``clone`` action::
 
     namespace App\Controller;
 
-    use Sonata\AdminBundle\Controller\CRUDController;
+    use IDCT\Adminata\Controller\CRUDController;
     use Symfony\Component\HttpFoundation\RedirectResponse;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -99,7 +99,7 @@ to implement a ``clone`` action::
 
             $this->admin->create($clonedObject);
 
-            $this->addFlash('sonata_flash_success', 'Cloned successfully');
+            $this->addFlash('adminata_flash_success', 'Cloned successfully');
 
             return new RedirectResponse($this->admin->generateUrl('list'));
         }
@@ -117,20 +117,20 @@ as a new object. Finally we set a flash message indicating success and redirect 
 .. tip::
 
     If you want to render something here you can create new template anywhere, extend sonata layout
-    and use ``sonata_admin_content`` block.
+    and use ``adminata_content`` block.
 
     .. code-block:: html+twig
 
-        {% extends '@SonataAdmin/standard_layout.html.twig' %}
+        {% extends '@Adminata/standard_layout.html.twig' %}
 
-        {% block sonata_admin_content %}
+        {% block adminata_content %}
             Your content here
         {% endblock %}
 
 Create a template for the new action
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You need to tell SonataAdmin how to render your new action. You do that by
+You need to tell Adminata how to render your new action. You do that by
 creating a ``list__action_clone.html.twig`` in the namespace of your custom
 Admin Controller.
 
@@ -149,7 +149,7 @@ What is left now is actually adding your custom action to the admin class.
 
 You have to add the new route in ``configureRoutes``::
 
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
@@ -183,9 +183,9 @@ The full ``CarAdmin.php`` example looks like this::
 
     namespace App\Admin;
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Route\RouteCollection;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Datagrid\ListMapper;
+    use IDCT\Adminata\Route\RouteCollection;
 
     final class CarAdmin extends AbstractAdmin
     {
@@ -218,12 +218,12 @@ The full ``CarAdmin.php`` example looks like this::
 .. note::
 
     If you want to render a custom controller action in a template by using the
-    render function in twig you need to add ``_sonata_admin`` as an attribute. For
+    render function in twig you need to add ``_adminata_admin`` as an attribute. For
     example; ``{{ render(controller('App\\Controller\\XxxxCRUDController::comment',
-    {'_sonata_admin': 'sonata.admin.xxxx' })) }}``. This has to be done because the
+    {'_adminata_admin': 'adminata.admin.xxxx' })) }}``. This has to be done because the
     moment the rendering should happen the routing, which usually sets the value of
     this parameter, is not involved at all, and then you will get an error "There is
-    no _sonata_admin defined for the controller
+    no _adminata_admin defined for the controller
     App\Controller\XxxxCRUDController and the current route ' '."
 
 Custom Action without Entity
@@ -232,7 +232,7 @@ Custom Action without Entity
 Creating an action that is not connected to an Entity is also possible.
 Let's imagine we have an import action. We register our route::
 
-    use Sonata\AdminBundle\Route\RouteCollectionInterface;
+    use IDCT\Adminata\Route\RouteCollectionInterface;
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
@@ -245,7 +245,7 @@ and the controller action::
 
     namespace App\Controller;
 
-    use Sonata\AdminBundle\Controller\CRUDController;
+    use IDCT\Adminata\Controller\CRUDController;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
 
@@ -272,8 +272,8 @@ Create a template for that button:
 .. code-block:: html+twig
 
     <li>
-        <a class="sonata-action-element" href="{{ admin.generateUrl('import') }}">
-            <i class="fas fa-level-up-alt"></i> {{ 'import_action'|trans({}, 'SonataAdminBundle') }}
+        <a class="adminata-action-element" href="{{ admin.generateUrl('import') }}">
+            <i class="fas fa-level-up-alt"></i> {{ 'import_action'|trans({}, 'AdminataBundle') }}
         </a>
     </li>
 
@@ -293,7 +293,7 @@ Create a template for that button:
 .. code-block:: html+twig
 
     <a class="btn btn-link btn-flat" href="{{ admin.generateUrl('import') }}">
-        <i class="fas fa-level-up-alt"></i> {{ 'import_action'|trans({}, 'SonataAdminBundle') }}
+        <i class="fas fa-level-up-alt"></i> {{ 'import_action'|trans({}, 'AdminataBundle') }}
     </a>
 
 Or you can pass values as array::
@@ -302,7 +302,7 @@ Or you can pass values as array::
     {
         $actions['import'] = [
             'label' => 'import_action',
-            'translation_domain' => 'SonataAdminBundle',
+            'translation_domain' => 'AdminataBundle',
             'url' => $this->generateUrl('import'),
             'icon' => 'level-up-alt',
         ];

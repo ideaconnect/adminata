@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -34,6 +34,6 @@ final class DateRangePickerType extends DateRangeType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_datetime_range_picker';
+        return 'adminata_type_datetime_range_picker';
     }
 }

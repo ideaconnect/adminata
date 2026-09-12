@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\DataTransformer;
+namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Form\DataTransformer\ArrayToModelTransformer;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Form\DataTransformer\ArrayToModelTransformer;
+use IDCT\Adminata\Model\ModelManagerInterface;
 
 /**
  * @author Andrej Hudec <pulzarraider@gmail.com>

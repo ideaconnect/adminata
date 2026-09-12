@@ -13,23 +13,23 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Security\Handler\NoopSecurityHandler;
-use Sonata\AdminBundle\Security\Handler\RoleSecurityHandler;
+use IDCT\Adminata\Security\Handler\NoopSecurityHandler;
+use IDCT\Adminata\Security\Handler\RoleSecurityHandler;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->parameters()
 
-        ->set('sonata.admin.security.handler.noop.class', NoopSecurityHandler::class)
+        ->set('adminata.admin.security.handler.noop.class', NoopSecurityHandler::class)
 
-        ->set('sonata.admin.security.handler.role.class', RoleSecurityHandler::class);
+        ->set('adminata.admin.security.handler.role.class', RoleSecurityHandler::class);
 
     $containerConfigurator->services()
 
-        ->set('sonata.admin.security.handler.noop', (string) param('sonata.admin.security.handler.noop.class'))
+        ->set('adminata.admin.security.handler.noop', (string) param('adminata.admin.security.handler.noop.class'))
 
-        ->set('sonata.admin.security.handler.role', (string) param('sonata.admin.security.handler.role.class'))
+        ->set('adminata.admin.security.handler.role', (string) param('adminata.admin.security.handler.role.class'))
             ->args([
                 service('security.authorization_checker'),
-                param('sonata.admin.configuration.security.role_super_admin'),
+                param('adminata.admin.configuration.security.role_super_admin'),
             ]);
 };

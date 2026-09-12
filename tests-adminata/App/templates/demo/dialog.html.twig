@@ -1,30 +1,30 @@
 {#
     A page of the demo application on the admin layout, opening a native `<dialog>` through
-    `sonata-modal`. Nothing here is adminata's own markup: it is what an application writes.
+    `adminata-modal`. Nothing here is adminata's own markup: it is what an application writes.
 #}
 
-{% extends '@SonataAdmin/standard_layout.html.twig' %}
+{% extends '@Adminata/standard_layout.html.twig' %}
 
 {% block navbar_title %}Dialog{% endblock %}
 
 {% block content %}
     <div class="adm-card"
-         {{ stimulus_controller('sonata-modal', {size: 'md', closable: true}) }}
+         {{ stimulus_controller('adminata-modal', {size: 'md', closable: true}) }}
     >
         <div class="adm-card-body">
             <button type="button" class="adm-btn adm-btn-primary" id="open-dialog"
-                    {{ stimulus_action('sonata-modal', 'open', 'click') }}
+                    {{ stimulus_action('adminata-modal', 'open', 'click') }}
             >
                 Open the dialog
             </button>
         </div>
 
-        <dialog id="demo-dialog" aria-labelledby="demo-dialog-title" {{ stimulus_target('sonata-modal', 'dialog') }}>
+        <dialog id="demo-dialog" aria-labelledby="demo-dialog-title" {{ stimulus_target('adminata-modal', 'dialog') }}>
             <div class="adm-dialog__header">
                 <h2 class="adm-card-title" id="demo-dialog-title">A dialog</h2>
                 <button type="button" class="adm-btn-icon adm-btn-icon-round" id="close-dialog"
                         aria-label="Close"
-                        {{ stimulus_action('sonata-modal', 'close', 'click') }}
+                        {{ stimulus_action('adminata-modal', 'close', 'click') }}
                 >
                     <i class="fas fa-xmark" aria-hidden="true"></i>
                 </button>
@@ -35,7 +35,7 @@
             </div>
             <div class="adm-dialog__footer">
                 <button type="button" class="adm-btn adm-btn-secondary" id="dismiss-dialog"
-                        {{ stimulus_action('sonata-modal', 'close', 'click') }}
+                        {{ stimulus_action('adminata-modal', 'close', 'click') }}
                 >
                     Close
                 </button>
@@ -51,17 +51,17 @@
                 <p><strong>Formatted</strong> content, copied from a <code>&lt;template&gt;</code> on the page.</p>
             </template>
             <button type="button" class="adm-btn adm-btn-secondary" id="open-shared-text" aria-haspopup="dialog"
-                    {{ stimulus_controller('sonata-modal-trigger', {
+                    {{ stimulus_controller('adminata-modal-trigger', {
                         title: 'A note',
                         text: 'Plain text, exactly as written: <b>not markup</b>.',
                     }) }}
-                    {{ stimulus_action('sonata-modal-trigger', 'open', 'click') }}
+                    {{ stimulus_action('adminata-modal-trigger', 'open', 'click') }}
             >
                 Open the shared dialog with text
             </button>
             <button type="button" class="adm-btn adm-btn-secondary" id="open-shared-content" aria-haspopup="dialog"
-                    {{ stimulus_controller('sonata-modal-trigger', {title: 'A formatted note', content: 'demo-note', size: 'lg'}) }}
-                    {{ stimulus_action('sonata-modal-trigger', 'open', 'click') }}
+                    {{ stimulus_controller('adminata-modal-trigger', {title: 'A formatted note', content: 'demo-note', size: 'lg'}) }}
+                    {{ stimulus_action('adminata-modal-trigger', 'open', 'click') }}
             >
                 Open it with formatted content
             </button>
@@ -74,12 +74,12 @@
         <form class="adm-card-body" method="get" action="{{ path('demo_dialog') }}">
             <input type="hidden" name="asked" value="1">
             <button type="submit" class="adm-btn adm-btn-secondary" id="ask-question" aria-haspopup="dialog"
-                    {{ stimulus_controller('sonata-question', {
+                    {{ stimulus_controller('adminata-question', {
                         title: 'Reload the page?',
                         text: 'The flashes will show again. Nothing else happens.',
                         confirm: 'Reload',
                     }) }}
-                    {{ stimulus_action('sonata-question', 'ask', 'click') }}
+                    {{ stimulus_action('adminata-question', 'ask', 'click') }}
             >
                 Ask before submitting
             </button>

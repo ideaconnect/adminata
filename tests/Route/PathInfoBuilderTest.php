@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Route;
+namespace IDCT\Adminata\Tests\Route;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Model\AuditManagerInterface;
-use Sonata\AdminBundle\Route\PathInfoBuilder;
-use Sonata\AdminBundle\Route\RouteCollection;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Model\AuditManagerInterface;
+use IDCT\Adminata\Route\PathInfoBuilder;
+use IDCT\Adminata\Route\RouteCollection;
 
 final class PathInfoBuilderTest extends TestCase
 {

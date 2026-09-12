@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Validator;
+namespace IDCT\Adminata\Tests\Validator;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Tests\Fixtures\Bundle\Validator\FooValidatorService;
-use Sonata\AdminBundle\Validator\Constraints\InlineConstraint;
-use Sonata\AdminBundle\Validator\ErrorElement;
-use Sonata\AdminBundle\Validator\InlineValidator;
+use IDCT\Adminata\Tests\Fixtures\Bundle\Validator\FooValidatorService;
+use IDCT\Adminata\Validator\Constraints\InlineConstraint;
+use IDCT\Adminata\Validator\ErrorElement;
+use IDCT\Adminata\Validator\InlineValidator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Exception\ValidatorException;

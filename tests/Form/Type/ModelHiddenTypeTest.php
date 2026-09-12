@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
-use Sonata\AdminBundle\Form\Type\ModelHiddenType;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
+use IDCT\Adminata\Form\Type\ModelHiddenType;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -39,7 +39,7 @@ final class ModelHiddenTypeTest extends TypeTestCase
     public function testGetBlockPrefix(): void
     {
         $type = new ModelHiddenType();
-        static::assertSame('sonata_type_model_hidden', $type->getBlockPrefix());
+        static::assertSame('adminata_type_model_hidden', $type->getBlockPrefix());
     }
 
     public function testGetParent(): void

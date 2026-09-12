@@ -11,21 +11,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Show;
+namespace IDCT\Adminata\Tests\Show;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Builder\ShowBuilderInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionFactoryInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Security\Handler\SecurityHandlerInterface;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Tests\App\Builder\ShowBuilder;
-use Sonata\AdminBundle\Tests\App\FieldDescription\FieldDescription;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\CleanAdmin;
-use Sonata\AdminBundle\Translator\NoopLabelTranslatorStrategy;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Builder\ShowBuilderInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
+use IDCT\Adminata\FieldDescription\FieldDescriptionFactoryInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Security\Handler\SecurityHandlerInterface;
+use IDCT\Adminata\Show\ShowMapper;
+use IDCT\Adminata\Tests\App\Builder\ShowBuilder;
+use IDCT\Adminata\Tests\App\FieldDescription\FieldDescription;
+use IDCT\Adminata\Tests\Fixtures\Admin\CleanAdmin;
+use IDCT\Adminata\Translator\NoopLabelTranslatorStrategy;
 
 /**
  * @author Andrej Hudec <pulzarraider@gmail.com>
@@ -404,7 +404,7 @@ final class ShowMapperTest extends TestCase
                 'name' => 'Group1',
                 'box_class' => '',
                 'empty_message' => 'message_form_group_empty',
-                'empty_message_translation_domain' => 'SonataAdminBundle',
+                'empty_message_translation_domain' => 'AdminataBundle',
                 'fields' => ['fooName1' => 'fooName1', 'fooName2' => 'fooName2', 'fooName3' => 'fooName3', 'fooName4' => 'fooName4'],
             ], ], $this->admin->getShowGroups());
 
@@ -421,7 +421,7 @@ final class ShowMapperTest extends TestCase
                 'name' => 'Group1',
                 'box_class' => '',
                 'empty_message' => 'message_form_group_empty',
-                'empty_message_translation_domain' => 'SonataAdminBundle',
+                'empty_message_translation_domain' => 'AdminataBundle',
                 'fields' => ['fooName3' => 'fooName3', 'fooName2' => 'fooName2', 'fooName1' => 'fooName1', 'fooName4' => 'fooName4'],
             ], ], true), print_r($this->admin->getShowGroups(), true));
     }

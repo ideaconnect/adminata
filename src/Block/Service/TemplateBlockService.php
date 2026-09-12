@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block\Service;
+namespace IDCT\Adminata\Block\Service;
 
-use Sonata\AdminBundle\Block\BlockContextInterface;
-use Sonata\AdminBundle\Form\BlockFormMapperInterface;
-use Sonata\AdminBundle\Form\Type\ImmutableArrayType;
-use Sonata\AdminBundle\Meta\Metadata;
-use Sonata\AdminBundle\Meta\MetadataInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use IDCT\Adminata\Block\BlockContextInterface;
+use IDCT\Adminata\Form\BlockFormMapperInterface;
+use IDCT\Adminata\Form\Type\ImmutableArrayType;
+use IDCT\Adminata\Meta\Metadata;
+use IDCT\Adminata\Meta\MetadataInterface;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Validator\ErrorElement;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -49,10 +49,10 @@ final class TemplateBlockService extends AbstractBlockService implements Editabl
             'keys' => [
                 ['template', null, [
                     'label' => 'form.label_template',
-                    'translation_domain' => 'SonataAdminBundle',
+                    'translation_domain' => 'AdminataBundle',
                 ]],
             ],
-            'translation_domain' => 'SonataAdminBundle',
+            'translation_domain' => 'AdminataBundle',
         ]);
     }
 
@@ -63,13 +63,13 @@ final class TemplateBlockService extends AbstractBlockService implements Editabl
     public function configureSettings(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'template' => '@SonataAdmin/Block/block_template.html.twig',
+            'template' => '@Adminata/Block/block_template.html.twig',
         ]);
     }
 
     public function getMetadata(): MetadataInterface
     {
-        return new Metadata('sonata.block.service.template', null, null, 'SonataAdminBundle', [
+        return new Metadata('adminata.block.service.template', null, null, 'AdminataBundle', [
             'class' => 'fa fa-code',
         ]);
     }

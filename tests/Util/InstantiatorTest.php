@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Util;
+namespace IDCT\Adminata\Tests\Util;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exception\AbstractClassException;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\AbstractEntity;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\Bar;
-use Sonata\AdminBundle\Util\Instantiator;
+use IDCT\Adminata\Exception\AbstractClassException;
+use IDCT\Adminata\Tests\Fixtures\Entity\AbstractEntity;
+use IDCT\Adminata\Tests\Fixtures\Entity\Bar;
+use IDCT\Adminata\Util\Instantiator;
 
 /**
  * @author Morgan Abraham <morgan@geekimo.me>

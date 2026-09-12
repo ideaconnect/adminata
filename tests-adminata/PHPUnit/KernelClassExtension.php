@@ -24,8 +24,8 @@ use PHPUnit\Runner\Extension\Extension;
 use PHPUnit\Runner\Extension\Facade;
 use PHPUnit\Runner\Extension\ParameterCollection;
 use PHPUnit\TextUI\Configuration\Configuration;
-use Sonata\AdminBundle\Tests\App\AppKernel;
-use Sonata\AdminBundle\Tests\Doctrine\App\Kernel as DoctrineKernel;
+use IDCT\Adminata\Tests\App\AppKernel;
+use IDCT\Adminata\Tests\Doctrine\App\Kernel as DoctrineKernel;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -48,8 +48,8 @@ final class KernelClassExtension implements Extension
      */
     private const array KERNELS = [
         'Adminata\\Tests\\' => Kernel::class,
-        'Sonata\\AdminBundle\\Tests\\' => AppKernel::class,
-        'Sonata\\AdminBundle\\Tests\\Doctrine\\' => DoctrineKernel::class,
+        'IDCT\\Adminata\\Tests\\' => AppKernel::class,
+        'IDCT\\Adminata\\Tests\\Doctrine\\' => DoctrineKernel::class,
     ];
 
     public function bootstrap(Configuration $configuration, Facade $facade, ParameterCollection $parameters): void

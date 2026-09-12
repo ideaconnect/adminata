@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Translator;
+namespace IDCT\Adminata\Tests\Translator;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Translator\UnderscoreLabelTranslatorStrategy;
+use IDCT\Adminata\Translator\UnderscoreLabelTranslatorStrategy;
 
 final class UnderscoreLabelTranslatorStrategyTest extends TestCase
 {

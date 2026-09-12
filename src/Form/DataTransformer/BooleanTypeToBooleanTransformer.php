@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\DataTransformer;
+namespace IDCT\Adminata\Form\DataTransformer;
 
-use Sonata\AdminBundle\Form\Type\BooleanType;
+use IDCT\Adminata\Form\Type\BooleanType;
 use Symfony\Component\Form\DataTransformerInterface;
 
 /**

@@ -11,19 +11,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Command;
+namespace IDCT\Adminata\Tests\Command;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Builder\DatagridBuilderInterface;
-use Sonata\AdminBundle\Builder\ListBuilderInterface;
-use Sonata\AdminBundle\Command\ExplainAdminCommand;
-use Sonata\AdminBundle\Controller\CRUDController;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Route\RouteCollection;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Builder\DatagridBuilderInterface;
+use IDCT\Adminata\Builder\ListBuilderInterface;
+use IDCT\Adminata\Command\ExplainAdminCommand;
+use IDCT\Adminata\Controller\CRUDController;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Route\RouteCollection;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\Container;
@@ -77,7 +77,7 @@ final class ExplainAdminCommandTest extends TestCase
 
         $fieldDescription1
             ->method('getTemplate')
-            ->willReturn('@SonataAdmin/CRUD/foo_text.html.twig');
+            ->willReturn('@Adminata/CRUD/foo_text.html.twig');
 
         $fieldDescription2 = $this->createMock(FieldDescriptionInterface::class);
 
@@ -87,7 +87,7 @@ final class ExplainAdminCommandTest extends TestCase
 
         $fieldDescription2
             ->method('getTemplate')
-            ->willReturn('@SonataAdmin/CRUD/bar_datetime.html.twig');
+            ->willReturn('@Adminata/CRUD/bar_datetime.html.twig');
 
         $this->admin
             ->method('getListFieldDescriptions')
@@ -162,7 +162,7 @@ final class ExplainAdminCommandTest extends TestCase
             ->method('getListBuilder')
             ->willReturn($listBuilder);
 
-        $command = $this->application->find('sonata:admin:explain');
+        $command = $this->application->find('adminata:explain');
         $commandTester = new CommandTester($command);
         $commandTester->execute(['command' => $command->getName(), 'admin' => 'acme.admin.foo']);
 
@@ -181,7 +181,7 @@ final class ExplainAdminCommandTest extends TestCase
 
     public function testExecuteNonAdminService(): void
     {
-        $command = $this->application->find('sonata:admin:explain');
+        $command = $this->application->find('adminata:explain');
         $commandTester = new CommandTester($command);
 
         $this->expectException(\InvalidArgumentException::class);

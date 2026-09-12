@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Doctrine\App;
+namespace IDCT\Adminata\Tests\Doctrine\App;
 
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\CacheCompatibilityPass;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use Sonata\AdminBundle\DependencyInjection\Compiler\DoctrineAdapterCompilerPass;
-use Sonata\AdminBundle\DependencyInjection\Compiler\DoctrineMapperCompilerPass;
-use Sonata\AdminBundle\SonataAdminBundle;
+use IDCT\Adminata\DependencyInjection\Compiler\DoctrineAdapterCompilerPass;
+use IDCT\Adminata\DependencyInjection\Compiler\DoctrineMapperCompilerPass;
+use IDCT\Adminata\AdminataBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -38,11 +38,11 @@ final class Kernel extends BaseKernel
     }
 
     /**
-     * The Doctrine layer no longer has a bundle of its own: SonataAdminBundle registers these two
-     * passes and SonataAdminExtension loads the three service files. Booting the whole admin bundle
+     * The Doctrine layer no longer has a bundle of its own: AdminataBundle registers these two
+     * passes and AdminataExtension loads the three service files. Booting the whole admin bundle
      * to reach them would drag Twig, Security and KnpMenu into a kernel that only exercises the
      * Doctrine mapper, so this application wires that slice by hand instead. That
-     * SonataAdminExtension really does load the services is asserted in SonataAdminExtensionTest.
+     * AdminataExtension really does load the services is asserted in AdminataExtensionTest.
      */
     public function build(ContainerBuilder $container): void
     {
@@ -67,7 +67,7 @@ final class Kernel extends BaseKernel
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
-        $config = \dirname((string) new \ReflectionClass(SonataAdminBundle::class)->getFileName()).'/Resources/config';
+        $config = \dirname((string) new \ReflectionClass(AdminataBundle::class)->getFileName()).'/Resources/config';
 
         $loader->load($config.'/doctrine.php');
         $loader->load($config.'/doctrine_orm.php');
@@ -90,7 +90,7 @@ final class Kernel extends BaseKernel
                     'Entity' => [
                         'type' => 'attribute',
                         'dir' => '%kernel.project_dir%/Entity',
-                        'prefix' => 'Sonata\AdminBundle\Tests\Doctrine\App\Entity',
+                        'prefix' => 'IDCT\Adminata\Tests\Doctrine\App\Entity',
                         'is_bundle' => false,
                     ],
                 ],
@@ -117,6 +117,6 @@ final class Kernel extends BaseKernel
 
     private function getBaseDir(): string
     {
-        return sys_get_temp_dir().'/sonata-admin-bundle-doctrine/var/';
+        return sys_get_temp_dir().'/adminata-admin-bundle-doctrine/var/';
     }
 }

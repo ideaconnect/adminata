@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
-use Sonata\AdminBundle\Filter\FilterInterface;
+use IDCT\Adminata\Filter\FilterInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -29,14 +29,14 @@ final class AddFilterTypeCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has('sonata.admin.builder.filter.factory')) {
+        if (!$container->has('adminata.admin.builder.filter.factory')) {
             return;
         }
 
-        $definition = $container->getDefinition('sonata.admin.builder.filter.factory');
+        $definition = $container->getDefinition('adminata.admin.builder.filter.factory');
         $services = [];
 
-        foreach ($container->findTaggedServiceIds('sonata.admin.filter.type') as $id => $tags) {
+        foreach ($container->findTaggedServiceIds('adminata.admin.filter.type') as $id => $tags) {
             $serviceDefinition = $container->getDefinition($id);
 
             $serviceDefinition->setShared(false);

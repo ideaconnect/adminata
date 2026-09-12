@@ -31,14 +31,14 @@ export default class extends Controller {
 
         this.element.insertBefore(item, button);
         this.numItemsValue += 1;
-        this.dispatch('sonata-admin-append-form-element', {
+        this.dispatch('adminata-admin-append-form-element', {
             prefix: '',
             detail: {
                 item,
             },
         });
 
-        this.dispatch('sonata-collection-item-added', {
+        this.dispatch('adminata-collection-item-added', {
             prefix: '',
             detail: {
                 item,
@@ -52,7 +52,7 @@ export default class extends Controller {
             return el.contains(button);
         });
 
-        this.dispatch('sonata-collection-item-deleted', {
+        this.dispatch('adminata-collection-item-deleted', {
             prefix: '',
             detail: {
                 item,
@@ -60,7 +60,7 @@ export default class extends Controller {
         });
 
         item.remove();
-        this.dispatch('sonata-collection-item-deleted-successful', {
+        this.dispatch('adminata-collection-item-deleted-successful', {
             prefix: '',
         });
     }

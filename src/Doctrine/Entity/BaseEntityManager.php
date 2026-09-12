@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Doctrine\Entity;
+namespace IDCT\Adminata\Doctrine\Entity;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
-use Sonata\AdminBundle\Doctrine\Exception\TransactionException;
-use Sonata\AdminBundle\Doctrine\Model\BaseManager;
-use Sonata\AdminBundle\Doctrine\Model\TransactionalManagerInterface;
+use IDCT\Adminata\Doctrine\Exception\TransactionException;
+use IDCT\Adminata\Doctrine\Model\BaseManager;
+use IDCT\Adminata\Doctrine\Model\TransactionalManagerInterface;
 
 /**
  * @author Sylvain Deloux <sylvain.deloux@ekino.com>

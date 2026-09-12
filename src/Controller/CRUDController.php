@@ -11,27 +11,27 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Controller;
+namespace IDCT\Adminata\Controller;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\BCLayer\BCHelper;
-use Sonata\AdminBundle\Bridge\Exporter\AdminExporter;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Exception\BadRequestParamHttpException;
-use Sonata\AdminBundle\Exception\LockException;
-use Sonata\AdminBundle\Exception\ModelManagerException;
-use Sonata\AdminBundle\Exception\ModelManagerThrowable;
-use Sonata\AdminBundle\Exporter\ExporterInterface;
-use Sonata\AdminBundle\Form\FormErrorIteratorToConstraintViolationList;
-use Sonata\AdminBundle\Model\AuditManagerInterface;
-use Sonata\AdminBundle\Request\AdminFetcherInterface;
-use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
-use Sonata\AdminBundle\Util\AdminAclUserManagerInterface;
-use Sonata\AdminBundle\Util\AdminObjectAclData;
-use Sonata\AdminBundle\Util\AdminObjectAclManipulator;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\BCLayer\BCHelper;
+use IDCT\Adminata\Bridge\Exporter\AdminExporter;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Exception\BadRequestParamHttpException;
+use IDCT\Adminata\Exception\LockException;
+use IDCT\Adminata\Exception\ModelManagerException;
+use IDCT\Adminata\Exception\ModelManagerThrowable;
+use IDCT\Adminata\Exporter\ExporterInterface;
+use IDCT\Adminata\Form\FormErrorIteratorToConstraintViolationList;
+use IDCT\Adminata\Model\AuditManagerInterface;
+use IDCT\Adminata\Request\AdminFetcherInterface;
+use IDCT\Adminata\Templating\TemplateRegistryInterface;
+use IDCT\Adminata\Util\AdminAclUserManagerInterface;
+use IDCT\Adminata\Util\AdminObjectAclData;
+use IDCT\Adminata\Util\AdminObjectAclManipulator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRenderer;
@@ -83,13 +83,13 @@ class CRUDController extends AbstractController
     public static function getSubscribedServices(): array
     {
         return [
-            'sonata.admin.pool' => Pool::class,
-            'sonata.admin.audit.manager' => AuditManagerInterface::class,
-            'sonata.admin.object.manipulator.acl.admin' => '?'.AdminObjectAclManipulator::class,
-            'sonata.admin.request.fetcher' => AdminFetcherInterface::class,
-            'sonata.exporter.exporter' => '?'.ExporterInterface::class,
-            'sonata.admin.admin_exporter' => '?'.AdminExporter::class,
-            'sonata.admin.security.acl_user_manager' => '?'.AdminAclUserManagerInterface::class,
+            'adminata.admin.pool' => Pool::class,
+            'adminata.admin.audit.manager' => AuditManagerInterface::class,
+            'adminata.admin.object.manipulator.acl.admin' => '?'.AdminObjectAclManipulator::class,
+            'adminata.admin.request.fetcher' => AdminFetcherInterface::class,
+            'adminata.exporter.exporter' => '?'.ExporterInterface::class,
+            'adminata.admin.admin_exporter' => '?'.AdminExporter::class,
+            'adminata.admin.security.acl_user_manager' => '?'.AdminAclUserManagerInterface::class,
 
             'controller_resolver' => 'controller_resolver',
             'http_kernel' => HttpKernelInterface::class,
@@ -125,8 +125,8 @@ class CRUDController extends AbstractController
 
         $template = $this->templateRegistry->getTemplate('list');
 
-        if ($this->container->has('sonata.admin.admin_exporter')) {
-            $exporter = $this->container->get('sonata.admin.admin_exporter');
+        if ($this->container->has('adminata.admin.admin_exporter')) {
+            $exporter = $this->container->get('adminata.admin.admin_exporter');
             \assert($exporter instanceof AdminExporter);
             $exportFormats = $exporter->getAvailableFormats($this->admin);
         }
@@ -135,7 +135,7 @@ class CRUDController extends AbstractController
             'action' => 'list',
             'form' => $formView,
             'datagrid' => $datagrid,
-            'csrf_token' => $this->getCsrfToken('sonata.batch'),
+            'csrf_token' => $this->getCsrfToken('adminata.batch'),
             'export_formats' => $exportFormats ?? $this->admin->getExportFormats(),
         ]);
     }
@@ -158,22 +158,22 @@ class CRUDController extends AbstractController
         try {
             $modelManager->batchDelete($this->admin->getClass(), $query);
             $this->addFlash(
-                'sonata_flash_success',
-                $this->trans('flash_batch_delete_success', [], 'SonataAdminBundle')
+                'adminata_flash_success',
+                $this->trans('flash_batch_delete_success', [], 'AdminataBundle')
             );
         } catch (ModelManagerException $e) {
             // NEXT_MAJOR: Remove this catch.
             $errorMessage = $this->handleModelManagerException($e);
             $this->addFlash(
-                'sonata_flash_error',
-                $errorMessage ?? $this->trans('flash_batch_delete_error', [], 'SonataAdminBundle')
+                'adminata_flash_error',
+                $errorMessage ?? $this->trans('flash_batch_delete_error', [], 'AdminataBundle')
             );
         } catch (ModelManagerThrowable $e) {
             $errorMessage = $this->handleModelManagerThrowable($e);
 
             $this->addFlash(
-                'sonata_flash_error',
-                $errorMessage ?? $this->trans('flash_batch_delete_error', [], 'SonataAdminBundle')
+                'adminata_flash_error',
+                $errorMessage ?? $this->trans('flash_batch_delete_error', [], 'AdminataBundle')
             );
         }
 
@@ -200,7 +200,7 @@ class CRUDController extends AbstractController
 
         if (\in_array($request->getMethod(), [Request::METHOD_POST, Request::METHOD_DELETE], true)) {
             // check the csrf token
-            $this->validateCsrfToken($request, 'sonata.delete');
+            $this->validateCsrfToken($request, 'adminata.delete');
 
             $objectName = $this->admin->toString($object);
 
@@ -212,11 +212,11 @@ class CRUDController extends AbstractController
                 }
 
                 $this->addFlash(
-                    'sonata_flash_success',
+                    'adminata_flash_success',
                     $this->trans(
                         'flash_delete_success',
                         ['%name%' => $this->escapeHtml($objectName)],
-                        'SonataAdminBundle'
+                        'AdminataBundle'
                     )
                 );
             } catch (ModelManagerException $e) {
@@ -228,11 +228,11 @@ class CRUDController extends AbstractController
                 }
 
                 $this->addFlash(
-                    'sonata_flash_error',
+                    'adminata_flash_error',
                     $errorMessage ?? $this->trans(
                         'flash_delete_error',
                         ['%name%' => $this->escapeHtml($objectName)],
-                        'SonataAdminBundle'
+                        'AdminataBundle'
                     )
                 );
             } catch (ModelManagerThrowable $e) {
@@ -243,11 +243,11 @@ class CRUDController extends AbstractController
                 }
 
                 $this->addFlash(
-                    'sonata_flash_error',
+                    'adminata_flash_error',
                     $errorMessage ?? $this->trans(
                         'flash_delete_error',
                         ['%name%' => $this->escapeHtml($objectName)],
-                        'SonataAdminBundle'
+                        'AdminataBundle'
                     )
                 );
             }
@@ -260,7 +260,7 @@ class CRUDController extends AbstractController
         return $this->renderWithExtraParams($template, [
             'object' => $object,
             'action' => 'delete',
-            'csrf_token' => $this->getCsrfToken('sonata.delete'),
+            'csrf_token' => $this->getCsrfToken('adminata.delete'),
         ]);
     }
 
@@ -310,11 +310,11 @@ class CRUDController extends AbstractController
                     }
 
                     $this->addFlash(
-                        'sonata_flash_success',
+                        'adminata_flash_success',
                         $this->trans(
                             'flash_edit_success',
                             ['%name%' => $this->escapeHtml($this->admin->toString($existingObject))],
-                            'SonataAdminBundle'
+                            'AdminataBundle'
                         )
                     );
 
@@ -330,11 +330,11 @@ class CRUDController extends AbstractController
 
                     $isFormValid = false;
                 } catch (LockException) {
-                    $this->addFlash('sonata_flash_error', $this->trans('flash_lock_error', [
+                    $this->addFlash('adminata_flash_error', $this->trans('flash_lock_error', [
                         '%name%' => $this->escapeHtml($this->admin->toString($existingObject)),
                         '%link_start%' => \sprintf('<a href="%s">', $this->admin->generateObjectUrl('edit', $existingObject)),
                         '%link_end%' => '</a>',
-                    ], 'SonataAdminBundle'));
+                    ], 'AdminataBundle'));
                 }
             }
 
@@ -345,11 +345,11 @@ class CRUDController extends AbstractController
                 }
 
                 $this->addFlash(
-                    'sonata_flash_error',
+                    'adminata_flash_error',
                     $errorMessage ?? $this->trans(
                         'flash_edit_error',
                         ['%name%' => $this->escapeHtml($this->admin->toString($existingObject))],
-                        'SonataAdminBundle'
+                        'AdminataBundle'
                     )
                 );
             } elseif ($this->isPreviewRequested($request)) {
@@ -390,7 +390,7 @@ class CRUDController extends AbstractController
         }
 
         // check the csrf token
-        $this->validateCsrfToken($request, 'sonata.batch');
+        $this->validateCsrfToken($request, 'adminata.batch');
 
         $confirmation = BCHelper::getFromRequest($request, 'confirmation', false);
 
@@ -410,7 +410,7 @@ class CRUDController extends AbstractController
             $data = $forwardedRequest->request->all();
             $data['all_elements'] = $allElements;
 
-            unset($data['_sonata_csrf_token']);
+            unset($data['_adminata_csrf_token']);
         } else {
             if (!\is_string($encodedData)) {
                 throw new BadRequestParamHttpException('data', 'string', $encodedData);
@@ -466,8 +466,8 @@ class CRUDController extends AbstractController
 
         if (\is_string($nonRelevantMessage)) {
             $this->addFlash(
-                'sonata_flash_info',
-                $this->trans($nonRelevantMessage, [], 'SonataAdminBundle')
+                'adminata_flash_info',
+                $this->trans($nonRelevantMessage, [], 'AdminataBundle')
             );
 
             return $this->redirectToList();
@@ -492,7 +492,7 @@ class CRUDController extends AbstractController
                 'datagrid' => $datagrid,
                 'form' => $formView,
                 'data' => $data,
-                'csrf_token' => $this->getCsrfToken('sonata.batch'),
+                'csrf_token' => $this->getCsrfToken('adminata.batch'),
             ]);
         }
 
@@ -514,8 +514,8 @@ class CRUDController extends AbstractController
                 $this->admin->getModelManager()->addIdentifiersToQuery($this->admin->getClass(), $query, $idx);
             } else {
                 $this->addFlash(
-                    'sonata_flash_info',
-                    $this->trans('flash_batch_no_elements_processed', [], 'SonataAdminBundle')
+                    'adminata_flash_info',
+                    $this->trans('flash_batch_no_elements_processed', [], 'AdminataBundle')
                 );
 
                 return $this->redirectToList();
@@ -541,7 +541,7 @@ class CRUDController extends AbstractController
 
         if ($class->isAbstract()) {
             return $this->renderWithExtraParams(
-                '@SonataAdmin/CRUD/select_subclass.html.twig',
+                '@Adminata/CRUD/select_subclass.html.twig',
                 [
                     'action' => 'create',
                 ],
@@ -579,11 +579,11 @@ class CRUDController extends AbstractController
                     }
 
                     $this->addFlash(
-                        'sonata_flash_success',
+                        'adminata_flash_success',
                         $this->trans(
                             'flash_create_success',
                             ['%name%' => $this->escapeHtml($this->admin->toString($newObject))],
-                            'SonataAdminBundle'
+                            'AdminataBundle'
                         )
                     );
 
@@ -608,11 +608,11 @@ class CRUDController extends AbstractController
                 }
 
                 $this->addFlash(
-                    'sonata_flash_error',
+                    'adminata_flash_error',
                     $errorMessage ?? $this->trans(
                         'flash_create_error',
                         ['%name%' => $this->escapeHtml($this->admin->toString($newObject))],
-                        'SonataAdminBundle'
+                        'AdminataBundle'
                     )
                 );
             } elseif ($this->isPreviewRequested($request)) {
@@ -682,7 +682,7 @@ class CRUDController extends AbstractController
         $objectId = $this->admin->getNormalizedIdentifier($object);
         \assert(null !== $objectId);
 
-        $manager = $this->container->get('sonata.admin.audit.manager');
+        $manager = $this->container->get('adminata.admin.audit.manager');
         \assert($manager instanceof AuditManagerInterface);
 
         if (!$manager->hasReader($this->admin->getClass())) {
@@ -721,7 +721,7 @@ class CRUDController extends AbstractController
         $objectId = $this->admin->getNormalizedIdentifier($object);
         \assert(null !== $objectId);
 
-        $manager = $this->container->get('sonata.admin.audit.manager');
+        $manager = $this->container->get('adminata.admin.audit.manager');
         \assert($manager instanceof AuditManagerInterface);
 
         if (!$manager->hasReader($this->admin->getClass())) {
@@ -771,7 +771,7 @@ class CRUDController extends AbstractController
         $objectId = $this->admin->getNormalizedIdentifier($object);
         \assert(null !== $objectId);
 
-        $manager = $this->container->get('sonata.admin.audit.manager');
+        $manager = $this->container->get('adminata.admin.audit.manager');
         \assert($manager instanceof AuditManagerInterface);
 
         if (!$manager->hasReader($this->admin->getClass())) {
@@ -832,12 +832,12 @@ class CRUDController extends AbstractController
             throw new BadRequestParamHttpException('format', 'string', $format);
         }
 
-        $adminExporter = $this->container->get('sonata.admin.admin_exporter');
+        $adminExporter = $this->container->get('adminata.admin.admin_exporter');
         \assert($adminExporter instanceof AdminExporter);
         $allowedExportFormats = $adminExporter->getAvailableFormats($this->admin);
         $filename = $adminExporter->getExportFilename($this->admin, $format);
 
-        $exporter = $this->container->get('sonata.exporter.exporter');
+        $exporter = $this->container->get('adminata.exporter.exporter');
         \assert($exporter instanceof ExporterInterface);
 
         if (!\in_array($format, $allowedExportFormats, true)) {
@@ -877,7 +877,7 @@ class CRUDController extends AbstractController
         $aclUsers = $this->getAclUsers();
         $aclRoles = $this->getAclRoles();
 
-        $adminObjectAclManipulator = $this->container->get('sonata.admin.object.manipulator.acl.admin');
+        $adminObjectAclManipulator = $this->container->get('adminata.admin.object.manipulator.acl.admin');
         \assert($adminObjectAclManipulator instanceof AdminObjectAclManipulator);
 
         $adminObjectAclData = new AdminObjectAclData(
@@ -906,8 +906,8 @@ class CRUDController extends AbstractController
                 if ($form->isValid()) {
                     $adminObjectAclManipulator->$updateMethod($adminObjectAclData);
                     $this->addFlash(
-                        'sonata_flash_success',
-                        $this->trans('flash_acl_edit_success', [], 'SonataAdminBundle')
+                        'adminata_flash_success',
+                        $this->trans('flash_acl_edit_success', [], 'AdminataBundle')
                     );
 
                     return new RedirectResponse($this->admin->generateObjectUrl('acl', $object));
@@ -935,7 +935,7 @@ class CRUDController extends AbstractController
      */
     final public function configureAdmin(Request $request): void
     {
-        $adminFetcher = $this->container->get('sonata.admin.request.fetcher');
+        $adminFetcher = $this->container->get('adminata.admin.request.fetcher');
         \assert($adminFetcher instanceof AdminFetcherInterface);
 
         /** @var AdminInterface<T> $admin */
@@ -1214,11 +1214,11 @@ class CRUDController extends AbstractController
      */
     protected function getAclUsers(): \Traversable
     {
-        if (!$this->container->has('sonata.admin.security.acl_user_manager')) {
+        if (!$this->container->has('adminata.admin.security.acl_user_manager')) {
             return new \ArrayIterator([]);
         }
 
-        $aclUserManager = $this->container->get('sonata.admin.security.acl_user_manager');
+        $aclUserManager = $this->container->get('adminata.admin.security.acl_user_manager');
         \assert($aclUserManager instanceof AdminAclUserManagerInterface);
         $aclUsers = $aclUserManager->findUsers();
 
@@ -1233,7 +1233,7 @@ class CRUDController extends AbstractController
         $aclRoles = [];
         $roleHierarchy = $this->getParameter('security.role_hierarchy.roles');
         \assert(\is_array($roleHierarchy));
-        $pool = $this->container->get('sonata.admin.pool');
+        $pool = $this->container->get('adminata.admin.pool');
         \assert($pool instanceof Pool);
 
         foreach ($pool->getAdminServiceCodes() as $code) {
@@ -1271,7 +1271,7 @@ class CRUDController extends AbstractController
             return;
         }
 
-        $token = BCHelper::getFromRequest($request, '_sonata_csrf_token');
+        $token = BCHelper::getFromRequest($request, '_adminata_csrf_token');
         $tokenManager = $this->container->get('security.csrf.token_manager');
         \assert($tokenManager instanceof CsrfTokenManagerInterface);
 

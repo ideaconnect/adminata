@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Datagrid;
+namespace IDCT\Adminata\Tests\Datagrid;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Builder\ListBuilderInterface;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Tests\App\FieldDescription\FieldDescription;
-use Sonata\AdminBundle\Translator\NoopLabelTranslatorStrategy;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Builder\ListBuilderInterface;
+use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Tests\App\FieldDescription\FieldDescription;
+use IDCT\Adminata\Translator\NoopLabelTranslatorStrategy;
 
 /**
  * @author Andrej Hudec <pulzarraider@gmail.com>

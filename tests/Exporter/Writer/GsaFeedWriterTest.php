@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exporter\Writer;
+namespace IDCT\Adminata\Tests\Exporter\Writer;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exporter\Writer\GsaFeedWriter;
+use IDCT\Adminata\Exporter\Writer\GsaFeedWriter;
 
 /**
  * Tests the GSA feed writer class.
@@ -36,7 +36,7 @@ final class GsaFeedWriterTest extends TestCase
      */
     protected function setUp(): void
     {
-        $path = sys_get_temp_dir().\DIRECTORY_SEPARATOR.'sonata_exporter_test';
+        $path = sys_get_temp_dir().\DIRECTORY_SEPARATOR.'adminata_exporter_test';
         $this->folder = new \SplFileInfo($path);
 
         $this->tearDown();

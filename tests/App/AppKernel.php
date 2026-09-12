@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App;
+namespace IDCT\Adminata\Tests\App;
 
 use Knp\Bundle\MenuBundle\KnpMenuBundle;
-use Sonata\AdminBundle\SonataAdminBundle;
+use IDCT\Adminata\AdminataBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\SecurityBundle\SecurityBundle;
@@ -38,7 +38,7 @@ final class AppKernel extends Kernel
             new SecurityBundle(),
             new KnpMenuBundle(),
             new StimulusBundle(),
-            new SonataAdminBundle(),
+            new AdminataBundle(),
         ];
     }
 
@@ -96,7 +96,7 @@ final class AppKernel extends Kernel
         $containerBuilder->loadFromExtension('twig', [
             'default_path' => \sprintf('%s/templates', $this->getProjectDir()),
             'strict_variables' => true,
-            'form_themes' => ['@SonataAdmin/Form/form_admin_fields.html.twig'],
+            'form_themes' => ['@Adminata/Form/form_admin_fields.html.twig'],
         ]);
 
         $loader->load(\sprintf('%s/config/services.yml', $this->getProjectDir()));
@@ -104,6 +104,6 @@ final class AppKernel extends Kernel
 
     private function getBaseDir(): string
     {
-        return \sprintf('%s/sonata-admin-bundle/var/', sys_get_temp_dir());
+        return \sprintf('%s/adminata-admin-bundle/var/', sys_get_temp_dir());
     }
 }

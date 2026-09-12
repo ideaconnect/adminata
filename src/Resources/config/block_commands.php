@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Command\DebugBlocksCommand;
+use IDCT\Adminata\Command\DebugBlocksCommand;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set('sonata.block.command.debug_blocks', DebugBlocksCommand::class)
+    $services->set('adminata.block.command.debug_blocks', DebugBlocksCommand::class)
         ->tag('console.command')
         ->args([
-            service('sonata.block.manager'),
+            service('adminata.block.manager'),
         ]);
 };

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type;
+namespace IDCT\Adminata\Form\Type;
 
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -30,7 +30,7 @@ final class TemplateType extends AbstractType
 
         $parameters = [];
 
-        $fieldDescription = $view->vars['sonata_admin']['field_description'] ?? null;
+        $fieldDescription = $view->vars['adminata_admin']['field_description'] ?? null;
         if ($fieldDescription instanceof FieldDescriptionInterface) {
             $parameters['field_description'] = $fieldDescription;
             $parameters['admin'] = $fieldDescription->getAdmin();
@@ -56,6 +56,6 @@ final class TemplateType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_template';
+        return 'adminata_type_template';
     }
 }

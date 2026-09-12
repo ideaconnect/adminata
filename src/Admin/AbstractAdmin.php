@@ -11,31 +11,31 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Admin;
+namespace IDCT\Adminata\Admin;
 
 use Knp\Menu\ItemInterface;
-use Sonata\AdminBundle\BCLayer\BCHelper;
-use Sonata\AdminBundle\Datagrid\DatagridInterface;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\DependencyInjection\Admin\AbstractTaggedAdmin;
-use Sonata\AdminBundle\Exception\AdminClassNotFoundException;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionCollection;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\ModelHiddenType;
-use Sonata\AdminBundle\Manipulator\ObjectManipulator;
-use Sonata\AdminBundle\Model\ProxyResolverInterface;
-use Sonata\AdminBundle\Object\Metadata;
-use Sonata\AdminBundle\Object\MetadataInterface;
-use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
-use Sonata\AdminBundle\Security\Handler\AclSecurityHandlerInterface;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Util\Instantiator;
-use Sonata\AdminBundle\Util\ParametersManipulator;
+use IDCT\Adminata\BCLayer\BCHelper;
+use IDCT\Adminata\Datagrid\DatagridInterface;
+use IDCT\Adminata\Datagrid\DatagridMapper;
+use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\DependencyInjection\Admin\AbstractTaggedAdmin;
+use IDCT\Adminata\Exception\AdminClassNotFoundException;
+use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\FormMapper;
+use IDCT\Adminata\Form\Type\ModelHiddenType;
+use IDCT\Adminata\Manipulator\ObjectManipulator;
+use IDCT\Adminata\Model\ProxyResolverInterface;
+use IDCT\Adminata\Object\Metadata;
+use IDCT\Adminata\Object\MetadataInterface;
+use IDCT\Adminata\Route\RouteCollection;
+use IDCT\Adminata\Route\RouteCollectionInterface;
+use IDCT\Adminata\Security\Acl\Permission\AdminPermissionMap;
+use IDCT\Adminata\Security\Handler\AclSecurityHandlerInterface;
+use IDCT\Adminata\Show\ShowMapper;
+use IDCT\Adminata\Util\Instantiator;
+use IDCT\Adminata\Util\ParametersManipulator;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -694,7 +694,7 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
         if ($this->hasRoute('delete') && $this->hasAccess('delete')) {
             $actions['delete'] = [
                 'label' => 'action_delete',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'ask_confirmation' => true, // by default always true
             ];
         }
@@ -1521,7 +1521,7 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
         /**
          * NEXT_MAJOR: Remove those lines and uncomment the last one.
          */
-        $permissionShow = $this->getPermissionsShow(self::CONTEXT_DASHBOARD, 'sonata_deprecation_mute');
+        $permissionShow = $this->getPermissionsShow(self::CONTEXT_DASHBOARD, 'adminata_deprecation_mute');
         $permission = 1 === \count($permissionShow) ? reset($permissionShow) : $permissionShow;
 
         return $this->isGranted($permission);
@@ -1535,7 +1535,7 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
      */
     final public function showIn(string $context): bool
     {
-        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
+        if ('adminata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
             @trigger_error(\sprintf(
                 'The "%s()" method is deprecated since sonata-project/admin-bundle version 4.7 and will be'
                 .' removed in 5.0 version. Use showInDashboard() instead.',
@@ -1543,7 +1543,7 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
             ), \E_USER_DEPRECATED);
         }
 
-        $permissionShow = $this->getPermissionsShow($context, 'sonata_deprecation_mute');
+        $permissionShow = $this->getPermissionsShow($context, 'adminata_deprecation_mute');
         // Avoid isGranted deprecation if there is only one permission show.
         $permission = 1 === \count($permissionShow) ? reset($permissionShow) : $permissionShow;
 
@@ -1786,7 +1786,7 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
         if ($this->hasRoute('create') && $this->hasAccess('create')) {
             $actions['create'] = [
                 'label' => 'link_add',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'template' => $this->getTemplateRegistry()->getTemplate('action_create'),
                 'url' => $this->generateUrl('create'),
                 'icon' => 'fas fa-plus-circle',
@@ -1796,7 +1796,7 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
         if ($this->hasRoute('list') && $this->hasAccess('list')) {
             $actions['list'] = [
                 'label' => 'link_list',
-                'translation_domain' => 'SonataAdminBundle',
+                'translation_domain' => 'AdminataBundle',
                 'url' => $this->generateUrl('list'),
                 'icon' => 'fas fa-list',
             ];
@@ -2212,7 +2212,7 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
      */
     protected function getPermissionsShow(string $context): array
     {
-        if ('sonata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
+        if ('adminata_deprecation_mute' !== (\func_get_args()[1] ?? null)) {
             @trigger_error(\sprintf(
                 'The "%s()" method is deprecated since sonata-project/admin-bundle version 4.7 and will be'
                 .' removed in 5.0 version.',

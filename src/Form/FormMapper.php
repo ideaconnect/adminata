@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form;
+namespace IDCT\Adminata\Form;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Builder\FormContractorInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\Type\NativeCollectionType;
-use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Builder\FormContractorInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\Type\NativeCollectionType;
+use IDCT\Adminata\Mapper\BaseGroupedMapper;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType as SymfonyCollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormTypeInterface;

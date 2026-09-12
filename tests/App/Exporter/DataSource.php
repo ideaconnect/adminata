@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Exporter;
+namespace IDCT\Adminata\Tests\App\Exporter;
 
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Exporter\DataSourceInterface;
-use Sonata\AdminBundle\Exporter\Source\ArraySourceIterator;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Exporter\DataSourceInterface;
+use IDCT\Adminata\Exporter\Source\ArraySourceIterator;
 
 final class DataSource implements DataSourceInterface
 {

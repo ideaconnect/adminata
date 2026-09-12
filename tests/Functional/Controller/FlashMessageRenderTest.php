@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Functional\Controller;
+namespace IDCT\Adminata\Tests\Functional\Controller;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -31,7 +31,7 @@ final class FlashMessageRenderTest extends WebTestCase
     }
 
     /**
-     * `sonata_flash_error` is one of the raw flash types the danger group collects, so this also
+     * `adminata_flash_error` is one of the raw flash types the danger group collects, so this also
      * covers the renaming the flash manager does before the template asks for a group.
      */
     public function testRenderFlashes(): void
@@ -40,7 +40,7 @@ final class FlashMessageRenderTest extends WebTestCase
 
         $this->addFlashes($client, [
             'success' => ['The product was saved.'],
-            'sonata_flash_error' => ['The product could not be saved.'],
+            'adminata_flash_error' => ['The product could not be saved.'],
         ]);
 
         $crawler = $client->request(Request::METHOD_GET, '/flash');

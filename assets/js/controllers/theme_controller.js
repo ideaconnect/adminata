@@ -16,7 +16,7 @@ import { Controller } from '@hotwired/stimulus';
  * Light, dark, or whatever the operating system says.
  *
  * The server already decided which of the three the page is in — `ThemeRuntime` reads the
- * `sonata_theme` cookie and stamps `<html class="dark" data-theme>` before a byte is sent, so
+ * `adminata_theme` cookie and stamps `<html class="dark" data-theme>` before a byte is sent, so
  * there is no flash of the wrong theme (PLAN/01 C2). This controller only handles the click: it
  * writes the cookie the server will read next time and swaps the class immediately, so the page
  * does not have to reload for the change to show.
@@ -31,7 +31,7 @@ export default class extends Controller {
 
     static values = {
         theme: { type: String, default: 'system' },
-        cookieName: { type: String, default: 'sonata_theme' },
+        cookieName: { type: String, default: 'adminata_theme' },
         labels: { type: Object, default: {} },
     };
 

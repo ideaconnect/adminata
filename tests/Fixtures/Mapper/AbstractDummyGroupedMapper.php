@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures\Mapper;
+namespace IDCT\Adminata\Tests\Fixtures\Mapper;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Mapper\BaseGroupedMapper;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Mapper\BaseGroupedMapper;
 
 /**
  * @phpstan-extends BaseGroupedMapper<object>

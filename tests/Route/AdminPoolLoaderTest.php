@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Route;
+namespace IDCT\Adminata\Tests\Route;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Route\AdminPoolLoader;
-use Sonata\AdminBundle\Route\RouteCollection;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Route\AdminPoolLoader;
+use IDCT\Adminata\Route\RouteCollection;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 use Symfony\Component\Routing\RouteCollection as SymfonyRouteCollection;
@@ -34,7 +34,7 @@ final class AdminPoolLoaderTest extends TestCase
 
         $adminPoolLoader = new AdminPoolLoader($pool);
 
-        static::assertTrue($adminPoolLoader->supports('foo', 'sonata_admin'));
+        static::assertTrue($adminPoolLoader->supports('foo', 'adminata'));
         static::assertFalse($adminPoolLoader->supports('foo', 'bar'));
     }
 
@@ -66,7 +66,7 @@ final class AdminPoolLoaderTest extends TestCase
 
         $container->set('bar_admin', $admin2);
 
-        $collection = $adminPoolLoader->load('foo', 'sonata_admin');
+        $collection = $adminPoolLoader->load('foo', 'adminata');
 
         static::assertInstanceOf(SymfonyRouteCollection::class, $collection);
         static::assertInstanceOf(SymfonyRoute::class, $collection->get('baseRouteNameFoo_foo'));

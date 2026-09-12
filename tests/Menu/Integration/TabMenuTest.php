@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Menu\Integration;
+namespace IDCT\Adminata\Tests\Menu\Integration;
 
 use Knp\Menu\MenuFactory;
 use Knp\Menu\MenuItem;

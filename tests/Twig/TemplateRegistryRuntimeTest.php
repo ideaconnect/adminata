@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig;
+namespace IDCT\Adminata\Tests\Twig;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Exception\AdminCodeNotFoundException;
-use Sonata\AdminBundle\Templating\MutableTemplateRegistryInterface;
-use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
-use Sonata\AdminBundle\Twig\TemplateRegistryRuntime;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Exception\AdminCodeNotFoundException;
+use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
+use IDCT\Adminata\Templating\TemplateRegistryInterface;
+use IDCT\Adminata\Twig\TemplateRegistryRuntime;
 use Symfony\Component\DependencyInjection\Container;
 
 final class TemplateRegistryRuntimeTest extends TestCase
@@ -29,10 +29,10 @@ final class TemplateRegistryRuntimeTest extends TestCase
     protected function setUp(): void
     {
         $templateRegistry = $this->createMock(TemplateRegistryInterface::class);
-        $templateRegistry->expects(static::any())->method('getTemplate')->with('edit')->willReturn('@SonataAdmin/CRUD/edit.html.twig');
+        $templateRegistry->expects(static::any())->method('getTemplate')->with('edit')->willReturn('@Adminata/CRUD/edit.html.twig');
 
         $adminTemplateRegistry = $this->createMock(MutableTemplateRegistryInterface::class);
-        $adminTemplateRegistry->expects(static::any())->method('getTemplate')->with('edit')->willReturn('@SonataAdmin/CRUD/edit.html.twig');
+        $adminTemplateRegistry->expects(static::any())->method('getTemplate')->with('edit')->willReturn('@Adminata/CRUD/edit.html.twig');
 
         $admin = static::createStub(AdminInterface::class);
         $admin
@@ -52,7 +52,7 @@ final class TemplateRegistryRuntimeTest extends TestCase
     public function testGetAdminTemplate(): void
     {
         static::assertSame(
-            '@SonataAdmin/CRUD/edit.html.twig',
+            '@Adminata/CRUD/edit.html.twig',
             $this->templateRegistryRuntime->getAdminTemplate('edit', 'admin.post')
         );
     }
@@ -64,7 +64,7 @@ final class TemplateRegistryRuntimeTest extends TestCase
         $this->expectExceptionMessage('Admin service "admin.non-existing" not found in admin pool. Did you mean "admin.post" or one of those: []?');
 
         static::assertSame(
-            '@SonataAdmin/CRUD/edit.html.twig',
+            '@Adminata/CRUD/edit.html.twig',
             $this->templateRegistryRuntime->getAdminTemplate('edit', 'admin.non-existing')
         );
     }
@@ -72,7 +72,7 @@ final class TemplateRegistryRuntimeTest extends TestCase
     public function testGetGlobalTemplate(): void
     {
         static::assertSame(
-            '@SonataAdmin/CRUD/edit.html.twig',
+            '@Adminata/CRUD/edit.html.twig',
             $this->templateRegistryRuntime->getGlobalTemplate('edit')
         );
     }

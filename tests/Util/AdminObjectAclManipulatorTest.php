@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Util;
+namespace IDCT\Adminata\Tests\Util;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Security\Handler\AclSecurityHandlerInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Util\DummyDomainObject;
-use Sonata\AdminBundle\Util\AdminObjectAclData;
-use Sonata\AdminBundle\Util\AdminObjectAclManipulator;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Security\Handler\AclSecurityHandlerInterface;
+use IDCT\Adminata\Tests\Fixtures\Util\DummyDomainObject;
+use IDCT\Adminata\Util\AdminObjectAclData;
+use IDCT\Adminata\Util\AdminObjectAclManipulator;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilder;

@@ -11,22 +11,22 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form;
+namespace IDCT\Adminata\Tests\Form;
 
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Builder\FormContractorInterface;
-use Sonata\AdminBundle\FieldDescription\BaseFieldDescription;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionFactoryInterface;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Security\Handler\SecurityHandlerInterface;
-use Sonata\AdminBundle\Tests\App\FieldDescription\FieldDescription;
-use Sonata\AdminBundle\Tests\Fixtures\Admin\CleanAdmin;
-use Sonata\AdminBundle\Translator\NoopLabelTranslatorStrategy;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Builder\FormContractorInterface;
+use IDCT\Adminata\FieldDescription\BaseFieldDescription;
+use IDCT\Adminata\FieldDescription\FieldDescriptionFactoryInterface;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\FormMapper;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Security\Handler\SecurityHandlerInterface;
+use IDCT\Adminata\Tests\App\FieldDescription\FieldDescription;
+use IDCT\Adminata\Tests\Fixtures\Admin\CleanAdmin;
+use IDCT\Adminata\Translator\NoopLabelTranslatorStrategy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilder;
@@ -112,7 +112,7 @@ final class FormMapperTest extends TestCase
             'name' => 'default',
             'box_class' => '',
             'empty_message' => 'message_form_group_empty',
-            'empty_message_translation_domain' => 'SonataAdminBundle',
+            'empty_message_translation_domain' => 'AdminataBundle',
             'auto_created' => true,
             'groups' => ['foobar'],
             'tab' => true,
@@ -127,7 +127,7 @@ final class FormMapperTest extends TestCase
             'name' => 'foobar',
             'box_class' => '',
             'empty_message' => 'message_form_group_empty',
-            'empty_message_translation_domain' => 'SonataAdminBundle',
+            'empty_message_translation_domain' => 'AdminataBundle',
             'fields' => [],
         ]], $this->admin->getFormGroups());
     }
@@ -148,7 +148,7 @@ final class FormMapperTest extends TestCase
             'name' => 'foobar',
             'box_class' => '',
             'empty_message' => 'message_form_group_empty',
-            'empty_message_translation_domain' => 'SonataAdminBundle',
+            'empty_message_translation_domain' => 'AdminataBundle',
             'fields' => [],
             'role' => self::DEFAULT_GRANTED_ROLE,
         ]], $this->admin->getFormGroups());
@@ -162,7 +162,7 @@ final class FormMapperTest extends TestCase
             'name' => 'default',
             'box_class' => '',
             'empty_message' => 'message_form_group_empty',
-            'empty_message_translation_domain' => 'SonataAdminBundle',
+            'empty_message_translation_domain' => 'AdminataBundle',
             'auto_created' => true,
             'groups' => ['foobar'],
             'tab' => true,
@@ -198,7 +198,7 @@ final class FormMapperTest extends TestCase
             'name' => 'default',
             'box_class' => '',
             'empty_message' => 'message_form_group_empty',
-            'empty_message_translation_domain' => 'SonataAdminBundle',
+            'empty_message_translation_domain' => 'AdminataBundle',
             'auto_created' => true,
             'groups' => ['foobar'],
             'tab' => true,
@@ -213,7 +213,7 @@ final class FormMapperTest extends TestCase
             'name' => 'foobar',
             'box_class' => '',
             'empty_message' => 'message_form_group_empty',
-            'empty_message_translation_domain' => 'SonataAdminBundle',
+            'empty_message_translation_domain' => 'AdminataBundle',
             'fields' => [
                 'foo' => 'foo',
             ],
@@ -248,7 +248,7 @@ final class FormMapperTest extends TestCase
             'name' => 'default',
             'box_class' => '',
             'empty_message' => 'message_form_group_empty',
-            'empty_message_translation_domain' => 'SonataAdminBundle',
+            'empty_message_translation_domain' => 'AdminataBundle',
             'auto_created' => true,
             'groups' => ['foobar'],
             'tab' => true,
@@ -263,7 +263,7 @@ final class FormMapperTest extends TestCase
             'name' => 'foobar',
             'box_class' => '',
             'empty_message' => 'message_form_group_empty',
-            'empty_message_translation_domain' => 'SonataAdminBundle',
+            'empty_message_translation_domain' => 'AdminataBundle',
             'fields' => [
                 'foo' => 'foo',
             ],

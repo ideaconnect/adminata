@@ -75,7 +75,7 @@ class Product implements \Stringable
     private bool $archived = false;
 
     /**
-     * What `sonata_admin.options.lock_protection` needs: `LockExtension` puts it in the form as
+     * What `adminata.options.lock_protection` needs: `LockExtension` puts it in the form as
      * `_lock_version`, and a stale one is the optimistic-lock error the edit page has to show.
      */
     #[ORM\Version]

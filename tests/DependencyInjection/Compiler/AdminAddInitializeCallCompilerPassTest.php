@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\DependencyInjection\Compiler;
+namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\DependencyInjection\Admin\TaggedAdminInterface;
-use Sonata\AdminBundle\DependencyInjection\Compiler\AdminAddInitializeCallCompilerPass;
-use Sonata\AdminBundle\Tests\App\Admin\FooAdmin;
+use IDCT\Adminata\DependencyInjection\Admin\TaggedAdminInterface;
+use IDCT\Adminata\DependencyInjection\Compiler\AdminAddInitializeCallCompilerPass;
+use IDCT\Adminata\Tests\App\Admin\FooAdmin;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class AdminAddInitializeCallCompilerPassTest extends TestCase

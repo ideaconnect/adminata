@@ -48,15 +48,15 @@ You can fix this issue by adding a small JQuery piece of code to your edit templ
 
     $(function() {
         // Add class 'had-value-on-load' to inputs/selects with values.
-        $(".sonata-filter-form input").add(".sonata-filter-form select").each(function(){
+        $(".adminata-filter-form input").add(".adminata-filter-form select").each(function(){
             if($(this).val()) {
                 $(this).addClass('had-value-on-load');
             }
         });
 
         // REMOVE ALL EMPTY INPUT FROM FILTER FORM (except inputs, which has class 'had-value-on-load')
-        $(".sonata-filter-form").submit(function() {
-            $(".sonata-filter-form input").add(".sonata-filter-form select").each(function(){
+        $(".adminata-filter-form").submit(function() {
+            $(".adminata-filter-form input").add(".adminata-filter-form select").each(function(){
                 if(!$(this).val() && !$(this).hasClass('had-value-on-load')) {
                     $(this).remove()
                 };

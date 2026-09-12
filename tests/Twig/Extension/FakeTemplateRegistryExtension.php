@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig\Extension;
+namespace IDCT\Adminata\Tests\Twig\Extension;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -28,7 +28,7 @@ final class FakeTemplateRegistryExtension extends AbstractExtension
     public function getAdminTemplate(string $name, string $adminCode): string
     {
         $templates = [
-            'base_list_field' => '@SonataAdmin/CRUD/base_list_field.html.twig',
+            'base_list_field' => '@Adminata/CRUD/base_list_field.html.twig',
         ];
 
         if (isset($templates[$name])) {

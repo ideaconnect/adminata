@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Functional\Controller;
+namespace IDCT\Adminata\Tests\Functional\Controller;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -35,7 +35,7 @@ final class CRUDControllerTest extends WebTestCase
         static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
         static::assertCount(
             1,
-            $crawler->filter('.sonata-ba-list-field:contains("foo_name")')
+            $crawler->filter('.adminata-list-field:contains("foo_name")')
         );
     }
 
@@ -47,11 +47,11 @@ final class CRUDControllerTest extends WebTestCase
         static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
         static::assertCount(
             1,
-            $crawler->filter('.sonata-ba-collapsed-fields label:contains("Name")')
+            $crawler->filter('.adminata-collapsed-fields label:contains("Name")')
         );
         static::assertCount(
             1,
-            $crawler->filter('.adm-help.sonata-ba-field-help:contains("Help me!")')
+            $crawler->filter('.adm-help.adminata-field-help:contains("Help me!")')
         );
     }
 
@@ -65,7 +65,7 @@ final class CRUDControllerTest extends WebTestCase
         static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
         static::assertCount(
             1,
-            $crawler->filter('.sonata-ba-field li:contains("This field is missing.")')
+            $crawler->filter('.adminata-field li:contains("This field is missing.")')
         );
     }
 
@@ -79,7 +79,7 @@ final class CRUDControllerTest extends WebTestCase
         static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
         static::assertCount(
             1,
-            $crawler->filter('.sonata-ba-field li:contains("This collection should contain 2 elements or more.")')
+            $crawler->filter('.adminata-field li:contains("This collection should contain 2 elements or more.")')
         );
     }
 
@@ -94,7 +94,7 @@ final class CRUDControllerTest extends WebTestCase
         static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
         static::assertCount(
             1,
-            $crawler->filter('.adm-help.sonata-ba-field-help:contains("Elements main field help message")')
+            $crawler->filter('.adm-help.adminata-field-help:contains("Elements main field help message")')
         );
     }
 
@@ -109,7 +109,7 @@ final class CRUDControllerTest extends WebTestCase
         static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
         static::assertCount(
             1,
-            $crawler->filter('.adm-help.sonata-ba-field-help:contains("Elements sub field help message")')
+            $crawler->filter('.adm-help.adminata-field-help:contains("Elements sub field help message")')
         );
     }
 
@@ -151,7 +151,7 @@ final class CRUDControllerTest extends WebTestCase
         static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
         static::assertCount(
             1,
-            $crawler->filter('.sonata-ba-collapsed-fields label:contains("Name")')
+            $crawler->filter('.adminata-collapsed-fields label:contains("Name")')
         );
     }
 
@@ -172,14 +172,14 @@ final class CRUDControllerTest extends WebTestCase
 
         static::assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
 
-        $csrfToken = $crawler->selectButton('OK')->form()->getValues()['_sonata_csrf_token'];
+        $csrfToken = $crawler->selectButton('OK')->form()->getValues()['_adminata_csrf_token'];
 
         $client->request(
             Request::METHOD_POST,
             '/admin/tests/app/foo/batch',
             [
                 'data' => json_encode(['action' => 'other', 'all_elements' => true]),
-                '_sonata_csrf_token' => $csrfToken,
+                '_adminata_csrf_token' => $csrfToken,
             ]
         );
 

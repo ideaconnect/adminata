@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block;
+namespace IDCT\Adminata\Block;
 
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Block\Service\AbstractBlockService;
-use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Block\Service\AbstractBlockService;
+use IDCT\Adminata\Templating\TemplateRegistryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;

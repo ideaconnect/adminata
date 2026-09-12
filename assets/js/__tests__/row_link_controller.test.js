@@ -16,20 +16,20 @@ import RowLinkController from '../controllers/row_link_controller.js';
 import { mount, settle } from './helpers.js';
 
 /*
- * Markup mirrors `@SonataAdmin/CRUD/list_outer_rows_list.html.twig`: the controller on the body,
+ * Markup mirrors `@Adminata/CRUD/list_outer_rows_list.html.twig`: the controller on the body,
  * the destination on each row, and a row without one for the object this administrator may not
  * open. The last cell holds the controls a click must be left to.
  */
 const markup = `
     <table>
-        <tbody data-controller="sonata-row-link"
-               data-action="click->sonata-row-link#open auxclick->sonata-row-link#open">
-            <tr class="sonata-ba-list-row-link" data-sonata-row-link-url="/admin/product/1/edit">
-                <td class="sonata-ba-list-field sonata-ba-list-field-batch">
+        <tbody data-controller="adminata-row-link"
+               data-action="click->adminata-row-link#open auxclick->adminata-row-link#open">
+            <tr class="adminata-list-row-link" data-adminata-row-link-url="/admin/product/1/edit">
+                <td class="adminata-list-field adminata-list-field-batch">
                     <input type="checkbox" name="idx[]" value="1">
                 </td>
                 <td class="name">Chair</td>
-                <td class="sonata-ba-list-field sonata-ba-list-field-actions">
+                <td class="adminata-list-field adminata-list-field-actions">
                     <a class="inside" href="/admin/product/1/show">Show</a>
                 </td>
             </tr>
@@ -49,7 +49,7 @@ function click(selector, { type = 'click', button = 0, ...modifiers } = {}) {
         .dispatchEvent(new MouseEvent(type, { bubbles: true, cancelable: true, button, ...modifiers }));
 }
 
-describe('sonata-row-link', () => {
+describe('adminata-row-link', () => {
     beforeEach(async () => {
         // jsdom's `location` is read only and navigating it is unimplemented, so it is replaced
         // wholesale — the same trick `per_page_controller.test.js` uses.
@@ -60,7 +60,7 @@ describe('sonata-row-link', () => {
         // A selection left over from an earlier case would suppress every click after it.
         window.getSelection().removeAllRanges();
 
-        await mount('sonata-row-link', RowLinkController, markup);
+        await mount('adminata-row-link', RowLinkController, markup);
     });
 
     it('opens the object when the row is clicked', async () => {
@@ -85,8 +85,8 @@ describe('sonata-row-link', () => {
     });
 
     it.each([
-        ['batch', 'td.sonata-ba-list-field-batch'],
-        ['actions', 'td.sonata-ba-list-field-actions'],
+        ['batch', 'td.adminata-list-field-batch'],
+        ['actions', 'td.adminata-list-field-actions'],
     ])('leaves the whole %s cell to its controls', async (_name, selector) => {
         click(selector);
         await settle();

@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exporter\Source;
+namespace IDCT\Adminata\Tests\Exporter\Source;
 
 use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AttributeDriver;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exporter\Source\DoctrineODMQuerySourceIterator;
-use Sonata\AdminBundle\Tests\Exporter\Source\Fixtures\Document;
+use IDCT\Adminata\Exporter\Source\DoctrineODMQuerySourceIterator;
+use IDCT\Adminata\Tests\Exporter\Source\Fixtures\Document;
 
 final class DoctrineODMQuerySourceIteratorTest extends TestCase
 {

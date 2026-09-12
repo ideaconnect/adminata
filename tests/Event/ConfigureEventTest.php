@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Event;
+namespace IDCT\Adminata\Tests\Event;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Event\ConfigureEvent;
-use Sonata\AdminBundle\Mapper\MapperInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Event\ConfigureEvent;
+use IDCT\Adminata\Mapper\MapperInterface;
 
 final class ConfigureEventTest extends TestCase
 {

@@ -20,9 +20,9 @@ const page = (trigger, dialog = '') => `
     <div id="wrap">
         <template id="note-7"><p><strong>Formatted</strong> note</p></template>
         ${trigger}
-        <dialog id="sonata-dialog" aria-labelledby="sonata-dialog-title"
-                data-controller="sonata-modal" data-sonata-modal-target="dialog">
-            <div class="adm-dialog__header"><h1 id="sonata-dialog-title">Old title</h1></div>
+        <dialog id="adminata-dialog" aria-labelledby="adminata-dialog-title"
+                data-controller="adminata-modal" data-adminata-modal-target="dialog">
+            <div class="adm-dialog__header"><h1 id="adminata-dialog-title">Old title</h1></div>
             <div class="adm-dialog__body"><p>Old body</p></div>
         </dialog>
         ${dialog}
@@ -30,24 +30,24 @@ const page = (trigger, dialog = '') => `
 `;
 
 const trigger = (values) =>
-    `<a href="#" id="trigger" data-controller="sonata-modal-trigger"
-        data-action="click->sonata-modal-trigger#open" ${values}>Show</a>`;
+    `<a href="#" id="trigger" data-controller="adminata-modal-trigger"
+        data-action="click->adminata-modal-trigger#open" ${values}>Show</a>`;
 
-/** Both controllers, the way a page has them: the trigger anywhere, `sonata-modal` on the dialog. */
+/** Both controllers, the way a page has them: the trigger anywhere, `adminata-modal` on the dialog. */
 async function mountPage(html) {
-    const { application, element } = await mount('sonata-modal-trigger', ModalTriggerController, html);
-    application.register('sonata-modal', ModalController);
+    const { application, element } = await mount('adminata-modal-trigger', ModalTriggerController, html);
+    application.register('adminata-modal', ModalController);
     await settle();
 
-    return { application, element, dialog: document.getElementById('sonata-dialog') };
+    return { application, element, dialog: document.getElementById('adminata-dialog') };
 }
 
-describe('sonata-modal-trigger', () => {
+describe('adminata-modal-trigger', () => {
     it('fills the shared dialog and opens it, setting text as text', async () => {
         const { element, dialog } = await mountPage(
             page(
                 trigger(
-                    'data-sonata-modal-trigger-title-value="Note #7" data-sonata-modal-trigger-text-value="Plain &lt;b&gt;text&lt;/b&gt;"',
+                    'data-adminata-modal-trigger-title-value="Note #7" data-adminata-modal-trigger-text-value="Plain &lt;b&gt;text&lt;/b&gt;"',
                 ),
             ),
         );
@@ -56,7 +56,7 @@ describe('sonata-modal-trigger', () => {
         await settle();
 
         expect(dialog.open).toBe(true);
-        expect(document.getElementById('sonata-dialog-title').textContent).toBe('Note #7');
+        expect(document.getElementById('adminata-dialog-title').textContent).toBe('Note #7');
         expect(dialog.querySelector('.adm-dialog__body').textContent).toBe('Plain <b>text</b>');
         expect(dialog.querySelector('.adm-dialog__body b')).toBeNull();
     });
@@ -65,7 +65,7 @@ describe('sonata-modal-trigger', () => {
         const { element, dialog } = await mountPage(
             page(
                 trigger(
-                    'data-sonata-modal-trigger-title-value="Note #7" data-sonata-modal-trigger-content-value="note-7"',
+                    'data-adminata-modal-trigger-title-value="Note #7" data-adminata-modal-trigger-content-value="note-7"',
                 ),
             ),
         );
@@ -77,24 +77,24 @@ describe('sonata-modal-trigger', () => {
         expect(dialog.querySelector('.adm-dialog__body strong')?.textContent).toBe('Formatted');
     });
 
-    it('opens through sonata-modal, which announces it, and keeps the title it has when given none', async () => {
+    it('opens through adminata-modal, which announces it, and keeps the title it has when given none', async () => {
         const { element, dialog } = await mountPage(
-            page(trigger('data-sonata-modal-trigger-text-value="x"')),
+            page(trigger('data-adminata-modal-trigger-text-value="x"')),
         );
         const events = [];
-        dialog.addEventListener('sonata-modal:opened', () => events.push('opened'));
+        dialog.addEventListener('adminata-modal:opened', () => events.push('opened'));
 
         element.click();
         await settle();
 
         expect(events).toEqual(['opened']);
-        expect(document.getElementById('sonata-dialog-title').textContent).toBe('Old title');
+        expect(document.getElementById('adminata-dialog-title').textContent).toBe('Old title');
     });
 
     it('lends the dialog its size for that opening only', async () => {
         const { element, dialog } = await mountPage(
             page(
-                trigger('data-sonata-modal-trigger-text-value="x" data-sonata-modal-trigger-size-value="lg"'),
+                trigger('data-adminata-modal-trigger-text-value="x" data-adminata-modal-trigger-size-value="lg"'),
             ),
         );
 
@@ -110,14 +110,14 @@ describe('sonata-modal-trigger', () => {
     it('opens another dialog when told which', async () => {
         const other = `
             <dialog id="other" aria-labelledby="other-title"
-                    data-controller="sonata-modal" data-sonata-modal-target="dialog">
+                    data-controller="adminata-modal" data-adminata-modal-target="dialog">
                 <h2 id="other-title"></h2>
                 <div class="adm-dialog__body"></div>
             </dialog>`;
         const { element, dialog } = await mountPage(
             page(
                 trigger(
-                    'data-sonata-modal-trigger-target-value="other" data-sonata-modal-trigger-title-value="Elsewhere" data-sonata-modal-trigger-text-value="x"',
+                    'data-adminata-modal-trigger-target-value="other" data-adminata-modal-trigger-title-value="Elsewhere" data-adminata-modal-trigger-text-value="x"',
                 ),
                 other,
             ),
@@ -131,12 +131,12 @@ describe('sonata-modal-trigger', () => {
         expect(document.getElementById('other-title').textContent).toBe('Elsewhere');
     });
 
-    it('still opens a dialog that has no sonata-modal on it', async () => {
+    it('still opens a dialog that has no adminata-modal on it', async () => {
         const bare = `<dialog id="bare" aria-labelledby="bare-title"><h2 id="bare-title"></h2><div class="adm-dialog__body"></div></dialog>`;
         const { element } = await mountPage(
             page(
                 trigger(
-                    'data-sonata-modal-trigger-target-value="bare" data-sonata-modal-trigger-text-value="x"',
+                    'data-adminata-modal-trigger-target-value="bare" data-adminata-modal-trigger-text-value="x"',
                 ),
                 bare,
             ),
@@ -150,13 +150,13 @@ describe('sonata-modal-trigger', () => {
 
     it('says which dialog or content it could not find', async () => {
         const { application, element } = await mountPage(
-            page(trigger('data-sonata-modal-trigger-target-value="nowhere"')),
+            page(trigger('data-adminata-modal-trigger-target-value="nowhere"')),
         );
-        const controller = application.getControllerForElementAndIdentifier(element, 'sonata-modal-trigger');
+        const controller = application.getControllerForElementAndIdentifier(element, 'adminata-modal-trigger');
 
         expect(() => controller.open()).toThrow('there is no <dialog id="nowhere">');
 
-        controller.targetValue = 'sonata-dialog';
+        controller.targetValue = 'adminata-dialog';
         controller.contentValue = 'missing';
         expect(() => controller.open()).toThrow('there is no element "missing"');
     });

@@ -40,7 +40,7 @@ return static function (ContainerConfigurator $container): void {
             ->tag('controller.service_arguments')
 
         ->set(ProductAdmin::class)
-            ->tag('sonata.admin', [
+            ->tag('adminata.admin', [
                 'manager_type' => 'orm',
                 'model_class' => Product::class,
                 'controller' => ProductCRUDController::class,
@@ -53,7 +53,7 @@ return static function (ContainerConfigurator $container): void {
             ->call('setTemplate', ['list', 'admin/product_list.html.twig'])
 
         ->set(ProductVariantAdmin::class)
-            ->tag('sonata.admin', [
+            ->tag('adminata.admin', [
                 'manager_type' => 'orm',
                 'model_class' => ProductVariant::class,
                 'label' => 'Variants',
@@ -62,7 +62,7 @@ return static function (ContainerConfigurator $container): void {
             ])
 
         ->set(TagAdmin::class)
-            ->tag('sonata.admin', [
+            ->tag('adminata.admin', [
                 'manager_type' => 'orm',
                 'model_class' => Tag::class,
                 'label' => 'Tags',
@@ -71,7 +71,7 @@ return static function (ContainerConfigurator $container): void {
             ])
 
         ->set(CategoryAdmin::class)
-            ->tag('sonata.admin', [
+            ->tag('adminata.admin', [
                 'manager_type' => 'orm',
                 'model_class' => Category::class,
                 'label' => 'Categories',

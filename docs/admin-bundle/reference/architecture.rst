@@ -1,7 +1,7 @@
 Architecture
 ============
 
-The architecture of the ``SonataAdminBundle`` is primarily inspired by
+The architecture of the ``AdminataBundle`` is primarily inspired by
 the Django Admin Project, which is truly a great project. More information
 can be found at the `Django Project Website`_.
 
@@ -13,8 +13,8 @@ The Admin Class
 ---------------
 
 The ``Admin`` class maps a specific model to the rich CRUD interface provided by
-``SonataAdminBundle``. In other words, using your ``Admin`` classes, you can configure
-what is shown by ``SonataAdminBundle`` in each CRUD action for the associated model.
+``AdminataBundle``. In other words, using your ``Admin`` classes, you can configure
+what is shown by ``AdminataBundle`` in each CRUD action for the associated model.
 By now you've seen 3 of those actions in the :doc:`../getting_started/creating_an_admin` page: list,
 filter and form (for creation/editing). However, a fully configured ``Admin`` class
 can define more actions:
@@ -29,8 +29,8 @@ show                The fields used to show the entity
 batch actions       Actions that can be performed on a group of entities (e.g. bulk delete)
 =============       =========================================================================
 
-The ``Sonata\AdminBundle\Admin\AbstractAdmin`` class is provided to map your models, by extending it.
-However, any implementation of the ``Sonata\AdminBundle\Admin\AdminInterface`` can be used to define
+The ``IDCT\Adminata\Admin\AbstractAdmin`` class is provided to map your models, by extending it.
+However, any implementation of the ``IDCT\Adminata\Admin\AdminInterface`` can be used to define
 an ``Admin`` service. For each ``Admin`` service, the following required dependencies are automatically
 injected by the bundle:
 
@@ -69,13 +69,13 @@ your ``Admin`` services. This is done using a ``call`` to the matching ``setter`
         app.admin.post:
             class: App\Admin\PostAdmin
             calls:
-                - [setLabelTranslatorStrategy, ['@sonata.admin.label.strategy.underscore']]
+                - [setLabelTranslatorStrategy, ['@adminata.admin.label.strategy.underscore']]
             tags:
-                - { name: sonata.admin, model_class: App\Entity\Post, manager_type: orm, group: 'Content', label: 'Post' }
+                - { name: adminata.admin, model_class: App\Entity\Post, manager_type: orm, group: 'Content', label: 'Post' }
 
 Here, we declare the same ``Admin`` service as in the :doc:`../getting_started/creating_an_admin`
 chapter, but using a different label translator strategy, replacing the default one. Notice that
-``sonata.admin.label.strategy.underscore`` is a service provided by ``SonataAdminBundle``,
+``adminata.admin.label.strategy.underscore`` is a service provided by ``AdminataBundle``,
 but you could use a service of your own.
 
 CRUDController
@@ -108,7 +108,7 @@ to set the controller to ``App\Controller\PostAdminController``:
             calls:
                 - [setTranslationDomain, ['App']]
             tags:
-                - { name: sonata.admin, model_class: App\Entity\Post, controller: App\Controller\PostAdminController, manager_type: orm, group: 'Content', label: 'Post' }
+                - { name: adminata.admin, model_class: App\Entity\Post, controller: App\Controller\PostAdminController, manager_type: orm, group: 'Content', label: 'Post' }
 
 When extending ``CRUDController``, remember that the ``Admin`` class already has
 a set of automatically injected dependencies that are useful when implementing several
@@ -116,7 +116,7 @@ scenarios. Refer to the existing ``CRUDController`` actions for examples of how 
 the best out of them.
 
 In your overloaded CRUDController you can overload also these methods to limit
-the number of duplicated code from SonataAdmin:
+the number of duplicated code from Adminata:
 * ``preCreate``: called from ``createAction``
 * ``preEdit``: called from ``editAction``
 * ``preDelete``: called from ``deleteAction``
@@ -139,11 +139,11 @@ which stores instances of ``FieldDescriptionInterface``. Picking up on our previ
 
     namespace App\Admin;
 
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
-    use Sonata\AdminBundle\Datagrid\ListMapper;
-    use Sonata\AdminBundle\Datagrid\DatagridMapper;
-    use Sonata\AdminBundle\Form\FormMapper;
-    use Sonata\AdminBundle\Show\ShowMapper;
+    use IDCT\Adminata\Admin\AbstractAdmin;
+    use IDCT\Adminata\Datagrid\ListMapper;
+    use IDCT\Adminata\Datagrid\DatagridMapper;
+    use IDCT\Adminata\Form\FormMapper;
+    use IDCT\Adminata\Show\ShowMapper;
     use Symfony\Bridge\Doctrine\Form\Type\EntityType;
     use Symfony\Component\Form\Extension\Core\Type\TextType;
     use App\Entity\User;
@@ -167,7 +167,7 @@ which stores instances of ``FieldDescriptionInterface``. Picking up on our previ
                     'role' => 'ROLE_ADMIN_MODERATOR'
                 ])
 
-                // if no type is specified, SonataAdminBundle tries to guess it
+                // if no type is specified, AdminataBundle tries to guess it
                 ->add('body')
 
                 // conditionally add "status" field if the subject already exists
@@ -234,7 +234,7 @@ Internally, the provided ``Admin`` class will use these three functions to creat
 
 The actual ``FieldDescription`` implementation is provided by the storage abstraction
 bundle that you choose during the installation process, based on the
-``BaseFieldDescription`` abstract class provided by ``SonataAdminBundle``.
+``BaseFieldDescription`` abstract class provided by ``AdminataBundle``.
 
 Each ``FieldDescription`` contains various details about a field mapping. Some of
 them are independent of the action in which they are used, like ``name`` or ``type``,
@@ -243,25 +243,25 @@ while others are used only in specific actions. More information can be found in
 
 In most scenarios, you will not actually need to handle the ``FieldDescription`` yourself.
 However, it is important that you know it exists and how it is used, as it sits at the
-core of ``SonataAdminBundle``.
+core of ``AdminataBundle``.
 
 Templates
 ---------
 
 Like most actions, ``CRUDController`` actions use view files to render their output.
-``SonataAdminBundle`` provides ready to use views as well as ways to customize them.
+``AdminataBundle`` provides ready to use views as well as ways to customize them.
 
 The current implementation uses ``Twig`` as the template engine. All templates
 are located in the ``Resources/views`` directory of the bundle.
 
 There are two base templates, one of these is ultimately used in every action:
 
-* ``@SonataAdmin/standard_layout.html.twig``
-* ``@SonataAdmin/ajax_layout.html.twig``
+* ``@Adminata/standard_layout.html.twig``
+* ``@Adminata/ajax_layout.html.twig``
 
 Like the names say, one if for standard calls, the other one for AJAX.
 
-The subfolders include Twig files for specific sections of ``SonataAdminBundle``:
+The subfolders include Twig files for specific sections of ``AdminataBundle``:
 
 Block:
   Block views (see :doc:`block_configuration`): ``block_base``, which every block
@@ -276,19 +276,19 @@ Form:
   Views related to form rendering
 Helper:
   A view providing a short object description, as part of a specific form field
-  type provided by ``SonataAdminBundle``
+  type provided by ``AdminataBundle``
 Pager:
   Pagination related view files
 
 These will be discussed in greater detail in the specific :doc:`templates` section, where
-you will also find instructions on how to configure ``SonataAdminBundle`` to use your templates
+you will also find instructions on how to configure ``AdminataBundle`` to use your templates
 instead of the default ones.
 
 Managing ``Admin`` Service
 --------------------------
 
 Your ``Admin`` service definitions are parsed when Symfony is loaded, and handled by
-the ``Pool`` class. This class, available as the ``sonata.admin.pool`` service from the
+the ``Pool`` class. This class, available as the ``adminata.admin.pool`` service from the
 DIC, handles the ``Admin`` classes, lazy-loading them on demand (to reduce overhead)
 and matching each of them to a group. It is also responsible for handling the top level
 template files, administration panel title and logo.

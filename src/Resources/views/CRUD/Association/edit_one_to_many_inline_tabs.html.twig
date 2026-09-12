@@ -9,7 +9,7 @@ For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 
 #}
-<div class="sonata-ba-tabs">
+<div class="adminata-tabs">
     {% for nested_group_field in form.children %}
         <div>
             <div class="nav-tabs-custom">
@@ -38,10 +38,10 @@ file that was distributed with this source code.
                             id="{{ id }}_{{ loop.parent.loop.index }}_{{ loop.index }}"
                         >
                             <fieldset>
-                                <div class="sonata-ba-collapsed-fields">
+                                <div class="adminata-collapsed-fields">
                                     {% for field_name, form_field_name in form_group.fields|filter(form_field_name => nested_group_field.children[form_field_name] is defined) %}
                                         {% set nested_field = nested_group_field.children[form_field_name] %}
-                                        <div class="sonata-ba-field-{{ id }}-{{ field_name }}">
+                                        <div class="adminata-field-{{ id }}-{{ field_name }}">
                                             {% if associationAdmin.formfielddescriptions[field_name] is defined %}
                                                 {{ form_row(nested_field) }}
                                                 {% set dummy = nested_group_field.setrendered %}
@@ -58,7 +58,7 @@ file that was distributed with this source code.
             </div>
 
             {% if nested_group_field['_delete'] is defined %}
-                {{ form_row(nested_group_field['_delete'], {'label': 'action_delete', 'translation_domain': 'SonataAdminBundle'}) }}
+                {{ form_row(nested_group_field['_delete'], {'label': 'action_delete', 'translation_domain': 'AdminataBundle'}) }}
             {% endif %}
         </div>
     {% endfor %}

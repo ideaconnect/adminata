@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Util;
+namespace IDCT\Adminata\Util;
 
-use Sonata\AdminBundle\Exception\AbstractClassException;
+use IDCT\Adminata\Exception\AbstractClassException;
 
 /**
  * @internal

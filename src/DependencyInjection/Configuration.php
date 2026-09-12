@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection;
+namespace IDCT\Adminata\DependencyInjection;
 
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\DependencyInjection\Compiler\ExtensionCompilerPass;
-use Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\DependencyInjection\Compiler\ExtensionCompilerPass;
+use IDCT\Adminata\Security\Acl\Permission\AdminPermissionMap;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -32,7 +32,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *
  * NEXT_MAJOR: Remove the default_label_catalogue key.
  *
- * @phpstan-type SonataAdminConfigurationOptions = array{
+ * @phpstan-type AdminataConfigOptions = array{
  *     confirm_exit: bool,
  *     default_admin_route: string,
  *     default_group: string,
@@ -52,18 +52,18 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *     sort_admins: bool,
  *     use_stickyforms: bool,
  * }
- * @phpstan-type SonataAdminAsset = array{
+ * @phpstan-type AdminataAsset = array{
  *     path: string,
  *     package_name: string|null,
  * }
- * @phpstan-type SonataAdminConfiguration = array{
+ * @phpstan-type AdminataConfig = array{
  *     assets: array{
- *         extra_javascripts: list<SonataAdminAsset>,
- *         extra_stylesheets: list<SonataAdminAsset>,
- *         javascripts: list<SonataAdminAsset>,
- *         remove_javascripts: list<SonataAdminAsset>,
- *         remove_stylesheets: list<SonataAdminAsset>,
- *         stylesheets: list<SonataAdminAsset>,
+ *         extra_javascripts: list<AdminataAsset>,
+ *         extra_stylesheets: list<AdminataAsset>,
+ *         javascripts: list<AdminataAsset>,
+ *         remove_javascripts: list<AdminataAsset>,
+ *         remove_stylesheets: list<AdminataAsset>,
+ *         stylesheets: list<AdminataAsset>,
  *     },
  *     breadcrumbs: array{
  *         child_admin_route: string,
@@ -111,7 +111,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *         admin_route: string,
  *         empty_boxes: 'show'|'fade'|'hide',
  *     },
- *     options: SonataAdminConfigurationOptions,
+ *     options: AdminataConfigOptions,
  *     persist_filters: bool,
  *     security: array{
  *         acl_user_manager: string|null,
@@ -178,14 +178,14 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 final class Configuration implements ConfigurationInterface
 {
-    private const string DEFAULT_PACKAGE = 'sonata_admin';
+    private const string DEFAULT_PACKAGE = 'adminata';
 
     /**
      * @return TreeBuilder<'array'>
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('sonata_admin');
+        $treeBuilder = new TreeBuilder('adminata');
         $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
@@ -199,7 +199,7 @@ final class Configuration implements ConfigurationInterface
                     ->fixXmlConfig('admin_permission')
                     ->fixXmlConfig('object_permission')
                     ->children()
-                        ->scalarNode('handler')->defaultValue('sonata.admin.security.handler.noop')->end()
+                        ->scalarNode('handler')->defaultValue('adminata.admin.security.handler.noop')->end()
                         ->arrayNode('information')
                             ->useAttributeAsKey('id')
                             ->prototype('array')
@@ -225,7 +225,7 @@ final class Configuration implements ConfigurationInterface
                         ->end()
                         ->scalarNode('role_admin')
                             ->cannotBeEmpty()
-                            ->defaultValue('ROLE_SONATA_ADMIN')
+                            ->defaultValue('ROLE_ADMINATA_ADMIN')
                             ->info('Role which will see the top nav bar and dropdown groups regardless of its configuration')
                         ->end()
                             ->scalarNode('role_super_admin')
@@ -251,7 +251,7 @@ final class Configuration implements ConfigurationInterface
                 ->end()
 
                 ->scalarNode('title')->defaultValue('Sonata Admin')->cannotBeEmpty()->end()
-                ->scalarNode('title_logo')->defaultValue('bundles/sonataadmin/images/logo_title.png')->cannotBeEmpty()->end()
+                ->scalarNode('title_logo')->defaultValue('bundles/adminata/images/logo_title.png')->cannotBeEmpty()->end()
                 ->booleanNode('search')->defaultTrue()->info('Enable/disable the search form in the sidebar')->end()
 
                 ->arrayNode('theme')
@@ -259,7 +259,7 @@ final class Configuration implements ConfigurationInterface
                     ->info('Light and dark mode, and the logos each of them uses')
                     ->children()
                         ->enumNode('mode')
-                            ->info('Which mode a visitor without a "sonata_theme" cookie gets')
+                            ->info('Which mode a visitor without a "adminata_theme" cookie gets')
                             ->defaultValue('system')
                             ->values(['light', 'dark', 'system'])
                         ->end()
@@ -293,7 +293,7 @@ final class Configuration implements ConfigurationInterface
                 ->end()
 
                 ->scalarNode('default_controller')
-                    ->defaultValue('sonata.admin.controller.crud')
+                    ->defaultValue('adminata.admin.controller.crud')
                     ->cannotBeEmpty()
                     ->info('Name of the controller class to be used as a default in admin definitions')
                 ->end()
@@ -337,7 +337,7 @@ final class Configuration implements ConfigurationInterface
                                 '4.9',
                                 'The "default_label_catalogue" node is deprecated, use "default_translation_domain" instead.'
                             )
-                            ->defaultValue('SonataAdminBundle')
+                            ->defaultValue('AdminataBundle')
                             ->info('Label Catalogue used for admin services if one isn\'t provided.')
                         ->end()
                         ->scalarNode('default_translation_domain')
@@ -347,7 +347,7 @@ final class Configuration implements ConfigurationInterface
                                 ->always(static function (?string $value): ?string {
                                     if (null === $value) {
                                         @trigger_error(
-                                            'Not setting the "sonata_admin.options.default_translation_domain" config option is deprecated'
+                                            'Not setting the "adminata.options.default_translation_domain" config option is deprecated'
                                             .' since sonata-project/admin-bundle 4.9. In 5.0, it will default to "messages".',
                                             \E_USER_DEPRECATED
                                         );
@@ -382,7 +382,7 @@ final class Configuration implements ConfigurationInterface
                             ->info('Enable locking when editing an object, if the corresponding object manager supports it.')
                         ->end()
                         ->scalarNode('mosaic_background')
-                            ->defaultValue('bundles/sonataadmin/images/default_mosaic_image.png')
+                            ->defaultValue('bundles/adminata/images/default_mosaic_image.png')
                             ->info('Background used in mosaic view')
                         ->end()
                     ->end()
@@ -527,7 +527,7 @@ final class Configuration implements ConfigurationInterface
                             ->defaultValue([[
                                 'position' => 'left',
                                 'settings' => [],
-                                'type' => 'sonata.admin.block.admin_list',
+                                'type' => 'adminata.admin.block.admin_list',
                                 'roles' => [],
                             ]])
                             ->prototype('array')
@@ -573,45 +573,45 @@ final class Configuration implements ConfigurationInterface
                 ->arrayNode('templates')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('user_block')->defaultValue('@SonataAdmin/Core/user_block.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('add_block')->defaultValue('@SonataAdmin/Core/add_block.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('layout')->defaultValue('@SonataAdmin/standard_layout.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('ajax')->defaultValue('@SonataAdmin/ajax_layout.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('dashboard')->defaultValue('@SonataAdmin/Core/dashboard.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('search')->defaultValue('@SonataAdmin/Core/search.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('list')->defaultValue('@SonataAdmin/CRUD/list.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('filter')->defaultValue('@SonataAdmin/Form/filter_admin_fields.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('show')->defaultValue('@SonataAdmin/CRUD/show.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('show_compare')->defaultValue('@SonataAdmin/CRUD/show_compare.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('edit')->defaultValue('@SonataAdmin/CRUD/edit.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('preview')->defaultValue('@SonataAdmin/CRUD/preview.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('history')->defaultValue('@SonataAdmin/CRUD/history.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('acl')->defaultValue('@SonataAdmin/CRUD/acl.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('history_revision_timestamp')->defaultValue('@SonataAdmin/CRUD/history_revision_timestamp.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('action')->defaultValue('@SonataAdmin/CRUD/action.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('select')->defaultValue('@SonataAdmin/CRUD/list__select.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('list_block')->defaultValue('@SonataAdmin/Block/block_admin_list.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('search_result_block')->defaultValue('@SonataAdmin/Block/block_search_result.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('short_object_description')->defaultValue('@SonataAdmin/Helper/short-object-description.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('delete')->defaultValue('@SonataAdmin/CRUD/delete.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('batch')->defaultValue('@SonataAdmin/CRUD/list__batch.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('batch_confirmation')->defaultValue('@SonataAdmin/CRUD/batch_confirmation.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('inner_list_row')->defaultValue('@SonataAdmin/CRUD/list_inner_row.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('outer_list_rows_mosaic')->defaultValue('@SonataAdmin/CRUD/list_outer_rows_mosaic.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('outer_list_rows_list')->defaultValue('@SonataAdmin/CRUD/list_outer_rows_list.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('outer_list_rows_tree')->defaultValue('@SonataAdmin/CRUD/list_outer_rows_tree.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('base_list_field')->defaultValue('@SonataAdmin/CRUD/base_list_field.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('pager_links')->defaultValue('@SonataAdmin/Pager/links.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('pager_results')->defaultValue('@SonataAdmin/Pager/results.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('tab_menu_template')->defaultValue('@SonataAdmin/Core/tab_menu_template.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('knp_menu_template')->defaultValue('@SonataAdmin/Menu/sonata_menu.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('action_create')->defaultValue('@SonataAdmin/CRUD/dashboard__action_create.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('button_acl')->defaultValue('@SonataAdmin/Button/acl_button.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('button_create')->defaultValue('@SonataAdmin/Button/create_button.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('button_edit')->defaultValue('@SonataAdmin/Button/edit_button.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('button_history')->defaultValue('@SonataAdmin/Button/history_button.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('button_list')->defaultValue('@SonataAdmin/Button/list_button.html.twig')->cannotBeEmpty()->end()
-                        ->scalarNode('button_show')->defaultValue('@SonataAdmin/Button/show_button.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('user_block')->defaultValue('@Adminata/Core/user_block.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('add_block')->defaultValue('@Adminata/Core/add_block.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('layout')->defaultValue('@Adminata/standard_layout.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('ajax')->defaultValue('@Adminata/ajax_layout.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('dashboard')->defaultValue('@Adminata/Core/dashboard.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('search')->defaultValue('@Adminata/Core/search.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('list')->defaultValue('@Adminata/CRUD/list.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('filter')->defaultValue('@Adminata/Form/filter_admin_fields.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('show')->defaultValue('@Adminata/CRUD/show.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('show_compare')->defaultValue('@Adminata/CRUD/show_compare.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('edit')->defaultValue('@Adminata/CRUD/edit.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('preview')->defaultValue('@Adminata/CRUD/preview.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('history')->defaultValue('@Adminata/CRUD/history.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('acl')->defaultValue('@Adminata/CRUD/acl.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('history_revision_timestamp')->defaultValue('@Adminata/CRUD/history_revision_timestamp.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('action')->defaultValue('@Adminata/CRUD/action.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('select')->defaultValue('@Adminata/CRUD/list__select.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('list_block')->defaultValue('@Adminata/Block/block_admin_list.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('search_result_block')->defaultValue('@Adminata/Block/block_search_result.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('short_object_description')->defaultValue('@Adminata/Helper/short-object-description.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('delete')->defaultValue('@Adminata/CRUD/delete.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('batch')->defaultValue('@Adminata/CRUD/list__batch.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('batch_confirmation')->defaultValue('@Adminata/CRUD/batch_confirmation.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('inner_list_row')->defaultValue('@Adminata/CRUD/list_inner_row.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('outer_list_rows_mosaic')->defaultValue('@Adminata/CRUD/list_outer_rows_mosaic.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('outer_list_rows_list')->defaultValue('@Adminata/CRUD/list_outer_rows_list.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('outer_list_rows_tree')->defaultValue('@Adminata/CRUD/list_outer_rows_tree.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('base_list_field')->defaultValue('@Adminata/CRUD/base_list_field.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('pager_links')->defaultValue('@Adminata/Pager/links.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('pager_results')->defaultValue('@Adminata/Pager/results.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('tab_menu_template')->defaultValue('@Adminata/Core/tab_menu_template.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('knp_menu_template')->defaultValue('@Adminata/Menu/adminata_menu.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('action_create')->defaultValue('@Adminata/CRUD/dashboard__action_create.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('button_acl')->defaultValue('@Adminata/Button/acl_button.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('button_create')->defaultValue('@Adminata/Button/create_button.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('button_edit')->defaultValue('@Adminata/Button/edit_button.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('button_history')->defaultValue('@Adminata/Button/history_button.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('button_list')->defaultValue('@Adminata/Button/list_button.html.twig')->cannotBeEmpty()->end()
+                        ->scalarNode('button_show')->defaultValue('@Adminata/Button/show_button.html.twig')->cannotBeEmpty()->end()
                         ->arrayNode('form_theme')
                             ->prototype('scalar')->end()
                         ->end()
@@ -638,8 +638,8 @@ final class Configuration implements ConfigurationInterface
                                 // Font Awesome first: its `.fas { display: … }` is as specific as
                                 // Tailwind's `.hidden`, so whichever sheet comes second wins, and
                                 // an icon that a utility hides has to stay hidden.
-                                'bundles/sonataadmin/fontawesome.css',
-                                'bundles/sonataadmin/app.css',
+                                'bundles/adminata/fontawesome.css',
+                                'bundles/adminata/app.css',
                             ]))
                         ->end()
                         ->arrayNode('extra_stylesheets')
@@ -673,7 +673,7 @@ final class Configuration implements ConfigurationInterface
                                 ->always(static fn (array $value) => self::normalizeAssetList($value, 'javascripts'))
                             ->end()
                             ->defaultValue(self::normalizeDefaultAssets([
-                                'bundles/sonataadmin/app.js',
+                                'bundles/adminata/app.js',
                             ]))
                             ->arrayPrototype()
                                 ->children()
@@ -761,7 +761,7 @@ final class Configuration implements ConfigurationInterface
                 ->end()
 
                 ->scalarNode('persist_filters')->defaultFalse()->end()
-                ->scalarNode('filter_persister')->defaultValue('sonata.admin.filter_persister.session')->end()
+                ->scalarNode('filter_persister')->defaultValue('adminata.admin.filter_persister.session')->end()
 
                 ->booleanNode('show_mosaic_button')
                     ->defaultTrue()
@@ -780,7 +780,7 @@ final class Configuration implements ConfigurationInterface
      *
      * @param array<mixed> $value
      *
-     * @return list<SonataAdminAsset>
+     * @return list<AdminataAsset>
      */
     private static function normalizeAssetList(mixed $value, string $nodeName): array
     {
@@ -796,7 +796,7 @@ final class Configuration implements ConfigurationInterface
     }
 
     /**
-     * @return SonataAdminAsset
+     * @return AdminataAsset
      */
     private static function normalizeAssetItem(mixed $item, string $nodeName): array
     {
@@ -832,7 +832,7 @@ final class Configuration implements ConfigurationInterface
      *
      * @param array<int, string> $assets
      *
-     * @return list<SonataAdminAsset>
+     * @return list<AdminataAsset>
      */
     private static function normalizeDefaultAssets(array $assets): array
     {

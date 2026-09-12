@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\DataTransformer;
+namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
 use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Form\DataTransformer\ModelsToArrayTransformer;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\Entity;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\Foo;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Form\DataTransformer\ModelsToArrayTransformer;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Tests\Fixtures\Entity\Entity;
+use IDCT\Adminata\Tests\Fixtures\Entity\Foo;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 

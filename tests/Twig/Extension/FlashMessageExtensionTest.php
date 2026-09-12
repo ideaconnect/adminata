@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig\Extension;
+namespace IDCT\Adminata\Tests\Twig\Extension;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Twig\Extension\FlashMessageExtension;
+use IDCT\Adminata\Twig\Extension\FlashMessageExtension;
 use Twig\TwigFunction;
 
 final class FlashMessageExtensionTest extends TestCase
@@ -31,7 +31,7 @@ final class FlashMessageExtensionTest extends TestCase
         foreach ($this->extension->getFunctions() as $function) {
             static::assertSame(
                 0,
-                strpos($function->getName(), 'sonata_flashmessages_'),
+                strpos($function->getName(), 'adminata_flashmessages_'),
                 'All function names should start with a standard prefix'
             );
         }

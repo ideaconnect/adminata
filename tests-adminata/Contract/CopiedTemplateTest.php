@@ -34,7 +34,7 @@ final class CopiedTemplateTest extends ContractTestCase
 {
     /**
      * Class names of the Bootstrap 3 / AdminLTE vocabulary PLAN/02 §8 drops. Matched as whole
-     * words so that `adm-btn` and `sonata-ba-box` do not trip them.
+     * words so that `adm-btn` and `adminata-box` do not trip them.
      *
      * @var list<string>
      */
@@ -80,7 +80,7 @@ final class CopiedTemplateTest extends ContractTestCase
         'modal-body',
         'modal-dialog',
         'modal-content',
-        'sonata-bc',
+        'adminata-bc',
     ];
 
     /**
@@ -149,7 +149,7 @@ final class CopiedTemplateTest extends ContractTestCase
 
         static::assertGreaterThan(
             0,
-            preg_match_all("#include '@SonataAdmin/(CRUD/Association/[^']+)'#", $theme, $matches),
+            preg_match_all("#include '@Adminata/(CRUD/Association/[^']+)'#", $theme, $matches),
             'The ORM form theme no longer includes any association template.'
         );
 

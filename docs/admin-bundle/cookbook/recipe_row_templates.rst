@@ -6,7 +6,7 @@ The default template is a standard table but there are circumstances where this
 type of layout might not be suitable. By defining a custom template for the row,
 you can tweak the layout into something like this:
 
-.. figure:: ./../images/sonata_inline_row.png
+.. figure:: ./../images/adminata_inline_row.png
    :align: center
    :alt: Inline Row from the SonataNewsBundle
    :width: 700px
@@ -21,35 +21,35 @@ The configuration takes place in the DIC by calling the ``setTemplates`` method.
 Two template keys need to be set:
 
 - ``inner_list_row``: The template for the row, which you will customize. Often
-  you will want this to extend ``@SonataAdmin/CRUD/base_list_flat_inner_row.html.twig``
+  you will want this to extend ``@Adminata/CRUD/base_list_flat_inner_row.html.twig``
 - ``base_list_field``: The base template for the cell, the default of
-  ``@SonataAdmin/CRUD/base_list_flat_field.html.twig`` is suitable for most
+  ``@Adminata/CRUD/base_list_flat_field.html.twig`` is suitable for most
   cases but it can be customized if required.
 
 .. code-block:: xml
 
     <!-- config/services.xml -->
 
-    <service id="sonata.admin.comment" class="%sonata.admin.comment.class%">
+    <service id="adminata.admin.comment" class="%adminata.admin.comment.class%">
         <call method="setTemplates">
             <argument type="collection">
                 <argument key="inner_list_row">
                     @App/Admin/inner_row_comment.html.twig
                 </argument>
                 <argument key="base_list_field">
-                    @SonataAdmin/CRUD/base_list_flat_field.html.twig
+                    @Adminata/CRUD/base_list_flat_field.html.twig
                 </argument>
             </argument>
         </call>
         <tag
-            name="sonata.admin"
-            model_class="%sonata.admin.comment.entity%"
-            controller="%sonata.admin.comment.controller%"
+            name="adminata.admin"
+            model_class="%adminata.admin.comment.entity%"
+            controller="%adminata.admin.comment.controller%"
             manager_type="orm"
-            group="sonata_blog"
-            translation_domain="%sonata.admin.comment.translation_domain%"
+            group="adminata_blog"
+            translation_domain="%adminata.admin.comment.translation_domain%"
             label="comments"
-            label_translator_strategy="sonata.admin.label.strategy.underscore"
+            label_translator_strategy="adminata.admin.label.strategy.underscore"
             />
     </service>
 
@@ -64,7 +64,7 @@ Once the templates are defined, create the template to render the row:
 
     {# Extend the default template, which provides batch and action cells #}
     {#     as well as the valid colspan computation #}
-    {% extends '@SonataAdmin/CRUD/base_list_flat_inner_row.html.twig' %}
+    {% extends '@Adminata/CRUD/base_list_flat_inner_row.html.twig' %}
 
     {% block row %}
 

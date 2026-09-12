@@ -1,6 +1,6 @@
 /*
  * The page shell: fixed sidebar, sticky header, and the content column that scrolls with the
- * window. The window-scroll model is deliberate — Sonata's `sonata-sticky` controller observes the
+ * window. The window-scroll model is deliberate — Sonata's `adminata-sticky` controller observes the
  * viewport, and browser find-and-scroll behaves the way people expect (PLAN/01 T4).
  */
 
@@ -175,7 +175,7 @@
         font-size: var(--text-theme-sm);
     }
 
-    /* The sticky action bar of an edit form, once `sonata-sticky` has pinned it. */
+    /* The sticky action bar of an edit form, once `adminata-sticky` has pinned it. */
     .adm-sticky.stuck {
         position: sticky;
         bottom: 0;

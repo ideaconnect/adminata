@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Form\Type\Operator;
+namespace IDCT\Adminata\Form\Type\Operator;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType as FormChoiceType;
@@ -29,7 +29,7 @@ final class DateOperatorType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choice_translation_domain' => 'SonataAdminBundle',
+            'choice_translation_domain' => 'AdminataBundle',
             'choices' => [
                 'label_date_type_equal' => self::TYPE_EQUAL,
                 'label_date_type_greater_equal' => self::TYPE_GREATER_EQUAL,
@@ -50,6 +50,6 @@ final class DateOperatorType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sonata_type_operator_date';
+        return 'adminata_type_operator_date';
     }
 }

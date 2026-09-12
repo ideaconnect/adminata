@@ -11,12 +11,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Command;
+namespace IDCT\Adminata\Tests\Command;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Command\Validators;
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Command\Validators;
 
 /**
  * @author Andrej Hudec <pulzarraider@gmail.com>

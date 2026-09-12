@@ -6,7 +6,7 @@ Extension
 
 Admin extensions allow you to add or change features of one or more Admin
 instances. To create an extension your class
-must implement the interface **Sonata\AdminBundle\Admin\AdminExtensionInterface**
+must implement the interface **IDCT\Adminata\Admin\AdminExtensionInterface**
 and be registered as a service. The interface defines a number of functions which
 you can use to customize the edit form, list view, form validation, alter newly
 created objects and other admin features.
@@ -16,17 +16,17 @@ created objects and other admin features.
     As most of the classes from sonata are **final**, "Extension" is an easy way to customize admins created in sonata's code.
 
 As an example, let's assume that we want to customize ``PageAdmin``, adding ``position`` field into the admin page,
-and this admin is declared as ``sonata.page.admin.page``
+and this admin is declared as ``adminata.page.admin.page``
 
 ::
 
     namespace App\Admin\Extension;
 
-    use Sonata\AdminBundle\Admin\AbstractAdminExtension;
-    use Sonata\AdminBundle\Form\FormMapper;
+    use IDCT\Adminata\Admin\AbstractAdminExtension;
+    use IDCT\Adminata\Form\FormMapper;
     use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
-    #[AutoconfigureTag(name: 'sonata.admin.extension', attributes: ['target' => 'sonata.page.admin.page'])]
+    #[AutoconfigureTag(name: 'adminata.admin.extension', attributes: ['target' => 'adminata.page.admin.page'])]
     final class PositionAdminExtension extends AbstractAdminExtension
     {
         public function configureFormFields(FormMapper $form): void
@@ -52,7 +52,7 @@ As you can see the **position** field was added into the admin page!
     To know more information about how to configure service tags using **yaml**, **xml** or **php** file check out `Symfony Tags docs`_
 
 
-Attributes supported by ``sonata.admin.extension`` tag
+Attributes supported by ``adminata.admin.extension`` tag
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 +------------------------+-------------------------------------------------------------------------------------------------+
@@ -97,13 +97,13 @@ Configuration extension in sonata config
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 It's a another way to configure Admin extension in case you don't want to use services tags,
-it's defined in your sonata_admin configs
+it's defined in your adminata configs
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         extensions:
             app.publish.extension:
                 admins:
@@ -148,9 +148,9 @@ it's defined in your sonata_admin configs
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         extensions:
             app.publish.extension:
                 global: true
@@ -182,7 +182,7 @@ an extensions in the `AdminInterface::configure()` method of your admin with
 the methods `addExtension` and `removeExtension`::
 
     use App\AdminExtension\PublishStatusAdminExtension;
-    use Sonata\AdminBundle\Admin\AbstractAdmin;
+    use IDCT\Adminata\Admin\AbstractAdmin;
 
     final class PublishStatusAdmin extends AbstractAdmin
     {
@@ -202,7 +202,7 @@ Reorder fields
 --------------
 
 Sometime you want to reorder the fields added from Extension.
-Methods that pass **Sonata\AdminBundle\Admin\AdminInterface\MapperInterface** or **Sonata\AdminBundle\Form\BlockFormMapperInterface** as parameter you can use ``reorder`` method
+Methods that pass **IDCT\Adminata\Admin\AdminInterface\MapperInterface** or **IDCT\Adminata\Form\BlockFormMapperInterface** as parameter you can use ``reorder`` method
 
 In case you want to reorder the fields :ref:`Groups and Tabs`, you can do like this:
 

@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Object;
+namespace IDCT\Adminata\Tests\Object;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Object\Metadata;
+use IDCT\Adminata\Object\Metadata;
 
 final class MetadataTest extends TestCase
 {

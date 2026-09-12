@@ -16,17 +16,17 @@ file that was distributed with this source code.
     inside an `overflow-x: auto` box is clipped by it, which is why upstream's export menu needed
     a hundred pixels of bottom margin — and the filters in a card of their own.
 
-    Every id, class and field name the contract names is where it was (PLAN/02 §8): `sonata-ba-list`,
-    `sonata-ba-list-field-header*`, `#list_batch_checkbox`, `#{uniqid}_all_elements`,
-    `sonata-filter-form`, `sonata-toggle-filter`, `advanced-filter`, `#filter-list-{uniqid}`,
+    Every id, class and field name the contract names is where it was (PLAN/02 §8): `adminata-list`,
+    `adminata-list-field-header*`, `#list_batch_checkbox`, `#{uniqid}_all_elements`,
+    `adminata-filter-form`, `adminata-toggle-filter`, `advanced-filter`, `#filter-list-{uniqid}`,
     `#filter-container-{uniqid}`, `#filter-{uniqid}-{name}`, and the POST fields `action`, `idx[]`,
-    `all_elements` and `_sonata_csrf_token`.
+    `all_elements` and `_adminata_csrf_token`.
 #}
 
 {% extends base_template %}
 
 {%- block actions -%}
-    {% include '@SonataAdmin/CRUD/action_buttons.html.twig' %}
+    {% include '@Adminata/CRUD/action_buttons.html.twig' %}
 {%- endblock -%}
 
 {%- block tab_menu -%}
@@ -37,11 +37,11 @@ file that was distributed with this source code.
 {%- endblock -%}
 
 {% block title %}
-    {{ admin.isChild and admin.parent.subject ? 'title_edit'|trans({'%name%': admin.parent.toString(admin.parent.subject)|u.truncate(15, '...') }, 'SonataAdminBundle') : '' }}
+    {{ admin.isChild and admin.parent.subject ? 'title_edit'|trans({'%name%': admin.parent.toString(admin.parent.subject)|u.truncate(15, '...') }, 'AdminataBundle') : '' }}
 {% endblock %}
 
 {% block navbar_title %}
-    {{ admin.isChild and admin.parent.subject ? 'title_edit'|trans({'%name%': admin.parent.toString(admin.parent.subject)|u.truncate(100, '...') }, 'SonataAdminBundle') : '' }}
+    {{ admin.isChild and admin.parent.subject ? 'title_edit'|trans({'%name%': admin.parent.toString(admin.parent.subject)|u.truncate(100, '...') }, 'AdminataBundle') : '' }}
 {% endblock %}
 
 {# Define the variable out of the block to prevent error if someone is overriding the list_table and not the list_footer #}
@@ -57,14 +57,14 @@ file that was distributed with this source code.
 
         {% if has_batch %}
             <form action="{{ admin.generateUrl('batch', {'filter': admin.filterParameters}) }}" method="POST"
-                  {{ stimulus_controller('sonata-batch') }}
+                  {{ stimulus_controller('adminata-batch') }}
             >
-            <input type="hidden" name="_sonata_csrf_token" value="{{ csrf_token }}">
+            <input type="hidden" name="_adminata_csrf_token" value="{{ csrf_token }}">
         {% endif %}
 
         <div class="adm-card">
             <div class="adm-card-body {% if datagrid_has_results %}p-0{% endif %}">
-                {{ sonata_block_render_event('sonata.admin.list.table.top', { 'admin': admin }) }}
+                {{ adminata_block_render_event('adminata.admin.list.table.top', { 'admin': admin }) }}
 
                 {% block list_header %}{% endblock %}
 
@@ -80,21 +80,21 @@ file that was distributed with this source code.
                     <div class="adm-table-wrap">
                     <div class="adm-table-scroll">
                     {% block table %}
-                        <table class="adm-table sonata-ba-list">
+                        <table class="adm-table adminata-list">
                         {% block table_header %}
                             <thead>
-                                <tr class="sonata-ba-list-field-header">
+                                <tr class="adminata-list-field-header">
                                     {% for field_description in admin.list.getElements() %}
-                                        {% if admin.hasRoute('batch') and field_description.name == constant('Sonata\\AdminBundle\\Datagrid\\ListMapper::NAME_BATCH') and batchactions|length > 0 %}
-                                            <th class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">
+                                        {% if admin.hasRoute('batch') and field_description.name == constant('IDCT\\Adminata\\Datagrid\\ListMapper::NAME_BATCH') and batchactions|length > 0 %}
+                                            <th class="adminata-list-field-header adminata-list-field-header-batch">
                                               <input type="checkbox" class="adm-checkbox" id="list_batch_checkbox"
-                                                     aria-label="{{ 'all_elements'|trans({}, 'SonataAdminBundle') }}"
-                                                     {{ stimulus_target('sonata-batch', 'all') }}
-                                                     {{ stimulus_action('sonata-batch', 'toggleAll', 'change') }}>
+                                                     aria-label="{{ 'all_elements'|trans({}, 'AdminataBundle') }}"
+                                                     {{ stimulus_target('adminata-batch', 'all') }}
+                                                     {{ stimulus_action('adminata-batch', 'toggleAll', 'change') }}>
                                             </th>
-                                        {% elseif field_description.name == constant('Sonata\\AdminBundle\\Datagrid\\ListMapper::NAME_SELECT') %}
-                                            <th class="sonata-ba-list-field-header sonata-ba-list-field-header-select"></th>
-                                        {% elseif field_description.name == constant('Sonata\\AdminBundle\\Datagrid\\ListMapper::NAME_ACTIONS') and app.request.isXmlHttpRequest %}
+                                        {% elseif field_description.name == constant('IDCT\\Adminata\\Datagrid\\ListMapper::NAME_SELECT') %}
+                                            <th class="adminata-list-field-header adminata-list-field-header-select"></th>
+                                        {% elseif field_description.name == constant('IDCT\\Adminata\\Datagrid\\ListMapper::NAME_ACTIONS') and app.request.isXmlHttpRequest %}
                                             {# NEXT_MAJOR: Remove this case in version 5 and recommend using the option `ajax_hidden` instead. #}
                                             {# Action buttons disabled in ajax view! #}
                                         {% elseif field_description.getOption('ajax_hidden') == true and app.request.isXmlHttpRequest %}
@@ -104,19 +104,19 @@ file that was distributed with this source code.
                                             {% if field_description.option('sortable', false) %}
                                                 {% set sortable             = true %}
                                                 {% set sort_parameters      = admin.datagrid.sortparameters(field_description) %}
-                                                {% set current              = admin.datagrid.values[constant('Sonata\\AdminBundle\\Datagrid\\DatagridInterface::SORT_BY')] is defined
-                                                    and (admin.datagrid.values[constant('Sonata\\AdminBundle\\Datagrid\\DatagridInterface::SORT_BY')] == field_description
-                                                        or admin.datagrid.values[constant('Sonata\\AdminBundle\\Datagrid\\DatagridInterface::SORT_BY')].name == sort_parameters.filter[constant('Sonata\\AdminBundle\\Datagrid\\DatagridInterface::SORT_BY')]) %}
-                                                {% set sort_active_class    = current ? 'sonata-ba-list-field-order-active' : '' %}
-                                                {% set sort_by              = current ? admin.datagrid.values[constant('Sonata\\AdminBundle\\Datagrid\\DatagridInterface::SORT_ORDER')] : field_description.option(constant('Sonata\\AdminBundle\\Datagrid\\DatagridInterface::SORT_ORDER'), sort_parameters.filter[constant('Sonata\\AdminBundle\\Datagrid\\DatagridInterface::SORT_ORDER')]) %}
+                                                {% set current              = admin.datagrid.values[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_BY')] is defined
+                                                    and (admin.datagrid.values[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_BY')] == field_description
+                                                        or admin.datagrid.values[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_BY')].name == sort_parameters.filter[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_BY')]) %}
+                                                {% set sort_active_class    = current ? 'adminata-list-field-order-active' : '' %}
+                                                {% set sort_by              = current ? admin.datagrid.values[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_ORDER')] : field_description.option(constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_ORDER'), sort_parameters.filter[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_ORDER')]) %}
                                             {% endif %}
 
-                                            <th class="sonata-ba-list-field-header-{{ field_description.type }}{% if sortable %} sonata-ba-list-field-header-order-{{ sort_by|lower }} {{ sort_active_class }}{% endif %}{% if field_description.option('header_class') %} {{ field_description.option('header_class') }}{% endif %}"{% if field_description.option('header_style') %} style="{{ field_description.option('header_style') }}"{% endif %}{% if sortable and current %} aria-sort="{{ 'asc' == sort_by|lower ? 'descending' : 'ascending' }}"{% endif %}>
+                                            <th class="adminata-list-field-header-{{ field_description.type }}{% if sortable %} adminata-list-field-header-order-{{ sort_by|lower }} {{ sort_active_class }}{% endif %}{% if field_description.option('header_class') %} {{ field_description.option('header_class') }}{% endif %}"{% if field_description.option('header_style') %} style="{{ field_description.option('header_style') }}"{% endif %}{% if sortable and current %} aria-sort="{{ 'asc' == sort_by|lower ? 'descending' : 'ascending' }}"{% endif %}>
                                                 {% if sortable %}
                                                     <a class="inline-flex items-center gap-1" href="{{ admin.generateUrl(action|default('list'), sort_parameters|merge({_list_mode: admin.getListMode()})) }}">
                                                 {% endif %}
                                                 {% if field_description.getOption('label_icon') %}
-                                                    <span class="sonata-ba-list-field-header-label-icon">
+                                                    <span class="adminata-list-field-header-label-icon">
                                                         {{ field_description.getOption('label_icon')|parse_icon }}
                                                     </span>
                                                 {% endif %}
@@ -139,12 +139,12 @@ file that was distributed with this source code.
                         {% endblock %}
 
                         {% block table_body %}
-                            {#- One `sonata-row-link` for the whole body rather than one per row:
+                            {#- One `adminata-row-link` for the whole body rather than one per row:
                                 the destination is on each `<tr>`, and the controller reads it off
                                 the row the click came from. `auxclick` is the middle button, which
                                 opens the object in a new tab the way it would on a link. -#}
-                            <tbody {{ stimulus_controller('sonata-row-link') }}
-                                   {{ stimulus_action('sonata-row-link', 'open', 'click')|stimulus_action('sonata-row-link', 'open', 'auxclick') }}>
+                            <tbody {{ stimulus_controller('adminata-row-link') }}
+                                   {{ stimulus_action('adminata-row-link', 'open', 'click')|stimulus_action('adminata-row-link', 'open', 'auxclick') }}>
                                 {% include get_admin_template('outer_list_rows_' ~ admin.getListMode(), admin.code) %}
                             </tbody>
                         {% endblock %}
@@ -159,11 +159,11 @@ file that was distributed with this source code.
                     {% block no_result_content %}
                         <div class="adm-list-empty">
                             <i class="fas fa-inbox text-2xl" aria-hidden="true"></i>
-                            <p>{{ 'no_result'|trans({}, 'SonataAdminBundle') }}</p>
+                            <p>{{ 'no_result'|trans({}, 'AdminataBundle') }}</p>
 
                             {%- if admin.datagrid.pager.countResults() > 0 -%}
                                 <a class="adm-btn adm-btn-secondary adm-btn-sm" href="{{ admin.generateUrl(action|default('list'), admin.datagrid.getPaginationParameters(1)) }}">
-                                    {{- 'go_to_the_first_page'|trans({}, 'SonataAdminBundle') -}}
+                                    {{- 'go_to_the_first_page'|trans({}, 'AdminataBundle') -}}
                                 </a>
                             {%- elseif not app.request.xmlHttpRequest -%}
                                 <ul class="list-none">
@@ -174,7 +174,7 @@ file that was distributed with this source code.
                     {% endblock %}
                 {% endif %}
 
-                {{ sonata_block_render_event('sonata.admin.list.table.bottom', { 'admin': admin }) }}
+                {{ adminata_block_render_event('adminata.admin.list.table.bottom', { 'admin': admin }) }}
             </div>
 
             {% block list_footer %}
@@ -187,7 +187,7 @@ file that was distributed with this source code.
                                         {#
                                             Upstream put twelve lines of jQuery here. The block stays
                                             so an application overriding it keeps compiling; it is
-                                            empty, and `sonata-batch` does the work.
+                                            empty, and `adminata-batch` does the work.
                                         #}
                                         {% block batch_javascript %}{% endblock %}
 
@@ -195,11 +195,11 @@ file that was distributed with this source code.
                                             {#- No `for`: the label wraps the input, which is the association. -#}
                                             <label class="adm-checkbox-label">
                                                 <input type="checkbox" class="adm-checkbox" name="all_elements" id="{{ admin.uniqid }}_all_elements">
-                                                {{ 'all_elements'|trans({}, 'SonataAdminBundle') }}
+                                                {{ 'all_elements'|trans({}, 'AdminataBundle') }}
                                                 ({{ admin.datagrid.pager.countResults() }})
                                             </label>
 
-                                            <label class="sr-only" for="{{ admin.uniqid }}_batch_action">{{ 'btn_batch'|trans({}, 'SonataAdminBundle') }}</label>
+                                            <label class="sr-only" for="{{ admin.uniqid }}_batch_action">{{ 'btn_batch'|trans({}, 'AdminataBundle') }}</label>
                                             <select class="adm-select w-auto" name="action" id="{{ admin.uniqid }}_batch_action">
                                                 {% for action, options in batchactions %}
                                                     <option value="{{ action }}">
@@ -214,7 +214,7 @@ file that was distributed with this source code.
                                         {% endblock %}
 
                                         <button type="submit" class="adm-btn adm-btn-primary adm-btn-sm">
-                                            {{ 'btn_batch'|trans({}, 'SonataAdminBundle') }}
+                                            {{ 'btn_batch'|trans({}, 'AdminataBundle') }}
                                         </button>
                                     {% endblock %}
                                 {% endif %}
@@ -222,26 +222,26 @@ file that was distributed with this source code.
                                 <div class="ms-auto flex flex-wrap items-center gap-3">
                                     {% if admin.hasRoute('export') and admin.hasAccess('export') and export_formats|length %}
                                         <div class="adm-dropdown"
-                                             {{ stimulus_controller('sonata-dropdown') }}
-                                             {{ stimulus_action('sonata-dropdown', 'closeAndFocus', 'keydown.esc')|stimulus_action('sonata-dropdown', 'navigate', 'keydown') }}
+                                             {{ stimulus_controller('adminata-dropdown') }}
+                                             {{ stimulus_action('adminata-dropdown', 'closeAndFocus', 'keydown.esc')|stimulus_action('adminata-dropdown', 'navigate', 'keydown') }}
                                         >
                                             <button type="button" class="adm-btn adm-btn-secondary adm-btn-sm"
                                                     aria-expanded="false"
                                                     aria-haspopup="menu"
-                                                    {{ stimulus_target('sonata-dropdown', 'toggle') }}
-                                                    {{ stimulus_action('sonata-dropdown', 'toggle', 'click') }}
+                                                    {{ stimulus_target('adminata-dropdown', 'toggle') }}
+                                                    {{ stimulus_action('adminata-dropdown', 'toggle', 'click') }}
                                             >
                                                 <i class="fas fa-share-from-square" aria-hidden="true"></i>
-                                                {{ "label_export_download"|trans({}, "SonataAdminBundle") }}
+                                                {{ "label_export_download"|trans({}, "AdminataBundle") }}
                                                 <i class="fas fa-angle-down" aria-hidden="true"></i>
                                             </button>
 
-                                            <ul class="adm-dropdown__menu adm-dropdown__menu-start" role="menu" hidden {{ stimulus_target('sonata-dropdown', 'menu') }}>
+                                            <ul class="adm-dropdown__menu adm-dropdown__menu-start" role="menu" hidden {{ stimulus_target('adminata-dropdown', 'menu') }}>
                                                 {% for format in export_formats %}
                                                     <li role="none">
                                                         <a class="adm-dropdown__item" role="menuitem" href="{{ admin.generateUrl('export', admin.datagrid.paginationparameters(0) + {'format' : format}) }}">
                                                             <i class="fas fa-circle-down" aria-hidden="true"></i>
-                                                            {{ ("export_format_" ~ format)|trans({}, 'SonataAdminBundle') }}
+                                                            {{ ("export_format_" ~ format)|trans({}, 'AdminataBundle') }}
                                                         </a>
                                                     </li>
                                                 {% endfor %}
@@ -282,32 +282,32 @@ file that was distributed with this source code.
     {# NEXT_MAJOR: Remove |default(filter.option('show_filter')) #}
     {% set displayableFilters = admin.datagrid.filters|filter(filter => filter.showFilter|default(filter.option('show_filter')) is not same as (false)) %}
     {%- if displayableFilters|length %}
-        <div class="adm-dropdown sonata-actions" id="filter-list-{{ admin.uniqid() }}"
-             {{ stimulus_controller('sonata-filter-list', {}, { 'active': 'active' }, { 'sonata-filter': '#filter-container-' ~ admin.uniqid() })|stimulus_controller('sonata-dropdown') }}
-             {{ stimulus_action('sonata-dropdown', 'closeAndFocus', 'keydown.esc') }}
+        <div class="adm-dropdown adminata-actions" id="filter-list-{{ admin.uniqid() }}"
+             {{ stimulus_controller('adminata-filter-list', {}, { 'active': 'active' }, { 'adminata-filter': '#filter-container-' ~ admin.uniqid() })|stimulus_controller('adminata-dropdown') }}
+             {{ stimulus_action('adminata-dropdown', 'closeAndFocus', 'keydown.esc') }}
         >
-            <button type="button" class="adm-btn adm-btn-secondary adm-btn-sm sonata-ba-action"
+            <button type="button" class="adm-btn adm-btn-secondary adm-btn-sm adminata-action"
                     aria-expanded="false"
-                    {{ stimulus_target('sonata-dropdown', 'toggle') }}
-                    {{ stimulus_action('sonata-dropdown', 'toggle', 'click') }}
+                    {{ stimulus_target('adminata-dropdown', 'toggle') }}
+                    {{ stimulus_action('adminata-dropdown', 'toggle', 'click') }}
             >
                 <i class="fas fa-filter" aria-hidden="true"></i>
-                {{ 'link_filters'|trans({}, 'SonataAdminBundle') }}
-                <span class="adm-badge adm-badge-brand" {{ stimulus_target('sonata-filter-list', 'counter') }}></span>
+                {{ 'link_filters'|trans({}, 'AdminataBundle') }}
+                <span class="adm-badge adm-badge-brand" {{ stimulus_target('adminata-filter-list', 'counter') }}></span>
                 <i class="fas fa-angle-down" aria-hidden="true"></i>
             </button>
 
-            <ul class="adm-dropdown__menu adm-dropdown__menu-start max-h-[75vh] overflow-y-auto" hidden {{ stimulus_target('sonata-dropdown', 'menu') }}>
+            <ul class="adm-dropdown__menu adm-dropdown__menu-start max-h-[75vh] overflow-y-auto" hidden {{ stimulus_target('adminata-dropdown', 'menu') }}>
                 {% for filter in displayableFilters %}
                     {# NEXT_MAJOR: Remove |default(filter.option('show_filter')) #}
                     {% set filterDisplayed = filter.isActive() or filter.showFilter|default(filter.option('show_filter')) is same as (true) %}
                     <li>
                         <button type="button"
-                                class="adm-dropdown__item sonata-toggle-filter sonata-ba-action{% if filterDisplayed %} active{% endif %}"
+                                class="adm-dropdown__item adminata-toggle-filter adminata-action{% if filterDisplayed %} active{% endif %}"
                                 aria-pressed="{{ filterDisplayed ? 'true' : 'false' }}"
                                 data-filter="filter-{{ admin.uniqid }}-{{ filter.name }}"
-                                {{ stimulus_target('sonata-filter-list', 'field') }}
-                                {{ stimulus_action('sonata-filter-list', 'toggle:prevent:stop', 'click') }}
+                                {{ stimulus_target('adminata-filter-list', 'field') }}
+                                {{ stimulus_action('adminata-filter-list', 'toggle:prevent:stop', 'click') }}
                         >
                             {% if filter.label is not same as(false) %}
                                 {% if filter.translationDomain is same as(false) %}
@@ -330,12 +330,12 @@ file that was distributed with this source code.
     {% if admin.datagrid.filters %}
         {% form_theme form get_admin_template('filter', admin.code) %}
 
-        <div class="col-span-12 sonata-filters-box"
-             id="filter-container-{{ admin.uniqid() }}" {{ stimulus_controller('sonata-filter', { 'defaultValues': admin.defaultFilterParameters|json_encode }, {}, { 'sonata-filter-list': '#filter-list-' ~ admin.uniqid() }) }} {% if not admin.datagrid.hasDisplayableFilters %}hidden{% endif %}>
+        <div class="col-span-12 adminata-filters-box"
+             id="filter-container-{{ admin.uniqid() }}" {{ stimulus_controller('adminata-filter', { 'defaultValues': admin.defaultFilterParameters|json_encode }, {}, { 'adminata-filter-list': '#filter-list-' ~ admin.uniqid() }) }} {% if not admin.datagrid.hasDisplayableFilters %}hidden{% endif %}>
             <div class="adm-card">
                 <div class="adm-card-body">
                     <form
-                        class="sonata-filter-form {{ admin.isChild and 1 == admin.datagrid.filters|length ? 'hidden' : '' }}"
+                        class="adminata-filter-form {{ admin.isChild and 1 == admin.datagrid.filters|length ? 'hidden' : '' }}"
                         action="{{ admin.generateUrl(action|default('list')) }}"
                         method="GET"
                         {#- Named rather than `role="form"`: the role on a `<form>` is redundant,
@@ -343,9 +343,9 @@ file that was distributed with this source code.
 
                             The closing tag keeps its whitespace: a `-#}` here would strip the
                             newline on both sides and glue `method="GET"` to the next attribute. #}
-                        aria-label="{{ 'link_filters'|trans({}, 'SonataAdminBundle') }}"
-                        {{ stimulus_target('sonata-filter', 'form') }}
-                        {{ stimulus_action('sonata-filter', 'prepareSubmit', 'submit') }}>
+                        aria-label="{{ 'link_filters'|trans({}, 'AdminataBundle') }}"
+                        {{ stimulus_target('adminata-filter', 'form') }}
+                        {{ stimulus_action('adminata-filter', 'prepareSubmit', 'submit') }}>
                         {{ form_errors(form) }}
 
                         <div class="flex flex-col gap-3">
@@ -362,14 +362,14 @@ file that was distributed with this source code.
                                 {% set valueIsCompound = valueField.children|length > 0 %}
                                 {#- The autocomplete widget's control is the combobox it draws, not
                                     an element carrying the field's own id. -#}
-                                {% set valueLabelFor = 'sonata_type_model_autocomplete' in valueField.vars.block_prefixes
+                                {% set valueLabelFor = 'adminata_type_model_autocomplete' in valueField.vars.block_prefixes
                                     ? valueField.vars.id ~ '_autocomplete_input'
                                     : valueField.vars.id %}
                                 {% set filterLabelId = 'filter-' ~ admin.uniqid ~ '-' ~ filter.name ~ '-label' %}
                                 {% set filterLabel = filter.translationDomain is same as(false)
                                     ? filter.label
                                     : filter.label|trans(filter.option('label_translation_parameters', {}), filter.translationDomain ?? admin.translationDomain) %}
-                                <div class="grid grid-cols-12 items-center gap-3 {% block sonata_list_filter_group_class %}{% endblock %}" id="filter-{{ admin.uniqid }}-{{ filter.name }}" {{ stimulus_target('sonata-filter', 'group') }}{% if valueIsCompound and filter.label is not same as(false) %} role="group" aria-labelledby="{{ filterLabelId }}"{% endif %} {% if not filterDisplayed %}hidden{% endif %}>
+                                <div class="grid grid-cols-12 items-center gap-3 {% block adminata_list_filter_group_class %}{% endblock %}" id="filter-{{ admin.uniqid }}-{{ filter.name }}" {{ stimulus_target('adminata-filter', 'group') }}{% if valueIsCompound and filter.label is not same as(false) %} role="group" aria-labelledby="{{ filterLabelId }}"{% endif %} {% if not filterDisplayed %}hidden{% endif %}>
                                     {% if filter.label is not same as(false) %}
                                         {% if valueIsCompound %}
                                             <span id="{{ filterLabelId }}" class="adm-label col-span-12 mb-0 md:col-span-3">
@@ -380,7 +380,7 @@ file that was distributed with this source code.
                                         {{ valueIsCompound ? '</span>'|raw : '</label>'|raw }}
                                     {% endif %}
                                     {% set attr = form[filter.formName].children['type'].vars.attr|default({}) %}
-                                    <div class="advanced-filter col-span-12 md:col-span-3" {{ stimulus_target('sonata-filter', 'advanced') }} {% if not field_value(form[filter.formName].children['type']) %}hidden{% endif %}>
+                                    <div class="advanced-filter col-span-12 md:col-span-3" {{ stimulus_target('adminata-filter', 'advanced') }} {% if not field_value(form[filter.formName].children['type']) %}hidden{% endif %}>
                                         {{ form_widget(form[filter.formName].children['type'], {'attr':  attr}) }}
                                     </div>
 
@@ -390,9 +390,9 @@ file that was distributed with this source code.
 
                                     {% if filterCanBeDisplayed %}
                                         <div class="col-span-1">
-                                            <button type="button" class="adm-btn-icon sonata-ba-action"
-                                                    aria-label="{{ 'link_reset_filter'|trans({}, 'SonataAdminBundle') }}"
-                                                    {{ stimulus_action('sonata-filter', 'hideFilter', 'click', { 'id': 'filter-' ~ admin.uniqid ~ '-' ~ filter.name }) }}
+                                            <button type="button" class="adm-btn-icon adminata-action"
+                                                    aria-label="{{ 'link_reset_filter'|trans({}, 'AdminataBundle') }}"
+                                                    {{ stimulus_action('adminata-filter', 'hideFilter', 'click', { 'id': 'filter-' ~ admin.uniqid ~ '-' ~ filter.name }) }}
                                             >
                                                 <i class="fas fa-circle-minus" aria-hidden="true"></i>
                                             </button>
@@ -407,24 +407,24 @@ file that was distributed with this source code.
                             {% endfor %}
                         </div>
 
-                        <input type="hidden" name="filter[{{ constant('Sonata\\AdminBundle\\Datagrid\\DatagridInterface::PAGE') }}]" id="filter__page" value="1">
+                        <input type="hidden" name="filter[{{ constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::PAGE') }}]" id="filter__page" value="1">
 
-                        {% set foo = form[constant('Sonata\\AdminBundle\\Datagrid\\DatagridInterface::PAGE')].setRendered() %}
+                        {% set foo = form[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::PAGE')].setRendered() %}
                         {{ form_rest(form) }}
 
                         <div class="mt-4 flex flex-wrap items-center gap-3">
-                            <button type="submit" class="adm-btn adm-btn-primary" {{ stimulus_target('sonata-filter', 'submitter') }}>
-                                <i class="fas fa-filter" aria-hidden="true"></i> {{ 'btn_filter'|trans({}, 'SonataAdminBundle') }}
+                            <button type="submit" class="adm-btn adm-btn-primary" {{ stimulus_target('adminata-filter', 'submitter') }}>
+                                <i class="fas fa-filter" aria-hidden="true"></i> {{ 'btn_filter'|trans({}, 'AdminataBundle') }}
                             </button>
 
                             <a class="adm-btn adm-btn-secondary" href="{{ admin.generateUrl(action|default('list'), {filters: 'reset'}) }}">
-                                {{ 'link_reset_filter'|trans({}, 'SonataAdminBundle') }}
+                                {{ 'link_reset_filter'|trans({}, 'AdminataBundle') }}
                             </a>
 
                             {% if withAdvancedFilter %}
-                                <button type="button" class="adm-btn adm-btn-ghost" {{ stimulus_action('sonata-filter', 'toggleAdvanced', 'click') }}>
+                                <button type="button" class="adm-btn adm-btn-ghost" {{ stimulus_action('adminata-filter', 'toggleAdvanced', 'click') }}>
                                     <i class="fas fa-gears" aria-hidden="true"></i>
-                                    {{ 'btn_advanced_filters'|trans({}, 'SonataAdminBundle') }}
+                                    {{ 'btn_advanced_filters'|trans({}, 'AdminataBundle') }}
                                 </button>
                             {% endif %}
                         </div>

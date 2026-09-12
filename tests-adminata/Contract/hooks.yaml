@@ -18,14 +18,14 @@ shell:
         - standard_layout.html.twig
         - ajax_layout.html.twig
         - Core/user_block.html.twig
-        - Menu/sonata_menu.html.twig
+        - Menu/adminata_menu.html.twig
     hooks:
         - main-header
         - main-sidebar
         - sidebar-menu
         - content-wrapper
         - content-header
-        - sonata-actions
+        - adminata-actions
         - dropdown-user
         - breadcrumb
         - no-js
@@ -42,14 +42,14 @@ list:
         - CRUD/list__select.html.twig
         - CRUD/list__action.html.twig
     hooks:
-        - sonata-ba-list
-        - sonata-ba-list-field
-        - sonata-link-identifier
+        - adminata-list
+        - adminata-list-field
+        - adminata-link-identifier
         - objectId
         - list_batch_checkbox
         - all_elements
-        - sonata-filter-form
-        - sonata-toggle-filter
+        - adminata-filter-form
+        - adminata-toggle-filter
         - advanced-filter
 
 list_row_actions:
@@ -87,13 +87,13 @@ forms:
     templates:
         - Form/form_admin_fields.html.twig
     hooks:
-        - sonata-ba-field
-        - sonata-ba-field-error
-        - sonata-ba-field-help
-        - sonata-ba-field-error-messages
+        - adminata-field
+        - adminata-field-error
+        - adminata-field-help
+        - adminata-field-error-messages
         - control-label__text
-        - sonata-ba-field-container
-        - sonata-collection-row
+        - adminata-field-container
+        - adminata-collection-row
         - data-prototype
 
 form_chrome:
@@ -103,9 +103,9 @@ form_chrome:
         - CRUD/base_edit.html.twig
         - CRUD/base_edit_form.html.twig
     hooks:
-        - sonata-ba-form
-        - sonata-ba-form-actions
-        - sonata-ba-collapsed-fields
+        - adminata-form
+        - adminata-form-actions
+        - adminata-collapsed-fields
 
 show:
     enabled: true
@@ -115,12 +115,12 @@ show:
         - CRUD/base_show_field.html.twig
         - CRUD/delete.html.twig
     hooks:
-        # `sonata-ba-view-title` is not here: 4.43 emits it only from `CRUD/preview.html.twig`,
+        # `adminata-view-title` is not here: 4.43 emits it only from `CRUD/preview.html.twig`,
         # which adminata defers (PLAN/03 §E). PLAN/02 §8 listed it under the show page and was
         # corrected.
-        - sonata-ba-view
-        - sonata-ba-view-container
-        - sonata-ba-delete
+        - adminata-view
+        - adminata-view-container
+        - adminata-delete
 
 flash:
     enabled: true
@@ -141,4 +141,4 @@ buttons:
         - Button/show_button.html.twig
         - Button/history_button.html.twig
     hooks:
-        - sonata-action-element
+        - adminata-action-element

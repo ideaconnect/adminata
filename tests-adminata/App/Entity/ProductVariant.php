@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * The entry type of the native Symfony CollectionType on ProductAdmin: an inline sub-form with
- * `allow_add` and `allow_delete`, which is what the `sonata-collection` controller drives.
+ * `allow_add` and `allow_delete`, which is what the `adminata-collection` controller drives.
  */
 #[ORM\Entity]
 #[ORM\Table(name: 'demo_product_variant')]

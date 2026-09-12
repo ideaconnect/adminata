@@ -11,21 +11,21 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Exporter\Writer;
+namespace IDCT\Adminata\Exporter\Writer;
 
-use Sonata\AdminBundle\Exporter\Exception\SonataExporterException;
+use IDCT\Adminata\Exporter\Exception\AdminataExporterException;
 
 interface WriterInterface
 {
     /**
-     * @throws SonataExporterException
+     * @throws AdminataExporterException
      */
     public function open(): void;
 
     /**
      * @param mixed[] $data
      *
-     * @throws SonataExporterException
+     * @throws AdminataExporterException
      */
     public function write(array $data): void;
 

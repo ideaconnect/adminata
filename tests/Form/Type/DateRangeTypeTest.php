@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\Type;
+namespace IDCT\Adminata\Tests\Form\Type;
 
-use Sonata\AdminBundle\Form\Type\DateRangeType;
+use IDCT\Adminata\Form\Type\DateRangeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +24,7 @@ final class DateRangeTypeTest extends TypeTestCase
     {
         $type = new DateRangeType();
 
-        static::assertSame('sonata_type_date_range', $type->getBlockPrefix());
+        static::assertSame('adminata_type_date_range', $type->getBlockPrefix());
 
         $type->configureOptions($resolver = new OptionsResolver());
 

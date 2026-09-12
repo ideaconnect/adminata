@@ -43,7 +43,7 @@ const BROWSERS = {
 
 /**
  * One project per browser and viewport. The theme is not a project: a spec sets the
- * `sonata_theme` cookie itself, so that a single run can compare light against dark.
+ * `adminata_theme` cookie itself, so that a single run can compare light against dark.
  *
  * Screenshots are Chromium-only. PLAN/08 §3 asks for a baseline per page, viewport and theme —
  * eighteen images — and capturing the same eighteen in three engines would triple what the

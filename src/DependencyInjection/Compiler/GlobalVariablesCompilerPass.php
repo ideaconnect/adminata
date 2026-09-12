@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -27,6 +27,6 @@ final class GlobalVariablesCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $container->getDefinition('twig')
-            ->addMethodCall('addGlobal', ['sonata_config', new Reference('sonata.admin.configuration')]);
+            ->addMethodCall('addGlobal', ['adminata_config', new Reference('adminata.admin.configuration')]);
     }
 }

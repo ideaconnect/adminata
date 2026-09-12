@@ -18,14 +18,14 @@ import { mount, settle } from './helpers.js';
 const DROPDOWN = `
     <div>
         <a href="/before" id="before">before</a>
-        <div data-controller="sonata-dropdown"
-             data-action="keydown.esc->sonata-dropdown#closeAndFocus keydown->sonata-dropdown#navigate">
+        <div data-controller="adminata-dropdown"
+             data-action="keydown.esc->adminata-dropdown#closeAndFocus keydown->adminata-dropdown#navigate">
             <button type="button" aria-expanded="false"
-                    data-sonata-dropdown-target="toggle"
-                    data-action="click->sonata-dropdown#toggle">
+                    data-adminata-dropdown-target="toggle"
+                    data-action="click->adminata-dropdown#toggle">
                 Menu
             </button>
-            <div class="adm-dropdown__menu" hidden data-sonata-dropdown-target="menu">
+            <div class="adm-dropdown__menu" hidden data-adminata-dropdown-target="menu">
                 <a href="/one" id="one">One</a>
                 <a href="/two" id="two">Two</a>
                 <a href="/three" id="three">Three</a>
@@ -35,18 +35,18 @@ const DROPDOWN = `
 `;
 
 const parts = (element) => ({
-    toggle: element.querySelector('[data-sonata-dropdown-target="toggle"]'),
-    menu: element.querySelector('[data-sonata-dropdown-target="menu"]'),
+    toggle: element.querySelector('[data-adminata-dropdown-target="toggle"]'),
+    menu: element.querySelector('[data-adminata-dropdown-target="menu"]'),
 });
 
 const arrow = (element, key) =>
     element
-        .querySelector('[data-sonata-dropdown-target="toggle"]')
+        .querySelector('[data-adminata-dropdown-target="toggle"]')
         .dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
 
-describe('sonata-dropdown', () => {
+describe('adminata-dropdown', () => {
     it('starts from what the server rendered', async () => {
-        const { element } = await mount('sonata-dropdown', DropdownController, DROPDOWN);
+        const { element } = await mount('adminata-dropdown', DropdownController, DROPDOWN);
         const { toggle, menu } = parts(element);
 
         expect(toggle.getAttribute('aria-expanded')).toBe('false');
@@ -54,7 +54,7 @@ describe('sonata-dropdown', () => {
     });
 
     it('opens and closes on the button', async () => {
-        const { element } = await mount('sonata-dropdown', DropdownController, DROPDOWN);
+        const { element } = await mount('adminata-dropdown', DropdownController, DROPDOWN);
         const { toggle, menu } = parts(element);
 
         toggle.click();
@@ -70,7 +70,7 @@ describe('sonata-dropdown', () => {
     });
 
     it('closes when something outside is clicked, and not when something inside is', async () => {
-        const { element } = await mount('sonata-dropdown', DropdownController, DROPDOWN);
+        const { element } = await mount('adminata-dropdown', DropdownController, DROPDOWN);
         const { toggle, menu } = parts(element);
 
         toggle.click();
@@ -86,7 +86,7 @@ describe('sonata-dropdown', () => {
     });
 
     it('closes on Escape and puts focus back on the button', async () => {
-        const { element } = await mount('sonata-dropdown', DropdownController, DROPDOWN);
+        const { element } = await mount('adminata-dropdown', DropdownController, DROPDOWN);
         const { toggle, menu } = parts(element);
 
         toggle.click();
@@ -101,7 +101,7 @@ describe('sonata-dropdown', () => {
     });
 
     it('opens on the down arrow with the first item focused', async () => {
-        const { element } = await mount('sonata-dropdown', DropdownController, DROPDOWN);
+        const { element } = await mount('adminata-dropdown', DropdownController, DROPDOWN);
         const { toggle, menu } = parts(element);
 
         arrow(element, 'ArrowDown');
@@ -112,7 +112,7 @@ describe('sonata-dropdown', () => {
     });
 
     it('opens on the up arrow with the last item focused', async () => {
-        const { element } = await mount('sonata-dropdown', DropdownController, DROPDOWN);
+        const { element } = await mount('adminata-dropdown', DropdownController, DROPDOWN);
         const { menu } = parts(element);
 
         arrow(element, 'ArrowUp');
@@ -122,7 +122,7 @@ describe('sonata-dropdown', () => {
     });
 
     it('walks the items and wraps around', async () => {
-        const { element } = await mount('sonata-dropdown', DropdownController, DROPDOWN);
+        const { element } = await mount('adminata-dropdown', DropdownController, DROPDOWN);
         const { menu } = parts(element);
 
         arrow(element, 'ArrowDown');
@@ -136,12 +136,12 @@ describe('sonata-dropdown', () => {
     });
 
     it('announces opening and closing', async () => {
-        const { element } = await mount('sonata-dropdown', DropdownController, DROPDOWN);
+        const { element } = await mount('adminata-dropdown', DropdownController, DROPDOWN);
         const { toggle } = parts(element);
         const seen = [];
 
-        element.addEventListener('sonata-dropdown:opened', () => seen.push('opened'));
-        element.addEventListener('sonata-dropdown:closed', () => seen.push('closed'));
+        element.addEventListener('adminata-dropdown:opened', () => seen.push('opened'));
+        element.addEventListener('adminata-dropdown:closed', () => seen.push('closed'));
 
         toggle.click();
         await settle();

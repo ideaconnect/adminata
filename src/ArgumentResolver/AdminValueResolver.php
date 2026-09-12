@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\ArgumentResolver;
+namespace IDCT\Adminata\ArgumentResolver;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
-use Sonata\AdminBundle\Request\AdminFetcherInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Request\AdminFetcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 

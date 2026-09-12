@@ -78,7 +78,7 @@ const checks = [
     ],
     [
         'T7  a layer declared after the import sorts after utilities',
-        () => position('@layer sonata-overrides') > position('@layer utilities'),
+        () => position('@layer adminata-overrides') > position('@layer utilities'),
     ],
     ['T9a bare z-99999', () => (rule(String.raw`.z-99999`) ?? '').includes('z-index: 99999')],
     [

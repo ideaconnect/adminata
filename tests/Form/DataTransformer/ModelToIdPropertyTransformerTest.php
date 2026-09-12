@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Form\DataTransformer;
+namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
 use Doctrine\Common\Collections\Collection;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Form\DataTransformer\ModelToIdPropertyTransformer;
-use Sonata\AdminBundle\Model\ModelManagerInterface;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\Foo;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\FooArrayAccess;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Form\DataTransformer\ModelToIdPropertyTransformer;
+use IDCT\Adminata\Model\ModelManagerInterface;
+use IDCT\Adminata\Tests\Fixtures\Entity\Foo;
+use IDCT\Adminata\Tests\Fixtures\Entity\FooArrayAccess;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 final class ModelToIdPropertyTransformerTest extends TestCase

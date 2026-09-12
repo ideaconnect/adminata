@@ -13,25 +13,25 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\Twig\Extension\FormTypeExtension;
-use Sonata\AdminBundle\Twig\Extension\StatusExtension;
-use Sonata\AdminBundle\Twig\Extension\TemplateExtension;
-use Sonata\AdminBundle\Twig\StatusRuntime;
+use IDCT\Adminata\Twig\Extension\FormTypeExtension;
+use IDCT\Adminata\Twig\Extension\StatusExtension;
+use IDCT\Adminata\Twig\Extension\TemplateExtension;
+use IDCT\Adminata\Twig\StatusRuntime;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()
 
-        ->set('sonata.twig.extension.wrapping', FormTypeExtension::class)
+        ->set('adminata.twig.extension.wrapping', FormTypeExtension::class)
             ->tag('twig.extension')
-            ->args([param('sonata.twig.form_type')])
+            ->args([param('adminata.twig.form_type')])
 
-        ->set('sonata.twig.status_runtime', StatusRuntime::class)
+        ->set('adminata.twig.status_runtime', StatusRuntime::class)
             ->tag('twig.runtime')
 
-        ->set('sonata.twig.status_extension', StatusExtension::class)
+        ->set('adminata.twig.status_extension', StatusExtension::class)
             ->tag('twig.extension')
 
-        ->set('sonata.twig.template_extension', TemplateExtension::class)
+        ->set('adminata.twig.template_extension', TemplateExtension::class)
             ->tag('twig.extension')
             ->args([param('kernel.debug')]);
 };

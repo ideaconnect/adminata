@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block\Service;
+namespace IDCT\Adminata\Block\Service;
 
-use Sonata\AdminBundle\Block\BlockContextInterface;
-use Sonata\AdminBundle\Form\BlockFormMapperInterface;
-use Sonata\AdminBundle\Form\Type\CollectionType;
-use Sonata\AdminBundle\Form\Type\ContainerTemplateType;
-use Sonata\AdminBundle\Form\Type\ImmutableArrayType;
-use Sonata\AdminBundle\Meta\Metadata;
-use Sonata\AdminBundle\Meta\MetadataInterface;
-use Sonata\AdminBundle\Model\BlockInterface;
-use Sonata\AdminBundle\Validator\ErrorElement;
+use IDCT\Adminata\Block\BlockContextInterface;
+use IDCT\Adminata\Form\BlockFormMapperInterface;
+use IDCT\Adminata\Form\Type\CollectionType;
+use IDCT\Adminata\Form\Type\ContainerTemplateType;
+use IDCT\Adminata\Form\Type\ImmutableArrayType;
+use IDCT\Adminata\Meta\Metadata;
+use IDCT\Adminata\Meta\MetadataInterface;
+use IDCT\Adminata\Model\BlockInterface;
+use IDCT\Adminata\Validator\ErrorElement;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,23 +46,23 @@ final class ContainerBlockService extends AbstractBlockService implements Editab
                 ['code', TextType::class, [
                     'required' => false,
                     'label' => 'form.label_code',
-                    'translation_domain' => 'SonataAdminBundle',
+                    'translation_domain' => 'AdminataBundle',
                 ]],
                 ['layout', TextareaType::class, [
                     'label' => 'form.label_layout',
-                    'translation_domain' => 'SonataAdminBundle',
+                    'translation_domain' => 'AdminataBundle',
                 ]],
                 ['class', TextType::class, [
                     'required' => false,
                     'label' => 'form.label_class',
-                    'translation_domain' => 'SonataAdminBundle',
+                    'translation_domain' => 'AdminataBundle',
                 ]],
                 ['template', ContainerTemplateType::class, [
                     'label' => 'form.label_template',
-                    'translation_domain' => 'SonataAdminBundle',
+                    'translation_domain' => 'AdminataBundle',
                 ]],
             ],
-            'translation_domain' => 'SonataAdminBundle',
+            'translation_domain' => 'AdminataBundle',
         ]);
 
         $form->add('children', CollectionType::class);
@@ -89,13 +89,13 @@ final class ContainerBlockService extends AbstractBlockService implements Editab
             'code' => '',
             'layout' => '{{ CONTENT }}',
             'class' => '',
-            'template' => '@SonataAdmin/Block/block_container.html.twig',
+            'template' => '@Adminata/Block/block_container.html.twig',
         ]);
     }
 
     public function getMetadata(): MetadataInterface
     {
-        return new Metadata('sonata.block.service.container', null, null, 'SonataAdminBundle', [
+        return new Metadata('adminata.block.service.container', null, null, 'AdminataBundle', [
             'class' => 'fa fa-square-o',
         ]);
     }

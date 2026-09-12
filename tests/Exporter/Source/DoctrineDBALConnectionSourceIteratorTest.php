@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exporter\Source;
+namespace IDCT\Adminata\Tests\Exporter\Source;
 
 use Adminata\Tests\Support\TestDatabase;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exporter\Source\DoctrineDBALConnectionSourceIterator;
+use IDCT\Adminata\Exporter\Source\DoctrineDBALConnectionSourceIterator;
 
 final class DoctrineDBALConnectionSourceIteratorTest extends TestCase
 {

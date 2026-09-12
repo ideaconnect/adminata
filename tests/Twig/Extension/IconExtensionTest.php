@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Twig\Extension;
+namespace IDCT\Adminata\Tests\Twig\Extension;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Twig\Extension\IconExtension;
-use Sonata\AdminBundle\Twig\IconRuntime;
+use IDCT\Adminata\Twig\Extension\IconExtension;
+use IDCT\Adminata\Twig\IconRuntime;
 
 /**
  * NEXT_MAJOR: Remove this test.

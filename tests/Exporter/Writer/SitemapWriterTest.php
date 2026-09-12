@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exporter\Writer;
+namespace IDCT\Adminata\Tests\Exporter\Writer;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exporter\Writer\SitemapWriter;
+use IDCT\Adminata\Exporter\Writer\SitemapWriter;
 
 final class SitemapWriterTest extends TestCase
 {
@@ -25,7 +25,7 @@ final class SitemapWriterTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->folder = sys_get_temp_dir().'/sonata_exporter_test';
+        $this->folder = sys_get_temp_dir().'/adminata_exporter_test';
 
         $this->tearDown();
 

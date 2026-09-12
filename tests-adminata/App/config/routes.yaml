@@ -6,10 +6,10 @@ demo_logout:
     path: /logout
 
 admin_area:
-    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.php'
+    resource: '@AdminataBundle/Resources/config/routing/adminata.php'
     prefix: /admin
 
-_sonata_admin:
+_adminata_admin:
     resource: .
-    type: sonata_admin
+    type: adminata
     prefix: /admin

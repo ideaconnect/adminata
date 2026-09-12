@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Fixtures;
+namespace IDCT\Adminata\Tests\Fixtures;
 
 use Symfony\Component\Form\Exception\InvalidArgumentException;
 use Symfony\Component\Form\FormExtensionInterface;

@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Datagrid;
+namespace IDCT\Adminata\Datagrid;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Sonata\AdminBundle\Util\TraversableToCollection;
+use IDCT\Adminata\Util\TraversableToCollection;
 
 /**
  * @author Lukas Kahwe Smith <smith@pooteeweet.org>

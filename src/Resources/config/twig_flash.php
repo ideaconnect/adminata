@@ -13,35 +13,35 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Sonata\AdminBundle\FlashMessage\FlashManager;
-use Sonata\AdminBundle\Twig\Extension\FlashMessageExtension;
-use Sonata\AdminBundle\Twig\FlashMessageRuntime;
+use IDCT\Adminata\FlashMessage\FlashManager;
+use IDCT\Adminata\Twig\Extension\FlashMessageExtension;
+use IDCT\Adminata\Twig\FlashMessageRuntime;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->parameters()
 
-        ->set('sonata.twig.flashmessage.manager.class', FlashManager::class)
+        ->set('adminata.twig.flashmessage.manager.class', FlashManager::class)
 
-        ->set('sonata.twig.extension.flashmessage.class', FlashMessageExtension::class);
+        ->set('adminata.twig.extension.flashmessage.class', FlashMessageExtension::class);
 
     $containerConfigurator->services()
 
-        ->set('sonata.twig.flashmessage.manager', '%sonata.twig.flashmessage.manager.class%')
+        ->set('adminata.twig.flashmessage.manager', '%adminata.twig.flashmessage.manager.class%')
             ->public()
-            ->tag('sonata.status.renderer')
+            ->tag('adminata.status.renderer')
             ->args([
                 service('request_stack'),
                 abstract_arg('Sonata flash message types array (defined in configuration)'),
                 abstract_arg('Css classes associated with the types'),
             ])
 
-        ->set('sonata.twig.flashmessage.twig.runtime', FlashMessageRuntime::class)
+        ->set('adminata.twig.flashmessage.twig.runtime', FlashMessageRuntime::class)
             ->tag('twig.runtime')
             ->args([
-                service('sonata.twig.flashmessage.manager'),
+                service('adminata.twig.flashmessage.manager'),
             ])
 
-        ->set('sonata.twig.flashmessage.twig.extension', '%sonata.twig.extension.flashmessage.class%')
+        ->set('adminata.twig.flashmessage.twig.extension', '%adminata.twig.extension.flashmessage.class%')
             ->public()
             ->tag('twig.extension');
 };

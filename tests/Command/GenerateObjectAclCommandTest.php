@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Command;
+namespace IDCT\Adminata\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Admin\Pool;
-use Sonata\AdminBundle\Command\GenerateObjectAclCommand;
-use Sonata\AdminBundle\Tests\Fixtures\Entity\Foo;
-use Sonata\AdminBundle\Util\ObjectAclManipulatorInterface;
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Command\GenerateObjectAclCommand;
+use IDCT\Adminata\Tests\Fixtures\Entity\Foo;
+use IDCT\Adminata\Util\ObjectAclManipulatorInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -48,7 +48,7 @@ final class GenerateObjectAclCommandTest extends TestCase
         $application = new Application();
         $application->addCommand($command);
 
-        $command = $application->find('sonata:admin:generate-object-acl');
+        $command = $application->find('adminata:generate-object-acl');
         $commandTester = new CommandTester($command);
         $commandTester->execute(['command' => $command->getName()]);
 
@@ -64,7 +64,7 @@ final class GenerateObjectAclCommandTest extends TestCase
         $application = new Application();
         $application->addCommand($command);
 
-        $command = $application->find('sonata:admin:generate-object-acl');
+        $command = $application->find('adminata:generate-object-acl');
         $commandTester = new CommandTester($command);
         $commandTester->execute(['command' => $command->getName()]);
 
@@ -89,7 +89,7 @@ final class GenerateObjectAclCommandTest extends TestCase
         $application = new Application();
         $application->addCommand($command);
 
-        $command = $application->find('sonata:admin:generate-object-acl');
+        $command = $application->find('adminata:generate-object-acl');
         $commandTester = new CommandTester($command);
         $commandTester->execute(['command' => $command->getName()]);
 
@@ -110,7 +110,7 @@ final class GenerateObjectAclCommandTest extends TestCase
             ->with(static::isInstanceOf(StreamOutput::class), $admin, null);
 
         $aclObjectManipulators = [
-            'sonata.admin.manipulator.acl.object.bar' => $manipulator,
+            'adminata.admin.manipulator.acl.object.bar' => $manipulator,
         ];
 
         $command = new GenerateObjectAclCommand($pool, $aclObjectManipulators);
@@ -118,7 +118,7 @@ final class GenerateObjectAclCommandTest extends TestCase
         $application = new Application();
         $application->addCommand($command);
 
-        $command = $application->find('sonata:admin:generate-object-acl');
+        $command = $application->find('adminata:generate-object-acl');
         $commandTester = new CommandTester($command);
         $commandTester->execute(['command' => $command->getName()]);
     }
@@ -143,7 +143,7 @@ final class GenerateObjectAclCommandTest extends TestCase
             );
 
         $aclObjectManipulators = [
-            'sonata.admin.manipulator.acl.object.bar' => $manipulator,
+            'adminata.admin.manipulator.acl.object.bar' => $manipulator,
         ];
 
         $command = new GenerateObjectAclCommand($pool, $aclObjectManipulators);
@@ -151,7 +151,7 @@ final class GenerateObjectAclCommandTest extends TestCase
         $application = new Application();
         $application->addCommand($command);
 
-        $command = $application->find('sonata:admin:generate-object-acl');
+        $command = $application->find('adminata:generate-object-acl');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'command' => $command->getName(),

@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Menu\Matcher\Voter;
+namespace IDCT\Adminata\Menu\Matcher\Voter;
 
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\Voter\VoterInterface;
@@ -25,7 +25,7 @@ final class ActiveVoter implements VoterInterface
 {
     public function matchItem(ItemInterface $item): ?bool
     {
-        if (false === $item->getExtra('sonata_admin', false)) {
+        if (false === $item->getExtra('adminata_admin', false)) {
             return null;
         }
 

@@ -10,7 +10,7 @@ file that was distributed with this source code.
 
 #}
 
-{% extends '@SonataAdmin/CRUD/edit.html.twig' %}
+{% extends '@Adminata/CRUD/edit.html.twig' %}
 
 {% block actions %}
 {% endblock %}
@@ -21,20 +21,20 @@ file that was distributed with this source code.
 {% block formactions %}
     <button class="btn btn-success" type="submit" name="btn_preview_approve">
         <i class="fas fa-check" aria-hidden="true"></i>
-        {{ 'btn_preview_approve'|trans({}, 'SonataAdminBundle') }}
+        {{ 'btn_preview_approve'|trans({}, 'AdminataBundle') }}
     </button>
     <button class="btn btn-danger" type="submit" name="btn_preview_decline">
         <i class="fas fa-times" aria-hidden="true"></i>
-        {{ 'btn_preview_decline'|trans({}, 'SonataAdminBundle') }}
+        {{ 'btn_preview_decline'|trans({}, 'AdminataBundle') }}
     </button>
 {% endblock %}
 
 {% block preview %}
-    <div class="sonata-ba-view">
+    <div class="adminata-view">
         {% for name, view_group in admin.showgroups %}
             <table class="table table-bordered">
                 {% if name %}
-                    <tr class="sonata-ba-view-title">
+                    <tr class="adminata-view-title">
                         <td colspan="2">
                             {{ name|trans({}, admin.translationdomain) }}
                         </td>
@@ -42,7 +42,7 @@ file that was distributed with this source code.
                 {% endif %}
 
                 {% for show_field_name in view_group.fields %}
-                    <tr class="sonata-ba-view-container">
+                    <tr class="adminata-view-container">
                         {% if admin.show[show_field_name] is defined %}
                             {{ admin.show[show_field_name]|render_view_element(object) }}
                         {% endif %}
@@ -54,7 +54,7 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block form %}
-    <div class="sonata-preview-form-container">
+    <div class="adminata-preview-form-container">
         {{ parent() }}
     </div>
 {% endblock %}

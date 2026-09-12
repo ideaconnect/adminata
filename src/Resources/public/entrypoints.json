@@ -2,15 +2,15 @@
   "entrypoints": {
     "app": {
       "js": [
-        "/bundles/sonataadmin/app.js"
+        "/bundles/adminata/app.js"
       ],
       "css": [
-        "/bundles/sonataadmin/app.css"
+        "/bundles/adminata/app.css"
       ]
     },
     "fontawesome": {
       "css": [
-        "/bundles/sonataadmin/fontawesome.css"
+        "/bundles/adminata/fontawesome.css"
       ]
     }
   }

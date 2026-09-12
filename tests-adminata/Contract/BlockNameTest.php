@@ -32,7 +32,7 @@ final class BlockNameTest extends ContractTestCase
      * The three names 1.0 removes on purpose.
      *
      * `admin_lte_skin_class` and `bootlint` belong to AdminLTE and to a Bootstrap linter, neither
-     * of which adminata ships. `sonata_type_model_autocomplete_select2_options_js` configured
+     * of which adminata ships. `adminata_type_model_autocomplete_select2_options_js` configured
      * select2, which left with jQuery (PLAN/03 §C, PLAN/01 J5, J6).
      *
      * @var list<string>
@@ -40,7 +40,7 @@ final class BlockNameTest extends ContractTestCase
     private const array REMOVED = [
         'admin_lte_skin_class',
         'bootlint',
-        'sonata_type_model_autocomplete_select2_options_js',
+        'adminata_type_model_autocomplete_select2_options_js',
     ];
 
     public function testEveryBlockNameOfTheAppendixSurvives(): void

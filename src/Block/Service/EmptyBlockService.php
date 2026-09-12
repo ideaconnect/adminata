@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Block\Service;
+namespace IDCT\Adminata\Block\Service;
 
-use Sonata\AdminBundle\Block\BlockContextInterface;
+use IDCT\Adminata\Block\BlockContextInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 final class EmptyBlockService extends AbstractBlockService

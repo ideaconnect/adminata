@@ -24,9 +24,9 @@ import { mount } from './helpers.js';
 // The real template puts this on `<body>`; a wrapper is equivalent and survives being assigned
 // into `document.body.innerHTML`.
 const markup = `
-    <div data-controller="sonata-sticky">
-        <div data-sonata-sticky-target="topNavbar" class="adm-header"></div>
-        <div data-sonata-sticky-target="action" class="adm-sticky"></div>
+    <div data-controller="adminata-sticky">
+        <div data-adminata-sticky-target="topNavbar" class="adm-header"></div>
+        <div data-adminata-sticky-target="action" class="adm-sticky"></div>
     </div>
 `;
 
@@ -37,28 +37,28 @@ const meta = (name, content) => {
     document.head.appendChild(element);
 };
 
-describe('sonata-sticky', () => {
+describe('adminata-sticky', () => {
     beforeEach(() => {
         document.head.innerHTML = '';
         Config.params = null;
     });
 
     it('loads only when use_stickyforms is on', () => {
-        meta('sonata-config', JSON.stringify({ USE_STICKYFORMS: true }));
+        meta('adminata-config', JSON.stringify({ USE_STICKYFORMS: true }));
         expect(StickyController.shouldLoad).toBe(true);
 
         document.head.innerHTML = '';
         Config.params = null;
-        meta('sonata-config', JSON.stringify({ USE_STICKYFORMS: false }));
+        meta('adminata-config', JSON.stringify({ USE_STICKYFORMS: false }));
         expect(StickyController.shouldLoad).toBe(false);
     });
 
     it('observes the bars it was given without touching the ones it was not', async () => {
-        meta('sonata-config', JSON.stringify({ USE_STICKYFORMS: true }));
+        meta('adminata-config', JSON.stringify({ USE_STICKYFORMS: true }));
 
-        const { element } = await mount('sonata-sticky', StickyController, markup);
+        const { element } = await mount('adminata-sticky', StickyController, markup);
 
-        expect(element.querySelector('[data-sonata-sticky-target=action]')).not.toBeNull();
-        expect(element.querySelector('[data-sonata-sticky-target=navbar]')).toBeNull();
+        expect(element.querySelector('[data-adminata-sticky-target=action]')).not.toBeNull();
+        expect(element.querySelector('[data-adminata-sticky-target=navbar]')).toBeNull();
     });
 });

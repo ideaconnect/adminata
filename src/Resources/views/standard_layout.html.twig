@@ -10,12 +10,12 @@ file that was distributed with this source code.
 #}
 
 {#
-    The page shell. The window scrolls, not an inner pane: `sonata-sticky` observes the viewport,
+    The page shell. The window scrolls, not an inner pane: `adminata-sticky` observes the viewport,
     and find-in-page lands where a reader expects (PLAN/01 T4).
 
     `<body>` is the shell element. It carries the layout state as `data-sidebar` and
-    `data-sidebar-mobile`, seeded here from the `sonata_sidebar_hide` cookie so the first paint is
-    already right, and the `sonata-layout` controller takes it from there. That is the direct
+    `data-sidebar-mobile`, seeded here from the `adminata_sidebar_hide` cookie so the first paint is
+    already right, and the `adminata-layout` controller takes it from there. That is the direct
     successor of upstream's `sidebar-collapse` body class.
 #}
 
@@ -31,40 +31,40 @@ file that was distributed with this source code.
 {% set _actions = block('actions') is defined ? block('actions')|trim : null %}
 {% set _navbar_title = block('navbar_title') is defined ? block('navbar_title')|trim : null %}
 {% set _list_filters_actions = block('list_filters_actions') is defined ? block('list_filters_actions')|trim : null %}
-{% set _theme = sonata_theme() %}
-{% set _sidebar_collapsed = app.request.cookies.get('sonata_sidebar_hide') ? true : false -%}
+{% set _theme = adminata_theme() %}
+{% set _sidebar_collapsed = app.request.cookies.get('adminata_sidebar_hide') ? true : false -%}
 <!DOCTYPE html>
-<html {% block html_attributes %}lang="{{ app.request.locale|split('_')|first }}" dir="{{ sonata_html_dir() }}" class="no-js{% if 'dark' == _theme %} dark{% endif %}" data-theme="{{ _theme }}"{% endblock %}>
+<html {% block html_attributes %}lang="{{ app.request.locale|split('_')|first }}" dir="{{ adminata_html_dir() }}" class="no-js{% if 'dark' == _theme %} dark{% endif %}" data-theme="{{ _theme }}"{% endblock %}>
     <head>
         {% block meta_tags %}
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
         {% endblock %}
 
-        <meta name="sonata-config" content='{{ {
-            CONFIRM_EXIT: sonata_config.getOption('confirm_exit'),
-            USE_STICKYFORMS: sonata_config.getOption('use_stickyforms'),
-            DEBUG: sonata_config.getOption('js_debug'),
+        <meta name="adminata-config" content='{{ {
+            CONFIRM_EXIT: adminata_config.getOption('confirm_exit'),
+            USE_STICKYFORMS: adminata_config.getOption('use_stickyforms'),
+            DEBUG: adminata_config.getOption('js_debug'),
         }|json_encode()|raw }}'
         >
-        <meta name="sonata-translations" content='{{ {
-            CONFIRM_EXIT: 'confirm_exit'|trans({}, 'SonataAdminBundle'),
+        <meta name="adminata-translations" content='{{ {
+            CONFIRM_EXIT: 'confirm_exit'|trans({}, 'AdminataBundle'),
         }|json_encode()|raw }}'
         >
 
         {% block stylesheets %}
-            {% for stylesheet in sonata_config.getOption('stylesheets', []) %}
+            {% for stylesheet in adminata_config.getOption('stylesheets', []) %}
                 <link rel="stylesheet" href="{{ asset(stylesheet.path, stylesheet.package_name) }}">
             {% endfor %}
         {% endblock %}
 
         {% block javascripts %}
-            {% block sonata_javascript_config %}
+            {% block adminata_javascript_config %}
             {% endblock %}
 
-            {% block sonata_javascript_pool %}
-                {% for javascript in sonata_config.getOption('javascripts', []) %}
-                    <script src="{{ asset(javascript.path, javascript.package_name) }}" defer {{ block('sonata_script_attributes') }}></script>
+            {% block adminata_javascript_pool %}
+                {% for javascript in adminata_config.getOption('javascripts', []) %}
+                    <script src="{{ asset(javascript.path, javascript.package_name) }}" defer {{ block('adminata_script_attributes') }}></script>
                 {% endfor %}
             {% endblock %}
         {% endblock %}
@@ -73,16 +73,16 @@ file that was distributed with this source code.
             Attributes every adminata `<script>` carries. Empty by default; an application under a
             strict Content-Security-Policy overrides it with its own `nonce`.
         #}
-        {% block sonata_script_attributes %}{% endblock %}
+        {% block adminata_script_attributes %}{% endblock %}
 
         {#
-            The only inline script adminata ships (PLAN/01 J4). `sonata_theme()` resolves the
+            The only inline script adminata ships (PLAN/01 J4). `adminata_theme()` resolves the
             cookie server-side, but `system` is a question only the browser can answer, and asking
             it after the stylesheet has painted is a white flash on a dark desktop. Three lines,
             before the first paint, under the same nonce block as every other script.
         #}
         {% if 'system' == _theme %}
-            <script {{ block('sonata_script_attributes') }}>
+            <script {{ block('adminata_script_attributes') }}>
                 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     document.documentElement.classList.add('dark');
                 }
@@ -92,8 +92,8 @@ file that was distributed with this source code.
         {#- Captured and collapsed: the block spans several lines and a `<title>` carrying the
             newlines between them reads as sixty characters of nothing. -#}
         {% set headTitle %}
-        {% block sonata_head_title %}
-            {{ 'Admin'|trans({}, 'SonataAdminBundle') }}
+        {% block adminata_head_title %}
+            {{ 'Admin'|trans({}, 'AdminataBundle') }}
 
             {% if _title is not empty %}
                 {{ _title|striptags|raw }}
@@ -112,13 +112,13 @@ file that was distributed with this source code.
                 class="adm-shell"
                 data-sidebar="{{ _sidebar_collapsed ? 'collapsed' : 'expanded' }}"
                 data-sidebar-mobile="closed"
-                {{ stimulus_controller('sonata-layout', {
+                {{ stimulus_controller('adminata-layout', {
                     collapsed: _sidebar_collapsed,
                     mobileOpen: false,
                     headerMenuOpen: false,
                     breakpoint: 1024,
-                    cookieName: 'sonata_sidebar_hide',
-                })|stimulus_controller('sonata-sticky') }}
+                    cookieName: 'adminata_sidebar_hide',
+                })|stimulus_controller('adminata-sticky') }}
             {%- endblock -%}
     >
 
@@ -127,37 +127,37 @@ file that was distributed with this source code.
             the header, which is a long way to tab past on every page (PLAN/08 §8). Visible only
             while it has focus.
         #}
-        <a class="adm-skip-link" href="#sonata-content">{{ 'skip_to_content'|trans({}, 'SonataAdminBundle') }}</a>
+        <a class="adm-skip-link" href="#adminata-content">{{ 'skip_to_content'|trans({}, 'AdminataBundle') }}</a>
 
-        {% block sonata_wrapper %}
-            {% block sonata_left_side %}
-                <aside class="adm-sidebar main-sidebar" {{ stimulus_target('sonata-layout', 'sidebar') }}>
+        {% block adminata_wrapper %}
+            {% block adminata_left_side %}
+                <aside class="adm-sidebar main-sidebar" {{ stimulus_target('adminata-layout', 'sidebar') }}>
                     <div class="adm-sidebar-header">
                         {% block logo %}
-                            <a class="logo flex items-center gap-3" href="{{ path('sonata_admin_dashboard') }}">
-                                {% if 'icon' == sonata_config.getOption('logo_content') or 'all' == sonata_config.getOption('logo_content') %}
-                                    <img class="h-8 w-auto" src="{{ asset(sonata_config.logo) }}" alt="{{ sonata_config.title }}">
+                            <a class="logo flex items-center gap-3" href="{{ path('adminata_dashboard') }}">
+                                {% if 'icon' == adminata_config.getOption('logo_content') or 'all' == adminata_config.getOption('logo_content') %}
+                                    <img class="h-8 w-auto" src="{{ asset(adminata_config.logo) }}" alt="{{ adminata_config.title }}">
                                 {% endif %}
-                                {% if 'text' == sonata_config.getOption('logo_content') or 'all' == sonata_config.getOption('logo_content') %}
-                                    <span class="menu-item-text text-lg font-semibold text-gray-800 dark:text-white/90">{{ sonata_config.title }}</span>
+                                {% if 'text' == adminata_config.getOption('logo_content') or 'all' == adminata_config.getOption('logo_content') %}
+                                    <span class="menu-item-text text-lg font-semibold text-gray-800 dark:text-white/90">{{ adminata_config.title }}</span>
                                 {% endif %}
                             </a>
                         {% endblock %}
                     </div>
 
                     <div class="adm-sidebar-nav no-scrollbar">
-                        {% block sonata_side_nav %}
+                        {% block adminata_side_nav %}
                             {#
-                                Search moved to the header (`sonata_header_search`). The block stays
+                                Search moved to the header (`adminata_header_search`). The block stays
                                 and stays empty: an application that overrides it to hide search
-                                still hides it, and `sonata_header_search` renders nothing when this
+                                still hides it, and `adminata_header_search` renders nothing when this
                                 one is empty.
                             #}
-                            {% block sonata_sidebar_search %}{% endblock sonata_sidebar_search %}
+                            {% block adminata_sidebar_search %}{% endblock adminata_sidebar_search %}
 
                             {% block side_bar_before_nav %} {% endblock %}
                             {% block side_bar_nav %}
-                                {{ knp_menu_render('sonata_admin_sidebar', {template: get_global_template('knp_menu_template')}) }}
+                                {{ knp_menu_render('adminata_sidebar', {template: get_global_template('knp_menu_template')}) }}
                             {% endblock side_bar_nav %}
                             {% block side_bar_after_nav %}
                                 {% set sideBarAfterNav = block('side_bar_after_nav_content') %}
@@ -168,85 +168,85 @@ file that was distributed with this source code.
                                 {% endif %}
                             {% endblock %}
                             {% block side_bar_after_nav_content %}{% endblock %}
-                        {% endblock sonata_side_nav %}
+                        {% endblock adminata_side_nav %}
                     </div>
                 </aside>
-            {% endblock sonata_left_side %}
+            {% endblock adminata_left_side %}
 
             {#
-                The scrim behind the mobile drawer. Hidden until `sonata-layout` opens the sidebar,
+                The scrim behind the mobile drawer. Hidden until `adminata-layout` opens the sidebar,
                 and clicking it closes the drawer again.
             #}
-            {% block sonata_overlay %}
+            {% block adminata_overlay %}
                 <div class="adm-overlay lg:hidden" hidden
-                     {{ stimulus_target('sonata-layout', 'overlay') }}
-                     {{ stimulus_action('sonata-layout', 'closeSidebar', 'click') }}
+                     {{ stimulus_target('adminata-layout', 'overlay') }}
+                     {{ stimulus_action('adminata-layout', 'closeSidebar', 'click') }}
                 ></div>
-            {% endblock sonata_overlay %}
+            {% endblock adminata_overlay %}
 
-            <div class="adm-main" {{ stimulus_target('sonata-layout', 'content') }}>
-                {% block sonata_header %}
+            <div class="adm-main" {{ stimulus_target('adminata-layout', 'content') }}>
+                {% block adminata_header %}
                     {#
                         Nothing at all when both halves are empty: that is how an application's
-                        login and password pages get a bare shell (PLAN/01 T9). `sonata_nav` is
+                        login and password pages get a bare shell (PLAN/01 T9). `adminata_nav` is
                         captured rather than tested with `block()` so that the two `include()`s it
                         contains run once, not twice.
                     #}
                     {% set headerNav %}
-                        {% block sonata_nav %}
+                        {% block adminata_nav %}
                                 <button type="button" class="sidebar-toggle adm-btn-icon adm-btn-icon-round lg:hidden"
-                                        title="{{ 'toggle_navigation'|trans({}, 'SonataAdminBundle') }}"
-                                        aria-label="{{ 'toggle_navigation'|trans({}, 'SonataAdminBundle') }}"
+                                        title="{{ 'toggle_navigation'|trans({}, 'AdminataBundle') }}"
+                                        aria-label="{{ 'toggle_navigation'|trans({}, 'AdminataBundle') }}"
                                         aria-expanded="false"
-                                        {{ stimulus_target('sonata-layout', 'toggle') }}
-                                        {{ stimulus_action('sonata-layout', 'toggleSidebar', 'click') }}
+                                        {{ stimulus_target('adminata-layout', 'toggle') }}
+                                        {{ stimulus_action('adminata-layout', 'toggleSidebar', 'click') }}
                                 >
                                     <i class="fas fa-bars" aria-hidden="true"></i>
                                 </button>
                                 <button type="button" class="sidebar-toggle adm-btn-icon adm-btn-icon-round hidden lg:inline-flex"
-                                        title="{{ 'toggle_navigation'|trans({}, 'SonataAdminBundle') }}"
-                                        aria-label="{{ 'toggle_navigation'|trans({}, 'SonataAdminBundle') }}"
+                                        title="{{ 'toggle_navigation'|trans({}, 'AdminataBundle') }}"
+                                        aria-label="{{ 'toggle_navigation'|trans({}, 'AdminataBundle') }}"
                                         aria-expanded="{{ _sidebar_collapsed ? 'false' : 'true' }}"
-                                        {{ stimulus_target('sonata-layout', 'collapseOnly') }}
-                                        {{ stimulus_action('sonata-layout', 'toggleCollapsed', 'click') }}
+                                        {{ stimulus_target('adminata-layout', 'collapseOnly') }}
+                                        {{ stimulus_action('adminata-layout', 'toggleCollapsed', 'click') }}
                                 >
                                     <i class="fas fa-bars" aria-hidden="true"></i>
                                 </button>
 
                                 {#
                                     The sidebar search of upstream, in the place TailAdmin puts it.
-                                    Silent when `sonata_sidebar_search` was overridden away, so one
+                                    Silent when `adminata_sidebar_search` was overridden away, so one
                                     override still switches search off everywhere.
                                 #}
-                                {% block sonata_header_search %}
-                                    {% if sonata_config.getOption('search') and block('sonata_sidebar_search')|trim is empty %}
-                                        <form action="{{ path('sonata_admin_search') }}" method="GET" role="search" class="hidden lg:block">
-                                            <label class="sr-only" for="sonata-search-input">{{ 'search_placeholder'|trans({}, 'SonataAdminBundle') }}</label>
-                                            <input type="search" id="sonata-search-input" name="q"
+                                {% block adminata_header_search %}
+                                    {% if adminata_config.getOption('search') and block('adminata_sidebar_search')|trim is empty %}
+                                        <form action="{{ path('adminata_search') }}" method="GET" role="search" class="hidden lg:block">
+                                            <label class="sr-only" for="adminata-search-input">{{ 'search_placeholder'|trans({}, 'AdminataBundle') }}</label>
+                                            <input type="search" id="adminata-search-input" name="q"
                                                    value="{{ app.request.attributes.get('q', app.request.query.get('q', app.request.request.get('q'))) }}"
                                                    class="adm-input xl:w-[430px]"
-                                                   placeholder="{{ 'search_placeholder'|trans({}, 'SonataAdminBundle') }}">
+                                                   placeholder="{{ 'search_placeholder'|trans({}, 'AdminataBundle') }}">
                                             {# Off-screen rather than absent: a search form has to be submittable without JavaScript. #}
-                                            <button type="submit" class="sr-only">{{ 'search_placeholder'|trans({}, 'SonataAdminBundle') }}</button>
+                                            <button type="submit" class="sr-only">{{ 'search_placeholder'|trans({}, 'AdminataBundle') }}</button>
                                         </form>
                                     {% endif %}
-                                {% endblock sonata_header_search %}
+                                {% endblock adminata_header_search %}
 
-                                {% block sonata_top_nav_menu %}
+                                {% block adminata_top_nav_menu %}
                                     <ul class="ms-auto flex items-center gap-2">
-                                        {% block sonata_top_nav_menu_dark_mode %}
+                                        {% block adminata_top_nav_menu_dark_mode %}
                                             <li>
                                                 <button type="button" class="adm-btn-icon adm-btn-icon-round"
-                                                        {{ stimulus_controller('sonata-theme', {
+                                                        {{ stimulus_controller('adminata-theme', {
                                                             theme: _theme,
-                                                            cookieName: 'sonata_theme',
+                                                            cookieName: 'adminata_theme',
                                                             labels: {
-                                                                light: 'theme_light'|trans({}, 'SonataAdminBundle'),
-                                                                dark: 'theme_dark'|trans({}, 'SonataAdminBundle'),
-                                                                system: 'theme_system'|trans({}, 'SonataAdminBundle'),
+                                                                light: 'theme_light'|trans({}, 'AdminataBundle'),
+                                                                dark: 'theme_dark'|trans({}, 'AdminataBundle'),
+                                                                system: 'theme_system'|trans({}, 'AdminataBundle'),
                                                             },
                                                         }) }}
-                                                        {{ stimulus_action('sonata-theme', 'cycle', 'click') }}
+                                                        {{ stimulus_action('adminata-theme', 'cycle', 'click') }}
                                                 >
                                                     {# Both icons ship; the stylesheet shows the one the current theme calls for. #}
                                                     <i class="fas fa-moon hidden dark:inline-block" aria-hidden="true"></i>
@@ -255,22 +255,22 @@ file that was distributed with this source code.
                                             </li>
                                         {% endblock %}
 
-                                        {% block sonata_top_nav_menu_add_block %}
+                                        {% block adminata_top_nav_menu_add_block %}
                                             {% set addBlock = include(get_global_template('add_block')) %}
                                             {#- The guard is upstream's: an application that
                                                 overrides `add_block` with an empty template hides
                                                 the button too. -#}
                                             {% if addBlock|trim is not empty %}
                                                 <li class="adm-dropdown"
-                                                    {{ stimulus_controller('sonata-dropdown') }}
-                                                    {{ stimulus_action('sonata-dropdown', 'closeAndFocus', 'keydown.esc')|stimulus_action('sonata-dropdown', 'navigate', 'keydown') }}
+                                                    {{ stimulus_controller('adminata-dropdown') }}
+                                                    {{ stimulus_action('adminata-dropdown', 'closeAndFocus', 'keydown.esc')|stimulus_action('adminata-dropdown', 'navigate', 'keydown') }}
                                                 >
                                                     <button type="button" class="adm-btn-icon adm-btn-icon-round"
                                                             aria-expanded="false"
                                                             aria-haspopup="menu"
-                                                            aria-label="{{ 'link_add'|trans({}, 'SonataAdminBundle') }}"
-                                                            {{ stimulus_target('sonata-dropdown', 'toggle') }}
-                                                            {{ stimulus_action('sonata-dropdown', 'toggle', 'click') }}
+                                                            aria-label="{{ 'link_add'|trans({}, 'AdminataBundle') }}"
+                                                            {{ stimulus_target('adminata-dropdown', 'toggle') }}
+                                                            {{ stimulus_action('adminata-dropdown', 'toggle', 'click') }}
                                                     >
                                                         <i class="fas fa-plus" aria-hidden="true"></i>
                                                     </button>
@@ -280,7 +280,7 @@ file that was distributed with this source code.
                                         {% endblock %}
 
                                         {% if app.user %}
-                                            {% block sonata_top_nav_menu_user_block %}
+                                            {% block adminata_top_nav_menu_user_block %}
                                                 {#- The chrome is adminata's and shows whoever is
                                                     signed in; `user_block` fills the list under it.
                                                     Upstream hid the whole menu when that template
@@ -289,18 +289,18 @@ file that was distributed with this source code.
                                                 {% set userBlock = include(get_global_template('user_block')) %}
                                                 {% set userName = app.user.userIdentifier %}
                                                 <li class="adm-dropdown user-menu"
-                                                    {{ stimulus_controller('sonata-dropdown') }}
-                                                    {{ stimulus_action('sonata-dropdown', 'closeAndFocus', 'keydown.esc')|stimulus_action('sonata-dropdown', 'navigate', 'keydown') }}
+                                                    {{ stimulus_controller('adminata-dropdown') }}
+                                                    {{ stimulus_action('adminata-dropdown', 'closeAndFocus', 'keydown.esc')|stimulus_action('adminata-dropdown', 'navigate', 'keydown') }}
                                                 >
                                                     <button type="button" class="adm-btn-icon adm-btn-icon-round"
                                                             aria-expanded="false"
                                                             aria-label="{{ userName }}"
-                                                            {{ stimulus_target('sonata-dropdown', 'toggle') }}
-                                                            {{ stimulus_action('sonata-dropdown', 'toggle', 'click') }}
+                                                            {{ stimulus_target('adminata-dropdown', 'toggle') }}
+                                                            {{ stimulus_action('adminata-dropdown', 'toggle', 'click') }}
                                                     >
                                                         <span aria-hidden="true">{{ userName|slice(0, 2)|upper }}</span>
                                                     </button>
-                                                    <div class="adm-dropdown__menu" hidden {{ stimulus_target('sonata-dropdown', 'menu') }}>
+                                                    <div class="adm-dropdown__menu" hidden {{ stimulus_target('adminata-dropdown', 'menu') }}>
                                                         <p class="px-3 py-2 text-theme-sm font-medium text-gray-700 dark:text-gray-300">{{ userName }}</p>
                                                         <ul class="dropdown-user">
                                                             {{ userBlock|raw }}
@@ -311,15 +311,15 @@ file that was distributed with this source code.
                                         {% endif %}
                                     </ul>
                                 {% endblock %}
-                        {% endblock sonata_nav %}
+                        {% endblock adminata_nav %}
                     {% endset %}
 
                     {% if block('logo')|trim is not empty or headerNav|trim is not empty %}
-                        <header class="adm-header main-header" {{ stimulus_target('sonata-sticky', 'topNavbar') }}>
-                            {% block sonata_header_noscript_warning %}
+                        <header class="adm-header main-header" {{ stimulus_target('adminata-sticky', 'topNavbar') }}>
+                            {% block adminata_header_noscript_warning %}
                                 <noscript>
                                     <div class="noscript-warning adm-alert adm-alert-warning">
-                                        {{ 'noscript_warning'|trans({}, 'SonataAdminBundle') }}
+                                        {{ 'noscript_warning'|trans({}, 'AdminataBundle') }}
                                     </div>
                                 </noscript>
                             {% endblock %}
@@ -327,9 +327,9 @@ file that was distributed with this source code.
                             {{ headerNav|raw }}
                         </header>
                     {% endif %}
-                {% endblock sonata_header %}
+                {% endblock adminata_header %}
 
-                <main class="content-wrapper" id="sonata-content">
+                <main class="content-wrapper" id="adminata-content">
                     {% block sonata_page_content %}
                         <div class="adm-content">
                             {#
@@ -339,9 +339,9 @@ file that was distributed with this source code.
                                 the content is the kind of thing nobody tracks down.
                             #}
                             {% set contentHeader %}
-                                {% block sonata_breadcrumb %}
+                                {% block adminata_breadcrumb %}
                                     {% if _breadcrumb is not empty or action is defined %}
-                                        <nav aria-label="{{ 'breadcrumb'|trans({}, 'SonataAdminBundle') }}">
+                                        <nav aria-label="{{ 'breadcrumb'|trans({}, 'AdminataBundle') }}">
                                             <ol class="adm-breadcrumb breadcrumb">
                                                 {% if _breadcrumb is empty %}
                                                     {% if action is defined %}
@@ -353,7 +353,7 @@ file that was distributed with this source code.
                                             </ol>
                                         </nav>
                                     {% endif %}
-                                {% endblock sonata_breadcrumb %}
+                                {% endblock adminata_breadcrumb %}
 
                                 {% block sonata_page_content_header %}
                                     {% block sonata_page_content_nav %}
@@ -362,7 +362,7 @@ file that was distributed with this source code.
                                           or _actions is not empty
                                           or _list_filters_actions is not empty
                                          %}
-                                            <div class="adm-page-header mb-0" {{ stimulus_target('sonata-sticky', 'navbar') }}>
+                                            <div class="adm-page-header mb-0" {{ stimulus_target('adminata-sticky', 'navbar') }}>
                                                 {% block tab_menu_navbar_header %}
                                                     {% if _navbar_title is not empty %}
                                                         {#- `<h1>`: this is the page's own title,
@@ -375,12 +375,12 @@ file that was distributed with this source code.
 
                                                 <div class="flex flex-wrap items-center gap-2">
                                                     {% if _tab_menu is not empty %}
-                                                        <div class="sonata-tab-menu">
+                                                        <div class="adminata-tab-menu">
                                                             {{ _tab_menu|raw }}
                                                         </div>
                                                     {% endif %}
 
-                                                    {% include '@SonataAdmin/Core/list_mode_buttons.html.twig' %}
+                                                    {% include '@Adminata/Core/list_mode_buttons.html.twig' %}
 
                                                     {#
                                                         A button row, always. Upstream folded two or
@@ -390,13 +390,13 @@ file that was distributed with this source code.
                                                         stays, because `Button/*.html.twig` and every
                                                         application override emit list items.
                                                     #}
-                                                    {% block sonata_admin_content_actions_wrappers %}
+                                                    {% block adminata_content_actions_wrappers %}
                                                         {% if _actions|replace({ '<li>': '', '</li>': '' })|trim is not empty %}
-                                                            <ul class="sonata-actions flex flex-wrap items-center gap-2">
+                                                            <ul class="adminata-actions flex flex-wrap items-center gap-2">
                                                                 {{ _actions|raw }}
                                                             </ul>
                                                         {% endif %}
-                                                    {% endblock sonata_admin_content_actions_wrappers %}
+                                                    {% endblock adminata_content_actions_wrappers %}
 
                                                     {% if _list_filters_actions is not empty %}
                                                         {{ _list_filters_actions|raw }}
@@ -413,26 +413,26 @@ file that was distributed with this source code.
                             {% endif %}
 
                             <div class="content">
-                                {% block sonata_admin_content %}
+                                {% block adminata_content %}
 
                                     {% block notice %}
-                                        {% include '@SonataAdmin/FlashMessage/render.html.twig' %}
+                                        {% include '@Adminata/FlashMessage/render.html.twig' %}
                                     {% endblock notice %}
 
                                     {% if _preview is not empty %}
-                                        <div class="sonata-ba-preview">{{ _preview|raw }}</div>
+                                        <div class="adminata-preview">{{ _preview|raw }}</div>
                                     {% endif %}
 
                                     {% if _content is not empty %}
-                                        <div class="sonata-ba-content">{{ _content|raw }}</div>
+                                        <div class="adminata-content">{{ _content|raw }}</div>
                                     {% endif %}
 
                                     {% if _show is not empty %}
-                                        <div class="sonata-ba-show">{{ _show|raw }}</div>
+                                        <div class="adminata-show">{{ _show|raw }}</div>
                                     {% endif %}
 
                                     {% if _form is not empty %}
-                                        <div class="sonata-ba-form">{{ _form|raw }}</div>
+                                        <div class="adminata-form">{{ _form|raw }}</div>
                                     {% endif %}
 
                                     {#- The filter panel and the table share one grid, so that the
@@ -446,19 +446,19 @@ file that was distributed with this source code.
                                             {{ _list_table|raw }}
                                         </div>
                                     {% endif %}
-                                {% endblock sonata_admin_content %}
+                                {% endblock adminata_content %}
                             </div>
                         </div>
                     {% endblock sonata_page_content %}
                 </main>
             </div>
-        {% endblock sonata_wrapper %}
+        {% endblock adminata_wrapper %}
 
-        {#- The shared dialog sits outside `sonata_wrapper` on purpose: an application that
+        {#- The shared dialog sits outside `adminata_wrapper` on purpose: an application that
             overrides the wrapper keeps it, and one that wants none overrides this block. -#}
-        {% block sonata_dialog %}
-            {{ include('@SonataAdmin/Core/dialog.html.twig') }}
-            {{ include('@SonataAdmin/Core/question_dialog.html.twig') }}
-        {% endblock sonata_dialog %}
+        {% block adminata_dialog %}
+            {{ include('@Adminata/Core/dialog.html.twig') }}
+            {{ include('@Adminata/Core/question_dialog.html.twig') }}
+        {% endblock adminata_dialog %}
     </body>
 </html>

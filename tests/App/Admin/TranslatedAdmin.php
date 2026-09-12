@@ -11,14 +11,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\App\Admin;
+namespace IDCT\Adminata\Tests\App\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\AdminBundle\Tests\App\Model\Translated;
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\Form\FormMapper;
+use IDCT\Adminata\Show\ShowMapper;
+use IDCT\Adminata\Tests\App\Model\Translated;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**

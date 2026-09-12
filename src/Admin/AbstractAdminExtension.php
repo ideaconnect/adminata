@@ -11,15 +11,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Admin;
+namespace IDCT\Adminata\Admin;
 
 use Knp\Menu\ItemInterface as MenuItemInterface;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
-use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
-use Sonata\AdminBundle\Show\ShowMapper;
+use IDCT\Adminata\Datagrid\DatagridMapper;
+use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Form\FormMapper;
+use IDCT\Adminata\Route\RouteCollectionInterface;
+use IDCT\Adminata\Show\ShowMapper;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

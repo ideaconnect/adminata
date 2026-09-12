@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Route;
+namespace IDCT\Adminata\Route;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
+use IDCT\Adminata\Admin\AdminInterface;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\Resource\FileResource;
 
@@ -63,7 +63,7 @@ final class RoutesCache
         }
 
         foreach ($admin->getRoutes()->getElements() as $code => $route) {
-            $name = $route->getDefault('_sonata_name');
+            $name = $route->getDefault('_adminata_name');
             \assert(\is_string($name));
             $routes[$code] = $name;
         }

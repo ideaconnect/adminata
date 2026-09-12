@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\DependencyInjection\Compiler;
+namespace IDCT\Adminata\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
@@ -27,19 +27,19 @@ final class BlockTweakCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        $manager = $container->getDefinition('sonata.block.manager');
-        $registry = $container->getDefinition('sonata.block.menu.registry');
+        $manager = $container->getDefinition('adminata.block.manager');
+        $registry = $container->getDefinition('adminata.block.menu.registry');
 
         /** @var array<string, mixed> $blocks */
-        $blocks = $container->getParameter('sonata_block.blocks');
+        $blocks = $container->getParameter('adminata_block.blocks');
         /** @var array<string, mixed> $blockTypes */
-        $blockTypes = $container->getParameter('sonata_blocks.block_types');
+        $blockTypes = $container->getParameter('adminata_blocks.block_types');
         /** @var string[] $defaultContexts */
-        $defaultContexts = $container->getParameter('sonata_blocks.default_contexts');
+        $defaultContexts = $container->getParameter('adminata_blocks.default_contexts');
 
         /** @var array<string, Reference> $blockServiceReferences */
         $blockServiceReferences = [];
-        foreach ($container->findTaggedServiceIds('sonata.block') as $id => $tags) {
+        foreach ($container->findTaggedServiceIds('adminata.block') as $id => $tags) {
             $settings = $this->createBlockSettings($tags, $defaultContexts);
 
             // Register blocks dynamically
@@ -67,15 +67,15 @@ final class BlockTweakCompilerPass implements CompilerPassInterface
         }
 
         $services = [];
-        foreach ($container->findTaggedServiceIds('sonata.block.loader') as $serviceId => $tags) {
+        foreach ($container->findTaggedServiceIds('adminata.block.loader') as $serviceId => $tags) {
             $services[] = new Reference($serviceId);
         }
 
-        $container->setParameter('sonata_block.blocks', $blocks);
-        $container->setParameter('sonata_blocks.block_types', $blockTypes);
+        $container->setParameter('adminata_block.blocks', $blocks);
+        $container->setParameter('adminata_blocks.block_types', $blockTypes);
 
-        $container->getDefinition('sonata.block.loader.service')->replaceArgument(0, $blockTypes);
-        $container->getDefinition('sonata.block.loader.chain')->replaceArgument(0, $services);
+        $container->getDefinition('adminata.block.loader.service')->replaceArgument(0, $blockTypes);
+        $container->getDefinition('adminata.block.loader.chain')->replaceArgument(0, $services);
 
         $this->applyContext($container);
     }
@@ -85,10 +85,10 @@ final class BlockTweakCompilerPass implements CompilerPassInterface
      */
     private function applyContext(ContainerBuilder $container): void
     {
-        $definition = $container->findDefinition('sonata.block.context_manager');
+        $definition = $container->findDefinition('adminata.block.context_manager');
 
         /** @var array<string, array<string, mixed>> $blocks */
-        $blocks = $container->getParameter('sonata_block.blocks');
+        $blocks = $container->getParameter('adminata_block.blocks');
         foreach ($blocks as $service => $settings) {
             if (\count($settings['settings']) > 0) {
                 $definition->addMethodCall('addSettingsByType', [$service, $settings['settings'], true]);
@@ -96,7 +96,7 @@ final class BlockTweakCompilerPass implements CompilerPassInterface
         }
 
         /** @var array<class-string, array<string, mixed>> $blocksByClass */
-        $blocksByClass = $container->getParameter('sonata_block.blocks_by_class');
+        $blocksByClass = $container->getParameter('adminata_block.blocks_by_class');
         foreach ($blocksByClass as $class => $settings) {
             if (\count($settings['settings']) > 0) {
                 $definition->addMethodCall('addSettingsByClass', [$class, $settings['settings'], true]);

@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Twig\Extension;
+namespace IDCT\Adminata\Twig\Extension;
 
-use Sonata\AdminBundle\Twig\StatusRuntime;
+use IDCT\Adminata\Twig\StatusRuntime;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -26,12 +26,12 @@ final class StatusExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('sonata_status_class', [StatusRuntime::class, 'statusClass']),
+            new TwigFilter('adminata_status_class', [StatusRuntime::class, 'statusClass']),
         ];
     }
 
     public function getName(): string
     {
-        return 'sonata_twig_status';
+        return 'adminata_twig_status';
     }
 }

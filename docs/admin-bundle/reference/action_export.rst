@@ -83,7 +83,7 @@ Customizing the query used to fetch the results
 -----------------------------------------------
 
 If you want to customize the query used to fetch the results for a specific admin,
-you can override the ``Sonata\AdminBundle\Exporter\DataSourceInterface`` implementation::
+you can override the ``IDCT\Adminata\Exporter\DataSourceInterface`` implementation::
 
     final class DataSource implements DataSourceInterface
     {

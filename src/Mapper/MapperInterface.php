@@ -11,9 +11,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Mapper;
+namespace IDCT\Adminata\Mapper;
 
-use Sonata\AdminBundle\Admin\AdminInterface;
+use IDCT\Adminata\Admin\AdminInterface;
 
 /**
  * This interface is used to simulate the Form API.

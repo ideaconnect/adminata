@@ -11,10 +11,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\BCLayer;
+namespace IDCT\Adminata\BCLayer;
 
 use Doctrine\Common\Util\ClassUtils;
-use Sonata\AdminBundle\Model\ProxyResolverInterface;
+use IDCT\Adminata\Model\ProxyResolverInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

@@ -11,13 +11,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Block;
+namespace IDCT\Adminata\Tests\Block;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Block\BlockLoaderChain;
-use Sonata\AdminBundle\Block\BlockLoaderInterface;
-use Sonata\AdminBundle\Exception\BlockNotFoundException;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Block\BlockLoaderChain;
+use IDCT\Adminata\Block\BlockLoaderInterface;
+use IDCT\Adminata\Exception\BlockNotFoundException;
+use IDCT\Adminata\Model\BlockInterface;
 
 final class BlockLoaderChainTest extends TestCase
 {

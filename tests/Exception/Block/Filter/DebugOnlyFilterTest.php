@@ -11,11 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Sonata\AdminBundle\Tests\Exception\Block\Filter;
+namespace IDCT\Adminata\Tests\Exception\Block\Filter;
 
 use PHPUnit\Framework\TestCase;
-use Sonata\AdminBundle\Exception\Block\Filter\DebugOnlyFilter;
-use Sonata\AdminBundle\Model\BlockInterface;
+use IDCT\Adminata\Exception\Block\Filter\DebugOnlyFilter;
+use IDCT\Adminata\Model\BlockInterface;
 
 /**
  * @author Olivier Paradis <paradis.olivier@gmail.com>

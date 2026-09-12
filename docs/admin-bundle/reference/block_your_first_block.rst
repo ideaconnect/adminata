@@ -22,19 +22,19 @@ The current RSS block will extend this base class. The other `use` statements ar
     use Symfony\Component\Form\Extension\Core\Type\UrlType;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\OptionsResolver\OptionsResolver;
-    use Sonata\AdminBundle\Block\BlockContextInterface;
-    use Sonata\AdminBundle\Block\Service\AbstractBlockService;
-    use Sonata\AdminBundle\Block\Service\EditableBlockService;
-    use Sonata\AdminBundle\Form\BlockFormMapperInterface;
-    use Sonata\AdminBundle\Model\BlockInterface;
-    use Sonata\AdminBundle\Form\Type\ImmutableArrayType;
-    use Sonata\AdminBundle\Validator\ErrorElement;
+    use IDCT\Adminata\Block\BlockContextInterface;
+    use IDCT\Adminata\Block\Service\AbstractBlockService;
+    use IDCT\Adminata\Block\Service\EditableBlockService;
+    use IDCT\Adminata\Form\BlockFormMapperInterface;
+    use IDCT\Adminata\Model\BlockInterface;
+    use IDCT\Adminata\Form\Type\ImmutableArrayType;
+    use IDCT\Adminata\Validator\ErrorElement;
 
 .. note::
 
     Those are adminata's names. Upstream ``sonata-project/block-bundle`` puts the same classes under
-    ``Sonata\BlockBundle\``; here the block sources are part of the admin bundle, so they are
-    ``Sonata\AdminBundle\``.
+    ``IDCT\Adminata\``; here the block sources are part of the admin bundle, so they are
+    ``IDCT\Adminata\``.
 
 Default settings
 ----------------
@@ -46,7 +46,7 @@ A `block service` needs settings to work properly, so to ensure consistency, the
         $resolver->setDefaults([
             'url' => false,
             'title' => 'Insert the rss title',
-            'template' => '@SonataAdmin/Block/block_core_rss.html.twig',
+            'template' => '@Adminata/Block/block_core_rss.html.twig',
         ]);
     }
 
@@ -55,8 +55,8 @@ In the current tutorial, the default settings are:
 * `URL`: the feed url,
 * `title`: the block title,
 * `template`: the template to render the block — here the shipped RSS template, which lives under
-  ``@SonataAdmin/Block/`` like every block template and is overridden, like every admin template,
-  in ``templates/bundles/SonataAdminBundle/Block/`` (:doc:`block_configuration`).
+  ``@Adminata/Block/`` like every block template and is overridden, like every admin template,
+  in ``templates/bundles/AdminataBundle/Block/`` (:doc:`block_configuration`).
 
 Form Editing
 ------------
@@ -92,7 +92,7 @@ The validation is done at runtime through a ``validate`` method. You can call an
         ;
     }
 
-``ImmutableArrayType`` (form alias ``sonata_type_immutable_array``) is a specific `form type` which allows to edit an array.
+``ImmutableArrayType`` (form alias ``adminata_type_immutable_array``) is a specific `form type` which allows to edit an array.
 
 Execute
 -------
@@ -141,12 +141,12 @@ In this tutorial, the block template is very simple. We loop through feeds, or i
 
 .. code-block:: twig
 
-    {% extends sonata_block.templates.block_base %}
+    {% extends adminata_block.templates.block_base %}
 
     {% block block %}
-        <h3 class="sonata-feed-title">{{ settings.title }}</h3>
+        <h3 class="adminata-feed-title">{{ settings.title }}</h3>
 
-        <div class="sonata-feeds-container">
+        <div class="adminata-feeds-container">
             {% for feed in feeds %}
                 <div>
                     <strong><a href="{{ feed.link}}" rel="nofollow" title="{{ feed.title }}">{{ feed.title }}</a></strong>
@@ -168,19 +168,19 @@ We are almost done! Now, just declare the block as a service:
     # config/services.yaml
 
     services:
-        sonata.block.service.rss:
+        adminata.block.service.rss:
             class: App\Block\RssBlockService
             arguments:
                 - '@twig'
             tags:
-                - { name: sonata.block }
+                - { name: adminata.block }
 
 Then, add the service to Sonata configuration:
 
 .. code-block:: yaml
 
-    # config/packages/sonata_block.yaml
+    # config/packages/adminata_block.yaml
 
-    sonata_block:
+    adminata_block:
         blocks:
-            sonata.block.service.rss: ~
+            adminata.block.service.rss: ~

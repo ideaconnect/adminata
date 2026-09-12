@@ -9,13 +9,13 @@ Enable Filters Persistence
 --------------------------
 
 By default, filters persistence is disabled.
-You can enable it in your ``sonata_admin`` configuration :
+You can enable it in your ``adminata`` configuration :
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         persist_filters: true
 
 Choose the persistence strategy
@@ -23,23 +23,23 @@ Choose the persistence strategy
 
 When you enable the filters persistence by setting ``persist_filters``
 to ``true``.
-SonataAdmin will use the default filter persister :
-``Sonata\AdminBundle\Filter\Persister\SessionFilterPersister``
+Adminata will use the default filter persister :
+``IDCT\Adminata\Filter\Persister\SessionFilterPersister``
 (which is, by now, the only one provided).
 
 You can implement your own filter persister by creating a new class that
-implements the ``Sonata\AdminBundle\Filter\Persister\FilterPersisterInterface``
+implements the ``IDCT\Adminata\Filter\Persister\FilterPersisterInterface``
 interface and registering it as a service.
-Then the only thing to do is to tell SonataAdmin to use this service as
+Then the only thing to do is to tell Adminata to use this service as
 filter persister.
 
 Globally :
 
 .. code-block:: yaml
 
-    # config/packages/sonata_admin.yaml
+    # config/packages/adminata.yaml
 
-    sonata_admin:
+    adminata:
         persist_filters: true
         filter_persister: filter_persister_service_id
 
@@ -54,7 +54,7 @@ Per Admin :
             class: App\Admin\UserAdmin
             tags:
                 -
-                    name: sonata.admin
+                    name: adminata.admin
                     model_class: App\Entity\User
                     manager_type: orm
                     filter_persister: filter_persister_service_id
@@ -76,7 +76,7 @@ You can disable it per Admin if you want.
         app.admin.user:
             class: App\Admin\UserAdmin
             tags:
-                - { name: sonata.admin, model_class: App\Entity\User,  manager_type: orm, persist_filters: false }
+                - { name: adminata.admin, model_class: App\Entity\User,  manager_type: orm, persist_filters: false }
 
 .. note::
 

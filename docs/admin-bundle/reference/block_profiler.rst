@@ -12,13 +12,13 @@ If you want to disable the profiling or configure it, you may add one of the fol
 
 .. code-block:: yaml
 
-    # config/packages/sonata_block.yaml
+    # config/packages/adminata_block.yaml
 
-    sonata_block:
+    adminata_block:
         profiler:
             enabled:  '%kernel.debug%'
-            template: '@SonataAdmin/Profiler/block.html.twig'
+            template: '@Adminata/Profiler/block.html.twig'
 
-``template`` defaults to the shipped panel under ``@SonataAdmin``, so a
-``templates/bundles/SonataAdminBundle/Profiler/block.html.twig`` of yours overrides it without
+``template`` defaults to the shipped panel under ``@Adminata``, so a
+``templates/bundles/AdminataBundle/Profiler/block.html.twig`` of yours overrides it without
 this setting (:doc:`block_configuration`).
