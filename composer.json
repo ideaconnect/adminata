@@ -90,7 +90,7 @@
         "doctrine/mongodb-odm": "^2.17",
         "ergebnis/composer-normalize": "^2.52",
         "friendsofphp/php-cs-fixer": "^3.95",
-        "idct/adminata-doctrine-orm-admin-bundle": "dev-rename/idct",
+        "idct/adminata-doctrine-orm-admin-bundle": "^2.0",
         "infection/infection": "^0.35",
         "matthiasnoback/symfony-config-test": "^6.2",
         "matthiasnoback/symfony-dependency-injection-test": "^6.3",
