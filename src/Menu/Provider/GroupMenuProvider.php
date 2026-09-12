@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Menu\Provider;
 
+use IDCT\Adminata\Admin\Pool;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
-use IDCT\Adminata\Admin\Pool;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 

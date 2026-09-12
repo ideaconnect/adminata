@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Block;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Block\BlockContext;
 use IDCT\Adminata\Model\BlockInterface;
+use PHPUnit\Framework\TestCase;
 
 final class BlockExecutionContextTest extends TestCase
 {

@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Block;
 
-use Psr\Container\ContainerInterface;
 use IDCT\Adminata\Block\Service\BlockServiceInterface;
 use IDCT\Adminata\Block\Service\EditableBlockService;
 use IDCT\Adminata\Exception\BlockServiceNotFoundException;
 use IDCT\Adminata\Model\BlockInterface;
 use IDCT\Adminata\Validator\ErrorElement;
+use Psr\Container\ContainerInterface;
 
 final class BlockServiceManager implements BlockServiceManagerInterface
 {

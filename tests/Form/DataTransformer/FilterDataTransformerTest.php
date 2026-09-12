@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Filter\Model\FilterData;
 use IDCT\Adminata\Form\DataTransformer\FilterDataTransformer;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 final class FilterDataTransformerTest extends TestCase

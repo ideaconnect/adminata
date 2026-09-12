@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Datagrid;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Datagrid\Pager;
 use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Andrej Hudec <pulzarraider@gmail.com>

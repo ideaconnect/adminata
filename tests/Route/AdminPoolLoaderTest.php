@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Route;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Route\AdminPoolLoader;
 use IDCT\Adminata\Route\RouteCollection;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 use Symfony\Component\Routing\RouteCollection as SymfonyRouteCollection;

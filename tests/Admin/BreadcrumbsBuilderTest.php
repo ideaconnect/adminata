@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Admin;
 
-use Knp\Menu\ItemInterface;
-use Knp\Menu\MenuFactory;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\BreadcrumbsBuilder;
 use IDCT\Adminata\Route\RouteGeneratorInterface;
 use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
+use Knp\Menu\ItemInterface;
+use Knp\Menu\MenuFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

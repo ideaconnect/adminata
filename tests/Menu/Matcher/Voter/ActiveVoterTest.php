@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Menu\Matcher\Voter;
 
+use IDCT\Adminata\Menu\Matcher\Voter\ActiveVoter;
 use Knp\Menu\ItemInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Menu\Matcher\Voter\ActiveVoter;
 
 final class ActiveVoterTest extends TestCase
 {

@@ -13,19 +13,19 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Admin\AdminExtensionInterface;
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\DependencyInjection\Admin\TaggedAdminInterface;
+use IDCT\Adminata\DependencyInjection\AdminataExporterExtension;
+use IDCT\Adminata\DependencyInjection\AdminataExtension;
+use IDCT\Adminata\DependencyInjection\Compiler\ExtensionCompilerPass;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\Matcher\MatcherInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Admin\AbstractAdmin;
-use IDCT\Adminata\Admin\AdminExtensionInterface;
-use IDCT\Adminata\Admin\AdminInterface;
-use IDCT\Adminata\DependencyInjection\Admin\TaggedAdminInterface;
-use IDCT\Adminata\DependencyInjection\Compiler\ExtensionCompilerPass;
-use IDCT\Adminata\DependencyInjection\AdminataExtension;
-use IDCT\Adminata\DependencyInjection\AdminataExporterExtension;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

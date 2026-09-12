@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Test;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Block\BlockContextInterface;
 use IDCT\Adminata\Block\BlockContextManager;
 use IDCT\Adminata\Block\BlockContextManagerInterface;
@@ -22,6 +20,8 @@ use IDCT\Adminata\Block\BlockLoaderInterface;
 use IDCT\Adminata\Block\BlockServiceManagerInterface;
 use IDCT\Adminata\Block\Service\BlockServiceInterface;
 use IDCT\Adminata\Model\BlockInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 
 /**

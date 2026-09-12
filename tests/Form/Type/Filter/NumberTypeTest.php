@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\Type\Filter;
 
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use IDCT\Adminata\Form\Type\Filter\NumberType;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 
 /**
  * NEXT_MAJOR: Remove this class.

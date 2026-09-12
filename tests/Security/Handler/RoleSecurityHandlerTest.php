@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Security\Handler;
 
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Security\Handler\RoleSecurityHandler;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Admin\AdminInterface;
-use IDCT\Adminata\Security\Handler\RoleSecurityHandler;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;

@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Route;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use IDCT\Adminata\Route\DefaultRouteGenerator;
 use IDCT\Adminata\Route\RouteCollection;
 use IDCT\Adminata\Route\RoutesCache;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;

@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Request;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Exception\AdminCodeNotFoundException;
 use IDCT\Adminata\Request\AdminFetcher;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 

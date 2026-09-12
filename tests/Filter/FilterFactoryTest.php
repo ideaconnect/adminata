@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Filter;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Filter\FilterFactory;
 use IDCT\Adminata\Filter\FilterInterface;
 use IDCT\Adminata\Form\Type\Filter\FilterDataType;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 final class FilterFactoryTest extends TestCase

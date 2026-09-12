@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Menu\Matcher\Voter;
 
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Menu\Matcher\Voter\AdminVoter;
 use Knp\Menu\ItemInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Admin\AdminInterface;
-use IDCT\Adminata\Menu\Matcher\Voter\AdminVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 

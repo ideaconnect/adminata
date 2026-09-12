@@ -13,16 +13,16 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
+use IDCT\Adminata\Admin\AbstractAdmin;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\DependencyInjection\Admin\TaggedAdminInterface;
+use IDCT\Adminata\DependencyInjection\AdminataExtension;
+use IDCT\Adminata\DependencyInjection\Compiler\AddDependencyCallsCompilerPass;
+use IDCT\Adminata\Tests\Fixtures\Controller\FooAdminController;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
-use IDCT\Adminata\Admin\AbstractAdmin;
-use IDCT\Adminata\Admin\Pool;
-use IDCT\Adminata\DependencyInjection\Admin\TaggedAdminInterface;
-use IDCT\Adminata\DependencyInjection\Compiler\AddDependencyCallsCompilerPass;
-use IDCT\Adminata\DependencyInjection\AdminataExtension;
-use IDCT\Adminata\Tests\Fixtures\Controller\FooAdminController;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;

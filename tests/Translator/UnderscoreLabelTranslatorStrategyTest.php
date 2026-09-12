@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Translator;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Translator\UnderscoreLabelTranslatorStrategy;
+use PHPUnit\Framework\TestCase;
 
 final class UnderscoreLabelTranslatorStrategyTest extends TestCase
 {

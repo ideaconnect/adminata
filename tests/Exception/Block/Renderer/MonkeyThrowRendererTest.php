@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exception\Block\Renderer;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exception\Block\Renderer\MonkeyThrowRenderer;
 use IDCT\Adminata\Model\BlockInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Olivier Paradis <paradis.olivier@gmail.com>

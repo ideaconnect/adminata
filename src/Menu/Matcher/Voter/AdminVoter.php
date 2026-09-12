@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Menu\Matcher\Voter;
 
-use Knp\Menu\ItemInterface;
-use Knp\Menu\Matcher\Voter\VoterInterface;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\BCLayer\BCHelper;
+use Knp\Menu\ItemInterface;
+use Knp\Menu\Matcher\Voter\VoterInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**

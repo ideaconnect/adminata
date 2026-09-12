@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\Type;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use IDCT\Adminata\Form\Type\ModelReferenceType;
 use IDCT\Adminata\Model\ModelManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\FormExtensionInterface;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;

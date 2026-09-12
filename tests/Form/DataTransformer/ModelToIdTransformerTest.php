@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
+use IDCT\Adminata\Form\DataTransformer\ModelToIdTransformer;
+use IDCT\Adminata\Model\ModelManagerInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Form\DataTransformer\ModelToIdTransformer;
-use IDCT\Adminata\Model\ModelManagerInterface;
 
 final class ModelToIdTransformerTest extends TestCase
 {

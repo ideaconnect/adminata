@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exception\Block\Filter;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exception\Block\Filter\DebugOnlyFilter;
 use IDCT\Adminata\Model\BlockInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Olivier Paradis <paradis.olivier@gmail.com>

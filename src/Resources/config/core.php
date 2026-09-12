@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Psr\Container\ContainerInterface;
 use IDCT\Adminata\Admin\AdminHelper;
 use IDCT\Adminata\Admin\BreadcrumbsBuilder;
 use IDCT\Adminata\Admin\BreadcrumbsBuilderInterface;
 use IDCT\Adminata\Admin\Extension\LockExtension;
 use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\AdminataConfiguration;
 use IDCT\Adminata\ArgumentResolver\AdminValueResolver;
 use IDCT\Adminata\ArgumentResolver\ProxyQueryResolver;
 use IDCT\Adminata\Asset\LastModifiedVersionStrategy;
@@ -35,7 +35,6 @@ use IDCT\Adminata\Request\AdminFetcherInterface;
 use IDCT\Adminata\Route\AdminPoolLoader;
 use IDCT\Adminata\Search\SearchHandler;
 use IDCT\Adminata\Search\SearchHandlerInterface;
-use IDCT\Adminata\AdminataConfiguration;
 use IDCT\Adminata\Templating\TemplateRegistry;
 use IDCT\Adminata\Translator\BCLabelTranslatorStrategy;
 use IDCT\Adminata\Translator\Extractor\AdminExtractor;
@@ -44,6 +43,7 @@ use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
 use IDCT\Adminata\Translator\NativeLabelTranslatorStrategy;
 use IDCT\Adminata\Translator\NoopLabelTranslatorStrategy;
 use IDCT\Adminata\Translator\UnderscoreLabelTranslatorStrategy;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Asset\PathPackage;
 
 return static function (ContainerConfigurator $containerConfigurator): void {

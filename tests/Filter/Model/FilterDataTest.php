@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Filter\Model;
 
+use IDCT\Adminata\Filter\Model\FilterData;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Filter\Model\FilterData;
 
 final class FilterDataTest extends TestCase
 {

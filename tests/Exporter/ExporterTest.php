@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exporter;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exporter\Exporter;
 use IDCT\Adminata\Exporter\Source\ArraySourceIterator;
 use IDCT\Adminata\Exporter\Writer\CsvWriter;
@@ -22,6 +20,8 @@ use IDCT\Adminata\Exporter\Writer\JsonWriter;
 use IDCT\Adminata\Exporter\Writer\TypedWriterInterface;
 use IDCT\Adminata\Exporter\Writer\XlsWriter;
 use IDCT\Adminata\Exporter\Writer\XmlWriter;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 final class ExporterTest extends TestCase

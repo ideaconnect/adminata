@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig\Extension;
 
+use IDCT\Adminata\Templating\BlockHelper;
+use IDCT\Adminata\Twig\Extension\BlockExtension;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Templating\BlockHelper;
-use IDCT\Adminata\Twig\Extension\BlockExtension;
 use Twig\Environment;
 use Twig\Loader\LoaderInterface;
 use Twig\RuntimeLoader\FactoryRuntimeLoader;

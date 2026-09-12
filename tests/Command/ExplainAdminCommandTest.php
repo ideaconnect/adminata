@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Command;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Builder\DatagridBuilderInterface;
@@ -24,6 +22,8 @@ use IDCT\Adminata\Controller\CRUDController;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use IDCT\Adminata\Model\ModelManagerInterface;
 use IDCT\Adminata\Route\RouteCollection;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\DependencyInjection\Container;

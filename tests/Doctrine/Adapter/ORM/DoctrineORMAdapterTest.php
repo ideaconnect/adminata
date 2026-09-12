@@ -16,9 +16,9 @@ namespace IDCT\Adminata\Tests\Doctrine\Adapter\ORM;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\Persistence\ManagerRegistry;
+use IDCT\Adminata\Doctrine\Adapter\ORM\DoctrineORMAdapter;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Doctrine\Adapter\ORM\DoctrineORMAdapter;
 
 final class DoctrineORMAdapterTest extends TestCase
 {

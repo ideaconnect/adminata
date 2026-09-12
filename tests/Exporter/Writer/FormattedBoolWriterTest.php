@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exporter\Writer;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exporter\Writer\FormattedBoolWriter;
 use IDCT\Adminata\Exporter\Writer\TypedWriterInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Format boolean before use another writer.

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Block;
 
-use Psr\Log\LoggerInterface;
 use IDCT\Adminata\Exception\Block\Strategy\StrategyManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

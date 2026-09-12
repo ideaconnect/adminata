@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig;
 
+use IDCT\Adminata\Twig\IconRuntime;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Twig\IconRuntime;
 
 final class IconRuntimeTest extends TestCase
 {

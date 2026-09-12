@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\FieldDescription;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Exception\NoValueException;
 use IDCT\Adminata\Tests\Fixtures\Entity\FooCall;
 use IDCT\Adminata\Tests\Fixtures\FieldDescription\FieldDescription;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 final class BaseFieldDescriptionTest extends TestCase
 {

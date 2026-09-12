@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exporter\Source;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exporter\Source\AbstractPropertySourceIterator;
 use IDCT\Adminata\Tests\Exporter\Source\Fixtures\Element;
 use IDCT\Adminata\Tests\Exporter\Source\Fixtures\ObjectWithToString;
 use IDCT\Adminata\Tests\Fixtures\Enum\Suit;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 final class AbstractPropertySourceIteratorTest extends TestCase
 {

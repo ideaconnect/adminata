@@ -15,9 +15,9 @@ namespace IDCT\Adminata\Tests\Doctrine\App;
 
 use Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\CacheCompatibilityPass;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use IDCT\Adminata\AdminataBundle;
 use IDCT\Adminata\DependencyInjection\Compiler\DoctrineAdapterCompilerPass;
 use IDCT\Adminata\DependencyInjection\Compiler\DoctrineMapperCompilerPass;
-use IDCT\Adminata\AdminataBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;

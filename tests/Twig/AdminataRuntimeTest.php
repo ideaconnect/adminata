@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Tests\App\Model\Foo;
 use IDCT\Adminata\Tests\Twig\Extension\FakeTemplateRegistryExtension;
-use IDCT\Adminata\Twig\Extension\AdminataExtension;
 use IDCT\Adminata\Twig\AdminataRuntime;
+use IDCT\Adminata\Twig\Extension\AdminataExtension;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Routing\Loader\PhpFileLoader;

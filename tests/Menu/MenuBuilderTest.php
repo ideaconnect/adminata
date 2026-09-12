@@ -13,15 +13,15 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Menu;
 
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Event\ConfigureMenuEvent;
+use IDCT\Adminata\Menu\MenuBuilder;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\MenuFactory;
 use Knp\Menu\MenuItem;
 use Knp\Menu\Provider\MenuProviderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Admin\Pool;
-use IDCT\Adminata\Event\ConfigureMenuEvent;
-use IDCT\Adminata\Menu\MenuBuilder;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

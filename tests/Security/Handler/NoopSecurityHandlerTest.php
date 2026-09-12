@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Security\Handler;
 
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Security\Handler\NoopSecurityHandler;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Admin\AdminInterface;
-use IDCT\Adminata\Security\Handler\NoopSecurityHandler;
 
 final class NoopSecurityHandlerTest extends TestCase
 {

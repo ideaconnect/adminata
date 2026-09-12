@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\DependencyInjection;
 
+use IDCT\Adminata\DependencyInjection\BlockConfiguration;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\DependencyInjection\BlockConfiguration;
 use Symfony\Component\Config\Definition\Processor;
 
 final class BlockConfigurationTest extends TestCase

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Util;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Util\FormBuilderIterator;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilder;

@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Profiler\DataCollector;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Profiler\DataCollector\BlockDataCollector;
 use IDCT\Adminata\Templating\BlockHelper;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

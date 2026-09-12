@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Action;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Action\RetrieveAutocompleteItemsAction;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Datagrid\DatagridInterface;
@@ -25,6 +22,9 @@ use IDCT\Adminata\Filter\FilterInterface;
 use IDCT\Adminata\Object\MetadataInterface;
 use IDCT\Adminata\Request\AdminFetcherInterface;
 use IDCT\Adminata\Tests\Fixtures\Filter\FooFilter;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\HttpFoundation\Request;

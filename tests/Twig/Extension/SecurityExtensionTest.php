@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig\Extension;
 
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Twig\Extension\SecurityExtension;
 use IDCT\Adminata\Twig\SecurityRuntime;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**

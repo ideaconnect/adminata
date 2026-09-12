@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Security\Acl\Permission;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Security\Acl\Permission\AdminPermissionMap;
 use IDCT\Adminata\Security\Acl\Permission\MaskBuilder;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 final class AdminPermissionMapTest extends TestCase
 {

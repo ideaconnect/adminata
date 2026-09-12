@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace IDCT\Adminata\Tests\Doctrine\Mapper;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
-use PHPUnit\Framework\Attributes\CoversMethod;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Doctrine\Mapper\Builder\ColumnDefinitionBuilder;
 use IDCT\Adminata\Doctrine\Mapper\Builder\OptionsBuilder;
 use IDCT\Adminata\Doctrine\Mapper\DoctrineCollector;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\TestCase;
 
 #[CoversMethod(DoctrineCollector::class, 'getIndexes')]
 #[CoversMethod(DoctrineCollector::class, 'getUniques')]

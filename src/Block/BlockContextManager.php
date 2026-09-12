@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace IDCT\Adminata\Block;
 
 use Doctrine\Common\Util\ClassUtils;
+use IDCT\Adminata\Model\BlockInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use IDCT\Adminata\Model\BlockInterface;
 use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

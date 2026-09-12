@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Templating;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Templating\MutableTemplateRegistry;
 use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
+use PHPUnit\Framework\TestCase;
 
 final class MutableTemplateRegistryTest extends TestCase
 {

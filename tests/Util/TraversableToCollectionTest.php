@@ -15,9 +15,9 @@ namespace IDCT\Adminata\Tests\Util;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use IDCT\Adminata\Util\TraversableToCollection;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Util\TraversableToCollection;
 
 /**
  * @author Javier Spagnoletti <phansys@gmail.com>

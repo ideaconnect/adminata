@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Manipulator;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Manipulator\ServicesManipulator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Marek Stipek <mario.dweller@seznam.cz>

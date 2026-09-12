@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exporter\Writer;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exporter\Writer\GsaFeedWriter;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the GSA feed writer class.

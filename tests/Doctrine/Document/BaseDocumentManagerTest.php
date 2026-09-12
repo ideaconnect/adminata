@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace IDCT\Adminata\Tests\Doctrine\Document;
 
 use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Doctrine\Document\BaseDocumentManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @phpstan-extends BaseDocumentManager<object>

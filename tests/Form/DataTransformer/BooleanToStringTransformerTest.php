@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
+use IDCT\Adminata\Form\DataTransformer\BooleanToStringTransformer;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Form\DataTransformer\BooleanToStringTransformer;
 
 /**
  * @author Peter Gribanov <info@peter-gribanov.ru>

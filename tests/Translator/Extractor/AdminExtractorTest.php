@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Translator\Extractor;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\BreadcrumbsBuilderInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
 use IDCT\Adminata\Translator\Extractor\AdminExtractor;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Translation\MessageCatalogue;
 

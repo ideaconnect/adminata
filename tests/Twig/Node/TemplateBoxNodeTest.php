@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig\Node;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use IDCT\Adminata\Twig\Node\TemplateBoxNode;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twig\Attribute\YieldReady;
 use Twig\Environment;
 use Twig\Node\Expression\ConstantExpression;

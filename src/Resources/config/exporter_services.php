@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use IDCT\Adminata\Exporter\Exporter;
 use IDCT\Adminata\Exporter\ExporterInterface;
 use IDCT\Adminata\Exporter\Writer\CsvWriter;
@@ -21,6 +20,7 @@ use IDCT\Adminata\Exporter\Writer\JsonWriter;
 use IDCT\Adminata\Exporter\Writer\XlsWriter;
 use IDCT\Adminata\Exporter\Writer\XlsxWriter;
 use IDCT\Adminata\Exporter\Writer\XmlWriter;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();

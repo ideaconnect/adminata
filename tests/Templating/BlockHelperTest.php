@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Templating;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Block\BlockContext;
 use IDCT\Adminata\Block\BlockContextManagerInterface;
 use IDCT\Adminata\Block\BlockRendererInterface;
@@ -23,6 +22,7 @@ use IDCT\Adminata\Event\BlockEvent;
 use IDCT\Adminata\Model\Block;
 use IDCT\Adminata\Model\BlockInterface;
 use IDCT\Adminata\Templating\BlockHelper;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 

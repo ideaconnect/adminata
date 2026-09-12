@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig\Extension;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Twig\Extension\FlashMessageExtension;
+use PHPUnit\Framework\TestCase;
 use Twig\TwigFunction;
 
 final class FlashMessageExtensionTest extends TestCase

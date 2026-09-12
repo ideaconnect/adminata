@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Filter;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Filter\FilterFactory;
 use IDCT\Adminata\Tests\Fixtures\Filter\FooFilter;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class FilterTest extends TestCase

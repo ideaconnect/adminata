@@ -16,8 +16,8 @@ declare(strict_types=1);
 
 namespace Adminata\Tests\App\EventListener;
 
-use Knp\Menu\ItemInterface;
 use IDCT\Adminata\Event\ConfigureMenuEvent;
+use Knp\Menu\ItemInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 /**

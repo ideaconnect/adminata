@@ -13,10 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Action;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Action\SetObjectFieldValueAction;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
@@ -25,6 +21,10 @@ use IDCT\Adminata\Model\ModelManagerInterface;
 use IDCT\Adminata\Request\AdminFetcherInterface;
 use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
 use IDCT\Adminata\Twig\RenderElementRuntime;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

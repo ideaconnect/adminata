@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
-use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use IDCT\Adminata\DependencyInjection\Compiler\DoctrineMapperCompilerPass;
 use IDCT\Adminata\Doctrine\Mapper\Builder\OptionsBuilder;
 use IDCT\Adminata\Doctrine\Mapper\DoctrineCollector;
 use IDCT\Adminata\Doctrine\Mapper\ORM\DoctrineORMMapper;
 use IDCT\Adminata\Tests\Doctrine\App\Entity\TestEntity;
 use IDCT\Adminata\Tests\Doctrine\App\Entity\TestRelatedEntity;
+use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**

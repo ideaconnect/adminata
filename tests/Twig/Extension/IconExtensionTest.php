@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig\Extension;
 
+use IDCT\Adminata\Twig\Extension\IconExtension;
+use IDCT\Adminata\Twig\IconRuntime;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Twig\Extension\IconExtension;
-use IDCT\Adminata\Twig\IconRuntime;
 
 /**
  * NEXT_MAJOR: Remove this test.

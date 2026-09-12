@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Security\Acl\Permission;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Security\Acl\Permission\MaskBuilder;
+use PHPUnit\Framework\TestCase;
 
 final class MaskBuilderTest extends TestCase
 {

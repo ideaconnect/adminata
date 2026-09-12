@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\Type;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use IDCT\Adminata\Form\Type\ModelListType;
 use IDCT\Adminata\Model\ModelManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

@@ -13,15 +13,15 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Block;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use IDCT\Adminata\Block\BlockContext;
 use IDCT\Adminata\Block\BlockRenderer;
 use IDCT\Adminata\Block\BlockServiceManagerInterface;
 use IDCT\Adminata\Block\Service\BlockServiceInterface;
 use IDCT\Adminata\Exception\Block\Strategy\StrategyManagerInterface;
 use IDCT\Adminata\Model\BlockInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

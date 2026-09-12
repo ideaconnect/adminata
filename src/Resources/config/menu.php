@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
-use Knp\Menu\MenuItem;
 use IDCT\Adminata\Menu\Matcher\Voter\ActiveVoter;
 use IDCT\Adminata\Menu\Matcher\Voter\AdminVoter;
 use IDCT\Adminata\Menu\MenuBuilder;
 use IDCT\Adminata\Menu\Provider\GroupMenuProvider;
+use Knp\Menu\MenuItem;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->services()

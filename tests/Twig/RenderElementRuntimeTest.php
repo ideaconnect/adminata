@@ -13,12 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
-use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use IDCT\Adminata\AdminataConfiguration;
+use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
 use IDCT\Adminata\Templating\TemplateRegistryInterface;
 use IDCT\Adminata\Tests\Fixtures\Entity\FooToString;
@@ -29,6 +26,9 @@ use IDCT\Adminata\Twig\Extension\RenderElementExtension;
 use IDCT\Adminata\Twig\Extension\XEditableExtension;
 use IDCT\Adminata\Twig\RenderElementRuntime;
 use IDCT\Adminata\Twig\XEditableRuntime;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\Twig\Extension\RoutingExtension;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Component\Config\FileLocator;

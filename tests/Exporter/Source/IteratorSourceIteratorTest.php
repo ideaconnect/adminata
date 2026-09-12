@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exporter\Source;
 
+use IDCT\Adminata\Exporter\Source\IteratorSourceIterator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Exporter\Source\IteratorSourceIterator;
 
 final class IteratorSourceIteratorTest extends TestCase
 {

@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Util;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Model\Block;
 use IDCT\Adminata\Util\RecursiveBlockIteratorIterator;
+use PHPUnit\Framework\TestCase;
 
 final class RecursiveBlockIteratorIteratorTest extends TestCase
 {

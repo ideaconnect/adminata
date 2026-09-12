@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Datagrid;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Builder\ListBuilderInterface;
 use IDCT\Adminata\Datagrid\ListMapper;
@@ -22,6 +20,8 @@ use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use IDCT\Adminata\Tests\App\FieldDescription\FieldDescription;
 use IDCT\Adminata\Translator\NoopLabelTranslatorStrategy;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Andrej Hudec <pulzarraider@gmail.com>

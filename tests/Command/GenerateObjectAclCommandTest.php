@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Command;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AbstractAdmin;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Command\GenerateObjectAclCommand;
 use IDCT\Adminata\Tests\Fixtures\Entity\Foo;
 use IDCT\Adminata\Util\ObjectAclManipulatorInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Tester\CommandTester;

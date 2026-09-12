@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Event;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Event\BlockEvent;
 use IDCT\Adminata\Model\BlockInterface;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
 
 final class BlockEventTest extends TestCase
 {

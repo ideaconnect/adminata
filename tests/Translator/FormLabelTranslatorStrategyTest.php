@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Translator;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Translator\FormLabelTranslatorStrategy;
+use PHPUnit\Framework\TestCase;
 
 final class FormLabelTranslatorStrategyTest extends TestCase
 {

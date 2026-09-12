@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Admin;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 use IDCT\Adminata\Model\ModelManagerInterface;
 use IDCT\Adminata\Security\Handler\SecurityHandlerInterface;
+use PHPUnit\Framework\TestCase;
 
 final class BaseAdminModelManagerTest extends TestCase
 {

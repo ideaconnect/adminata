@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\App\Admin;
 
-use Knp\Menu\ItemInterface as MenuItemInterface;
 use IDCT\Adminata\Admin\AbstractAdmin;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Datagrid\ListMapper;
@@ -27,6 +26,7 @@ use IDCT\Adminata\Show\ShowMapper;
 use IDCT\Adminata\Tests\App\Model\Bar;
 use IDCT\Adminata\Tests\App\Model\Foo;
 use IDCT\Adminata\Tests\Fixtures\Controller\BatchOtherController;
+use Knp\Menu\ItemInterface as MenuItemInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Count;

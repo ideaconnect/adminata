@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Twig\BlockGlobalVariables;
+use PHPUnit\Framework\TestCase;
 
 final class BlockGlobalVariablesTest extends TestCase
 {

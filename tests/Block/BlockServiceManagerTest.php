@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Block;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Block\BlockServiceManager;
 use IDCT\Adminata\Block\Service\BlockServiceInterface;
 use IDCT\Adminata\Exception\BlockServiceNotFoundException;
 use IDCT\Adminata\Model\BlockInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 final class BlockServiceManagerTest extends TestCase

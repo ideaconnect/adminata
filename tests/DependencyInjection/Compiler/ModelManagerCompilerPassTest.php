@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\DependencyInjection\Compiler\ModelManagerCompilerPass;
 use IDCT\Adminata\Maker\AdminMaker;
 use IDCT\Adminata\Model\ModelManagerInterface;
 use IDCT\Adminata\Tests\App\Model\ModelManager;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\LogicException;

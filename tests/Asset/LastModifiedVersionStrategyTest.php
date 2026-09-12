@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Asset;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Asset\LastModifiedVersionStrategy;
+use PHPUnit\Framework\TestCase;
 
 final class LastModifiedVersionStrategyTest extends TestCase
 {

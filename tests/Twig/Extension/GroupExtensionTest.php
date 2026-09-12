@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig\Extension;
 
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Tests\Admin\NextMajorAdminInterface;
 use IDCT\Adminata\Twig\Extension\GroupExtension;
 use IDCT\Adminata\Twig\GroupRuntime;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 /**

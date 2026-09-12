@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exception\Block\Strategy;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exception\Block\Filter\FilterInterface;
 use IDCT\Adminata\Exception\Block\Renderer\RendererInterface;
 use IDCT\Adminata\Exception\Block\Strategy\StrategyManager;
 use IDCT\Adminata\Model\BlockInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 

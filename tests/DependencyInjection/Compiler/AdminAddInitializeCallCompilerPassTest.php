@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\DependencyInjection\Admin\TaggedAdminInterface;
 use IDCT\Adminata\DependencyInjection\Compiler\AdminAddInitializeCallCompilerPass;
 use IDCT\Adminata\Tests\App\Admin\FooAdmin;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class AdminAddInitializeCallCompilerPassTest extends TestCase

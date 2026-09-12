@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Object;
 
+use IDCT\Adminata\Object\Metadata;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Object\Metadata;
 
 final class MetadataTest extends TestCase
 {

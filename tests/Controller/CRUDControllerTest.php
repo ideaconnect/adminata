@@ -13,12 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Controller;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\BCLayer\BCHelper;
@@ -45,6 +39,12 @@ use IDCT\Adminata\Tests\Fixtures\Controller\PreCRUDController;
 use IDCT\Adminata\Tests\Fixtures\Entity\Entity;
 use IDCT\Adminata\Tests\Fixtures\Util\DummyDomainObject;
 use IDCT\Adminata\Util\AdminObjectAclManipulator;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;

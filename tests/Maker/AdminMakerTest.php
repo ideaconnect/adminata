@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Maker;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Controller\CRUDController;
 use IDCT\Adminata\Maker\AdminMaker;
 use IDCT\Adminata\Model\ModelManagerInterface;
 use IDCT\Adminata\Tests\Fixtures\Bundle\Entity\Foo;
+use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\MakerBundle\ConsoleStyle;
 use Symfony\Bundle\MakerBundle\FileManager;
 use Symfony\Bundle\MakerBundle\Generator;

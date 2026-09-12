@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Menu\Provider;
 
+use IDCT\Adminata\Admin\AdminInterface;
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Menu\Provider\GroupMenuProvider;
 use Knp\Menu\Integration\Symfony\RoutingExtension;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\MenuFactory;
@@ -20,9 +23,6 @@ use Knp\Menu\MenuItem;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Admin\AdminInterface;
-use IDCT\Adminata\Admin\Pool;
-use IDCT\Adminata\Menu\Provider\GroupMenuProvider;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

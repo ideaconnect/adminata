@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Block\Loader;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Block\Loader\ServiceLoader;
 use IDCT\Adminata\Model\BlockInterface;
+use PHPUnit\Framework\TestCase;
 
 final class ServiceLoaderTest extends TestCase
 {

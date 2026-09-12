@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Menu\Integration;
 
+use IDCT\Adminata\Tests\Fixtures\StubTranslator;
+use IDCT\Adminata\Twig\Extension\IconExtension;
+use IDCT\Adminata\Twig\IconRuntime;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\MatcherInterface;
 use Knp\Menu\Renderer\TwigRenderer;
 use Knp\Menu\Twig\MenuExtension;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Tests\Fixtures\StubTranslator;
-use IDCT\Adminata\Twig\Extension\IconExtension;
-use IDCT\Adminata\Twig\IconRuntime;
 use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;

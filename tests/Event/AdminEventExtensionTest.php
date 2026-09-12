@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Event;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Builder\DatagridBuilderInterface;
 use IDCT\Adminata\Builder\FormContractorInterface;
@@ -31,6 +30,7 @@ use IDCT\Adminata\Event\PersistenceEvent;
 use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
 use IDCT\Adminata\Form\FormMapper;
 use IDCT\Adminata\Show\ShowMapper;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;

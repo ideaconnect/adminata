@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Block;
 
-use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use IDCT\Adminata\Block\BlockContextInterface;
 use IDCT\Adminata\Block\BlockContextManager;
 use IDCT\Adminata\Block\BlockLoaderInterface;
@@ -22,6 +20,8 @@ use IDCT\Adminata\Block\BlockServiceManagerInterface;
 use IDCT\Adminata\Block\Service\AbstractBlockService;
 use IDCT\Adminata\Model\Block;
 use IDCT\Adminata\Model\BlockInterface;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 final class BlockContextManagerTest extends TestCase
 {

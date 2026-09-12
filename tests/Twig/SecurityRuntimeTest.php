@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Twig\SecurityRuntime;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class SecurityRuntimeTest extends TestCase

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Model;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Model\Block;
+use PHPUnit\Framework\TestCase;
 
 final class BlockTest extends TestCase
 {

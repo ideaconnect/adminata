@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Admin;
 
-use Psr\Container\ContainerInterface;
 use IDCT\Adminata\Exception\AdminClassNotFoundException;
 use IDCT\Adminata\Exception\AdminCodeNotFoundException;
 use IDCT\Adminata\Exception\TooManyAdminClassException;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

@@ -13,14 +13,13 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\DependencyInjection;
 
-use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use IDCT\Adminata\Admin\BreadcrumbsBuilderInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Bridge\Exporter\AdminExporter;
+use IDCT\Adminata\DependencyInjection\AdminataExtension;
 use IDCT\Adminata\DependencyInjection\Compiler\AddAuditReadersCompilerPass;
 use IDCT\Adminata\DependencyInjection\Compiler\ModelManagerCompilerPass;
 use IDCT\Adminata\DependencyInjection\Configuration;
-use IDCT\Adminata\DependencyInjection\AdminataExtension;
 use IDCT\Adminata\Doctrine\Adapter\AdapterChain;
 use IDCT\Adminata\Doctrine\Adapter\ORM\DoctrineORMAdapter;
 use IDCT\Adminata\Doctrine\Mapper\ORM\DoctrineORMMapper;
@@ -30,6 +29,7 @@ use IDCT\Adminata\Model\AuditManagerInterface;
 use IDCT\Adminata\Model\AuditReaderInterface;
 use IDCT\Adminata\Model\ModelManagerInterface;
 use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
+use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 

@@ -13,15 +13,16 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use IDCT\Adminata\Twig\AdminataRuntime;
 use IDCT\Adminata\Twig\BreadcrumbsRuntime;
 use IDCT\Adminata\Twig\CanonicalizeRuntime;
+use IDCT\Adminata\Twig\Extension\AdminataExtension;
 use IDCT\Adminata\Twig\Extension\BreadcrumbsExtension;
 use IDCT\Adminata\Twig\Extension\CanonicalizeExtension;
 use IDCT\Adminata\Twig\Extension\GroupExtension;
 use IDCT\Adminata\Twig\Extension\IconExtension;
 use IDCT\Adminata\Twig\Extension\RenderElementExtension;
 use IDCT\Adminata\Twig\Extension\SecurityExtension;
-use IDCT\Adminata\Twig\Extension\AdminataExtension;
 use IDCT\Adminata\Twig\Extension\TemplateRegistryExtension;
 use IDCT\Adminata\Twig\Extension\ThemeExtension;
 use IDCT\Adminata\Twig\Extension\XEditableExtension;
@@ -29,7 +30,6 @@ use IDCT\Adminata\Twig\GroupRuntime;
 use IDCT\Adminata\Twig\IconRuntime;
 use IDCT\Adminata\Twig\RenderElementRuntime;
 use IDCT\Adminata\Twig\SecurityRuntime;
-use IDCT\Adminata\Twig\AdminataRuntime;
 use IDCT\Adminata\Twig\TemplateRegistryRuntime;
 use IDCT\Adminata\Twig\ThemeRuntime;
 use IDCT\Adminata\Twig\XEditableRuntime;

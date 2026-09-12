@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
 use Doctrine\Common\Collections\Collection;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 use IDCT\Adminata\Form\DataTransformer\ModelToIdPropertyTransformer;
 use IDCT\Adminata\Model\ModelManagerInterface;
 use IDCT\Adminata\Tests\Fixtures\Entity\Foo;
 use IDCT\Adminata\Tests\Fixtures\Entity\FooArrayAccess;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 final class ModelToIdPropertyTransformerTest extends TestCase

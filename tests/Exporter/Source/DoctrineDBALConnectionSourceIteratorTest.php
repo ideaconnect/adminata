@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace IDCT\Adminata\Tests\Exporter\Source;
 
 use Adminata\Tests\Support\TestDatabase;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exporter\Source\DoctrineDBALConnectionSourceIterator;
+use PHPUnit\Framework\TestCase;
 
 final class DoctrineDBALConnectionSourceIteratorTest extends TestCase
 {

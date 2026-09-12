@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Show;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Builder\ShowBuilderInterface;
 use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
@@ -26,6 +24,8 @@ use IDCT\Adminata\Tests\App\Builder\ShowBuilder;
 use IDCT\Adminata\Tests\App\FieldDescription\FieldDescription;
 use IDCT\Adminata\Tests\Fixtures\Admin\CleanAdmin;
 use IDCT\Adminata\Translator\NoopLabelTranslatorStrategy;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Andrej Hudec <pulzarraider@gmail.com>

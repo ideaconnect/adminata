@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Block;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Block\AdminSearchBlockService;
@@ -23,6 +22,7 @@ use IDCT\Adminata\Search\SearchableFilterInterface;
 use IDCT\Adminata\Search\SearchHandler;
 use IDCT\Adminata\Templating\TemplateRegistryInterface;
 use IDCT\Adminata\Test\BlockServiceTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Command;
 
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Block\BlockServiceManagerInterface;
 use IDCT\Adminata\Block\Service\AbstractBlockService;
 use IDCT\Adminata\Block\Service\EditableBlockService;
@@ -24,6 +22,8 @@ use IDCT\Adminata\Meta\Metadata;
 use IDCT\Adminata\Meta\MetadataInterface;
 use IDCT\Adminata\Model\BlockInterface;
 use IDCT\Adminata\Validator\ErrorElement;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\OptionsResolver\OptionsResolver;

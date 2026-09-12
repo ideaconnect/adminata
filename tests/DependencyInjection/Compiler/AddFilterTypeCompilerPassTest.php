@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
-use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use IDCT\Adminata\DependencyInjection\Compiler\AddFilterTypeCompilerPass;
 use IDCT\Adminata\Filter\FilterFactoryInterface;
 use IDCT\Adminata\Tests\Fixtures\Filter\BarFilter;
 use IDCT\Adminata\Tests\Fixtures\Filter\FooFilter;
+use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;

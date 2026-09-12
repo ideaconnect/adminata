@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exporter\Writer;
 
+use IDCT\Adminata\Exporter\Writer\XlsxWriter;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Exporter\Writer\XlsxWriter;
 
 final class XlsxWriterTest extends TestCase
 {

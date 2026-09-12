@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Admin;
 
-use Knp\Menu\ItemInterface;
 use IDCT\Adminata\Datagrid\DatagridInterface;
 use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 use IDCT\Adminata\DependencyInjection\Admin\TaggedAdminInterface;
@@ -21,6 +20,7 @@ use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use IDCT\Adminata\FieldDescription\FieldDescriptionRegistryInterface;
 use IDCT\Adminata\Object\MetadataInterface;
+use Knp\Menu\ItemInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;

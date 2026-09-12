@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exporter\Writer;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exporter\Exception\InvalidDataFormatException;
 use IDCT\Adminata\Exporter\Writer\CsvWriter;
+use PHPUnit\Framework\TestCase;
 
 final class CsvWriterTest extends TestCase
 {

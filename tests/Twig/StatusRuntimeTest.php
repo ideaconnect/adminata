@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Status\StatusClassRendererInterface;
 use IDCT\Adminata\Twig\StatusRuntime;
+use PHPUnit\Framework\TestCase;
 
 final class StatusRuntimeTest extends TestCase
 {

@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Util;
 
-use PHPUnit\Framework\Attributes\Depends;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Security\Acl\Permission\MaskBuilder;
 use IDCT\Adminata\Security\Handler\AclSecurityHandlerInterface;
 use IDCT\Adminata\Util\AdminObjectAclData;
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Security\Acl\Model\MutableAclInterface;
 

@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\ArgumentResolver;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\ArgumentResolver\AdminValueResolver;
 use IDCT\Adminata\Request\AdminFetcher;
 use IDCT\Adminata\Tests\Fixtures\Admin\CommentAdmin;
 use IDCT\Adminata\Tests\Fixtures\Admin\PostAdmin;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;

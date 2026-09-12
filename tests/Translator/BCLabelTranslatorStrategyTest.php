@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Translator;
 
+use IDCT\Adminata\Translator\BCLabelTranslatorStrategy;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Translator\BCLabelTranslatorStrategy;
 
 /**
  * NEXT_MAJOR: Remove this class.

@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Doctrine\Adapter;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Doctrine\Adapter\AdapterChain;
 use IDCT\Adminata\Doctrine\Adapter\AdapterInterface;
+use PHPUnit\Framework\TestCase;
 
 final class AdapterChainTest extends TestCase
 {

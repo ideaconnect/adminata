@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\DependencyInjection\Admin;
 
-use Knp\Menu\FactoryInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Builder\DatagridBuilderInterface;
 use IDCT\Adminata\Builder\FormContractorInterface;
@@ -30,6 +29,7 @@ use IDCT\Adminata\Route\RouteGeneratorInterface;
 use IDCT\Adminata\Security\Handler\SecurityHandlerInterface;
 use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
 use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
+use Knp\Menu\FactoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**

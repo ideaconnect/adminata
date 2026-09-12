@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form;
 
-use PHPUnit\Framework\MockObject\Stub;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use PHPUnit\Framework\MockObject\Stub;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormError;
 

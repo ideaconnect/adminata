@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\DependencyInjection;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\DependencyInjection\Configuration;
 use IDCT\Adminata\Tests\Fixtures\Controller\FooAdminController;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 use Symfony\Component\Config\Definition\Processor;
 

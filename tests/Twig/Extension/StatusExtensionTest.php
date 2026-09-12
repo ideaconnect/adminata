@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig\Extension;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Twig\Extension\StatusExtension;
+use PHPUnit\Framework\TestCase;
 use Twig\TwigFilter;
 
 final class StatusExtensionTest extends TestCase

@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Validator\Constraints;
 
+use IDCT\Adminata\Validator\Constraints\InlineConstraint;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Validator\Constraints\InlineConstraint;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**

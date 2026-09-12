@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exporter\Source;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exporter\Source\XmlExcelSourceIterator;
+use PHPUnit\Framework\TestCase;
 
 final class XmlExcelSourceIteratorTest extends TestCase
 {

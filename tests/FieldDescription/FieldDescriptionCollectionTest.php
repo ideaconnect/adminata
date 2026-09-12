@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\FieldDescription;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Datagrid\ListMapper;
 use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use PHPUnit\Framework\TestCase;
 
 final class FieldDescriptionCollectionTest extends TestCase
 {

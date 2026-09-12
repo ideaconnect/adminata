@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\AdminataConfiguration;
+use PHPUnit\Framework\TestCase;
 
 final class AdminataConfigurationTest extends TestCase
 {

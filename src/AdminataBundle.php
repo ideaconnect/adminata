@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata;
 
+use IDCT\Adminata\DependencyInjection\AdminataBlockExtension;
+use IDCT\Adminata\DependencyInjection\AdminataExporterExtension;
+use IDCT\Adminata\DependencyInjection\AdminataFormExtension;
+use IDCT\Adminata\DependencyInjection\AdminataTwigExtension;
 use IDCT\Adminata\DependencyInjection\Compiler\AddAuditReadersCompilerPass;
 use IDCT\Adminata\DependencyInjection\Compiler\AddDependencyCallsCompilerPass;
 use IDCT\Adminata\DependencyInjection\Compiler\AddFilterTypeCompilerPass;
@@ -30,10 +34,6 @@ use IDCT\Adminata\DependencyInjection\Compiler\ModelManagerCompilerPass;
 use IDCT\Adminata\DependencyInjection\Compiler\ObjectAclManipulatorCompilerPass;
 use IDCT\Adminata\DependencyInjection\Compiler\TwigNamespaceAliasCompilerPass;
 use IDCT\Adminata\DependencyInjection\Compiler\TwigStringExtensionCompilerPass;
-use IDCT\Adminata\DependencyInjection\AdminataBlockExtension;
-use IDCT\Adminata\DependencyInjection\AdminataExporterExtension;
-use IDCT\Adminata\DependencyInjection\AdminataFormExtension;
-use IDCT\Adminata\DependencyInjection\AdminataTwigExtension;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;

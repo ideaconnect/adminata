@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Admin;
 
-use Knp\Menu\ItemInterface as MenuItemInterface;
 use IDCT\Adminata\Datagrid\DatagridMapper;
 use IDCT\Adminata\Datagrid\ListMapper;
 use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 use IDCT\Adminata\Form\FormMapper;
 use IDCT\Adminata\Route\RouteCollectionInterface;
 use IDCT\Adminata\Show\ShowMapper;
+use Knp\Menu\ItemInterface as MenuItemInterface;
 
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>

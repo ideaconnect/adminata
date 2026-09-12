@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Menu;
 
+use IDCT\Adminata\Admin\Pool;
+use IDCT\Adminata\Event\ConfigureMenuEvent;
 use Knp\Menu\FactoryInterface;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
-use IDCT\Adminata\Admin\Pool;
-use IDCT\Adminata\Event\ConfigureMenuEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**

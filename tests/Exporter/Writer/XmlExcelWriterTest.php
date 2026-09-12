@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exporter\Writer;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exporter\Writer\XmlExcelWriter;
+use PHPUnit\Framework\TestCase;
 
 final class XmlExcelWriterTest extends TestCase
 {

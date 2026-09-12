@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Util;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exception\AbstractClassException;
 use IDCT\Adminata\Tests\Fixtures\Entity\AbstractEntity;
 use IDCT\Adminata\Tests\Fixtures\Entity\Bar;
 use IDCT\Adminata\Util\Instantiator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Morgan Abraham <morgan@geekimo.me>

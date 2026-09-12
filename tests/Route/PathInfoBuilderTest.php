@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Route;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Model\AuditManagerInterface;
 use IDCT\Adminata\Route\PathInfoBuilder;
 use IDCT\Adminata\Route\RouteCollection;
+use PHPUnit\Framework\TestCase;
 
 final class PathInfoBuilderTest extends TestCase
 {

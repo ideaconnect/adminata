@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Translator;
 
+use IDCT\Adminata\Translator\NativeLabelTranslatorStrategy;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Translator\NativeLabelTranslatorStrategy;
 
 final class NativeLabelTranslatorStrategyTest extends TestCase
 {

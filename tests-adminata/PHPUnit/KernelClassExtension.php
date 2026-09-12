@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace Adminata\Tests\PHPUnit;
 
 use Adminata\Tests\App\Kernel;
+use IDCT\Adminata\Tests\App\AppKernel;
+use IDCT\Adminata\Tests\Doctrine\App\Kernel as DoctrineKernel;
 use PHPUnit\Event\Code\TestMethod;
 use PHPUnit\Event\Test\PreparationStarted;
 use PHPUnit\Event\Test\PreparationStartedSubscriber;
@@ -24,8 +26,6 @@ use PHPUnit\Runner\Extension\Extension;
 use PHPUnit\Runner\Extension\Facade;
 use PHPUnit\Runner\Extension\ParameterCollection;
 use PHPUnit\TextUI\Configuration\Configuration;
-use IDCT\Adminata\Tests\App\AppKernel;
-use IDCT\Adminata\Tests\Doctrine\App\Kernel as DoctrineKernel;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
 

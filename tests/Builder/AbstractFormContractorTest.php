@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Builder;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Builder\AbstractFormContractor;
 use IDCT\Adminata\Builder\FormContractorInterface;
@@ -28,6 +25,9 @@ use IDCT\Adminata\Form\Type\ModelListType;
 use IDCT\Adminata\Form\Type\ModelType;
 use IDCT\Adminata\Model\ModelManagerInterface;
 use IDCT\Adminata\Tests\Fixtures\Form\MyCustomType;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormRegistryInterface;

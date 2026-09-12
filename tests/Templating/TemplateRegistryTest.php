@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Templating;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Templating\TemplateRegistry;
+use PHPUnit\Framework\TestCase;
 
 final class TemplateRegistryTest extends TestCase
 {

@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Mapper;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AbstractAdmin;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Tests\Fixtures\Mapper\AbstractDummyGroupedMapper;
 use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 /**

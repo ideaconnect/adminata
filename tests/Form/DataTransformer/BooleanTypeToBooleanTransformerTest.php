@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Form\DataTransformer\BooleanTypeToBooleanTransformer;
 use IDCT\Adminata\Form\Type\BooleanType;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 final class BooleanTypeToBooleanTransformerTest extends TestCase
 {

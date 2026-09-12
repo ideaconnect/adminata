@@ -13,11 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Datagrid;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Datagrid\Datagrid;
 use IDCT\Adminata\Datagrid\DatagridInterface;
 use IDCT\Adminata\Datagrid\PagerInterface;
@@ -26,6 +21,11 @@ use IDCT\Adminata\FieldDescription\FieldDescriptionCollection;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use IDCT\Adminata\Filter\FilterInterface;
 use IDCT\Adminata\Form\Type\Filter\FilterDataType;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;

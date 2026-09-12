@@ -16,14 +16,14 @@ declare(strict_types=1);
 
 namespace Adminata\Tests\Contract;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\DependencyInjection\BlockConfiguration;
 use IDCT\Adminata\DependencyInjection\Configuration as AdminConfiguration;
 use IDCT\Adminata\DependencyInjection\ExporterConfiguration;
 use IDCT\Adminata\DependencyInjection\FormConfiguration;
 use IDCT\Adminata\DependencyInjection\TwigConfiguration;
 use IDCT\Adminata\DoctrineORM\DependencyInjection\Configuration as OrmConfiguration;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Dumper\YamlReferenceDumper;
 

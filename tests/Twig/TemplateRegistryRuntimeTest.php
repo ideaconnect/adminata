@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Exception\AdminCodeNotFoundException;
 use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
 use IDCT\Adminata\Templating\TemplateRegistryInterface;
 use IDCT\Adminata\Twig\TemplateRegistryRuntime;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 final class TemplateRegistryRuntimeTest extends TestCase

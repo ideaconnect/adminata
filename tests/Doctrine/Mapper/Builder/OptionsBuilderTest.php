@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Doctrine\Mapper\Builder;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Doctrine\Mapper\Builder\OptionsBuilder;
+use PHPUnit\Framework\TestCase;
 
 final class OptionsBuilderTest extends TestCase
 {

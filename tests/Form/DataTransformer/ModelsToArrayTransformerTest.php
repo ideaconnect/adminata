@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
 use Doctrine\Common\Collections\Collection;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Datagrid\ProxyQueryInterface;
 use IDCT\Adminata\Form\DataTransformer\ModelsToArrayTransformer;
 use IDCT\Adminata\Model\ModelManagerInterface;
 use IDCT\Adminata\Tests\Fixtures\Entity\Entity;
 use IDCT\Adminata\Tests\Fixtures\Entity\Foo;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 

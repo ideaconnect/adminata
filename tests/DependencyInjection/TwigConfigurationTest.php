@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\DependencyInjection;
 
+use IDCT\Adminata\DependencyInjection\TwigConfiguration;
 use Matthias\SymfonyConfigTest\PhpUnit\ConfigurationTestCaseTrait;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\DependencyInjection\TwigConfiguration;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class TwigConfigurationTest extends TestCase

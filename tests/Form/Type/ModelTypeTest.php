@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\Type;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use IDCT\Adminata\Form\ChoiceList\ModelChoiceLoader;
 use IDCT\Adminata\Form\Type\ModelType;
 use IDCT\Adminata\Model\ModelManagerInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccess;

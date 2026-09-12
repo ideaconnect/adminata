@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Manipulator;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use IDCT\Adminata\Manipulator\ObjectManipulator;
+use PHPUnit\Framework\TestCase;
 
 final class ObjectManipulatorTest extends TestCase
 {

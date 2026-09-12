@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exception\Block\Filter;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exception\Block\Filter\IgnoreClassFilter;
 use IDCT\Adminata\Model\BlockInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**

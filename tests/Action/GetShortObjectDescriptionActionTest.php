@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Action;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Action\GetShortObjectDescriptionAction;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Exception\BadRequestParamHttpException;
 use IDCT\Adminata\Request\AdminFetcherInterface;
 use IDCT\Adminata\Templating\MutableTemplateRegistry;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;

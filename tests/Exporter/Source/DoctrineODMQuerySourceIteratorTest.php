@@ -16,9 +16,9 @@ namespace IDCT\Adminata\Tests\Exporter\Source;
 use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\Driver\AttributeDriver;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exporter\Source\DoctrineODMQuerySourceIterator;
 use IDCT\Adminata\Tests\Exporter\Source\Fixtures\Document;
+use PHPUnit\Framework\TestCase;
 
 final class DoctrineODMQuerySourceIteratorTest extends TestCase
 {

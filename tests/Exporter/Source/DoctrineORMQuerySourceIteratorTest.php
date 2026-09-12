@@ -18,9 +18,9 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Tools\SchemaTool;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exporter\Source\DoctrineORMQuerySourceIterator;
 use IDCT\Adminata\Tests\Exporter\Source\Fixtures\Entity;
+use PHPUnit\Framework\TestCase;
 
 final class DoctrineORMQuerySourceIteratorTest extends TestCase
 {

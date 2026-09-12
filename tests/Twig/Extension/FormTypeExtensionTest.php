@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Twig\Extension;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Twig\Extension\FormTypeExtension;
+use PHPUnit\Framework\TestCase;
 
 final class FormTypeExtensionTest extends TestCase
 {

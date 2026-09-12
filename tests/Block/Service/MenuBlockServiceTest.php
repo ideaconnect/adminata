@@ -13,15 +13,15 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Block\Service;
 
-use Knp\Menu\Provider\MenuProviderInterface;
-use PHPUnit\Framework\Attributes\Group;
-use PHPUnit\Framework\MockObject\MockObject;
 use IDCT\Adminata\Block\Service\MenuBlockService;
 use IDCT\Adminata\Form\BlockFormMapperInterface;
 use IDCT\Adminata\Form\Type\ImmutableArrayType;
 use IDCT\Adminata\Menu\MenuRegistryInterface;
 use IDCT\Adminata\Model\BlockInterface;
 use IDCT\Adminata\Test\BlockServiceTestCase;
+use Knp\Menu\Provider\MenuProviderInterface;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

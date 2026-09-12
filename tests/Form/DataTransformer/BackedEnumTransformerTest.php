@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\DataTransformer;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Form\DataTransformer\BackedEnumTransformer;
 use IDCT\Adminata\Tests\Fixtures\Enum\Suit;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 

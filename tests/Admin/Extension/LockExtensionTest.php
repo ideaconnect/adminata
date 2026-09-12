@@ -13,15 +13,15 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Admin\Extension;
 
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Admin\Extension\LockExtension;
 use IDCT\Adminata\Builder\FormContractorInterface;
 use IDCT\Adminata\Form\FormMapper;
 use IDCT\Adminata\Model\LockInterface;
 use IDCT\Adminata\Model\ModelManagerInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilder;

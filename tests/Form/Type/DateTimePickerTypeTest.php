@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\Type;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use IDCT\Adminata\Form\Type\DateTimePickerType;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Form\Exception\LogicException;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormExtensionInterface;

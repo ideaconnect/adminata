@@ -17,11 +17,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Doctrine\Entity\BaseEntityManager;
 use IDCT\Adminata\Doctrine\Exception\TransactionException;
 use IDCT\Adminata\Tests\Doctrine\App\Entity\TestEntity;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 final class BaseEntityManagerTest extends TestCase
 {

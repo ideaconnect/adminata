@@ -21,9 +21,9 @@ use Adminata\Tests\App\Entity\ProductVariant;
 use IDCT\Adminata\Admin\AbstractAdmin;
 use IDCT\Adminata\Datagrid\DatagridMapper;
 use IDCT\Adminata\Datagrid\ListMapper;
+use IDCT\Adminata\DoctrineORM\Filter\ModelFilter;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use IDCT\Adminata\Route\RouteCollectionInterface;
-use IDCT\Adminata\DoctrineORM\Filter\ModelFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**

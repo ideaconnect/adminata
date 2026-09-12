@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\Type\Filter;
 
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use IDCT\Adminata\Form\Type\DateTimeRangeType as FormDateTimeRangeType;
 use IDCT\Adminata\Form\Type\Filter\DateTimeRangeType;
 use IDCT\Adminata\Form\Type\Operator\DateRangeOperatorType;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**

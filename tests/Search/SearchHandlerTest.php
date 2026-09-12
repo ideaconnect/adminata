@@ -13,14 +13,14 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Search;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Datagrid\DatagridInterface;
 use IDCT\Adminata\Datagrid\PagerInterface;
 use IDCT\Adminata\Filter\FilterInterface;
 use IDCT\Adminata\Search\SearchableFilterInterface;
 use IDCT\Adminata\Search\SearchHandler;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 final class SearchHandlerTest extends TestCase
 {

@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace IDCT\Adminata\Tests\Datagrid;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use IDCT\Adminata\Datagrid\ProxyQueryInterface;
+use IDCT\Adminata\Datagrid\SimplePager;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Datagrid\ProxyQueryInterface;
-use IDCT\Adminata\Datagrid\SimplePager;
 
 /**
  * @author Lukas Kahwe Smith <smith@pooteeweet.org>

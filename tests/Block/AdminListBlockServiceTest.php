@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Block;
 
-use PHPUnit\Framework\MockObject\MockObject;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Block\AdminListBlockService;
 use IDCT\Adminata\Templating\TemplateRegistryInterface;
 use IDCT\Adminata\Test\BlockServiceTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\DependencyInjection\Container;
 
 /**

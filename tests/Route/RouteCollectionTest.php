@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Route;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Controller\CRUDController;
 use IDCT\Adminata\Route\RouteCollection;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Route;
 

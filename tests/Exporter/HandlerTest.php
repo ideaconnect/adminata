@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exporter;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Exporter\Handler;
 use IDCT\Adminata\Exporter\Writer\WriterInterface;
+use PHPUnit\Framework\TestCase;
 
 final class HandlerTest extends TestCase
 {

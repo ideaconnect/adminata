@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form;
 
-use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Builder\FormContractorInterface;
 use IDCT\Adminata\FieldDescription\BaseFieldDescription;
@@ -27,6 +24,9 @@ use IDCT\Adminata\Security\Handler\SecurityHandlerInterface;
 use IDCT\Adminata\Tests\App\FieldDescription\FieldDescription;
 use IDCT\Adminata\Tests\Fixtures\Admin\CleanAdmin;
 use IDCT\Adminata\Translator\NoopLabelTranslatorStrategy;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilder;

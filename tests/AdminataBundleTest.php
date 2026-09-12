@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests;
 
-use PHPUnit\Framework\TestCase;
+use IDCT\Adminata\AdminataBundle;
 use IDCT\Adminata\DependencyInjection\AdminataBlockExtension;
 use IDCT\Adminata\DependencyInjection\AdminataExporterExtension;
 use IDCT\Adminata\DependencyInjection\AdminataFormExtension;
 use IDCT\Adminata\DependencyInjection\AdminataTwigExtension;
-use IDCT\Adminata\AdminataBundle;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 

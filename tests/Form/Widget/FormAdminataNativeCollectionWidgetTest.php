@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Form\Widget;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use IDCT\Adminata\Form\Extension\Field\Type\FormTypeFieldExtension;
 use IDCT\Adminata\Form\Type\NativeCollectionType;
 use IDCT\Adminata\Tests\Fixtures\TestExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Form\FormExtensionInterface;
 use Symfony\Component\Form\FormTypeGuesserInterface;
 use Symfony\Component\Form\FormTypeInterface;

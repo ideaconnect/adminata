@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\DependencyInjection\Compiler;
 
-use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use IDCT\Adminata\DependencyInjection\Admin\TaggedAdminInterface;
 use IDCT\Adminata\DependencyInjection\Compiler\AdminSearchCompilerPass;
 use IDCT\Adminata\Tests\Fixtures\Admin\PostAdmin;
 use IDCT\Adminata\Tests\Fixtures\Bundle\Entity\Post;
+use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 

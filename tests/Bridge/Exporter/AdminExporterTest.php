@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Bridge\Exporter;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\Bridge\Exporter\AdminExporter;
 use IDCT\Adminata\Exporter\Exporter;
 use IDCT\Adminata\Exporter\Writer\TypedWriterInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 
 final class AdminExporterTest extends TestCase
 {

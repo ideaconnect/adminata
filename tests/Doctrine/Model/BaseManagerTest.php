@@ -16,9 +16,9 @@ namespace IDCT\Adminata\Tests\Doctrine\Model;
 use Doctrine\DBAL\Connection;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use IDCT\Adminata\Doctrine\Model\BaseManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Doctrine\Model\BaseManager;
 
 /**
  * @phpstan-extends BaseManager<object>

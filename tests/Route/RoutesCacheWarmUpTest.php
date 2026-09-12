@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Route;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\Admin\Pool;
 use IDCT\Adminata\Route\RoutesCache;
 use IDCT\Adminata\Route\RoutesCacheWarmUp;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 
 final class RoutesCacheWarmUpTest extends TestCase

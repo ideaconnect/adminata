@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\Exporter\Source;
 
+use IDCT\Adminata\Exporter\Source\ChainSourceIterator;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
-use IDCT\Adminata\Exporter\Source\ChainSourceIterator;
 
 final class ChainSourceIteratorTest extends TestCase
 {

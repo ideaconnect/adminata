@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace IDCT\Adminata\Tests\FieldDescription;
 
-use PHPUnit\Framework\TestCase;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use IDCT\Adminata\FieldDescription\TypeGuesserChain;
 use IDCT\Adminata\FieldDescription\TypeGuesserInterface;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Guess\Guess;
 use Symfony\Component\Form\Guess\TypeGuess;
 
