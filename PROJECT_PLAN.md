@@ -1393,6 +1393,13 @@ the panel's own ids). The tasks are PLAN/v2/05's; their Read/Do/Deliver/Accept l
 
 ## Status log
 
+- 2026-09-17 — **Form and show groups take a `column`.** Asked for by the reference panel's
+  Recomat form, whose one-card-per-cell grid left a card's height of empty page under every
+  short group beside a tall one. Groups sharing a `column` stack in one grid cell whose span is
+  `column_class`; `render_groups` grew a `render_group` macro and the show page a
+  `show_group_card` block (additive, appendix A untouched). Demo: `CategoryAdmin`'s form and
+  `ProductAdmin`'s show page; `DemoSmokeTest` pins both; the two form fixtures re-dumped
+  (whitespace only). Documented under the group options of the edit and show references.
 - 2026-09-12 — **Milestone M7 pushed.** The IDCT rename (PLAN/v2) executed in one day under the
   owner's instruction to decide the open questions alone: the engine (`upstream/rename/`), the
   mechanical pass (`f141c1105`), the fixer pass, the hand work, the documents; `main` at

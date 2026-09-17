@@ -89,7 +89,10 @@ final class CategoryAdmin extends AbstractAdmin
                 ->add('active', BooleanType::class, ['transform' => true])
                 ->add('highlighted', CheckboxType::class, ['required' => false])
             ->end()
-            ->with('Contact', ['class' => 'col-span-12 xl:col-span-4'])
+            // `Contact` and `Import` share a column: one grid cell, the two cards one under the
+            // other, so the short `Import` card sits under `Contact` instead of on a row of its own
+            // beside the tall `Category` card. The cell's span is the stack's `column_class`.
+            ->with('Contact', ['column' => 'side', 'column_class' => 'col-span-12 xl:col-span-4'])
                 ->add('contactEmail', EmailType::class, ['required' => false])
                 ->add('homepage', UrlType::class, ['required' => false, 'default_protocol' => 'https'])
                 ->add('sortOrder', NumberType::class, ['html5' => true, 'scale' => 0])
@@ -99,7 +102,7 @@ final class CategoryAdmin extends AbstractAdmin
                     'attr' => ['data-controller' => 'app--visibility'],
                 ])
             ->end()
-            ->with('Import', ['class' => 'col-span-12', 'description' => 'Nothing here is stored.'])
+            ->with('Import', ['column' => 'side', 'description' => 'Nothing here is stored.'])
                 ->add('importToken', PasswordType::class, ['mapped' => false, 'required' => false])
                 ->add('importFile', FileType::class, ['mapped' => false, 'required' => false])
             ->end();

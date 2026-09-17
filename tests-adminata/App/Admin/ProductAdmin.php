@@ -224,22 +224,31 @@ final class ProductAdmin extends AbstractAdmin
 
     protected function configureShowFields(ShowMapper $show): void
     {
+        // Three groups in two grid cells: `Availability` and `Content` share a column and stack
+        // under each other beside the tall `Product` card — the show page's `column` works as
+        // the edit form's does.
         $show
-            ->add('id')
-            ->add('name')
-            ->add('sku')
-            ->add('price')
-            ->add('stock')
-            ->add('status', FieldDescriptionInterface::TYPE_ENUM)
-            ->add('category')
-            ->add('tags', FieldDescriptionInterface::TYPE_MANY_TO_MANY)
-            ->add('featured')
-            ->add('availableFrom', FieldDescriptionInterface::TYPE_DATE)
-            ->add('pickupAt', FieldDescriptionInterface::TYPE_TIME)
-            ->add('releasedAt')
-            ->add('specification', FieldDescriptionInterface::TYPE_ARRAY)
-            ->add('highlights', FieldDescriptionInterface::TYPE_HTML)
-            ->add('description', FieldDescriptionInterface::TYPE_TEXTAREA);
+            ->with('Product', ['class' => 'col-span-12 xl:col-span-8'])
+                ->add('id')
+                ->add('name')
+                ->add('sku')
+                ->add('price')
+                ->add('stock')
+                ->add('status', FieldDescriptionInterface::TYPE_ENUM)
+                ->add('category')
+                ->add('tags', FieldDescriptionInterface::TYPE_MANY_TO_MANY)
+            ->end()
+            ->with('Availability', ['column' => 'side', 'column_class' => 'col-span-12 xl:col-span-4'])
+                ->add('featured')
+                ->add('availableFrom', FieldDescriptionInterface::TYPE_DATE)
+                ->add('pickupAt', FieldDescriptionInterface::TYPE_TIME)
+                ->add('releasedAt')
+            ->end()
+            ->with('Content', ['column' => 'side'])
+                ->add('specification', FieldDescriptionInterface::TYPE_ARRAY)
+                ->add('highlights', FieldDescriptionInterface::TYPE_HTML)
+                ->add('description', FieldDescriptionInterface::TYPE_TEXTAREA)
+            ->end();
     }
 
     /**

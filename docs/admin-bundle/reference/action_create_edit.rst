@@ -119,6 +119,10 @@ options for the group itself.
   ``adminata-reveal``: see :doc:`/javascript`.
 - ``box_class``: The class for your form group box in the admin; by default,
   the value is set to ``box box-primary``.
+- ``column``: a name shared by the groups that should stack in ONE grid cell, one under the
+  other, in declaration order. See *Stacking groups in a column* below.
+- ``column_class``: the classes of that cell — its span; read from the first group of the
+  stack that sets it, ``col-span-12`` when none does.
 - ``description``: A text shown at the top of the form group.
 - ``translation_domain``: The translation domain for the form group title
   (the Admin translation domain is used by default).
@@ -154,6 +158,34 @@ a group:
    :align: center
    :alt: Box Class
    :width: 500
+
+.. _form_group_column:
+
+Stacking groups in a column
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Every group is a card in a twelve-column grid, and a grid row is as tall as its tallest card.
+Two short groups placed beside one long one therefore each take a row of their own, with the
+long card's height of empty page under them. Groups that share a ``column`` are stacked in
+a single grid cell instead, so the short cards follow each other and fill that height::
+
+    $form
+        ->with('Details', ['class' => 'col-span-12 xl:col-span-8'])
+            // ...
+        ->end()
+        ->with('Publication', ['column' => 'side', 'column_class' => 'col-span-12 xl:col-span-4'])
+            // ...
+        ->end()
+        ->with('Audit', ['column' => 'side'])
+            // ...
+        ->end();
+
+``Publication`` and ``Audit`` render one under the other in a cell four columns wide, beside
+``Details``. Cells — a stack, or a group on its own — are laid out in the order they first
+appear, so the reading order of the form stays the declaration order, and a group's own
+``class`` still lands on its own wrapper inside the stack: the ``adminata-reveal`` hook above
+keeps hiding that one group rather than the whole column. The same two options work on the
+show page's groups.
 
 Displaying custom data/template
 -------------------------------

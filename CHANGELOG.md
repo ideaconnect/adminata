@@ -141,6 +141,14 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- Form and show groups take a `column` option (2026-09-17). Groups that share one are stacked
+  in a single grid cell, one under the other, in declaration order; the cell's span is the
+  stack's `column_class` (`col-span-12` when none is set), read from the first group that sets
+  it, and each group keeps its own `class` on its own wrapper inside the stack, so a hook
+  written there (`adminata-reveal`'s `hidden`) still governs that one group. It exists because
+  a grid row is as tall as its tallest card: two short groups beside a long one each got a row
+  of their own with the long card's height of empty page under them. Groups without a `column`
+  render exactly as before, a cell each.
 - Hard fork of seven `sonata-project` packages, imported with `git subtree` at `admin-bundle`
   4.43.0, `block-bundle` 5.4.0, `doctrine-extensions` 2.6.0, `doctrine-orm-admin-bundle` 4.21.0,
   `exporter` 3.4.0, `form-extensions` 2.7.0 and `twig-extensions` 2.6.0 (see
