@@ -19,10 +19,15 @@ file that was distributed with this source code.
     `_tab` parameter, `adminata-form-actions`, `adminata-collapsed-fields` and `form_rest`, which
     is what carries `_lock_version`.
 
-    **Tabs render sequentially.** `nav-tabs-custom` was Bootstrap's, and the `adminata-tabs`
-    controller that would replace it is post-1.0 (PLAN/01 J2); until it exists a tabbed form is
-    every tab one after another under an `<h2>`, which shows the same fields and needs no script.
-    `adminata-edit`'s `tab` and `tabStore` targets stay wired for the day it lands.
+    A tabbed form is the WAI-ARIA tabs pattern — `adm-tablist` of `adm-tab` links over
+    `role="tabpanel"` sections — driven by `adminata-tabs`, with `adminata-edit` on the same
+    links: it writes the selected tab into `?_tab=` and the `_tab` field, and sends
+    `adminata-tabs:show` to the first tab holding a field with an error. The selected tab comes
+    back by its INDEX (`tab_query_index`): the tab ids carry the admin's uniqid, which the
+    redirect after a save does not, so `?_tab=tab_<other uniqid>_2` must still mean the second.
+    The tabs are `<a>`, not `<button>`, on purpose: an application locks a read-only form by
+    wrapping `adminata_tab_content` in a disabled `<fieldset>`, which disables every button
+    inside it — the tabs included, and with them every panel but the first. A link stays a link.
 #}
 
 {% block form %}
@@ -66,31 +71,55 @@ file that was distributed with this source code.
 
                 {% if has_tab %}
                     {% set tab_prefix = 'tab_' ~ admin.uniqid %}
-                    <div class="flex flex-col gap-8">
-                        {% for code, form_tab in formtabs %}
-                            {% set _tab_name = tab_prefix ~ '_' ~ loop.index %}
-                            <section id="{{ _tab_name }}" {{ stimulus_target('adminata-edit', 'tab') }}>
-                                <h2 class="adm-page-title mb-4">
+                    {% set tab_query_index = app.request.query.get('_tab', '')|split('_')|last %}
+                    <div class="adm-tabs" {{ stimulus_controller('adminata-tabs') }}>
+                        <div class="adm-tablist" role="tablist">
+                            {% for code, form_tab in formtabs %}
+                                {% set _tab_name = tab_prefix ~ '_' ~ loop.index %}
+                                {% set _tab_selected = ('' == tab_query_index and loop.first) or tab_query_index == loop.index %}
+                                <a href="#{{ _tab_name }}"
+                                        class="adm-tab"
+                                        role="tab"
+                                        id="{{ _tab_name }}-tab"
+                                        aria-controls="{{ _tab_name }}"
+                                        aria-selected="{{ _tab_selected ? 'true' : 'false' }}"
+                                        tabindex="{{ _tab_selected ? '0' : '-1' }}"
+                                        {{ stimulus_target('adminata-tabs', 'tab') }}
+                                        {{ stimulus_target('adminata-edit', 'tab') }}
+                                        {{
+                                            stimulus_action('adminata-tabs', 'select')|
+                                            stimulus_action('adminata-tabs', 'move', 'keydown')|
+                                            stimulus_action('adminata-edit', 'changeTab')
+                                        }}>
+                                    <i class="fas fa-circle-exclamation adm-tab-errors" aria-hidden="true" hidden {{ stimulus_target('adminata-edit', 'errorMark') }}></i>
                                     {%- if form_tab.translation_domain is defined and form_tab.translation_domain is same as(false) -%}
                                         {{ form_tab.label }}
                                     {%- else -%}
                                         {{ form_tab.label|trans({}, form_tab.translation_domain ?? admin.translationDomain) }}
                                     {%- endif -%}
-                                </h2>
+                                </a>
+                            {% endfor %}
+                        </div>
+                        {% for code, form_tab in formtabs %}
+                            {% set _tab_name = tab_prefix ~ '_' ~ loop.index %}
+                            {% set _tab_selected = ('' == tab_query_index and loop.first) or tab_query_index == loop.index %}
+                            <section id="{{ _tab_name }}"
+                                     class="adminata-collapsed-fields"
+                                     role="tabpanel"
+                                     aria-labelledby="{{ _tab_name }}-tab"
+                                     {{ stimulus_target('adminata-tabs', 'panel') }}
+                                     {% if not _tab_selected %}hidden{% endif %}>
+                                {% if form_tab.description != false %}
+                                    <p class="adm-card-subtitle mb-4">
+                                        {%- if form_tab.translation_domain is defined and form_tab.translation_domain is same as(false) -%}
+                                            {{ form_tab.description|raw }}
+                                        {%- else -%}
+                                            {{ form_tab.description|trans({}, form_tab.translation_domain ?? admin.translationDomain)|raw }}
+                                        {%- endif -%}
+                                    </p>
+                                {% endif %}
 
-                                <div class="adminata-collapsed-fields">
-                                    {% if form_tab.description != false %}
-                                        <p class="adm-card-subtitle mb-4">
-                                            {%- if form_tab.translation_domain is defined and form_tab.translation_domain is same as(false) -%}
-                                                {{ form_tab.description|raw }}
-                                            {%- else -%}
-                                                {{ form_tab.description|trans({}, form_tab.translation_domain ?? admin.translationDomain)|raw }}
-                                            {%- endif -%}
-                                        </p>
-                                    {% endif %}
-
-                                    {{ form_helper.render_groups(admin, form, form_tab['groups'], has_tab, form_tab) }}
-                                </div>
+                                {{ form_helper.render_groups(admin, form, form_tab['groups'], has_tab, form_tab) }}
                             </section>
                         {% endfor %}
                     </div>

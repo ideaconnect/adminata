@@ -10,11 +10,24 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = ['tab', 'tabStore'];
+    static targets = ['tab', 'tabStore', 'errorMark'];
 
     connect() {
-        if (this.tabSelected) {
-            this.showFirstTabWithErrors('.adminata-field-error');
+        // A tick later: `adminata-tabs` sits inside this form and connects after this controller
+        // does, and the `adminata-tabs:show` sent to a tab before it listens is simply lost.
+        this.reveal = setTimeout(() => {
+            this.reveal = null;
+
+            if (this.tabSelected) {
+                this.showFirstTabWithErrors('.adminata-field-error');
+            }
+        }, 0);
+    }
+
+    disconnect() {
+        if (null !== this.reveal) {
+            clearTimeout(this.reveal);
+            this.reveal = null;
         }
     }
 
@@ -40,21 +53,24 @@ export default class extends Controller {
         let firstTabWithErrors = null;
 
         this.tabTargets.forEach((tab) => {
-            const pane = this.element.querySelector(tab.getAttribute('href'));
-            const icon = tab.querySelector('.has-errors');
+            const pane = this.element.querySelector(
+                `#${CSS.escape(tab.getAttribute('aria-controls') ?? '')}`,
+            );
+            const icon = tab.querySelector('[data-adminata-edit-target~="errorMark"]');
 
-            if (pane.querySelectorAll(errorSelector).length > 0) {
+            if (pane && pane.querySelectorAll(errorSelector).length > 0) {
                 // Only show first tab with errors
                 if (!firstTabWithErrors) {
-                    // Upstream showed the tab through Bootstrap's plugin here. adminata ships no tabs in
-                    // 1.0, so this dispatches the event `adminata-tabs` will listen for, and does nothing
-                    // until that controller exists (PLAN/05 §2).
+                    // Upstream showed the tab through Bootstrap's plugin here; `adminata-tabs`
+                    // listens for this on its element and selects the tab it was sent on.
                     this.dispatch('show', { prefix: 'adminata-tabs', target: tab });
                     firstTabWithErrors = tab;
                 }
 
-                icon.hidden = false;
-            } else {
+                if (icon) {
+                    icon.hidden = false;
+                }
+            } else if (icon) {
                 icon.hidden = true;
             }
         });
@@ -77,9 +93,7 @@ export default class extends Controller {
     }
 
     get tabSelected() {
-        return this.tabTargets.find((tab) => {
-            return tab.parentElement.classList.contains('active');
-        });
+        return this.tabTargets.find((tab) => 'true' === tab.getAttribute('aria-selected'));
     }
 
     get submitters() {

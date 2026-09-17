@@ -435,6 +435,9 @@ final class DashboardPantherTest extends BasePantherTestCase
     {
         $this->client->request('GET', $this->url('/admin/tests/app/product/create'));
 
+        // The collection has the second tab to itself.
+        $this->client->findElements(WebDriverBy::cssSelector('[role="tab"]'))[1]->click();
+
         $rows = fn (): int => \count(
             $this->client->findElements(WebDriverBy::cssSelector('.adminata-collection-row'))
         );
@@ -617,27 +620,17 @@ final class DashboardPantherTest extends BasePantherTestCase
     {
         $this->client->request('GET', $this->url('/admin/tests/app/product/1/edit'));
 
-        $groups = $this->client->findElements(WebDriverBy::cssSelector('.adminata-collapsed-fields'));
-        static::assertCount(5, $groups, 'The five form groups of the demo admin.');
+        $groups = $this->client->findElements(WebDriverBy::cssSelector('.adm-card .adminata-collapsed-fields'));
+        static::assertCount(5, $groups, 'The five form groups of the demo admin, on both tabs.');
 
-        // The controller has packed: every group spans its height in unit rows and is pinned to
-        // the column the grid put it in, and the wide `Variants` group is left to its own span.
-        $packed = $this->client->executeScript(<<<'JS'
-            const grid = document.querySelector('[data-controller~="adminata-masonry"]');
-            const items = [...grid.querySelectorAll('[data-adminata-masonry-target="item"]')];
-            return {
-                rows: grid.style.gridAutoRows,
-                spans: items.map((item) => item.style.gridRowEnd),
-                columns: items.map((item) => item.style.gridColumnStart),
-            };
-            JS);
-        static::assertIsArray($packed);
+        // The controller has packed the first tab: every group spans its height in unit rows and
+        // is pinned to the column the grid put it in.
+        $packed = $this->packing();
         static::assertSame('4px', $packed['rows']);
-        static::assertCount(5, $packed['spans']);
+        static::assertCount(4, $packed['spans']);
         foreach ($packed['spans'] as $span) {
             static::assertMatchesRegularExpression('/^span [1-9]\d*$/', $span);
         }
-        static::assertSame('', $packed['columns'][4], 'The full-width group places itself.');
         static::assertSame(['1', '2', '3'], \array_slice($packed['columns'], 0, 3), 'The first three groups head the three columns.');
 
         $actions = $this->client->findElement(WebDriverBy::cssSelector('.adminata-form-actions'));
@@ -665,6 +658,75 @@ final class DashboardPantherTest extends BasePantherTestCase
      * The optimistic lock: `lock_protection` puts `_lock_version` in the form, and a stale one
      * comes back as a flash rather than an exception page.
      */
+    /**
+     * The tabs (`adminata-tabs`, PLAN/05 §4). A panel other than the selected tab's is hidden;
+     * selecting a tab shows its panel, moves `aria-selected` and writes the tab into the address
+     * (`adminata-edit#changeTab`), which is how the tab survives a save; a masonry tab that
+     * started hidden is packed the moment it is shown; the arrow keys move between the tabs; and
+     * a field the browser finds invalid in a hidden tab brings its tab forward first, so the
+     * browser can focus it — without that, the submit is silently refused.
+     */
+    public function testTabsSwitchPersistPackAndSurfaceAnInvalidField(): void
+    {
+        $this->client->request('GET', $this->url('/admin/tests/app/product/1/edit'));
+
+        $tabs = $this->client->findElements(WebDriverBy::cssSelector('[role="tab"]'));
+        static::assertCount(2, $tabs);
+        static::assertSame([false, true], $this->hiddenPanels());
+
+        $tabs[1]->click();
+        static::assertSame([true, false], $this->hiddenPanels());
+        static::assertSame('true', $tabs[1]->getAttribute('aria-selected'));
+        static::assertSame('false', $tabs[0]->getAttribute('aria-selected'));
+        static::assertStringEndsWith('_2', (string) parse_url($this->client->getCurrentURL(), \PHP_URL_QUERY));
+
+        $tabs[0]->click();
+        static::assertSame([false, true], $this->hiddenPanels());
+        static::assertStringEndsWith('_1', (string) parse_url($this->client->getCurrentURL(), \PHP_URL_QUERY));
+
+        // Opened on the second tab by the address, the masonry tab is hidden and unpacked …
+        $this->client->request('GET', $this->url('/admin/tests/app/product/1/edit?_tab=tab_x_2'));
+        static::assertSame([true, false], $this->hiddenPanels());
+        static::assertSame(['', '', '', ''], $this->packing()['spans']);
+
+        // … and packed as soon as it is shown: being shown is what resizes its cards.
+        $this->client->findElements(WebDriverBy::cssSelector('[role="tab"]'))[0]->click();
+        $this->client->waitFor('[data-adminata-masonry-target="item"][style*="span"]');
+        $packed = $this->packing();
+        foreach ($packed['spans'] as $span) {
+            static::assertMatchesRegularExpression('/^span [1-9]\d*$/', $span);
+        }
+        static::assertSame(['1', '2', '3'], \array_slice($packed['columns'], 0, 3));
+
+        // The keyboard: the arrow keys move between the tabs and select the one reached.
+        $tabs = $this->client->findElements(WebDriverBy::cssSelector('[role="tab"]'));
+        $tabs[0]->sendKeys(WebDriverKeys::ARROW_RIGHT);
+        static::assertSame([true, false], $this->hiddenPanels());
+        static::assertSame($tabs[1]->getAttribute('id'), $this->client->executeScript('return document.activeElement.id;'));
+        $tabs[1]->sendKeys(WebDriverKeys::HOME);
+        static::assertSame([false, true], $this->hiddenPanels());
+
+        // A required field on the hidden tab, emptied and sent (the demo runs without HTML5
+        // validation, so the server answers with the form and its errors): the page opens on
+        // its first tab, and `adminata-edit` brings the tab holding the error forward, marked.
+        $tabs[1]->click();
+        $this->client->findElement(WebDriverBy::cssSelector('input[id$="_variants_0_label"]'))->clear();
+        $tabs[0]->click();
+        static::assertSame([false, true], $this->hiddenPanels());
+
+        $this->client->findElement(WebDriverBy::cssSelector('button[name="btn_update_and_edit"]'))->click();
+        $this->client->waitFor('.adminata-field-error');
+
+        static::assertSame([true, false], $this->hiddenPanels(), 'The tab holding the invalid field was not brought forward.');
+        static::assertSame(
+            [true, false],
+            $this->client->executeScript('return [...document.querySelectorAll("[role=tab] [data-adminata-edit-target=errorMark]")].map((icon) => icon.hidden);'),
+            'Only the tab with the error carries the mark.'
+        );
+        static::assertStringContainsString('/product/1/edit', $this->client->getCurrentURL());
+        $this->assertConsoleIsEmpty('The tabs wrote to the browser console.');
+    }
+
     public function testAStaleLockVersionIsReportedAsAFlash(): void
     {
         $this->client->request('GET', $this->url('/admin/tests/app/product/2/edit'));
@@ -684,6 +746,45 @@ final class DashboardPantherTest extends BasePantherTestCase
      * Whether `adminata-confirm-exit` would stop a navigation: it registers a `beforeunload`
      * listener that only cancels once the form differs from the snapshot it took.
      */
+    /**
+     * @return list<bool> `hidden` of every tab panel, in order
+     */
+    private function hiddenPanels(): array
+    {
+        $hidden = $this->client->executeScript('return [...document.querySelectorAll("[role=tabpanel]")].map((panel) => panel.hidden);');
+        static::assertIsArray($hidden);
+
+        return array_values(array_map(boolval(...), $hidden));
+    }
+
+    /**
+     * What `adminata-masonry` wrote on the first packed grid of the page.
+     *
+     * @return array{rows: string, spans: list<string>, columns: list<string>}
+     */
+    private function packing(): array
+    {
+        $packed = $this->client->executeScript(<<<'JS'
+            const grid = document.querySelector('[data-controller~="adminata-masonry"]');
+            const items = [...grid.querySelectorAll('[data-adminata-masonry-target="item"]')];
+            return {
+                rows: grid.style.gridAutoRows,
+                spans: items.map((item) => item.style.gridRowEnd),
+                columns: items.map((item) => item.style.gridColumnStart),
+            };
+            JS);
+        static::assertIsArray($packed);
+        static::assertIsString($packed['rows'] ?? null);
+        static::assertIsArray($packed['spans'] ?? null);
+        static::assertIsArray($packed['columns'] ?? null);
+
+        return [
+            'rows' => $packed['rows'],
+            'spans' => array_values(array_map(strval(...), $packed['spans'])),
+            'columns' => array_values(array_map(strval(...), $packed['columns'])),
+        ];
+    }
+
     private function confirmExitIsArmed(): bool
     {
         return true === $this->client->executeScript(

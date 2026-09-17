@@ -173,13 +173,14 @@ final class ProductAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
-        // The `masonry` layout: groups of unequal height packed into equal columns by
-        // `adminata-masonry` (three from `xl`, two from `lg`, one below), rather than one card
-        // per cell of a twelve-column grid, where every row is as tall as its tallest card.
-        // `Variants` keeps a `col-span-full` of its own: a collection is a table, and a wide
-        // item is placed by the same auto-flow, under whichever column ended last.
+        // Two tabs (`adminata-tabs`). The first takes the `masonry` layout: groups of unequal
+        // height packed into equal columns by `adminata-masonry` (three from `xl`, two from
+        // `lg`, one below), rather than one card per cell of a twelve-column grid, where every
+        // row is as tall as its tallest card; the collection has the second tab, on the plain
+        // grid, to itself — and, being in a panel that starts hidden, it is what proves a form
+        // works from a tab the page did not open with.
         $form
-            ->tab('default', ['layout' => 'masonry'])
+            ->tab('Product', ['layout' => 'masonry'])
             ->with('Details')
                 ->add('name', TextType::class)
                 ->add('sku', TextType::class, ['help' => 'Unique stock keeping unit.'])
@@ -221,7 +222,9 @@ final class ProductAdmin extends AbstractAdmin
                     ]]],
                 ])
             ->end()
-            ->with('Variants', ['class' => 'col-span-full'])
+            ->end()
+            ->tab('Variants')
+            ->with('Variants')
                 ->add('variants', CollectionType::class, [
                     'entry_type' => ProductVariantType::class,
                     'allow_add' => true,
@@ -235,9 +238,9 @@ final class ProductAdmin extends AbstractAdmin
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        // The show page takes the same `masonry` layout as the form, on the same tab option.
+        // The show page takes the same tabs and the same `masonry` layout, on the same options.
         $show
-            ->tab('default', ['layout' => 'masonry'])
+            ->tab('Product', ['layout' => 'masonry'])
             ->with('Product')
                 ->add('id')
                 ->add('name')
@@ -254,6 +257,8 @@ final class ProductAdmin extends AbstractAdmin
                 ->add('pickupAt', FieldDescriptionInterface::TYPE_TIME)
                 ->add('releasedAt')
             ->end()
+            ->end()
+            ->tab('Content')
             ->with('Content')
                 ->add('specification', FieldDescriptionInterface::TYPE_ARRAY)
                 ->add('highlights', FieldDescriptionInterface::TYPE_HTML)

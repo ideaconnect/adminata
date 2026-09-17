@@ -116,6 +116,12 @@ const MOUNTS = [
         targets: ['content', 'button'],
     },
     {
+        identifier: 'adminata-tabs',
+        page: 'product-edit',
+        selector: '[data-controller~="adminata-tabs"]',
+        targets: ['tab', 'panel'],
+    },
+    {
         identifier: 'adminata-masonry',
         page: 'product-edit',
         selector: '[data-controller~="adminata-masonry"]',
@@ -137,7 +143,7 @@ const MOUNTS = [
         identifier: 'adminata-edit',
         page: 'product-create',
         selector: '[data-controller~="adminata-edit"]',
-        targets: [],
+        targets: ['tab', 'tabStore', 'errorMark'],
     },
     {
         identifier: 'adminata-autocomplete',

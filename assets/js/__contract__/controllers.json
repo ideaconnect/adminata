@@ -83,6 +83,7 @@
         },
         "adminata-edit": {
             "targets": [
+                "errorMark",
                 "tab",
                 "tabStore"
             ],
@@ -241,6 +242,15 @@
                 "action",
                 "navbar",
                 "topNavbar"
+            ],
+            "values": [],
+            "classes": [],
+            "outlets": []
+        },
+        "adminata-tabs": {
+            "targets": [
+                "panel",
+                "tab"
             ],
             "values": [],
             "classes": [],

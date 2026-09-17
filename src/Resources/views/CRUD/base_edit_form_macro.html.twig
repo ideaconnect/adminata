@@ -25,9 +25,9 @@ file that was distributed with this source code.
     below by default); a group's own `class` is still emitted, so `col-span-full` makes a wide one.
 #}
 {% macro render_groups(admin, form, groups, has_tab, tab = {}) %}
-    {#- The page title is the `<h1>` and a tab, when there is one, is the `<h2>`; a group heading
-        takes whichever level is next, because skipping one is what `heading-level` is about. -#}
-    {% set heading = has_tab ? 'h3' : 'h2' %}
+    {#- The page title is the `<h1>` and a group heading the `<h2>`, under a tab or not: a tab is a
+        button, not a heading, so it takes no level of its own. -#}
+    {% set heading = 'h2' %}
     {% set masonry = 'masonry' == tab.layout|default('grid') %}
 
     {% if masonry %}

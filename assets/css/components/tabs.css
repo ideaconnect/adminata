@@ -1,0 +1,76 @@
+/*
+ * Tabs. The WAI-ARIA tabs pattern — a `role="tablist"` of `role="tab"` links over
+ * `role="tabpanel"` sections — driven by `adminata-tabs`; the selected tab is underlined in the
+ * brand colour, TailAdmin's line tabs. The list scrolls sideways rather than wrapping, so a form
+ * with many tabs keeps one row on a phone, and the state lives in `aria-selected`, which is what
+ * the recipe styles: a tab looks selected exactly when assistive technology is told it is.
+ */
+
+@utility adm-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+@utility adm-tablist {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--color-gray-200);
+    scrollbar-width: none;
+
+    @variant dark {
+        border-bottom-color: var(--color-gray-800);
+    }
+}
+
+@utility adm-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: -1px;
+    padding: 0.625rem 1rem;
+    border-bottom: 2px solid transparent;
+    color: var(--color-gray-500);
+    font-size: var(--text-theme-sm);
+    line-height: var(--text-theme-sm--line-height);
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+        border-color 150ms,
+        color 150ms;
+
+    &:hover {
+        color: var(--color-gray-700);
+    }
+
+    &[aria-selected='true'] {
+        border-bottom-color: var(--color-brand-500);
+        color: var(--color-brand-500);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-brand-500);
+        outline-offset: -2px;
+        border-radius: var(--radius-control);
+    }
+
+    @variant dark {
+        color: var(--color-gray-400);
+
+        &:hover {
+            color: var(--color-gray-200);
+        }
+
+        &[aria-selected='true'] {
+            border-bottom-color: var(--color-brand-400);
+            color: var(--color-brand-400);
+        }
+    }
+}
+
+/* The exclamation mark a tab shows while a field inside it is invalid. */
+@utility adm-tab-errors {
+    color: var(--color-error-500);
+}

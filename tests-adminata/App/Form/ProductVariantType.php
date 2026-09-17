@@ -31,7 +31,10 @@ final class ProductVariantType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('label', TextType::class)
+            // `empty_data`: a cleared text input submits null, and the entity's typed setter
+            // would answer that with a 500 instead of the NotBlank message the tabs test expects
+            // to find on the second tab.
+            ->add('label', TextType::class, ['empty_data' => ''])
             ->add('stock', IntegerType::class);
     }
 

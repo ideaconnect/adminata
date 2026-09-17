@@ -114,6 +114,14 @@ removing one is a major release.
 ``adminata-sticky``
     targets ``action``, ``navbar``, ``topNavbar``
 
+``adminata-tabs``
+    targets ``panel``, ``tab``
+
+    The WAI-ARIA tabs pattern of a tabbed form or show page: ``aria-selected`` on the tabs,
+    ``hidden`` on the panels, the arrow keys, Home and End moving between them. Sent
+    ``adminata-tabs:show`` on a tab, it selects that tab — what ``adminata-edit`` does for the
+    first tab holding a field with an error; dispatches ``adminata-tabs:shown`` ``{tab, panel}``.
+
 ``adminata-theme``
     targets ``label``; values ``cookieName``, ``labels``, ``theme``
 

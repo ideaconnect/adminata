@@ -18,6 +18,7 @@ namespace Adminata\Tests\App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * The entry type of the native Symfony CollectionType on ProductAdmin: an inline sub-form with
@@ -33,6 +34,7 @@ class ProductVariant implements \Stringable
     private ?int $id = null;
 
     #[ORM\Column(type: Types::STRING, length: 64)]
+    #[Assert\NotBlank]
     private string $label = '';
 
     #[ORM\Column(type: Types::INTEGER)]

@@ -1393,6 +1393,17 @@ the panel's own ids). The tasks are PLAN/v2/05's; their Read/Do/Deliver/Accept l
 
 ## Status log
 
+- 2026-09-18 — **Tabs (`adminata-tabs`, B-01's tab half, ahead of the rest).** The reference
+  panel wanted its Recomat form on tabs with masonry inside each, and 1.0 rendered tabs one
+  after another under an `<h2>`. Now the WAI-ARIA pattern on TailAdmin's line tabs
+  (`assets/css/components/tabs.css`), the controller of PLAN/05 §4 with `aria-selected` instead of `li.active`
+  (the tabs stay links: a read-only form locked with a disabled fieldset must keep them) — `adminata-edit` reads the ARIA
+  state now, and its load-time reveal of the tab with errors waits a tick, because the tabs
+  controller inside the form connects after it and an event sent earlier was lost (the Panther
+  test found that). No Flowbite: its tabs would bring a second component library and its own
+  JavaScript for sixty lines and four selectors. Demo: `ProductAdmin`'s form and show page on
+  two tabs, the masonry one first; the variant label got `NotBlank` (and `empty_data`, without
+  which a cleared label was a 500) so the error-tab path has something to show.
 - 2026-09-17 — **A `masonry` layout for form and show tabs.** Asked for by the reference
   panel's Recomat form, whose one-card-per-cell grid left a card's height of empty page under
   every short group beside a tall one. First cut was a `column` option stacking hand-assigned

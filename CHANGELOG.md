@@ -141,6 +141,17 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- Tabs (2026-09-18). A form or show page with more than one `tab()` renders them as tabs —
+  `adm-tablist` of `adm-tab` links underlined in the brand colour over one `role="tabpanel"`
+  at a time, the WAI-ARIA tabs pattern driven by the new `adminata-tabs` controller (arrow keys,
+  Home and End; `adminata-tabs:show` selects a tab from outside, `adminata-tabs:shown` reports a
+  change) — where 1.0 rendered them one after another under an `<h2>`. `adminata-edit` rides on
+  the same links: the selected tab lands in `?_tab=` and in the `_tab` field the redirect after
+  a save carries, read back by its index; after a rejected submission the first tab holding a
+  field with an error is brought forward and marked, as it is for the first field the browser
+  finds invalid under `html5_validate`. Group headings are `<h2>` under a tab too, a tab being a
+  control and not a heading. The tabs are links rather than buttons so that a read-only form
+  locked with a disabled `<fieldset>` keeps them usable. Each tab keeps its own layout, grid or `masonry`.
 - A `masonry` layout for form and show tabs, and the `adminata-masonry` controller behind it
   (2026-09-17). A grid row is as tall as its tallest card, so a form of unequal groups was
   mostly holes; `->tab('default', ['layout' => 'masonry'])` renders the tab's groups as

@@ -16,9 +16,8 @@ file that was distributed with this source code.
 
     `adminata-view`, `adminata-view-container` and the `<table><tr><th><td>` a field renders into
     are the contract — the show tests assert that shape — so the table is styled rather than
-    replaced. Groups become cards in the same twelve-column grid the edit page uses, and a tabbed
-    show renders its tabs one after another under an `<h2>`, as the edit form does, until
-    `adminata-tabs` exists (PLAN/01 J2).
+    replaced. Groups become cards in the same twelve-column grid (or `masonry` columns) the edit
+    page uses, and a tabbed show page takes the edit form's tabs, `adminata-tabs` included.
 #}
 
 {% extends base_template %}
@@ -51,27 +50,49 @@ file that was distributed with this source code.
         {% set has_tab = (showtabs|length == 1 and showtabs|keys[0] != 'default') or showtabs|length > 1 %}
 
         {% if has_tab %}
+            {#- The same tabs as the edit form's, without `adminata-edit`: nothing is submitted, so
+                nothing remembers the tab, but a `?_tab=` in the address still selects by index. -#}
             {% set tab_prefix = 'tab_' ~ admin.uniqid %}
-            <div class="flex flex-col gap-8">
-                {% for code, show_tab in showtabs %}
-                    {% set _tab_name = tab_prefix ~ '_' ~ loop.index %}
-                    <section id="{{ _tab_name }}">
-                        <h2 class="adm-page-title mb-4">
+            {% set tab_query_index = app.request.query.get('_tab', '')|split('_')|last %}
+            <div class="adm-tabs" {{ stimulus_controller('adminata-tabs') }}>
+                <div class="adm-tablist" role="tablist">
+                    {% for code, show_tab in showtabs %}
+                        {% set _tab_name = tab_prefix ~ '_' ~ loop.index %}
+                        {% set _tab_selected = ('' == tab_query_index and loop.first) or tab_query_index == loop.index %}
+                        <a href="#{{ _tab_name }}"
+                                class="adm-tab"
+                                role="tab"
+                                id="{{ _tab_name }}-tab"
+                                aria-controls="{{ _tab_name }}"
+                                aria-selected="{{ _tab_selected ? 'true' : 'false' }}"
+                                tabindex="{{ _tab_selected ? '0' : '-1' }}"
+                                {{ stimulus_target('adminata-tabs', 'tab') }}
+                                {{
+                                    stimulus_action('adminata-tabs', 'select')|
+                                    stimulus_action('adminata-tabs', 'move', 'keydown')
+                                }}>
                             {%- if show_tab.translation_domain is defined and show_tab.translation_domain is same as(false) -%}
                                 {{ show_tab.label }}
                             {%- else -%}
                                 {{ show_tab.label|trans({}, show_tab.translation_domain ?? admin.translationDomain) }}
                             {%- endif -%}
-                        </h2>
+                        </a>
+                    {% endfor %}
+                </div>
+                {% for code, show_tab in showtabs %}
+                    {% set _tab_name = tab_prefix ~ '_' ~ loop.index %}
+                    {% set _tab_selected = ('' == tab_query_index and loop.first) or tab_query_index == loop.index %}
+                    <section id="{{ _tab_name }}"
+                             role="tabpanel"
+                             aria-labelledby="{{ _tab_name }}-tab"
+                             {{ stimulus_target('adminata-tabs', 'panel') }}
+                             {% if not _tab_selected %}hidden{% endif %}>
+                        {% if show_tab.description != false %}
+                            <p class="adm-card-subtitle mb-4">{{ show_tab.description|raw }}</p>
+                        {% endif %}
 
-                        <div class="adminata-collapsed-fields">
-                            {% if show_tab.description != false %}
-                                <p class="adm-card-subtitle mb-4">{{ show_tab.description|raw }}</p>
-                            {% endif %}
-
-                            {% set groups = show_tab.groups %}
-                            {{ block('show_groups') }}
-                        </div>
+                        {% set groups = show_tab.groups %}
+                        {{ block('show_groups') }}
                     </section>
                 {% endfor %}
             </div>
@@ -87,8 +108,8 @@ file that was distributed with this source code.
 {% endblock %}
 
 {% block show_groups %}
-    {#- The page title is the `<h1>` and a tab, when there is one, is the `<h2>`. -#}
-    {% set heading = has_tab|default(false) ? 'h3' : 'h2' %}
+    {#- The page title is the `<h1>` and a group heading the `<h2>`; a tab is a button, not a heading. -#}
+    {% set heading = 'h2' %}
     {#- A tab whose `layout` is `masonry` packs its groups as the edit form's macro does
         (`base_edit_form_macro.html.twig` says why); the twelve-column grid is the default. -#}
     {% set masonry = 'masonry' == (show_tab.layout|default('grid')) %}

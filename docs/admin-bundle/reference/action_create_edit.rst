@@ -198,6 +198,37 @@ under all the columns, and a hook for ``adminata-reveal`` keeps working. Without
 the tab is an ordinary grid of that many columns, one card per cell. The show page's tabs take
 the same two options.
 
+.. _form_tabs:
+
+Tabs
+----
+
+A form with more than one ``tab()`` — or one tab not named ``default`` — renders them as tabs:
+a row of tab links underlined in the brand colour over one panel at a time, the WAI-ARIA
+tabs pattern driven by ``adminata-tabs`` (arrow keys, Home and End move between them). Each
+tab lays out its own groups, on the grid or in ``masonry``::
+
+    $form
+        ->tab('Device', ['layout' => 'masonry'])
+            ->with('Basics')
+                // ...
+            ->end()
+        ->end()
+        ->tab('Opening hours')
+            ->with('Defaults')
+                // ...
+            ->end()
+        ->end();
+
+The selected tab survives a save: ``adminata-edit`` writes it into the address as ``?_tab=`` and
+into the ``_tab`` field the redirect carries, and it is read back by its index — the tab ids
+carry the admin's uniqid, which the next request does not. After a submission the server
+rejected, the first tab holding a field with an error is brought forward and marked, so the
+error is seen; with ``html5_validate`` on, the same happens for the first field the browser
+finds invalid, before it tries to focus it. The panels are rendered with their state — the
+other tabs' `hidden` — so the page opens on the right tab without a flash of the others; the
+script is what makes the other tabs reachable.
+
 Displaying custom data/template
 -------------------------------
 

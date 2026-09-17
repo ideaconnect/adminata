@@ -489,8 +489,8 @@ final class DemoSmokeTest extends WebTestCase
 
     /**
      * A tab on the `masonry` layout renders its groups as items of one `adminata-masonry` grid —
-     * equal columns the controller packs by height — and a group's own class still lands on its
-     * wrapper, which is how a collection stays a full-width row.
+     * equal columns the controller packs by height; a tab on the default layout keeps the
+     * twelve-column grid, one cell per group.
      */
     public function testAMasonryTabRendersItsGroupsAsItemsOfOnePackedGrid(): void
     {
@@ -502,32 +502,101 @@ final class DemoSmokeTest extends WebTestCase
         static::assertStringContainsString('xl:grid-cols-3', (string) $grid->attr('class'));
 
         $items = $grid->filter('[data-adminata-masonry-target="item"]');
-        static::assertCount(5, $items);
+        static::assertCount(4, $items);
         static::assertSame(
-            ['Details', 'Pricing', 'Taxonomy', 'Publication', 'Variants'],
+            ['Details', 'Pricing', 'Taxonomy', 'Publication'],
             $items->filter('.adm-card-title')->each(static fn (Crawler $title): string => trim($title->text()))
         );
-        static::assertSame('min-w-0 col-span-full', $items->last()->attr('class'));
+
+        $plain = $crawler->filter('form .grid.grid-cols-12');
+        static::assertCount(1, $plain);
+        static::assertSame(['Variants'], $plain->filter('.adm-card-title')->each(static fn (Crawler $title): string => trim($title->text())));
     }
 
     /**
-     * The show page takes the same tab option and renders the same markup.
+     * A tabbed form is the WAI-ARIA tabs pattern: a tablist of tab links, each naming its panel,
+     * the first selected and the others hidden, every panel labelled by its tab — and the groups
+     * inside a panel keep the `<h2>` a group has anywhere else, because a tab is a control, not a
+     * heading. `adminata-edit` rides on the same links for the error icon and the `_tab` store.
+     */
+    public function testATabbedFormRendersTheAriaTabsPattern(): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', '/admin/tests/app/product/1/edit');
+
+        $tabs = $crawler->filter('form [data-controller~="adminata-tabs"]');
+        static::assertCount(1, $tabs);
+
+        // Links, not buttons: an application's read-only lock is a disabled <fieldset> around
+        // the tab content, and a disabled button would strand every panel but the first.
+        $buttons = $tabs->filter('[role="tablist"] > a[role="tab"]');
+        static::assertSame(['Product', 'Variants'], $buttons->each(static fn (Crawler $tab): string => trim($tab->text())));
+        static::assertSame(['true', 'false'], $buttons->each(static fn (Crawler $tab): string => (string) $tab->attr('aria-selected')));
+        static::assertSame(['0', '-1'], $buttons->each(static fn (Crawler $tab): string => (string) $tab->attr('tabindex')));
+        static::assertSame('#'.$buttons->first()->attr('aria-controls'), $buttons->first()->attr('href'));
+        static::assertStringContainsString('adminata-edit#changeTab', (string) $buttons->first()->attr('data-action'));
+        static::assertCount(2, $tabs->filter('a[role="tab"][data-adminata-edit-target="tab"] [data-adminata-edit-target="errorMark"][hidden]'));
+
+        $panels = $tabs->filter('[role="tabpanel"]');
+        static::assertCount(2, $panels);
+        static::assertSame(
+            $buttons->each(static fn (Crawler $tab): string => (string) $tab->attr('aria-controls')),
+            $panels->each(static fn (Crawler $panel): string => (string) $panel->attr('id'))
+        );
+        static::assertSame(
+            $buttons->each(static fn (Crawler $tab): string => (string) $tab->attr('id')),
+            $panels->each(static fn (Crawler $panel): string => (string) $panel->attr('aria-labelledby'))
+        );
+        static::assertNull($panels->first()->attr('hidden'));
+        static::assertNotNull($panels->last()->attr('hidden'));
+        static::assertCount(0, $crawler->filter('form h3.adm-card-title'));
+        static::assertCount(5, $crawler->filter('form h2.adm-card-title'));
+        static::assertCount(1, $crawler->filter('form input[name="_tab"][data-adminata-edit-target="tabStore"]'));
+    }
+
+    /**
+     * `?_tab=` selects a tab by its index, whatever uniqid the id carries: the redirect after a
+     * save sends the index under a uniqid the next request does not have.
+     */
+    public function testTheAddressSelectsATabByItsIndex(): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', '/admin/tests/app/product/1/edit?_tab=tab_sSOMETHINGELSE_2');
+
+        $buttons = $crawler->filter('form [role="tablist"] > a[role="tab"]');
+        static::assertSame(['false', 'true'], $buttons->each(static fn (Crawler $tab): string => (string) $tab->attr('aria-selected')));
+
+        $panels = $crawler->filter('form [role="tabpanel"]');
+        static::assertNotNull($panels->first()->attr('hidden'));
+        static::assertNull($panels->last()->attr('hidden'));
+    }
+
+    /**
+     * The show page takes the same tabs and the same layouts, on the same options.
      */
     public function testAMasonryShowTabRendersItsGroupsAsItemsOfOnePackedGrid(): void
     {
         $client = self::browser();
         $crawler = $client->request('GET', '/admin/tests/app/product/1/show');
 
+        $tabs = $crawler->filter('.adminata-view [data-controller~="adminata-tabs"]');
+        static::assertCount(1, $tabs);
+        static::assertSame(
+            ['Product', 'Content'],
+            $tabs->filter('[role="tablist"] > a[role="tab"]')->each(static fn (Crawler $tab): string => trim($tab->text()))
+        );
+
         $grid = $crawler->filter('.adminata-view [data-controller~="adminata-masonry"]');
         static::assertCount(1, $grid);
 
         $items = $grid->filter('[data-adminata-masonry-target="item"]');
         static::assertSame(
-            ['Product', 'Availability', 'Content'],
+            ['Product', 'Availability'],
             $items->filter('.adm-card-title')->each(static fn (Crawler $title): string => trim($title->text()))
         );
-        // Every field is still rendered, in its group.
-        static::assertCount(15, $grid->filter('tr.adminata-view-container'));
+        // Every field is still rendered, in its group, on one tab or the other.
+        static::assertCount(12, $grid->filter('tr.adminata-view-container'));
+        static::assertCount(15, $crawler->filter('.adminata-view tr.adminata-view-container'));
     }
 
     /**

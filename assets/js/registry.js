@@ -31,6 +31,7 @@ import RevealController from './controllers/reveal_controller.js';
 import RevisionController from './controllers/revision_controller.js';
 import RowLinkController from './controllers/row_link_controller.js';
 import StickyController from './controllers/sticky_controller.js';
+import TabsController from './controllers/tabs_controller.js';
 import ThemeController from './controllers/theme_controller.js';
 
 /**
@@ -64,6 +65,7 @@ export const controllers = {
     'adminata-revision': RevisionController,
     'adminata-row-link': RowLinkController,
     'adminata-sticky': StickyController,
+    'adminata-tabs': TabsController,
     'adminata-theme': ThemeController,
 };
 

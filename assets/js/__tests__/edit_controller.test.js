@@ -16,48 +16,47 @@ import EditController from '../controllers/edit_controller.js';
 import { mount, settle } from './helpers.js';
 
 /*
- * Tabs are not in the 1.0 scope, so the only thing this controller can do about a tab with errors
- * is announce it: the jQuery call upstream made here became a `adminata-tabs:show` event that
- * nothing listens for yet (PLAN/05 §2). The error icons still get toggled, which is what a form
+ * The tabs themselves are `adminata-tabs`'; what this controller does about a tab with errors is
+ * announce it: the jQuery call upstream made here became a `adminata-tabs:show` event that
+ * `adminata-tabs` answers (PLAN/05 §4). The error icons still get toggled, which is what a form
  * with a validation failure depends on.
  */
 const markup = `
     <form data-controller="adminata-edit" data-action="submit->adminata-edit#prepareSubmit">
-        <ul>
-            <li class="active">
-                <a href="#tab_0" aria-controls="tab_0" data-adminata-edit-target="tab">
-                    First <span class="has-errors" hidden></span>
-                </a>
-            </li>
-            <li>
-                <a href="#tab_1" aria-controls="tab_1" data-adminata-edit-target="tab">
-                    Second <span class="has-errors" hidden></span>
-                </a>
-            </li>
-        </ul>
-        <div id="tab_0"><span class="adminata-field-error">required</span></div>
-        <div id="tab_1"></div>
+        <div role="tablist">
+            <a href="#tab_0" role="tab" aria-selected="true" aria-controls="tab_0" data-adminata-edit-target="tab">
+                First <span data-adminata-edit-target="errorMark" hidden></span>
+            </a>
+            <a href="#tab_1" role="tab" aria-selected="false" aria-controls="tab_1" data-adminata-edit-target="tab">
+                Second <span data-adminata-edit-target="errorMark" hidden></span>
+            </a>
+        </div>
+        <div id="tab_0" role="tabpanel"><span class="adminata-field-error">required</span></div>
+        <div id="tab_1" role="tabpanel" hidden></div>
         <input type="hidden" name="_tab" data-adminata-edit-target="tabStore">
         <button type="submit">Update</button>
     </form>
 `;
 
-const icons = () => document.querySelectorAll('.has-errors');
+const icons = () => document.querySelectorAll('[data-adminata-edit-target="errorMark"]');
 
 describe('adminata-edit', () => {
     it('shows the error icon of the tab that has errors and hides the others', async () => {
         await mount('adminata-edit', EditController, markup);
+        // The reveal waits a tick for `adminata-tabs`, which connects after the form does.
+        await settle();
 
         expect(icons()[0].hidden).toBe(false);
         expect(icons()[1].hidden).toBe(true);
     });
 
-    it('announces the first tab with errors instead of reaching for a tab plugin', async () => {
+    it('announces the first tab with errors for adminata-tabs to select', async () => {
         document.body.innerHTML = '';
         const shown = vi.fn();
         document.addEventListener('adminata-tabs:show', shown);
 
         await mount('adminata-edit', EditController, markup);
+        await settle();
 
         expect(shown).toHaveBeenCalledOnce();
         // Stimulus's `target` option says where to dispatch, so it is the event's target.
