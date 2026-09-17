@@ -608,16 +608,37 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
-     * The edit chrome (PLAN/03 §C): groups are cards in a twelve-column grid, the action bar is
-     * sticky and gains `.stuck` once it leaves the flow, and `adminata-confirm-exit` arms the
-     * browser's own "leave site?" prompt as soon as a field changes — and disarms it on submit.
+     * The edit chrome (PLAN/03 §C): groups are cards in a grid — the product's on the `masonry`
+     * layout, packed by `adminata-masonry` — the action bar is sticky and gains `.stuck` once it
+     * leaves the flow, and `adminata-confirm-exit` arms the browser's own "leave site?" prompt as
+     * soon as a field changes — and disarms it on submit.
      */
     public function testTheEditChromeIsStickyAndGuardsAgainstLeaving(): void
     {
         $this->client->request('GET', $this->url('/admin/tests/app/product/1/edit'));
 
         $groups = $this->client->findElements(WebDriverBy::cssSelector('.adminata-collapsed-fields'));
-        static::assertCount(3, $groups, 'The three form groups of the demo admin.');
+        static::assertCount(5, $groups, 'The five form groups of the demo admin.');
+
+        // The controller has packed: every group spans its height in unit rows and is pinned to
+        // the column the grid put it in, and the wide `Variants` group is left to its own span.
+        $packed = $this->client->executeScript(<<<'JS'
+            const grid = document.querySelector('[data-controller~="adminata-masonry"]');
+            const items = [...grid.querySelectorAll('[data-adminata-masonry-target="item"]')];
+            return {
+                rows: grid.style.gridAutoRows,
+                spans: items.map((item) => item.style.gridRowEnd),
+                columns: items.map((item) => item.style.gridColumnStart),
+            };
+            JS);
+        static::assertIsArray($packed);
+        static::assertSame('4px', $packed['rows']);
+        static::assertCount(5, $packed['spans']);
+        foreach ($packed['spans'] as $span) {
+            static::assertMatchesRegularExpression('/^span [1-9]\d*$/', $span);
+        }
+        static::assertSame('', $packed['columns'][4], 'The full-width group places itself.');
+        static::assertSame(['1', '2', '3'], \array_slice($packed['columns'], 0, 3), 'The first three groups head the three columns.');
 
         $actions = $this->client->findElement(WebDriverBy::cssSelector('.adminata-form-actions'));
         static::assertStringContainsString('adm-sticky', (string) $actions->getAttribute('class'));

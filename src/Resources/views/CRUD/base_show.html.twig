@@ -76,7 +76,8 @@ file that was distributed with this source code.
                 {% endfor %}
             </div>
         {% elseif showtabs['default'] is defined %}
-            {% set groups = showtabs['default'].groups %}
+            {% set show_tab = showtabs['default'] %}
+            {% set groups = show_tab.groups %}
             {{ block('show_groups') }}
         {% endif %}
 
@@ -88,56 +89,25 @@ file that was distributed with this source code.
 {% block show_groups %}
     {#- The page title is the `<h1>` and a tab, when there is one, is the `<h2>`. -#}
     {% set heading = has_tab|default(false) ? 'h3' : 'h2' %}
-
-    {#- Groups sharing a `column` stack in one grid cell, exactly as the edit form's do
-        (`base_edit_form_macro.html.twig` says why): `{group: code}` for a group on its own,
-        `{stack: key}` once per column at its first group, the members in `stacks`. -#}
-    {%- set cells = [] -%}
-    {%- set stacks = {} -%}
-    {%- for code in groups -%}
-        {%- set column = admin.showgroups[code].column|default(null) -%}
-        {%- if column is null -%}
-            {%- set cells = cells|merge([{ group: code }]) -%}
-        {%- elseif stacks[column] is defined -%}
-            {%- set stacks = stacks|merge({ (column): stacks[column]|merge([code]) }) -%}
-        {%- else -%}
-            {%- set stacks = stacks|merge({ (column): [code] }) -%}
-            {%- set cells = cells|merge([{ stack: column }]) -%}
-        {%- endif -%}
-    {%- endfor -%}
-
+    {#- A tab whose `layout` is `masonry` packs its groups as the edit form's macro does
+        (`base_edit_form_macro.html.twig` says why); the twelve-column grid is the default. -#}
+    {% set masonry = 'masonry' == (show_tab.layout|default('grid')) %}
+    {% if masonry %}
+    <div class="grid {{ show_tab.columns|default('grid-cols-1 lg:grid-cols-2 xl:grid-cols-3') }} gap-6 items-start" {{ stimulus_controller('adminata-masonry') }}>
+    {% else %}
     <div class="grid grid-cols-12 gap-6">
+    {% endif %}
         {% block field_row %}
-            {% for cell in cells %}
-                {% if cell.stack is defined %}
-                    {% set column_class = false %}
-                    {% for code in stacks[cell.stack] %}
-                        {% set column_class = column_class ?: admin.showgroups[code].column_class|default(false) %}
-                    {% endfor %}
-                    <div class="{{ column_class|default('col-span-12') }} min-w-0 flex flex-col gap-6">
-                        {% for code in stacks[cell.stack] %}
-                            {% set show_group = admin.showgroups[code] %}
-                            <div class="{% if show_group.class %}{{ show_group.class }} {% endif %}min-w-0">
-                                {{ block('show_group_card') }}
-                            </div>
-                        {% endfor %}
-                    </div>
+            {% for code in groups %}
+                {% set show_group = admin.showgroups[code] %}
+
+                {#- `min-w-0` for the same reason as the list's card: a grid item will not shrink
+                    below its content, and the content is a table. -#}
+                {% if masonry %}
+                <div class="min-w-0{% if show_group.class %} {{ show_group.class }}{% endif %}" {{ stimulus_target('adminata-masonry', 'item') }}>
                 {% else %}
-                    {% set show_group = admin.showgroups[cell.group] %}
-
-                    {#- `min-w-0` for the same reason as the list's card: a grid item will not shrink
-                        below its content, and the content is a table. -#}
-                    <div class="{{ show_group.class|default('col-span-12') }} min-w-0">
-                        {{ block('show_group_card') }}
-                    </div>
+                <div class="{{ show_group.class|default('col-span-12') }} min-w-0">
                 {% endif %}
-            {% endfor %}
-        {% endblock %}
-    </div>
-{% endblock %}
-
-{#- One group's card: the heading and the table of its fields. -#}
-{% block show_group_card %}
                     <div class="adm-card {{ show_group.box_class }}">
                         <div class="adm-card-header">
                             <{{ heading }} class="adm-card-title">
@@ -170,4 +140,8 @@ file that was distributed with this source code.
                             </div>
                         </div>
                     </div>
+                </div>
+            {% endfor %}
+        {% endblock %}
+    </div>
 {% endblock %}

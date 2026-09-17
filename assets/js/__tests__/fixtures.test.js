@@ -116,6 +116,12 @@ const MOUNTS = [
         targets: ['content', 'button'],
     },
     {
+        identifier: 'adminata-masonry',
+        page: 'product-edit',
+        selector: '[data-controller~="adminata-masonry"]',
+        targets: ['item'],
+    },
+    {
         identifier: 'adminata-collection',
         page: 'product-edit',
         selector: '[data-controller~="adminata-collection"]',

@@ -18,63 +18,31 @@ file that was distributed with this source code.
     it on the element — and `box_class` is appended to the card. `adminata-collapsed-fields` is
     the hook an application's own script uses to fold a group.
 
-    Groups that share a `column` are stacked in ONE grid cell, one under the other. A grid row is
-    as tall as its tallest card, so two short groups placed beside one long one each get a row of
-    their own with the long card's height of empty page under them; stacked, they fill it. The
-    cell's own classes — its span — are `column_class`, read from the first group of the stack
-    that sets it (`col-span-12` when none does), and each group keeps its own `class` on its own
-    wrapper inside the stack, so a hook written there (`adminata-reveal`'s `hidden`) still hides
-    that one group and not the stack. Cells — a stack, or a group on its own — are laid out in
-    the order they first appear, so the reading order stays the declaration order.
+    A tab whose `layout` is `masonry` renders its groups as equal-width columns packed by
+    `adminata-masonry` instead: a grid row is as tall as its tallest card, so a short group beside
+    a long one drags a card's height of empty page under it, and a form of unequal groups is
+    mostly holes. The column classes are the tab's `columns` (three from `xl`, two from `lg`, one
+    below by default); a group's own `class` is still emitted, so `col-span-full` makes a wide one.
 #}
-{% macro render_groups(admin, form, groups, has_tab) %}
+{% macro render_groups(admin, form, groups, has_tab, tab = {}) %}
     {#- The page title is the `<h1>` and a tab, when there is one, is the `<h2>`; a group heading
         takes whichever level is next, because skipping one is what `heading-level` is about. -#}
     {% set heading = has_tab ? 'h3' : 'h2' %}
+    {% set masonry = 'masonry' == tab.layout|default('grid') %}
 
-    {#- One pass sorts the groups into cells: `{group: code}` for a group on its own, `{stack: key}`
-        once per column at its first group, with the members of every column in `stacks`. -#}
-    {%- set cells = [] -%}
-    {%- set stacks = {} -%}
-    {%- for code in groups|filter(code => admin.formgroups[code] is defined) -%}
-        {%- set column = admin.formgroups[code].column|default(null) -%}
-        {%- if column is null -%}
-            {%- set cells = cells|merge([{ group: code }]) -%}
-        {%- elseif stacks[column] is defined -%}
-            {%- set stacks = stacks|merge({ (column): stacks[column]|merge([code]) }) -%}
-        {%- else -%}
-            {%- set stacks = stacks|merge({ (column): [code] }) -%}
-            {%- set cells = cells|merge([{ stack: column }]) -%}
-        {%- endif -%}
-    {%- endfor -%}
-
+    {% if masonry %}
+    <div class="grid {{ tab.columns|default('grid-cols-1 lg:grid-cols-2 xl:grid-cols-3') }} gap-6 items-start" {{ stimulus_controller('adminata-masonry') }}>
+    {% else %}
     <div class="grid grid-cols-12 gap-6">
-    {% for cell in cells %}
-        {% if cell.stack is defined %}
-            {% set column_class = false %}
-            {% for code in stacks[cell.stack] %}
-                {% set column_class = column_class ?: admin.formgroups[code].column_class|default(false) %}
-            {% endfor %}
-            <div class="{{ column_class|default('col-span-12') }} flex flex-col gap-6">
-                {% for code in stacks[cell.stack] %}
-                    {% set form_group = admin.formgroups[code] %}
-                    <div{% if form_group.class %} class="{{ form_group.class }}"{% endif %}>
-                        {{ _self.render_group(admin, form, form_group, heading) }}
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            {% set form_group = admin.formgroups[cell.group] %}
-            <div class="{{ form_group.class|default('col-span-12') }}">
-                {{ _self.render_group(admin, form, form_group, heading) }}
-            </div>
-        {% endif %}
-    {% endfor %}
-    </div>
-{% endmacro %}
+    {% endif %}
+    {% for code in groups|filter(code => admin.formgroups[code] is defined) %}
+        {% set form_group = admin.formgroups[code] %}
 
-{#- One group's card: the heading, the description, its fields — or the empty message. -#}
-{% macro render_group(admin, form, form_group, heading) %}
+        {% if masonry %}
+        <div class="min-w-0{% if form_group.class %} {{ form_group.class }}{% endif %}" {{ stimulus_target('adminata-masonry', 'item') }}>
+        {% else %}
+        <div class="{{ form_group.class|default('col-span-12') }}">
+        {% endif %}
             <div class="adm-card {{ form_group.box_class }}">
                 <div class="adm-card-header">
                     <{{ heading }} class="adm-card-title">
@@ -113,4 +81,7 @@ file that was distributed with this source code.
                     </div>
                 </div>
             </div>
+        </div>
+    {% endfor %}
+    </div>
 {% endmacro %}

@@ -1393,13 +1393,17 @@ the panel's own ids). The tasks are PLAN/v2/05's; their Read/Do/Deliver/Accept l
 
 ## Status log
 
-- 2026-09-17 — **Form and show groups take a `column`.** Asked for by the reference panel's
-  Recomat form, whose one-card-per-cell grid left a card's height of empty page under every
-  short group beside a tall one. Groups sharing a `column` stack in one grid cell whose span is
-  `column_class`; `render_groups` grew a `render_group` macro and the show page a
-  `show_group_card` block (additive, appendix A untouched). Demo: `CategoryAdmin`'s form and
-  `ProductAdmin`'s show page; `DemoSmokeTest` pins both; the two form fixtures re-dumped
-  (whitespace only). Documented under the group options of the edit and show references.
+- 2026-09-17 — **A `masonry` layout for form and show tabs.** Asked for by the reference
+  panel's Recomat form, whose one-card-per-cell grid left a card's height of empty page under
+  every short group beside a tall one. First cut was a `column` option stacking hand-assigned
+  groups in one cell (`fc0b449c8`, on `main` for an hour); the owner judged it the same
+  problem with the assignment moved, so it is replaced by `adminata-masonry`: the grid's own
+  auto-placement over 4-pixel implicit rows, items spanning their height, pinned to their
+  column once placed. No library — Masonry.js positions absolutely and must relayout on every
+  height change, Colcade moves nodes and would reconnect every controller inside a card
+  (Leaflet throws on a second init). Demo: `ProductAdmin`'s form (split into five groups,
+  `Variants` full-width) and show page; `DemoSmokeTest` pins the markup, the Vitest suite the
+  controller's contract, the visual suite the placement in three browsers.
 - 2026-09-12 — **Milestone M7 pushed.** The IDCT rename (PLAN/v2) executed in one day under the
   owner's instruction to decide the open questions alone: the engine (`upstream/rename/`), the
   mechanical pass (`f141c1105`), the fixer pass, the hand work, the documents; `main` at

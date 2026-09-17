@@ -20,6 +20,7 @@ import EditController from './controllers/edit_controller.js';
 import FilterController from './controllers/filter_controller.js';
 import FilterListController from './controllers/filter_list_controller.js';
 import LayoutController from './controllers/layout_controller.js';
+import MasonryController from './controllers/masonry_controller.js';
 import MenuController from './controllers/menu_controller.js';
 import ModalController from './controllers/modal_controller.js';
 import ModalTriggerController from './controllers/modal_trigger_controller.js';
@@ -52,6 +53,7 @@ export const controllers = {
     'adminata-filter': FilterController,
     'adminata-filter-list': FilterListController,
     'adminata-layout': LayoutController,
+    'adminata-masonry': MasonryController,
     'adminata-menu': MenuController,
     'adminata-modal': ModalController,
     'adminata-modal-trigger': ModalTriggerController,

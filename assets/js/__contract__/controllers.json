@@ -138,6 +138,16 @@
             "classes": [],
             "outlets": []
         },
+        "adminata-masonry": {
+            "targets": [
+                "item"
+            ],
+            "values": [
+                "unit"
+            ],
+            "classes": [],
+            "outlets": []
+        },
         "adminata-menu": {
             "targets": [
                 "toggle"

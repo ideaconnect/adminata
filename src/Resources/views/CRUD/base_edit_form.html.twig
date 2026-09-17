@@ -89,14 +89,14 @@ file that was distributed with this source code.
                                         </p>
                                     {% endif %}
 
-                                    {{ form_helper.render_groups(admin, form, form_tab['groups'], has_tab) }}
+                                    {{ form_helper.render_groups(admin, form, form_tab['groups'], has_tab, form_tab) }}
                                 </div>
                             </section>
                         {% endfor %}
                     </div>
                     <input type="hidden" name="_tab" value="{{ app.request.query.get('_tab') }}" {{ stimulus_target('adminata-edit', 'tabStore') }}>
                 {% elseif formtabs['default'] is defined %}
-                    {{ form_helper.render_groups(admin, form, formtabs['default'].groups, has_tab) }}
+                    {{ form_helper.render_groups(admin, form, formtabs['default'].groups, has_tab, formtabs['default']) }}
                 {% endif %}
             {% endblock %}
 

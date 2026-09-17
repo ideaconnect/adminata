@@ -173,11 +173,21 @@ final class ProductAdmin extends AbstractAdmin
 
     protected function configureFormFields(FormMapper $form): void
     {
+        // The `masonry` layout: groups of unequal height packed into equal columns by
+        // `adminata-masonry` (three from `xl`, two from `lg`, one below), rather than one card
+        // per cell of a twelve-column grid, where every row is as tall as its tallest card.
+        // `Variants` keeps a `col-span-full` of its own: a collection is a table, and a wide
+        // item is placed by the same auto-flow, under whichever column ended last.
         $form
-            ->with('Details', ['class' => 'col-span-8'])
+            ->tab('default', ['layout' => 'masonry'])
+            ->with('Details')
                 ->add('name', TextType::class)
                 ->add('sku', TextType::class, ['help' => 'Unique stock keeping unit.'])
+            ->end()
+            ->with('Pricing')
                 ->add('price', IntegerType::class, ['help' => 'In minor units.'])
+            ->end()
+            ->with('Taxonomy')
                 // The combobox in its form context: `_context` is absent, so the action resolves
                 // the field description from the *form* rather than from the datagrid.
                 ->add('category', ModelAutocompleteType::class, ['property' => 'name'])
@@ -187,7 +197,7 @@ final class ProductAdmin extends AbstractAdmin
                     'required' => false,
                 ])
             ->end()
-            ->with('Publication', ['class' => 'col-span-4'])
+            ->with('Publication')
                 ->add('status', EnumType::class, ['class' => ProductStatus::class])
                 ->add('featured', BooleanType::class, ['transform' => true])
                 ->add('releasedAt', DateTimePickerType::class, [
@@ -211,7 +221,7 @@ final class ProductAdmin extends AbstractAdmin
                     ]]],
                 ])
             ->end()
-            ->with('Variants', ['class' => 'col-span-12'])
+            ->with('Variants', ['class' => 'col-span-full'])
                 ->add('variants', CollectionType::class, [
                     'entry_type' => ProductVariantType::class,
                     'allow_add' => true,
@@ -219,16 +229,16 @@ final class ProductAdmin extends AbstractAdmin
                     'by_reference' => false,
                     'label' => false,
                 ])
+            ->end()
             ->end();
     }
 
     protected function configureShowFields(ShowMapper $show): void
     {
-        // Three groups in two grid cells: `Availability` and `Content` share a column and stack
-        // under each other beside the tall `Product` card — the show page's `column` works as
-        // the edit form's does.
+        // The show page takes the same `masonry` layout as the form, on the same tab option.
         $show
-            ->with('Product', ['class' => 'col-span-12 xl:col-span-8'])
+            ->tab('default', ['layout' => 'masonry'])
+            ->with('Product')
                 ->add('id')
                 ->add('name')
                 ->add('sku')
@@ -238,16 +248,17 @@ final class ProductAdmin extends AbstractAdmin
                 ->add('category')
                 ->add('tags', FieldDescriptionInterface::TYPE_MANY_TO_MANY)
             ->end()
-            ->with('Availability', ['column' => 'side', 'column_class' => 'col-span-12 xl:col-span-4'])
+            ->with('Availability')
                 ->add('featured')
                 ->add('availableFrom', FieldDescriptionInterface::TYPE_DATE)
                 ->add('pickupAt', FieldDescriptionInterface::TYPE_TIME)
                 ->add('releasedAt')
             ->end()
-            ->with('Content', ['column' => 'side'])
+            ->with('Content')
                 ->add('specification', FieldDescriptionInterface::TYPE_ARRAY)
                 ->add('highlights', FieldDescriptionInterface::TYPE_HTML)
                 ->add('description', FieldDescriptionInterface::TYPE_TEXTAREA)
+            ->end()
             ->end();
     }
 

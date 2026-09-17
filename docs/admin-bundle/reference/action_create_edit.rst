@@ -119,10 +119,6 @@ options for the group itself.
   ``adminata-reveal``: see :doc:`/javascript`.
 - ``box_class``: The class for your form group box in the admin; by default,
   the value is set to ``box box-primary``.
-- ``column``: a name shared by the groups that should stack in ONE grid cell, one under the
-  other, in declaration order. See *Stacking groups in a column* below.
-- ``column_class``: the classes of that cell — its span; read from the first group of the
-  stack that sets it, ``col-span-12`` when none does.
 - ``description``: A text shown at the top of the form group.
 - ``translation_domain``: The translation domain for the form group title
   (the Admin translation domain is used by default).
@@ -159,33 +155,48 @@ a group:
    :alt: Box Class
    :width: 500
 
-.. _form_group_column:
+.. _form_layout_masonry:
 
-Stacking groups in a column
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Masonry layout
+--------------
 
-Every group is a card in a twelve-column grid, and a grid row is as tall as its tallest card.
-Two short groups placed beside one long one therefore each take a row of their own, with the
-long card's height of empty page under them. Groups that share a ``column`` are stacked in
-a single grid cell instead, so the short cards follow each other and fill that height::
+Every group is a card in a twelve-column grid, and a grid row is as tall as its tallest card:
+a short group beside a long one drags a card's height of empty page under it, and a form of
+many unequal groups is mostly holes. A tab whose ``layout`` is ``masonry`` renders its groups
+as equal-width columns instead, packed by the ``adminata-masonry`` controller — each card goes
+under whichever column ended soonest, in declaration order, with nothing moved in the DOM and
+nothing positioned absolutely, so focus, listboxes and the controllers inside a card are
+untouched. Once placed, a card is pinned to its column: one that grows (a collection row
+added, an error shown) pushes the cards under it down rather than reshuffling the form. The
+packing is redone when the container changes width.
+
+The tab is the ``default`` one unless the form declares tabs, so it is opened by name::
 
     $form
-        ->with('Details', ['class' => 'col-span-12 xl:col-span-8'])
-            // ...
-        ->end()
-        ->with('Publication', ['column' => 'side', 'column_class' => 'col-span-12 xl:col-span-4'])
-            // ...
-        ->end()
-        ->with('Audit', ['column' => 'side'])
-            // ...
+        ->tab('default', ['layout' => 'masonry'])
+            ->with('Details')
+                // ...
+            ->end()
+            ->with('Pricing')
+                // ...
+            ->end()
+            ->with('Variants', ['class' => 'col-span-full'])
+                // ...
+            ->end()
         ->end();
 
-``Publication`` and ``Audit`` render one under the other in a cell four columns wide, beside
-``Details``. Cells — a stack, or a group on its own — are laid out in the order they first
-appear, so the reading order of the form stays the declaration order, and a group's own
-``class`` still lands on its own wrapper inside the stack: the ``adminata-reveal`` hook above
-keeps hiding that one group rather than the whole column. The same two options work on the
-show page's groups.
+Tab options:
+
+- ``layout``: ``grid`` (the default, the twelve-column grid the group ``class`` addresses) or
+  ``masonry``.
+- ``columns``: the grid's column classes under ``masonry``, by default
+  ``grid-cols-1 lg:grid-cols-2 xl:grid-cols-3``.
+
+Under ``masonry`` a group's ``class`` is still emitted on its wrapper, so ``col-span-full``
+makes a wide group — a collection rendered as a table — which the same auto-placement puts
+under all the columns, and a hook for ``adminata-reveal`` keeps working. Without JavaScript
+the tab is an ordinary grid of that many columns, one card per cell. The show page's tabs take
+the same two options.
 
 Displaying custom data/template
 -------------------------------

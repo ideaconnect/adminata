@@ -483,55 +483,51 @@ final class DemoSmokeTest extends WebTestCase
         $client = self::browser();
         $crawler = $client->request('GET', '/admin/tests/app/category/create');
 
-        static::assertCount(1, $crawler->filter('.col-span-12.xl\\:col-span-8 > .adm-card'));
+        static::assertCount(1, $crawler->filter('.col-span-12.xl\\:col-span-8 .adm-card'));
+        static::assertCount(1, $crawler->filter('.col-span-12.xl\\:col-span-4 .adm-card'));
     }
 
     /**
-     * Groups sharing a `column` render in ONE grid cell, stacked in declaration order: the cell
-     * carries the stack's `column_class`, and each card keeps a wrapper of its own inside it. A
-     * cell per group would leave a card's worth of empty page under every short group that sits
-     * beside a tall one, which is the hole the option exists to fill.
+     * A tab on the `masonry` layout renders its groups as items of one `adminata-masonry` grid —
+     * equal columns the controller packs by height — and a group's own class still lands on its
+     * wrapper, which is how a collection stays a full-width row.
      */
-    public function testFormGroupsSharingAColumnStackInOneGridCell(): void
+    public function testAMasonryTabRendersItsGroupsAsItemsOfOnePackedGrid(): void
     {
         $client = self::browser();
-        $crawler = $client->request('GET', '/admin/tests/app/category/create');
+        $crawler = $client->request('GET', '/admin/tests/app/product/1/edit');
 
-        $grid = $crawler->filter('form > div > .grid.grid-cols-12');
+        $grid = $crawler->filter('form [data-controller~="adminata-masonry"]');
         static::assertCount(1, $grid);
-        // Three groups, two cells.
-        static::assertCount(2, $grid->children());
+        static::assertStringContainsString('xl:grid-cols-3', (string) $grid->attr('class'));
 
-        $stack = $grid->children()->eq(1);
-        static::assertSame('col-span-12 xl:col-span-4 flex flex-col gap-6', $stack->attr('class'));
-        static::assertCount(2, $stack->children());
+        $items = $grid->filter('[data-adminata-masonry-target="item"]');
+        static::assertCount(5, $items);
         static::assertSame(
-            ['Contact', 'Import'],
-            $stack->filter('.adm-card-title')->each(static fn (Crawler $title): string => trim($title->text()))
+            ['Details', 'Pricing', 'Taxonomy', 'Publication', 'Variants'],
+            $items->filter('.adm-card-title')->each(static fn (Crawler $title): string => trim($title->text()))
         );
+        static::assertSame('min-w-0 col-span-full', $items->last()->attr('class'));
     }
 
     /**
-     * The show page's groups take the same `column`, in the same markup.
+     * The show page takes the same tab option and renders the same markup.
      */
-    public function testShowGroupsSharingAColumnStackInOneGridCell(): void
+    public function testAMasonryShowTabRendersItsGroupsAsItemsOfOnePackedGrid(): void
     {
         $client = self::browser();
         $crawler = $client->request('GET', '/admin/tests/app/product/1/show');
 
-        $grid = $crawler->filter('.adminata-view > .grid.grid-cols-12');
+        $grid = $crawler->filter('.adminata-view [data-controller~="adminata-masonry"]');
         static::assertCount(1, $grid);
-        static::assertCount(2, $grid->children());
 
-        $stack = $grid->children()->eq(1);
-        static::assertSame('col-span-12 xl:col-span-4 min-w-0 flex flex-col gap-6', $stack->attr('class'));
+        $items = $grid->filter('[data-adminata-masonry-target="item"]');
         static::assertSame(
-            ['Availability', 'Content'],
-            $stack->filter('.adm-card-title')->each(static fn (Crawler $title): string => trim($title->text()))
+            ['Product', 'Availability', 'Content'],
+            $items->filter('.adm-card-title')->each(static fn (Crawler $title): string => trim($title->text()))
         );
-        // Every field of every group is still rendered, in its group.
-        static::assertCount(8, $grid->children()->eq(0)->filter('tr.adminata-view-container'));
-        static::assertCount(7, $stack->filter('tr.adminata-view-container'));
+        // Every field is still rendered, in its group.
+        static::assertCount(15, $grid->filter('tr.adminata-view-container'));
     }
 
     /**

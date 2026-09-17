@@ -35,9 +35,6 @@ When adding a group to your show page, you may specify some options for the grou
   you know what you're doing).
 - ``box_class``: the class for your group box in the admin; by default,
   the value is set to ``box box-primary``.
-- ``column`` and ``column_class``: groups sharing a ``column`` stack in one grid cell whose
-  span is ``column_class``, exactly as on the edit form — see :ref:`the form's group options
-  <form_group_column>`.
 - ``description``: A text shown at the top of the show group.
 - ``translation_domain``: The translation domain for the show group title
   (the Admin translation domain is used by default).
@@ -67,6 +64,10 @@ To specify options, do as follow::
             ;
         }
     }
+
+A tab whose ``layout`` is ``masonry`` packs its groups into equal columns by height instead
+of the twelve-column grid, exactly as on the edit form — see :ref:`form_layout_masonry`; the
+``columns`` option is the same.
 
 When extending an existing Admin, you may want to remove some fields, groups or tabs.
 Here is an example of how to achieve this::
