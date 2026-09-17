@@ -148,10 +148,10 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
   controller packs by height with the grid's own auto-placement — every item spans as many
   4-pixel implicit rows as it is tall — so nothing is moved in the DOM and nothing positioned
   absolutely. Once placed, an item is pinned to its column and a card that grows only pushes
-  the cards under it; the packing is redone when the container changes width. A group's own
-  `class` still lands on its wrapper, so `col-span-full` makes a wide group. Without the script
-  the tab is a plain grid of those columns. The twelve-column `grid` layout is unchanged and
-  stays the default.
+  the cards under it; the packing is redone when the items change width — a breakpoint crossed,
+  the sidebar folded. A group's own `class` still lands on its wrapper, so `col-span-full` makes
+  a wide group. Without the script the tab is a plain grid of those columns. The twelve-column
+  `grid` layout is unchanged and stays the default.
 - Hard fork of seven `sonata-project` packages, imported with `git subtree` at `admin-bundle`
   4.43.0, `block-bundle` 5.4.0, `doctrine-extensions` 2.6.0, `doctrine-orm-admin-bundle` 4.21.0,
   `exporter` 3.4.0, `form-extensions` 2.7.0 and `twig-extensions` 2.6.0 (see

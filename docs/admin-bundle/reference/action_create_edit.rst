@@ -168,7 +168,7 @@ under whichever column ended soonest, in declaration order, with nothing moved i
 nothing positioned absolutely, so focus, listboxes and the controllers inside a card are
 untouched. Once placed, a card is pinned to its column: one that grows (a collection row
 added, an error shown) pushes the cards under it down rather than reshuffling the form. The
-packing is redone when the container changes width.
+packing is redone when the cards change width — a breakpoint crossed, the sidebar folded.
 
 The tab is the ``default`` one unless the form declares tabs, so it is opened by name::
 

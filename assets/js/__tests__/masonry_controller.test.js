@@ -83,7 +83,12 @@ const rect = function rect() {
 
     const placed = layout.get(this) ?? { height: 0, column: 1 };
 
-    return { height: placed.height, left: left(placed.column), right: left(placed.column) + TRACKS[0] };
+    return {
+        height: placed.height,
+        width: TRACKS[0],
+        left: left(placed.column),
+        right: left(placed.column) + TRACKS[0],
+    };
 };
 
 const observer = () => ResizeObserver.instances.at(-1);
@@ -98,14 +103,14 @@ const resizeAll = () =>
 const span = (height, unit = 4) => `span ${Math.ceil((height + GAP) / unit)}`;
 
 /**
- * Packs again as the browser would after a breakpoint. The controller repacks when the column
- * count it last saw differs from the current one, so the count is bumped for the duration of
- * the notification.
+ * Packs again as the browser would after a resize. The controller repacks when an item's width
+ * differs from the one it last packed at, so the tracks are nudged for one notification and
+ * restored for a second, which leaves the pins reflecting `place()`.
  */
 const repack = () => {
     const current = TRACKS;
-    TRACKS = [...current, 1];
-    observer().callback([], observer());
+    TRACKS = current.map((track) => track + 1);
+    resizeAll();
     TRACKS = current;
     resizeAll();
 };
@@ -147,7 +152,7 @@ describe('adminata-masonry', () => {
         place('c', 200, 3);
         place('d', 90, 2);
         // The connect-time pack ran before anything was "placed", so it pinned every item to the
-        // first column; a resize that keeps the column count leaves that alone.
+        // first column; a notification without a width change leaves that alone.
         resizeAll();
         expect(item('d').style.gridColumnStart).toBe('1');
 
@@ -195,7 +200,7 @@ describe('adminata-masonry', () => {
         expect(item('d').style.gridColumnStart).toBe('2');
     });
 
-    it('drops the pins and packs again when the column count changes', async () => {
+    it('drops the pins and packs again when the items change width', async () => {
         await mount('adminata-masonry', MasonryController, markup([['a'], ['b'], ['c'], ['d']]));
         place('a', 300, 1);
         place('b', 120, 2);
@@ -214,6 +219,41 @@ describe('adminata-masonry', () => {
         expect(item('b').style.gridColumnStart).toBe('2');
         expect(item('c').style.gridColumnStart).toBe('1');
         expect(item('d').style.gridColumnStart).toBe('2');
+    });
+
+    it('releases every pin before it reads the grid, so a stale pin cannot hold a column open', async () => {
+        await mount('adminata-masonry', MasonryController, markup([['a'], ['b'], ['c']]));
+        place('a', 300, 1);
+        place('b', 120, 2);
+        place('c', 200, 3);
+        repack();
+        expect(item('c').style.gridColumnStart).toBe('3');
+
+        // One column now. Reading the tracks with `c` still pinned to 3 would report the two
+        // implicit columns that pin holds open; the controller must see one, and pin 1.
+        let pinnedWhileReading = null;
+        vi.spyOn(globalThis, 'getComputedStyle').mockImplementation((element) => {
+            if (element === grid()) {
+                pinnedWhileReading = item('c').style.gridColumnStart;
+
+                return {
+                    columnGap: `${GAP}px`,
+                    gridTemplateColumns: '' === pinnedWhileReading ? '900px' : '900px 300px 300px',
+                    direction: 'ltr',
+                    paddingLeft: '0px',
+                    paddingRight: '0px',
+                };
+            }
+
+            return computedStyle(element);
+        });
+        TRACKS = [900];
+        place('b', 120, 1);
+        place('c', 200, 1);
+        resizeAll();
+
+        expect(pinnedWhileReading).toBe('');
+        expect(item('c').style.gridColumnStart).toBe('1');
     });
 
     it('takes the row unit from its value', async () => {

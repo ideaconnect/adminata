@@ -30,8 +30,14 @@ import { Controller } from '@hotwired/stimulus';
  * only pushes the cards under it down, exactly as a column of ordinary flow would; without the
  * pin, auto-placement would re-slot every later card on each change, and a form that shuffles its
  * groups while somebody types in one is not a form anybody wants. The pins are dropped and the
- * packing redone only when the column count changes — a breakpoint crossed — which is the one
- * change the person can see coming.
+ * packing redone only when an item's WIDTH changes — a breakpoint crossed, the sidebar folded —
+ * which is the one change the person can see coming.
+ *
+ * Width, and not the column count: a pin is a `grid-column-start`, and a card pinned to the
+ * third column of a desktop grid that has since become a one-column grid makes the grid open two
+ * implicit columns to hold it — and the resolved `grid-template-columns` reports those implicit
+ * tracks too, so a count taken while the pins are in place reads three columns either side of
+ * the breakpoint and never repacks. `pack()` releases every pin before it looks at the grid.
  *
  * One observer, on the items and nothing else. Observing the container as well would put a
  * shallower target under the same observer loop: an item's new span grows the container, whose
@@ -49,13 +55,20 @@ export default class extends Controller {
     };
 
     connect() {
-        this.columns = 0;
+        /** @type {WeakMap<Element, number>} the width each item was last packed at */
+        this.widths = new WeakMap();
         this.gap = parseFloat(getComputedStyle(this.element).columnGap) || 0;
         this.element.style.gridAutoRows = `${this.unitValue}px`;
         this.element.style.rowGap = '0px';
 
         this.observer = new ResizeObserver((entries) => {
-            if (this.tracks().length !== this.columns) {
+            const resized = entries.some((entry) => {
+                const width = entry.target.getBoundingClientRect().width;
+
+                return width > 0 && width !== this.widths.get(entry.target);
+            });
+
+            if (resized) {
                 this.pack();
 
                 return;
@@ -99,11 +112,17 @@ export default class extends Controller {
      */
     pack() {
         const items = this.itemTargets;
+
+        // Released first: a pin can hold implicit columns open, and the tracks read next must be
+        // the explicit grid's.
+        items.forEach((item) => this.release(item));
+
         const tracks = this.tracks();
 
-        this.columns = tracks.length;
-        items.forEach((item) => this.release(item));
-        items.forEach((item) => this.fit(item));
+        items.forEach((item) => {
+            this.widths.set(item, item.getBoundingClientRect().width);
+            this.fit(item);
+        });
 
         // Reading the positions forces the layout the pins are read from.
         const columns = items.map((item) => this.columnOf(item, tracks));

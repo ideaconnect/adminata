@@ -69,7 +69,7 @@ removing one is a major release.
     Packs a grid of cards of unequal height: every item spans as many ``unit``-pixel implicit
     rows as it is tall and the grid's own auto-placement puts it under the column that ended
     soonest. Items are pinned to their column once placed, so a card that grows only pushes the
-    cards under it; the packing is redone when the container changes width. See the ``masonry``
+    cards under it; the packing is redone when the items change width. See the ``masonry``
     layout in :doc:`the edit action <admin-bundle/reference/action_create_edit>`.
 
 ``adminata-menu``
