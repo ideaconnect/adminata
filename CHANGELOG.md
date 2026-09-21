@@ -141,6 +141,15 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- Card tones (2026-09-21): `adm-card-success`, `adm-card-error`, `adm-card-warning` and
+  `adm-card-info` paint a whole card as a status — the 50 ground, the 200 rule and the 700
+  title of the alert recipes, and their 300 on the dark tint — for a group whose content IS
+  a state: a device's on/off switch, a settlement that is done, a section that needs
+  attention. An application reaches them through the `box_class` a form or show group has
+  always had (`->with('Włącznik', ['box_class' => 'adm-card-error'])`); nothing in the
+  mappers changed. The title and the header rule follow the tone from inside their own
+  utilities, which is where a rule that overrides a utility has to live
+  (`bin/check-css-layers.mjs`).
 - Tabs (2026-09-18). A form or show page with more than one `tab()` renders them as tabs —
   `adm-tablist` of `adm-tab` links underlined in the brand colour over one `role="tabpanel"`
   at a time, the WAI-ARIA tabs pattern driven by the new `adminata-tabs` controller (arrow keys,

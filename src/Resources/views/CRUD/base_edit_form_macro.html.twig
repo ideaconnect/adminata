@@ -15,8 +15,11 @@ file that was distributed with this source code.
     Form groups as cards in a twelve-column grid (PLAN/03 §C).
 
     The group's `class` is emitted verbatim — an application writes `col-span-8` there and expects
-    it on the element — and `box_class` is appended to the card. `adminata-collapsed-fields` is
-    the hook an application's own script uses to fold a group.
+    it on the element — and `box_class` is appended to the card. That is also how a group is
+    painted as a status: `['box_class' => 'adm-card-error']` (or `-success`, `-warning`, `-info`,
+    the card tones of components/card.css) tints the whole card, title and rule included, for a
+    group whose content IS a state — a device's on/off switch, a settlement that is done.
+    `adminata-collapsed-fields` is the hook an application's own script uses to fold a group.
 
     A tab whose `layout` is `masonry` renders its groups as equal-width columns packed by
     `adminata-masonry` instead: a grid row is as tall as its tallest card, so a short group beside
