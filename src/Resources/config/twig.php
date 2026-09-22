@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
+use IDCT\Adminata\IconEnum\IconEnumResolver;
 use IDCT\Adminata\Twig\AdminataRuntime;
 use IDCT\Adminata\Twig\BreadcrumbsRuntime;
 use IDCT\Adminata\Twig\CanonicalizeRuntime;
@@ -20,6 +21,7 @@ use IDCT\Adminata\Twig\Extension\AdminataExtension;
 use IDCT\Adminata\Twig\Extension\BreadcrumbsExtension;
 use IDCT\Adminata\Twig\Extension\CanonicalizeExtension;
 use IDCT\Adminata\Twig\Extension\GroupExtension;
+use IDCT\Adminata\Twig\Extension\IconEnumExtension;
 use IDCT\Adminata\Twig\Extension\IconExtension;
 use IDCT\Adminata\Twig\Extension\RenderElementExtension;
 use IDCT\Adminata\Twig\Extension\SecurityExtension;
@@ -27,6 +29,7 @@ use IDCT\Adminata\Twig\Extension\TemplateRegistryExtension;
 use IDCT\Adminata\Twig\Extension\ThemeExtension;
 use IDCT\Adminata\Twig\Extension\XEditableExtension;
 use IDCT\Adminata\Twig\GroupRuntime;
+use IDCT\Adminata\Twig\IconEnumRuntime;
 use IDCT\Adminata\Twig\IconRuntime;
 use IDCT\Adminata\Twig\RenderElementRuntime;
 use IDCT\Adminata\Twig\SecurityRuntime;
@@ -124,6 +127,22 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
         ->set('adminata.admin.twig.icon_runtime', IconRuntime::class)
             ->tag('twig.runtime')
+
+        // The icon-enum column (TYPE_ICON_ENUM): the resolver is the one authority for what a
+        // case draws, the runtime hands it to the three templates.
+        ->set('adminata.admin.icon_enum.resolver', IconEnumResolver::class)
+            ->args([
+                service('translator'),
+            ])
+
+        ->set('adminata.admin.twig.icon_enum_extension', IconEnumExtension::class)
+            ->tag('twig.extension')
+
+        ->set('adminata.admin.twig.icon_enum_runtime', IconEnumRuntime::class)
+            ->tag('twig.runtime')
+            ->args([
+                service('adminata.admin.icon_enum.resolver'),
+            ])
 
         // NEXT_MAJOR: Remove the `args()` call.
         ->set('adminata.admin.twig.security_extension', SecurityExtension::class)

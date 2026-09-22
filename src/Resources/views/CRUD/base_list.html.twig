@@ -21,6 +21,13 @@ file that was distributed with this source code.
     `adminata-filter-form`, `adminata-toggle-filter`, `advanced-filter`, `#filter-list-{uniqid}`,
     `#filter-container-{uniqid}`, `#filter-{uniqid}-{name}`, and the POST fields `action`, `idx[]`,
     `all_elements` and `_adminata_csrf_token`.
+
+    Two things here belong to `TYPE_ICON_ENUM`, whose cell is a centred square and no text: the
+    `text-center` this file puts on that type's header — a start-aligned label would sit left of
+    the squares under it, and the cell centres itself through `base_list_field`'s
+    `field_cell_class` — and the `list_legend` block under the table, which is what names the
+    glyphs. A comment nearer either one would land inside the header loop and print itself as
+    whitespace on every column.
 #}
 
 {% extends base_template %}
@@ -111,7 +118,7 @@ file that was distributed with this source code.
                                                 {% set sort_by              = current ? admin.datagrid.values[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_ORDER')] : field_description.option(constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_ORDER'), sort_parameters.filter[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_ORDER')]) %}
                                             {% endif %}
 
-                                            <th class="adminata-list-field-header-{{ field_description.type }}{% if sortable %} adminata-list-field-header-order-{{ sort_by|lower }} {{ sort_active_class }}{% endif %}{% if field_description.option('header_class') %} {{ field_description.option('header_class') }}{% endif %}"{% if field_description.option('header_style') %} style="{{ field_description.option('header_style') }}"{% endif %}{% if sortable and current %} aria-sort="{{ 'asc' == sort_by|lower ? 'descending' : 'ascending' }}"{% endif %}>
+                                            <th class="adminata-list-field-header-{{ field_description.type }}{% if sortable %} adminata-list-field-header-order-{{ sort_by|lower }} {{ sort_active_class }}{% endif %}{% if field_description.option('header_class') %} {{ field_description.option('header_class') }}{% endif %}{% if field_description.type == constant('IDCT\\Adminata\\FieldDescription\\FieldDescriptionInterface::TYPE_ICON_ENUM') %} text-center{% endif %}"{% if field_description.option('header_style') %} style="{{ field_description.option('header_style') }}"{% endif %}{% if sortable and current %} aria-sort="{{ 'asc' == sort_by|lower ? 'descending' : 'ascending' }}"{% endif %}>
                                                 {% if sortable %}
                                                     <a class="inline-flex items-center gap-1" href="{{ admin.generateUrl(action|default('list'), sort_parameters|merge({_list_mode: admin.getListMode()})) }}">
                                                 {% endif %}
@@ -155,6 +162,24 @@ file that was distributed with this source code.
                     {% endblock %}
                     </div>
                     </div>
+
+                    {#
+                        Additive: the legend of the icon-enum columns, under the table. A cell of
+                        TYPE_ICON_ENUM shows a glyph and no text, so the page has to say once what
+                        each glyph means. Only the list mode draws cells; the mosaic does not.
+                    #}
+                    {% block list_legend %}
+                        {% if 'list' == admin.getListMode() %}
+                            {% set legend_fields = admin.list.getElements()|filter(
+                                field_description => field_description.type == constant('IDCT\\Adminata\\FieldDescription\\FieldDescriptionInterface::TYPE_ICON_ENUM')
+                                    and field_description.option('legend', true)
+                                    and not (field_description.option('ajax_hidden') == true and app.request.isXmlHttpRequest)
+                            ) %}
+                            {% if legend_fields|length > 0 %}
+                                {% include '@Adminata/CRUD/list__legend.html.twig' with { legend_fields: legend_fields } only %}
+                            {% endif %}
+                        {% endif %}
+                    {% endblock %}
                 {% else %}
                     {% block no_result_content %}
                         <div class="adm-list-empty">

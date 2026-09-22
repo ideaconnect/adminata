@@ -77,3 +77,37 @@
         color: var(--color-brand-400);
     }
 }
+
+/*
+ * The icon badge: a status that is a glyph and nothing else, drawn in `adm-btn-icon`'s exact box
+ * — 2.25rem square, the control radius — so that in a row ending in icon buttons the two read as
+ * one family and not as a pill beside squares. The tone stays the modifier's (`adm-badge-success`
+ * and the rest); this only reshapes. What `display_icon_enum` renders for a TYPE_ICON_ENUM cell,
+ * the label on `title` and in an `sr-only` span, never as text: a square cannot hold text.
+ */
+@utility adm-badge-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    gap: 0;
+    justify-content: center;
+    border-radius: var(--radius-control);
+    font-size: inherit;
+    line-height: 1;
+    text-decoration: none;
+}
+
+/*
+ * The icon badge with its label written beside it — a show page's value, a legend entry — where
+ * there is no legend to name the glyph.
+ */
+@utility adm-icon-enum {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+@utility adm-icon-enum__label {
+    font-size: var(--text-theme-sm);
+    line-height: var(--text-theme-sm--line-height);
+}

@@ -129,6 +129,9 @@ file that was distributed with this source code.
                 {% else %}
                 <div class="{{ show_group.class|default('col-span-12') }} min-w-0">
                 {% endif %}
+                    {#- `box_class` is appended verbatim; a card tone written there
+                        (`adm-card-success` and its siblings, components/card.css) paints the
+                        whole group as a status, exactly as on the edit form. -#}
                     <div class="adm-card {{ show_group.box_class }}">
                         <div class="adm-card-header">
                             <{{ heading }} class="adm-card-title">

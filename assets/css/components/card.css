@@ -32,6 +32,46 @@
     @variant dark {
         color: rgb(255 255 255 / 90%);
     }
+
+    /*
+     * On a toned card (`adm-card-success` and its siblings, below) the title takes the tone's
+     * text: the alert recipes' 700 on the 50 ground, and their 300 on the dark tint, where 700
+     * would sink. Nested here rather than written as `.adm-card-success .adm-card-title` under
+     * `@layer components`, which the utilities layer would shadow — see bin/check-css-layers.mjs.
+     */
+    .adm-card-success & {
+        color: var(--color-success-700);
+    }
+
+    .adm-card-error & {
+        color: var(--color-error-700);
+    }
+
+    .adm-card-warning & {
+        color: var(--color-warning-700);
+    }
+
+    .adm-card-info & {
+        color: var(--color-blue-light-700);
+    }
+
+    @variant dark {
+        .adm-card-success & {
+            color: var(--color-success-300);
+        }
+
+        .adm-card-error & {
+            color: var(--color-error-300);
+        }
+
+        .adm-card-warning & {
+            color: var(--color-warning-300);
+        }
+
+        .adm-card-info & {
+            color: var(--color-blue-light-300);
+        }
+    }
 }
 
 @utility adm-card-subtitle {
@@ -61,6 +101,41 @@
     &:first-child {
         border-top: 0;
     }
+
+    /* On a toned card the rule under the header is the tone's, like the card's own border. */
+    .adm-card-success & {
+        border-top-color: var(--color-success-200);
+    }
+
+    .adm-card-error & {
+        border-top-color: var(--color-error-200);
+    }
+
+    .adm-card-warning & {
+        border-top-color: var(--color-warning-200);
+    }
+
+    .adm-card-info & {
+        border-top-color: var(--color-blue-light-200);
+    }
+
+    @variant dark {
+        .adm-card-success & {
+            border-top-color: rgb(18 183 106 / 30%);
+        }
+
+        .adm-card-error & {
+            border-top-color: rgb(240 68 56 / 30%);
+        }
+
+        .adm-card-warning & {
+            border-top-color: rgb(247 144 9 / 30%);
+        }
+
+        .adm-card-info & {
+            border-top-color: rgb(11 165 236 / 30%);
+        }
+    }
 }
 
 @utility adm-card-footer {
@@ -74,9 +149,92 @@
     @variant dark {
         border-top-color: var(--color-gray-800);
     }
+
+    .adm-card-success & {
+        border-top-color: var(--color-success-200);
+    }
+
+    .adm-card-error & {
+        border-top-color: var(--color-error-200);
+    }
+
+    .adm-card-warning & {
+        border-top-color: var(--color-warning-200);
+    }
+
+    .adm-card-info & {
+        border-top-color: var(--color-blue-light-200);
+    }
+
+    @variant dark {
+        .adm-card-success & {
+            border-top-color: rgb(18 183 106 / 30%);
+        }
+
+        .adm-card-error & {
+            border-top-color: rgb(240 68 56 / 30%);
+        }
+
+        .adm-card-warning & {
+            border-top-color: rgb(247 144 9 / 30%);
+        }
+
+        .adm-card-info & {
+            border-top-color: rgb(11 165 236 / 30%);
+        }
+    }
 }
 
 @utility adm-card-flush {
     padding: 0;
     border-top: 0;
+}
+
+/*
+ * Card tones: a whole card painted as a status, for a group whose content IS a state — a
+ * device's on/off switch, a settlement that is done, a section that needs attention. An
+ * application reaches them through a form or show group's `box_class`
+ * (`->with('Włącznik', ['box_class' => 'adm-card-error'])`), which both macros append to the
+ * card. The tint is the alert recipe's — the 50 ground and the 200 rule — so a toned card and
+ * an alert on the same page agree; the title and the rule under the header follow it from
+ * inside their own utilities above, which is where a rule that overrides a utility has to live.
+ */
+@utility adm-card-success {
+    border-color: var(--color-success-200);
+    background-color: var(--color-success-50);
+
+    @variant dark {
+        border-color: rgb(18 183 106 / 30%);
+        background-color: rgb(18 183 106 / 12%);
+    }
+}
+
+@utility adm-card-error {
+    border-color: var(--color-error-200);
+    background-color: var(--color-error-50);
+
+    @variant dark {
+        border-color: rgb(240 68 56 / 30%);
+        background-color: rgb(240 68 56 / 12%);
+    }
+}
+
+@utility adm-card-warning {
+    border-color: var(--color-warning-200);
+    background-color: var(--color-warning-50);
+
+    @variant dark {
+        border-color: rgb(247 144 9 / 30%);
+        background-color: rgb(247 144 9 / 12%);
+    }
+}
+
+@utility adm-card-info {
+    border-color: var(--color-blue-light-200);
+    background-color: var(--color-blue-light-50);
+
+    @variant dark {
+        border-color: rgb(11 165 236 / 30%);
+        background-color: rgb(11 165 236 / 12%);
+    }
 }

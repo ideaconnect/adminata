@@ -1,0 +1,26 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{#
+    One icon-enum case, drawn: the `adm-badge-icon` square in the case's tone, carrying its
+    glyph. `case` is an IconEnumCase from `adminata_icon_enum()`.
+
+    A list cell says the label to the pointer (`title`) and to assistive technology
+    (`sr-only`) and to nobody else — the legend under the table names the cases once. A show
+    page and the legend itself pass `with_label` and get the label written beside the square,
+    the square then decorative.
+#}
+
+{%- if with_label|default(false) -%}
+    <span class="adm-icon-enum"><span class="{{ case.tone.badgeClass }} adm-badge-icon" aria-hidden="true"><i class="{{ case.icon }}"></i></span><span class="adm-icon-enum__label">{{ case.label }}</span></span>
+{%- else -%}
+    <span class="{{ case.tone.badgeClass }} adm-badge-icon" title="{{ case.label }}"><i class="{{ case.icon }}" aria-hidden="true"></i><span class="sr-only">{{ case.label }}</span></span>
+{%- endif -%}

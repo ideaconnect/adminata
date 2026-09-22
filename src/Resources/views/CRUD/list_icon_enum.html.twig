@@ -1,0 +1,31 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{#
+    An enum as an icon (FieldDescriptionInterface::TYPE_ICON_ENUM): the square of the case's
+    glyph and tone, no text in the cell — the label rides on `title` and in an `sr-only` span,
+    and the legend under the table (list__legend.html.twig) names every case.
+
+    The square sits under the middle of its label, not at its left edge: the cell centres
+    itself through the envelope's `field_cell_class` block, and base_list centres the header
+    of every column of this type, so no admin sets a `header_class` for it.
+#}
+
+{% extends get_admin_template('base_list_field', admin.code) %}
+
+{% block field_cell_class %} text-center{% endblock %}
+
+{% block field %}
+    {%- set icon_enum_case = adminata_icon_enum(value, field_description) -%}
+    {%- if icon_enum_case is not null -%}
+        {%- include '@Adminata/CRUD/display_icon_enum.html.twig' with { case: icon_enum_case } only -%}
+    {%- endif -%}
+{% endblock %}
