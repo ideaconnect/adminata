@@ -195,9 +195,11 @@ final class TemplatePathTest extends ContractTestCase
         // drifted apart — plus `Form/Type/adminata_type_model_list.html.twig`, the unported
         // `ModelListType` widget P4-03 lifted out of the form theme, plus `Core/dialog.html.twig`,
         // the layout's shared dialog, plus `Core/question_dialog.html.twig`, the one
-        // `adminata-question` asks in (P6-03). Three of those 152 are the ORM storage layer's, which
-        // is a package of its own since PLAN/01 P17 and is counted here through its installed copy.
-        static::assertSame(152, $found, 'The admin bundle and the ORM storage layer ship 152 templates.');
+        // `adminata-question` asks in (P6-03), plus the four of the icon-enum column
+        // (`CRUD/{display,list,show}_icon_enum.html.twig` and `CRUD/list__legend.html.twig`).
+        // Three of those 156 are the ORM storage layer's, which is a package of its own since
+        // PLAN/01 P17 and is counted here through its installed copy.
+        static::assertSame(156, $found, 'The admin bundle and the ORM storage layer ship 156 templates.');
     }
 
     /**

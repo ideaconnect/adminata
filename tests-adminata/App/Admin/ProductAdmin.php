@@ -89,7 +89,14 @@ final class ProductAdmin extends AbstractAdmin
             ->add('specification', FieldDescriptionInterface::TYPE_ARRAY, [
                 'template' => 'admin/list_specification.html.twig',
             ])
-            ->add('status', FieldDescriptionInterface::TYPE_ENUM)
+            // An enum drawn as a glyph: no text in the cell, the legend under the table. The
+            // text twin beside it is a virtual column over the same property, so the plain
+            // `enum` cell the application uses (appendix C §2) still reaches the page.
+            ->add('status', FieldDescriptionInterface::TYPE_ICON_ENUM)
+            ->add('statusText', FieldDescriptionInterface::TYPE_ENUM, [
+                'label' => 'Status (text)',
+                'accessor' => 'status',
+            ])
             ->add('category', FieldDescriptionInterface::TYPE_MANY_TO_ONE, [
                 'sortable' => true,
                 'sort_field_mapping' => ['fieldName' => 'name'],
@@ -247,7 +254,7 @@ final class ProductAdmin extends AbstractAdmin
                 ->add('sku')
                 ->add('price')
                 ->add('stock')
-                ->add('status', FieldDescriptionInterface::TYPE_ENUM)
+                ->add('status', FieldDescriptionInterface::TYPE_ICON_ENUM)
                 ->add('category')
                 ->add('tags', FieldDescriptionInterface::TYPE_MANY_TO_MANY)
             ->end()

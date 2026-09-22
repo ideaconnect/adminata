@@ -16,14 +16,18 @@ namespace IDCT\Adminata\Tests\Twig;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\AdminataConfiguration;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
+use IDCT\Adminata\IconEnum\IconEnumResolver;
 use IDCT\Adminata\Templating\MutableTemplateRegistryInterface;
 use IDCT\Adminata\Templating\TemplateRegistryInterface;
 use IDCT\Adminata\Tests\Fixtures\Entity\FooToString;
 use IDCT\Adminata\Tests\Fixtures\Enum\Suit;
+use IDCT\Adminata\Tests\Fixtures\Enum\Traffic;
 use IDCT\Adminata\Tests\Fixtures\StubFilesystemLoader;
 use IDCT\Adminata\Tests\Twig\Extension\FakeTemplateRegistryExtension;
+use IDCT\Adminata\Twig\Extension\IconEnumExtension;
 use IDCT\Adminata\Twig\Extension\RenderElementExtension;
 use IDCT\Adminata\Twig\Extension\XEditableExtension;
+use IDCT\Adminata\Twig\IconEnumRuntime;
 use IDCT\Adminata\Twig\RenderElementRuntime;
 use IDCT\Adminata\Twig\XEditableRuntime;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -1476,6 +1480,43 @@ final class RenderElementRuntimeTest extends TestCase
             [],
         ];
 
+        // An icon enum: the square, the label on `title` and for assistive technology only.
+        $elements[] = [
+            '<td class="adminata-list-field adminata-list-field-icon_enum text-center" objectId="12345">'
+            .'<span class="adm-badge adm-badge-success adm-badge-icon" title="Go"><i class="fas fa-check" aria-hidden="true"></i><span class="sr-only">Go</span></span>'
+            .'</td>',
+            FieldDescriptionInterface::TYPE_ICON_ENUM,
+            Traffic::Go,
+            [],
+        ];
+
+        // The `cases` option: an enum that does not implement the interface, a label of its own.
+        $elements[] = [
+            '<td class="adminata-list-field adminata-list-field-icon_enum text-center" objectId="12345">'
+            .'<span class="adm-badge adm-badge-error adm-badge-icon" title="Red hearts"><i class="fas fa-heart" aria-hidden="true"></i><span class="sr-only">Red hearts</span></span>'
+            .'</td>',
+            FieldDescriptionInterface::TYPE_ICON_ENUM,
+            Suit::Hearts,
+            ['cases' => ['Hearts' => ['icon' => 'fas fa-heart', 'tone' => 'error', 'label' => 'Red hearts']]],
+        ];
+
+        // A null value draws nothing without `empty`, and the `empty` case with it.
+        $elements[] = [
+            '<td class="adminata-list-field adminata-list-field-icon_enum text-center" objectId="12345"></td>',
+            FieldDescriptionInterface::TYPE_ICON_ENUM,
+            null,
+            [],
+        ];
+
+        $elements[] = [
+            '<td class="adminata-list-field adminata-list-field-icon_enum text-center" objectId="12345">'
+            .'<span class="adm-badge adm-badge-icon" title="n/a"><i class="fas fa-minus" aria-hidden="true"></i><span class="sr-only">n/a</span></span>'
+            .'</td>',
+            FieldDescriptionInterface::TYPE_ICON_ENUM,
+            null,
+            ['empty' => ['icon' => 'fas fa-minus', 'label' => 'n/a']],
+        ];
+
         return $elements;
     }
 
@@ -1989,6 +2030,23 @@ final class RenderElementRuntimeTest extends TestCase
                 'safe' => false,
             ],
         ];
+
+        // An icon enum on a show page: the square with its label written beside it.
+        yield [
+            '<th>Data</th> <td>'
+            .'<span class="adm-icon-enum"><span class="adm-badge adm-badge-error adm-badge-icon" aria-hidden="true"><i class="fas fa-ban"></i></span><span class="adm-icon-enum__label">Stop</span></span>'
+            .'</td>',
+            FieldDescriptionInterface::TYPE_ICON_ENUM,
+            Traffic::Stop,
+            [],
+        ];
+
+        yield [
+            '<th>Data</th> <td></td>',
+            FieldDescriptionInterface::TYPE_ICON_ENUM,
+            null,
+            [],
+        ];
     }
 
     /**
@@ -2053,6 +2111,7 @@ final class RenderElementRuntimeTest extends TestCase
     private function registerRequiredTwigExtensions(): void
     {
         $this->environment->addExtension(new RenderElementExtension($this->renderElementRuntime));
+        $this->environment->addExtension(new IconEnumExtension());
         $this->environment->addExtension(new XEditableExtension(new XEditableRuntime($this->translator)));
         $this->environment->addExtension(new TranslationExtension($this->translator));
         $this->environment->addExtension(new FakeTemplateRegistryExtension());
@@ -2060,6 +2119,7 @@ final class RenderElementRuntimeTest extends TestCase
 
         $this->environment->addRuntimeLoader(new FactoryRuntimeLoader([
             XEditableRuntime::class => fn (): XEditableRuntime => new XEditableRuntime($this->translator),
+            IconEnumRuntime::class => fn (): IconEnumRuntime => new IconEnumRuntime(new IconEnumResolver($this->translator)),
         ]));
 
         $this->registerRoutingExtension();

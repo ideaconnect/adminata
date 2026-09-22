@@ -1,0 +1,41 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{#
+    The legend under a list: for every icon-enum column, its label and then each case the
+    column can show — the same square the cells draw, with the name beside it. A description
+    list, one group per column, so the structure is what it looks like.
+
+    Rendered by base_list's `list_legend` block for the `legend_fields` it collects — the
+    TYPE_ICON_ENUM columns of the list that keep their `legend` option — when the datagrid
+    has results and the list mode draws cells at all.
+#}
+
+<dl class="adm-list-legend">
+    {%- for field_description in legend_fields -%}
+        <div class="adm-list-legend__group">
+            <dt class="adm-list-legend__term">
+                {%- if field_description.label is not same as(false) -%}
+                    {%- if field_description.translationDomain is same as(false) -%}
+                        {{ field_description.label }}
+                    {%- else -%}
+                        {{ field_description.label|trans({}, field_description.translationDomain) }}
+                    {%- endif -%}
+                {%- endif -%}
+            </dt>
+            {%- for icon_enum_case in adminata_icon_enum_legend(field_description) -%}
+                <dd class="adm-list-legend__item">
+                    {%- include '@Adminata/CRUD/display_icon_enum.html.twig' with { case: icon_enum_case, with_label: true } only -%}
+                </dd>
+            {%- endfor -%}
+        </div>
+    {%- endfor -%}
+</dl>

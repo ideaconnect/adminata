@@ -20,9 +20,13 @@ file that was distributed with this source code.
     The x-editable `<span>` is rendered only for a field that is actually `editable` — the same
     condition upstream used. adminata ships no editing controller in 1.0, so the span is inert
     markup an application's own script may still bind to.
+
+    `field_cell_class` is additive (PLAN/02 §4): a cell template that extends this envelope and
+    needs a class on the `<td>` itself — the icon-enum cell centres its square — overrides it
+    rather than writing its own `<td>`, so the hooks and `objectId` stay this file's.
 #}
 
-<td class="adminata-list-field adminata-list-field-{{ field_description.type }}" objectId="{{ admin.id(object) }}"{% if field_description.option('row_align') %} style="text-align:{{ field_description.option('row_align') }}"{% endif %}>
+<td class="adminata-list-field adminata-list-field-{{ field_description.type }}{% block field_cell_class %}{% endblock %}" objectId="{{ admin.id(object) }}"{% if field_description.option('row_align') %} style="text-align:{{ field_description.option('row_align') }}"{% endif %}>
     {% set route_name = field_description.option('route').name|default(adminata_config.getOption('default_admin_route')) %}
     {% set route_parameters = field_description.option('route').parameters|default([]) %}
 

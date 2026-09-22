@@ -1,0 +1,24 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{#
+    An enum as an icon on a show page: the square and, beside it, the label — a value next to
+    its own row header has no legend to lean on.
+#}
+
+{% extends '@Adminata/CRUD/base_show_field.html.twig' %}
+
+{% block field %}
+    {%- set icon_enum_case = adminata_icon_enum(value, field_description) -%}
+    {%- if icon_enum_case is not null -%}
+        {%- include '@Adminata/CRUD/display_icon_enum.html.twig' with { case: icon_enum_case, with_label: true } only -%}
+    {%- endif -%}
+{% endblock %}

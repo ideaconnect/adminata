@@ -47,6 +47,12 @@ interface FieldDescriptionInterface
     public const TYPE_TEXTAREA = 'textarea';
     public const TYPE_EMAIL = 'email';
     public const TYPE_ENUM = 'enum';
+    /**
+     * An enum drawn as an icon: a square badge carrying a glyph and a tone, the case's
+     * label on `title` and for assistive technology only, and — on a list — a legend
+     * under the table naming every case. See `IDCT\Adminata\IconEnum\IconEnumInterface`.
+     */
+    public const TYPE_ICON_ENUM = 'icon_enum';
     public const TYPE_TRANS = 'trans';
     public const TYPE_STRING = 'string';
     public const TYPE_INTEGER = 'integer';

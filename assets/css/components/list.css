@@ -21,6 +21,45 @@
     }
 }
 
+/*
+ * The legend under a list whose cells are glyphs (TYPE_ICON_ENUM): one group per column — the
+ * column's label, then every case as the square the cells draw with its name beside it. A
+ * `<dl>`, its `<dt>` the term and each `<dd>` a case, wrapped in a `<div>` per column.
+ */
+@utility adm-list-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    margin: 0;
+    padding: 0.75rem 1.5rem;
+    border-top: 1px solid var(--color-gray-100);
+    font-size: var(--text-theme-xs);
+    line-height: var(--text-theme-xs--line-height);
+    color: var(--color-gray-500);
+
+    @variant dark {
+        border-top-color: var(--color-gray-800);
+        color: var(--color-gray-400);
+    }
+}
+
+@utility adm-list-legend__group {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+}
+
+@utility adm-list-legend__term {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+@utility adm-list-legend__item {
+    margin: 0;
+}
+
 @utility adm-list-empty {
     display: flex;
     flex-direction: column;

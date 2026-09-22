@@ -17,6 +17,7 @@ Fieldtype                                           Description
 ``FieldDescriptionInterface::TYPE_STRING``          display a text
 ``FieldDescriptionInterface::TYPE_EMAIL``           display a mailto link. Accepts the options ``as_string``, ``subject`` and ``body``
 ``FieldDescriptionInterface::TYPE_ENUM``            display an enum
+``FieldDescriptionInterface::TYPE_ICON_ENUM``       display an enum as an icon, with a legend under the list
 ``FieldDescriptionInterface::TYPE_TEXTAREA``        display a textarea
 ``FieldDescriptionInterface::TYPE_TRANS``           translate the value with a provided ``value_translation_domain`` and ``format`` (sprintf format) option
 ``FieldDescriptionInterface::TYPE_FLOAT``           display a number
@@ -242,6 +243,109 @@ Option                                  Description
                 ])
             ;
         }
+
+``FieldDescriptionInterface::TYPE_ICON_ENUM``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An enum drawn as an icon. A list cell shows a square badge (``adm-badge adm-badge-icon``,
+the box of a row-action button) carrying the case's glyph in its tone and **no text**: the
+case's label is the square's ``title``, is read out to assistive technology, and a legend
+under the table names every case the column can show. A show page draws the square with
+the label written beside it.
+
+The glyph and the tone of a case come from the enum itself when it implements
+``IDCT\Adminata\IconEnum\IconEnumInterface``::
+
+    use IDCT\Adminata\IconEnum\IconEnumInterface;
+    use IDCT\Adminata\IconEnum\IconEnumTone;
+
+    enum Status: string implements IconEnumInterface
+    {
+        case Pending = 'pending';
+        case Paid = 'paid';
+        case Rejected = 'rejected';
+
+        public function icon(): string
+        {
+            return match ($this) {
+                self::Pending => 'far fa-clock',
+                self::Paid => 'fas fa-check',
+                self::Rejected => 'fas fa-ban',
+            };
+        }
+
+        public function tone(): IconEnumTone
+        {
+            return match ($this) {
+                self::Pending => IconEnumTone::Warning,
+                self::Paid => IconEnumTone::Success,
+                self::Rejected => IconEnumTone::Error,
+            };
+        }
+    }
+
+    protected function configureListFields(ListMapper $list): void
+    {
+        $list
+            ->add('status', FieldDescriptionInterface::TYPE_ICON_ENUM)
+        ;
+    }
+
+or from the ``cases`` option, for an enum that does not implement it — or for a column
+that holds a plain string or integer rather than an enum::
+
+    protected function configureListFields(ListMapper $list): void
+    {
+        $list
+            ->add('status', FieldDescriptionInterface::TYPE_ICON_ENUM, [
+                'cases' => [
+                    'Pending' => ['icon' => 'far fa-clock', 'tone' => 'warning'],
+                    'Paid' => ['icon' => 'fas fa-check', 'tone' => 'success', 'label' => 'Paid out'],
+                    'Rejected' => ['icon' => 'fas fa-ban', 'tone' => 'error'],
+                ],
+            ])
+        ;
+    }
+
+The two combine: a ``cases`` entry overrides the glyph, the tone or the label of one case of
+an enum that implements the interface. A case with a glyph from neither source is a
+configuration error and throws.
+
+You can use the following options:
+
+======================================  ========================================================================
+Option                                  Description
+======================================  ========================================================================
+**cases**                               ``['<case name>' => ['icon' => …, 'tone' => …, 'label' => …]]``, each
+                                        key optional. ``icon`` is the complete class list of the glyph
+                                        (``fas fa-check``); ``tone`` one of ``neutral``, ``success``,
+                                        ``error``, ``warning``, ``info``, ``brand`` (or an ``IconEnumTone``
+                                        case), ``neutral`` by default. Keyed by the case **name** for an
+                                        enum, by the value itself for a string or integer column.
+**class**                               The enum class. Read for the legend and for a virtual field the
+                                        mapping does not type; defaults to the field mapping's ``enumType``.
+                                        With neither, the legend lists the ``cases`` keys in their order.
+**empty**                               ``['icon' => …, 'tone' => …, 'label' => …]`` drawn for a null value.
+                                        Without it a null value draws nothing. Listed last in the legend.
+**legend**                              ``false`` keeps the column out of the legend under the list.
+                                        ``true`` by default.
+**use_value**                           As for ``TYPE_ENUM``: the label is the backing value rather than the
+                                        case name. *Ignored if the enum implements Symfony's*
+                                        ``TranslatableInterface`` *.*
+**enum_translation_domain**             As for ``TYPE_ENUM``: the label — the case name or value, or the
+                                        one from ``cases`` or ``empty`` — is sent to the translator in this
+                                        domain. *Ignored for an enum implementing* ``TranslatableInterface``.
+======================================  ========================================================================
+
+.. note::
+
+    The label of a case is what ``TYPE_ENUM`` would display: the enum's ``trans()`` when it
+    implements Symfony's ``TranslatableInterface``, otherwise the case name (or value), through
+    ``enum_translation_domain`` when one is set. A ``cases`` entry may name a label of its own.
+
+    The legend is rendered by the ``list_legend`` block of ``@Adminata/CRUD/base_list.html.twig``
+    (``@Adminata/CRUD/list__legend.html.twig``), under the table, in the list mode only; an
+    application overriding the block replaces or removes it for every list.
 
         protected function configureShowFields(ShowMapper $show): void
         {

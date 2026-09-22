@@ -141,6 +141,22 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- Icon enums (2026-09-22): `FieldDescriptionInterface::TYPE_ICON_ENUM` draws an enum as a
+  glyph. A list cell is a square badge — `adm-badge-icon`, the box of a row-action button —
+  carrying the case's icon in its tone and no text: the label rides on `title` and in an
+  `sr-only` span, and a **legend** under the table (`adm-list-legend`, the new `list_legend`
+  block of `base_list`, `CRUD/list__legend.html.twig`) names every case the column can show.
+  A show page draws the square with the label beside it. The glyph and tone come from the
+  enum when it implements `IDCT\Adminata\IconEnum\IconEnumInterface` (`icon()`, `tone()`
+  → `IconEnumTone`), or from the field's `cases` option — which also overrides single cases,
+  and is what a column holding a plain string takes; `class` names the enum for the legend
+  where the mapping does not, `empty` draws a null, `legend: false` keeps a column out of the
+  legend, and the label follows `TYPE_ENUM`'s rules (`TranslatableInterface`, `use_value`,
+  `enum_translation_domain`). `IconEnumResolver` is the one authority; the templates reach it
+  through `adminata_icon_enum()` and `adminata_icon_enum_legend()`. The cell centres its square
+  through `base_list_field`'s new additive `field_cell_class` block and `base_list` centres the
+  header of every column of the type, so no admin sets a `header_class`. The demo's product
+  status is one.
 - Card tones (2026-09-21): `adm-card-success`, `adm-card-error`, `adm-card-warning` and
   `adm-card-info` paint a whole card as a status — the 50 ground, the 200 rule and the 700
   title of the alert recipes, and their 300 on the dark tint — for a group whose content IS
