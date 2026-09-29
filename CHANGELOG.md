@@ -141,6 +141,19 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- Screen titles (2026-09-29). A page names its admin the way the sidebar does: the admin's crumb
+  — the second on every page of the admin, linking to its list — is its title, and so is the
+  document title of its list page. The title is the admin's `label`, translated in its
+  `translation_domain` as the sidebar translates it, unless the new `titles` attribute of the
+  `adminata.admin` tag says otherwise. `titles` is keyed by action: `list` names the admin itself,
+  `create` the create page (its last crumb, its heading and its document title), and any other key
+  the page of a custom route that shows no object. The container refuses a `titles` value that
+  does not map action names to titles, and a title for an action no title reaches (`edit`,
+  `show`, `delete`, `history`, `acl`, `batch`, `export`), naming the service. `TaggedAdminInterface`
+  gains `setTitles()`, `getTitles()` and `getTitle(string $action = 'list')`, and
+  `translation:extract` collects the titles. The demo's variants are titled "Product variants"
+  and its categories' create page "New category". See
+  [docs/admin-bundle/reference/breadcrumbs.rst](docs/admin-bundle/reference/breadcrumbs.rst).
 - The collapsed rail opens a group as a popup (2026-09-29). On the rail (the sidebar collapsed,
   from 1024px up) a group's button used to toggle a panel the rail never shows, beside a chevron
   that promised one. The rail now shows no chevrons and centres its icons, and a click opens the
@@ -342,6 +355,14 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Changed
 
+- **A screen is no longer named after its model class** (2026-09-29, see *Screen titles* above).
+  The breadcrumb and the document title of an admin's list said what the label strategy made of
+  the class name (`CautionBag_list` → "Caution Bag List"), in English and past the label the
+  sidebar showed beside it; they now say the admin's title, which is its label by default. A
+  create page ends on the generic "Create" its heading already said rather than "Caution Bag
+  Create". Only an admin with no `label` and no `titles` keeps the old name. An application that
+  translated those strategy keys (`Caution Bag List`, `breadcrumb.link_caution_bag_list`) no
+  longer needs them for a labelled admin.
 - **Action buttons sit at the end of their row** (2026-09-29), as the dialog footer's always
   did — the standard from here on:
   - The page header's controls (the list-mode buttons, Add new and the other actions, the
@@ -638,5 +659,11 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Fixed
 
+- The document title was escaped twice (2026-09-29). `standard_layout` captures the
+  `adminata_head_title` block — already escaped where it printed the page's `title` block and the
+  crumbs — to collapse its whitespace, and `u.collapseWhitespace` hands back a plain string that
+  Twig escaped again: every edit and show page's tab read `Edit &quot;Product 01&quot;`, and a
+  title of two crumbs `Products &gt; Import`. The capture is printed `raw` again, as upstream's
+  `<title>` printed the block in place. `DemoSmokeTest` pins the edit and show titles.
 - The mobile drawer opened underneath the sticky header: the sidebar's z-index sat below the header's on the desktop ladder, so on a phone the header's burger covered the drawer's logo block and the scrim never dimmed the header. While open, the drawer now takes the modal level and the scrim the step below it.
 

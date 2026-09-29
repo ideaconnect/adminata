@@ -109,6 +109,23 @@ final class AdminExtractorTest extends TestCase
         static::assertTrue($catalogue->has('foo_label', 'foo_admin_domain'));
     }
 
+    public function testExtractsTheTitles(): void
+    {
+        $this->fooAdmin
+            ->method('getTitles')
+            ->willReturn(['list' => 'Foo list title', 'create' => 'New foo']);
+        $this->fooAdmin
+            ->method('getTranslationDomain')
+            ->willReturn('foo_admin_domain');
+
+        $catalogue = new MessageCatalogue('en');
+
+        $this->adminExtractor->extract([], $catalogue);
+
+        static::assertTrue($catalogue->has('Foo list title', 'foo_admin_domain'));
+        static::assertTrue($catalogue->has('New foo', 'foo_admin_domain'));
+    }
+
     public function testExtractWithException(): void
     {
         $this->fooAdmin

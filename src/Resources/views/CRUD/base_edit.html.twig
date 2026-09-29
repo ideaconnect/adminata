@@ -11,9 +11,16 @@ file that was distributed with this source code.
 
 {% extends base_template %}
 
+{#
+    A create page is headed by the title its admin gives the `create` screen (the `titles`
+    attribute of the `adminata.admin` tag), in the admin's domain — the words its last crumb
+    says — and by the generic "Create" when it gives none. Only the object's name is shortened.
+#}
 {% block title %}
     {% if objectId is not null %}
         {{ 'title_edit'|trans({'%name%': admin.toString(object)|u.truncate(15, '...') }, 'AdminataBundle') }}
+    {% elseif admin.title('create') is not empty %}
+        {{ admin.title('create')|trans({}, admin.translationDomain) }}
     {% else %}
         {{ 'title_create'|trans({}, 'AdminataBundle')|u.truncate(15, '...') }}
     {% endif %}
@@ -22,6 +29,8 @@ file that was distributed with this source code.
 {% block navbar_title %}
     {% if objectId is not null %}
         {{ 'title_edit'|trans({'%name%': admin.toString(object)|u.truncate(100, '...') }, 'AdminataBundle') }}
+    {% elseif admin.title('create') is not empty %}
+        {{ admin.title('create')|trans({}, admin.translationDomain) }}
     {% else %}
         {{ 'title_create'|trans({}, 'AdminataBundle')|u.truncate(100, '...') }}
     {% endif %}

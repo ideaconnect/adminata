@@ -91,11 +91,10 @@ final class BreadcrumbsBuilder implements BreadcrumbsBuilderInterface
             );
         }
 
-        $menu = $this->createMenuItem(
+        $menu = $this->createTitledMenuItem(
             $admin,
             $menu,
-            \sprintf('%s_list', $admin->getClassnameLabel()),
-            $admin->getTranslationDomain(),
+            'list',
             [
                 'uri' => $admin->hasRoute('list') && $admin->hasAccess('list') ?
                 $admin->generateUrl('list') :
@@ -138,11 +137,51 @@ final class BreadcrumbsBuilder implements BreadcrumbsBuilderInterface
             ]);
         }
 
+        return $this->createTitledMenuItem($admin, $menu, $action);
+    }
+
+    /**
+     * The crumb of one of the admin's screens: its title (for `list`, the admin's label unless
+     * a title says otherwise — the name the sidebar gives it), translated in the admin's domain
+     * as the sidebar translates the label. An untitled create page ends on the words its own
+     * heading says (`base_edit`); only another screen with no title at all falls back to a name
+     * made from the model class.
+     *
+     * @param array<string, mixed> $options menu item options
+     *
+     * @phpstan-template T of object
+     * @phpstan-param AdminInterface<T> $admin
+     */
+    private function createTitledMenuItem(
+        AdminInterface $admin,
+        ItemInterface $menu,
+        string $action,
+        array $options = [],
+    ): ItemInterface {
+        $title = $admin->getTitle($action);
+
+        if (null !== $title && '' !== $title) {
+            return $menu->addChild($title, array_merge([
+                'extras' => [
+                    'translation_domain' => $admin->getTranslationDomain(),
+                ],
+            ], $options));
+        }
+
+        if ('create' === $action) {
+            return $menu->addChild('title_create', array_merge([
+                'extras' => [
+                    'translation_domain' => 'AdminataBundle',
+                ],
+            ], $options));
+        }
+
         return $this->createMenuItem(
             $admin,
             $menu,
             \sprintf('%s_%s', $admin->getClassnameLabel(), $action),
-            $admin->getTranslationDomain()
+            $admin->getTranslationDomain(),
+            $options
         );
     }
 

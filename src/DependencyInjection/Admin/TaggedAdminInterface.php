@@ -71,6 +71,29 @@ interface TaggedAdminInterface extends MutableTemplateRegistryAwareInterface
     public function getLabel(): ?string;
 
     /**
+     * The titles of the admin's screens, keyed by action, as the `titles` attribute of the
+     * `adminata.admin` tag sets them. Translated in the admin's translation domain, like the
+     * label.
+     *
+     * @param array<string, string> $titles
+     */
+    public function setTitles(array $titles): void;
+
+    /**
+     * @return array<string, string>
+     */
+    public function getTitles(): array;
+
+    /**
+     * The title of one screen. `list` names the admin itself — its crumb in every breadcrumb,
+     * and with it the document title of its list page — and falls back to the label, the name
+     * the sidebar gives it; null only for an admin with neither. Any other action answers
+     * only what was set: `create` and the custom routes that show no object name their own
+     * page with it.
+     */
+    public function getTitle(string $action = 'list'): ?string;
+
+    /**
      * @param non-empty-array<string, array<string, mixed>> $listModes
      */
     public function setListModes(array $listModes): void;

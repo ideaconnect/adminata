@@ -167,8 +167,9 @@ final class BreadcrumbsBuilderTest extends TestCase
                 'uri' => '/dashboard',
                 'extras' => ['translation_domain' => 'AdminataBundle'],
             ], $menu],
-            ['create my object', [
-                'extras' => ['translation_domain' => 'FooBundle'],
+            // A create page ends on the words its own heading says, not on the class name.
+            ['title_create', [
+                'extras' => ['translation_domain' => 'AdminataBundle'],
             ], $menu],
             ['My class', [
                 'extras' => ['translation_domain' => 'FooBundle'],
@@ -196,7 +197,6 @@ final class BreadcrumbsBuilderTest extends TestCase
             ['my_class_name_list', 'breadcrumb', 'link', 'My class'],
             ['my_child_class_name_list', 'breadcrumb', 'link', 'My child class'],
             ['my_child_class_name_my_action', 'breadcrumb', 'link', 'My action'],
-            ['my_class_name_create', 'breadcrumb', 'link', 'create my object'],
         ]);
 
         $childAdmin = $this->createMock(AdminInterface::class);

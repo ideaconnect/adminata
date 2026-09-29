@@ -1111,6 +1111,25 @@ final class AdminTest extends TestCase
         static::assertSame('FooLabel', $admin->getLabel());
     }
 
+    public function testGetTitle(): void
+    {
+        $admin = new PostAdmin();
+
+        static::assertNull($admin->getTitle(), 'No label and no title: nothing names the screen.');
+        static::assertSame([], $admin->getTitles());
+
+        $admin->setLabel('Posts');
+        static::assertSame('Posts', $admin->getTitle(), 'The list screen is named as the sidebar names it.');
+        static::assertNull($admin->getTitle('create'), 'Only the list screen falls back to the label.');
+
+        $admin->setTitles(['list' => 'Blog posts', 'create' => 'New post']);
+        static::assertSame('Blog posts', $admin->getTitle());
+        static::assertSame('Blog posts', $admin->getTitle('list'));
+        static::assertSame('New post', $admin->getTitle('create'));
+        static::assertNull($admin->getTitle('publish'));
+        static::assertSame(['list' => 'Blog posts', 'create' => 'New post'], $admin->getTitles());
+    }
+
     public function testGetBaseController(): void
     {
         $admin = new PostAdmin();
