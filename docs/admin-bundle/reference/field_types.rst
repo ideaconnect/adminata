@@ -244,6 +244,16 @@ Option                                  Description
             ;
         }
 
+        protected function configureShowFields(ShowMapper $show): void
+        {
+            $show
+                // Again, Sonata Admin will select the `FieldDescriptionInterface::TYPE_ENUM`
+                // field type automatically. If the enum implements `TranslatableInterface`,
+                // the `trans()` method will be used to render its value.
+                ->add('salutation')
+            ;
+        }
+
 ``FieldDescriptionInterface::TYPE_ICON_ENUM``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -346,16 +356,6 @@ Option                                  Description
     The legend is rendered by the ``list_legend`` block of ``@Adminata/CRUD/base_list.html.twig``
     (``@Adminata/CRUD/list__legend.html.twig``), under the table, in the list mode only; an
     application overriding the block replaces or removes it for every list.
-
-        protected function configureShowFields(ShowMapper $show): void
-        {
-            $show
-                // Again, Sonata Admin will select the `FieldDescriptionInterface::TYPE_ENUM`
-                // field type automatically. If the enum implements `TranslatableInterface`,
-                // the `trans()` method will be used to render its value.
-                ->add('salutation')
-            ;
-        }
 
 ``FieldDescriptionInterface::TYPE_URL``
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
