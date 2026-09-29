@@ -11,6 +11,14 @@ on:
 permissions:
     contents: read
 
+env:
+    # A pull request checks out its own branch, and Composer names the root package after it
+    # (`dev-feature/…`). The ORM layer, a dev dependency, requires `idct/adminata dev-main`, which
+    # only `main` satisfies — so on any other branch the dependency install failed before a
+    # single check ran, and every pull request went red for that alone. Naming the root `dev-main`
+    # resolves a branch the way `main` resolves.
+    COMPOSER_ROOT_VERSION: dev-main
+
 jobs:
     visual:
         # idct/adminata-doctrine-orm-admin-bundle is a dev dependency installed from Packagist when
