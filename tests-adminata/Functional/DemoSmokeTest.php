@@ -131,6 +131,28 @@ final class DemoSmokeTest extends WebTestCase
         static::assertStringNotContainsString($className, $crawler->html());
     }
 
+    /**
+     * The document title is escaped once: a tab reads `Edit "Product 01"`, not the entities
+     * a second escaping left in it (`Edit &quot;Product 01&quot;`).
+     *
+     * @return iterable<string, array{string, string}>
+     */
+    public static function provideTheDocumentTitleIsEscapedOnceCases(): iterable
+    {
+        yield 'edit' => ['/admin/tests/app/product/%d/edit', 'Admin Edit "Product 01"'];
+        yield 'show' => ['/admin/tests/app/product/%d/show', 'Admin Show "Product 01"'];
+    }
+
+    #[DataProvider('provideTheDocumentTitleIsEscapedOnceCases')]
+    public function testTheDocumentTitleIsEscapedOnce(string $path, string $title): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', \sprintf($path, self::firstProductId($client)));
+
+        static::assertResponseIsSuccessful();
+        static::assertSame($title, $crawler->filter('head > title')->text());
+    }
+
     public function testACreateTitleHeadsTheForm(): void
     {
         $client = self::browser();

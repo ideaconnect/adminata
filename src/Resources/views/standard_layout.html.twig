@@ -90,7 +90,12 @@ file that was distributed with this source code.
         {% endif %}
 
         {#- Captured and collapsed: the block spans several lines and a `<title>` carrying the
-            newlines between them reads as sixty characters of nothing. -#}
+            newlines between them reads as sixty characters of nothing. The capture is the
+            block's own output, already escaped where it was printed — the page's `title` block,
+            the crumbs — but `u.collapseWhitespace` hands back a plain string, which Twig would
+            escape a second time: the tab then read `Edit &quot;Product 01&quot;` and
+            `Products &gt; Import`. `raw` keeps the one escaping it had, as upstream's `<title>`,
+            which printed the block in place, did. -#}
         {% set headTitle %}
         {% block adminata_head_title %}
             {{ 'Admin'|trans({}, 'AdminataBundle') }}
@@ -105,7 +110,7 @@ file that was distributed with this source code.
             {% endif %}
         {% endblock %}
         {% endset %}
-        <title>{{ headTitle|u.collapseWhitespace }}</title>
+        <title>{{ headTitle|u.collapseWhitespace|raw }}</title>
     </head>
     <body
             {% block body_attributes -%}

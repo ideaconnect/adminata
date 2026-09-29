@@ -659,5 +659,11 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Fixed
 
+- The document title was escaped twice (2026-09-29). `standard_layout` captures the
+  `adminata_head_title` block — already escaped where it printed the page's `title` block and the
+  crumbs — to collapse its whitespace, and `u.collapseWhitespace` hands back a plain string that
+  Twig escaped again: every edit and show page's tab read `Edit &quot;Product 01&quot;`, and a
+  title of two crumbs `Products &gt; Import`. The capture is printed `raw` again, as upstream's
+  `<title>` printed the block in place. `DemoSmokeTest` pins the edit and show titles.
 - The mobile drawer opened underneath the sticky header: the sidebar's z-index sat below the header's on the desktop ladder, so on a phone the header's burger covered the drawer's logo block and the scrim never dimmed the header. While open, the drawer now takes the modal level and the scrim the step below it.
 
