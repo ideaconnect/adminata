@@ -228,6 +228,34 @@ open and ignore open/close effects:
    :align: center
    :alt: The navigation side bar with a group which uses "keep_open" option
 
+The toolbar above the menu
+--------------------------
+
+Between the logo and the menu the layout renders a row of four icon buttons, the
+``adminata_sidebar_toolbar`` block of ``standard_layout.html.twig``:
+
+* **Home** links to the dashboard (``adminata_dashboard``), like the logo.
+* **Collapse all sections** and **Expand all sections** close and open every group of the
+  menu at once. What they do is remembered exactly like a single group's state, and a
+  ``keep_open`` group stays open. They need JavaScript, so they are rendered ``hidden`` until
+  ``adminata-sidebar-toolbar`` finds the menu through its ``adminata-menu`` outlet — and stay
+  hidden when the menu has no group to fold.
+* **Log out** links to the logout of the firewall the page is behind, CSRF token included when
+  that firewall asks for one. A firewall without a ``logout`` gets no button: the path comes from
+  the ``adminata_logout_path()`` Twig function, which answers ``null`` where Symfony's own
+  ``logout_path()`` would throw.
+
+The collapsed rail hides the row, as it hides the rest of the menu's text; the mobile drawer
+shows it. To drop the toolbar, empty the block in your layout:
+
+.. code-block:: twig
+
+    {# templates/standard_layout.html.twig — the template your `layout` setting names #}
+
+    {% extends '@Adminata/standard_layout.html.twig' %}
+
+    {% block adminata_sidebar_toolbar %}{% endblock %}
+
 Show menu item without treeview
 -------------------------------
 

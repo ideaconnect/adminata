@@ -23,6 +23,7 @@ use IDCT\Adminata\Twig\Extension\CanonicalizeExtension;
 use IDCT\Adminata\Twig\Extension\GroupExtension;
 use IDCT\Adminata\Twig\Extension\IconEnumExtension;
 use IDCT\Adminata\Twig\Extension\IconExtension;
+use IDCT\Adminata\Twig\Extension\LogoutExtension;
 use IDCT\Adminata\Twig\Extension\RenderElementExtension;
 use IDCT\Adminata\Twig\Extension\SecurityExtension;
 use IDCT\Adminata\Twig\Extension\TemplateRegistryExtension;
@@ -31,6 +32,7 @@ use IDCT\Adminata\Twig\Extension\XEditableExtension;
 use IDCT\Adminata\Twig\GroupRuntime;
 use IDCT\Adminata\Twig\IconEnumRuntime;
 use IDCT\Adminata\Twig\IconRuntime;
+use IDCT\Adminata\Twig\LogoutRuntime;
 use IDCT\Adminata\Twig\RenderElementRuntime;
 use IDCT\Adminata\Twig\SecurityRuntime;
 use IDCT\Adminata\Twig\TemplateRegistryRuntime;
@@ -43,6 +45,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set('adminata.admin.twig.extension.x_editable_type_mapping', XEditableRuntime::FIELD_DESCRIPTION_MAPPING);
 
     $containerConfigurator->services()
+
+        ->set('adminata.admin.twig.logout_extension', LogoutExtension::class)
+            ->tag('twig.extension')
+
+        ->set('adminata.admin.twig.logout_runtime', LogoutRuntime::class)
+            ->tag('twig.runtime')
+            ->args([
+                service('security.logout_url_generator')->nullOnInvalid(),
+            ])
 
         ->set('adminata.admin.twig.theme_extension', ThemeExtension::class)
             ->tag('twig.extension')

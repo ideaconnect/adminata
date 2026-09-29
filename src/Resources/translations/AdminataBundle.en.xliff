@@ -486,6 +486,26 @@
         <source>sidebar_navigation</source>
         <target>Sections</target>
       </trans-unit>
+      <trans-unit id="sidebar_toolbar">
+        <source>sidebar_toolbar</source>
+        <target>Sidebar shortcuts</target>
+      </trans-unit>
+      <trans-unit id="sidebar_home">
+        <source>sidebar_home</source>
+        <target>Home</target>
+      </trans-unit>
+      <trans-unit id="sidebar_collapse_all">
+        <source>sidebar_collapse_all</source>
+        <target>Collapse all sections</target>
+      </trans-unit>
+      <trans-unit id="sidebar_expand_all">
+        <source>sidebar_expand_all</source>
+        <target>Expand all sections</target>
+      </trans-unit>
+      <trans-unit id="sidebar_logout">
+        <source>sidebar_logout</source>
+        <target>Log out</target>
+      </trans-unit>
       <trans-unit id="theme_light">
         <source>theme_light</source>
         <target>Switch to the light theme</target>

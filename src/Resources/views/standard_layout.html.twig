@@ -145,6 +145,53 @@ file that was distributed with this source code.
                         {% endblock %}
                     </div>
 
+                    {#
+                        Four controls between the logo and the menu: the dashboard, collapse and
+                        expand every menu group, and sign-out. The middle two need JavaScript, so
+                        they render `hidden` until `adminata-sidebar-toolbar` finds a menu with a
+                        group in it; sign-out is offered only behind a firewall that configures a
+                        `logout` (`adminata_logout_path()`). The collapsed rail hides the row.
+                        An application that wants none of it empties the block.
+                    #}
+                    {% block adminata_sidebar_toolbar %}
+                        {% set _logout_path = app.user ? adminata_logout_path() : null %}
+                        <div class="adm-sidebar-toolbar" role="group"
+                             aria-label="{{ 'sidebar_toolbar'|trans({}, 'AdminataBundle') }}"
+                             {{ stimulus_controller('adminata-sidebar-toolbar', {}, {}, {'adminata-menu': '.adm-sidebar nav[data-controller~="adminata-menu"]'}) }}
+                        >
+                            <a class="adm-btn-icon" href="{{ path('adminata_dashboard') }}"
+                               title="{{ 'sidebar_home'|trans({}, 'AdminataBundle') }}"
+                            >
+                                <i class="fas fa-house" aria-hidden="true"></i>
+                                <span class="sr-only">{{ 'sidebar_home'|trans({}, 'AdminataBundle') }}</span>
+                            </a>
+                            <button type="button" class="adm-btn-icon" hidden
+                                    title="{{ 'sidebar_collapse_all'|trans({}, 'AdminataBundle') }}"
+                                    {{ stimulus_target('adminata-sidebar-toolbar', 'collapse') }}
+                                    {{ stimulus_action('adminata-sidebar-toolbar', 'collapseAll', 'click') }}
+                            >
+                                <i class="fas fa-angles-up" aria-hidden="true"></i>
+                                <span class="sr-only">{{ 'sidebar_collapse_all'|trans({}, 'AdminataBundle') }}</span>
+                            </button>
+                            <button type="button" class="adm-btn-icon" hidden
+                                    title="{{ 'sidebar_expand_all'|trans({}, 'AdminataBundle') }}"
+                                    {{ stimulus_target('adminata-sidebar-toolbar', 'expand') }}
+                                    {{ stimulus_action('adminata-sidebar-toolbar', 'expandAll', 'click') }}
+                            >
+                                <i class="fas fa-angles-down" aria-hidden="true"></i>
+                                <span class="sr-only">{{ 'sidebar_expand_all'|trans({}, 'AdminataBundle') }}</span>
+                            </button>
+                            {% if _logout_path %}
+                                <a class="adm-btn-icon" href="{{ _logout_path }}"
+                                   title="{{ 'sidebar_logout'|trans({}, 'AdminataBundle') }}"
+                                >
+                                    <i class="fas fa-right-from-bracket" aria-hidden="true"></i>
+                                    <span class="sr-only">{{ 'sidebar_logout'|trans({}, 'AdminataBundle') }}</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endblock adminata_sidebar_toolbar %}
+
                     <div class="adm-sidebar-nav no-scrollbar">
                         {% block adminata_side_nav %}
                             {#

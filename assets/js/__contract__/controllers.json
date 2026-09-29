@@ -237,6 +237,17 @@
             "classes": [],
             "outlets": []
         },
+        "adminata-sidebar-toolbar": {
+            "targets": [
+                "collapse",
+                "expand"
+            ],
+            "values": [],
+            "classes": [],
+            "outlets": [
+                "adminata-menu"
+            ]
+        },
         "adminata-sticky": {
             "targets": [
                 "action",

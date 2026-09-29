@@ -141,6 +141,20 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- A toolbar above the sidebar menu (2026-09-29): between the logo and the menu,
+  `standard_layout` renders four `adm-btn-icon`s in the new additive `adminata_sidebar_toolbar`
+  block (`adm-sidebar-toolbar`) — **Home** (`adminata_dashboard`, like the logo), **Collapse all
+  sections**, **Expand all sections** and **Log out**. The middle two are the new `collapseAll()`
+  and `expandAll()` of `adminata-menu`, remembered like a single group's state and leaving a
+  `keep_open` group open, asked through the new `adminata-sidebar-toolbar` controller's
+  `adminata-menu` outlet; they are rendered `hidden` and shown only once that menu has
+  connected with a group to fold, so a page without JavaScript offers no dead button. Log out
+  is the logout of the firewall the page is behind, CSRF token included, through the new
+  `adminata_logout_path()` Twig function (`LogoutRuntime`), which answers `null` — and the
+  layout renders no button — where Symfony's own `logout_path()` would throw. The collapsed
+  rail hides the row; the mobile drawer shows it. Five keys (`sidebar_toolbar`, `sidebar_home`,
+  `sidebar_collapse_all`, `sidebar_expand_all`, `sidebar_logout`) are translated in `en` and
+  `pl` and ship as `needs-translation` in the other catalogues.
 - Icon enums (2026-09-22): `FieldDescriptionInterface::TYPE_ICON_ENUM` draws an enum as a
   glyph. A list cell is a square badge — `adm-badge-icon`, the box of a row-action button —
   carrying the case's icon in its tone and no text: the label rides on `title` and in an

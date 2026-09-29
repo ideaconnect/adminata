@@ -75,6 +75,10 @@ removing one is a major release.
 ``adminata-menu``
     targets ``toggle``; values ``storageKey``
 
+    The sidebar's collapsible groups, their open ones remembered in ``localStorage``. Besides a
+    group's own ``toggle``, ``collapseAll`` closes every group but a ``keep_open`` one and
+    ``expandAll`` opens them all; both are remembered the same way.
+
 ``adminata-modal``
     targets ``dialog``; values ``backdrop``, ``closable``, ``size``
 
@@ -110,6 +114,14 @@ removing one is a major release.
     No targets, values, classes or outlets.
 
     Reads ``data-adminata-row-link-url`` off each ``<tr>``; sits on the ``<tbody>`` and delegates.
+
+``adminata-sidebar-toolbar``
+    targets ``collapse``, ``expand``; outlets ``adminata-menu``
+
+    The row of buttons above the sidebar menu. Shows its ``collapse`` and ``expand`` buttons,
+    rendered ``hidden``, once an ``adminata-menu`` outlet with at least one group has connected,
+    and asks that menu to ``collapseAll`` or ``expandAll``. See the toolbar in
+    :doc:`the menu recipe <admin-bundle/cookbook/recipe_knp_menu>`.
 
 ``adminata-sticky``
     targets ``action``, ``navbar``, ``topNavbar``
