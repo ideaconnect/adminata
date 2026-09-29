@@ -567,6 +567,26 @@
         <source>sidebar_navigation</source>
         <target state="needs-translation">Sections</target>
       </trans-unit>
+      <trans-unit id="sidebar_toolbar">
+        <source>sidebar_toolbar</source>
+        <target state="needs-translation">Sidebar shortcuts</target>
+      </trans-unit>
+      <trans-unit id="sidebar_home">
+        <source>sidebar_home</source>
+        <target state="needs-translation">Home</target>
+      </trans-unit>
+      <trans-unit id="sidebar_collapse_all">
+        <source>sidebar_collapse_all</source>
+        <target state="needs-translation">Collapse all sections</target>
+      </trans-unit>
+      <trans-unit id="sidebar_expand_all">
+        <source>sidebar_expand_all</source>
+        <target state="needs-translation">Expand all sections</target>
+      </trans-unit>
+      <trans-unit id="sidebar_logout">
+        <source>sidebar_logout</source>
+        <target state="needs-translation">Log out</target>
+      </trans-unit>
       <trans-unit id="skip_to_content">
         <source>skip_to_content</source>
         <target state="needs-translation">Skip to the content</target>

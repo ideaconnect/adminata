@@ -149,6 +149,41 @@ describe('adminata-menu', () => {
         expect(panel.getAttribute('style')).toBeFalsy();
     });
 
+    it('collapses every group but a pinned one, and remembers that', async () => {
+        const { application, element } = await mount(
+            'adminata-menu',
+            MenuController,
+            menu({ catalogue: true, taxonomy: true, pinned: true }),
+        );
+
+        application.getControllerForElementAndIdentifier(element, 'adminata-menu').collapseAll();
+        await settle();
+
+        expect(expanded(element)).toEqual(['true', 'false']);
+        expect(JSON.parse(window.localStorage.getItem(STORAGE_KEY))).toEqual({
+            Catalogue: true,
+            Taxonomy: false,
+        });
+    });
+
+    it('expands every group, remembers that, and leaves no inline styles behind', async () => {
+        const { application, element } = await mount('adminata-menu', MenuController, menu());
+
+        application.getControllerForElementAndIdentifier(element, 'adminata-menu').expandAll();
+        await settle();
+
+        expect(expanded(element)).toEqual(['true', 'true']);
+        expect(JSON.parse(window.localStorage.getItem(STORAGE_KEY))).toEqual({
+            Catalogue: true,
+            Taxonomy: true,
+        });
+
+        for (const panel of element.querySelectorAll('.menu-dropdown')) {
+            expect(panel.getAttribute('style')).toBeFalsy();
+            expect(panel.dataset.sliding).toBeUndefined();
+        }
+    });
+
     it('ignores a stored value that is not a map', async () => {
         window.localStorage.setItem(STORAGE_KEY, '"nonsense"');
 

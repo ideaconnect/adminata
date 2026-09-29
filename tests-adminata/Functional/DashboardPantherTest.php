@@ -172,6 +172,42 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
+     * The row above the menu: the dashboard and sign-out are plain links, and the two buttons that
+     * fold and unfold every group appear once `adminata-sidebar-toolbar` has found the menu. What
+     * they do is remembered like a single group's state, and the collapsed rail hides the row
+     * with the rest of the menu's text.
+     */
+    public function testTheSidebarToolbarFoldsAndUnfoldsEveryGroup(): void
+    {
+        $this->client->request('GET', $this->url('/admin/dashboard'));
+
+        static::assertSame(['/admin/dashboard', '/logout'], $this->toolbarLinks());
+        static::assertSame([false, false], $this->toolbarButtonsHidden(), 'The fold buttons stayed hidden with a menu on the page.');
+
+        $groups = \count($this->groupStates());
+        static::assertGreaterThan(1, $groups, 'The demo menu has too few groups to tell "all" from "one".');
+
+        $this->client->executeScript('document.querySelector(\'[data-adminata-sidebar-toolbar-target="expand"]\').click();');
+        static::assertSame(array_fill(0, $groups, 'true'), $this->groupStates());
+
+        $this->client->executeScript('document.querySelector(\'[data-adminata-sidebar-toolbar-target="collapse"]\').click();');
+        static::assertSame(array_fill(0, $groups, 'false'), $this->groupStates());
+
+        $this->client->reload();
+        static::assertSame(array_fill(0, $groups, 'false'), $this->groupStates(), 'Collapsing every group was forgotten.');
+
+        $this->client->executeScript('document.querySelector(\'[data-adminata-layout-target="collapseOnly"]\').click();');
+        static::assertSame('collapsed', $this->sidebarState());
+        static::assertFalse(
+            $this->client->findElement(WebDriverBy::cssSelector('.adm-sidebar-toolbar'))->isDisplayed(),
+            'The collapsed rail still shows the toolbar.',
+        );
+
+        $this->assertConsoleIsEmpty('The sidebar toolbar wrote to the browser console.');
+        $this->client->executeScript('window.localStorage.removeItem("adminata_sidebar_open");');
+    }
+
+    /**
      * The add menu is a disclosure a keyboard can reach and leave: the down arrow opens it on its
      * first item, Escape closes it and gives the button its focus back.
      */
@@ -864,5 +900,45 @@ final class DashboardPantherTest extends BasePantherTestCase
     private function sidebarState(): string
     {
         return (string) $this->client->executeScript('return document.body.dataset.sidebar;');
+    }
+
+    /**
+     * @return list<string> `aria-expanded` of every group in the sidebar menu, in order
+     */
+    private function groupStates(): array
+    {
+        $states = $this->client->executeScript(
+            'return [...document.querySelectorAll(\'.adm-sidebar [data-adminata-menu-target="toggle"]\')]'
+            .'.map((toggle) => toggle.getAttribute("aria-expanded"));'
+        );
+        static::assertIsArray($states);
+
+        return array_values(array_map(strval(...), $states));
+    }
+
+    /**
+     * @return list<string> the `href` of every link in the sidebar toolbar, in order
+     */
+    private function toolbarLinks(): array
+    {
+        $links = $this->client->executeScript(
+            'return [...document.querySelectorAll(".adm-sidebar-toolbar a")].map((link) => link.getAttribute("href"));'
+        );
+        static::assertIsArray($links);
+
+        return array_values(array_map(strval(...), $links));
+    }
+
+    /**
+     * @return list<bool> `hidden` of every button in the sidebar toolbar, in order
+     */
+    private function toolbarButtonsHidden(): array
+    {
+        $hidden = $this->client->executeScript(
+            'return [...document.querySelectorAll(".adm-sidebar-toolbar button")].map((button) => button.hidden);'
+        );
+        static::assertIsArray($hidden);
+
+        return array_values(array_map(boolval(...), $hidden));
     }
 }

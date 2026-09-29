@@ -60,6 +60,30 @@ export default class extends Controller {
     }
 
     /**
+     * Closes every group a visitor may close, and remembers that.
+     *
+     * A `keep-open` group stays open, as it does for `toggle()`. The group holding the current page
+     * closes with the rest — it is what the visitor asked for — and the server opens it again on
+     * the next page, which `restore()` leaves alone.
+     */
+    collapseAll() {
+        this.toggleTargets.forEach((toggle) => {
+            if (!this.isPinned(toggle)) {
+                this.setExpanded(toggle, false, { animate: true });
+            }
+        });
+
+        this.remember();
+    }
+
+    /** Opens every group, and remembers that. */
+    expandAll() {
+        this.toggleTargets.forEach((toggle) => this.setExpanded(toggle, true, { animate: true }));
+
+        this.remember();
+    }
+
+    /**
      * Applies what the visitor last chose, over what the server rendered.
      *
      * A group the server opened because it holds the current page is left open whatever the store

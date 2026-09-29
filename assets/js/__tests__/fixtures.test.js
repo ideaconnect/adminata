@@ -43,6 +43,12 @@ const MOUNTS = [
         targets: ['toggle'],
     },
     {
+        identifier: 'adminata-sidebar-toolbar',
+        page: 'dashboard',
+        selector: '[data-controller~="adminata-sidebar-toolbar"]',
+        targets: ['collapse', 'expand'],
+    },
+    {
         identifier: 'adminata-theme',
         page: 'dashboard',
         selector: '[data-controller~="adminata-theme"]',

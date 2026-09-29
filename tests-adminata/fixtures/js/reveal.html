@@ -40,6 +40,40 @@
                                                             </a>
                                             </div>
 
+                                                                                        <div class="adm-sidebar-toolbar" role="group"
+                             aria-label="Sidebar shortcuts"
+                             data-controller="adminata-sidebar-toolbar" data-adminata-sidebar-toolbar-adminata-menu-outlet=".adm-sidebar nav[data-controller~=&quot;adminata-menu&quot;]"
+                        >
+                            <a class="adm-btn-icon" href="/admin/dashboard"
+                               title="Home"
+                            >
+                                <i class="fas fa-house" aria-hidden="true"></i>
+                                <span class="sr-only">Home</span>
+                            </a>
+                            <button type="button" class="adm-btn-icon" hidden
+                                    title="Collapse all sections"
+                                    data-adminata-sidebar-toolbar-target="collapse"
+                                    data-action="click->adminata-sidebar-toolbar#collapseAll"
+                            >
+                                <i class="fas fa-angles-up" aria-hidden="true"></i>
+                                <span class="sr-only">Collapse all sections</span>
+                            </button>
+                            <button type="button" class="adm-btn-icon" hidden
+                                    title="Expand all sections"
+                                    data-adminata-sidebar-toolbar-target="expand"
+                                    data-action="click->adminata-sidebar-toolbar#expandAll"
+                            >
+                                <i class="fas fa-angles-down" aria-hidden="true"></i>
+                                <span class="sr-only">Expand all sections</span>
+                            </button>
+                                                            <a class="adm-btn-icon" href="/logout"
+                                   title="Log out"
+                                >
+                                    <i class="fas fa-right-from-bracket" aria-hidden="true"></i>
+                                    <span class="sr-only">Log out</span>
+                                </a>
+                                                    </div>
+                    
                     <div class="adm-sidebar-nav no-scrollbar">
                                                                                 
                                                                                          <nav aria-label="Sections" data-controller="adminata-menu">

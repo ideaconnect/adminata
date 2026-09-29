@@ -566,6 +566,26 @@
         <source>sidebar_navigation</source>
         <target>Sekcje</target>
       </trans-unit>
+      <trans-unit id="sidebar_toolbar">
+        <source>sidebar_toolbar</source>
+        <target>Skróty</target>
+      </trans-unit>
+      <trans-unit id="sidebar_home">
+        <source>sidebar_home</source>
+        <target>Strona główna</target>
+      </trans-unit>
+      <trans-unit id="sidebar_collapse_all">
+        <source>sidebar_collapse_all</source>
+        <target>Zwiń wszystkie sekcje</target>
+      </trans-unit>
+      <trans-unit id="sidebar_expand_all">
+        <source>sidebar_expand_all</source>
+        <target>Rozwiń wszystkie sekcje</target>
+      </trans-unit>
+      <trans-unit id="sidebar_logout">
+        <source>sidebar_logout</source>
+        <target>Wyloguj</target>
+      </trans-unit>
       <trans-unit id="skip_to_content">
         <source>skip_to_content</source>
         <target>Przejdź do treści</target>
