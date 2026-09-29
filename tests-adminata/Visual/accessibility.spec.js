@@ -13,7 +13,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-import { PAGES, THEMES, open, useTheme } from './support/demo.js';
+import { PAGES, THEMES, open, openRailPopup, useTheme } from './support/demo.js';
 import { assertKnownFindings } from './support/findings.js';
 
 /**
@@ -47,4 +47,33 @@ for (const { name, path } of PAGES) {
             );
         });
     }
+}
+
+/*
+ * The collapsed rail with a group's popup open, in both themes: the rail's buttons keep a name with
+ * their labels out of sight, and the popup's title and links have to read on its own ground.
+ */
+for (const theme of THEMES) {
+    test(`the rail's popup has no WCAG 2.1 AA violations in ${theme} mode`, async ({ page }, testInfo) => {
+        test.skip(!testInfo.project.name.endsWith('-wide'), 'The rail exists from 1024px up.');
+
+        await useTheme(page, theme);
+        await openRailPopup(page);
+
+        const { violations } = await new AxeBuilder({ page })
+            .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+            .analyze();
+
+        await testInfo.attach(`axe-rail-popup-${theme}.json`, {
+            body: JSON.stringify(violations, null, 4),
+            contentType: 'application/json',
+        });
+
+        assertKnownFindings(
+            expect,
+            'axe',
+            `rail-popup:${theme}@wide`,
+            violations.map((violation) => violation.id),
+        );
+    });
 }

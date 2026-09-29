@@ -12,7 +12,7 @@
 
 import { expect, test } from '@playwright/test';
 
-import { PAGES, THEMES, open, useTheme } from './support/demo.js';
+import { PAGES, THEMES, open, openRailPopup, useTheme } from './support/demo.js';
 import { knownFindings } from './support/findings.js';
 
 /**
@@ -51,3 +51,21 @@ for (const { name, path } of PAGES) {
         }
     });
 }
+
+/*
+ * The collapsed rail with a group's popup open, which no page above shows: the rail is a state a
+ * visitor puts the sidebar in, and the popup opens on a click. Wide only — there is no rail below
+ * the sidebar's breakpoint.
+ */
+test.describe('rail-popup', () => {
+    for (const theme of THEMES) {
+        test(`renders in ${theme} mode`, async ({ page }, testInfo) => {
+            test.skip(!testInfo.project.name.endsWith('-wide'), 'The rail exists from 1024px up.');
+
+            await useTheme(page, theme);
+            await openRailPopup(page);
+
+            await expect(page).toHaveScreenshot(`rail-popup-${theme}.png`);
+        });
+    }
+});

@@ -141,6 +141,23 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- The collapsed rail opens a group as a popup (2026-09-29). On the rail (the sidebar collapsed,
+  from 1024px up) a group's button used to toggle a panel the rail never shows, beside a chevron
+  that promised one. The rail now shows no chevrons and centres its icons, and a click opens the
+  group's panel as a popup beside the rail, headed by the group's name — the flyout AdminLTE's
+  `sidebar-mini` showed on hover, opened by a click. One popup at a time, closed by its button, a
+  click elsewhere, Escape (the focus goes back to the button) or the focus leaving it; level with
+  its button and moved up to end inside the window, the sidebar rising above the sticky header
+  while one is open. The heading is `adm-menu-popup-title`, the new first item of every top-level
+  panel (the menu template's new `list` block), shown nowhere else. `adminata-menu` follows the
+  rail as the stylesheet does — its new `breakpoint` value (1024) and the shell's `data-sidebar`
+  — marks its element `data-adminata-menu-rail` while the rail lasts and places the popup through
+  `--adm-menu-popup-top` and `--adm-menu-popup-start`. On the rail a top-level button's
+  `aria-expanded` says whether its popup is open, so the accordion's state is set aside
+  meanwhile: nothing the popups do is remembered, and the groups a visitor left open come back
+  when the sidebar widens. A `keep_open` group opens as a popup like any other; a group nested in
+  another unfolds in place. The rail's labels are hidden the way `sr-only` hides rather than with
+  `display: none`, so its buttons and links keep their names for assistive technology.
 - A toolbar above the sidebar menu (2026-09-29): between the logo and the menu,
   `standard_layout` renders four `adm-btn-icon`s in the new additive `adminata_sidebar_toolbar`
   block (`adm-sidebar-toolbar`) — **Home** (`adminata_dashboard`, like the logo), **Collapse all

@@ -73,11 +73,18 @@ removing one is a major release.
     layout in :doc:`the edit action <admin-bundle/reference/action_create_edit>`.
 
 ``adminata-menu``
-    targets ``toggle``; values ``storageKey``
+    targets ``toggle``; values ``breakpoint``, ``storageKey``
 
     The sidebar's collapsible groups, their open ones remembered in ``localStorage``. Besides a
     group's own ``toggle``, ``collapseAll`` closes every group but a ``keep_open`` one and
     ``expandAll`` opens them all; both are remembered the same way.
+
+    On the collapsed rail — from ``breakpoint`` (1024) up, inside a shell whose ``data-sidebar``
+    says ``collapsed`` — a top-level group's ``toggle`` opens the group as a popup beside the rail
+    instead, one at a time, closed again by a click elsewhere, Escape or the focus leaving it. The
+    controller marks its element ``data-adminata-menu-rail`` for as long as the rail lasts, and
+    sets the accordion's state aside meanwhile. See the rail in
+    :doc:`the menu recipe <admin-bundle/cookbook/recipe_knp_menu>`.
 
 ``adminata-modal``
     targets ``dialog``; values ``backdrop``, ``closable``, ``size``

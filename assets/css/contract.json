@@ -100,6 +100,7 @@
         ".adm-main",
         ".adm-menu",
         ".adm-menu-group-title",
+        ".adm-menu-popup-title",
         ".adm-overlay",
         ".adm-page-header",
         ".adm-page-title",

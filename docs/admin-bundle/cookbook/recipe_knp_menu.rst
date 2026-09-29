@@ -256,6 +256,34 @@ shows it. To drop the toolbar, empty the block in your layout:
 
     {% block adminata_sidebar_toolbar %}{% endblock %}
 
+The collapsed rail
+------------------
+
+Collapsed, the sidebar is a 90px rail of icons (from 1024px up; below that it is a drawer), and
+a group has no room there to unfold. So on the rail a group's button opens the group as a popup
+beside the rail instead, headed by the group's name — the flyout AdminLTE showed on hover, opened
+by a click:
+
+* The rail shows no chevrons, and each icon is centred. The labels are out of sight but not
+  gone: a screen reader still hears which group a button opens.
+* One popup is open at a time. Its button closes it, and so do a click anywhere else, Escape
+  (which gives the button its focus back) and the focus leaving it.
+* The popup sits level with the button that opened it and moves up only as far as it takes to
+  end inside the window; a group too tall for the window scrolls inside its popup.
+* A ``keep_open`` group opens as a popup like any other: the option is about the expanded
+  sidebar, where the group stays open as before.
+* Nothing the popups do is remembered. The groups a visitor left open or closed are set aside
+  while the sidebar is a rail and come back as they were when it widens.
+
+The popup is the group's own panel. Its first item, ``<li class="adm-menu-popup-title">``, holds
+the group's name and is shown nowhere else; the template's ``list`` block renders it at the top
+of every top-level panel, so an application that overrides that block keeps the item or loses
+the popup's heading. While the rail is on, ``adminata-menu`` marks its ``<nav>``
+``data-adminata-menu-rail``, a top-level button's ``aria-expanded`` says whether its popup is
+open, and the popup's place is on the panel as ``--adm-menu-popup-top`` and
+``--adm-menu-popup-start``. A group nested inside another unfolds in place, in the popup as
+anywhere else.
+
 Show menu item without treeview
 -------------------------------
 

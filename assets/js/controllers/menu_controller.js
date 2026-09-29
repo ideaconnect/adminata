@@ -13,6 +13,12 @@
 import { Controller } from '@hotwired/stimulus';
 
 /**
+ * How far a rail popup keeps from the window's top and bottom edges, in pixels: the half-rem the
+ * stylesheet's `max-height` leaves twice.
+ */
+const POPUP_MARGIN = 8;
+
+/**
  * The sidebar's collapsible groups, in place of AdminLTE's `data-widget="tree"`.
  *
  * The server decides which groups start open — the one holding the current page, and any marked
@@ -31,25 +37,110 @@ import { Controller } from '@hotwired/stimulus';
  * CSS that can interpolate that (`interpolate-size`, `calc-size()`) is Chromium-only at the time of
  * writing. Only a click animates: restoring what a visitor last chose must not make the sidebar
  * unfold on every page load.
+ *
+ * On the collapsed rail a group has no room to unfold — the rail is 90px of icons — so there a
+ * top-level group's button opens its panel as a popup beside the rail instead, headed by the
+ * group's name: the flyout AdminLTE's `sidebar-mini` showed on hover, opened here by a click. One
+ * popup at a time, closed by its button, by a click anywhere else, by Escape, or by the focus
+ * leaving it. The rail is followed the way the stylesheet follows it: from `breakpoint` up, on a
+ * shell whose `data-sidebar` says `collapsed`. There `aria-expanded` says whether a group's popup
+ * is open, so what the accordion had open is set aside for as long as the rail lasts, put back
+ * when the sidebar widens, and remembered as the visitor left it — never as the popups did.
  */
 export default class extends Controller {
     static targets = ['toggle'];
 
     static values = {
         storageKey: { type: String, default: 'adminata_sidebar_open' },
+        breakpoint: { type: Number, default: 1024 },
     };
 
+    initialize() {
+        /**
+         * What the accordion has open, per top-level group, while the rail is on, and `null` while
+         * it is not: on the rail those buttons' `aria-expanded` belongs to their popups.
+         *
+         * @type {Map<HTMLElement, boolean> | null}
+         */
+        this.parked = null;
+
+        /** @type {HTMLElement | null} the button whose popup is open */
+        this.opened = null;
+
+        this.onOutsideClick = (event) => {
+            if (!this.holds(event.target)) {
+                this.popup(null);
+            }
+        };
+
+        this.onKeydown = (event) => {
+            if ('Escape' !== event.key || null === this.opened) {
+                return;
+            }
+
+            const toggle = this.opened;
+
+            this.popup(null);
+            toggle.focus();
+        };
+
+        this.onFocusOut = (event) => {
+            // `null` is the focus going nowhere in particular — a click on something that cannot
+            // take it, inside the popup as likely as not. A click outside closes it on its own.
+            if (null !== event.relatedTarget && !this.holds(event.relatedTarget)) {
+                this.popup(null);
+            }
+        };
+
+        this.onReposition = () => this.place();
+    }
+
     connect() {
+        this.shell = this.element.closest('[data-sidebar]');
+        this.query = window.matchMedia(`(min-width: ${this.breakpointValue}px)`);
+        this.wide = this.query.matches;
+
+        // `event.matches`, as in `adminata-layout`: the event carries the state it announces, and
+        // reading it back off the list is a race with whatever else is resizing.
+        this.onBreakpointChange = (event) => {
+            this.wide = event.matches;
+            this.sync();
+        };
+
+        this.query.addEventListener('change', this.onBreakpointChange);
+
+        // The attribute the stylesheet reads, whoever writes it.
+        this.observer = new MutationObserver(() => this.sync());
+
+        if (null !== this.shell) {
+            this.observer.observe(this.shell, { attributes: true, attributeFilter: ['data-sidebar'] });
+        }
+
         this.restore();
+        this.sync();
     }
 
     disconnect() {
+        this.query.removeEventListener('change', this.onBreakpointChange);
+        this.observer.disconnect();
+
+        // The accordion's state back on the buttons, which is what the next `connect()` reads.
+        this.leaveRail();
+
         // A panel left mid-animation would keep its inline height and its `overflow: hidden`.
         this.toggleTargets.forEach((toggle) => this.settle(this.panelFor(toggle)));
     }
 
     toggle(event) {
         const toggle = event.currentTarget;
+
+        // A top-level group on the rail opens its popup, `keep-open` or not: that option is about
+        // the accordion, which the rail sets aside.
+        if (this.parked?.has(toggle)) {
+            this.popup(toggle === this.opened ? null : toggle);
+
+            return;
+        }
 
         if (this.isPinned(toggle)) {
             return;
@@ -69,7 +160,7 @@ export default class extends Controller {
     collapseAll() {
         this.toggleTargets.forEach((toggle) => {
             if (!this.isPinned(toggle)) {
-                this.setExpanded(toggle, false, { animate: true });
+                this.setOpen(toggle, false, { animate: true });
             }
         });
 
@@ -78,7 +169,7 @@ export default class extends Controller {
 
     /** Opens every group, and remembers that. */
     expandAll() {
-        this.toggleTargets.forEach((toggle) => this.setExpanded(toggle, true, { animate: true }));
+        this.toggleTargets.forEach((toggle) => this.setOpen(toggle, true, { animate: true }));
 
         this.remember();
     }
@@ -94,16 +185,200 @@ export default class extends Controller {
 
         this.toggleTargets.forEach((toggle) => {
             const key = this.keyFor(toggle);
-            const expanded = 'true' === toggle.getAttribute('aria-expanded');
+            const expanded = this.isOpen(toggle);
 
             if (expanded || this.isPinned(toggle) || !(key in stored)) {
-                this.setExpanded(toggle, expanded || this.isPinned(toggle));
+                this.setOpen(toggle, expanded || this.isPinned(toggle));
 
                 return;
             }
 
-            this.setExpanded(toggle, stored[key]);
+            this.setOpen(toggle, stored[key]);
         });
+    }
+
+    /**
+     * Follows the stylesheet into the rail and out of it: from the breakpoint up, on a shell whose
+     * `data-sidebar` says `collapsed`.
+     */
+    sync() {
+        if (this.wide && 'collapsed' === this.shell?.dataset.sidebar) {
+            this.enterRail();
+        } else {
+            this.leaveRail();
+        }
+    }
+
+    /**
+     * Sets the accordion's state aside and hands the top-level buttons to their popups, all closed,
+     * then marks the element — which is what lets the stylesheet show a popup at all.
+     */
+    enterRail() {
+        if (null !== this.parked) {
+            return;
+        }
+
+        this.parked = new Map();
+
+        this.toggleTargets.forEach((toggle) => {
+            if (!this.isTopLevel(toggle)) {
+                return;
+            }
+
+            this.parked.set(toggle, 'true' === toggle.getAttribute('aria-expanded'));
+            // A panel caught mid-slide carries an inline `display`, which would show it on the rail.
+            this.settle(this.panelFor(toggle));
+            toggle.setAttribute('aria-expanded', 'false');
+        });
+
+        this.element.dataset.adminataMenuRail = '';
+    }
+
+    /** Closes the popup and gives the top-level buttons back the accordion's state. */
+    leaveRail() {
+        if (null === this.parked) {
+            return;
+        }
+
+        this.popup(null);
+        this.parked.forEach((open, toggle) => toggle.setAttribute('aria-expanded', String(open)));
+        this.parked = null;
+        delete this.element.dataset.adminataMenuRail;
+    }
+
+    /**
+     * Opens one group's popup and closes the one that was open, or — given `null` — only closes.
+     *
+     * @param {HTMLElement | null} toggle
+     */
+    popup(toggle) {
+        if (toggle === this.opened) {
+            return;
+        }
+
+        if (null !== this.opened) {
+            this.opened.setAttribute('aria-expanded', 'false');
+            this.unplace(this.panelFor(this.opened));
+        }
+
+        this.opened = toggle;
+
+        if (null === toggle) {
+            this.unlisten();
+
+            return;
+        }
+
+        toggle.setAttribute('aria-expanded', 'true');
+        this.place();
+        this.listen();
+    }
+
+    /**
+     * Puts the open popup beside the rail, its title level with the icon that opened it, moved up
+     * only as far as it takes to end inside the window. The stylesheet draws it; this says where,
+     * measured once `aria-expanded` has let the stylesheet show it — a hidden panel has no height.
+     */
+    place() {
+        const panel = null === this.opened ? null : this.panelFor(this.opened);
+
+        if (null === panel) {
+            return;
+        }
+
+        const rail = (this.element.closest('aside') ?? this.element).getBoundingClientRect();
+        const button = this.opened.getBoundingClientRect();
+        const box = panel.getBoundingClientRect();
+        const title = panel.firstElementChild?.getBoundingClientRect() ?? box;
+        // Centre on centre: the title row is not as tall as a button holding only its icon.
+        const level = button.top + button.height / 2 - (title.top - box.top + title.height / 2);
+        const bottom = document.documentElement.clientHeight - POPUP_MARGIN;
+        const top = Math.max(POPUP_MARGIN, Math.min(level, bottom - box.height));
+        const rtl = 'rtl' === window.getComputedStyle(this.element).direction;
+
+        panel.style.setProperty('--adm-menu-popup-top', `${top}px`);
+        panel.style.setProperty(
+            '--adm-menu-popup-start',
+            `${rtl ? document.documentElement.clientWidth - rail.left : rail.right}px`,
+        );
+    }
+
+    /** @param {HTMLElement | null} panel */
+    unplace(panel) {
+        panel?.style.removeProperty('--adm-menu-popup-top');
+        panel?.style.removeProperty('--adm-menu-popup-start');
+    }
+
+    /**
+     * What closes a popup, or moves it, listened for only while one is open. Adding a listener
+     * twice is a no-op, so going from one popup to the next needs no bookkeeping.
+     */
+    listen() {
+        document.addEventListener('click', this.onOutsideClick);
+        document.addEventListener('keydown', this.onKeydown);
+        this.element.addEventListener('focusout', this.onFocusOut);
+        window.addEventListener('resize', this.onReposition);
+        // Capturing, so the menu's own scrolling box is heard as well as the window.
+        document.addEventListener('scroll', this.onReposition, { capture: true, passive: true });
+    }
+
+    unlisten() {
+        document.removeEventListener('click', this.onOutsideClick);
+        document.removeEventListener('keydown', this.onKeydown);
+        this.element.removeEventListener('focusout', this.onFocusOut);
+        window.removeEventListener('resize', this.onReposition);
+        document.removeEventListener('scroll', this.onReposition, { capture: true });
+    }
+
+    /**
+     * Whether a node is the open popup's button or inside the popup.
+     *
+     * @param {EventTarget | null} node
+     */
+    holds(node) {
+        if (null === this.opened || !(node instanceof Node)) {
+            return false;
+        }
+
+        return this.opened.contains(node) || true === this.panelFor(this.opened)?.contains(node);
+    }
+
+    /**
+     * Whether a group is open in the accordion: for a top-level group on the rail, what was set
+     * aside rather than what its button says.
+     *
+     * @param {HTMLElement} toggle
+     */
+    isOpen(toggle) {
+        return this.parked?.get(toggle) ?? 'true' === toggle.getAttribute('aria-expanded');
+    }
+
+    /**
+     * Opens or closes a group in the accordion. On the rail a top-level group's state is only
+     * noted, for when the sidebar widens again.
+     *
+     * @param {HTMLElement} toggle
+     * @param {boolean} open
+     * @param {{animate?: boolean}} options
+     */
+    setOpen(toggle, open, options = {}) {
+        if (this.parked?.has(toggle)) {
+            this.parked.set(toggle, open);
+
+            return;
+        }
+
+        this.setExpanded(toggle, open, options);
+    }
+
+    /**
+     * A group straight under the menu's root, as opposed to one nested in another's panel — which
+     * unfolds inside that panel, popup or not.
+     *
+     * @param {HTMLElement} toggle
+     */
+    isTopLevel(toggle) {
+        return null === toggle.parentElement?.closest('.menu-dropdown');
     }
 
     /**
@@ -228,7 +503,7 @@ export default class extends Controller {
         const open = {};
 
         this.toggleTargets.forEach((toggle) => {
-            open[this.keyFor(toggle)] = 'true' === toggle.getAttribute('aria-expanded');
+            open[this.keyFor(toggle)] = this.isOpen(toggle);
         });
 
         this.write(open);

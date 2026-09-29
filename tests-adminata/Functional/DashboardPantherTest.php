@@ -208,6 +208,75 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
+     * The collapsed rail has no room to unfold a group, so a click opens the group as a popup
+     * beside the rail, headed by its name: no chevron on the rail, one popup at a time, closed by
+     * Escape — which gives the button the focus back — and by a click anywhere else. None of it is
+     * remembered: the accordion the visitor left is what comes back when the rail widens.
+     */
+    public function testTheCollapsedRailOpensAGroupAsAPopup(): void
+    {
+        $this->client->request('GET', $this->url('/admin/dashboard'));
+        $this->client->executeScript('window.localStorage.setItem("adminata_sidebar_open", JSON.stringify({Taxonomy: true}));');
+        $this->client->reload();
+
+        static::assertSame(['false', 'true'], $this->groupStates());
+
+        $this->client->executeScript('document.querySelector(\'[data-adminata-layout-target="collapseOnly"]\').click();');
+        static::assertSame('collapsed', $this->sidebarState());
+        static::assertSame(['false', 'false'], $this->groupStates(), 'The rail left a popup open.');
+
+        $catalogue = $this->groupButton('Catalogue');
+        static::assertFalse(
+            $catalogue->findElement(WebDriverBy::cssSelector('.menu-item-arrow'))->isDisplayed(),
+            'The rail still shows a chevron.',
+        );
+
+        $catalogue->click();
+
+        static::assertTrue($this->popup('Catalogue')->isDisplayed());
+        static::assertSame(['true', 'false'], $this->groupStates());
+        static::assertSame('Catalogue', $this->popup('Catalogue')->findElement(WebDriverBy::cssSelector('.adm-menu-popup-title'))->getText());
+        static::assertTrue($this->popup('Catalogue')->findElement(WebDriverBy::linkText('Products'))->isDisplayed());
+        static::assertTrue(
+            $this->client->executeScript(
+                'return arguments[0].getBoundingClientRect().left >= document.querySelector(".main-sidebar").getBoundingClientRect().right;',
+                [$this->popup('Catalogue')],
+            ),
+            'The popup is not beside the rail.',
+        );
+
+        $taxonomy = $this->groupButton('Taxonomy');
+        $taxonomy->click();
+
+        static::assertFalse($this->popup('Catalogue')->isDisplayed(), 'Two popups are open.');
+        static::assertTrue($this->popup('Taxonomy')->isDisplayed());
+
+        $this->client->getKeyboard()->sendKeys(WebDriverKeys::ESCAPE);
+
+        static::assertFalse($this->popup('Taxonomy')->isDisplayed(), 'Escape left the popup open.');
+        static::assertTrue($this->client->executeScript('return document.activeElement === arguments[0];', [$taxonomy]));
+
+        $catalogue->click();
+        // The header, which the popup never covers: the page's title sits right under it.
+        $this->client->findElement(WebDriverBy::cssSelector('header.main-header'))->click();
+
+        static::assertFalse($this->popup('Catalogue')->isDisplayed(), 'A click elsewhere left the popup open.');
+        static::assertSame(
+            '{"Taxonomy":true}',
+            $this->client->executeScript('return window.localStorage.getItem("adminata_sidebar_open");'),
+            'A popup was remembered as the accordion.',
+        );
+
+        $this->client->executeScript('document.querySelector(\'[data-adminata-layout-target="collapseOnly"]\').click();');
+
+        static::assertSame('expanded', $this->sidebarState());
+        static::assertSame(['false', 'true'], $this->groupStates(), 'The accordion did not come back.');
+
+        $this->assertConsoleIsEmpty('The rail popup wrote to the browser console.');
+        $this->client->executeScript('window.localStorage.removeItem("adminata_sidebar_open");');
+    }
+
+    /**
      * The add menu is a disclosure a keyboard can reach and leave: the down arrow opens it on its
      * first item, Escape closes it and gives the button its focus back.
      */
@@ -881,6 +950,20 @@ final class DashboardPantherTest extends BasePantherTestCase
             .'return document.getElementById("demo-dialog").contains(active)'
             .' ? "inside" : (active.id || active.tagName);'
         );
+    }
+
+    /** The sidebar button of the group with this label. */
+    private function groupButton(string $label): WebDriverElement
+    {
+        return $this->client->findElement(WebDriverBy::xpath(\sprintf('//aside//button[.//span[text()="%s"]]', $label)));
+    }
+
+    /** The panel of the group with this label: on the collapsed rail, its popup. */
+    private function popup(string $label): WebDriverElement
+    {
+        return $this->client->findElement(WebDriverBy::xpath(
+            \sprintf('//aside//button[.//span[text()="%s"]]/following-sibling::ul[1]', $label)
+        ));
     }
 
     private function groupState(string $label): string

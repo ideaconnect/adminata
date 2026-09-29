@@ -80,3 +80,17 @@ export async function open(page, path) {
     await page.goto(path, { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
 }
+
+/**
+ * The collapsed rail with a group's popup open: the sidebar folded the way a visitor folds it —
+ * the cookie the layout writes — and the demo's Catalogue group opened by a click. There is a
+ * rail only from the sidebar's breakpoint up, so a spec runs this in the wide projects alone.
+ *
+ * @param {import('@playwright/test').Page} page
+ */
+export async function openRailPopup(page) {
+    await page.context().addCookies([{ name: 'adminata_sidebar_hide', value: '1', url: BASE_URL }]);
+    await open(page, '/admin/dashboard');
+    await page.locator('.main-sidebar').getByRole('button', { name: 'Catalogue' }).click();
+    await page.locator('.main-sidebar .adm-menu-popup-title').first().waitFor({ state: 'visible' });
+}
