@@ -46,7 +46,7 @@ file that was distributed with this source code.
                 {% endif %}
             </div>
             <div class="adm-card-footer">
-                <form action="{{ admin.generateUrl('batch', {'filter': admin.filterParameters}) }}" method="POST" class="flex flex-wrap items-center gap-3">
+                <form action="{{ admin.generateUrl('batch', {'filter': admin.filterParameters}) }}" method="POST" class="adm-actions">
                     <input type="hidden" name="confirmation" value="ok">
                     <input type="hidden" name="data" value="{{ data|json_encode }}">
                     <input type="hidden" name="_adminata_csrf_token" value="{{ csrf_token }}">

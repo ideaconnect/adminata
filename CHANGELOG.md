@@ -342,6 +342,21 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Changed
 
+- **Action buttons sit at the end of their row** (2026-09-29), as the dialog footer's always
+  did — the standard from here on:
+  - The page header's controls (the list-mode buttons, Add new and the other actions, the
+    Filters menu) are one group in `standard_layout`'s `adm-page-header`, which puts its children
+    at either end (`justify-between`). On a page without a title, which is every list and the
+    delete page, the group was its only child and sat at the start, under the breadcrumb; it now
+    carries `ms-auto` and stays at the end, wrapped or not. The Filters menu opens from there — its
+    list lost `adm-dropdown__menu-start` and grows leftwards, inside the window. Pages with a title
+    look as before, except where the controls wrap below it on a narrow screen.
+  - The edit form's action bar (`adminata-form-actions`), the filter form's buttons and the delete
+    and batch confirmations end-align their buttons, and `adm-card-footer` end-aligns (and wraps)
+    whatever it holds, as `adm-dialog__footer` does.
+  - `adm-actions` is the row itself — flex, wrapping, end-aligned, `gap: 0.75rem` — for a row of
+    buttons anywhere else; a note that belongs beside them goes first with `me-auto`. The one row
+    that keeps its actions at the start is the list's batch bar, under the checkboxes it acts on.
 - **`sonata-project/block-bundle` is merged into `packages/admin-bundle`.** Its classes are spread
   into the admin bundle's existing directories rather than under a `Block\` umbrella, so every
   `Sonata\BlockBundle\` name an application referenced has moved:

@@ -37,9 +37,9 @@
 
 /*
  * Anchored to the start edge instead of the end. The navbar's menus hang off buttons on the right
- * and grow leftwards, which is correct there; a menu whose button sits on the left of the page —
- * the filter list, the export menu — would otherwise grow left too, off the content and under the
- * sidebar.
+ * and grow leftwards, which is correct there — and so do the page header's, the filter list among
+ * them, since its controls sit at the end of the row; a menu whose button sits on the left of the
+ * page would otherwise grow left too, off the content and under the sidebar.
  */
 @utility adm-dropdown__menu-start {
     inset-inline: 0 auto;

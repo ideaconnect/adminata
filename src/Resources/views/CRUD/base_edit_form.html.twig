@@ -136,7 +136,7 @@ file that was distributed with this source code.
             {{ form_rest(form) }}
 
             {% block formactions %}
-                <div class="adminata-form-actions adm-sticky mt-6 flex flex-wrap items-center gap-3 px-4 py-3"
+                <div class="adminata-form-actions adm-actions adm-sticky mt-6 px-4 py-3"
                      {{ stimulus_target('adminata-sticky', 'action') }}>
                 {% block adminata_form_actions %}
                     {% if app.request.isxmlhttprequest %}

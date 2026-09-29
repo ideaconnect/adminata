@@ -41,7 +41,7 @@ file that was distributed with this source code.
             </div>
             <div class="adm-card-footer">
                 <form method="POST" action="{{ admin.generateObjectUrl('delete', object) }}"
-                      class="flex flex-wrap items-center gap-3">
+                      class="adm-actions">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_adminata_csrf_token" value="{{ csrf_token }}">
 

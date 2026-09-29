@@ -359,6 +359,18 @@ final class DashboardPantherTest extends BasePantherTestCase
         static::assertFalse($this->filterPanelIsVisible(), 'The filter panel starts hidden.');
 
         $this->client->findElement(WebDriverBy::cssSelector('.adminata-actions [aria-expanded]'))->click();
+
+        // The page's controls sit at the end of the header row, a list page's too, and the filter
+        // list opens from there leftwards — inside the window rather than off its edge.
+        $edges = $this->client->executeScript(
+            'const edge = (selector) => document.querySelector(selector).getBoundingClientRect();'
+            .'return {header: edge(".adm-page-header").right, filters: edge("[id^=\'filter-list-\']").right,'
+            .' menu: edge("[id^=\'filter-list-\'] .adm-dropdown__menu").right, window: document.documentElement.clientWidth};'
+        );
+        static::assertIsArray($edges);
+        static::assertEqualsWithDelta($edges['header'], $edges['filters'], 1, 'The filters do not sit at the end of the header.');
+        static::assertLessThanOrEqual($edges['window'], $edges['menu'], 'The filter list spills out of the window.');
+
         $this->client->findElement(WebDriverBy::cssSelector('.adminata-toggle-filter[data-filter$="-sku"]'))->click();
 
         static::assertTrue($this->filterPanelIsVisible(), 'Adding a filter did not open the panel.');
