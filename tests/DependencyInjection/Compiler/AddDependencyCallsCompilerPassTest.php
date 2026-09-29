@@ -21,6 +21,7 @@ use IDCT\Adminata\DependencyInjection\Compiler\AddDependencyCallsCompilerPass;
 use IDCT\Adminata\Tests\Fixtures\Controller\FooAdminController;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
@@ -29,6 +30,7 @@ use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\Compiler\ResolveChildDefinitionsPass;
 use Symfony\Component\DependencyInjection\Compiler\ResolveEnvPlaceholdersPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -314,6 +316,75 @@ final class AddDependencyCallsCompilerPassTest extends AbstractCompilerPassTestC
         static::assertIsArray($postAdminTemplates);
         static::assertSame('@Adminata/Pager/simple_pager_results.html.twig', $postAdminTemplates['pager_results']);
         static::assertSame('@Adminata/Button/create_button.html.twig', $postAdminTemplates['button_create']);
+    }
+
+    public function testApplyTitlesConfiguration(): void
+    {
+        $this->setUpContainer();
+        $this->registerTitledAdmin(['list' => 'Bags', 'launch' => 'Run a test']);
+
+        $this->extension->load([$this->getConfig()], $this->container);
+
+        $this->compile();
+
+        self::assertContainerBuilderHasServiceDefinitionWithMethodCall(
+            'adminata_titled_admin',
+            'setTitles',
+            [['list' => 'Bags', 'launch' => 'Run a test']]
+        );
+        static::assertFalse(
+            $this->container->findDefinition('adminata_post_admin')->hasMethodCall('setTitles'),
+            'An admin without titles is named by its label: nothing to set.'
+        );
+    }
+
+    /**
+     * @return iterable<string, array{mixed}>
+     */
+    public static function provideTitlesMustMapActionNamesToTitlesCases(): iterable
+    {
+        yield 'a string' => ['Bags'];
+        yield 'a list' => [['Bags']];
+        yield 'an empty title' => [['list' => '']];
+        yield 'a title that is not a string' => [['list' => 5]];
+    }
+
+    #[DataProvider('provideTitlesMustMapActionNamesToTitlesCases')]
+    public function testTitlesMustMapActionNamesToTitles(mixed $titles): void
+    {
+        $this->setUpContainer();
+        $this->registerTitledAdmin($titles);
+
+        $this->extension->load([$this->getConfig()], $this->container);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The "titles" attribute of the "adminata.admin" tag on service "adminata_titled_admin" must map action names to titles');
+
+        $this->compile();
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function provideATitleNothingWouldReadIsRefusedCases(): iterable
+    {
+        foreach (['edit', 'show', 'delete', 'history', 'acl', 'batch', 'export'] as $action) {
+            yield $action => [$action];
+        }
+    }
+
+    #[DataProvider('provideATitleNothingWouldReadIsRefusedCases')]
+    public function testATitleNothingWouldReadIsRefused(string $action): void
+    {
+        $this->setUpContainer();
+        $this->registerTitledAdmin(['list' => 'Bags', $action => 'Bag']);
+
+        $this->extension->load([$this->getConfig()], $this->container);
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(\sprintf('The "titles" attribute of the "adminata.admin" tag on service "adminata_titled_admin" names the "%s" action, which no title reaches', $action));
+
+        $this->compile();
     }
 
     public function testApplyShowMosaicButtonConfiguration(): void
@@ -827,6 +898,14 @@ final class AddDependencyCallsCompilerPassTest extends AbstractCompilerPassTestC
             ->register('translator.default')
             ->setClass(Translator::class);
         $this->container->setAlias('translator', 'translator.default');
+    }
+
+    private function registerTitledAdmin(mixed $titles): void
+    {
+        $this->container
+            ->register('adminata_titled_admin')
+            ->setClass(CustomAdmin::class)
+            ->addTag(TaggedAdminInterface::ADMIN_TAG, ['model_class' => NewsEntity::class, 'controller' => 'adminata.admin.controller.crud', 'group' => 'adminata_group_two', 'label' => 'Bags', 'manager_type' => 'orm', 'titles' => $titles]);
     }
 
     private function allowToResolveChildren(): void

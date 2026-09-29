@@ -83,6 +83,11 @@ final class AdminExtractor implements ExtractorInterface, LabelTranslatorStrateg
                 $catalogue->set($label, $this->prefix.$label, $admin->getTranslationDomain());
             }
 
+            // A titled screen's crumb is its title, so the label strategy below never sees it.
+            foreach ($admin->getTitles() as $title) {
+                $catalogue->set($title, $this->prefix.$title, $admin->getTranslationDomain());
+            }
+
             $admin->setLabelTranslatorStrategy($this);
 
             $admin->setSubject($admin->getNewInstance());

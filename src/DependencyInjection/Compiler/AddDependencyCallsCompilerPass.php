@@ -408,6 +408,10 @@ final class AddDependencyCallsCompilerPass implements CompilerPassInterface
         $label = $attributes['label'] ?? null;
         $methodCalls[] = ['setLabel', [$label]];
 
+        if (isset($attributes['titles'])) {
+            $methodCalls[] = ['setTitles', [$this->getTitles($serviceId, $attributes['titles'])]];
+        }
+
         // NEXT_MAJOR: Remove the fallback.
         $defaultTranslationDomain = $container->getParameter('adminata.admin.configuration.default_translation_domain') ?? 'messages';
         \assert(\is_string($defaultTranslationDomain));
@@ -541,5 +545,47 @@ final class AddDependencyCallsCompilerPass implements CompilerPassInterface
     private function generateSetterMethodName(string $key): string
     {
         return 'set'.new UnicodeString($key)->camel()->title(true)->toString();
+    }
+
+    /**
+     * The `titles` attribute, checked where the mistake can still name the service: a title
+     * nothing reads is refused rather than ignored. That covers the built-in actions no title
+     * reaches — a page about an object is named by the object, the batch confirmation is a
+     * list page and an export is a download. A custom route cannot be told apart here, as
+     * routes are built later.
+     *
+     * @return array<string, string>
+     */
+    private function getTitles(string $serviceId, mixed $titles): array
+    {
+        $shape = \sprintf(
+            'The "titles" attribute of the "%s" tag on service "%s" must map action names to titles, e.g. {list: "Products", create: "New product"}.',
+            TaggedAdminInterface::ADMIN_TAG,
+            $serviceId
+        );
+
+        if (!\is_array($titles)) {
+            throw new InvalidArgumentException($shape);
+        }
+
+        $checked = [];
+        foreach ($titles as $action => $title) {
+            if (!\is_string($action) || '' === $action || !\is_string($title) || '' === $title) {
+                throw new InvalidArgumentException($shape);
+            }
+
+            if (\in_array($action, ['edit', 'show', 'delete', 'history', 'acl', 'batch', 'export'], true)) {
+                throw new InvalidArgumentException(\sprintf(
+                    'The "titles" attribute of the "%s" tag on service "%s" names the "%s" action, which no title reaches: a page about an object is named by the object, the batch confirmation is a list page and an export is a download.',
+                    TaggedAdminInterface::ADMIN_TAG,
+                    $serviceId,
+                    $action
+                ));
+            }
+
+            $checked[$action] = $title;
+        }
+
+        return $checked;
     }
 }

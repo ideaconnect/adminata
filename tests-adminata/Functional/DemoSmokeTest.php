@@ -97,6 +97,61 @@ final class DemoSmokeTest extends WebTestCase
         static::assertStringContainsString('Shop', $html);
     }
 
+    /**
+     * @return iterable<string, array{string, list<string>, string, string}>
+     */
+    public static function provideAScreenIsNamedAsItsAdminNamesItCases(): iterable
+    {
+        yield 'a list, by the label the sidebar shows' => ['/admin/tests/app/product/list', ['Products'], 'Admin - Products', 'Product List'];
+        yield 'a list, by its title' => ['/admin/tests/app/productvariant/list', ['Product variants'], 'Admin - Product variants', 'Product Variant List'];
+        yield 'a create page, by its own heading' => ['/admin/tests/app/product/create', ['Products', 'Create'], 'Admin Create', 'Product Create'];
+        yield 'a create page, by its title' => ['/admin/tests/app/category/create', ['Categories', 'New category'], 'Admin New category', 'Category Create'];
+    }
+
+    /**
+     * A screen is named by its admin — its label, or a `titles` entry — in the breadcrumb and the
+     * document title, and never after its model class, which is what the label strategy made of
+     * it before (`Product List`). A create page ends on the words its heading says.
+     *
+     * @param list<string> $crumbs
+     */
+    #[DataProvider('provideAScreenIsNamedAsItsAdminNamesItCases')]
+    public function testAScreenIsNamedAsItsAdminNamesIt(string $path, array $crumbs, string $title, string $className): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', $path);
+
+        static::assertResponseIsSuccessful();
+        static::assertSame(
+            $crumbs,
+            \array_slice($crawler->filter('ol.adm-breadcrumb > li')->each(static fn (Crawler $crumb): string => trim($crumb->text())), 1),
+            'The crumbs after the dashboard.'
+        );
+        static::assertSame($title, $crawler->filter('head > title')->text());
+        static::assertStringNotContainsString($className, $crawler->html());
+    }
+
+    public function testACreateTitleHeadsTheForm(): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', '/admin/tests/app/category/create');
+
+        static::assertResponseIsSuccessful();
+        static::assertSame('New category', trim($crawler->filter('h1.adm-page-title')->text()));
+    }
+
+    public function testATitleLeavesTheSidebarsLabelAlone(): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', '/admin/tests/app/productvariant/list');
+
+        static::assertResponseIsSuccessful();
+        static::assertCount(
+            1,
+            $crawler->filter('aside.main-sidebar a[href$="/productvariant/list"]')->reduce(static fn (Crawler $link): bool => 'Variants' === trim($link->text()))
+        );
+    }
+
     public function testTheListPaginatesAndFilters(): void
     {
         $client = self::browser();

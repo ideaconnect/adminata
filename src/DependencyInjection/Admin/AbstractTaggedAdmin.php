@@ -79,6 +79,11 @@ abstract class AbstractTaggedAdmin implements TaggedAdminInterface
     private ?string $label = null;
 
     /**
+     * @var array<string, string>
+     */
+    private array $titles = [];
+
+    /**
      * @var non-empty-array<string, array<string, mixed>>
      */
     private array $listModes = TaggedAdminInterface::DEFAULT_LIST_MODES;
@@ -227,6 +232,25 @@ abstract class AbstractTaggedAdmin implements TaggedAdminInterface
     final public function getLabel(): ?string
     {
         return $this->label;
+    }
+
+    final public function setTitles(array $titles): void
+    {
+        $this->titles = $titles;
+    }
+
+    final public function getTitles(): array
+    {
+        return $this->titles;
+    }
+
+    final public function getTitle(string $action = 'list'): ?string
+    {
+        if ('list' === $action) {
+            return $this->titles['list'] ?? $this->label;
+        }
+
+        return $this->titles[$action] ?? null;
     }
 
     final public function setListModes(array $listModes): void

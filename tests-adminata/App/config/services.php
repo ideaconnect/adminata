@@ -57,6 +57,8 @@ return static function (ContainerConfigurator $container): void {
                 'manager_type' => 'orm',
                 'model_class' => ProductVariant::class,
                 'label' => 'Variants',
+                // The sidebar says "Variants" under "Catalogue"; a page names the screen in full.
+                'titles' => ['list' => 'Product variants'],
                 'group' => 'Catalogue',
                 'icon' => '<i class="fa-solid fa-layer-group"></i>',
             ])
@@ -75,6 +77,8 @@ return static function (ContainerConfigurator $container): void {
                 'manager_type' => 'orm',
                 'model_class' => Category::class,
                 'label' => 'Categories',
+                // The create page's heading and last crumb, in place of the generic "Create".
+                'titles' => ['create' => 'New category'],
                 'group' => 'Taxonomy',
                 'icon' => '<i class="fa-solid fa-tags"></i>',
             ]);
