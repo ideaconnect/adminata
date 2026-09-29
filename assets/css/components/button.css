@@ -128,3 +128,22 @@
     display: flex;
     width: 100%;
 }
+
+/*
+ * A row of action buttons — a form's submit and whatever stands beside it, the actions of a card
+ * or of a page — laid out at the END of its line. That is where adminata puts actions: the page
+ * header's controls, the edit form's bar, a card's footer and a dialog's footer all end-align
+ * theirs, and a row of buttons anywhere else takes this rather than a one-off `flex justify-end`.
+ * It wraps, and a wrapped line is end-aligned too. A note that belongs beside the buttons goes first
+ * with `me-auto`, which keeps it at the start of the row.
+ *
+ * The one row that keeps its actions at the start is the list's batch bar, which sits under the
+ * row checkboxes it acts on.
+ */
+@utility adm-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}

@@ -322,7 +322,7 @@ file that was distributed with this source code.
                 <i class="fas fa-angle-down" aria-hidden="true"></i>
             </button>
 
-            <ul class="adm-dropdown__menu adm-dropdown__menu-start max-h-[75vh] overflow-y-auto" hidden {{ stimulus_target('adminata-dropdown', 'menu') }}>
+            <ul class="adm-dropdown__menu max-h-[75vh] overflow-y-auto" hidden {{ stimulus_target('adminata-dropdown', 'menu') }}>
                 {% for filter in displayableFilters %}
                     {# NEXT_MAJOR: Remove |default(filter.option('show_filter')) #}
                     {% set filterDisplayed = filter.isActive() or filter.showFilter|default(filter.option('show_filter')) is same as (true) %}
@@ -437,7 +437,7 @@ file that was distributed with this source code.
                         {% set foo = form[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::PAGE')].setRendered() %}
                         {{ form_rest(form) }}
 
-                        <div class="mt-4 flex flex-wrap items-center gap-3">
+                        <div class="adm-actions mt-4">
                             <button type="submit" class="adm-btn adm-btn-primary" {{ stimulus_target('adminata-filter', 'submitter') }}>
                                 <i class="fas fa-filter" aria-hidden="true"></i> {{ 'btn_filter'|trans({}, 'AdminataBundle') }}
                             </button>

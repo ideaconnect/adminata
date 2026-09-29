@@ -420,7 +420,14 @@ file that was distributed with this source code.
                                                     {% endif %}
                                                 {% endblock %}
 
-                                                <div class="flex flex-wrap items-center gap-2">
+                                                {#~
+                                                    The page's controls are an `adm-actions` row at
+                                                    the end of the header, title or no title:
+                                                    `ms-auto`, because the header's `justify-between`
+                                                    puts a lone child — a list page has no title — at
+                                                    the start. `gap-2` keeps the toolbar's spacing.
+                                                #}
+                                                <div class="adm-actions ms-auto gap-2">
                                                     {% if _tab_menu is not empty %}
                                                         <div class="adminata-tab-menu">
                                                             {{ _tab_menu|raw }}
