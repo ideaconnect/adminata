@@ -17,6 +17,10 @@ file that was distributed with this source code.
     `adminata-menu` controller keeps the open ones in `localStorage`; the server decides which start
     open, from `active` and `keep-open`, so the first paint is right without JavaScript.
 
+    On the collapsed rail a group cannot unfold in place, so its panel opens as a popup beside the
+    rail instead, headed by the group's name (`adm-menu-popup-title`, the first item of every
+    top-level panel, which nothing else shows).
+
     The KnpMenu block names are all still here — an application overriding one of them keeps
     working — and so are `sidebar-menu`, `active` and `keep-open`, which the functional tests and
     an application's CSS select on (PLAN/02 §8).
@@ -32,6 +36,25 @@ file that was distributed with this source code.
     <nav aria-label="{{ 'sidebar_navigation'|trans({}, 'AdminataBundle') }}" {{ stimulus_controller('adminata-menu') }}>
         {{ block('list') -}}
     </nav>
+{% endblock %}
+
+{#
+    KnpMenu's own `list`, written the way KnpMenu writes it, and one item more: a top-level group's
+    panel opens with the group's name. Only the collapsed rail shows it, where the panel is a popup
+    and the button that opened it is an icon; everywhere else the button's own label is right above
+    the panel. Assistive technology has the name from the button already, so the item is hidden
+    from it.
+#}
+{% block list %}
+{% if item.hasChildren and options.depth is not same as(0) and item.displayChildren %}
+    {% import 'knp_menu.html.twig' as knp_menu %}
+    <ul{{ knp_menu.attributes(listAttributes) }}>
+        {%~ if 1 == item.level %}
+        <li class="adm-menu-popup-title" aria-hidden="true">{{ block('label') }}</li>
+        {%~ endif %}
+        {{ block('children') }}
+    </ul>
+{% endif %}
 {% endblock %}
 
 {% block item %}

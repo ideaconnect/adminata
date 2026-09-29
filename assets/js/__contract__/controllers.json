@@ -154,6 +154,7 @@
                 "toggle"
             ],
             "values": [
+                "breakpoint",
                 "storageKey"
             ],
             "classes": [],
