@@ -506,6 +506,14 @@
         <source>sidebar_logout</source>
         <target>Log out</target>
       </trans-unit>
+      <trans-unit id="sidebar_filter">
+        <source>sidebar_filter</source>
+        <target>Filter the menu</target>
+      </trans-unit>
+      <trans-unit id="sidebar_filter_empty">
+        <source>sidebar_filter_empty</source>
+        <target>No menu item matches.</target>
+      </trans-unit>
       <trans-unit id="theme_light">
         <source>theme_light</source>
         <target>Switch to the light theme</target>

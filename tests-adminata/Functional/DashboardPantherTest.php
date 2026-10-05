@@ -20,6 +20,7 @@ use Adminata\Tests\App\EventListener\BrowserConsoleRecorderListener;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
 use Facebook\WebDriver\WebDriverElement;
+use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\WebDriverKeys;
 use Facebook\WebDriver\WebDriverSelect;
 use PHPUnit\Framework\Attributes\Group;
@@ -273,6 +274,69 @@ final class DashboardPantherTest extends BasePantherTestCase
         static::assertSame(['false', 'true'], $this->groupStates(), 'The accordion did not come back.');
 
         $this->assertConsoleIsEmpty('The rail popup wrote to the browser console.');
+        $this->client->executeScript('window.localStorage.removeItem("adminata_sidebar_open");');
+    }
+
+    /**
+     * The field above the menu narrows it as it is typed into: case aside, a group whose name
+     * matches keeps its links, the groups holding a match open and nothing of it is remembered.
+     * The status says when nothing matches, Escape gives the whole menu back, Enter follows the
+     * first match, and the collapsed rail hides the field and ends the filter.
+     */
+    public function testTheSidebarFilterNarrowsTheMenu(): void
+    {
+        $this->client->request('GET', $this->url('/admin/dashboard'));
+
+        $field = $this->client->findElement(WebDriverBy::cssSelector('.adm-sidebar-filter input[type="search"]'));
+        $status = $this->client->findElement(WebDriverBy::cssSelector('.adm-sidebar-filter [data-adminata-menu-filter-target="empty"]'));
+
+        static::assertTrue($field->isDisplayed(), 'The filter stayed hidden with a menu on the page.');
+        static::assertSame(['false', 'false'], $this->groupStates());
+
+        $field->sendKeys('VARIANT');
+
+        static::assertSame(['Variants'], $this->shownMenuLinks());
+        static::assertSame(['true', 'false'], $this->groupStates(), 'The group holding the match stayed closed.');
+        static::assertFalse($status->isDisplayed());
+
+        $field->sendKeys(WebDriverKeys::ESCAPE);
+
+        static::assertSame('', $field->getAttribute('value'));
+        static::assertSame(['Products', 'Variants', 'Categories', 'Tags', 'Settings'], $this->shownMenuLinks());
+        static::assertSame(['false', 'false'], $this->groupStates(), 'The groups did not go back as they were.');
+        static::assertNull(
+            $this->client->executeScript('return window.localStorage.getItem("adminata_sidebar_open");'),
+            'The filter was remembered as the accordion.',
+        );
+
+        $field->sendKeys('taxonomy');
+        static::assertSame(['Categories', 'Tags'], $this->shownMenuLinks());
+
+        $field->clear();
+        $field->sendKeys('nothing like it');
+        static::assertSame([], $this->shownMenuLinks());
+        static::assertTrue($status->isDisplayed(), 'Nothing matches, and nothing says so.');
+
+        $field->sendKeys(WebDriverKeys::ESCAPE);
+        $field->sendKeys('categ');
+        $field->sendKeys(WebDriverKeys::ENTER);
+        $this->client->wait()->until(WebDriverExpectedCondition::urlContains('/admin/tests/app/category/list'));
+
+        $this->client->findElement(WebDriverBy::cssSelector('.adm-sidebar-filter input[type="search"]'))->sendKeys('tag');
+        $this->client->executeScript('document.querySelector(\'[data-adminata-layout-target="collapseOnly"]\').click();');
+
+        static::assertSame('collapsed', $this->sidebarState());
+        static::assertFalse(
+            $this->client->findElement(WebDriverBy::cssSelector('.adm-sidebar-filter'))->isDisplayed(),
+            'The collapsed rail still shows the filter.',
+        );
+        static::assertCount(5, $this->shownMenuLinks(), 'The rail kept the menu narrowed.');
+
+        $this->client->executeScript('document.querySelector(\'[data-adminata-layout-target="collapseOnly"]\').click();');
+
+        static::assertSame('', $this->client->findElement(WebDriverBy::cssSelector('.adm-sidebar-filter input[type="search"]'))->getAttribute('value'));
+
+        $this->assertConsoleIsEmpty('The sidebar filter wrote to the browser console.');
         $this->client->executeScript('window.localStorage.removeItem("adminata_sidebar_open");');
     }
 
@@ -995,6 +1059,20 @@ final class DashboardPantherTest extends BasePantherTestCase
     private function sidebarState(): string
     {
         return (string) $this->client->executeScript('return document.body.dataset.sidebar;');
+    }
+
+    /**
+     * @return list<string> the name of every link of the sidebar menu the filter leaves, in order
+     */
+    private function shownMenuLinks(): array
+    {
+        $links = $this->client->executeScript(
+            'return [...document.querySelectorAll(".adm-sidebar nav a[href]")]'
+            .'.filter((link) => null === link.closest("li[hidden]")).map((link) => link.textContent.trim());'
+        );
+        static::assertIsArray($links);
+
+        return array_values(array_map(strval(...), $links));
     }
 
     /**

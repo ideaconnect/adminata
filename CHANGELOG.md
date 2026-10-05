@@ -141,6 +141,23 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- A filter above the sidebar menu (2026-10-05): under the toolbar, `standard_layout` renders a
+  search field in the new additive `adminata_sidebar_filter` block (`adm-sidebar-filter`) that
+  narrows the menu as it is typed into. An entry stays when every word typed is in its own name
+  or in the name of a group or a section above it — compared without case and accents, `ł`
+  included, so "lodz" finds "Łódź" and a matching group or section keeps everything in it. What
+  does not match is hidden (the `hidden` attribute), the groups holding a match open, and a
+  section header stays above a match only. None of it is remembered: neither the groups the
+  filter opens nor what a visitor opens or closes while it lasts, and an empty field puts back
+  every item and every group as they were. In the field Escape empties it, Enter follows the
+  first link left and the down arrow moves the focus there; a `role="status"` under it says
+  when nothing matches. The narrowing is `adminata-menu`'s new `filter()` (with `visibleLinks()`),
+  which dispatches `adminata-menu:filtered`; the new `adminata-menu-filter` controller hands it
+  the field's value through an `adminata-menu` outlet and follows that event. The field is
+  rendered `hidden` and shown once a menu with a link has connected; the collapsed rail hides it,
+  and collapsing into the rail ends the filter. Two keys (`sidebar_filter`,
+  `sidebar_filter_empty`) are translated in `en` and `pl` and ship as `needs-translation` in the
+  other catalogues.
 - Screen titles (2026-09-29). A page names its admin the way the sidebar does: the admin's crumb
   — the second on every page of the admin, linking to its list — is its title, and so is the
   document title of its list page. The title is the admin's `label`, translated in its

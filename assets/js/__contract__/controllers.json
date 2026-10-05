@@ -160,6 +160,17 @@
             "classes": [],
             "outlets": []
         },
+        "adminata-menu-filter": {
+            "targets": [
+                "empty",
+                "input"
+            ],
+            "values": [],
+            "classes": [],
+            "outlets": [
+                "adminata-menu"
+            ]
+        },
         "adminata-modal": {
             "targets": [
                 "dialog"

@@ -197,6 +197,34 @@ file that was distributed with this source code.
                         </div>
                     {% endblock adminata_sidebar_toolbar %}
 
+                    {#
+                        A field that narrows the menu to the entries whose name — or the name of a
+                        group or section they are in — holds every word typed: `adminata-menu-filter`
+                        asks `adminata-menu`, which hides the rest and opens the groups that hold a
+                        match, remembering none of it. It needs JavaScript, so it renders `hidden`
+                        until the controller finds a menu with a link in it. The status under the
+                        field says when nothing matches. The collapsed rail hides the row, and
+                        collapsing into the rail clears it. An application that wants none of it
+                        empties the block.
+                    #}
+                    {% block adminata_sidebar_filter %}
+                        <div class="adm-sidebar-filter" hidden
+                             {{ stimulus_controller('adminata-menu-filter', {}, {}, {'adminata-menu': '.adm-sidebar nav[data-controller~="adminata-menu"]'}) }}
+                             {{ stimulus_action('adminata-menu-filter', 'sync', 'adminata-menu:filtered@window') }}
+                        >
+                            <label class="sr-only" for="adminata-menu-filter">{{ 'sidebar_filter'|trans({}, 'AdminataBundle') }}</label>
+                            <input type="search" id="adminata-menu-filter" class="adm-input"
+                                   placeholder="{{ 'sidebar_filter'|trans({}, 'AdminataBundle') }}"
+                                   autocomplete="off" spellcheck="false"
+                                   {{ stimulus_target('adminata-menu-filter', 'input') }}
+                                   {{ stimulus_action('adminata-menu-filter', 'filter', 'input')|stimulus_action('adminata-menu-filter', 'clear', 'keydown.esc')|stimulus_action('adminata-menu-filter', 'follow', 'keydown.enter')|stimulus_action('adminata-menu-filter', 'focusFirst', 'keydown.down') }}
+                            >
+                            <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+                            {#- Always there, so that what appears in it is announced. -#}
+                            <p role="status"><span hidden {{ stimulus_target('adminata-menu-filter', 'empty') }}>{{ 'sidebar_filter_empty'|trans({}, 'AdminataBundle') }}</span></p>
+                        </div>
+                    {% endblock adminata_sidebar_filter %}
+
                     <div class="adm-sidebar-nav no-scrollbar">
                         {% block adminata_side_nav %}
                             {#

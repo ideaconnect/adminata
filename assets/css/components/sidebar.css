@@ -129,6 +129,50 @@
     }
 }
 
+/*
+ * The field that narrows the menu (`adminata_sidebar_filter`), under the toolbar and, like it,
+ * outside `.adm-sidebar-nav`, so the menu scrolls under it. A magnifier sits at the field's start,
+ * where the text would otherwise begin; the status under it takes room only when it has something
+ * to say, its `hidden` span being all it holds otherwise.
+ */
+@utility adm-sidebar-filter {
+    position: relative;
+    margin-bottom: 1rem;
+
+    & > .adm-input {
+        padding-inline-start: 2.5rem;
+    }
+
+    & > .fa-magnifying-glass {
+        position: absolute;
+        inset-inline-start: 0.875rem;
+        top: calc(var(--adm-control-h) / 2);
+        translate: 0 -50%;
+        color: var(--color-gray-400);
+        pointer-events: none;
+    }
+
+    & > [role='status'] > span {
+        display: block;
+        margin-top: 0.75rem;
+        padding-inline: 0.75rem;
+        color: var(--color-gray-500);
+        font-size: var(--text-theme-sm);
+        line-height: var(--text-theme-sm--line-height);
+
+        @variant dark {
+            color: var(--color-gray-400);
+        }
+    }
+
+    /* The rail shows the menu's icons only, and has no room for a field. */
+    @media (width >= 1024px) {
+        .adm-shell[data-sidebar='collapsed'] & {
+            display: none;
+        }
+    }
+}
+
 @utility adm-sidebar-nav {
     display: flex;
     flex-direction: column;

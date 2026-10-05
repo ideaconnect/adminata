@@ -586,6 +586,14 @@
         <source>sidebar_logout</source>
         <target state="needs-translation">Log out</target>
       </trans-unit>
+      <trans-unit id="sidebar_filter">
+        <source>sidebar_filter</source>
+        <target state="needs-translation">Filter the menu</target>
+      </trans-unit>
+      <trans-unit id="sidebar_filter_empty">
+        <source>sidebar_filter_empty</source>
+        <target state="needs-translation">No menu item matches.</target>
+      </trans-unit>
       <trans-unit id="skip_to_content">
         <source>skip_to_content</source>
         <target state="needs-translation">Skip to the content</target>

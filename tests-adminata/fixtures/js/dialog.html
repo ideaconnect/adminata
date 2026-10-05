@@ -74,6 +74,20 @@
                                 </a>
                                                     </div>
                     
+                                                                <div class="adm-sidebar-filter" hidden
+                             data-controller="adminata-menu-filter" data-adminata-menu-filter-adminata-menu-outlet=".adm-sidebar nav[data-controller~=&quot;adminata-menu&quot;]"
+                             data-action="adminata-menu:filtered@window->adminata-menu-filter#sync"
+                        >
+                            <label class="sr-only" for="adminata-menu-filter">Filter the menu</label>
+                            <input type="search" id="adminata-menu-filter" class="adm-input"
+                                   placeholder="Filter the menu"
+                                   autocomplete="off" spellcheck="false"
+                                   data-adminata-menu-filter-target="input"
+                                   data-action="input->adminata-menu-filter#filter keydown.esc->adminata-menu-filter#clear keydown.enter->adminata-menu-filter#follow keydown.down->adminata-menu-filter#focusFirst"
+                            >
+                            <i class="fas fa-magnifying-glass" aria-hidden="true"></i><p role="status"><span hidden data-adminata-menu-filter-target="empty">No menu item matches.</span></p>
+                        </div>
+                    
                     <div class="adm-sidebar-nav no-scrollbar">
                                                                                 
                                                                                          <nav aria-label="Sections" data-controller="adminata-menu">

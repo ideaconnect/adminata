@@ -13,7 +13,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-import { PAGES, THEMES, open, openRailPopup, useTheme } from './support/demo.js';
+import { PAGES, THEMES, filterMenu, open, openRailPopup, useTheme } from './support/demo.js';
 import { assertKnownFindings } from './support/findings.js';
 
 /**
@@ -76,4 +76,42 @@ for (const theme of THEMES) {
             violations.map((violation) => violation.id),
         );
     });
+}
+
+/*
+ * The sidebar menu narrowed by its filter, in both themes, to a match and to nothing: the field
+ * needs its name, the status has to read under it, and what the filter hides has to leave the
+ * accessibility tree with it.
+ */
+for (const theme of THEMES) {
+    for (const [state, query] of [
+        ['sidebar-filter', 'tag'],
+        ['sidebar-filter-empty', 'nothing like it'],
+    ]) {
+        test(`the ${state} state has no WCAG 2.1 AA violations in ${theme} mode`, async ({
+            page,
+        }, testInfo) => {
+            test.skip(!testInfo.project.name.endsWith('-wide'), 'The sidebar is a drawer below 1024px.');
+
+            await useTheme(page, theme);
+            await filterMenu(page, query);
+            await page.locator('.main-sidebar nav [hidden]').first().waitFor({ state: 'attached' });
+
+            const { violations } = await new AxeBuilder({ page })
+                .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+                .analyze();
+
+            await testInfo.attach(`axe-${state}-${theme}.json`, {
+                body: JSON.stringify(violations, null, 4),
+                contentType: 'application/json',
+            });
+
+            assertKnownFindings(
+                expect,
+                'axe',
+                `${state}:${theme}@wide`,
+                violations.map((violation) => violation.id),
+            );
+        });
+    }
 }

@@ -12,7 +12,7 @@
 
 import { expect, test } from '@playwright/test';
 
-import { PAGES, THEMES, open, openRailPopup, useTheme } from './support/demo.js';
+import { PAGES, THEMES, filterMenu, open, openRailPopup, useTheme } from './support/demo.js';
 import { knownFindings } from './support/findings.js';
 
 /**
@@ -66,6 +66,42 @@ test.describe('rail-popup', () => {
             await openRailPopup(page);
 
             await expect(page).toHaveScreenshot(`rail-popup-${theme}.png`);
+        });
+    }
+});
+
+/*
+ * The sidebar menu narrowed by the filter above it, which no page above shows: once to the group
+ * holding a match, opened, and once to nothing, the status saying so under the field. Wide only —
+ * below the sidebar's breakpoint the sidebar is a closed drawer.
+ */
+test.describe('sidebar-filter', () => {
+    for (const theme of THEMES) {
+        test(`narrows the menu in ${theme} mode`, async ({ page }, testInfo) => {
+            test.skip(!testInfo.project.name.endsWith('-wide'), 'The sidebar is a drawer below 1024px.');
+
+            await useTheme(page, theme);
+            await filterMenu(page, 'tag');
+            await page
+                .locator('.main-sidebar nav')
+                .getByRole('link', { name: 'Tags' })
+                .waitFor({ state: 'visible' });
+
+            await expect(page).toHaveScreenshot(`sidebar-filter-${theme}.png`);
+        });
+
+        test(`says when nothing matches in ${theme} mode`, async ({ page }, testInfo) => {
+            test.skip(!testInfo.project.name.endsWith('-wide'), 'The sidebar is a drawer below 1024px.');
+
+            await useTheme(page, theme);
+            await filterMenu(page, 'nothing like it');
+            await page
+                .locator('.adm-sidebar-filter')
+                .getByRole('status')
+                .getByText('No menu item matches.')
+                .waitFor();
+
+            await expect(page).toHaveScreenshot(`sidebar-filter-empty-${theme}.png`);
         });
     }
 });
