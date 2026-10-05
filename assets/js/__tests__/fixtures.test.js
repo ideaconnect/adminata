@@ -49,6 +49,12 @@ const MOUNTS = [
         targets: ['collapse', 'expand'],
     },
     {
+        identifier: 'adminata-menu-filter',
+        page: 'dashboard',
+        selector: '[data-controller~="adminata-menu-filter"]',
+        targets: ['input', 'empty'],
+    },
+    {
         identifier: 'adminata-theme',
         page: 'dashboard',
         selector: '[data-controller~="adminata-theme"]',

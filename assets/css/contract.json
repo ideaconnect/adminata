@@ -114,6 +114,7 @@
         ".adm-shell",
         ".adm-show-table",
         ".adm-sidebar",
+        ".adm-sidebar-filter",
         ".adm-sidebar-header",
         ".adm-sidebar-nav",
         ".adm-sidebar-toolbar",

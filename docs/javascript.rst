@@ -86,6 +86,24 @@ removing one is a major release.
     sets the accordion's state aside meanwhile. See the rail in
     :doc:`the menu recipe <admin-bundle/cookbook/recipe_knp_menu>`.
 
+    ``filter(query)`` narrows the menu to the entries holding every word of ``query`` in their
+    own name or in a group's or a section's name above them — compared without case and accents,
+    ``ł`` included — hiding the rest with the ``hidden`` attribute and opening the groups that
+    hold a match. It returns the links still shown and dispatches ``adminata-menu:filtered``
+    (``detail``: ``query``, ``active``, ``links``). None of it is remembered, and a blank query
+    puts back every item and every group as they were; entering the rail ends the filter.
+    ``visibleLinks()`` gives the links nothing has hidden, in reading order.
+
+``adminata-menu-filter``
+    targets ``empty``, ``input``; outlets ``adminata-menu``
+
+    The field above the sidebar menu. Rendered ``hidden``, it shows itself once an
+    ``adminata-menu`` outlet with a link in it has connected, and hands that menu its value on
+    every ``input``. From ``adminata-menu:filtered`` it shows the ``empty`` status when nothing
+    matches, and empties the field when the menu ends the filter itself. Escape empties the field,
+    Enter follows the first link left, and the down arrow moves the focus to it. See the filter in
+    :doc:`the menu recipe <admin-bundle/cookbook/recipe_knp_menu>`.
+
 ``adminata-modal``
     targets ``dialog``; values ``backdrop``, ``closable``, ``size``
 

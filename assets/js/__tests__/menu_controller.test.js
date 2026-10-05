@@ -579,3 +579,286 @@ describe('adminata-menu on the collapsed rail', () => {
         expect(title.textContent.trim()).toBe(first.querySelector('.menu-item-text').textContent.trim());
     });
 });
+
+/**
+ * A menu the way an application with sections renders it: a link on top, a section header heading
+ * the groups after it up to the next header, a group nested in another, every panel opening with
+ * its rail title, and names with Polish letters.
+ *
+ * @param {{catalogue?: boolean, taxonomy?: boolean}} state
+ */
+const sectionedMenu = ({ catalogue = false, taxonomy = false } = {}) => {
+    const toggle = (label, open) => `
+        <button type="button" class="menu-item" aria-expanded="${open}"
+                data-adminata-menu-target="toggle" data-action="click->adminata-menu#toggle">
+            <span class="menu-item-text">${label}</span>
+        </button>`;
+    const link = (href, label) =>
+        `<li><a href="${href}" class="menu-dropdown-item"><span class="menu-item-text">${label}</span></a></li>`;
+
+    return `
+        <nav data-controller="adminata-menu">
+            <ul class="adm-menu sidebar-menu">
+                <li><a href="/dashboard" class="menu-item"><span class="menu-item-text">Pulpit</span></a></li>
+                <li class="sidebar-section-header"><div class="adm-menu-group-title">Sklep</div></li>
+                <li>
+                    ${toggle('Katalog', catalogue)}
+                    <ul class="menu-dropdown menu_level_1">
+                        <li class="adm-menu-popup-title" aria-hidden="true">Katalog</li>
+                        ${link('/products', 'Produkty')}
+                        <li>
+                            ${toggle('Archiwum', false)}
+                            <ul class="menu-dropdown menu_level_2">${link('/old', 'Stare produkty')}</ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    ${toggle('Taksonomia', taxonomy)}
+                    <ul class="menu-dropdown menu_level_1">
+                        <li class="adm-menu-popup-title" aria-hidden="true">Taksonomia</li>
+                        ${link('/categories', 'Kategorie')}
+                        ${link('/cities', 'Miasta: Łódź')}
+                    </ul>
+                </li>
+                <li class="sidebar-section-header"><div class="adm-menu-group-title">Ustawienia</div></li>
+                <li>
+                    ${toggle('Użytkownicy', false)}
+                    <ul class="menu-dropdown menu_level_1">
+                        <li class="adm-menu-popup-title" aria-hidden="true">Użytkownicy</li>
+                        ${link('/users', 'Konta')}
+                        ${link('/roles', 'Role')}
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    `;
+};
+
+/** The names of the links nothing hides, in the order they read. */
+const shownLinks = (element) =>
+    [...element.querySelectorAll('a[href]')]
+        .filter((link) => null === link.closest('li[hidden]'))
+        .map((link) => link.textContent.trim());
+
+/** The section headers nothing hides. */
+const shownSections = (element) =>
+    [...element.querySelectorAll('.adm-menu-group-title')]
+        .filter((title) => !title.parentElement.hidden)
+        .map((title) => title.textContent.trim());
+
+/** @returns {Promise<{element: HTMLElement, menu: MenuController}>} */
+const filterable = async (state = {}) => {
+    const { application, element } = await mount('adminata-menu', MenuController, sectionedMenu(state));
+
+    return { element, menu: application.getControllerForElementAndIdentifier(element, 'adminata-menu') };
+};
+
+describe('adminata-menu filtering', () => {
+    afterEach(() => {
+        delete document.body.dataset.sidebar;
+        vi.unstubAllGlobals();
+    });
+
+    it('narrows the menu to the links that match, opens the groups holding them, and counts them', async () => {
+        const { element, menu } = await filterable();
+
+        // "produkty" is in both names, the second one nested in a group of the first's.
+        expect(menu.filter('produkty')).toBe(2);
+        expect(shownLinks(element)).toEqual(['Produkty', 'Stare produkty']);
+        expect(groups(element)).toEqual({
+            Katalog: 'true',
+            Archiwum: 'true',
+            Taksonomia: 'false',
+            Użytkownicy: 'false',
+        });
+        expect(group(element, 'Taksonomia').parentElement.hidden).toBe(true);
+    });
+
+    it('compares without case and accents, ł included', async () => {
+        const { element, menu } = await filterable();
+
+        menu.filter('LODZ');
+        expect(shownLinks(element)).toEqual(['Miasta: Łódź']);
+
+        menu.filter('uzytkownicy');
+        expect(shownLinks(element)).toEqual(['Konta', 'Role']);
+    });
+
+    it('keeps everything in a group or a section whose name matches', async () => {
+        const { element, menu } = await filterable();
+
+        menu.filter('taksonomia');
+        expect(shownLinks(element)).toEqual(['Kategorie', 'Miasta: Łódź']);
+
+        menu.filter('ustawienia');
+        expect(shownLinks(element)).toEqual(['Konta', 'Role']);
+    });
+
+    it('wants every word, each in a name along the way', async () => {
+        const { element, menu } = await filterable();
+
+        menu.filter('katalog stare');
+        expect(shownLinks(element)).toEqual(['Stare produkty']);
+
+        menu.filter('  sklep   kategorie ');
+        expect(shownLinks(element)).toEqual(['Kategorie']);
+
+        expect(menu.filter('katalog kategorie')).toBe(0);
+        expect(shownLinks(element)).toEqual([]);
+    });
+
+    it('shows a section header above a match only', async () => {
+        const { element, menu } = await filterable();
+
+        menu.filter('konta');
+        expect(shownSections(element)).toEqual(['Ustawienia']);
+
+        menu.filter('pulpit');
+        expect(shownLinks(element)).toEqual(['Pulpit']);
+        expect(shownSections(element)).toEqual([]);
+
+        menu.filter('');
+        expect(shownSections(element)).toEqual(['Sklep', 'Ustawienia']);
+    });
+
+    it('leaves the rail titles to the rail', async () => {
+        const { element, menu } = await filterable();
+
+        menu.filter('kategorie');
+
+        expect([...element.querySelectorAll('.adm-menu-popup-title')].map((title) => title.hidden)).toEqual([
+            false,
+            false,
+            false,
+        ]);
+    });
+
+    it('announces what it shows, every time', async () => {
+        const { element, menu } = await filterable();
+        const heard = [];
+
+        element.addEventListener('adminata-menu:filtered', (event) => heard.push(event.detail));
+
+        menu.filter('Role');
+        menu.filter('nic takiego');
+        menu.filter(' ');
+
+        expect(heard).toEqual([
+            { query: 'Role', active: true, links: 1 },
+            { query: 'nic takiego', active: true, links: 0 },
+            { query: ' ', active: false, links: 7 },
+        ]);
+    });
+
+    it('puts the whole menu back for a blank query, its groups as they were, and remembers none of it', async () => {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ Katalog: false, Taksonomia: true }));
+
+        const { element, menu } = await filterable();
+
+        menu.filter('produkty');
+        menu.filter('kat');
+
+        expect(groups(element)).toMatchObject({ Katalog: 'true', Taksonomia: 'true' });
+        expect(window.localStorage.getItem(STORAGE_KEY)).toBe(
+            JSON.stringify({ Katalog: false, Taksonomia: true }),
+        );
+
+        expect(menu.filter('')).toBe(7);
+        expect(shownLinks(element)).toHaveLength(7);
+        expect(groups(element)).toEqual({
+            Katalog: 'false',
+            Archiwum: 'false',
+            Taksonomia: 'true',
+            Użytkownicy: 'false',
+        });
+        expect(window.localStorage.getItem(STORAGE_KEY)).toBe(
+            JSON.stringify({ Katalog: false, Taksonomia: true }),
+        );
+    });
+
+    it('does not remember what a visitor opens or closes in the narrowed menu', async () => {
+        const { element, menu } = await filterable();
+
+        menu.filter('produkty');
+        group(element, 'Katalog').click();
+        menu.collapseAll();
+        await settle();
+
+        expect(group(element, 'Katalog').getAttribute('aria-expanded')).toBe('false');
+        expect(window.localStorage.getItem(STORAGE_KEY)).toBeNull();
+
+        menu.filter('');
+
+        expect(groups(element)).toMatchObject({ Katalog: 'false', Archiwum: 'false' });
+
+        // The filter over, a click is remembered again.
+        group(element, 'Katalog').click();
+        await settle();
+
+        expect(stored()).toMatchObject({ Katalog: true });
+    });
+
+    it('never shows an item something else hid', async () => {
+        const { element, menu } = await filterable();
+        const roles = element.querySelector('a[href="/roles"]').parentElement;
+
+        roles.hidden = true;
+
+        menu.filter('role');
+        expect(shownLinks(element)).toEqual([]);
+
+        menu.filter('');
+        expect(roles.hidden).toBe(true);
+        expect(shownLinks(element)).not.toContain('Role');
+    });
+
+    it('ends the filter when the sidebar collapses into the rail, and says so', async () => {
+        document.body.dataset.sidebar = 'expanded';
+        viewport.wide();
+
+        const { element, menu } = await filterable({ taxonomy: true });
+        const heard = [];
+
+        element.addEventListener('adminata-menu:filtered', (event) => heard.push(event.detail));
+
+        menu.filter('produkty');
+        document.body.dataset.sidebar = 'collapsed';
+        await settle();
+
+        expect(heard.at(-1)).toEqual({ query: '', active: false, links: 7 });
+        expect(shownLinks(element)).toHaveLength(7);
+        expect(element.hasAttribute('data-adminata-menu-rail')).toBe(true);
+
+        // Back on the accordion, the groups are as they were before the filter.
+        document.body.dataset.sidebar = 'expanded';
+        await settle();
+
+        expect(groups(element)).toMatchObject({ Katalog: 'false', Taksonomia: 'true' });
+    });
+
+    it('puts the whole menu back when it disconnects', async () => {
+        const { element, menu } = await filterable({ taxonomy: true });
+
+        menu.filter('konta');
+        element.removeAttribute('data-controller');
+        await settle();
+
+        expect(shownLinks(element)).toHaveLength(7);
+        expect(groups(element)).toMatchObject({ Katalog: 'false', Taksonomia: 'true', Użytkownicy: 'false' });
+    });
+
+    it("narrows the demo's own menu", async () => {
+        const { application, element } = await mountFixture(
+            'adminata-menu',
+            MenuController,
+            'dashboard',
+            'nav[data-controller~="adminata-menu"]',
+        );
+        const menu = application.getControllerForElementAndIdentifier(element, 'adminata-menu');
+        const links = shownLinks(element).length;
+
+        expect(menu.filter('tag')).toBe(1);
+        expect(shownLinks(element)).toEqual(['Tags']);
+        expect(menu.filter('')).toBe(links);
+    });
+});

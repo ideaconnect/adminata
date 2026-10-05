@@ -19,6 +19,28 @@ import { Controller } from '@hotwired/stimulus';
 const POPUP_MARGIN = 8;
 
 /**
+ * The letters `normalize('NFD')` leaves whole, as the filter folds them: their accent is part of
+ * the letter, not a mark Unicode can take off it — Polish `ł` above all.
+ */
+const WHOLE_LETTERS = { ł: 'l', đ: 'd', ð: 'd', ø: 'o', ħ: 'h', ı: 'i', ß: 'ss', æ: 'ae', œ: 'oe', þ: 'th' };
+
+/**
+ * A name as the filter compares it: lower case, without accents, its whitespace collapsed — so
+ * "lodz" finds "Łódź".
+ *
+ * @param {string} text
+ * @returns {string}
+ */
+const fold = (text) =>
+    text
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/\p{M}/gu, '')
+        .replace(/[łđðøħıßæœþ]/g, (letter) => WHOLE_LETTERS[letter])
+        .replace(/\s+/g, ' ')
+        .trim();
+
+/**
  * The sidebar's collapsible groups, in place of AdminLTE's `data-widget="tree"`.
  *
  * The server decides which groups start open — the one holding the current page, and any marked
@@ -46,6 +68,11 @@ const POPUP_MARGIN = 8;
  * shell whose `data-sidebar` says `collapsed`. There `aria-expanded` says whether a group's popup
  * is open, so what the accordion had open is set aside for as long as the rail lasts, put back
  * when the sidebar widens, and remembered as the visitor left it — never as the popups did.
+ *
+ * The menu can be narrowed to what matches a query (`filter()`, asked by `adminata-menu-filter`,
+ * the field above it): what does not match is hidden, the groups holding a match open, and none
+ * of that is remembered — clearing the query puts the menu back as it was. The rail has no room
+ * for the field, so entering it ends the filter.
  */
 export default class extends Controller {
     static targets = ['toggle'];
@@ -66,6 +93,22 @@ export default class extends Controller {
 
         /** @type {HTMLElement | null} the button whose popup is open */
         this.opened = null;
+
+        /**
+         * What the accordion had open, per group, before the filter opened the groups holding a
+         * match, and `null` while nothing is filtered — which is also what says whether it is.
+         *
+         * @type {Map<HTMLElement, boolean> | null}
+         */
+        this.unfiltered = null;
+
+        /**
+         * The items the filter hid, and only those: an item something else hid stays hidden when
+         * the filter ends.
+         *
+         * @type {Set<HTMLElement>}
+         */
+        this.filteredOut = new Set();
 
         this.onOutsideClick = (event) => {
             if (!this.holds(event.target)) {
@@ -124,6 +167,9 @@ export default class extends Controller {
         this.query.removeEventListener('change', this.onBreakpointChange);
         this.observer.disconnect();
 
+        // The whole menu back, the groups as the visitor had them, for whatever connects next.
+        this.unfilter();
+
         // The accordion's state back on the buttons, which is what the next `connect()` reads.
         this.leaveRail();
 
@@ -175,6 +221,159 @@ export default class extends Controller {
     }
 
     /**
+     * Narrows the menu to what matches a query, and says how many links it still shows.
+     *
+     * An entry matches when every word of the query is in its own name or in the name of a group
+     * or a section it sits under — compared folded (`fold()`), so a section or a group that
+     * matches keeps everything in it. What does not match is hidden (the `hidden` attribute, on its
+     * item); a group holding a match opens, and a section header stays only above one. None of it
+     * is remembered, and neither is what a visitor opens or closes in the narrowed menu: a blank
+     * query puts back every item and every group as the visitor had them before the first word.
+     *
+     * Every call ends with `adminata-menu:filtered`, carrying the query, whether it narrowed
+     * anything (`active`) and the links shown.
+     *
+     * @param {string} query
+     * @returns {number} the links the menu still shows
+     */
+    filter(query) {
+        const words = fold(query)
+            .split(' ')
+            .filter((word) => '' !== word);
+
+        if (0 === words.length) {
+            this.unfilter();
+        } else {
+            this.unfiltered ??= new Map(this.toggleTargets.map((toggle) => [toggle, this.isOpen(toggle)]));
+            this.narrow(words);
+        }
+
+        const links = this.visibleLinks().length;
+
+        this.dispatch('filtered', { detail: { query, active: 0 < words.length, links } });
+
+        return links;
+    }
+
+    /**
+     * The links nothing has hidden, in the order the menu reads — what the filter leaves.
+     *
+     * @returns {HTMLAnchorElement[]}
+     */
+    visibleLinks() {
+        return [...this.element.querySelectorAll('a[href]')].filter(
+            (link) => null === link.closest('li[hidden]'),
+        );
+    }
+
+    /**
+     * Shows or hides every top-level item for the query's words. A section header is not an
+     * ancestor of the groups it heads, only their predecessor, so its name is carried down the
+     * list until the next header — and the header itself is shown when anything under it is.
+     *
+     * @param {string[]} words folded
+     */
+    narrow(words) {
+        /** @type {{header: Element, name: string, shown: boolean} | null} */
+        let section = null;
+
+        for (const item of this.element.querySelector(':scope > ul')?.children ?? []) {
+            const header = item.querySelector(':scope > .adm-menu-group-title');
+
+            if (null !== header) {
+                if (null !== section) {
+                    this.show(section.header, section.shown);
+                }
+
+                section = { header: item, name: fold(header.textContent ?? ''), shown: false };
+            } else if (!item.classList.contains('adm-menu-popup-title')) {
+                const shown = this.narrowItem(item, section?.name ?? '', words);
+
+                this.show(item, shown);
+
+                if (null !== section) {
+                    section.shown ||= shown;
+                }
+            }
+        }
+
+        if (null !== section) {
+            this.show(section.header, section.shown);
+        }
+    }
+
+    /**
+     * Whether an item matches — a link on its own name and the names it sits under, a group when
+     * anything in it does — hiding what inside a group does not, and opening the group if
+     * something does.
+     *
+     * @param {Element} item an `li`
+     * @param {string} names the folded names of the section and the groups it sits under
+     * @param {string[]} words folded
+     * @returns {boolean}
+     */
+    narrowItem(item, names, words) {
+        const label = item.querySelector(':scope > a, :scope > button');
+        const path = `${names} ${fold((label?.querySelector('.menu-item-text') ?? label)?.textContent ?? '')}`;
+        const toggle = this.toggleTargets.find((candidate) => candidate.parentElement === item);
+        const panel = undefined === toggle ? null : this.panelFor(toggle);
+
+        if (undefined === toggle || null === panel) {
+            return null !== label && words.every((word) => path.includes(word));
+        }
+
+        let shown = false;
+
+        for (const child of panel.children) {
+            if (!child.classList.contains('adm-menu-popup-title')) {
+                const match = this.narrowItem(child, path, words);
+
+                this.show(child, match);
+                shown ||= match;
+            }
+        }
+
+        if (shown) {
+            this.setOpen(toggle, true);
+        }
+
+        return shown;
+    }
+
+    /**
+     * Shows an item the filter hid, or hides one for it — never touching an item something else
+     * hid.
+     *
+     * @param {Element} item
+     * @param {boolean} shown
+     */
+    show(item, shown) {
+        if (!(item instanceof HTMLElement)) {
+            return;
+        }
+
+        if (shown) {
+            if (this.filteredOut.delete(item)) {
+                item.hidden = false;
+            }
+        } else if (!item.hidden) {
+            item.hidden = true;
+            this.filteredOut.add(item);
+        }
+    }
+
+    /** Ends the filter: every item it hid back, and every group as the visitor had it. */
+    unfilter() {
+        this.filteredOut.forEach((item) => {
+            item.hidden = false;
+        });
+        this.filteredOut.clear();
+
+        this.unfiltered?.forEach((open, toggle) => this.setOpen(toggle, open));
+        this.unfiltered = null;
+    }
+
+    /**
      * Applies what the visitor last chose, over what the server rendered.
      *
      * A group the server opened because it holds the current page is left open whatever the store
@@ -216,6 +415,12 @@ export default class extends Controller {
     enterRail() {
         if (null !== this.parked) {
             return;
+        }
+
+        // The rail has no room for the field that filters the menu, so the filter ends — and says
+        // so, which empties the field for when the sidebar widens again.
+        if (null !== this.unfiltered) {
+            this.filter('');
         }
 
         this.parked = new Map();
@@ -500,6 +705,12 @@ export default class extends Controller {
     }
 
     remember() {
+        // A filtered menu shows the groups its matches are in, not the ones the visitor chose, and
+        // what they open or close in it is gone again when the filter ends.
+        if (null !== this.unfiltered) {
+            return;
+        }
+
         const open = {};
 
         this.toggleTargets.forEach((toggle) => {

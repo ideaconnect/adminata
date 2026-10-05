@@ -94,3 +94,20 @@ export async function openRailPopup(page) {
     await page.locator('.main-sidebar').getByRole('button', { name: 'Catalogue' }).click();
     await page.locator('.main-sidebar .adm-menu-popup-title').first().waitFor({ state: 'visible' });
 }
+
+/**
+ * The dashboard with its sidebar menu narrowed by the filter above it: `query` typed into the field
+ * a key at a time, the way a visitor types it. The field is in the sidebar, which below its
+ * breakpoint is a closed drawer, so a spec runs this in the wide projects alone, and waits itself
+ * for what the narrowed menu has to show.
+ *
+ * @param {import('@playwright/test').Page} page
+ * @param {string} query
+ */
+export async function filterMenu(page, query) {
+    await open(page, '/admin/dashboard');
+    await page
+        .locator('.main-sidebar')
+        .getByRole('searchbox', { name: 'Filter the menu' })
+        .pressSequentially(query);
+}

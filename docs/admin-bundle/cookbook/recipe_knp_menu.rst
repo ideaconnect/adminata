@@ -256,6 +256,34 @@ shows it. To drop the toolbar, empty the block in your layout:
 
     {% block adminata_sidebar_toolbar %}{% endblock %}
 
+The filter above the menu
+-------------------------
+
+Under the toolbar the layout renders a field that narrows the menu as it is typed into, the
+``adminata_sidebar_filter`` block of ``standard_layout.html.twig``. An entry stays when every word
+typed is in its own name or in the name of a group or a section above it, compared without case
+and accents (``ł`` included): "lodz" finds "Łódź", and a group or a section whose name matches
+keeps everything in it. The groups holding a match open, a section header stays above a match
+only, and the rest of the menu is hidden. Nothing of it is remembered — neither the groups the
+filter opens nor what is opened or closed while it lasts — and emptying the field puts the menu
+back as it was.
+
+In the field, Escape empties it, Enter follows the first link the filter leaves, and the down
+arrow moves the focus to that link. A status under the field says when nothing matches.
+
+The field needs JavaScript, so it is rendered ``hidden`` until ``adminata-menu-filter`` finds the
+menu through its ``adminata-menu`` outlet — and stays hidden beside a menu without a link. The
+collapsed rail hides the field, and collapsing the sidebar into the rail ends the filter; the
+mobile drawer shows it. To drop the field, empty the block in your layout:
+
+.. code-block:: twig
+
+    {# templates/standard_layout.html.twig — the template your `layout` setting names #}
+
+    {% extends '@Adminata/standard_layout.html.twig' %}
+
+    {% block adminata_sidebar_filter %}{% endblock %}
+
 The collapsed rail
 ------------------
 
