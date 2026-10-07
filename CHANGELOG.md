@@ -141,6 +141,14 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- Sign-out above the sidebar menu asks first, and can be turned off (2026-10-07): the toolbar's
+  **Log out** is a closed door (`fa-door-closed`, was `fa-right-from-bracket`) and opens the
+  layout's question dialog (`adminata-question`) before it follows the link — a door at the edge
+  of the menu is easy to hit by mistake, and a slip there ended the session. Cancelling leaves the
+  page as it was; without JavaScript it is a plain link, as before. The new
+  `options.sidebar_logout` (default `true`) turns it off for an application that signs out
+  elsewhere, leaving the rest of the row. One key, `sidebar_logout_question`, is translated in `en`
+  and `pl` and ships as `needs-translation` in the other catalogues.
 - A filter above the sidebar menu (2026-10-05): under the toolbar, `standard_layout` renders a
   search field in the new additive `adminata_sidebar_filter` block (`adm-sidebar-filter`) that
   narrows the menu as it is typed into. An entry stays when every word typed is in its own name

@@ -139,6 +139,9 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
             # Open the object when a list row is clicked, using the route named by default_admin_route
             list_row_link:        true
 
+            # Offer sign-out in the toolbar above the sidebar menu, behind a firewall that configures a logout; it asks before it signs out
+            sidebar_logout:       true
+
             # Enable locking when editing an object, if the corresponding object manager supports it.
             lock_protection:      false
 

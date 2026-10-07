@@ -240,10 +240,21 @@ Between the logo and the menu the layout renders a row of four icon buttons, the
   ``keep_open`` group stays open. They need JavaScript, so they are rendered ``hidden`` until
   ``adminata-sidebar-toolbar`` finds the menu through its ``adminata-menu`` outlet — and stay
   hidden when the menu has no group to fold.
-* **Log out** links to the logout of the firewall the page is behind, CSRF token included when
-  that firewall asks for one. A firewall without a ``logout`` gets no button: the path comes from
-  the ``adminata_logout_path()`` Twig function, which answers ``null`` where Symfony's own
-  ``logout_path()`` would throw.
+* **Log out** — a closed door — links to the logout of the firewall the page is behind, CSRF token
+  included when that firewall asks for one. A firewall without a ``logout`` gets no button: the
+  path comes from the ``adminata_logout_path()`` Twig function, which answers ``null`` where
+  Symfony's own ``logout_path()`` would throw. It asks before it signs out, in the layout's
+  question dialog (``adminata-question``, the question ``sidebar_logout_question``): a door at the
+  edge of the menu is easy to hit by mistake. Without JavaScript it is a plain link. An
+  application that signs out elsewhere — from its user menu, say — turns it off:
+
+  .. code-block:: yaml
+
+      # config/packages/adminata.yaml
+
+      adminata:
+          options:
+              sidebar_logout: false
 
 The collapsed rail hides the row, as it hides the rest of the menu's text; the mobile drawer
 shows it. To drop the toolbar, empty the block in your layout:

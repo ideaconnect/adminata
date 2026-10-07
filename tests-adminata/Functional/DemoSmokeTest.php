@@ -98,6 +98,47 @@ final class DemoSmokeTest extends WebTestCase
     }
 
     /**
+     * Sign-out above the menu is a closed door that asks before it goes: the link carries the
+     * layout's question — its title, the question and the confirm label from the catalogue — so a
+     * slip at the edge of the menu does not end the session. Without JavaScript it stays a link.
+     */
+    public function testTheSidebarSignOutIsADoorThatAsksFirst(): void
+    {
+        $client = self::browser();
+        $crawler = $client->request('GET', '/admin/dashboard');
+
+        $logout = $crawler->filter('.adm-sidebar-toolbar a[href="/logout"]');
+        static::assertCount(1, $logout, 'The toolbar offers no sign-out.');
+        static::assertCount(1, $logout->filter('i.fa-door-closed'), 'Sign-out is not drawn as a closed door.');
+        static::assertStringContainsString('adminata-question', (string) $logout->attr('data-controller'));
+        static::assertStringContainsString('adminata-question#ask', (string) $logout->attr('data-action'));
+        static::assertSame('Do you really want to log out?', $logout->attr('data-adminata-question-text-value'));
+        static::assertSame('Log out', $logout->attr('data-adminata-question-confirm-value'));
+        static::assertCount(1, $crawler->filter('dialog#adminata-question-dialog'), 'There is no question dialog to ask in.');
+    }
+
+    /**
+     * `options.sidebar_logout: false` takes sign-out out of the toolbar — for an application that
+     * signs out elsewhere, from its user menu say — and leaves the rest of the row as it was.
+     */
+    public function testTheSidebarSignOutCanBeTurnedOff(): void
+    {
+        // The demo reads the option from this variable (tests-adminata/App/config/adminata.yaml),
+        // and each test boots a container of its own, which reads it afresh.
+        $_SERVER['ADMINATA_DEMO_SIDEBAR_LOGOUT'] = $_ENV['ADMINATA_DEMO_SIDEBAR_LOGOUT'] = '0';
+
+        try {
+            $crawler = self::browser()->request('GET', '/admin/dashboard');
+
+            static::assertResponseIsSuccessful();
+            static::assertCount(0, $crawler->filter('.adm-sidebar-toolbar a[href="/logout"]'), 'Sign-out is still offered.');
+            static::assertCount(1, $crawler->filter('.adm-sidebar-toolbar a[href="/admin/dashboard"]'), 'The rest of the row went with it.');
+        } finally {
+            unset($_SERVER['ADMINATA_DEMO_SIDEBAR_LOGOUT'], $_ENV['ADMINATA_DEMO_SIDEBAR_LOGOUT']);
+        }
+    }
+
+    /**
      * @return iterable<string, array{string, list<string>, string, string}>
      */
     public static function provideAScreenIsNamedAsItsAdminNamesItCases(): iterable

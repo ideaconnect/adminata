@@ -506,6 +506,10 @@
         <source>sidebar_logout</source>
         <target>Log out</target>
       </trans-unit>
+      <trans-unit id="sidebar_logout_question">
+        <source>sidebar_logout_question</source>
+        <target>Do you really want to log out?</target>
+      </trans-unit>
       <trans-unit id="sidebar_filter">
         <source>sidebar_filter</source>
         <target>Filter the menu</target>

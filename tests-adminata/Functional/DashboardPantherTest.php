@@ -209,6 +209,41 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
+     * Sign-out above the menu asks before it goes: a click opens the layout's question dialog
+     * instead of following the link; cancelling leaves the page signed in where it was, and
+     * confirming follows the link — the firewall signs out and sends the browser to `/`, which
+     * the demo does not route. Each test signs in again, so the next one starts signed in.
+     */
+    public function testTheSidebarSignOutAsksBeforeItGoes(): void
+    {
+        $this->client->request('GET', $this->url('/admin/dashboard'));
+
+        $question = $this->client->findElement(WebDriverBy::id('adminata-question-dialog'));
+        $signOut = $this->client->findElement(WebDriverBy::cssSelector('.adm-sidebar-toolbar a[href="/logout"]'));
+
+        static::assertFalse($question->isDisplayed());
+
+        $signOut->click();
+
+        static::assertTrue($question->isDisplayed(), 'Sign-out went ahead without asking.');
+        static::assertSame('Do you really want to log out?', $question->findElement(WebDriverBy::cssSelector('[data-adminata-question-text]'))->getText());
+        static::assertSame('Log out', trim($question->findElement(WebDriverBy::cssSelector('[data-adminata-question-confirm]'))->getText()));
+        static::assertStringEndsWith('/admin/dashboard', $this->client->getCurrentURL());
+
+        $question->findElement(WebDriverBy::cssSelector('[data-adminata-question-cancel]'))->click();
+
+        static::assertFalse($question->isDisplayed());
+        static::assertStringEndsWith('/admin/dashboard', $this->client->getCurrentURL(), 'Cancelling signed out.');
+
+        $signOut->click();
+        static::assertTrue($question->isDisplayed());
+        $question->findElement(WebDriverBy::cssSelector('[data-adminata-question-confirm]'))->click();
+
+        $this->client->wait(10)->until(static fn ($driver): bool => '/' === parse_url((string) $driver->getCurrentURL(), \PHP_URL_PATH));
+        static::assertSame('/', parse_url($this->client->getCurrentURL(), \PHP_URL_PATH), 'Confirming did not sign out.');
+    }
+
+    /**
      * The collapsed rail has no room to unfold a group, so a click opens the group as a popup
      * beside the rail, headed by its name: no chevron on the rail, one popup at a time, closed by
      * Escape — which gives the button the focus back — and by a click anywhere else. None of it is
