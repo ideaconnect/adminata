@@ -49,6 +49,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *     logo_content: 'text'|'icon'|'all',
  *     mosaic_background: string,
  *     pager_links: int|null,
+ *     sidebar_logout: bool,
  *     sort_admins: bool,
  *     use_stickyforms: bool,
  * }
@@ -376,6 +377,10 @@ final class Configuration implements ConfigurationInterface
                         ->booleanNode('list_row_link')
                             ->defaultTrue()
                             ->info('Open the object when a list row is clicked, using the route named by default_admin_route')
+                        ->end()
+                        ->booleanNode('sidebar_logout')
+                            ->defaultTrue()
+                            ->info('Offer sign-out in the toolbar above the sidebar menu, behind a firewall that configures a logout; it asks before it signs out')
                         ->end()
                         ->booleanNode('lock_protection')
                             ->defaultFalse()

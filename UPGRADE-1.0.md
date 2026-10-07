@@ -46,6 +46,7 @@ New nodes:
 |---|---|---|
 | `options.theme.mode` | `system` | `light`, `dark` or `system`; resolved server-side from the `adminata_theme` cookie, so a page never paints the wrong theme first |
 | `options.list_row_link` | `true` | clicking a list row opens the object |
+| `options.sidebar_logout` | `true` | sign-out in the toolbar above the sidebar menu, asking first; `false` drops it |
 
 Two existing nodes are worth revisiting once you can see the result, because their defaults were
 chosen for a different UI:

@@ -155,11 +155,16 @@ file that was distributed with this source code.
                         expand every menu group, and sign-out. The middle two need JavaScript, so
                         they render `hidden` until `adminata-sidebar-toolbar` finds a menu with a
                         group in it; sign-out is offered only behind a firewall that configures a
-                        `logout` (`adminata_logout_path()`). The collapsed rail hides the row.
-                        An application that wants none of it empties the block.
+                        `logout` (`adminata_logout_path()`), and only while `options.sidebar_logout`
+                        is on (the default) — an application that signs out elsewhere, from its
+                        user menu say, turns it off. Sign-out asks first, in the layout's question
+                        dialog (`adminata-question`): a door at the edge of the menu is easy to hit
+                        by mistake, and a slip there ends the session. Without JavaScript it is a
+                        plain link. The collapsed rail hides the row. An application that wants
+                        none of it empties the block.
                     #}
                     {% block adminata_sidebar_toolbar %}
-                        {% set _logout_path = app.user ? adminata_logout_path() : null %}
+                        {% set _logout_path = app.user and adminata_config.getOption('sidebar_logout', true) ? adminata_logout_path() : null %}
                         <div class="adm-sidebar-toolbar" role="group"
                              aria-label="{{ 'sidebar_toolbar'|trans({}, 'AdminataBundle') }}"
                              {{ stimulus_controller('adminata-sidebar-toolbar', {}, {}, {'adminata-menu': '.adm-sidebar nav[data-controller~="adminata-menu"]'}) }}
@@ -189,8 +194,14 @@ file that was distributed with this source code.
                             {% if _logout_path %}
                                 <a class="adm-btn-icon" href="{{ _logout_path }}"
                                    title="{{ 'sidebar_logout'|trans({}, 'AdminataBundle') }}"
+                                   {{ stimulus_controller('adminata-question', {
+                                       title: 'sidebar_logout'|trans({}, 'AdminataBundle'),
+                                       text: 'sidebar_logout_question'|trans({}, 'AdminataBundle'),
+                                       confirm: 'sidebar_logout'|trans({}, 'AdminataBundle'),
+                                   }) }}
+                                   {{ stimulus_action('adminata-question', 'ask', 'click') }}
                                 >
-                                    <i class="fas fa-right-from-bracket" aria-hidden="true"></i>
+                                    <i class="fas fa-door-closed" aria-hidden="true"></i>
                                     <span class="sr-only">{{ 'sidebar_logout'|trans({}, 'AdminataBundle') }}</span>
                                 </a>
                             {% endif %}

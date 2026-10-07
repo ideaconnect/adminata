@@ -34,6 +34,7 @@ namespace IDCT\Adminata;
  *     role_admin: string,
  *     role_super_admin: string,
  *     search: bool,
+ *     sidebar_logout: bool,
  *     sort_admins: bool,
  *     stylesheets: list<string>,
  *     theme: array{
