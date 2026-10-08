@@ -1789,7 +1789,7 @@ abstract class AbstractAdmin extends BaseAbstractAdmin implements AdminInterface
                 'translation_domain' => 'AdminataBundle',
                 'template' => $this->getTemplateRegistry()->getTemplate('action_create'),
                 'url' => $this->generateUrl('create'),
-                'icon' => 'fas fa-plus-circle',
+                'icon' => 'fas fa-circle-plus',
             ];
         }
 

@@ -55,9 +55,9 @@ interface TaggedAdminInterface extends MutableTemplateRegistryAwareInterface
             'class' => 'fas fa-list fa-fw',
         ],
         'mosaic' => [
-            'icon' => '<i class="fas fa-th-large fa-fw" aria-hidden="true"></i>',
+            'icon' => '<i class="fas fa-table-cells-large fa-fw" aria-hidden="true"></i>',
             // NEXT_MAJOR: Remove the class part.
-            'class' => 'fas fa-th-large fa-fw',
+            'class' => 'fas fa-table-cells-large fa-fw',
         ],
     ];
 

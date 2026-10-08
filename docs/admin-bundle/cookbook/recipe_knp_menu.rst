@@ -109,7 +109,7 @@ The following configuration uses a menu provider to populate the menu group ``my
             groups:
                 my_group:
                     provider: 'MyBundle:MyMenuProvider:getMyMenu'
-                    icon: 'fas fa-edit' # html is also supported
+                    icon: 'fas fa-pen-to-square' # html is also supported
 
 With KnpMenuBundle you can create a custom menu by using a builder class
 or by declaring it as a service. Please see the `Knp documentation`_ for
@@ -153,7 +153,7 @@ name ``adminata.admin.event.configure.menu.sidebar``::
                 'label' => 'Daily and monthly reports',
                 'route' => 'app_reports_index',
             ])->setExtras([
-                'icon' => 'fas fa-bar-chart', // html is also supported
+                'icon' => 'fas fa-chart-bar', // html is also supported
             ]);
         }
     }

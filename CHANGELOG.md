@@ -380,6 +380,19 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Changed
 
+- **Icons go by their Font Awesome 7 names** (2026-10-08). Every icon adminata draws or
+  documents that Font Awesome 7 keeps only as an alias of an older version is renamed to the
+  canonical name: `plus-circle` → `circle-plus` (the dashboard's and the association widgets'
+  Add new), `minus-circle` → `circle-minus`, `pencil-alt` → `pencil`, `home` → `house` (the
+  breadcrumb's home link, in all 35 catalogues), `th-large` → `table-cells-large` (the mosaic list
+  mode), `times` → `xmark`, `exclamation-circle` → `circle-exclamation`,
+  `arrow-circle-right` → `circle-arrow-right`, `plus-square` → `square-plus`, `magic` →
+  `wand-magic`, `rss-square` → `square-rss`, and in the documentation's examples `edit` →
+  `pen-to-square`, `level-up-alt` → `turn-up`, `cogs` → `gears`, `bar-chart` → `chart-bar`.
+  Nothing looks different: the shipped `fontawesome.css` gives an alias and its canonical name one
+  rule, and it keeps the aliases, so an application's own older names still resolve.
+  `tests-adminata/Contract/IconNameTest` keeps aliases out of `src/`, `assets/`, the demo
+  application and `docs/`.
 - **A screen is no longer named after its model class** (2026-09-29, see *Screen titles* above).
   The breadcrumb and the document title of an admin's list said what the label strategy made of
   the class name (`CautionBag_list` → "Caution Bag List"), in English and past the label the

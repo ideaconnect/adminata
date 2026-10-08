@@ -268,7 +268,7 @@ counter is related to the filters from one admin
                     type:     adminata.admin.block.stats   # block id
                     settings:
                         code:  adminata.page.admin.page    # admin code - service id
-                        icon:  fas fa-magic               # font awesome icon
+                        icon:  fas fa-wand-magic         # font awesome icon
                         text:  app.page.stats            # static text or translation message
                         color: bg-warning-500            # any Tailwind background utility
                         filters:                         # filter values
@@ -314,7 +314,7 @@ A preview block can be used to display a brief of an admin list.
                     type:     adminata.admin.block.admin_preview # block id
                     settings:
                         code:  adminata.page.admin.page          # admin code - service id
-                        icon:  fas fa-magic                     # font awesome icon
+                        icon:  fas fa-wand-magic               # font awesome icon
                         limit: 10
                         text:  Latest Edited Pages
                         filters:                               # filter values
