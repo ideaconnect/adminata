@@ -187,6 +187,13 @@ through `this.dispatch()`; inherited event names keep their exact spelling.
 descendant rules go in `@layer components`, every `.adm-*` name is safelisted and asserted by
 `contract.json`. No Bootstrap or AdminLTE class name may appear in adminata markup or CSS.
 
+**Icons**: by their Font Awesome 7 name (`fa-circle-plus`, `fa-xmark`, `fa-house`), never by an
+alias the font keeps from an older version (`fa-plus-circle`, `fa-times`, `fa-home`) — owner
+directive of 2026-10-08. Both draw the same glyph, so only `tests-adminata/Contract/IconNameTest.php`
+notices: it reads the aliases from the shipped `fontawesome.css` and names the name to use. The rule
+covers the icon strings in upstream PHP too (`TaggedAdminInterface`, `RssBlockService`), an
+exception to the P6 rule above, so an upstream sync that brings an alias in renames it.
+
 **Git**: one branch per PROJECT_PLAN task (`task/P0-01-import-packages`), commit subjects
 `P0-01: <what>`, and every commit ends with the
 `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>` trailer. `main` is pushed only in

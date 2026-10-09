@@ -93,7 +93,7 @@ expects a different object you can set your own variables prior to calling ``par
             {{ 'btn_preview_approve'|trans({}, 'AdminataBundle') }}
         </button>
         <button class="btn btn-danger" type="submit" name="btn_preview_decline">
-            <i class="fas fa-times"></i>
+            <i class="fas fa-xmark"></i>
             {{ 'btn_preview_decline'|trans({}, 'AdminataBundle') }}
         </button>
     {% endblock %}

@@ -39,7 +39,7 @@ final class RssBlockService extends AbstractBlockService implements EditableBloc
             'url' => false,
             'title' => null,
             'translation_domain' => null,
-            'icon' => 'fa fa-rss-square',
+            'icon' => 'fa fa-square-rss',
             'class' => null,
             'template' => '@Adminata/Block/block_core_rss.html.twig',
         ]);
@@ -139,7 +139,7 @@ final class RssBlockService extends AbstractBlockService implements EditableBloc
     public function getMetadata(): MetadataInterface
     {
         return new Metadata('adminata.block.service.rss', null, null, 'AdminataBundle', [
-            'class' => 'fa fa-rss-square',
+            'class' => 'fa fa-square-rss',
         ]);
     }
 }

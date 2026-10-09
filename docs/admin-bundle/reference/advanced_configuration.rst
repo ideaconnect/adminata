@@ -309,7 +309,7 @@ Your custom twig file
 
     <li>
         <a href="{{ admin.generateObjectUrl('custom', object) }}">
-            <i class="fa fa-cogs" aria-hidden="true"></i>
+            <i class="fa fa-gears" aria-hidden="true"></i>
             Custom
         </a>
     </li>

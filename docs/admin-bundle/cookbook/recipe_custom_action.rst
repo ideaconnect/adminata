@@ -273,7 +273,7 @@ Create a template for that button:
 
     <li>
         <a class="adminata-action-element" href="{{ admin.generateUrl('import') }}">
-            <i class="fas fa-level-up-alt"></i> {{ 'import_action'|trans({}, 'AdminataBundle') }}
+            <i class="fas fa-turn-up"></i> {{ 'import_action'|trans({}, 'AdminataBundle') }}
         </a>
     </li>
 
@@ -293,7 +293,7 @@ Create a template for that button:
 .. code-block:: html+twig
 
     <a class="btn btn-link btn-flat" href="{{ admin.generateUrl('import') }}">
-        <i class="fas fa-level-up-alt"></i> {{ 'import_action'|trans({}, 'AdminataBundle') }}
+        <i class="fas fa-turn-up"></i> {{ 'import_action'|trans({}, 'AdminataBundle') }}
     </a>
 
 Or you can pass values as array::

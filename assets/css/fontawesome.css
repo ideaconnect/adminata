@@ -5,7 +5,8 @@
  * The core plus the two Free styles, deliberately not `all.css`: that also carries Brands and the
  * version 4 and 5 compatibility shims, whose `@font-face` rules point at files adminata does not
  * ship. Every icon name the target application uses resolves through Font Awesome 7's own aliases
- * (PLAN/04 §8); the one exception, `clock-o`, the application renames.
+ * (PLAN/04 §8); the one exception, `clock-o`, the application renames. adminata's own markup names
+ * every icon by its Font Awesome 7 name (`IconNameTest`); the aliases stay for applications.
  *
  * Imported into a layer, which is the whole reason this file exists rather than a bare `<link>`.
  * Unlayered CSS beats every cascade layer no matter what loads first, so Font Awesome's

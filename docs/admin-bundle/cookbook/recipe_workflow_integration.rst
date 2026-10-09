@@ -68,7 +68,7 @@ You can use the provided extension to take care of your entity admin.
                - '@workflow.registry'
                - transitions_icons:
                      start_review: fas fa-question
-                     interrupt_review: fas fa-edit
+                     interrupt_review: fas fa-pen-to-square
                      restart_review: fas fa-question
                      publish: fas fa-check
 
