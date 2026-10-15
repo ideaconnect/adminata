@@ -33,7 +33,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
 
             - name: Install PHP with extensions
               uses: shivammathur/setup-php@v2
@@ -64,7 +64,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
 
             - name: Install PHP with extensions
               uses: shivammathur/setup-php@v2
@@ -86,7 +86,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
 
             - name: Install yamllint
               run: sudo apt-get update && sudo apt-get install --yes yamllint
@@ -101,7 +101,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
 
             - name: Install xmllint
               run: sudo apt-get update && sudo apt-get install --yes libxml2-utils
@@ -122,7 +122,7 @@ jobs:
         # until then the check is the grep below.
         steps:
             - name: Checkout
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
 
             - name: Set up Node
               if: hashFiles('package.json') != ''
