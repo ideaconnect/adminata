@@ -263,6 +263,28 @@ file that was distributed with this source code.
                         {% endblock adminata_side_nav %}
 
                         {#
+                            The application's released version (`options.released_version`), at the
+                            end of the sidebar: a deploy passes it in from its environment through the
+                            application's configuration, and adminata shows it as it comes, in one quiet
+                            badge. Nothing at all when it is empty. It is the last thing in the menu's
+                            scrolling box, so it never covers an entry: under a menu taller than the box
+                            it comes right after the last item, out of sight until the menu is scrolled
+                            to its end; under a shorter one the box's free space goes above it and it
+                            sits at the bottom of the sidebar. Before the place script below, so the box
+                            already has its full height when the menu is put back in place. The
+                            collapsed rail hides it with the rest of the text.
+                        #}
+                        {% block adminata_sidebar_release %}
+                            {% set _released_version = adminata_config.getOption('released_version') %}
+                            {% if _released_version is not empty %}
+                                <p class="adm-sidebar-release">
+                                    <span class="sr-only">{{ 'sidebar_release'|trans({}, 'AdminataBundle') }}</span>
+                                    <span class="adm-badge">{{ _released_version }}</span>
+                                </p>
+                            {% endif %}
+                        {% endblock adminata_sidebar_release %}
+
+                        {#
                             The sidebar keeps its place across page loads. The menu scrolls inside
                             this box, and a page load used to start the box at the top, so the entry
                             just clicked could end up screens below what the sidebar shows. This puts
@@ -362,23 +384,6 @@ file that was distributed with this source code.
                         {% endblock adminata_sidebar_place %}
                     </div>
 
-                    {#
-                        The application's released version (`options.released_version`), at the foot
-                        of the rail: a deploy passes it in from its environment through the
-                        application's configuration, and adminata shows it as it comes, in one quiet
-                        badge. Nothing at all when it is empty. It sits after `.adm-sidebar-nav`, not
-                        in it, so a short menu leaves it at the bottom and a long one scrolls above it.
-                        The collapsed rail hides it with the rest of the text.
-                    #}
-                    {% block adminata_sidebar_release %}
-                        {% set _released_version = adminata_config.getOption('released_version') %}
-                        {% if _released_version is not empty %}
-                            <p class="adm-sidebar-release">
-                                <span class="sr-only">{{ 'sidebar_release'|trans({}, 'AdminataBundle') }}</span>
-                                <span class="adm-badge">{{ _released_version }}</span>
-                            </p>
-                        {% endif %}
-                    {% endblock adminata_sidebar_release %}
                 </aside>
             {% endblock adminata_left_side %}
 

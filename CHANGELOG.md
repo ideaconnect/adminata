@@ -156,9 +156,12 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
   out. Moved here from recomaty-panel#648/#649, which carried it in its layout override.
 - The application's released version at the foot of the sidebar (2026-10-22): the new
   `options.released_version` (default `null`) is shown as it comes, in one neutral `adm-badge`,
-  in the new additive `adminata_sidebar_release` block (`adm-sidebar-release`), after
-  `.adm-sidebar-nav` — at the bottom of the rail under a short menu, below the scrolling menu under
-  a long one, hidden on the collapsed rail. Empty or `null` renders nothing. adminata does not read
+  in the new additive `adminata_sidebar_release` block (`adm-sidebar-release`), the last thing in
+  the menu's scrolling box (`.adm-sidebar-nav`, which now takes the rest of the sidebar's height):
+  right after the last item under a menu taller than the box, scrolling with it, and at the bottom
+  of the sidebar under a shorter one; hidden on the collapsed rail. It never covers an entry: it
+  first sat after the box, pinned to the bottom over the end of a long menu, and moved into it the
+  same day (recomaty-panel#650). Empty or `null` renders nothing. adminata does not read
   the environment: the application passes the value in, typically from its deploy, as
   `released_version: '%env(default::RELEASED_VERSION)%'`. One key, `sidebar_release` (the badge's
   screen-reader label), is translated in `en` and `pl` and ships as `needs-translation` in the

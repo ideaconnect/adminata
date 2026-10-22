@@ -140,8 +140,11 @@ final class DemoSmokeTest extends WebTestCase
 
     /**
      * `options.released_version` is the application's released version, shown as it comes in one
-     * badge at the foot of the rail, after the menu's scrolling box, with a screen-reader label
-     * before it. The value is the application's text, so it is escaped like any other.
+     * badge at the end of the sidebar, with a screen-reader label before it: the last thing in the
+     * menu's scrolling box, after the menu, so it never covers an entry (recomaty-panel#650) — and
+     * before the place script, which needs the box at its full height. The value is the
+     * application's text, so it is escaped like any other. Where it lands on screen, under a short
+     * menu and a long one, is DashboardPantherTest's.
      */
     public function testTheReleasedVersionIsShownAtTheFootOfTheSidebar(): void
     {
@@ -154,9 +157,11 @@ final class DemoSmokeTest extends WebTestCase
             $crawler = $client->request('GET', '/admin/dashboard');
 
             static::assertResponseIsSuccessful();
-            $release = $crawler->filter('aside.adm-sidebar > p.adm-sidebar-release');
-            static::assertCount(1, $release, 'The released version is not at the foot of the sidebar.');
-            static::assertCount(1, $crawler->filter('aside.adm-sidebar > .adm-sidebar-nav + p.adm-sidebar-release'), 'The version is not right after the menu.');
+            $release = $crawler->filter('aside.adm-sidebar > .adm-sidebar-nav > p.adm-sidebar-release');
+            static::assertCount(1, $release, 'The released version is not in the menu\'s scrolling box.');
+            static::assertCount(1, $crawler->filter('.adm-sidebar-nav > nav[data-controller~="adminata-menu"] ~ p.adm-sidebar-release'), 'The version is not after the menu.');
+            static::assertCount(1, $crawler->filter('.adm-sidebar-nav > p.adm-sidebar-release ~ script[data-adminata-sidebar-place]'), 'The version is not before the place script.');
+            static::assertCount(0, $crawler->filter('aside.adm-sidebar > p.adm-sidebar-release'), 'The version is outside the box again, over the end of a long menu.');
             static::assertSame('v10.1.0+3·ab12cd3<b>', $release->filter('.adm-badge')->text(), 'The version is not shown as it was configured.');
             static::assertSame('Version', $release->filter('.sr-only')->text());
             static::assertStringNotContainsString('ab12cd3<b>', (string) $client->getResponse()->getContent(), 'The version was not escaped.');
