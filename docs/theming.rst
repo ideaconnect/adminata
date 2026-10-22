@@ -24,8 +24,10 @@ dropping ``system`` once a visitor has touched it, so a machine that switches at
 so.
 
 Because the server writes ``<html class="dark" data-theme="dark">`` itself, there is no flash of
-the wrong theme on the first paint. The only inline script adminata ships is the three lines that
-resolve ``system`` against ``prefers-color-scheme`` before the stylesheet loads.
+the wrong theme on the first paint. Of the two inline scripts adminata ships, the theme's is the
+three lines that resolve ``system`` against ``prefers-color-scheme`` before the stylesheet loads;
+the other puts the sidebar's menu back in place (see the KnpMenu cookbook). Both carry the
+``adminata_script_attributes`` block, so a ``nonce`` given there covers them.
 
 Writing your own dark rules
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

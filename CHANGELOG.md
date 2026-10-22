@@ -141,6 +141,19 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- The sidebar keeps its place across page loads (2026-10-22): a click on an entry of a scrolled
+  menu no longer throws the menu back to the top. The next page shows the menu where the last one
+  left it, then scrolls it by the least distance that shows the current screen's entry (all that
+  happens in a new tab); on the collapsed rail, the current group's icon. It is there from the
+  first painted frame: the new additive `adminata_sidebar_place` block, right after the menu in
+  `.adm-sidebar-nav` and outside `adminata_side_nav`, holds a short inline script under the
+  `adminata_script_attributes` nonce block. Before the paint it also opens the groups
+  `adminata-menu` keeps open and shows the menu's filter field, which `adminata-menu-filter`
+  used to unhide only after the paint, shifting the whole menu by ~60 px on every page. The
+  place is kept per tab (`sessionStorage`, `adminata_sidebar_scroll:menu|rail`), written on
+  `pagehide`. This makes it the second inline script adminata ships: AGENTS.md rule 6,
+  PLAN/01 J4, PLAN/05 §8 and the theming docs say so. An application empties the block to opt
+  out. Moved here from recomaty-panel#648/#649, which carried it in its layout override.
 - The application's released version at the foot of the sidebar (2026-10-22): the new
   `options.released_version` (default `null`) is shown as it comes, in one neutral `adm-badge`,
   in the new additive `adminata_sidebar_release` block (`adm-sidebar-release`), after

@@ -54,9 +54,11 @@ is ported when first needed.
 4. **Latest releases, pinned exactly.** Nothing inherits Sonata's pins
    ([PLAN/07 §2](PLAN/07-packaging-and-project-setup.md)).
 5. **No AJAX form submission** in any phase. `ajaxSubmit` is gone for good.
-6. **No inline scripts and no `onclick`** in adminata templates, except the three-line theme
-   pre-paint script rendered under the `adminata_script_attributes` block (for a CSP nonce). Every
-   script tag carries `defer`.
+6. **No inline scripts and no `onclick`** in adminata templates, except the two pre-paint scripts
+   rendered under the `adminata_script_attributes` block (for a CSP nonce): the three-line theme
+   script and the one that puts the sidebar's menu back in place (`adminata_sidebar_place`). Both
+   change what the first paint shows, which a deferred script cannot. Every other script tag
+   carries `defer`.
 7. **Seven forked trees, one project.** No sub-bundles of our own, and no bundle class beyond
    `AdminataBundle` and the storage layers' own. Blocks, form types, the Twig helpers and the
    exporter are not usable without the admin bundle in this fork, so they do not earn bundles of

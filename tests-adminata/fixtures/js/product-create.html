@@ -150,7 +150,70 @@
     </ul>
 </nav>
 
-                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                        
+                                                                            <script data-adminata-sidebar-place >
+                                (() => {
+                                    const box = document.currentScript?.closest('.adm-sidebar-nav');
+                                    const menu = box?.querySelector('nav[data-controller~="adminata-menu"]');
+                                    if (!menu) {
+                                        return;
+                                    }
+                                    const shell = menu.closest('[data-sidebar]');
+                                    const wide = window.matchMedia('(min-width: ' + (Number(menu.dataset.adminataMenuBreakpointValue) || 1024) + 'px)');
+                                    const key = () => 'adminata_sidebar_scroll:' + ('collapsed' === shell?.dataset.sidebar && wide.matches ? 'rail' : 'menu');
+                                    const read = (storage, name) => {
+                                        try {
+                                            return window[storage].getItem(name);
+                                        } catch {
+                                            return null;
+                                        }
+                                    };
+                                    let open = null;
+                                    try {
+                                        open = JSON.parse(read('localStorage', menu.dataset.adminataMenuStorageKeyValue || 'adminata_sidebar_open') ?? '{}');
+                                    } catch {
+                                        open = null;
+                                    }
+                                    menu.querySelectorAll('[data-adminata-menu-target~="toggle"]').forEach((toggle) => {
+                                        if ('true' !== toggle.getAttribute('aria-expanded') && true === open?.[(toggle.textContent ?? '').trim()]) {
+                                            toggle.setAttribute('aria-expanded', 'true');
+                                        }
+                                    });
+                                    const filter = box.parentElement.querySelector(':scope > .adm-sidebar-filter[hidden]');
+                                    if (filter && menu.querySelector('a[href]')) {
+                                        filter.hidden = false;
+                                    }
+                                    const place = () => {
+                                        const stored = read('sessionStorage', key());
+                                        if (null !== stored) {
+                                            box.scrollTop = Number(stored) || 0;
+                                        }
+                                        const current = [...menu.querySelectorAll('.menu-item-active, .menu-dropdown-item-active')].filter((item) => 0 < item.getClientRects().length).pop();
+                                        if (!current) {
+                                            return;
+                                        }
+                                        const item = current.getBoundingClientRect();
+                                        const frame = box.getBoundingClientRect();
+                                        if (item.top < frame.top + 16) {
+                                            box.scrollTop -= frame.top + 16 - item.top;
+                                        } else if (item.bottom > frame.bottom - 16) {
+                                            box.scrollTop += item.bottom - (frame.bottom - 16);
+                                        }
+                                    };
+                                    const size = () => box.scrollHeight + 'x' + box.clientHeight;
+                                    place();
+                                    const placed = size();
+                                    document.addEventListener('DOMContentLoaded', () => placed !== size() && place(), { once: true });
+                                    window.addEventListener('pagehide', () => {
+                                        try {
+                                            window.sessionStorage.setItem(key(), String(box.scrollTop));
+                                        } catch {
+                                            // Storage off or full: the next page starts at the top, as every page used to.
+                                        }
+                                    });
+                                })();
+                            </script>
+                                            </div>
 
                                                                                                                             </aside>
             
