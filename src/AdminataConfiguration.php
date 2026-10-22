@@ -31,6 +31,7 @@ namespace IDCT\Adminata;
  *     logo_content: 'text'|'icon'|'all',
  *     mosaic_background: string,
  *     pager_links: ?int,
+ *     released_version: string|null,
  *     role_admin: string,
  *     role_super_admin: string,
  *     search: bool,

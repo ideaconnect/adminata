@@ -5,6 +5,7 @@ parameters:
     # `docker compose up -d` starts a matching MySQL; override the variable for another server.
     env(ADMINATA_DEMO_DATABASE_URL): 'mysql://root:adminata@127.0.0.1:7010/adminata_demo?serverVersion=8.4.0&charset=utf8mb4'
     env(ADMINATA_DEMO_SIDEBAR_LOGOUT): 'true'
+    env(ADMINATA_DEMO_RELEASED_VERSION): ''
 
 framework:
     secret: adminata-demo

@@ -12,6 +12,11 @@ adminata:
         # On, as by default — read from a variable only so that DemoSmokeTest can prove that
         # turning it off takes sign-out out of the sidebar toolbar.
         sidebar_logout: '%env(bool:ADMINATA_DEMO_SIDEBAR_LOGOUT)%'
+        # Empty, so the demo and its screenshots show no version; read from a variable the way an
+        # application passes its deploy's version in, so that DemoSmokeTest can prove the badge
+        # appears with a value and stays away without one. Not `default::`, which would turn an
+        # empty value into null: the empty string must reach the template too.
+        released_version: '%env(ADMINATA_DEMO_RELEASED_VERSION)%'
     # A submitted filter is remembered for the next plain visit to the list (PLAN/08 §2). Each
     # browser test gets its own session, so nothing here leaks between them.
     persist_filters: true

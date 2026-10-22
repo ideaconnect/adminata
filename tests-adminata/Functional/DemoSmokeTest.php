@@ -139,6 +139,65 @@ final class DemoSmokeTest extends WebTestCase
     }
 
     /**
+     * `options.released_version` is the application's released version, shown as it comes in one
+     * badge at the foot of the rail, after the menu's scrolling box, with a screen-reader label
+     * before it. The value is the application's text, so it is escaped like any other.
+     */
+    public function testTheReleasedVersionIsShownAtTheFootOfTheSidebar(): void
+    {
+        // The demo reads the option from this variable (tests-adminata/App/config/adminata.yaml),
+        // the way an application passes its deploy's version in.
+        $_SERVER['ADMINATA_DEMO_RELEASED_VERSION'] = $_ENV['ADMINATA_DEMO_RELEASED_VERSION'] = 'v10.1.0+3·ab12cd3<b>';
+
+        try {
+            $client = self::browser();
+            $crawler = $client->request('GET', '/admin/dashboard');
+
+            static::assertResponseIsSuccessful();
+            $release = $crawler->filter('aside.adm-sidebar > p.adm-sidebar-release');
+            static::assertCount(1, $release, 'The released version is not at the foot of the sidebar.');
+            static::assertCount(1, $crawler->filter('aside.adm-sidebar > .adm-sidebar-nav + p.adm-sidebar-release'), 'The version is not right after the menu.');
+            static::assertSame('v10.1.0+3·ab12cd3<b>', $release->filter('.adm-badge')->text(), 'The version is not shown as it was configured.');
+            static::assertSame('Version', $release->filter('.sr-only')->text());
+            static::assertStringNotContainsString('ab12cd3<b>', (string) $client->getResponse()->getContent(), 'The version was not escaped.');
+        } finally {
+            unset($_SERVER['ADMINATA_DEMO_RELEASED_VERSION'], $_ENV['ADMINATA_DEMO_RELEASED_VERSION']);
+        }
+    }
+
+    /**
+     * Without a released version nothing is drawn: no badge, no label, no empty line. Both cases
+     * reach the template as an empty string (the demo's variable defaults to one), which is what
+     * an application gets when it writes the option without a value; `null`, the option's
+     * default, takes the same `is not empty` branch.
+     */
+    #[DataProvider('provideNoReleasedVersionDrawsNothingCases')]
+    public function testNoReleasedVersionDrawsNothing(?string $value): void
+    {
+        if (null !== $value) {
+            $_SERVER['ADMINATA_DEMO_RELEASED_VERSION'] = $_ENV['ADMINATA_DEMO_RELEASED_VERSION'] = $value;
+        }
+
+        try {
+            $crawler = self::browser()->request('GET', '/admin/dashboard');
+
+            static::assertResponseIsSuccessful();
+            static::assertCount(0, $crawler->filter('.adm-sidebar-release'), 'A version line is drawn without a version.');
+        } finally {
+            unset($_SERVER['ADMINATA_DEMO_RELEASED_VERSION'], $_ENV['ADMINATA_DEMO_RELEASED_VERSION']);
+        }
+    }
+
+    /**
+     * @return iterable<string, array{string|null}>
+     */
+    public static function provideNoReleasedVersionDrawsNothingCases(): iterable
+    {
+        yield 'unset' => [null];
+        yield 'empty' => [''];
+    }
+
+    /**
      * @return iterable<string, array{string, list<string>, string, string}>
      */
     public static function provideAScreenIsNamedAsItsAdminNamesItCases(): iterable
