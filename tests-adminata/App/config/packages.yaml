@@ -7,6 +7,13 @@ parameters:
     env(ADMINATA_DEMO_SIDEBAR_LOGOUT): 'true'
     env(ADMINATA_DEMO_RELEASED_VERSION): ''
 
+# The browser suites (APP_ENV=browser, Adminata\Tests\Support\DemoServer) see a released version,
+# so that DashboardPantherTest can check where the badge lands on screen; the demo, the screenshot
+# baselines and the other suites show none.
+when@browser:
+    parameters:
+        env(ADMINATA_DEMO_RELEASED_VERSION): 'v10.1.0+3·demo'
+
 framework:
     secret: adminata-demo
     http_method_override: false

@@ -173,22 +173,29 @@
     }
 }
 
+/*
+ * The menu's scrolling box takes the rest of the sidebar's height (its minimum is 0, so a long menu
+ * scrolls inside it instead of pushing it past the window), so that what ends it — the released
+ * version — can sit at the bottom of the sidebar under a short menu.
+ */
 @utility adm-sidebar-nav {
     display: flex;
+    flex: 1 1 auto;
     flex-direction: column;
+    min-height: 0;
     overflow-y: auto;
     padding-bottom: 1.5rem;
 }
 
 /*
- * The application's released version (`adminata_sidebar_release`), the rail's last child. The rail
- * is a flex column and the menu's box does not grow, so under a short menu `margin-top: auto` takes
- * the space below it and the line sits at the foot; under a long one the menu's box (a scroll
- * container, so its minimum height is 0) shrinks and scrolls, and the line stays in view below it.
+ * The application's released version (`adminata_sidebar_release`), the last thing in the menu's
+ * box. Under a menu taller than the box `margin-top: auto` is nothing and the line comes right
+ * after the last item, scrolling with the menu; under a shorter one it takes the box's free space,
+ * and the line sits at the bottom of the sidebar. Inside the box, so it never covers an entry.
  */
 @utility adm-sidebar-release {
     margin-top: auto;
-    padding-block: 1rem 1.5rem;
+    padding-top: 1rem;
     text-align: center;
 
     /* The rail shows the menu's icons only. */

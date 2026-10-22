@@ -19,6 +19,7 @@ namespace Adminata\Tests\Functional;
 use Adminata\Tests\App\EventListener\BrowserConsoleRecorderListener;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Facebook\WebDriver\WebDriverBy;
+use Facebook\WebDriver\WebDriverDimension;
 use Facebook\WebDriver\WebDriverElement;
 use Facebook\WebDriver\WebDriverExpectedCondition;
 use Facebook\WebDriver\WebDriverKeys;
@@ -178,6 +179,52 @@ final class DashboardPantherTest extends BasePantherTestCase
         static::assertSame('true', $this->groupState('Catalogue'), 'The open group was forgotten.');
 
         $this->client->executeScript('window.localStorage.removeItem("adminata_sidebar_open");');
+    }
+
+    /**
+     * The released version ends the sidebar without ever covering the menu (recomaty-panel#650):
+     * it is the last thing in the menu's scrolling box. Under a menu shorter than the box it sits
+     * at the bottom of the sidebar; under one taller than the box it comes right after the last
+     * item, out of sight until the menu is scrolled to its end. The browser environment gives the
+     * demo a version (tests-adminata/App/config/packages.yaml).
+     */
+    public function testTheReleasedVersionEndsTheSidebarWithoutCoveringTheMenu(): void
+    {
+        $window = $this->client->manage()->window();
+        $size = $window->getSize();
+
+        try {
+            $window->setSize(new WebDriverDimension(1280, 900));
+            $this->client->request('GET', $this->url('/admin/dashboard'));
+            if ('collapsed' === $this->sidebarState()) {
+                $this->client->executeScript('document.querySelector(\'[data-adminata-layout-target="collapseOnly"]\').click();');
+            }
+            $this->client->executeScript('document.querySelector(\'[data-adminata-sidebar-toolbar-target="collapse"]\').click();');
+
+            $short = $this->releaseGeometry();
+            static::assertFalse($short['overflows'], 'The demo menu, folded, should fit a 900 px window.');
+            static::assertLessThanOrEqual(32, $short['belowRelease'], 'Under a short menu the version is not at the bottom of the sidebar.');
+            static::assertGreaterThan(40, $short['gapAboveRelease'], 'Under a short menu the version did not move down to the bottom.');
+
+            $window->setSize(new WebDriverDimension(1280, 420));
+            $this->client->executeScript('document.querySelector(\'[data-adminata-sidebar-toolbar-target="expand"]\').click();');
+            $this->client->wait(5)->until(fn (): bool => true === $this->client->executeScript(
+                'return null === document.querySelector(".adm-sidebar-nav [data-sliding]");'
+            ));
+
+            $long = $this->releaseGeometry();
+            static::assertTrue($long['overflows'], 'The demo menu, unfolded, should overflow a 420 px window.');
+            static::assertGreaterThanOrEqual(0, $long['gapAboveRelease'], 'The version covers the end of the menu.');
+            static::assertLessThanOrEqual(40, $long['gapAboveRelease'], 'Under a long menu the version is not right after the last item.');
+            static::assertGreaterThanOrEqual(0, $long['releaseBelowBox'], 'Under a long menu the version is in view before the menu is scrolled to its end.');
+
+            $this->client->executeScript('const box = document.querySelector(".adm-sidebar-nav"); box.scrollTop = box.scrollHeight;');
+            $end = $this->releaseGeometry();
+            static::assertLessThanOrEqual(0, $end['releaseBottomPastBox'], 'Scrolled to its end, the menu does not show the version.');
+            static::assertGreaterThanOrEqual(0, $end['gapAboveRelease'], 'Scrolled to its end, the version covers the last item.');
+        } finally {
+            $window->setSize($size);
+        }
     }
 
     /**
@@ -1097,6 +1144,43 @@ final class DashboardPantherTest extends BasePantherTestCase
     private function isDark(): bool
     {
         return true === $this->client->executeScript('return document.documentElement.classList.contains("dark");');
+    }
+
+    /**
+     * Where the released version is, against the menu's box, its last visible entry and the
+     * sidebar, in CSS pixels.
+     *
+     * @return array{overflows: bool, belowRelease: int, gapAboveRelease: int, releaseBelowBox: int, releaseBottomPastBox: int}
+     */
+    private function releaseGeometry(): array
+    {
+        $geometry = $this->client->executeScript(<<<'JS'
+            const box = document.querySelector('.adm-sidebar-nav');
+            const release = box.querySelector('.adm-sidebar-release');
+            const entries = [...box.querySelectorAll('nav a[href], nav [data-adminata-menu-target~="toggle"]')]
+                .filter((entry) => 0 < entry.getClientRects().length);
+            const last = entries[entries.length - 1].getBoundingClientRect();
+            const shown = release.getBoundingClientRect();
+            const frame = box.getBoundingClientRect();
+            const sidebar = document.querySelector('aside.adm-sidebar').getBoundingClientRect();
+
+            return {
+                overflows: box.scrollHeight > box.clientHeight + 1,
+                belowRelease: Math.round(sidebar.bottom - shown.bottom),
+                gapAboveRelease: Math.round(shown.top - last.bottom),
+                releaseBelowBox: Math.round(shown.top - frame.bottom),
+                releaseBottomPastBox: Math.round(shown.bottom - frame.bottom),
+            };
+            JS);
+        static::assertIsArray($geometry);
+
+        return [
+            'overflows' => true === $geometry['overflows'],
+            'belowRelease' => (int) $geometry['belowRelease'],
+            'gapAboveRelease' => (int) $geometry['gapAboveRelease'],
+            'releaseBelowBox' => (int) $geometry['releaseBelowBox'],
+            'releaseBottomPastBox' => (int) $geometry['releaseBottomPastBox'],
+        ];
     }
 
     private function sidebarState(): string
