@@ -3475,3 +3475,9 @@ the panel's own ids). The tasks are PLAN/v2/05's; their Read/Do/Deliver/Accept l
   a button, a form or a link acts — the replacement for `window.confirm()` the owner asked for
   when a customer page of the reference panel needed one. Contract snapshot regenerated, two
   catalogue keys in all 35 locales, demo usage and fixture mount added.
+- 2026-10-22 — **Plan changed: a second inline script.** `adminata_sidebar_place` puts the
+  sidebar's menu back where the last page of the tab left it, and the current entry into view,
+  before the first paint (moved from recomaty-panel#648/#649 at the owner's request). A deferred
+  script runs after the first paint, so it is inline, under the `adminata_script_attributes` nonce
+  block like the theme script. PLAN/01 J4, PLAN/05 §8 and AGENTS.md rule 6 now name both scripts;
+  `DashboardPantherTest::testTheLayoutCarriesTwoInlineScripts` counts them.

@@ -91,21 +91,29 @@ final class DashboardPantherTest extends BasePantherTestCase
     }
 
     /**
-     * adminata ships exactly one inline script: the three lines that resolve the `system` theme
-     * before the first paint (PLAN/01 J4).
+     * adminata ships exactly two inline scripts, both before the first paint (PLAN/01 J4): the
+     * three lines that resolve the `system` theme, and the one that puts the sidebar's menu back
+     * where the last page left it (`adminata_sidebar_place`), right after the menu in its box.
      */
-    public function testTheLayoutCarriesOneInlineScript(): void
+    public function testTheLayoutCarriesTwoInlineScripts(): void
     {
         $this->client->request('GET', $this->url('/admin/dashboard'));
 
         // Minus the console recorder, which only the test environment injects
         // (BrowserConsoleRecorderListener) and which is not part of what adminata ships.
         static::assertSame(
-            1,
+            2,
             $this->client->executeScript(\sprintf(
                 'return document.querySelectorAll("script:not([src]):not([%s])").length;',
                 BrowserConsoleRecorderListener::MARKER
             ))
+        );
+        static::assertSame(
+            1,
+            $this->client->executeScript(
+                'return document.querySelectorAll(".adm-sidebar-nav > nav[data-controller~=\"adminata-menu\"] ~ script[data-adminata-sidebar-place]:not([src])").length;'
+            ),
+            'The sidebar\'s place script is not after the menu, in its box.'
         );
     }
 

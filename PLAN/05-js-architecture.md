@@ -115,8 +115,11 @@ assets/css/app.css, fontawesome.css       # CSS entries (document 04)
 
 ## 8. CSP and i18n
 
-- No inline scripts in adminata templates except the 3-line `system`-theme pre-paint script, rendered
-  as `<script{{ block('sonata_script_attributes') }}>` for a nonce. No `onclick`.
+- No inline scripts in adminata templates except two pre-paint scripts, rendered as
+  `<script{{ block('adminata_script_attributes') }}>` for a nonce: the 3-line `system`-theme script
+  and the one that puts the sidebar's menu back where the last page left it
+  (`adminata_sidebar_place`, added 2026-10-22). Each changes what the first paint shows, which a
+  deferred script cannot. No `onclick`.
 - Translations flow through `<meta name="sonata-translations">` (keys extended additively: combobox
   messages `SELECT_NO_RESULTS`, `SELECT_LOADING`, `SELECT_TYPE_TO_SEARCH`, `SELECT_INPUT_TOO_SHORT`,
   `MODAL_CLOSE`, `THEME_TOGGLE`, …), all from the `SonataAdminBundle` XLIFF domain.

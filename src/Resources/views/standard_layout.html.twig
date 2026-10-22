@@ -76,7 +76,8 @@ file that was distributed with this source code.
         {% block adminata_script_attributes %}{% endblock %}
 
         {#
-            The only inline script adminata ships (PLAN/01 J4). `adminata_theme()` resolves the
+            One of the two inline scripts adminata ships (PLAN/01 J4; the other places the sidebar's
+            menu, `adminata_sidebar_place`). `adminata_theme()` resolves the
             cookie server-side, but `system` is a question only the browser can answer, and asking
             it after the stylesheet has painted is a white flash on a dark desktop. Three lines,
             before the first paint, under the same nonce block as every other script.
@@ -260,6 +261,105 @@ file that was distributed with this source code.
                             {% endblock %}
                             {% block side_bar_after_nav_content %}{% endblock %}
                         {% endblock adminata_side_nav %}
+
+                        {#
+                            The sidebar keeps its place across page loads. The menu scrolls inside
+                            this box, and a page load used to start the box at the top, so the entry
+                            just clicked could end up screens below what the sidebar shows. This puts
+                            the menu back where the last page of the tab left it, then scrolls it by
+                            the least distance that shows the current screen's entry — the only thing
+                            that happens on a page with no stored place: a new tab, a bookmark. On the
+                            collapsed rail that entry sits in a closed popup, so its group's icon is
+                            shown instead.
+
+                            The second of the two inline scripts adminata ships (PLAN/01 J4), under the
+                            same nonce block as every other script, for the same reason as the theme's:
+                            a deferred script runs after the first paint, and the browser painted the
+                            menu at the top for 150–230 ms before it jumped (measured on
+                            recomaty-panel#648). It sits after the menu, so the menu is there to place,
+                            and outside `adminata_side_nav`, so an application overriding that keeps it.
+
+                            Before setting the place it gives the box the height it will have once the
+                            controllers have connected: the groups the visitor keeps open
+                            (`adminata-menu`'s store, applied as its `restore()` does — only opening, as
+                            a group the server rendered open, the current page's or a `keep-open` one,
+                            stays open whatever the store says — with its default key and breakpoint
+                            unless the element says otherwise) and the field that
+                            filters the menu (`adminata-menu-filter` shows it when the menu has a link;
+                            it sits above the box and took ~60 px off it after the paint). Should
+                            anything else still change the box's size before DOMContentLoaded, by which
+                            time the controllers have connected, it places the menu once more. The
+                            place is kept per tab (`sessionStorage`) and per layout — the full menu and
+                            the rail are different lists — and written when the page goes away
+                            (`pagehide`). Storage switched off leaves the menu at the top, as before.
+
+                            assets/js/__tests__/sidebar_place.test.js runs this script as the demo
+                            renders it. An application that wants none of it empties the block.
+                        #}
+                        {% block adminata_sidebar_place %}
+                            <script data-adminata-sidebar-place {{ block('adminata_script_attributes') }}>
+                                (() => {
+                                    const box = document.currentScript?.closest('.adm-sidebar-nav');
+                                    const menu = box?.querySelector('nav[data-controller~="adminata-menu"]');
+                                    if (!menu) {
+                                        return;
+                                    }
+                                    const shell = menu.closest('[data-sidebar]');
+                                    const wide = window.matchMedia('(min-width: ' + (Number(menu.dataset.adminataMenuBreakpointValue) || 1024) + 'px)');
+                                    const key = () => 'adminata_sidebar_scroll:' + ('collapsed' === shell?.dataset.sidebar && wide.matches ? 'rail' : 'menu');
+                                    const read = (storage, name) => {
+                                        try {
+                                            return window[storage].getItem(name);
+                                        } catch {
+                                            return null;
+                                        }
+                                    };
+                                    let open = null;
+                                    try {
+                                        open = JSON.parse(read('localStorage', menu.dataset.adminataMenuStorageKeyValue || 'adminata_sidebar_open') ?? '{}');
+                                    } catch {
+                                        open = null;
+                                    }
+                                    menu.querySelectorAll('[data-adminata-menu-target~="toggle"]').forEach((toggle) => {
+                                        if ('true' !== toggle.getAttribute('aria-expanded') && true === open?.[(toggle.textContent ?? '').trim()]) {
+                                            toggle.setAttribute('aria-expanded', 'true');
+                                        }
+                                    });
+                                    const filter = box.parentElement.querySelector(':scope > .adm-sidebar-filter[hidden]');
+                                    if (filter && menu.querySelector('a[href]')) {
+                                        filter.hidden = false;
+                                    }
+                                    const place = () => {
+                                        const stored = read('sessionStorage', key());
+                                        if (null !== stored) {
+                                            box.scrollTop = Number(stored) || 0;
+                                        }
+                                        const current = [...menu.querySelectorAll('.menu-item-active, .menu-dropdown-item-active')].filter((item) => 0 < item.getClientRects().length).pop();
+                                        if (!current) {
+                                            return;
+                                        }
+                                        const item = current.getBoundingClientRect();
+                                        const frame = box.getBoundingClientRect();
+                                        if (item.top < frame.top + 16) {
+                                            box.scrollTop -= frame.top + 16 - item.top;
+                                        } else if (item.bottom > frame.bottom - 16) {
+                                            box.scrollTop += item.bottom - (frame.bottom - 16);
+                                        }
+                                    };
+                                    const size = () => box.scrollHeight + 'x' + box.clientHeight;
+                                    place();
+                                    const placed = size();
+                                    document.addEventListener('DOMContentLoaded', () => placed !== size() && place(), { once: true });
+                                    window.addEventListener('pagehide', () => {
+                                        try {
+                                            window.sessionStorage.setItem(key(), String(box.scrollTop));
+                                        } catch {
+                                            // Storage off or full: the next page starts at the top, as every page used to.
+                                        }
+                                    });
+                                })();
+                            </script>
+                        {% endblock adminata_sidebar_place %}
                     </div>
 
                     {#

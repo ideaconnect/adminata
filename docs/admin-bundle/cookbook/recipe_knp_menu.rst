@@ -295,6 +295,35 @@ mobile drawer shows it. To drop the field, empty the block in your layout:
 
     {% block adminata_sidebar_filter %}{% endblock %}
 
+The menu keeps its place
+------------------------
+
+The menu scrolls inside its own box, and a click on an entry loads a whole page. The next page
+shows the menu where the last one left it, with the clicked entry highlighted, from the first
+painted frame:
+
+* The place is written when a page goes away and kept per browser tab, separately for the full
+  menu and for the collapsed rail.
+* After putting it back, the menu scrolls by the least distance that shows the current screen's
+  entry. That is all that happens in a new tab or from a bookmark, where nothing is stored. On
+  the rail the current entry sits in a closed popup, so its group's icon is shown.
+* Before the first paint the groups the visitor keeps open are opened and the filter field is
+  shown, so the menu already has the height it keeps once the JavaScript has run.
+
+It is a short inline script right after the menu, the ``adminata_sidebar_place`` block of
+``standard_layout.html.twig``, because a deferred script runs after the first paint and the menu
+would be painted at the top first. It carries the ``adminata_script_attributes`` block, like the
+theme script, for a CSP ``nonce``. With storage switched off the menu starts at the top, as it
+always did. To drop it, empty the block in your layout:
+
+.. code-block:: twig
+
+    {# templates/standard_layout.html.twig — the template your `layout` setting names #}
+
+    {% extends '@Adminata/standard_layout.html.twig' %}
+
+    {% block adminata_sidebar_place %}{% endblock %}
+
 The collapsed rail
 ------------------
 
