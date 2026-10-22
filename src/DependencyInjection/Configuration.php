@@ -49,6 +49,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *     logo_content: 'text'|'icon'|'all',
  *     mosaic_background: string,
  *     pager_links: int|null,
+ *     released_version: string|null,
  *     sidebar_logout: bool,
  *     sort_admins: bool,
  *     use_stickyforms: bool,
@@ -381,6 +382,14 @@ final class Configuration implements ConfigurationInterface
                         ->booleanNode('sidebar_logout')
                             ->defaultTrue()
                             ->info('Offer sign-out in the toolbar above the sidebar menu, behind a firewall that configures a logout; it asks before it signs out')
+                        ->end()
+                        ->scalarNode('released_version')
+                            ->defaultNull()
+                            ->info('The application\'s released version, shown at the foot of the sidebar; pass it from the deploy\'s environment, empty or null shows nothing')
+                            ->validate()
+                                ->ifTrue(static fn (mixed $value): bool => null !== $value && !\is_string($value))
+                                ->thenInvalid('The released version must be a string or null, got %s.')
+                            ->end()
                         ->end()
                         ->booleanNode('lock_protection')
                             ->defaultFalse()

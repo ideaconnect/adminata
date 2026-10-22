@@ -142,6 +142,9 @@ is a container build error rather than a warning: ``options.skin``, ``options.us
             # Offer sign-out in the toolbar above the sidebar menu, behind a firewall that configures a logout; it asks before it signs out
             sidebar_logout:       true
 
+            # The application's released version, shown at the foot of the sidebar; pass it from the deploy's environment, empty or null shows nothing
+            released_version:     null
+
             # Enable locking when editing an object, if the corresponding object manager supports it.
             lock_protection:      false
 

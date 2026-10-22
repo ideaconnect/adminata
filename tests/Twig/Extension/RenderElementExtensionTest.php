@@ -129,6 +129,7 @@ final class RenderElementExtensionTest extends TestCase
             'js_debug' => false,
             'list_action_button_content' => 'all',
             'list_row_link' => true,
+            'released_version' => null,
             'sidebar_logout' => true,
             'lock_protection' => false,
             'logo_content' => 'text',

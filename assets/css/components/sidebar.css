@@ -181,6 +181,25 @@
 }
 
 /*
+ * The application's released version (`adminata_sidebar_release`), the rail's last child. The rail
+ * is a flex column and the menu's box does not grow, so under a short menu `margin-top: auto` takes
+ * the space below it and the line sits at the foot; under a long one the menu's box (a scroll
+ * container, so its minimum height is 0) shrinks and scrolls, and the line stays in view below it.
+ */
+@utility adm-sidebar-release {
+    margin-top: auto;
+    padding-block: 1rem 1.5rem;
+    text-align: center;
+
+    /* The rail shows the menu's icons only. */
+    @media (width >= 1024px) {
+        .adm-shell[data-sidebar='collapsed'] & {
+            display: none;
+        }
+    }
+}
+
+/*
  * The menu's root list: TailAdmin's `flex flex-col gap-4`. The gap is what spaces the top-level
  * items, and it is also what sets a section header off from the items on either side of it, by the
  * same amount above and below — the header carries no margin of its own.

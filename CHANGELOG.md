@@ -141,6 +141,16 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- The application's released version at the foot of the sidebar (2026-10-22): the new
+  `options.released_version` (default `null`) is shown as it comes, in one neutral `adm-badge`,
+  in the new additive `adminata_sidebar_release` block (`adm-sidebar-release`), after
+  `.adm-sidebar-nav` — at the bottom of the rail under a short menu, below the scrolling menu under
+  a long one, hidden on the collapsed rail. Empty or `null` renders nothing. adminata does not read
+  the environment: the application passes the value in, typically from its deploy, as
+  `released_version: '%env(default::RELEASED_VERSION)%'`. One key, `sidebar_release` (the badge's
+  screen-reader label), is translated in `en` and `pl` and ships as `needs-translation` in the
+  other catalogues. Asked for by recomaty-panel#646, which drops its own override of
+  `side_bar_after_nav_content` for it.
 - Sign-out above the sidebar menu asks first, and can be turned off (2026-10-07): the toolbar's
   **Log out** is a closed door (`fa-door-closed`, was `fa-right-from-bracket`) and opens the
   layout's question dialog (`adminata-question`) before it follows the link — a door at the edge
