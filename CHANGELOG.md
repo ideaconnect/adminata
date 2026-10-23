@@ -406,6 +406,15 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Changed
 
+- **Requirements follow the current releases** (2026-10-23, #5): `twig/twig` `^3.30` (was
+  `^3.28`), `doctrine/orm` `^3.7` (was `^3.6`) and `symfony/stimulus-bundle` `^3.6` (was `^3.4`);
+  for development `phpunit/phpunit` `^13.4`, `phpstan/phpstan` `^2.3` and `rector/rector` `^2.7`,
+  and the npm toolchain at its latest releases — Vite 8.3.5, Vitest 5.0.5, jsdom 30.1.3, ESLint
+  10.13.0, Prettier 3.9.10, Stylelint 17.16.0, size-limit 14.3.0, html-validate 11.17.0,
+  `@axe-core/playwright` 4.14.0 and Playwright 1.64.1, whose `-noble` image now takes the
+  screenshots. `versions.json` and PLAN/07 §2 record the same versions. The committed `app.js` is
+  rebuilt: the newer minifier writes some early returns as conditional expressions, nothing else
+  changes.
 - **Icons go by their Font Awesome 7 names** (2026-10-08). Every icon adminata draws or
   documents that Font Awesome 7 keeps only as an alias of an older version is renamed to the
   canonical name: `plus-circle` → `circle-plus` (the dashboard's and the association widgets'
@@ -723,6 +732,12 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Fixed
 
+- The user menu's button is named by its avatar (2026-10-23, #5). It showed the signed-in user's
+  initials and was named by an `aria-label` with the user identifier, so its name did not contain
+  the text it shows (WCAG 2.5.3 Label in Name), which axe-core 4.14 now checks by default
+  (`label-content-name-mismatch`, on every page). The initials are an image named after the user
+  (`role="img"`, `aria-label`), and the button takes its name from it: still the identifier for a
+  screen reader, nothing changes on screen.
 - The document title was escaped twice (2026-09-29). `standard_layout` captures the
   `adminata_head_title` block — already escaped where it printed the page's `title` block and the
   crumbs — to collapse its whitespace, and `u.collapseWhitespace` hands back a plain string that

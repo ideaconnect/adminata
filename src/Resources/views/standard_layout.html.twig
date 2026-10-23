@@ -499,7 +499,12 @@ file that was distributed with this source code.
                                                     signed in; `user_block` fills the list under it.
                                                     Upstream hid the whole menu when that template
                                                     was empty, which is its default, so nobody saw
-                                                    a user menu until an application wrote one. -#}
+                                                    a user menu until an application wrote one.
+                                                    The initials are the user's avatar: an image
+                                                    named after them, which names the button too.
+                                                    An aria-label on the button would leave the
+                                                    initials it shows out of its name (WCAG 2.5.3,
+                                                    Label in Name). -#}
                                                 {% set userBlock = include(get_global_template('user_block')) %}
                                                 {% set userName = app.user.userIdentifier %}
                                                 <li class="adm-dropdown user-menu"
@@ -508,11 +513,10 @@ file that was distributed with this source code.
                                                 >
                                                     <button type="button" class="adm-btn-icon adm-btn-icon-round"
                                                             aria-expanded="false"
-                                                            aria-label="{{ userName }}"
                                                             {{ stimulus_target('adminata-dropdown', 'toggle') }}
                                                             {{ stimulus_action('adminata-dropdown', 'toggle', 'click') }}
                                                     >
-                                                        <span aria-hidden="true">{{ userName|slice(0, 2)|upper }}</span>
+                                                        <span role="img" aria-label="{{ userName }}">{{ userName|slice(0, 2)|upper }}</span>
                                                     </button>
                                                     <div class="adm-dropdown__menu" hidden {{ stimulus_target('adminata-dropdown', 'menu') }}>
                                                         <p class="px-3 py-2 text-theme-sm font-medium text-gray-700 dark:text-gray-300">{{ userName }}</p>
