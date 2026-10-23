@@ -118,7 +118,7 @@ the names.
 
 ## Requirements
 
-PHP `^8.4`, Symfony `^7.4 || ^8.0`, Twig `^3.28`.
+PHP `^8.4`, Symfony `^7.4 || ^8.0`, Twig `^3.30`.
 
 ## Installation
 

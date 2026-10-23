@@ -31,8 +31,9 @@ Two things to know before anything else:
 
 - Start from a clean, committed tree on a branch; run your suites once so that you know what
   green looks like.
-- Requirements are unchanged: PHP `^8.4`, Symfony `^7.4 || ^8.0`, Twig `^3.28`, Doctrine ORM
-  `^3.6` or MongoDB ODM `^2.17`.
+- Requirements: PHP `^8.4`, Symfony `^7.4 || ^8.0`, Twig `^3.30`, Doctrine ORM `^3.7` or MongoDB
+  ODM `^2.17`. The rename changed none of them; the Twig and ORM floors (`^3.28`, `^3.6` at the
+  rename) moved to the current releases on 2026-10-23.
 - Decide about your own service ids first ([§6.3](#63-your-own-service-ids-and-the-roles-derived-from-them)).
   Keeping them is the default and needs no database change.
 - Expect `bin/console cache:clear` to fail between §2 and §5: the container cannot build while

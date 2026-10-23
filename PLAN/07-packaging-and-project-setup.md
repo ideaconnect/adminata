@@ -57,6 +57,14 @@ deletes those files without a hash check. Migration therefore runs Composer with
 Owner directive: latest releases everywhere; nothing inherits Sonata's pins. Pin exactly in lock
 files; Dependabot bumps weekly.
 
+**Re-verified 2026-10-23** (issue #5, opened by `versions-watch`): the rows of the 22 entries it
+reported carry the releases current that day, and `versions.json`, the exact `package.json` pins
+and the `composer.json` constraints that follow a row's minor (`twig/twig`,
+`symfony/stimulus-bundle`, `doctrine/orm`, `phpunit/phpunit`, `phpstan/phpstan`,
+`rector/rector`) moved with them. `qs` has not been a dependency since P1-06 (PLAN/11 owner
+decision 10: `buildQueryString()` replaced its one call); its row and `versions.json` entry are
+only watched.
+
 | Package | Latest | Released | Role |
 |---|---|---|---|
 | `sonata-project/admin-bundle` | 4.43.0 | 2026-06-03 | `packages/admin-bundle`, replaced |
@@ -67,27 +75,27 @@ files; Dependabot bumps weekly.
 | `sonata-project/form-extensions` | 2.7.0 | 2025-11-23 | ~~`packages/form-extensions`, replaced~~ → merged into `packages/admin-bundle`, **conflicted** (P14) |
 | `sonata-project/twig-extensions` | 2.6.0 | 2025-11-23 | ~~`packages/twig-extensions`, replaced~~ → merged into `packages/admin-bundle`, **conflicted** (P14) |
 | `idct/sonata-admin-mongodb-bundle` | v5.2.2 | — | external; requires `admin-bundle ^4.39`, `exporter ^3.0`, `form-extensions ^2.0` |
-| `symfony/framework-bundle` | v8.1.6 | 2026-08-30 | CI target with 7.4 LTS |
-| `symfony/stimulus-bundle` | v3.4.0 | 2026-07-25 | Twig helpers |
+| `symfony/framework-bundle` | v8.1.9 | 2026-10-12 | CI target with 7.4 LTS |
+| `symfony/stimulus-bundle` | v3.6.0 | 2026-10-13 | Twig helpers |
 | `symfony/panther` | v2.4.0 | 2026-01-08 | browser tests |
-| `twig/twig` | v3.28.0 | 2026-07-03 | |
-| `doctrine/orm` / `doctrine-bundle` / `dbal` / `mongodb-odm-bundle` | 3.6.8 / 3.3.1 / 4.x / 5.6.0 | 2026 | ORM bundle requirements; MongoDB job |
-| `phpunit/phpunit` | 13.3.2 | 2026-08-27 | replaces the fork's PHPUnit 12 convention |
-| `phpstan/phpstan` | 2.2.13 | 2026-09-03 | level 8 + strict |
-| `rector/rector` | 2.6.6 | 2026-09-02 | `UP_TO_PHP_84`, PHPUnit 13 sets |
-| `friendsofphp/php-cs-fixer` | v3.95.24 | 2026-08-31 | |
-| `infection/infection` | 0.35.4 | 2026-09-02 | nightly |
+| `twig/twig` | v3.30.0 | 2026-09-25 | |
+| `doctrine/orm` / `doctrine-bundle` / `dbal` / `mongodb-odm-bundle` | 3.7.5 / 3.3.2 / 4.x / 5.6.1 | 2026 | ORM bundle requirements; MongoDB job |
+| `phpunit/phpunit` | 13.4.3 | 2026-10-16 | replaces the fork's PHPUnit 12 convention |
+| `phpstan/phpstan` | 2.3.1 | 2026-10-08 | level 8 + strict |
+| `rector/rector` | 2.7.0 | 2026-10-06 | `UP_TO_PHP_84`, PHPUnit 13 sets |
+| `friendsofphp/php-cs-fixer` | v3.95.27 | 2026-09-22 | |
+| `infection/infection` | 0.35.8 | 2026-10-14 | nightly |
 | `symfonycasts/tailwind-bundle` | v1.0.0 | 2026-07-23 | AssetMapper recipe (post-1.0 docs) |
 | Node.js | 24.20.0 LTS (Krypton); 26.8.1 current | 2026-08-26 | build; CI matrix 24 + 26 |
 | `@hotwired/stimulus` | 3.2.2 | 2023-08-07 (still `latest`) | runtime |
-| `qs` | 6.16.0 | 2026-08-29 | runtime (filter controller) |
+| `qs` | 6.16.1 | 2026-10-14 | ~~runtime (filter controller)~~ → not shipped since P1-06 (`buildQueryString()`), watched only |
 | `tailwindcss`, `@tailwindcss/vite`, `@tailwindcss/postcss` | 4.3.3 | 2026-07-16 | CSS |
-| `vite` / `vitest` / `jsdom` | 8.2.2 / 5.0.0 / 30.0.1 | 2026-09 | build and unit tests |
+| `vite` / `vitest` / `jsdom` | 8.3.5 / 5.0.5 / 30.1.3 | 2026-10 | build and unit tests |
 | `@fortawesome/fontawesome-free` | 7.3.1 | 2026-07-15 | icons (no shims) |
 | `@fontsource-variable/outfit` | 5.3.0 | 2026-07-19 | font |
-| `eslint` / `prettier` / `prettier-plugin-tailwindcss` / `stylelint` | 10.10.0 / 3.9.6 / 0.8.1 / 17.15.0 | 2026-09 | lint |
-| `size-limit` + `@size-limit/file` | 13.0.3 | 2026-07-30 | budgets |
-| `@playwright/test` / `@axe-core/playwright` / `html-validate` | 1.62.1 / 4.13.0 / 11.13.0 | 2026-09 | visual and a11y |
+| `eslint` / `prettier` / `prettier-plugin-tailwindcss` / `stylelint` | 10.13.0 / 3.9.10 / 0.8.1 / 17.16.0 | 2026-10 | lint |
+| `size-limit` + `@size-limit/file` | 14.3.0 | 2026-10-22 | budgets |
+| `@playwright/test` / `@axe-core/playwright` / `html-validate` | 1.64.1 / 4.14.0 / 11.17.0 | 2026-10 | visual and a11y |
 | Not shipped (post-1.0 candidates, all jQuery-free) | `sortablejs` 1.15.7, `vanilla-calendar-pro` 3.3.2, `tom-select` 2.6.2 | | |
 | Rejected | `flatpickr` 4.6.13 (stale, 2022-06); `@eonasdan/tempus-dominus` 6.10.4 (Bootstrap-flavoured CSS); anything depending on jQuery | | |
 
@@ -222,7 +230,7 @@ Makefile (appended to the dev-kit file): `assets-install`, `assets-build`, `asse
 | `lint.yaml` | php-cs-fixer, composer-normalize, yamllint, xmllint, **`replace`-versions check**, `npm ls jquery` |
 | `symfony-lint.yaml` | container, twig, xliff, yaml |
 | `frontend.yaml` | Node 24 and 26: `npm ci`, eslint, stylelint, prettier, vitest, build, `git diff --exit-code`, `css-contract`, `size-limit` |
-| `visual.yaml` | Playwright 1.62 (Chromium/Firefox/WebKit) screenshots × viewports × themes against the demo app; PR + nightly |
+| `visual.yaml` | Playwright 1.64 (Chromium/Firefox/WebKit) screenshots × viewports × themes against the demo app; PR + nightly |
 | `mongo-compat.yaml` | **PR CI**: check out the MongoDB fork, `composer require idct/adminata:@dev` (path repo), `composer validate`, its unit suite; **nightly**: its Panther suite (informational until the association templates exist) |
 | `documentation.yaml`, `mutation.yaml`, `stale.yaml` | as the fork |
 | `upstream-watch.yaml` (weekly) | for each of the seven upstreams: `gh api …/releases/latest`; opens an issue with `upstream/diff.sh` output when a newer tag exists |
