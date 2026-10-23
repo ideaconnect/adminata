@@ -732,6 +732,12 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Fixed
 
+- The user menu's button is named by its avatar (2026-10-23, #5). It showed the signed-in user's
+  initials and was named by an `aria-label` with the user identifier, so its name did not contain
+  the text it shows (WCAG 2.5.3 Label in Name), which axe-core 4.14 now checks by default
+  (`label-content-name-mismatch`, on every page). The initials are an image named after the user
+  (`role="img"`, `aria-label`), and the button takes its name from it: still the identifier for a
+  screen reader, nothing changes on screen.
 - The document title was escaped twice (2026-09-29). `standard_layout` captures the
   `adminata_head_title` block — already escaped where it printed the page's `title` block and the
   crumbs — to collapse its whitespace, and `u.collapseWhitespace` hands back a plain string that
