@@ -52,4 +52,19 @@
         background-color: var(--color-gray-900);
         color: rgb(255 255 255 / 90%);
     }
+
+    /*
+     * In a list box (`<select multiple>`) the rule above also covers the colour the browser gives
+     * a selected option while the box has no focus: a plain declaration in the browser's own
+     * stylesheet (Chromium's `select:-internal-list-box option:checked`; only the focused
+     * highlight is `!important`). In Chromium and Firefox a dark multiple select therefore looked
+     * as if nothing were chosen whenever it had no focus (recomaty-panel#663). `revert` hands the
+     * selected options back to the browser, as the light theme always had them: its own unfocused
+     * selection colour under `color-scheme: dark`, with its hover and disabled variants. The
+     * options of a single select keep the rule above. tests-adminata/Visual/select.spec.js.
+     */
+    .dark .adm-select[multiple] option:checked {
+        background-color: revert;
+        color: revert;
+    }
 }
