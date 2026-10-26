@@ -723,6 +723,17 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Fixed
 
+- A multiple select showed what was chosen only while it had focus, in the dark theme
+  (2026-10-26). `.dark .adm-select option` paints every option of a dark select gray-900, and in
+  a list box (`<select multiple>`) that rule also covered the colour the browser gives a selected
+  option while the box has no focus: a plain declaration in the browser's own stylesheet
+  (Chromium's `select:-internal-list-box option:checked`; only the focused highlight is
+  `!important`). In Chromium and Firefox the chosen options looked like all the others whenever
+  the box had no focus. The selected options of a dark multiple select now get the browser's own
+  colours back (`revert`), as the light theme always had them; the unselected ones and every
+  option of a single select keep gray-900. WebKit paints a list box's selection over the CSS and
+  never had the bug. `tests-adminata/Visual/select.spec.js` checks both themes in Chromium and
+  Firefox. Reported in recomaty-panel#663, which drops its own override for it.
 - The document title was escaped twice (2026-09-29). `standard_layout` captures the
   `adminata_head_title` block — already escaped where it printed the page's `title` block and the
   crumbs — to collapse its whitespace, and `u.collapseWhitespace` hands back a plain string that
