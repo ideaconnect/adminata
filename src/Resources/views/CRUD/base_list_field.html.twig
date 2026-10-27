@@ -13,9 +13,10 @@ file that was distributed with this source code.
     The cell envelope (PLAN/01 Q1).
 
     `<td class="adminata-list-field adminata-list-field-{type}" objectId="…">` is **byte-identical**
-    to upstream's, `row_align` included: an application's cell templates extend this file, and its
-    XHR accordion parses the attributes out of the response. Padding and typography come from CSS on
-    `.adm-table`, not from anything here.
+    to upstream's, `row_align` included, but for the identifier column's one additive class below:
+    an application's cell templates extend this file, and its XHR accordion parses the attributes
+    out of the response. Padding and typography come from CSS on `.adm-table`, not from anything
+    here.
 
     The x-editable `<span>` is rendered only for a field that is actually `editable` — the same
     condition upstream used. adminata ships no editing controller in 1.0, so the span is inert
@@ -24,9 +25,16 @@ file that was distributed with this source code.
     `field_cell_class` is additive (PLAN/02 §4): a cell template that extends this envelope and
     needs a class on the `<td>` itself — the icon-enum cell centres its square — overrides it
     rather than writing its own `<td>`, so the hooks and `objectId` stay this file's.
+
+    `adminata-list-field-id` is additive too, and the one difference from upstream's envelope: it
+    marks the cells of a column that shows the model's identifier (one of `identifierFieldNames()`,
+    `id` on a Doctrine entity), whatever the field's type, so that `components/list.css` can size
+    that column for six characters and let it widen only for an identifier that needs more
+    (recomaty-panel#677). It sits outside `field_cell_class`, so a cell template overriding that
+    block keeps it.
 #}
 
-<td class="adminata-list-field adminata-list-field-{{ field_description.type }}{% block field_cell_class %}{% endblock %}" objectId="{{ admin.id(object) }}"{% if field_description.option('row_align') %} style="text-align:{{ field_description.option('row_align') }}"{% endif %}>
+<td class="adminata-list-field adminata-list-field-{{ field_description.type }}{% if field_description.name in admin.modelManager.identifierFieldNames(admin.class) %} adminata-list-field-id{% endif %}{% block field_cell_class %}{% endblock %}" objectId="{{ admin.id(object) }}"{% if field_description.option('row_align') %} style="text-align:{{ field_description.option('row_align') }}"{% endif %}>
     {% set route_name = field_description.option('route').name|default(adminata_config.getOption('default_admin_route')) %}
     {% set route_parameters = field_description.option('route').parameters|default([]) %}
 

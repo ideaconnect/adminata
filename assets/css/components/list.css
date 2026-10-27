@@ -139,6 +139,30 @@
     }
 
     /*
+     * The identifier column (recomaty-panel#677) is six characters wide and widens only for an
+     * identifier that needs more: a seven-digit number, a UUID, a MongoDB ObjectId, a header label
+     * longer than the values. It never takes a share of the surplus. Left to the automatic layout,
+     * a one- to five-digit id column got its share like every other, a few hundred pixels of empty
+     * space beside the number on a list with few columns.
+     *
+     * Both lengths are needed. `width` makes the column a fixed one, and the automatic layout
+     * hands the surplus to the columns without a width first, so the rest of the list still fills
+     * the card; but a `width` raises only the column's largest size, and a list wider than its
+     * card squeezes every column to its smallest, which `min-width` holds at six characters too.
+     * Neither caps the column: a cell whose content is wider widens it, and `nowrap` keeps that
+     * content on one line (a UUID breaks at its hyphens otherwise). `content-box`, so the six
+     * characters are the text's and the cell's padding comes on top whatever `box-sizing` the page
+     * sets; `ch` is the width of a "0" in the cell's own font.
+     */
+    .adm-table th.adminata-list-field-header-id,
+    .adm-table td.adminata-list-field-id {
+        box-sizing: content-box;
+        width: 6ch;
+        min-width: 6ch;
+        white-space: nowrap;
+    }
+
+    /*
      * A row that opens its object on click says so with the cursor. The class is only on rows the
      * `adminata-row-link` controller has a destination for, so a row whose default action the
      * administrator cannot reach keeps the default cursor and does nothing.
