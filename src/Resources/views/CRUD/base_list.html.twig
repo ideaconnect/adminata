@@ -28,6 +28,11 @@ file that was distributed with this source code.
     `field_cell_class` — and the `list_legend` block under the table, which is what names the
     glyphs. A comment nearer either one would land inside the header loop and print itself as
     whitespace on every column.
+
+    The same goes for `adminata-list-field-header-id`, on the header of a column that shows the
+    model's identifier (one of `identifierFieldNames()`, `id` on a Doctrine entity), whose cells
+    `base_list_field` marks `adminata-list-field-id`: `components/list.css` sizes that column for
+    six characters and lets it widen only for an identifier that needs more (recomaty-panel#677).
 #}
 
 {% extends base_template %}
@@ -89,6 +94,7 @@ file that was distributed with this source code.
                     {% block table %}
                         <table class="adm-table adminata-list">
                         {% block table_header %}
+                            {% set identifier_names = admin.modelManager.identifierFieldNames(admin.class) -%}
                             <thead>
                                 <tr class="adminata-list-field-header">
                                     {% for field_description in admin.list.getElements() %}
@@ -118,7 +124,7 @@ file that was distributed with this source code.
                                                 {% set sort_by              = current ? admin.datagrid.values[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_ORDER')] : field_description.option(constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_ORDER'), sort_parameters.filter[constant('IDCT\\Adminata\\Datagrid\\DatagridInterface::SORT_ORDER')]) %}
                                             {% endif %}
 
-                                            <th class="adminata-list-field-header-{{ field_description.type }}{% if sortable %} adminata-list-field-header-order-{{ sort_by|lower }} {{ sort_active_class }}{% endif %}{% if field_description.option('header_class') %} {{ field_description.option('header_class') }}{% endif %}{% if field_description.type == constant('IDCT\\Adminata\\FieldDescription\\FieldDescriptionInterface::TYPE_ICON_ENUM') %} text-center{% endif %}"{% if field_description.option('header_style') %} style="{{ field_description.option('header_style') }}"{% endif %}{% if sortable and current %} aria-sort="{{ 'asc' == sort_by|lower ? 'descending' : 'ascending' }}"{% endif %}>
+                                            <th class="adminata-list-field-header-{{ field_description.type }}{% if sortable %} adminata-list-field-header-order-{{ sort_by|lower }} {{ sort_active_class }}{% endif %}{% if field_description.option('header_class') %} {{ field_description.option('header_class') }}{% endif %}{% if field_description.type == constant('IDCT\\Adminata\\FieldDescription\\FieldDescriptionInterface::TYPE_ICON_ENUM') %} text-center{% endif %}{% if field_description.name in identifier_names %} adminata-list-field-header-id{% endif %}"{% if field_description.option('header_style') %} style="{{ field_description.option('header_style') }}"{% endif %}{% if sortable and current %} aria-sort="{{ 'asc' == sort_by|lower ? 'descending' : 'ascending' }}"{% endif %}>
                                                 {% if sortable %}
                                                     <a class="inline-flex items-center gap-1" href="{{ admin.generateUrl(action|default('list'), sort_parameters|merge({_list_mode: admin.getListMode()})) }}">
                                                 {% endif %}

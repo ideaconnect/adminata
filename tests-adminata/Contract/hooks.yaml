@@ -45,6 +45,9 @@ list:
         - adminata-list
         - adminata-list-field
         - adminata-link-identifier
+        # Additive (recomaty-panel#677): the header and the cells of the identifier column.
+        - adminata-list-field-header-id
+        - adminata-list-field-id
         - objectId
         - list_batch_checkbox
         - all_elements

@@ -723,6 +723,21 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Fixed
 
+- The identifier column of a list took a share of the spare width like any other (2026-10-27):
+  the automatic table layout hands the surplus out in proportion to what each column holds, so a
+  list with few columns in a wide card gave its one- to five-digit ids a few hundred pixels of empty
+  space (176px for the demo's category list at 1920px; recomaty-panel's Ping and Status lists,
+  among others). The column is now six characters wide, and widens only for an identifier that
+  needs more: a longer number, a UUID or an ObjectId, kept on one line, or a longer header label.
+  On a list wider than its card, where every column is squeezed to its smallest, it keeps its six
+  characters. `base_list_field` marks the cells of a column that shows the model's identifier (a
+  field named in `identifierFieldNames()`, `id` on a Doctrine entity, whatever its type) with the
+  new additive hook `adminata-list-field-id`, and `base_list` its header with
+  `adminata-list-field-header-id`; `components/list.css` gives both `width` and `min-width: 6ch`
+  (`content-box`, so the padding comes on top) and `nowrap`. Both hooks join the list group of
+  `tests-adminata/Contract/hooks.yaml`. `tests-adminata/Visual/list-id-column.spec.js` measures the
+  column in Chromium, Firefox and WebKit, `DemoSmokeTest` pins the hooks, and the product,
+  category and tag list baselines are regenerated. Reported in recomaty-panel#677.
 - A multiple select showed what was chosen only while it had focus, in the dark theme
   (2026-10-26). `.dark .adm-select option` paints every option of a dark select gray-900, and in
   a list box (`<select multiple>`) that rule also covered the colour the browser gives a selected

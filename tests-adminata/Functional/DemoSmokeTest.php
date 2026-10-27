@@ -454,6 +454,42 @@ final class DemoSmokeTest extends WebTestCase
     }
 
     /**
+     * The column of the model's identifier is marked, on its header and on each of its cells, so
+     * that `components/list.css` can size it for six characters (recomaty-panel#677), and no other
+     * column is. Both lists map `id` as an `integer`.
+     */
+    public function testTheIdentifierColumnIsMarked(): void
+    {
+        $client = self::browser();
+
+        foreach (['/admin/tests/app/product/list', '/admin/tests/app/tag/list'] as $path) {
+            $crawler = $client->request('GET', $path);
+            static::assertResponseIsSuccessful();
+
+            $rows = $crawler->filter('table.adminata-list tbody tr')->count();
+            static::assertGreaterThan(0, $rows, $path);
+
+            $header = $crawler->filter('table.adminata-list .adminata-list-field-header-id');
+            static::assertCount(1, $header, $path);
+            static::assertSame('th', $header->nodeName(), $path);
+            static::assertSame('Id', trim($header->text()), $path);
+
+            static::assertCount($rows, $crawler->filter('table.adminata-list .adminata-list-field-id'), $path);
+            static::assertCount(
+                $rows,
+                $crawler->filter('table.adminata-list tbody td.adminata-list-field-integer.adminata-list-field-id'),
+                $path
+            );
+        }
+
+        // The tag list has no batch column: the id column is the first one, in the header and in
+        // each of its four rows.
+        $crawler = $client->request('GET', '/admin/tests/app/tag/list');
+        static::assertCount(1, $crawler->filter('table.adminata-list thead th:first-child.adminata-list-field-header-id'));
+        static::assertCount(4, $crawler->filter('table.adminata-list tbody tr > td:first-child.adminata-list-field-id'));
+    }
+
+    /**
      * The `templates.list` override adds to `list_after_table` and changes nothing else.
      */
     public function testTheTemplatesListOverrideRendersAfterTheTable(): void
