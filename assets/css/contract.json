@@ -85,6 +85,7 @@
         ".adm-form-row",
         ".adm-header",
         ".adm-help",
+        ".adm-help-box",
         ".adm-icon-enum",
         ".adm-icon-enum__label",
         ".adm-input",

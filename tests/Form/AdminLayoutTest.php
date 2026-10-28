@@ -16,6 +16,8 @@ namespace IDCT\Adminata\Tests\Form;
 use IDCT\Adminata\Admin\AdminInterface;
 use IDCT\Adminata\FieldDescription\FieldDescriptionInterface;
 use PHPUnit\Framework\MockObject\Stub;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormError;
 
@@ -115,6 +117,60 @@ final class AdminLayoutTest extends AbstractLayoutTestCase
             EOD;
 
         self::assertMatchesXpath($html, $expression);
+    }
+
+    /**
+     * Case: `help_style: box` draws the help with `adm-help-box` instead of `adm-help`; the hook
+     * `adminata-field-help` and Symfony's `help-text` stay, and so does the help's place under the
+     * control.
+     */
+    public function testHelpInABox(): void
+    {
+        $form = $this->factory->createNamed('name', TextType::class, null, [
+            'help' => 'Help text test!',
+            'help_style' => 'box',
+        ]);
+        $html = $this->renderHelp($form->createView());
+
+        $expression = <<<'EOD'
+            /div
+                [@id="name_help"]
+                [@class="adm-help-box adminata-field-help help-text"]
+                [.="[trans]Help text test![/trans]"]
+            EOD;
+
+        self::assertMatchesXpath($html, $expression);
+    }
+
+    /**
+     * Case: a field without a style of its own takes its form's box; a help given as markup stays
+     * markup in the box, and a `help_class` passed to the row is kept beside the box's class.
+     */
+    public function testAFormsBoxReachesItsFieldsRows(): void
+    {
+        $form = $this->factory->createNamedBuilder('settings', FormType::class, null, ['help_style' => 'box'])
+            ->add('template', TextareaType::class, [
+                'help' => 'Use <code>{{ total }}</code>.',
+                'help_html' => true,
+            ])
+            ->add('bare', TextType::class)
+            ->getForm();
+        $view = $form->createView();
+
+        $html = $this->renderRow($view['template'], ['help_class' => 'extra']);
+
+        $expression = <<<'EOD'
+            /div[@id="adminata-field-container-settings_template"]
+                //div[contains(@class, "adminata-field")]
+                    /div
+                        [@id="settings_template_help"]
+                        [@class="adm-help-box adminata-field-help extra help-text"]
+                        [./code[.="{{ total }}"]]
+            EOD;
+
+        self::assertMatchesXpath($html, $expression);
+        static::assertStringNotContainsString('adm-help ', $html);
+        static::assertStringNotContainsString('adm-help-box', $this->renderRow($view['bare']));
     }
 
     public function testHelpWithAdminTranslationDomain(): void

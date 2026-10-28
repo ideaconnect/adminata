@@ -41,6 +41,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *     default_label_catalogue: string,
  *     dropdown_number_groups_per_colums: int,
  *     form_type: 'standard'|'horizontal',
+ *     help_style: 'plain'|'box',
  *     html5_validate: bool,
  *     js_debug: bool,
  *     list_action_button_content: 'text'|'icon'|'all',
@@ -378,6 +379,11 @@ final class Configuration implements ConfigurationInterface
                         ->booleanNode('list_row_link')
                             ->defaultTrue()
                             ->info('Open the object when a list row is clicked, using the route named by default_admin_route')
+                        ->end()
+                        ->enumNode('help_style')
+                            ->values(['plain', 'box'])
+                            ->defaultValue('plain')
+                            ->info('How a form field\'s help is drawn: plain, a small line under the control, or box, a lighter box in the form\'s text size; a form or a field picks its own with the help_style form option')
                         ->end()
                         ->booleanNode('sidebar_logout')
                             ->defaultTrue()

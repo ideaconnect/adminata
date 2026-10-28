@@ -96,6 +96,9 @@ adminata:
         # Open the object when a list row is clicked, using the route named by default_admin_route
         list_row_link:        true
 
+        # How a form field's help is drawn: plain, a small line under the control, or box, a lighter box in the form's text size; a form or a field picks its own with the help_style form option
+        help_style:           plain # One of "plain"; "box"
+
         # Offer sign-out in the toolbar above the sidebar menu, behind a firewall that configures a logout; it asks before it signs out
         sidebar_logout:       true
 
