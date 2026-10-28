@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace IDCT\Adminata\Tests\Form;
 
 use IDCT\Adminata\Form\Extension\Field\Type\FormTypeFieldExtension;
+use IDCT\Adminata\Form\Extension\HelpStyleTypeExtension;
 use IDCT\Adminata\Tests\Fixtures\StubTranslator;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Extension\HttpKernelExtension;
@@ -22,6 +23,7 @@ use Symfony\Bridge\Twig\Extension\TranslationExtension;
 use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 use Symfony\Component\Form\FormRenderer;
 use Symfony\Component\Form\FormRendererInterface;
+use Symfony\Component\Form\FormTypeExtensionInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -111,7 +113,7 @@ abstract class AbstractLayoutTestCase extends FormIntegrationTestCase
     }
 
     /**
-     * @return FormTypeFieldExtension[]
+     * @return FormTypeExtensionInterface[]
      */
     protected function getTypeExtensions(): array
     {
@@ -119,6 +121,7 @@ abstract class AbstractLayoutTestCase extends FormIntegrationTestCase
             new FormTypeFieldExtension([], [
                 'form_type' => 'horizontal',
             ]),
+            new HelpStyleTypeExtension(),
         ];
     }
 

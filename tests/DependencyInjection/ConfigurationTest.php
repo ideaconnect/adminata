@@ -16,6 +16,7 @@ namespace IDCT\Adminata\Tests\DependencyInjection;
 use IDCT\Adminata\DependencyInjection\Configuration;
 use IDCT\Adminata\Tests\Fixtures\Controller\FooAdminController;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Exception\InvalidTypeException;
 use Symfony\Component\Config\Definition\Processor;
 
@@ -36,6 +37,20 @@ final class ConfigurationTest extends TestCase
         static::assertSame('AdminataBundle', $config['options']['default_label_catalogue']);
         static::assertNull($config['options']['default_translation_domain']);
         static::assertSame('fas fa-folder', $config['options']['default_icon']);
+        static::assertSame('plain', $config['options']['help_style']);
+    }
+
+    public function testHelpStyleIsPlainOrBox(): void
+    {
+        $config = $this->process([['options' => ['help_style' => 'box']]]);
+
+        static::assertIsArray($config['options']);
+        static::assertSame('box', $config['options']['help_style']);
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage('"side" is not allowed for path "adminata.options.help_style"');
+
+        $this->process([['options' => ['help_style' => 'side']]]);
     }
 
     public function testBreadcrumbsChildRouteDefaultsToShow(): void

@@ -22,6 +22,7 @@ namespace IDCT\Adminata;
  *     default_translation_domain: string,
  *     dropdown_number_groups_per_colums: int,
  *     form_type: 'standard'|'horizontal',
+ *     help_style: 'plain'|'box',
  *     html5_validate: bool,
  *     javascripts: list<string>,
  *     js_debug: bool,

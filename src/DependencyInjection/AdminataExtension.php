@@ -208,6 +208,9 @@ final class AdminataExtension extends Extension
             ->replaceArgument(0, $classes)
             ->replaceArgument(1, $config['options']);
 
+        $container->getDefinition('adminata.admin.form.extension.help_style')
+            ->replaceArgument(0, $config['options']['help_style']);
+
         // remove non-Mopa compatibility layer
         if (isset($bundles['MopaBootstrapBundle'])) {
             $container->removeDefinition('adminata.admin.form.extension.field.mopa');

@@ -21,7 +21,8 @@ file that was distributed with this source code.
     `attr` — `data-controller` included — reaches the page untouched.
 
     Five variables let a caller add to the recipes without overriding a block:
-    `row_class`, `label_class`, `widget_class`, `help_class` and `error_item_class`.
+    `row_class`, `label_class`, `widget_class`, `help_class` and `error_item_class`. The help's
+    own look is the `help_style` form option (`plain` or `box`), not a block override either.
 #}
 {% extends 'form_div_layout.html.twig' %}
 
@@ -43,10 +44,15 @@ file that was distributed with this source code.
         {% set translation_domain = adminata_admin_translation_domain %}
     {% endif %}
     {% if help is not empty %}
-        {# `parent()` is what keeps `help_html` rendering as markup. #}
+        {#- `help_style` (Form\Extension\HelpStyleTypeExtension, inherited from the parent form,
+            `adminata.options.help_style` at the top): `box` draws the help as a lighter box
+            in the form's own text size instead of `adm-help`'s small line. The hook
+            `adminata-field-help` is the same in both. `parent()` is what keeps `help_html`
+            rendering as markup. -#}
         {% set help_attr = help_attr|merge({class: [
             help_attr.class|default(''),
-            'adm-help adminata-field-help',
+            'box' == help_style|default('plain') ? 'adm-help-box' : 'adm-help',
+            'adminata-field-help',
             help_class|default(''),
         ]|filter(part => part is not empty)|join(' ')}) %}
         {{ parent() }}

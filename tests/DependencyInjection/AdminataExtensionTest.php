@@ -25,6 +25,7 @@ use IDCT\Adminata\Doctrine\Adapter\ORM\DoctrineORMAdapter;
 use IDCT\Adminata\Doctrine\Mapper\ORM\DoctrineORMMapper;
 use IDCT\Adminata\Filter\FilterFactoryInterface;
 use IDCT\Adminata\Filter\Persister\FilterPersisterInterface;
+use IDCT\Adminata\Form\Extension\HelpStyleTypeExtension;
 use IDCT\Adminata\Model\AuditManagerInterface;
 use IDCT\Adminata\Model\AuditReaderInterface;
 use IDCT\Adminata\Model\ModelManagerInterface;
@@ -32,6 +33,7 @@ use IDCT\Adminata\Translator\LabelTranslatorStrategyInterface;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 /**
  * @phpstan-import-type AdminataConfig from Configuration
@@ -80,6 +82,24 @@ final class AdminataExtensionTest extends AbstractExtensionTestCase
         $this->container->setParameter('kernel.bundles', []);
         $this->load(['options' => ['lock_protection' => false]]);
         self::assertContainerBuilderNotHasService('adminata.admin.lock.extension');
+    }
+
+    /**
+     * The `help_style` form option is every form's, and a form at the top that names none takes
+     * `options.help_style`, plain unless the application says otherwise.
+     */
+    public function testTheHelpStyleExtensionTakesItsDefaultFromTheOptions(): void
+    {
+        $this->container->setParameter('kernel.bundles', []);
+        $this->load();
+        self::assertContainerBuilderHasService('adminata.admin.form.extension.help_style', HelpStyleTypeExtension::class);
+        self::assertContainerBuilderHasServiceDefinitionWithArgument('adminata.admin.form.extension.help_style', 0, 'plain');
+        self::assertContainerBuilderHasServiceDefinitionWithTag('adminata.admin.form.extension.help_style', 'form.type_extension', [
+            'extended_type' => FormType::class,
+        ]);
+
+        $this->load(['options' => ['help_style' => 'box']]);
+        self::assertContainerBuilderHasServiceDefinitionWithArgument('adminata.admin.form.extension.help_style', 0, 'box');
     }
 
     /**

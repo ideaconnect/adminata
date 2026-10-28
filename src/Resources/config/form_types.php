@@ -18,6 +18,7 @@ use IDCT\Adminata\Form\DataTransformerResolver;
 use IDCT\Adminata\Form\Extension\ChoiceTypeExtension;
 use IDCT\Adminata\Form\Extension\Field\Type\FormTypeFieldExtension;
 use IDCT\Adminata\Form\Extension\Field\Type\MopaCompatibilityTypeFieldExtension;
+use IDCT\Adminata\Form\Extension\HelpStyleTypeExtension;
 use IDCT\Adminata\Form\Type\AdminType;
 use IDCT\Adminata\Form\Type\ChoiceFieldMaskType;
 use IDCT\Adminata\Form\Type\Filter\ChoiceType;
@@ -89,6 +90,15 @@ return static function (ContainerConfigurator $containerConfigurator): void {
             ->tag('form.type_extension', [
                 'alias' => 'choice',
                 'extended_type' => SymfonyChoiceType::class,
+            ])
+
+        // The `help_style` form option; its default is `adminata.options.help_style`.
+        ->set('adminata.admin.form.extension.help_style', HelpStyleTypeExtension::class)
+            ->tag('form.type_extension', [
+                'extended_type' => FormType::class,
+            ])
+            ->args([
+                abstract_arg('default help style'),
             ])
 
         // NEXT_MAJOR: Remove this service definition.

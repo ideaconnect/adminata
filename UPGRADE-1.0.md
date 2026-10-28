@@ -46,6 +46,7 @@ New nodes:
 |---|---|---|
 | `options.theme.mode` | `system` | `light`, `dark` or `system`; resolved server-side from the `adminata_theme` cookie, so a page never paints the wrong theme first |
 | `options.list_row_link` | `true` | clicking a list row opens the object |
+| `options.help_style` | `plain` | how a form field's help is drawn: `plain` (a small line under the control) or `box` (a lighter box in the form's text size); a form or a field picks its own with the `help_style` form option |
 | `options.sidebar_logout` | `true` | sign-out in the toolbar above the sidebar menu, asking first; `false` drops it |
 | `options.released_version` | `null` | the application's released version, a badge at the foot of the sidebar; pass it from the deploy (`'%env(default::RELEASED_VERSION)%'`), empty shows nothing |
 

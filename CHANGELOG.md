@@ -141,6 +141,19 @@ mosaic and tree list modes, global search, the tab menu and four dashboard block
 
 ### Added
 
+- Help in a box (2026-10-28): the new `help_style` form option, `plain` (the default, the small
+  grey `adm-help` line under the control) or `box`, draws a field's help as a lighter box under the
+  control (`adm-help-box`) in the form's own text size — the label's and the control's 14px rather
+  than 12px — for forms whose help is part of the reading. Help given as markup (`help_html`) gets
+  its headings, paragraphs, lists and `code` styled in the box. The option is inherited, so an admin
+  sets it once in `configureFormOptions()` and its fields, sub-forms and collection entries (the
+  prototype too) follow; a field can pick the other style for itself. The new
+  `options.help_style` (default `plain`) is the default of every form. The help keeps its place,
+  its id and the `adminata-field-help` hook in both styles. The option comes from the new
+  `HelpStyleTypeExtension` (`adminata.admin.form.extension.help_style`); `form_help` reads its
+  `help_style` view variable. Moved here from recomaty-panel#682, whose prototype drew the box
+  with a form theme and a stylesheet of its own.
+
 - The sidebar keeps its place across page loads (2026-10-22): a click on an entry of a scrolled
   menu no longer throws the menu back to the top. The next page shows the menu where the last one
   left it, then scrolls it by the least distance that shows the current screen's entry (all that

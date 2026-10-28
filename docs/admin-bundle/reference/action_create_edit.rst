@@ -20,6 +20,7 @@ Adminata Options that may affect the create or edit view:
             js_debug:        false    # enable or disable to show javascript debug messages
             use_stickyforms: true     # enable or disable the floating buttons
             form_type:       standard # can also be 'horizontal'
+            help_style:      plain    # can also be 'box', see "Help in a box" below
 
         templates:
             edit:              '@Adminata/CRUD/edit.html.twig'
@@ -197,6 +198,35 @@ makes a wide group — a collection rendered as a table — which the same auto-
 under all the columns, and a hook for ``adminata-reveal`` keeps working. Without JavaScript
 the tab is an ordinary grid of that many columns, one card per cell. The show page's tabs take
 the same two options.
+
+.. _form_help_box:
+
+Help in a box
+-------------
+
+A field's ``help`` is a small grey line under the control (``adm-help``, 12px). For a form whose
+help is part of the reading — long explanations, a list of the placeholders a template takes —
+``help_style: box`` draws every help as a lighter box under the control instead
+(``adm-help-box``), in the form's own text size, the label's and the control's. Help given as
+markup (``help_html``) gets its headings, paragraphs, lists and ``code`` styled in the box.
+
+The ``help_style`` form option is ``plain`` or ``box``, and it is inherited: a field or sub-form
+that names none takes its parent's, so one admin sets it once for its whole form, collection
+entries included::
+
+    final class DeviceSettingsAdmin extends AbstractAdmin
+    {
+        protected function configureFormOptions(array &$formOptions): void
+        {
+            $formOptions['help_style'] = 'box';
+        }
+    }
+
+A single field can still pick the other style
+(``->add('code', TextType::class, ['help' => '…', 'help_style' => 'plain'])``), and
+``adminata.options.help_style: box`` makes the box the default of every form. In both styles the
+help keeps its place under the control and its errors, its id and the ``adminata-field-help``
+hook.
 
 .. _form_tabs:
 

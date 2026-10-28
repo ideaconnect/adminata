@@ -124,6 +124,7 @@ final class RenderElementExtensionTest extends TestCase
             'default_translation_domain' => 'AdminataBundle',
             'dropdown_number_groups_per_colums' => 2,
             'form_type' => 'standard',
+            'help_style' => 'plain',
             'html5_validate' => true,
             'javascripts' => [],
             'js_debug' => false,
